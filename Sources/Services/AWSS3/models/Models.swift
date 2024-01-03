@@ -20484,22 +20484,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
@@ -20548,22 +20533,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
@@ -25021,22 +24991,7 @@ extension UploadPartInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UploadPartOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: UploadPartOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil

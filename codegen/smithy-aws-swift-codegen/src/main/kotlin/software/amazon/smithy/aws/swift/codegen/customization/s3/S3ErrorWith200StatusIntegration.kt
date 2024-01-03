@@ -4,11 +4,11 @@
  */
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.StreamingTrait
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -51,7 +51,7 @@ class S3ErrorWith200StatusIntegration : SwiftIntegration {
 }
 
 private object S3HandleError200ResponseMiddleware : MiddlewareRenderable {
-    override val name = "S3ErrorWith200StatusXMLMiddleware"
+    override val name = AWSClientRuntimeTypes.RestXML.S3.AWSS3ErrorWith200StatusXMLMiddleware.name
 
     override val middlewareStep = MiddlewareStep.DESERIALIZESTEP
 
@@ -59,35 +59,10 @@ private object S3HandleError200ResponseMiddleware : MiddlewareRenderable {
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val outputShape = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
-        writer.openBlock(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, id: \"${name}\") { (context, input, next) -> \$N<${outputShape.name}> in",
-            "}",
-            ClientRuntimeTypes.Middleware.OperationOutput,
-        ) {
-            writer.apply {
-                // Send the request and get the response
-                write("let response = try await next.handle(context: context, input: input)")
-
-                // Check if the response status is 200
-                write("guard response.httpResponse.statusCode == .ok else {")
-                write("    return try await next.handle(context: context, input: input)")
-                write("}")
-
-                // Read the response body
-                write("guard let data = try await response.httpResponse.body.readData() else {")
-                write("    return try await next.handle(context: context, input: input)")
-                write("}")
-                write("let xmlString = String(data: data, encoding: .utf8) ?? \"\"")
-
-                // Check for <Error> tag in the XML
-                write("if xmlString.contains(\"<Error>\") {")
-                write("    // Handle the error as a 500 Internal Server Error")
-                write("    response.httpResponse.statusCode = .internalServerError")
-                write("    return response")
-                write("}")
-
-                write("return try await next.handle(context: context, input: input)")
-            }
-        }
+        writer.write(
+            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>())",
+            AWSClientRuntimeTypes.RestXML.S3.AWSS3ErrorWith200StatusXMLMiddleware,
+            outputShape,
+        )
     }
 }

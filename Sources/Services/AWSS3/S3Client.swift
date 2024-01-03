@@ -135,22 +135,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortMultipartUploadOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(AbortMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<AbortMultipartUploadOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<AbortMultipartUploadOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -250,22 +235,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMultipartUploadOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CompleteMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CompleteMultipartUploadOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CompleteMultipartUploadOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -350,22 +320,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(CopyObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CopyObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CopyObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -443,22 +398,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBucketOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBucketOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateBucketOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateBucketOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -566,22 +506,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultipartUploadOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultipartUploadOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMultipartUploadOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultipartUploadOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMultipartUploadOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateMultipartUploadOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -636,22 +561,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSessionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSessionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSessionOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSessionOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<CreateSessionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -709,22 +619,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -771,22 +666,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketAnalyticsConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketAnalyticsConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketAnalyticsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -831,22 +711,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketCorsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketCorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketCorsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketCorsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketCorsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -891,22 +756,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketEncryptionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketEncryptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketEncryptionOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketEncryptionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -952,22 +802,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketIntelligentTieringConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketIntelligentTieringConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1014,22 +849,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketInventoryConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketInventoryConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketInventoryConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketInventoryConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1074,22 +894,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketLifecycleOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketLifecycleOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketLifecycleOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketLifecycleOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1138,22 +943,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketMetricsConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketMetricsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketMetricsConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketMetricsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1198,22 +988,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOwnershipControlsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketOwnershipControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketOwnershipControlsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketOwnershipControlsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1265,22 +1040,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketPolicyOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketPolicyOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketPolicyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1325,22 +1085,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketReplicationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketReplicationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketReplicationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketReplicationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1385,22 +1130,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketTaggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketTaggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1445,22 +1175,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketWebsiteOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBucketWebsiteOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteBucketWebsiteOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteBucketWebsiteOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1531,22 +1246,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1591,22 +1291,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectTaggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectTaggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteObjectTaggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1689,22 +1374,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteObjectsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteObjectsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1753,22 +1423,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePublicAccessBlockOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePublicAccessBlockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeletePublicAccessBlockOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeletePublicAccessBlockOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1811,22 +1466,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAccelerateConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAccelerateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAccelerateConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketAccelerateConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAccelerateConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1869,22 +1509,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAclOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAclOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketAclOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1931,22 +1556,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAnalyticsConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketAnalyticsConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketAnalyticsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1991,22 +1601,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketCorsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketCorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketCorsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketCorsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketCorsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2051,22 +1646,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketEncryptionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketEncryptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketEncryptionOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketEncryptionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2112,22 +1692,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketIntelligentTieringConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketIntelligentTieringConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2174,22 +1739,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketInventoryConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketInventoryConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketInventoryConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketInventoryConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2250,22 +1800,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLifecycleConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLifecycleConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketLifecycleConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLifecycleConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2310,22 +1845,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLocationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLocationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLocationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketLocationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLocationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2370,22 +1890,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLoggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLoggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketLoggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLoggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketLoggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketLoggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2434,22 +1939,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketMetricsConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketMetricsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketMetricsConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketMetricsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2492,22 +1982,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketNotificationConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketNotificationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketNotificationConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketNotificationConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketNotificationConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2552,22 +2027,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketOwnershipControlsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketOwnershipControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketOwnershipControlsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketOwnershipControlsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2617,22 +2077,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketPolicyOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketPolicyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2681,22 +2126,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyStatusOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketPolicyStatusOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyStatusOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketPolicyStatusOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketPolicyStatusOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2741,22 +2171,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketReplicationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketReplicationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketReplicationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketReplicationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2799,22 +2214,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketRequestPaymentOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketRequestPaymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketRequestPaymentOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketRequestPaymentOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketRequestPaymentOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2869,22 +2269,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketTaggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketTaggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2931,22 +2316,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketVersioningOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketVersioningOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketVersioningOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketVersioningOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2991,22 +2361,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketWebsiteOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBucketWebsiteOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetBucketWebsiteOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetBucketWebsiteOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3139,22 +2494,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAclOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectAclOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetObjectAclOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3260,22 +2600,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAttributesOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectAttributesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectAttributesOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetObjectAttributesOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectAttributesOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3318,22 +2643,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectLegalHoldOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLegalHoldOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectLegalHoldOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetObjectLegalHoldOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectLegalHoldOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3376,22 +2686,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectLockConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectLockConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectLockConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetObjectLockConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectLockConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3434,22 +2729,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectRetentionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectRetentionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectRetentionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectRetentionOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetObjectRetentionOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectRetentionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3496,22 +2776,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectTaggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectTaggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetObjectTaggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetObjectTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3602,22 +2867,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicAccessBlockOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPublicAccessBlockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<GetPublicAccessBlockOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<GetPublicAccessBlockOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3669,22 +2919,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<HeadBucketOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(HeadBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<HeadBucketOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<HeadBucketOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<HeadBucketOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3771,22 +3006,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<HeadObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<HeadObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(HeadObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<HeadObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<HeadObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<HeadObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3833,22 +3053,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketAnalyticsConfigurationsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketAnalyticsConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketAnalyticsConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketAnalyticsConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListBucketAnalyticsConfigurationsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketAnalyticsConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3894,22 +3099,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketIntelligentTieringConfigurationsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketIntelligentTieringConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketIntelligentTieringConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListBucketIntelligentTieringConfigurationsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketIntelligentTieringConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3956,22 +3146,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketInventoryConfigurationsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketInventoryConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketInventoryConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketInventoryConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListBucketInventoryConfigurationsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketInventoryConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4018,22 +3193,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketMetricsConfigurationsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketMetricsConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketMetricsConfigurationsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketMetricsConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListBucketMetricsConfigurationsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketMetricsConfigurationsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4073,22 +3233,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBucketsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBucketsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBucketsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBucketsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListBucketsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListBucketsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4128,22 +3273,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDirectoryBucketsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDirectoryBucketsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDirectoryBucketsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListDirectoryBucketsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListDirectoryBucketsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4215,22 +3345,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultipartUploadsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMultipartUploadsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultipartUploadsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListMultipartUploadsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListMultipartUploadsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4279,22 +3394,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectVersionsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectVersionsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectVersionsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListObjectVersionsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectVersionsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4350,22 +3450,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListObjectsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4431,22 +3516,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsV2Output>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsV2Output>(responseClosure(decoder: decoder), responseErrorClosure(ListObjectsV2OutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListObjectsV2Output>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListObjectsV2Output> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectsV2Output>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4506,22 +3576,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPartsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ListPartsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListPartsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4576,22 +3631,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAccelerateConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAccelerateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAccelerateConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAccelerateConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketAccelerateConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAccelerateConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4712,22 +3752,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAclOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAclOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketAclOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4810,22 +3835,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketAnalyticsConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketAnalyticsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketAnalyticsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketAnalyticsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketAnalyticsConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketAnalyticsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4885,22 +3895,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketCorsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketCorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketCorsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketCorsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketCorsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketCorsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4949,22 +3944,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketEncryptionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketEncryptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketEncryptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketEncryptionOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketEncryptionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5016,22 +3996,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketIntelligentTieringConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketIntelligentTieringConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketIntelligentTieringConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketIntelligentTieringConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketIntelligentTieringConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketIntelligentTieringConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5081,22 +4046,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketInventoryConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketInventoryConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketInventoryConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketInventoryConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketInventoryConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketInventoryConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5165,22 +4115,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLifecycleConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketLifecycleConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketLifecycleConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5242,22 +4177,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLoggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLoggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketLoggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLoggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketLoggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketLoggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5316,22 +4236,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketMetricsConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketMetricsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketMetricsConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketMetricsConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketMetricsConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketMetricsConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5377,22 +4282,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketNotificationConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketNotificationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketNotificationConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketNotificationConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketNotificationConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5441,22 +4331,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketOwnershipControlsOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketOwnershipControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketOwnershipControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketOwnershipControlsOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketOwnershipControlsOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketOwnershipControlsOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5512,22 +4387,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketPolicyOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketPolicyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketPolicyOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketPolicyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5576,22 +4436,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketReplicationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketReplicationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketReplicationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketReplicationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5640,22 +4485,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketRequestPaymentOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketRequestPaymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketRequestPaymentOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketRequestPaymentOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketRequestPaymentOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketRequestPaymentOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5715,22 +4545,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketTaggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketTaggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5781,22 +4596,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketVersioningOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketVersioningOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketVersioningOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketVersioningOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5887,22 +4687,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketWebsiteOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketWebsiteOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBucketWebsiteOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketWebsiteOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutBucketWebsiteOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutBucketWebsiteOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -5989,22 +4774,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6121,22 +4891,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectAclOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectAclOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectAclOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectAclOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectAclOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectAclOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6181,22 +4936,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectLegalHoldOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLegalHoldOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectLegalHoldOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectLegalHoldOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectLegalHoldOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectLegalHoldOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6247,22 +4987,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectLockConfigurationOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectLockConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectLockConfigurationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectLockConfigurationOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectLockConfigurationOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectLockConfigurationOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6307,22 +5032,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectRetentionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectRetentionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectRetentionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectRetentionOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectRetentionOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectRetentionOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6382,22 +5092,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectTaggingOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectTaggingOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectTaggingOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectTaggingOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectTaggingOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectTaggingOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6450,22 +5145,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPublicAccessBlockOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutPublicAccessBlockOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutPublicAccessBlockOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutPublicAccessBlockOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6603,22 +5283,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestoreObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreObjectOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RestoreObjectOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<RestoreObjectOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6776,22 +5441,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UploadPartOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6893,22 +5543,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartCopyOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartCopyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartCopyOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartCopyOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UploadPartCopyOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartCopyOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -6952,22 +5587,7 @@ extension S3Client: S3ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WriteGetObjectResponseOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WriteGetObjectResponseOutput>(responseClosure(decoder: decoder), responseErrorClosure(WriteGetObjectResponseOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<WriteGetObjectResponseOutput>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, id: "S3ErrorWith200StatusXMLMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<WriteGetObjectResponseOutput> in
-            let response = try await next.handle(context: context, input: input)
-            guard response.httpResponse.statusCode == .ok else {
-                return try await next.handle(context: context, input: input)
-            }
-            guard let data = try await response.httpResponse.body.readData() else {
-                return try await next.handle(context: context, input: input)
-            }
-            let xmlString = String(data: data, encoding: .utf8) ?? ""
-            if xmlString.contains("<Error>") {
-                // Handle the error as a 500 Internal Server Error
-                response.httpResponse.statusCode = .internalServerError
-                return response
-            }
-            return try await next.handle(context: context, input: input)
-        }
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<WriteGetObjectResponseOutput>())
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
