@@ -26,6 +26,7 @@ object AWSClientRuntimeTypes {
         val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer")
         object S3 {
             val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError")
+            val AWSS3ErrorWith200StatusXMLMiddleware = runtimeSymbol("AWSS3ErrorWith200StatusXMLMiddleware")
         }
     }
 
