@@ -627,7 +627,7 @@ let servicesWithIntegrationTests: [String] = [
 ]
 
 // Uncomment this line to enable integration tests
-addIntegrationTests()
+// addIntegrationTests()
 
 // Uncomment this line to enable protocol tests
 // addProtocolTests()
