@@ -19,7 +19,7 @@ public struct BundleRegionProvider: RegionProvider {
         self.regionKey = regionKey
     }
 
-    public func resolveRegion() async throws -> String? {
+    public func getRegion() async throws -> String? {
         #if os(iOS) || os(watchOS) || os(tvOS)
         guard let region = region() else {
             return nil
