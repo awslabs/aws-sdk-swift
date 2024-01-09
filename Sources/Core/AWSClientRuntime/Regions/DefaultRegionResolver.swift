@@ -13,7 +13,6 @@ public struct DefaultRegionResolver: RegionResolver {
 
     public init(fileBasedConfigurationProvider: @escaping FileBasedConfigurationProviding) throws {
         self.providers = [
-            BundleRegionProvider(),
             EnvironmentRegionProvider(),
             ProfileRegionProvider(fileBasedConfigurationProvider: fileBasedConfigurationProvider),
             try IMDSRegionProvider()
