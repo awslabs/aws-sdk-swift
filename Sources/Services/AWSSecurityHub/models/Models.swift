@@ -790,6 +790,61 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AssociationFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case associationType = "AssociationType"
+        case configurationPolicyId = "ConfigurationPolicyId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus.rawValue, forKey: .associationStatus)
+        }
+        if let associationType = self.associationType {
+            try encodeContainer.encode(associationType.rawValue, forKey: .associationType)
+        }
+        if let configurationPolicyId = self.configurationPolicyId {
+            try encodeContainer.encode(configurationPolicyId, forKey: .configurationPolicyId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationPolicyId)
+        configurationPolicyId = configurationPolicyIdDecoded
+        let associationTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationType.self, forKey: .associationType)
+        associationType = associationTypeDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ConfigurationPolicyAssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration policy, AssociationType, or AssociationStatus.
+    public struct AssociationFilters: Swift.Equatable {
+        /// The current status of the association between a target and a configuration policy.
+        public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
+        /// Indicates whether the association between a target and a configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+        public var associationType: SecurityHubClientTypes.AssociationType?
+        /// The ARN or UUID of the configuration policy.
+        public var configurationPolicyId: Swift.String?
+
+        public init(
+            associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus? = nil,
+            associationType: SecurityHubClientTypes.AssociationType? = nil,
+            configurationPolicyId: Swift.String? = nil
+        )
+        {
+            self.associationStatus = associationStatus
+            self.associationType = associationType
+            self.configurationPolicyId = configurationPolicyId
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AssociationSetDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associationState = "AssociationState"
@@ -948,6 +1003,38 @@ extension SecurityHubClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = AssociationStatus(rawValue: rawValue) ?? AssociationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+    public enum AssociationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case applied
+        case inherited
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationType] {
+            return [
+                .applied,
+                .inherited,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .applied: return "APPLIED"
+            case .inherited: return "INHERITED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssociationType(rawValue: rawValue) ?? AssociationType.sdkUnknown(rawValue)
         }
     }
 }
@@ -1359,6 +1446,7 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId = "AwsAccountId"
+        case awsAccountName = "AwsAccountName"
         case companyName = "CompanyName"
         case complianceAssociatedStandardsId = "ComplianceAssociatedStandardsId"
         case complianceSecurityControlId = "ComplianceSecurityControlId"
@@ -1379,6 +1467,8 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
         case recordState = "RecordState"
         case relatedFindingsId = "RelatedFindingsId"
         case relatedFindingsProductArn = "RelatedFindingsProductArn"
+        case resourceApplicationArn = "ResourceApplicationArn"
+        case resourceApplicationName = "ResourceApplicationName"
         case resourceDetailsOther = "ResourceDetailsOther"
         case resourceId = "ResourceId"
         case resourcePartition = "ResourcePartition"
@@ -1401,6 +1491,12 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
             var awsAccountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountId)
             for stringfilter0 in awsAccountId {
                 try awsAccountIdContainer.encode(stringfilter0)
+            }
+        }
+        if let awsAccountName = awsAccountName {
+            var awsAccountNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountName)
+            for stringfilter0 in awsAccountName {
+                try awsAccountNameContainer.encode(stringfilter0)
             }
         }
         if let companyName = companyName {
@@ -1521,6 +1617,18 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
             var relatedFindingsProductArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedFindingsProductArn)
             for stringfilter0 in relatedFindingsProductArn {
                 try relatedFindingsProductArnContainer.encode(stringfilter0)
+            }
+        }
+        if let resourceApplicationArn = resourceApplicationArn {
+            var resourceApplicationArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceApplicationArn)
+            for stringfilter0 in resourceApplicationArn {
+                try resourceApplicationArnContainer.encode(stringfilter0)
+            }
+        }
+        if let resourceApplicationName = resourceApplicationName {
+            var resourceApplicationNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceApplicationName)
+            for stringfilter0 in resourceApplicationName {
+                try resourceApplicationNameContainer.encode(stringfilter0)
             }
         }
         if let resourceDetailsOther = resourceDetailsOther {
@@ -1996,6 +2104,39 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters: Swift.Codable {
             }
         }
         userDefinedFields = userDefinedFieldsDecoded0
+        let resourceApplicationArnContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceApplicationArn)
+        var resourceApplicationArnDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceApplicationArnContainer = resourceApplicationArnContainer {
+            resourceApplicationArnDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceApplicationArnContainer {
+                if let structure0 = structure0 {
+                    resourceApplicationArnDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceApplicationArn = resourceApplicationArnDecoded0
+        let resourceApplicationNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceApplicationName)
+        var resourceApplicationNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceApplicationNameContainer = resourceApplicationNameContainer {
+            resourceApplicationNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceApplicationNameContainer {
+                if let structure0 = structure0 {
+                    resourceApplicationNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceApplicationName = resourceApplicationNameDecoded0
+        let awsAccountNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .awsAccountName)
+        var awsAccountNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let awsAccountNameContainer = awsAccountNameContainer {
+            awsAccountNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in awsAccountNameContainer {
+                if let structure0 = structure0 {
+                    awsAccountNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        awsAccountName = awsAccountNameDecoded0
     }
 }
 
@@ -2004,6 +2145,8 @@ extension SecurityHubClientTypes {
     public struct AutomationRulesFindingFilters: Swift.Equatable {
         /// The Amazon Web Services account ID in which a finding was generated. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
+        /// The name of the Amazon Web Services account in which a finding was generated. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        public var awsAccountName: [SecurityHubClientTypes.StringFilter]?
         /// The name of the company for the product that generated the finding. For control-based findings, the company is Amazon Web Services. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var companyName: [SecurityHubClientTypes.StringFilter]?
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response. Array Members: Minimum number of 1 item. Maximum number of 20 items.
@@ -2044,6 +2187,10 @@ extension SecurityHubClientTypes {
         public var relatedFindingsId: [SecurityHubClientTypes.StringFilter]?
         /// The ARN for the product that generated a related finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var relatedFindingsProductArn: [SecurityHubClientTypes.StringFilter]?
+        /// The Amazon Resource Name (ARN) of the application that is related to a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        public var resourceApplicationArn: [SecurityHubClientTypes.StringFilter]?
+        /// The name of the application that is related to a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        public var resourceApplicationName: [SecurityHubClientTypes.StringFilter]?
         /// Custom fields and values about the resource that a finding pertains to. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourceDetailsOther: [SecurityHubClientTypes.MapFilter]?
         /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Service that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource. Array Members: Minimum number of 1 item. Maximum number of 100 items.
@@ -2075,6 +2222,7 @@ extension SecurityHubClientTypes {
 
         public init(
             awsAccountId: [SecurityHubClientTypes.StringFilter]? = nil,
+            awsAccountName: [SecurityHubClientTypes.StringFilter]? = nil,
             companyName: [SecurityHubClientTypes.StringFilter]? = nil,
             complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]? = nil,
             complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]? = nil,
@@ -2095,6 +2243,8 @@ extension SecurityHubClientTypes {
             recordState: [SecurityHubClientTypes.StringFilter]? = nil,
             relatedFindingsId: [SecurityHubClientTypes.StringFilter]? = nil,
             relatedFindingsProductArn: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceApplicationArn: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceApplicationName: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceDetailsOther: [SecurityHubClientTypes.MapFilter]? = nil,
             resourceId: [SecurityHubClientTypes.StringFilter]? = nil,
             resourcePartition: [SecurityHubClientTypes.StringFilter]? = nil,
@@ -2112,6 +2262,7 @@ extension SecurityHubClientTypes {
         )
         {
             self.awsAccountId = awsAccountId
+            self.awsAccountName = awsAccountName
             self.companyName = companyName
             self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
             self.complianceSecurityControlId = complianceSecurityControlId
@@ -2132,6 +2283,8 @@ extension SecurityHubClientTypes {
             self.recordState = recordState
             self.relatedFindingsId = relatedFindingsId
             self.relatedFindingsProductArn = relatedFindingsProductArn
+            self.resourceApplicationArn = resourceApplicationArn
+            self.resourceApplicationName = resourceApplicationName
             self.resourceDetailsOther = resourceDetailsOther
             self.resourceId = resourceId
             self.resourcePartition = resourcePartition
@@ -8365,7 +8518,7 @@ extension SecurityHubClientTypes.AwsCloudFrontDistributionOriginItem: Swift.Coda
 }
 
 extension SecurityHubClientTypes {
-    /// A complex type that describes the Amazon S3 bucket, HTTP server (for example, a web server), AWS Elemental MediaStore, or other server from which CloudFront gets your files.
+    /// A complex type that describes the Amazon S3 bucket, HTTP server (for example, a web server), Elemental MediaStore, or other server from which CloudFront gets your files.
     public struct AwsCloudFrontDistributionOriginItem: Swift.Equatable {
         /// An origin that is not an Amazon S3 bucket, with one exception. If the Amazon S3 bucket is configured with static website hosting, use this attribute. If the Amazon S3 bucket is not configured with static website hosting, use the S3OriginConfig type instead.
         public var customOriginConfig: SecurityHubClientTypes.AwsCloudFrontDistributionOriginCustomOriginConfig?
@@ -10696,6 +10849,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         case attributeDefinitions = "AttributeDefinitions"
         case billingModeSummary = "BillingModeSummary"
         case creationDateTime = "CreationDateTime"
+        case deletionProtectionEnabled = "DeletionProtectionEnabled"
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case globalTableVersion = "GlobalTableVersion"
         case itemCount = "ItemCount"
@@ -10727,6 +10881,9 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         }
         if let creationDateTime = self.creationDateTime {
             try encodeContainer.encode(creationDateTime, forKey: .creationDateTime)
+        }
+        if let deletionProtectionEnabled = self.deletionProtectionEnabled {
+            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
         }
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
@@ -10875,6 +11032,8 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         tableSizeBytes = tableSizeBytesDecoded
         let tableStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableStatus)
         tableStatus = tableStatusDecoded
+        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
+        deletionProtectionEnabled = deletionProtectionEnabledDecoded
     }
 }
 
@@ -10887,6 +11046,8 @@ extension SecurityHubClientTypes {
         public var billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary?
         /// Indicates when the table was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var creationDateTime: Swift.String?
+        /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
+        public var deletionProtectionEnabled: Swift.Bool?
         /// List of global secondary indexes for the table.
         public var globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex]?
         /// The version of global tables being used.
@@ -10938,6 +11099,7 @@ extension SecurityHubClientTypes {
             attributeDefinitions: [SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition]? = nil,
             billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary? = nil,
             creationDateTime: Swift.String? = nil,
+            deletionProtectionEnabled: Swift.Bool? = nil,
             globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex]? = nil,
             globalTableVersion: Swift.String? = nil,
             itemCount: Swift.Int? = nil,
@@ -10959,6 +11121,7 @@ extension SecurityHubClientTypes {
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
+            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableVersion = globalTableVersion
             self.itemCount = itemCount
@@ -11732,6 +11895,607 @@ extension SecurityHubClientTypes {
         {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case directoryId = "DirectoryId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let directoryId = self.directoryId {
+            try encodeContainer.encode(directoryId, forKey: .directoryId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
+        directoryId = directoryIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an Active Directory that’s used to authenticate an Client VPN endpoint.
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails: Swift.Equatable {
+        /// The ID of the Active Directory used for authentication.
+        public var directoryId: Swift.String?
+
+        public init(
+            directoryId: Swift.String? = nil
+        )
+        {
+            self.directoryId = directoryId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeDirectory = "ActiveDirectory"
+        case federatedAuthentication = "FederatedAuthentication"
+        case mutualAuthentication = "MutualAuthentication"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeDirectory = self.activeDirectory {
+            try encodeContainer.encode(activeDirectory, forKey: .activeDirectory)
+        }
+        if let federatedAuthentication = self.federatedAuthentication {
+            try encodeContainer.encode(federatedAuthentication, forKey: .federatedAuthentication)
+        }
+        if let mutualAuthentication = self.mutualAuthentication {
+            try encodeContainer.encode(mutualAuthentication, forKey: .mutualAuthentication)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let activeDirectoryDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails.self, forKey: .activeDirectory)
+        activeDirectory = activeDirectoryDecoded
+        let mutualAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails.self, forKey: .mutualAuthentication)
+        mutualAuthentication = mutualAuthenticationDecoded
+        let federatedAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails.self, forKey: .federatedAuthentication)
+        federatedAuthentication = federatedAuthenticationDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information about the authentication method used by the Client VPN endpoint.
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsDetails: Swift.Equatable {
+        /// Information about the Active Directory, if applicable. With Active Directory authentication, clients are authenticated against existing Active Directory groups.
+        public var activeDirectory: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails?
+        /// Information about the IAM SAML identity provider, if applicable.
+        public var federatedAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails?
+        /// Information about the authentication certificates, if applicable.
+        public var mutualAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails?
+        /// The authentication type used.
+        public var type: Swift.String?
+
+        public init(
+            activeDirectory: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails? = nil,
+            federatedAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails? = nil,
+            mutualAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.activeDirectory = activeDirectory
+            self.federatedAuthentication = federatedAuthentication
+            self.mutualAuthentication = mutualAuthentication
+            self.type = type
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case samlProviderArn = "SamlProviderArn"
+        case selfServiceSamlProviderArn = "SelfServiceSamlProviderArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let samlProviderArn = self.samlProviderArn {
+            try encodeContainer.encode(samlProviderArn, forKey: .samlProviderArn)
+        }
+        if let selfServiceSamlProviderArn = self.selfServiceSamlProviderArn {
+            try encodeContainer.encode(selfServiceSamlProviderArn, forKey: .selfServiceSamlProviderArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let samlProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .samlProviderArn)
+        samlProviderArn = samlProviderArnDecoded
+        let selfServiceSamlProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selfServiceSamlProviderArn)
+        selfServiceSamlProviderArn = selfServiceSamlProviderArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes the IAM SAML identity providers used for federated authentication.
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
+        public var samlProviderArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
+        public var selfServiceSamlProviderArn: Swift.String?
+
+        public init(
+            samlProviderArn: Swift.String? = nil,
+            selfServiceSamlProviderArn: Swift.String? = nil
+        )
+        {
+            self.samlProviderArn = samlProviderArn
+            self.selfServiceSamlProviderArn = selfServiceSamlProviderArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRootCertificateChain = "ClientRootCertificateChain"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRootCertificateChain = self.clientRootCertificateChain {
+            try encodeContainer.encode(clientRootCertificateChain, forKey: .clientRootCertificateChain)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientRootCertificateChainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRootCertificateChain)
+        clientRootCertificateChain = clientRootCertificateChainDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information about the client certificate used for authentication.
+    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the client certificate.
+        public var clientRootCertificateChain: Swift.String?
+
+        public init(
+            clientRootCertificateChain: Swift.String? = nil
+        )
+        {
+            self.clientRootCertificateChain = clientRootCertificateChain
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+        case lambdaFunctionArn = "LambdaFunctionArn"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let lambdaFunctionArn = self.lambdaFunctionArn {
+            try encodeContainer.encode(lambdaFunctionArn, forKey: .lambdaFunctionArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for managing connection authorization for new client connections.
+    public struct AwsEc2ClientVpnEndpointClientConnectOptionsDetails: Swift.Equatable {
+        /// Indicates whether client connect options are enabled.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the Lambda function used for connection authorization.
+        public var lambdaFunctionArn: Swift.String?
+        /// The status of any updates to the client connect options.
+        public var status: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            lambdaFunctionArn: Swift.String? = nil,
+            status: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails? = nil
+        )
+        {
+            self.enabled = enabled
+            self.lambdaFunctionArn = lambdaFunctionArn
+            self.status = status
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes the status of the Client VPN endpoint attribute.
+    public struct AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails: Swift.Equatable {
+        /// The status code.
+        public var code: Swift.String?
+        /// The status message.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bannerText = "BannerText"
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bannerText = self.bannerText {
+            try encodeContainer.encode(bannerText, forKey: .bannerText)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let bannerTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bannerText)
+        bannerText = bannerTextDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
+    public struct AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails: Swift.Equatable {
+        /// Customizable text that will be displayed in a banner on Amazon Web Services provided clients when a VPN session is established.
+        public var bannerText: Swift.String?
+        /// Current state of text banner feature.
+        public var enabled: Swift.Bool?
+
+        public init(
+            bannerText: Swift.String? = nil,
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.bannerText = bannerText
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudwatchLogGroup = "CloudwatchLogGroup"
+        case cloudwatchLogStream = "CloudwatchLogStream"
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudwatchLogGroup = self.cloudwatchLogGroup {
+            try encodeContainer.encode(cloudwatchLogGroup, forKey: .cloudwatchLogGroup)
+        }
+        if let cloudwatchLogStream = self.cloudwatchLogStream {
+            try encodeContainer.encode(cloudwatchLogStream, forKey: .cloudwatchLogStream)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let cloudwatchLogGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudwatchLogGroup)
+        cloudwatchLogGroup = cloudwatchLogGroupDecoded
+        let cloudwatchLogStreamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudwatchLogStream)
+        cloudwatchLogStream = cloudwatchLogStreamDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information about the client connection logging options for the Client VPN endpoint.
+    public struct AwsEc2ClientVpnEndpointConnectionLogOptionsDetails: Swift.Equatable {
+        /// The name of the Amazon CloudWatch Logs log group to which connection logging data is published.
+        public var cloudwatchLogGroup: Swift.String?
+        /// The name of the Amazon CloudWatch Logs log stream to which connection logging data is published.
+        public var cloudwatchLogStream: Swift.String?
+        /// Indicates whether client connection logging is enabled for the Client VPN endpoint.
+        public var enabled: Swift.Bool?
+
+        public init(
+            cloudwatchLogGroup: Swift.String? = nil,
+            cloudwatchLogStream: Swift.String? = nil,
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.cloudwatchLogGroup = cloudwatchLogGroup
+            self.cloudwatchLogStream = cloudwatchLogStream
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationOptions = "AuthenticationOptions"
+        case clientCidrBlock = "ClientCidrBlock"
+        case clientConnectOptions = "ClientConnectOptions"
+        case clientLoginBannerOptions = "ClientLoginBannerOptions"
+        case clientVpnEndpointId = "ClientVpnEndpointId"
+        case connectionLogOptions = "ConnectionLogOptions"
+        case description = "Description"
+        case dnsServer = "DnsServer"
+        case securityGroupIdSet = "SecurityGroupIdSet"
+        case selfServicePortalUrl = "SelfServicePortalUrl"
+        case serverCertificateArn = "ServerCertificateArn"
+        case sessionTimeoutHours = "SessionTimeoutHours"
+        case splitTunnel = "SplitTunnel"
+        case transportProtocol = "TransportProtocol"
+        case vpcId = "VpcId"
+        case vpnPort = "VpnPort"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationOptions = authenticationOptions {
+            var authenticationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authenticationOptions)
+            for awsec2clientvpnendpointauthenticationoptionsdetails0 in authenticationOptions {
+                try authenticationOptionsContainer.encode(awsec2clientvpnendpointauthenticationoptionsdetails0)
+            }
+        }
+        if let clientCidrBlock = self.clientCidrBlock {
+            try encodeContainer.encode(clientCidrBlock, forKey: .clientCidrBlock)
+        }
+        if let clientConnectOptions = self.clientConnectOptions {
+            try encodeContainer.encode(clientConnectOptions, forKey: .clientConnectOptions)
+        }
+        if let clientLoginBannerOptions = self.clientLoginBannerOptions {
+            try encodeContainer.encode(clientLoginBannerOptions, forKey: .clientLoginBannerOptions)
+        }
+        if let clientVpnEndpointId = self.clientVpnEndpointId {
+            try encodeContainer.encode(clientVpnEndpointId, forKey: .clientVpnEndpointId)
+        }
+        if let connectionLogOptions = self.connectionLogOptions {
+            try encodeContainer.encode(connectionLogOptions, forKey: .connectionLogOptions)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let dnsServer = dnsServer {
+            var dnsServerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsServer)
+            for nonemptystring0 in dnsServer {
+                try dnsServerContainer.encode(nonemptystring0)
+            }
+        }
+        if let securityGroupIdSet = securityGroupIdSet {
+            var securityGroupIdSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIdSet)
+            for nonemptystring0 in securityGroupIdSet {
+                try securityGroupIdSetContainer.encode(nonemptystring0)
+            }
+        }
+        if let selfServicePortalUrl = self.selfServicePortalUrl {
+            try encodeContainer.encode(selfServicePortalUrl, forKey: .selfServicePortalUrl)
+        }
+        if let serverCertificateArn = self.serverCertificateArn {
+            try encodeContainer.encode(serverCertificateArn, forKey: .serverCertificateArn)
+        }
+        if let sessionTimeoutHours = self.sessionTimeoutHours {
+            try encodeContainer.encode(sessionTimeoutHours, forKey: .sessionTimeoutHours)
+        }
+        if let splitTunnel = self.splitTunnel {
+            try encodeContainer.encode(splitTunnel, forKey: .splitTunnel)
+        }
+        if let transportProtocol = self.transportProtocol {
+            try encodeContainer.encode(transportProtocol, forKey: .transportProtocol)
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+        if let vpnPort = self.vpnPort {
+            try encodeContainer.encode(vpnPort, forKey: .vpnPort)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientVpnEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientVpnEndpointId)
+        clientVpnEndpointId = clientVpnEndpointIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientCidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientCidrBlock)
+        clientCidrBlock = clientCidrBlockDecoded
+        let dnsServerContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsServer)
+        var dnsServerDecoded0:[Swift.String]? = nil
+        if let dnsServerContainer = dnsServerContainer {
+            dnsServerDecoded0 = [Swift.String]()
+            for string0 in dnsServerContainer {
+                if let string0 = string0 {
+                    dnsServerDecoded0?.append(string0)
+                }
+            }
+        }
+        dnsServer = dnsServerDecoded0
+        let splitTunnelDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .splitTunnel)
+        splitTunnel = splitTunnelDecoded
+        let transportProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transportProtocol)
+        transportProtocol = transportProtocolDecoded
+        let vpnPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vpnPort)
+        vpnPort = vpnPortDecoded
+        let serverCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverCertificateArn)
+        serverCertificateArn = serverCertificateArnDecoded
+        let authenticationOptionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails?].self, forKey: .authenticationOptions)
+        var authenticationOptionsDecoded0:[SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]? = nil
+        if let authenticationOptionsContainer = authenticationOptionsContainer {
+            authenticationOptionsDecoded0 = [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]()
+            for structure0 in authenticationOptionsContainer {
+                if let structure0 = structure0 {
+                    authenticationOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        authenticationOptions = authenticationOptionsDecoded0
+        let connectionLogOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails.self, forKey: .connectionLogOptions)
+        connectionLogOptions = connectionLogOptionsDecoded
+        let securityGroupIdSetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIdSet)
+        var securityGroupIdSetDecoded0:[Swift.String]? = nil
+        if let securityGroupIdSetContainer = securityGroupIdSetContainer {
+            securityGroupIdSetDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdSetContainer {
+                if let string0 = string0 {
+                    securityGroupIdSetDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIdSet = securityGroupIdSetDecoded0
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+        let selfServicePortalUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selfServicePortalUrl)
+        selfServicePortalUrl = selfServicePortalUrlDecoded
+        let clientConnectOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails.self, forKey: .clientConnectOptions)
+        clientConnectOptions = clientConnectOptionsDecoded
+        let sessionTimeoutHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionTimeoutHours)
+        sessionTimeoutHours = sessionTimeoutHoursDecoded
+        let clientLoginBannerOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails.self, forKey: .clientLoginBannerOptions)
+        clientLoginBannerOptions = clientLoginBannerOptionsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes an Client VPN endpoint. A Client VPN endpoint is the resource that you create and configure to enable and manage client VPN sessions. It's the termination point for all client VPN sessions.
+    public struct AwsEc2ClientVpnEndpointDetails: Swift.Equatable {
+        /// Information about the authentication method used by the Client VPN endpoint.
+        public var authenticationOptions: [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]?
+        /// The IPv4 address range, in CIDR notation, from which client IP addresses are assigned.
+        public var clientCidrBlock: Swift.String?
+        /// The options for managing connection authorization for new client connections.
+        public var clientConnectOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails?
+        /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
+        public var clientLoginBannerOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails?
+        /// The ID of the Client VPN endpoint.
+        public var clientVpnEndpointId: Swift.String?
+        /// Information about the client connection logging options for the Client VPN endpoint.
+        public var connectionLogOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails?
+        /// A brief description of the endpoint.
+        public var description: Swift.String?
+        /// Information about the DNS servers to be used for DNS resolution.
+        public var dnsServer: [Swift.String]?
+        /// The IDs of the security groups for the target network.
+        public var securityGroupIdSet: [Swift.String]?
+        /// The URL of the self-service portal.
+        public var selfServicePortalUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) of the server certificate.
+        public var serverCertificateArn: Swift.String?
+        /// The maximum VPN session duration time in hours.
+        public var sessionTimeoutHours: Swift.Int?
+        /// Indicates whether split-tunnel is enabled in the Client VPN endpoint.
+        public var splitTunnel: Swift.Bool?
+        /// The transport protocol used by the Client VPN endpoint.
+        public var transportProtocol: Swift.String?
+        /// The ID of the VPC.
+        public var vpcId: Swift.String?
+        /// The port number for the Client VPN endpoint.
+        public var vpnPort: Swift.Int?
+
+        public init(
+            authenticationOptions: [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]? = nil,
+            clientCidrBlock: Swift.String? = nil,
+            clientConnectOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails? = nil,
+            clientLoginBannerOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails? = nil,
+            clientVpnEndpointId: Swift.String? = nil,
+            connectionLogOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails? = nil,
+            description: Swift.String? = nil,
+            dnsServer: [Swift.String]? = nil,
+            securityGroupIdSet: [Swift.String]? = nil,
+            selfServicePortalUrl: Swift.String? = nil,
+            serverCertificateArn: Swift.String? = nil,
+            sessionTimeoutHours: Swift.Int? = nil,
+            splitTunnel: Swift.Bool? = nil,
+            transportProtocol: Swift.String? = nil,
+            vpcId: Swift.String? = nil,
+            vpnPort: Swift.Int? = nil
+        )
+        {
+            self.authenticationOptions = authenticationOptions
+            self.clientCidrBlock = clientCidrBlock
+            self.clientConnectOptions = clientConnectOptions
+            self.clientLoginBannerOptions = clientLoginBannerOptions
+            self.clientVpnEndpointId = clientVpnEndpointId
+            self.connectionLogOptions = connectionLogOptions
+            self.description = description
+            self.dnsServer = dnsServer
+            self.securityGroupIdSet = securityGroupIdSet
+            self.selfServicePortalUrl = selfServicePortalUrl
+            self.serverCertificateArn = serverCertificateArn
+            self.sessionTimeoutHours = sessionTimeoutHours
+            self.splitTunnel = splitTunnel
+            self.transportProtocol = transportProtocol
+            self.vpcId = vpcId
+            self.vpnPort = vpnPort
         }
     }
 
@@ -28757,6 +29521,10 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         case clusterName = "ClusterName"
         case currentVersion = "CurrentVersion"
         case encryptionInfo = "EncryptionInfo"
+<<<<<<< HEAD
+=======
+        case enhancedMonitoring = "EnhancedMonitoring"
+>>>>>>> main
         case numberOfBrokerNodes = "NumberOfBrokerNodes"
     }
 
@@ -28774,6 +29542,12 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         if let encryptionInfo = self.encryptionInfo {
             try encodeContainer.encode(encryptionInfo, forKey: .encryptionInfo)
         }
+<<<<<<< HEAD
+=======
+        if let enhancedMonitoring = self.enhancedMonitoring {
+            try encodeContainer.encode(enhancedMonitoring, forKey: .enhancedMonitoring)
+        }
+>>>>>>> main
         if let numberOfBrokerNodes = self.numberOfBrokerNodes {
             try encodeContainer.encode(numberOfBrokerNodes, forKey: .numberOfBrokerNodes)
         }
@@ -28791,20 +29565,38 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         clusterName = clusterNameDecoded
         let clientAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails.self, forKey: .clientAuthentication)
         clientAuthentication = clientAuthenticationDecoded
+<<<<<<< HEAD
+=======
+        let enhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enhancedMonitoring)
+        enhancedMonitoring = enhancedMonitoringDecoded
+>>>>>>> main
     }
 }
 
 extension SecurityHubClientTypes {
+<<<<<<< HEAD
     /// Provide details about an Amazon MSK cluster.
+=======
+    /// Provide details about an Amazon Managed Streaming for Apache Kafka (Amazon MSK) cluster.
+>>>>>>> main
     public struct AwsMskClusterClusterInfoDetails: Swift.Equatable {
         /// Provides information for different modes of client authentication.
         public var clientAuthentication: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails?
         /// The name of the cluster.
         public var clusterName: Swift.String?
+<<<<<<< HEAD
         /// The current version of the MSK cluster.
         public var currentVersion: Swift.String?
         /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want Amazon MSK to encrypt your data in transit.
         public var encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails?
+=======
+        /// The current version of the cluster.
+        public var currentVersion: Swift.String?
+        /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want Amazon MSK to encrypt your data in transit.
+        public var encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails?
+        /// Specifies the level of monitoring for the cluster.
+        public var enhancedMonitoring: Swift.String?
+>>>>>>> main
         /// The number of broker nodes in the cluster.
         public var numberOfBrokerNodes: Swift.Int?
 
@@ -28813,6 +29605,10 @@ extension SecurityHubClientTypes {
             clusterName: Swift.String? = nil,
             currentVersion: Swift.String? = nil,
             encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails? = nil,
+<<<<<<< HEAD
+=======
+            enhancedMonitoring: Swift.String? = nil,
+>>>>>>> main
             numberOfBrokerNodes: Swift.Int? = nil
         )
         {
@@ -28820,6 +29616,10 @@ extension SecurityHubClientTypes {
             self.clusterName = clusterName
             self.currentVersion = currentVersion
             self.encryptionInfo = encryptionInfo
+<<<<<<< HEAD
+=======
+            self.enhancedMonitoring = enhancedMonitoring
+>>>>>>> main
             self.numberOfBrokerNodes = numberOfBrokerNodes
         }
     }
@@ -35284,6 +36084,149 @@ extension SecurityHubClientTypes {
 
 }
 
+<<<<<<< HEAD
+=======
+extension SecurityHubClientTypes.AwsS3AccessPointDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessPointArn = "AccessPointArn"
+        case alias = "Alias"
+        case bucket = "Bucket"
+        case bucketAccountId = "BucketAccountId"
+        case name = "Name"
+        case networkOrigin = "NetworkOrigin"
+        case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        case vpcConfiguration = "VpcConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessPointArn = self.accessPointArn {
+            try encodeContainer.encode(accessPointArn, forKey: .accessPointArn)
+        }
+        if let alias = self.alias {
+            try encodeContainer.encode(alias, forKey: .alias)
+        }
+        if let bucket = self.bucket {
+            try encodeContainer.encode(bucket, forKey: .bucket)
+        }
+        if let bucketAccountId = self.bucketAccountId {
+            try encodeContainer.encode(bucketAccountId, forKey: .bucketAccountId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkOrigin = self.networkOrigin {
+            try encodeContainer.encode(networkOrigin, forKey: .networkOrigin)
+        }
+        if let publicAccessBlockConfiguration = self.publicAccessBlockConfiguration {
+            try encodeContainer.encode(publicAccessBlockConfiguration, forKey: .publicAccessBlockConfiguration)
+        }
+        if let vpcConfiguration = self.vpcConfiguration {
+            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPointArn)
+        accessPointArn = accessPointArnDecoded
+        let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
+        alias = aliasDecoded
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
+        bucketAccountId = bucketAccountIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networkOriginDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkOrigin)
+        networkOrigin = networkOriginDecoded
+        let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails.self, forKey: .publicAccessBlockConfiguration)
+        publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
+        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails.self, forKey: .vpcConfiguration)
+        vpcConfiguration = vpcConfigurationDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Returns configuration information about the specified Amazon S3 access point. S3 access points are named network endpoints that are attached to buckets that you can use to perform S3 object operations.
+    public struct AwsS3AccessPointDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the access point.
+        public var accessPointArn: Swift.String?
+        /// The name or alias of the access point.
+        public var alias: Swift.String?
+        /// The name of the S3 bucket associated with the specified access point.
+        public var bucket: Swift.String?
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+        public var bucketAccountId: Swift.String?
+        /// The name of the specified access point.
+        public var name: Swift.String?
+        /// Indicates whether this access point allows access from the public internet.
+        public var networkOrigin: Swift.String?
+        /// provides information about the Amazon S3 Public Access Block configuration for accounts.
+        public var publicAccessBlockConfiguration: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails?
+        /// Contains the virtual private cloud (VPC) configuration for the specified access point.
+        public var vpcConfiguration: SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails?
+
+        public init(
+            accessPointArn: Swift.String? = nil,
+            alias: Swift.String? = nil,
+            bucket: Swift.String? = nil,
+            bucketAccountId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkOrigin: Swift.String? = nil,
+            publicAccessBlockConfiguration: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
+            vpcConfiguration: SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails? = nil
+        )
+        {
+            self.accessPointArn = accessPointArn
+            self.alias = alias
+            self.bucket = bucket
+            self.bucketAccountId = bucketAccountId
+            self.name = name
+            self.networkOrigin = networkOrigin
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+            self.vpcConfiguration = vpcConfiguration
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vpcId = "VpcId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The virtual private cloud (VPC) configuration for an Amazon S3 access point.
+    public struct AwsS3AccessPointVpcConfigurationDetails: Swift.Equatable {
+        /// If this field is specified, this access point will only allow connections from the specified VPC ID.
+        public var vpcId: Swift.String?
+
+        public init(
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.vpcId = vpcId
+        }
+    }
+
+}
+
+>>>>>>> main
 extension SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blockPublicAcls = "BlockPublicAcls"
@@ -36011,6 +36954,7 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         case bucketVersioningConfiguration = "BucketVersioningConfiguration"
         case bucketWebsiteConfiguration = "BucketWebsiteConfiguration"
         case createdAt = "CreatedAt"
+        case name = "Name"
         case objectLockConfiguration = "ObjectLockConfiguration"
         case ownerAccountId = "OwnerAccountId"
         case ownerId = "OwnerId"
@@ -36041,6 +36985,9 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encode(createdAt, forKey: .createdAt)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if let objectLockConfiguration = self.objectLockConfiguration {
             try encodeContainer.encode(objectLockConfiguration, forKey: .objectLockConfiguration)
@@ -36090,15 +37037,17 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         bucketVersioningConfiguration = bucketVersioningConfigurationDecoded
         let objectLockConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration.self, forKey: .objectLockConfiguration)
         objectLockConfiguration = objectLockConfigurationDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
     }
 }
 
 extension SecurityHubClientTypes {
-    /// The details of an Amazon S3 bucket.
+    /// The details of an Amazon Simple Storage Service (Amazon S3) bucket.
     public struct AwsS3BucketDetails: Swift.Equatable {
         /// The access control list for the S3 bucket.
         public var accessControlList: Swift.String?
-        /// The lifecycle configuration for objects in the S3 bucket.
+        /// The lifecycle configuration for objects in the specified bucket.
         public var bucketLifecycleConfiguration: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationDetails?
         /// The logging configuration for the S3 bucket.
         public var bucketLoggingConfiguration: SecurityHubClientTypes.AwsS3BucketLoggingConfiguration?
@@ -36110,7 +37059,9 @@ extension SecurityHubClientTypes {
         public var bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration?
         /// Indicates when the S3 bucket was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdAt: Swift.String?
-        /// Specifies which rule Amazon S3 applies by default to every new object placed in the specified bucket.
+        /// The name of the bucket.
+        public var name: Swift.String?
+        /// Specifies which rule Amazon S3 applies by default to every new object placed in the bucket.
         public var objectLockConfiguration: SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration?
         /// The Amazon Web Services account identifier of the account that owns the S3 bucket.
         public var ownerAccountId: Swift.String?
@@ -36131,6 +37082,7 @@ extension SecurityHubClientTypes {
             bucketVersioningConfiguration: SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration? = nil,
             bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration? = nil,
             createdAt: Swift.String? = nil,
+            name: Swift.String? = nil,
             objectLockConfiguration: SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration? = nil,
             ownerAccountId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
@@ -36146,6 +37098,7 @@ extension SecurityHubClientTypes {
             self.bucketVersioningConfiguration = bucketVersioningConfiguration
             self.bucketWebsiteConfiguration = bucketWebsiteConfiguration
             self.createdAt = createdAt
+            self.name = name
             self.objectLockConfiguration = objectLockConfiguration
             self.ownerAccountId = ownerAccountId
             self.ownerId = ownerId
@@ -37565,6 +38518,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "Action"
         case awsAccountId = "AwsAccountId"
+        case awsAccountName = "AwsAccountName"
         case companyName = "CompanyName"
         case compliance = "Compliance"
         case confidence = "Confidence"
@@ -37583,6 +38537,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         case note = "Note"
         case patchSummary = "PatchSummary"
         case process = "Process"
+        case processedAt = "ProcessedAt"
         case productArn = "ProductArn"
         case productFields = "ProductFields"
         case productName = "ProductName"
@@ -37614,6 +38569,9 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         }
         if let awsAccountId = self.awsAccountId {
             try encodeContainer.encode(awsAccountId, forKey: .awsAccountId)
+        }
+        if let awsAccountName = self.awsAccountName {
+            try encodeContainer.encode(awsAccountName, forKey: .awsAccountName)
         }
         if let companyName = self.companyName {
             try encodeContainer.encode(companyName, forKey: .companyName)
@@ -37674,6 +38632,9 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         }
         if let process = self.process {
             try encodeContainer.encode(process, forKey: .process)
+        }
+        if let processedAt = self.processedAt {
+            try encodeContainer.encode(processedAt, forKey: .processedAt)
         }
         if let productArn = self.productArn {
             try encodeContainer.encode(productArn, forKey: .productArn)
@@ -37943,6 +38904,10 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         sample = sampleDecoded
         let generatorDetailsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.GeneratorDetails.self, forKey: .generatorDetails)
         generatorDetails = generatorDetailsDecoded
+        let processedAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .processedAt)
+        processedAt = processedAtDecoded
+        let awsAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountName)
+        awsAccountName = awsAccountNameDecoded
     }
 }
 
@@ -37954,6 +38919,8 @@ extension SecurityHubClientTypes {
         /// The Amazon Web Services account ID that a finding is generated in.
         /// This member is required.
         public var awsAccountId: Swift.String?
+        /// The name of the Amazon Web Services account from which a finding was generated.
+        public var awsAccountName: Swift.String?
         /// The name of the company for the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by company name, you use this attribute.
         public var companyName: Swift.String?
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported security standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
@@ -37994,6 +38961,8 @@ extension SecurityHubClientTypes {
         public var patchSummary: SecurityHubClientTypes.PatchSummary?
         /// The details of process-related information about a finding.
         public var process: SecurityHubClientTypes.ProcessDetails?
+        /// An ISO8601-formatted timestamp that indicates when Security Hub received a finding and begins to process it. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
+        public var processedAt: Swift.String?
         /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration.
         /// This member is required.
         public var productArn: Swift.String?
@@ -38048,6 +39017,7 @@ extension SecurityHubClientTypes {
         public init(
             action: SecurityHubClientTypes.Action? = nil,
             awsAccountId: Swift.String? = nil,
+            awsAccountName: Swift.String? = nil,
             companyName: Swift.String? = nil,
             compliance: SecurityHubClientTypes.Compliance? = nil,
             confidence: Swift.Int? = nil,
@@ -38066,6 +39036,7 @@ extension SecurityHubClientTypes {
             note: SecurityHubClientTypes.Note? = nil,
             patchSummary: SecurityHubClientTypes.PatchSummary? = nil,
             process: SecurityHubClientTypes.ProcessDetails? = nil,
+            processedAt: Swift.String? = nil,
             productArn: Swift.String? = nil,
             productFields: [Swift.String:Swift.String]? = nil,
             productName: Swift.String? = nil,
@@ -38092,6 +39063,7 @@ extension SecurityHubClientTypes {
         {
             self.action = action
             self.awsAccountId = awsAccountId
+            self.awsAccountName = awsAccountName
             self.companyName = companyName
             self.compliance = compliance
             self.confidence = confidence
@@ -38110,6 +39082,7 @@ extension SecurityHubClientTypes {
             self.note = note
             self.patchSummary = patchSummary
             self.process = process
+            self.processedAt = processedAt
             self.productArn = productArn
             self.productFields = productFields
             self.productName = productName
@@ -38140,9 +39113,12 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId = "AwsAccountId"
+        case awsAccountName = "AwsAccountName"
         case companyName = "CompanyName"
         case complianceAssociatedStandardsId = "ComplianceAssociatedStandardsId"
         case complianceSecurityControlId = "ComplianceSecurityControlId"
+        case complianceSecurityControlParametersName = "ComplianceSecurityControlParametersName"
+        case complianceSecurityControlParametersValue = "ComplianceSecurityControlParametersValue"
         case complianceStatus = "ComplianceStatus"
         case confidence = "Confidence"
         case createdAt = "CreatedAt"
@@ -38192,6 +39168,8 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
         case region = "Region"
         case relatedFindingsId = "RelatedFindingsId"
         case relatedFindingsProductArn = "RelatedFindingsProductArn"
+        case resourceApplicationArn = "ResourceApplicationArn"
+        case resourceApplicationName = "ResourceApplicationName"
         case resourceAwsEc2InstanceIamInstanceProfileArn = "ResourceAwsEc2InstanceIamInstanceProfileArn"
         case resourceAwsEc2InstanceImageId = "ResourceAwsEc2InstanceImageId"
         case resourceAwsEc2InstanceIpV4Addresses = "ResourceAwsEc2InstanceIpV4Addresses"
@@ -38234,6 +39212,8 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
         case updatedAt = "UpdatedAt"
         case userDefinedFields = "UserDefinedFields"
         case verificationState = "VerificationState"
+        case vulnerabilitiesExploitAvailable = "VulnerabilitiesExploitAvailable"
+        case vulnerabilitiesFixAvailable = "VulnerabilitiesFixAvailable"
         case workflowState = "WorkflowState"
         case workflowStatus = "WorkflowStatus"
     }
@@ -38244,6 +39224,12 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
             var awsAccountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountId)
             for stringfilter0 in awsAccountId {
                 try awsAccountIdContainer.encode(stringfilter0)
+            }
+        }
+        if let awsAccountName = awsAccountName {
+            var awsAccountNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountName)
+            for stringfilter0 in awsAccountName {
+                try awsAccountNameContainer.encode(stringfilter0)
             }
         }
         if let companyName = companyName {
@@ -38262,6 +39248,18 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
             var complianceSecurityControlIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceSecurityControlId)
             for stringfilter0 in complianceSecurityControlId {
                 try complianceSecurityControlIdContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceSecurityControlParametersName = complianceSecurityControlParametersName {
+            var complianceSecurityControlParametersNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceSecurityControlParametersName)
+            for stringfilter0 in complianceSecurityControlParametersName {
+                try complianceSecurityControlParametersNameContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceSecurityControlParametersValue = complianceSecurityControlParametersValue {
+            var complianceSecurityControlParametersValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceSecurityControlParametersValue)
+            for stringfilter0 in complianceSecurityControlParametersValue {
+                try complianceSecurityControlParametersValueContainer.encode(stringfilter0)
             }
         }
         if let complianceStatus = complianceStatus {
@@ -38558,6 +39556,18 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
                 try relatedFindingsProductArnContainer.encode(stringfilter0)
             }
         }
+        if let resourceApplicationArn = resourceApplicationArn {
+            var resourceApplicationArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceApplicationArn)
+            for stringfilter0 in resourceApplicationArn {
+                try resourceApplicationArnContainer.encode(stringfilter0)
+            }
+        }
+        if let resourceApplicationName = resourceApplicationName {
+            var resourceApplicationNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceApplicationName)
+            for stringfilter0 in resourceApplicationName {
+                try resourceApplicationNameContainer.encode(stringfilter0)
+            }
+        }
         if let resourceAwsEc2InstanceIamInstanceProfileArn = resourceAwsEc2InstanceIamInstanceProfileArn {
             var resourceAwsEc2InstanceIamInstanceProfileArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceAwsEc2InstanceIamInstanceProfileArn)
             for stringfilter0 in resourceAwsEc2InstanceIamInstanceProfileArn {
@@ -38808,6 +39818,18 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
             var verificationStateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .verificationState)
             for stringfilter0 in verificationState {
                 try verificationStateContainer.encode(stringfilter0)
+            }
+        }
+        if let vulnerabilitiesExploitAvailable = vulnerabilitiesExploitAvailable {
+            var vulnerabilitiesExploitAvailableContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilitiesExploitAvailable)
+            for stringfilter0 in vulnerabilitiesExploitAvailable {
+                try vulnerabilitiesExploitAvailableContainer.encode(stringfilter0)
+            }
+        }
+        if let vulnerabilitiesFixAvailable = vulnerabilitiesFixAvailable {
+            var vulnerabilitiesFixAvailableContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilitiesFixAvailable)
+            for stringfilter0 in vulnerabilitiesFixAvailable {
+                try vulnerabilitiesFixAvailableContainer.encode(stringfilter0)
             }
         }
         if let workflowState = workflowState {
@@ -39893,20 +40915,103 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
             }
         }
         complianceAssociatedStandardsId = complianceAssociatedStandardsIdDecoded0
+        let vulnerabilitiesExploitAvailableContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .vulnerabilitiesExploitAvailable)
+        var vulnerabilitiesExploitAvailableDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let vulnerabilitiesExploitAvailableContainer = vulnerabilitiesExploitAvailableContainer {
+            vulnerabilitiesExploitAvailableDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in vulnerabilitiesExploitAvailableContainer {
+                if let structure0 = structure0 {
+                    vulnerabilitiesExploitAvailableDecoded0?.append(structure0)
+                }
+            }
+        }
+        vulnerabilitiesExploitAvailable = vulnerabilitiesExploitAvailableDecoded0
+        let vulnerabilitiesFixAvailableContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .vulnerabilitiesFixAvailable)
+        var vulnerabilitiesFixAvailableDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let vulnerabilitiesFixAvailableContainer = vulnerabilitiesFixAvailableContainer {
+            vulnerabilitiesFixAvailableDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in vulnerabilitiesFixAvailableContainer {
+                if let structure0 = structure0 {
+                    vulnerabilitiesFixAvailableDecoded0?.append(structure0)
+                }
+            }
+        }
+        vulnerabilitiesFixAvailable = vulnerabilitiesFixAvailableDecoded0
+        let complianceSecurityControlParametersNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceSecurityControlParametersName)
+        var complianceSecurityControlParametersNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceSecurityControlParametersNameContainer = complianceSecurityControlParametersNameContainer {
+            complianceSecurityControlParametersNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceSecurityControlParametersNameContainer {
+                if let structure0 = structure0 {
+                    complianceSecurityControlParametersNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceSecurityControlParametersName = complianceSecurityControlParametersNameDecoded0
+        let complianceSecurityControlParametersValueContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceSecurityControlParametersValue)
+        var complianceSecurityControlParametersValueDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceSecurityControlParametersValueContainer = complianceSecurityControlParametersValueContainer {
+            complianceSecurityControlParametersValueDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceSecurityControlParametersValueContainer {
+                if let structure0 = structure0 {
+                    complianceSecurityControlParametersValueDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceSecurityControlParametersValue = complianceSecurityControlParametersValueDecoded0
+        let awsAccountNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .awsAccountName)
+        var awsAccountNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let awsAccountNameContainer = awsAccountNameContainer {
+            awsAccountNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in awsAccountNameContainer {
+                if let structure0 = structure0 {
+                    awsAccountNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        awsAccountName = awsAccountNameDecoded0
+        let resourceApplicationNameContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceApplicationName)
+        var resourceApplicationNameDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceApplicationNameContainer = resourceApplicationNameContainer {
+            resourceApplicationNameDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceApplicationNameContainer {
+                if let structure0 = structure0 {
+                    resourceApplicationNameDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceApplicationName = resourceApplicationNameDecoded0
+        let resourceApplicationArnContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .resourceApplicationArn)
+        var resourceApplicationArnDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let resourceApplicationArnContainer = resourceApplicationArnContainer {
+            resourceApplicationArnDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in resourceApplicationArnContainer {
+                if let structure0 = structure0 {
+                    resourceApplicationArnDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceApplicationArn = resourceApplicationArnDecoded0
     }
 }
 
 extension SecurityHubClientTypes {
-    /// A collection of attributes that are applied to all active Security Hub-aggregated findings and that result in a subset of findings that are included in this insight. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values.
+    /// A collection of filters that are applied to all active findings aggregated by Security Hub. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values.
     public struct AwsSecurityFindingFilters: Swift.Equatable {
-        /// The Amazon Web Services account ID that a finding is generated in.
+        /// The Amazon Web Services account ID in which a finding is generated.
         public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
+        /// The name of the Amazon Web Services account in which a finding is generated.
+        public var awsAccountName: [SecurityHubClientTypes.StringFilter]?
         /// The name of the findings provider (company) that owns the solution (product) that generates findings.
         public var companyName: [SecurityHubClientTypes.StringFilter]?
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
         public var complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]?
         /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
         public var complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]?
+        /// The name of a security control parameter.
+        public var complianceSecurityControlParametersName: [SecurityHubClientTypes.StringFilter]?
+        /// The current value of a security control parameter.
+        public var complianceSecurityControlParametersValue: [SecurityHubClientTypes.StringFilter]?
         /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
@@ -40006,6 +41111,10 @@ extension SecurityHubClientTypes {
         public var relatedFindingsId: [SecurityHubClientTypes.StringFilter]?
         /// The ARN of the solution that generated a related finding.
         public var relatedFindingsProductArn: [SecurityHubClientTypes.StringFilter]?
+        /// The ARN of the application that is related to a finding.
+        public var resourceApplicationArn: [SecurityHubClientTypes.StringFilter]?
+        /// The name of the application that is related to a finding.
+        public var resourceApplicationName: [SecurityHubClientTypes.StringFilter]?
         /// The IAM profile ARN of the instance.
         public var resourceAwsEc2InstanceIamInstanceProfileArn: [SecurityHubClientTypes.StringFilter]?
         /// The Amazon Machine Image (AMI) ID of the instance.
@@ -40093,6 +41202,10 @@ extension SecurityHubClientTypes {
         public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
         /// The veracity of a finding.
         public var verificationState: [SecurityHubClientTypes.StringFilter]?
+        /// Indicates whether a software vulnerability in your environment has a known exploit. You can filter findings by this field only if you use Security Hub and Amazon Inspector.
+        public var vulnerabilitiesExploitAvailable: [SecurityHubClientTypes.StringFilter]?
+        /// Indicates whether a vulnerability is fixed in a newer version of the affected software packages. You can filter findings by this field only if you use Security Hub and Amazon Inspector.
+        public var vulnerabilitiesFixAvailable: [SecurityHubClientTypes.StringFilter]?
         /// The workflow state of a finding. Note that this field is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public var workflowState: [SecurityHubClientTypes.StringFilter]?
         /// The status of the investigation into a finding. Allowed values are the following.
@@ -40129,9 +41242,12 @@ extension SecurityHubClientTypes {
 
         public init(
             awsAccountId: [SecurityHubClientTypes.StringFilter]? = nil,
+            awsAccountName: [SecurityHubClientTypes.StringFilter]? = nil,
             companyName: [SecurityHubClientTypes.StringFilter]? = nil,
             complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]? = nil,
             complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceSecurityControlParametersName: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceSecurityControlParametersValue: [SecurityHubClientTypes.StringFilter]? = nil,
             complianceStatus: [SecurityHubClientTypes.StringFilter]? = nil,
             confidence: [SecurityHubClientTypes.NumberFilter]? = nil,
             createdAt: [SecurityHubClientTypes.DateFilter]? = nil,
@@ -40181,6 +41297,8 @@ extension SecurityHubClientTypes {
             region: [SecurityHubClientTypes.StringFilter]? = nil,
             relatedFindingsId: [SecurityHubClientTypes.StringFilter]? = nil,
             relatedFindingsProductArn: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceApplicationArn: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceApplicationName: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceAwsEc2InstanceIamInstanceProfileArn: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceAwsEc2InstanceImageId: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceAwsEc2InstanceIpV4Addresses: [SecurityHubClientTypes.IpFilter]? = nil,
@@ -40223,14 +41341,19 @@ extension SecurityHubClientTypes {
             updatedAt: [SecurityHubClientTypes.DateFilter]? = nil,
             userDefinedFields: [SecurityHubClientTypes.MapFilter]? = nil,
             verificationState: [SecurityHubClientTypes.StringFilter]? = nil,
+            vulnerabilitiesExploitAvailable: [SecurityHubClientTypes.StringFilter]? = nil,
+            vulnerabilitiesFixAvailable: [SecurityHubClientTypes.StringFilter]? = nil,
             workflowState: [SecurityHubClientTypes.StringFilter]? = nil,
             workflowStatus: [SecurityHubClientTypes.StringFilter]? = nil
         )
         {
             self.awsAccountId = awsAccountId
+            self.awsAccountName = awsAccountName
             self.companyName = companyName
             self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
             self.complianceSecurityControlId = complianceSecurityControlId
+            self.complianceSecurityControlParametersName = complianceSecurityControlParametersName
+            self.complianceSecurityControlParametersValue = complianceSecurityControlParametersValue
             self.complianceStatus = complianceStatus
             self.confidence = confidence
             self.createdAt = createdAt
@@ -40280,6 +41403,8 @@ extension SecurityHubClientTypes {
             self.region = region
             self.relatedFindingsId = relatedFindingsId
             self.relatedFindingsProductArn = relatedFindingsProductArn
+            self.resourceApplicationArn = resourceApplicationArn
+            self.resourceApplicationName = resourceApplicationName
             self.resourceAwsEc2InstanceIamInstanceProfileArn = resourceAwsEc2InstanceIamInstanceProfileArn
             self.resourceAwsEc2InstanceImageId = resourceAwsEc2InstanceImageId
             self.resourceAwsEc2InstanceIpV4Addresses = resourceAwsEc2InstanceIpV4Addresses
@@ -40322,6 +41447,8 @@ extension SecurityHubClientTypes {
             self.updatedAt = updatedAt
             self.userDefinedFields = userDefinedFields
             self.verificationState = verificationState
+            self.vulnerabilitiesExploitAvailable = vulnerabilitiesExploitAvailable
+            self.vulnerabilitiesFixAvailable = vulnerabilitiesFixAvailable
             self.workflowState = workflowState
             self.workflowStatus = workflowStatus
         }
@@ -43734,6 +44861,10 @@ enum BatchDisableStandardsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+<<<<<<< HEAD
+=======
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -43857,6 +44988,10 @@ enum BatchEnableStandardsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+<<<<<<< HEAD
+=======
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -44010,6 +45145,153 @@ enum BatchGetAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
+=======
+extension BatchGetConfigurationPolicyAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyAssociationIdentifiers = "ConfigurationPolicyAssociationIdentifiers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers {
+            var configurationPolicyAssociationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationPolicyAssociationIdentifiers)
+            for configurationpolicyassociation0 in configurationPolicyAssociationIdentifiers {
+                try configurationPolicyAssociationIdentifiersContainer.encode(configurationpolicyassociation0)
+            }
+        }
+    }
+}
+
+extension BatchGetConfigurationPolicyAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicyAssociation/batchget"
+    }
+}
+
+public struct BatchGetConfigurationPolicyAssociationsInput: Swift.Equatable {
+    /// Specifies one or more target account IDs, organizational unit (OU) IDs, or the root ID to retrieve associations for.
+    /// This member is required.
+    public var configurationPolicyAssociationIdentifiers: [SecurityHubClientTypes.ConfigurationPolicyAssociation]?
+
+    public init(
+        configurationPolicyAssociationIdentifiers: [SecurityHubClientTypes.ConfigurationPolicyAssociation]? = nil
+    )
+    {
+        self.configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers
+    }
+}
+
+struct BatchGetConfigurationPolicyAssociationsInputBody: Swift.Equatable {
+    let configurationPolicyAssociationIdentifiers: [SecurityHubClientTypes.ConfigurationPolicyAssociation]?
+}
+
+extension BatchGetConfigurationPolicyAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyAssociationIdentifiers = "ConfigurationPolicyAssociationIdentifiers"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyAssociationIdentifiersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.ConfigurationPolicyAssociation?].self, forKey: .configurationPolicyAssociationIdentifiers)
+        var configurationPolicyAssociationIdentifiersDecoded0:[SecurityHubClientTypes.ConfigurationPolicyAssociation]? = nil
+        if let configurationPolicyAssociationIdentifiersContainer = configurationPolicyAssociationIdentifiersContainer {
+            configurationPolicyAssociationIdentifiersDecoded0 = [SecurityHubClientTypes.ConfigurationPolicyAssociation]()
+            for structure0 in configurationPolicyAssociationIdentifiersContainer {
+                if let structure0 = structure0 {
+                    configurationPolicyAssociationIdentifiersDecoded0?.append(structure0)
+                }
+            }
+        }
+        configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiersDecoded0
+    }
+}
+
+extension BatchGetConfigurationPolicyAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetConfigurationPolicyAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configurationPolicyAssociations = output.configurationPolicyAssociations
+            self.unprocessedConfigurationPolicyAssociations = output.unprocessedConfigurationPolicyAssociations
+        } else {
+            self.configurationPolicyAssociations = nil
+            self.unprocessedConfigurationPolicyAssociations = nil
+        }
+    }
+}
+
+public struct BatchGetConfigurationPolicyAssociationsOutput: Swift.Equatable {
+    /// Describes associations for the target accounts, OUs, or the root.
+    public var configurationPolicyAssociations: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
+    /// An array of configuration policy associations, one for each configuration policy association identifier, that was specified in the request but couldn’t be processed due to an error.
+    public var unprocessedConfigurationPolicyAssociations: [SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]?
+
+    public init(
+        configurationPolicyAssociations: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]? = nil,
+        unprocessedConfigurationPolicyAssociations: [SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]? = nil
+    )
+    {
+        self.configurationPolicyAssociations = configurationPolicyAssociations
+        self.unprocessedConfigurationPolicyAssociations = unprocessedConfigurationPolicyAssociations
+    }
+}
+
+struct BatchGetConfigurationPolicyAssociationsOutputBody: Swift.Equatable {
+    let configurationPolicyAssociations: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
+    let unprocessedConfigurationPolicyAssociations: [SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]?
+}
+
+extension BatchGetConfigurationPolicyAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyAssociations = "ConfigurationPolicyAssociations"
+        case unprocessedConfigurationPolicyAssociations = "UnprocessedConfigurationPolicyAssociations"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyAssociationsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.ConfigurationPolicyAssociationSummary?].self, forKey: .configurationPolicyAssociations)
+        var configurationPolicyAssociationsDecoded0:[SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]? = nil
+        if let configurationPolicyAssociationsContainer = configurationPolicyAssociationsContainer {
+            configurationPolicyAssociationsDecoded0 = [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]()
+            for structure0 in configurationPolicyAssociationsContainer {
+                if let structure0 = structure0 {
+                    configurationPolicyAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        configurationPolicyAssociations = configurationPolicyAssociationsDecoded0
+        let unprocessedConfigurationPolicyAssociationsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation?].self, forKey: .unprocessedConfigurationPolicyAssociations)
+        var unprocessedConfigurationPolicyAssociationsDecoded0:[SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]? = nil
+        if let unprocessedConfigurationPolicyAssociationsContainer = unprocessedConfigurationPolicyAssociationsContainer {
+            unprocessedConfigurationPolicyAssociationsDecoded0 = [SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation]()
+            for structure0 in unprocessedConfigurationPolicyAssociationsContainer {
+                if let structure0 = structure0 {
+                    unprocessedConfigurationPolicyAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedConfigurationPolicyAssociations = unprocessedConfigurationPolicyAssociationsDecoded0
+    }
+}
+
+enum BatchGetConfigurationPolicyAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension BatchGetSecurityControlsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityControlIds = "SecurityControlIds"
@@ -45086,6 +46368,10 @@ enum BatchUpdateStandardsControlAssociationsOutputError: ClientRuntime.HttpRespo
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+<<<<<<< HEAD
+=======
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -45095,6 +46381,44 @@ enum BatchUpdateStandardsControlAssociationsOutputError: ClientRuntime.HttpRespo
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SecurityHubClientTypes.BooleanConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue = "DefaultValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = self.defaultValue {
+            try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultValue)
+        defaultValue = defaultValueDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter with a boolean. For a boolean parameter, the options are true and false.
+    public struct BooleanConfigurationOptions: Swift.Equatable {
+        /// The Security Hub default value for a boolean parameter.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            defaultValue: Swift.Bool? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+        }
+    }
+
+}
+
+>>>>>>> main
 extension SecurityHubClientTypes.BooleanFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case value = "Value"
@@ -45552,6 +46876,7 @@ extension SecurityHubClientTypes.Compliance: Swift.Codable {
         case associatedStandards = "AssociatedStandards"
         case relatedRequirements = "RelatedRequirements"
         case securityControlId = "SecurityControlId"
+        case securityControlParameters = "SecurityControlParameters"
         case status = "Status"
         case statusReasons = "StatusReasons"
     }
@@ -45572,6 +46897,12 @@ extension SecurityHubClientTypes.Compliance: Swift.Codable {
         }
         if let securityControlId = self.securityControlId {
             try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let securityControlParameters = securityControlParameters {
+            var securityControlParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityControlParameters)
+            for securitycontrolparameter0 in securityControlParameters {
+                try securityControlParametersContainer.encode(securitycontrolparameter0)
+            }
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -45623,6 +46954,17 @@ extension SecurityHubClientTypes.Compliance: Swift.Codable {
             }
         }
         associatedStandards = associatedStandardsDecoded0
+        let securityControlParametersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.SecurityControlParameter?].self, forKey: .securityControlParameters)
+        var securityControlParametersDecoded0:[SecurityHubClientTypes.SecurityControlParameter]? = nil
+        if let securityControlParametersContainer = securityControlParametersContainer {
+            securityControlParametersDecoded0 = [SecurityHubClientTypes.SecurityControlParameter]()
+            for structure0 in securityControlParametersContainer {
+                if let structure0 = structure0 {
+                    securityControlParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityControlParameters = securityControlParametersDecoded0
     }
 }
 
@@ -45635,6 +46977,8 @@ extension SecurityHubClientTypes {
         public var relatedRequirements: [Swift.String]?
         /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
         public var securityControlId: Swift.String?
+        /// An object that includes security control parameter names and values.
+        public var securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]?
         /// The result of a standards check. The valid values for Status are as follows.
         ///
         ///
@@ -45653,6 +46997,7 @@ extension SecurityHubClientTypes {
             associatedStandards: [SecurityHubClientTypes.AssociatedStandard]? = nil,
             relatedRequirements: [Swift.String]? = nil,
             securityControlId: Swift.String? = nil,
+            securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]? = nil,
             status: SecurityHubClientTypes.ComplianceStatus? = nil,
             statusReasons: [SecurityHubClientTypes.StatusReason]? = nil
         )
@@ -45660,6 +47005,7 @@ extension SecurityHubClientTypes {
             self.associatedStandards = associatedStandards
             self.relatedRequirements = relatedRequirements
             self.securityControlId = securityControlId
+            self.securityControlParameters = securityControlParameters
             self.status = status
             self.statusReasons = statusReasons
         }
@@ -45703,6 +47049,363 @@ extension SecurityHubClientTypes {
             self = ComplianceStatus(rawValue: rawValue) ?? ComplianceStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SecurityHubClientTypes.ConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boolean = "Boolean"
+        case double = "Double"
+        case `enum` = "Enum"
+        case enumlist = "EnumList"
+        case integer = "Integer"
+        case integerlist = "IntegerList"
+        case string = "String"
+        case stringlist = "StringList"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .boolean(boolean):
+                try container.encode(boolean, forKey: .boolean)
+            case let .double(double):
+                try container.encode(double, forKey: .double)
+            case let .`enum`(`enum`):
+                try container.encode(`enum`, forKey: .`enum`)
+            case let .enumlist(enumlist):
+                try container.encode(enumlist, forKey: .enumlist)
+            case let .integer(integer):
+                try container.encode(integer, forKey: .integer)
+            case let .integerlist(integerlist):
+                try container.encode(integerlist, forKey: .integerlist)
+            case let .string(string):
+                try container.encode(string, forKey: .string)
+            case let .stringlist(stringlist):
+                try container.encode(stringlist, forKey: .stringlist)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let integerDecoded = try values.decodeIfPresent(SecurityHubClientTypes.IntegerConfigurationOptions.self, forKey: .integer)
+        if let integer = integerDecoded {
+            self = .integer(integer)
+            return
+        }
+        let integerlistDecoded = try values.decodeIfPresent(SecurityHubClientTypes.IntegerListConfigurationOptions.self, forKey: .integerlist)
+        if let integerlist = integerlistDecoded {
+            self = .integerlist(integerlist)
+            return
+        }
+        let doubleDecoded = try values.decodeIfPresent(SecurityHubClientTypes.DoubleConfigurationOptions.self, forKey: .double)
+        if let double = doubleDecoded {
+            self = .double(double)
+            return
+        }
+        let stringDecoded = try values.decodeIfPresent(SecurityHubClientTypes.StringConfigurationOptions.self, forKey: .string)
+        if let string = stringDecoded {
+            self = .string(string)
+            return
+        }
+        let stringlistDecoded = try values.decodeIfPresent(SecurityHubClientTypes.StringListConfigurationOptions.self, forKey: .stringlist)
+        if let stringlist = stringlistDecoded {
+            self = .stringlist(stringlist)
+            return
+        }
+        let booleanDecoded = try values.decodeIfPresent(SecurityHubClientTypes.BooleanConfigurationOptions.self, forKey: .boolean)
+        if let boolean = booleanDecoded {
+            self = .boolean(boolean)
+            return
+        }
+        let enumDecoded = try values.decodeIfPresent(SecurityHubClientTypes.EnumConfigurationOptions.self, forKey: .enum)
+        if let `enum` = enumDecoded {
+            self = .`enum`(`enum`)
+            return
+        }
+        let enumlistDecoded = try values.decodeIfPresent(SecurityHubClientTypes.EnumListConfigurationOptions.self, forKey: .enumlist)
+        if let enumlist = enumlistDecoded {
+            self = .enumlist(enumlist)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter.
+    public enum ConfigurationOptions: Swift.Equatable {
+        /// The options for customizing a security control parameter that is an integer.
+        case integer(SecurityHubClientTypes.IntegerConfigurationOptions)
+        /// The options for customizing a security control parameter that is a list of integers.
+        case integerlist(SecurityHubClientTypes.IntegerListConfigurationOptions)
+        /// The options for customizing a security control parameter that is a double.
+        case double(SecurityHubClientTypes.DoubleConfigurationOptions)
+        /// The options for customizing a security control parameter that is a string data type.
+        case string(SecurityHubClientTypes.StringConfigurationOptions)
+        /// The options for customizing a security control parameter that is a list of strings.
+        case stringlist(SecurityHubClientTypes.StringListConfigurationOptions)
+        /// The options for customizing a security control parameter that is a boolean. For a boolean parameter, the options are true and false.
+        case boolean(SecurityHubClientTypes.BooleanConfigurationOptions)
+        /// The options for customizing a security control parameter that is an enum.
+        case `enum`(SecurityHubClientTypes.EnumConfigurationOptions)
+        /// The options for customizing a security control parameter that is a list of enums.
+        case enumlist(SecurityHubClientTypes.EnumListConfigurationOptions)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SecurityHubClientTypes.ConfigurationPolicyAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Target.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the association between an Security Hub configuration and a target account, organizational unit, or the root. An association can exist between a target and a configuration policy, or between a target and self-managed behavior.
+    public struct ConfigurationPolicyAssociation: Swift.Equatable {
+        /// The target account, organizational unit, or the root.
+        public var target: SecurityHubClientTypes.Target?
+
+        public init(
+            target: SecurityHubClientTypes.Target? = nil
+        )
+        {
+            self.target = target
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum ConfigurationPolicyAssociationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationPolicyAssociationStatus] {
+            return [
+                .failed,
+                .pending,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConfigurationPolicyAssociationStatus(rawValue: rawValue) ?? ConfigurationPolicyAssociationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ConfigurationPolicyAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case associationStatusMessage = "AssociationStatusMessage"
+        case associationType = "AssociationType"
+        case configurationPolicyId = "ConfigurationPolicyId"
+        case targetId = "TargetId"
+        case targetType = "TargetType"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus.rawValue, forKey: .associationStatus)
+        }
+        if let associationStatusMessage = self.associationStatusMessage {
+            try encodeContainer.encode(associationStatusMessage, forKey: .associationStatusMessage)
+        }
+        if let associationType = self.associationType {
+            try encodeContainer.encode(associationType.rawValue, forKey: .associationType)
+        }
+        if let configurationPolicyId = self.configurationPolicyId {
+            try encodeContainer.encode(configurationPolicyId, forKey: .configurationPolicyId)
+        }
+        if let targetId = self.targetId {
+            try encodeContainer.encode(targetId, forKey: .targetId)
+        }
+        if let targetType = self.targetType {
+            try encodeContainer.encode(targetType.rawValue, forKey: .targetType)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationPolicyId)
+        configurationPolicyId = configurationPolicyIdDecoded
+        let targetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetId)
+        targetId = targetIdDecoded
+        let targetTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.TargetType.self, forKey: .targetType)
+        targetType = targetTypeDecoded
+        let associationTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationType.self, forKey: .associationType)
+        associationType = associationTypeDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ConfigurationPolicyAssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let associationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationStatusMessage)
+        associationStatusMessage = associationStatusMessageDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains the details of a configuration policy association that’s returned in a ListConfigurationPolicyAssociations request.
+    public struct ConfigurationPolicyAssociationSummary: Swift.Equatable {
+        /// The current status of the association between the specified target and the configuration.
+        public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
+        /// The explanation for a FAILED value for AssociationStatus.
+        public var associationStatusMessage: Swift.String?
+        /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+        public var associationType: SecurityHubClientTypes.AssociationType?
+        /// The universally unique identifier (UUID) of the configuration policy.
+        public var configurationPolicyId: Swift.String?
+        /// The identifier of the target account, organizational unit, or the root.
+        public var targetId: Swift.String?
+        /// Specifies whether the target is an Amazon Web Services account, organizational unit, or the root.
+        public var targetType: SecurityHubClientTypes.TargetType?
+        /// The date and time, in UTC and ISO 8601 format, that the configuration policy association was last updated.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus? = nil,
+            associationStatusMessage: Swift.String? = nil,
+            associationType: SecurityHubClientTypes.AssociationType? = nil,
+            configurationPolicyId: Swift.String? = nil,
+            targetId: Swift.String? = nil,
+            targetType: SecurityHubClientTypes.TargetType? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.associationStatus = associationStatus
+            self.associationStatusMessage = associationStatusMessage
+            self.associationType = associationType
+            self.configurationPolicyId = configurationPolicyId
+            self.targetId = targetId
+            self.targetType = targetType
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.ConfigurationPolicySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case serviceEnabled = "ServiceEnabled"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serviceEnabled = self.serviceEnabled {
+            try encodeContainer.encode(serviceEnabled, forKey: .serviceEnabled)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let serviceEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .serviceEnabled)
+        serviceEnabled = serviceEnabledDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that contains the details of an Security Hub configuration policy that’s returned in a ListConfigurationPolicies request.
+    public struct ConfigurationPolicySummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the configuration policy.
+        public var arn: Swift.String?
+        /// The description of the configuration policy.
+        public var description: Swift.String?
+        /// The universally unique identifier (UUID) of the configuration policy.
+        public var id: Swift.String?
+        /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
+        public var name: Swift.String?
+        /// Indicates whether the service that the configuration policy applies to is enabled in the policy.
+        public var serviceEnabled: Swift.Bool?
+        /// The date and time, in UTC and ISO 8601 format, that the configuration policy was last updated.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            serviceEnabled: Swift.Bool? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.name = name
+            self.serviceEnabled = serviceEnabled
+            self.updatedAt = updatedAt
+        }
+    }
+
 }
 
 extension SecurityHubClientTypes.ContainerDetails: Swift.Codable {
@@ -46124,7 +47827,7 @@ public struct CreateAutomationRuleInput: Swift.Equatable {
     public var ruleOrder: Swift.Int?
     /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
     public var ruleStatus: SecurityHubClientTypes.RuleStatus?
-    /// User-defined tags that help you label the purpose of a rule.
+    /// User-defined tags associated with an automation rule.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -46266,6 +47969,222 @@ enum CreateAutomationRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateConfigurationPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicy = "ConfigurationPolicy"
+        case description = "Description"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationPolicy = self.configurationPolicy {
+            try encodeContainer.encode(configurationPolicy, forKey: .configurationPolicy)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateConfigurationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicy/create"
+    }
+}
+
+public struct CreateConfigurationPolicyInput: Swift.Equatable {
+    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    /// This member is required.
+    public var configurationPolicy: SecurityHubClientTypes.Policy?
+    /// The description of the configuration policy.
+    public var description: Swift.String?
+    /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
+    /// This member is required.
+    public var name: Swift.String?
+    /// User-defined tags associated with a configuration policy. For more information, see [Tagging Security Hub resources](https://docs.aws.amazon.com/securityhub/latest/userguide/tagging-resources.html) in the Security Hub user guide.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        configurationPolicy: SecurityHubClientTypes.Policy? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.configurationPolicy = configurationPolicy
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateConfigurationPolicyInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let configurationPolicy: SecurityHubClientTypes.Policy?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateConfigurationPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicy = "ConfigurationPolicy"
+        case description = "Description"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let configurationPolicyDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Policy.self, forKey: .configurationPolicy)
+        configurationPolicy = configurationPolicyDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateConfigurationPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.configurationPolicy = output.configurationPolicy
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.name = output.name
+            self.updatedAt = output.updatedAt
+        } else {
+            self.arn = nil
+            self.configurationPolicy = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.name = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct CreateConfigurationPolicyOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the configuration policy.
+    public var arn: Swift.String?
+    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    public var configurationPolicy: SecurityHubClientTypes.Policy?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the configuration policy.
+    public var description: Swift.String?
+    /// The universally unique identifier (UUID) of the configuration policy.
+    public var id: Swift.String?
+    /// The name of the configuration policy.
+    public var name: Swift.String?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy was last updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        configurationPolicy: SecurityHubClientTypes.Policy? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.configurationPolicy = configurationPolicy
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.name = name
+        self.updatedAt = updatedAt
+    }
+}
+
+struct CreateConfigurationPolicyOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let id: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let updatedAt: ClientRuntime.Date?
+    let createdAt: ClientRuntime.Date?
+    let configurationPolicy: SecurityHubClientTypes.Policy?
+}
+
+extension CreateConfigurationPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case configurationPolicy = "ConfigurationPolicy"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let configurationPolicyDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Policy.self, forKey: .configurationPolicy)
+        configurationPolicy = configurationPolicyDecoded
+    }
+}
+
+enum CreateConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension CreateFindingAggregatorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case regionLinkingMode = "RegionLinkingMode"
@@ -46682,6 +48601,10 @@ enum CreateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+<<<<<<< HEAD
+=======
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -47237,6 +49160,8 @@ extension DeleteActionTargetOutput: ClientRuntime.HttpResponseBinding {
             self.actionTargetArn = output.actionTargetArn
         } else {
             self.actionTargetArn = nil
+<<<<<<< HEAD
+=======
         }
     }
 }
@@ -47267,6 +49192,95 @@ extension DeleteActionTargetOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let actionTargetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionTargetArn)
         actionTargetArn = actionTargetArnDecoded
+    }
+}
+
+enum DeleteActionTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteConfigurationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+>>>>>>> main
+        }
+        return "/configurationPolicy/\(identifier.urlPercentEncoding())"
+    }
+}
+
+<<<<<<< HEAD
+public struct DeleteActionTargetOutput: Swift.Equatable {
+    /// The ARN of the custom action target that was deleted.
+=======
+public struct DeleteConfigurationPolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+>>>>>>> main
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+<<<<<<< HEAD
+struct DeleteActionTargetOutputBody: Swift.Equatable {
+    let actionTargetArn: Swift.String?
+}
+
+extension DeleteActionTargetOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionTargetArn = "ActionTargetArn"
+    }
+=======
+struct DeleteConfigurationPolicyInputBody: Swift.Equatable {
+}
+
+extension DeleteConfigurationPolicyInputBody: Swift.Decodable {
+>>>>>>> main
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteConfigurationPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -47986,31 +50000,59 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
             self.autoEnable = output.autoEnable
             self.autoEnableStandards = output.autoEnableStandards
             self.memberAccountLimitReached = output.memberAccountLimitReached
+<<<<<<< HEAD
+=======
+            self.organizationConfiguration = output.organizationConfiguration
+>>>>>>> main
         } else {
             self.autoEnable = nil
             self.autoEnableStandards = nil
             self.memberAccountLimitReached = nil
+<<<<<<< HEAD
+=======
+            self.organizationConfiguration = nil
+>>>>>>> main
         }
     }
 }
 
 public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// Whether to automatically enable Security Hub for new accounts in the organization. If set to true, then Security Hub is enabled for new accounts. If set to false, then new accounts are not added automatically.
     public var autoEnable: Swift.Bool?
     /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) for new member accounts in the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts.
     public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
     /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
     public var memberAccountLimitReached: Swift.Bool?
+=======
+    /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
+    public var autoEnable: Swift.Bool?
+    /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. The default value of this parameter is equal to DEFAULT. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
+    public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
+    /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
+    public var memberAccountLimitReached: Swift.Bool?
+    /// Provides information about the way an organization is configured in Security Hub.
+    public var organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
+>>>>>>> main
 
     public init(
         autoEnable: Swift.Bool? = nil,
         autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil,
+<<<<<<< HEAD
         memberAccountLimitReached: Swift.Bool? = nil
+=======
+        memberAccountLimitReached: Swift.Bool? = nil,
+        organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration? = nil
+>>>>>>> main
     )
     {
         self.autoEnable = autoEnable
         self.autoEnableStandards = autoEnableStandards
         self.memberAccountLimitReached = memberAccountLimitReached
+<<<<<<< HEAD
+=======
+        self.organizationConfiguration = organizationConfiguration
+>>>>>>> main
     }
 }
 
@@ -48018,6 +50060,10 @@ struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
     let autoEnable: Swift.Bool?
     let memberAccountLimitReached: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
+<<<<<<< HEAD
+=======
+    let organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
+>>>>>>> main
 }
 
 extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
@@ -48025,6 +50071,10 @@ extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
         case autoEnable = "AutoEnable"
         case autoEnableStandards = "AutoEnableStandards"
         case memberAccountLimitReached = "MemberAccountLimitReached"
+<<<<<<< HEAD
+=======
+        case organizationConfiguration = "OrganizationConfiguration"
+>>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -48035,6 +50085,11 @@ extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
         memberAccountLimitReached = memberAccountLimitReachedDecoded
         let autoEnableStandardsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutoEnableStandards.self, forKey: .autoEnableStandards)
         autoEnableStandards = autoEnableStandardsDecoded
+<<<<<<< HEAD
+=======
+        let organizationConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.OrganizationConfiguration.self, forKey: .organizationConfiguration)
+        organizationConfiguration = organizationConfigurationDecoded
+>>>>>>> main
     }
 }
 
@@ -48550,6 +50605,7 @@ enum DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseError
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -48594,6 +50650,7 @@ enum DisableSecurityHubOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -48768,6 +50825,7 @@ enum DisassociateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -48828,6 +50886,61 @@ extension SecurityHubClientTypes {
             self.blocked = blocked
             self.domain = domain
             self.`protocol` = `protocol`
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.DoubleConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue = "DefaultValue"
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = self.defaultValue {
+            try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let max = self.max {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if let min = self.min {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .defaultValue)
+        defaultValue = defaultValueDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
+        min = minDecoded
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max)
+        max = maxDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is a double.
+    public struct DoubleConfigurationOptions: Swift.Equatable {
+        /// The Security Hub default value for a control parameter that is a double.
+        public var defaultValue: Swift.Double?
+        /// The maximum valid value for a control parameter that is a double.
+        public var max: Swift.Double?
+        /// The minimum valid value for a control parameter that is a double.
+        public var min: Swift.Double?
+
+        public init(
+            defaultValue: Swift.Double? = nil,
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.max = max
+            self.min = min
         }
     }
 
@@ -48999,6 +51112,7 @@ enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorB
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -49116,6 +51230,145 @@ enum EnableSecurityHubOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SecurityHubClientTypes.EnumConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedValues = "AllowedValues"
+        case defaultValue = "DefaultValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedValues = allowedValues {
+            var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
+            for nonemptystring0 in allowedValues {
+                try allowedValuesContainer.encode(nonemptystring0)
+            }
+        }
+        if let defaultValue = self.defaultValue {
+            try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultValue)
+        defaultValue = defaultValueDecoded
+        let allowedValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedValues)
+        var allowedValuesDecoded0:[Swift.String]? = nil
+        if let allowedValuesContainer = allowedValuesContainer {
+            allowedValuesDecoded0 = [Swift.String]()
+            for string0 in allowedValuesContainer {
+                if let string0 = string0 {
+                    allowedValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedValues = allowedValuesDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is an enum.
+    public struct EnumConfigurationOptions: Swift.Equatable {
+        /// The valid values for a control parameter that is an enum.
+        public var allowedValues: [Swift.String]?
+        /// The Security Hub default value for a control parameter that is an enum.
+        public var defaultValue: Swift.String?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            defaultValue: Swift.String? = nil
+        )
+        {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.EnumListConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedValues = "AllowedValues"
+        case defaultValue = "DefaultValue"
+        case maxItems = "MaxItems"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedValues = allowedValues {
+            var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
+            for nonemptystring0 in allowedValues {
+                try allowedValuesContainer.encode(nonemptystring0)
+            }
+        }
+        if let defaultValue = defaultValue {
+            var defaultValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValue)
+            for nonemptystring0 in defaultValue {
+                try defaultValueContainer.encode(nonemptystring0)
+            }
+        }
+        if let maxItems = self.maxItems {
+            try encodeContainer.encode(maxItems, forKey: .maxItems)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .defaultValue)
+        var defaultValueDecoded0:[Swift.String]? = nil
+        if let defaultValueContainer = defaultValueContainer {
+            defaultValueDecoded0 = [Swift.String]()
+            for string0 in defaultValueContainer {
+                if let string0 = string0 {
+                    defaultValueDecoded0?.append(string0)
+                }
+            }
+        }
+        defaultValue = defaultValueDecoded0
+        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
+        maxItems = maxItemsDecoded
+        let allowedValuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedValues)
+        var allowedValuesDecoded0:[Swift.String]? = nil
+        if let allowedValuesContainer = allowedValuesContainer {
+            allowedValuesDecoded0 = [Swift.String]()
+            for string0 in allowedValuesContainer {
+                if let string0 = string0 {
+                    allowedValuesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedValues = allowedValuesDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is a list of enums.
+    public struct EnumListConfigurationOptions: Swift.Equatable {
+        /// The valid values for a control parameter that is a list of enums.
+        public var allowedValues: [Swift.String]?
+        /// The Security Hub default value for a control parameter that is a list of enums.
+        public var defaultValue: [Swift.String]?
+        /// The maximum number of list items that an enum list control parameter can accept.
+        public var maxItems: Swift.Int?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            defaultValue: [Swift.String]? = nil,
+            maxItems: Swift.Int? = nil
+        )
+        {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+            self.maxItems = maxItems
+        }
+    }
+
+}
+
+>>>>>>> main
 extension SecurityHubClientTypes.FilePaths: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileName = "FileName"
@@ -50036,6 +52289,320 @@ enum GetAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetConfigurationPolicyAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+}
+
+extension GetConfigurationPolicyAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicyAssociation/get"
+    }
+}
+
+public struct GetConfigurationPolicyAssociationInput: Swift.Equatable {
+    /// The target account ID, organizational unit ID, or the root ID to retrieve the association for.
+    /// This member is required.
+    public var target: SecurityHubClientTypes.Target?
+
+    public init(
+        target: SecurityHubClientTypes.Target? = nil
+    )
+    {
+        self.target = target
+    }
+}
+
+struct GetConfigurationPolicyAssociationInputBody: Swift.Equatable {
+    let target: SecurityHubClientTypes.Target?
+}
+
+extension GetConfigurationPolicyAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case target = "Target"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Target.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+extension GetConfigurationPolicyAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetConfigurationPolicyAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associationStatus = output.associationStatus
+            self.associationStatusMessage = output.associationStatusMessage
+            self.associationType = output.associationType
+            self.configurationPolicyId = output.configurationPolicyId
+            self.targetId = output.targetId
+            self.targetType = output.targetType
+            self.updatedAt = output.updatedAt
+        } else {
+            self.associationStatus = nil
+            self.associationStatusMessage = nil
+            self.associationType = nil
+            self.configurationPolicyId = nil
+            self.targetId = nil
+            self.targetType = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct GetConfigurationPolicyAssociationOutput: Swift.Equatable {
+    /// The current status of the association between the specified target and the configuration.
+    public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
+    /// The explanation for a FAILED value for AssociationStatus.
+    public var associationStatusMessage: Swift.String?
+    /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+    public var associationType: SecurityHubClientTypes.AssociationType?
+    /// The universally unique identifier (UUID) of a configuration policy. For self-managed behavior, the value is SELF_MANAGED_SECURITY_HUB.
+    public var configurationPolicyId: Swift.String?
+    /// The target account ID, organizational unit ID, or the root ID for which the association is retrieved.
+    public var targetId: Swift.String?
+    /// Specifies whether the target is an Amazon Web Services account, organizational unit, or the organization root.
+    public var targetType: SecurityHubClientTypes.TargetType?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy association was last updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus? = nil,
+        associationStatusMessage: Swift.String? = nil,
+        associationType: SecurityHubClientTypes.AssociationType? = nil,
+        configurationPolicyId: Swift.String? = nil,
+        targetId: Swift.String? = nil,
+        targetType: SecurityHubClientTypes.TargetType? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.associationStatus = associationStatus
+        self.associationStatusMessage = associationStatusMessage
+        self.associationType = associationType
+        self.configurationPolicyId = configurationPolicyId
+        self.targetId = targetId
+        self.targetType = targetType
+        self.updatedAt = updatedAt
+    }
+}
+
+struct GetConfigurationPolicyAssociationOutputBody: Swift.Equatable {
+    let configurationPolicyId: Swift.String?
+    let targetId: Swift.String?
+    let targetType: SecurityHubClientTypes.TargetType?
+    let associationType: SecurityHubClientTypes.AssociationType?
+    let updatedAt: ClientRuntime.Date?
+    let associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
+    let associationStatusMessage: Swift.String?
+}
+
+extension GetConfigurationPolicyAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case associationStatusMessage = "AssociationStatusMessage"
+        case associationType = "AssociationType"
+        case configurationPolicyId = "ConfigurationPolicyId"
+        case targetId = "TargetId"
+        case targetType = "TargetType"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationPolicyId)
+        configurationPolicyId = configurationPolicyIdDecoded
+        let targetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetId)
+        targetId = targetIdDecoded
+        let targetTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.TargetType.self, forKey: .targetType)
+        targetType = targetTypeDecoded
+        let associationTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationType.self, forKey: .associationType)
+        associationType = associationTypeDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ConfigurationPolicyAssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let associationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationStatusMessage)
+        associationStatusMessage = associationStatusMessageDecoded
+    }
+}
+
+enum GetConfigurationPolicyAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetConfigurationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/configurationPolicy/get/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetConfigurationPolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetConfigurationPolicyInputBody: Swift.Equatable {
+}
+
+extension GetConfigurationPolicyInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetConfigurationPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.configurationPolicy = output.configurationPolicy
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.name = output.name
+            self.updatedAt = output.updatedAt
+        } else {
+            self.arn = nil
+            self.configurationPolicy = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.name = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct GetConfigurationPolicyOutput: Swift.Equatable {
+    /// The ARN of the configuration policy.
+    public var arn: Swift.String?
+    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the policy includes a list of security controls that are enabled, Security Hub disables all other controls (including newly released controls). If the policy includes a list of security controls that are disabled, Security Hub enables all other controls (including newly released controls).
+    public var configurationPolicy: SecurityHubClientTypes.Policy?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the configuration policy.
+    public var description: Swift.String?
+    /// The UUID of the configuration policy.
+    public var id: Swift.String?
+    /// The name of the configuration policy.
+    public var name: Swift.String?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy was last updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        configurationPolicy: SecurityHubClientTypes.Policy? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.configurationPolicy = configurationPolicy
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.name = name
+        self.updatedAt = updatedAt
+    }
+}
+
+struct GetConfigurationPolicyOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let id: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let updatedAt: ClientRuntime.Date?
+    let createdAt: ClientRuntime.Date?
+    let configurationPolicy: SecurityHubClientTypes.Policy?
+}
+
+extension GetConfigurationPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case configurationPolicy = "ConfigurationPolicy"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let configurationPolicyDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Policy.self, forKey: .configurationPolicy)
+        configurationPolicy = configurationPolicyDecoded
+    }
+}
+
+enum GetConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension GetEnabledStandardsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -51193,6 +53760,108 @@ enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetSecurityControlDefinitionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let securityControlId = securityControlId else {
+                let message = "Creating a URL Query Item failed. securityControlId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let securityControlIdQueryItem = ClientRuntime.URLQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
+            items.append(securityControlIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetSecurityControlDefinitionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/securityControl/definition"
+    }
+}
+
+public struct GetSecurityControlDefinitionInput: Swift.Equatable {
+    /// The ID of the security control to retrieve the definition for. This field doesn’t accept an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var securityControlId: Swift.String?
+
+    public init(
+        securityControlId: Swift.String? = nil
+    )
+    {
+        self.securityControlId = securityControlId
+    }
+}
+
+struct GetSecurityControlDefinitionInputBody: Swift.Equatable {
+}
+
+extension GetSecurityControlDefinitionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetSecurityControlDefinitionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSecurityControlDefinitionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.securityControlDefinition = output.securityControlDefinition
+        } else {
+            self.securityControlDefinition = nil
+        }
+    }
+}
+
+public struct GetSecurityControlDefinitionOutput: Swift.Equatable {
+    /// Provides metadata for a security control, including its unique standard-agnostic identifier, title, description, severity, availability in Amazon Web Services Regions, and a link to remediation steps.
+    /// This member is required.
+    public var securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition?
+
+    public init(
+        securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition? = nil
+    )
+    {
+        self.securityControlDefinition = securityControlDefinition
+    }
+}
+
+struct GetSecurityControlDefinitionOutputBody: Swift.Equatable {
+    let securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition?
+}
+
+extension GetSecurityControlDefinitionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityControlDefinition = "SecurityControlDefinition"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlDefinitionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SecurityControlDefinition.self, forKey: .securityControlDefinition)
+        securityControlDefinition = securityControlDefinitionDecoded
+    }
+}
+
+enum GetSecurityControlDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension SecurityHubClientTypes.IcmpTypeCode: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
@@ -51477,6 +54146,138 @@ extension SecurityHubClientTypes {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
             self.resultValues = resultValues
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.IntegerConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue = "DefaultValue"
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = self.defaultValue {
+            try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let max = self.max {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if let min = self.min {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultValue)
+        defaultValue = defaultValueDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
+        min = minDecoded
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
+        max = maxDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is an integer.
+    public struct IntegerConfigurationOptions: Swift.Equatable {
+        /// The Security Hub default value for a control parameter that is an integer.
+        public var defaultValue: Swift.Int?
+        /// The maximum valid value for a control parameter that is an integer.
+        public var max: Swift.Int?
+        /// The minimum valid value for a control parameter that is an integer.
+        public var min: Swift.Int?
+
+        public init(
+            defaultValue: Swift.Int? = nil,
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.IntegerListConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue = "DefaultValue"
+        case max = "Max"
+        case maxItems = "MaxItems"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = defaultValue {
+            var defaultValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValue)
+            for integer0 in defaultValue {
+                try defaultValueContainer.encode(integer0)
+            }
+        }
+        if let max = self.max {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if let maxItems = self.maxItems {
+            try encodeContainer.encode(maxItems, forKey: .maxItems)
+        }
+        if let min = self.min {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .defaultValue)
+        var defaultValueDecoded0:[Swift.Int]? = nil
+        if let defaultValueContainer = defaultValueContainer {
+            defaultValueDecoded0 = [Swift.Int]()
+            for integer0 in defaultValueContainer {
+                if let integer0 = integer0 {
+                    defaultValueDecoded0?.append(integer0)
+                }
+            }
+        }
+        defaultValue = defaultValueDecoded0
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min)
+        min = minDecoded
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max)
+        max = maxDecoded
+        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
+        maxItems = maxItemsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is a list of integers.
+    public struct IntegerListConfigurationOptions: Swift.Equatable {
+        /// The Security Hub default value for a control parameter that is a list of integers.
+        public var defaultValue: [Swift.Int]?
+        /// The maximum valid value for a control parameter that is a list of integers.
+        public var max: Swift.Int?
+        /// The maximum number of list items that an interger list control parameter can accept.
+        public var maxItems: Swift.Int?
+        /// The minimum valid value for a control parameter that is a list of integers.
+        public var min: Swift.Int?
+
+        public init(
+            defaultValue: [Swift.Int]? = nil,
+            max: Swift.Int? = nil,
+            maxItems: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.max = max
+            self.maxItems = maxItems
+            self.min = min
         }
     }
 
@@ -52286,6 +55087,276 @@ enum ListAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListConfigurationPoliciesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListConfigurationPoliciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicy/list"
+    }
+}
+
+public struct ListConfigurationPoliciesInput: Swift.Equatable {
+    /// The maximum number of results that's returned by ListConfigurationPolicies in each page of the response. When this parameter is used, ListConfigurationPolicies returns the specified number of results in a single page and a NextToken response element. You can see the remaining results of the initial request by sending another ListConfigurationPolicies request with the returned NextToken value. A valid range for MaxResults is between 1 and 100.
+    public var maxResults: Swift.Int?
+    /// The NextToken value that's returned from a previous paginated ListConfigurationPolicies request where MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the end of the previous response that returned the NextToken value. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListConfigurationPoliciesInputBody: Swift.Equatable {
+}
+
+extension ListConfigurationPoliciesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListConfigurationPoliciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListConfigurationPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configurationPolicySummaries = output.configurationPolicySummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.configurationPolicySummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListConfigurationPoliciesOutput: Swift.Equatable {
+    /// Provides metadata for each of your configuration policies.
+    public var configurationPolicySummaries: [SecurityHubClientTypes.ConfigurationPolicySummary]?
+    /// The NextToken value to include in the next ListConfigurationPolicies request. When the results of a ListConfigurationPolicies request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurationPolicySummaries: [SecurityHubClientTypes.ConfigurationPolicySummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.configurationPolicySummaries = configurationPolicySummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListConfigurationPoliciesOutputBody: Swift.Equatable {
+    let configurationPolicySummaries: [SecurityHubClientTypes.ConfigurationPolicySummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListConfigurationPoliciesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicySummaries = "ConfigurationPolicySummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicySummariesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.ConfigurationPolicySummary?].self, forKey: .configurationPolicySummaries)
+        var configurationPolicySummariesDecoded0:[SecurityHubClientTypes.ConfigurationPolicySummary]? = nil
+        if let configurationPolicySummariesContainer = configurationPolicySummariesContainer {
+            configurationPolicySummariesDecoded0 = [SecurityHubClientTypes.ConfigurationPolicySummary]()
+            for structure0 in configurationPolicySummariesContainer {
+                if let structure0 = structure0 {
+                    configurationPolicySummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        configurationPolicySummaries = configurationPolicySummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConfigurationPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListConfigurationPolicyAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListConfigurationPolicyAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicyAssociation/list"
+    }
+}
+
+public struct ListConfigurationPolicyAssociationsInput: Swift.Equatable {
+    /// Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration, AssociationType, or AssociationStatus.
+    public var filters: SecurityHubClientTypes.AssociationFilters?
+    /// The maximum number of results that's returned by ListConfigurationPolicies in each page of the response. When this parameter is used, ListConfigurationPolicyAssociations returns the specified number of results in a single page and a NextToken response element. You can see the remaining results of the initial request by sending another ListConfigurationPolicyAssociations request with the returned NextToken value. A valid range for MaxResults is between 1 and 100.
+    public var maxResults: Swift.Int?
+    /// The NextToken value that's returned from a previous paginated ListConfigurationPolicyAssociations request where MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the end of the previous response that returned the NextToken value. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: SecurityHubClientTypes.AssociationFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListConfigurationPolicyAssociationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let filters: SecurityHubClientTypes.AssociationFilters?
+}
+
+extension ListConfigurationPolicyAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationFilters.self, forKey: .filters)
+        filters = filtersDecoded
+    }
+}
+
+extension ListConfigurationPolicyAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListConfigurationPolicyAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configurationPolicyAssociationSummaries = output.configurationPolicyAssociationSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.configurationPolicyAssociationSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListConfigurationPolicyAssociationsOutput: Swift.Equatable {
+    /// An object that contains the details of each configuration policy association that’s returned in a ListConfigurationPolicyAssociations request.
+    public var configurationPolicyAssociationSummaries: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
+    /// The NextToken value to include in the next ListConfigurationPolicyAssociations request. When the results of a ListConfigurationPolicyAssociations request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurationPolicyAssociationSummaries: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.configurationPolicyAssociationSummaries = configurationPolicyAssociationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListConfigurationPolicyAssociationsOutputBody: Swift.Equatable {
+    let configurationPolicyAssociationSummaries: [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListConfigurationPolicyAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyAssociationSummaries = "ConfigurationPolicyAssociationSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyAssociationSummariesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.ConfigurationPolicyAssociationSummary?].self, forKey: .configurationPolicyAssociationSummaries)
+        var configurationPolicyAssociationSummariesDecoded0:[SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]? = nil
+        if let configurationPolicyAssociationSummariesContainer = configurationPolicyAssociationSummariesContainer {
+            configurationPolicyAssociationSummariesDecoded0 = [SecurityHubClientTypes.ConfigurationPolicyAssociationSummary]()
+            for structure0 in configurationPolicyAssociationSummariesContainer {
+                if let structure0 = structure0 {
+                    configurationPolicyAssociationSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        configurationPolicyAssociationSummaries = configurationPolicyAssociationSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListConfigurationPolicyAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListEnabledProductsForImportInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -54248,7 +57319,9 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eq = "Eq"
+        case gt = "Gt"
         case gte = "Gte"
+        case lt = "Lt"
         case lte = "Lte"
     }
 
@@ -54257,9 +57330,21 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
         if let eq = self.eq {
             try encodeContainer.encode(eq, forKey: .eq)
         }
+<<<<<<< HEAD
         if let gte = self.gte {
             try encodeContainer.encode(gte, forKey: .gte)
         }
+=======
+        if let gt = self.gt {
+            try encodeContainer.encode(gt, forKey: .gt)
+        }
+        if let gte = self.gte {
+            try encodeContainer.encode(gte, forKey: .gte)
+        }
+        if let lt = self.lt {
+            try encodeContainer.encode(lt, forKey: .lt)
+        }
+>>>>>>> main
         if let lte = self.lte {
             try encodeContainer.encode(lte, forKey: .lte)
         }
@@ -54271,6 +57356,13 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
         gte = gteDecoded
         let lteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lte)
         lte = lteDecoded
+<<<<<<< HEAD
+=======
+        let gtDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .gt)
+        gt = gtDecoded
+        let ltDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lt)
+        lt = ltDecoded
+>>>>>>> main
         let eqDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .eq)
         eq = eqDecoded
     }
@@ -54281,19 +57373,36 @@ extension SecurityHubClientTypes {
     public struct NumberFilter: Swift.Equatable {
         /// The equal-to condition to be applied to a single field when querying for findings.
         public var eq: Swift.Double?
+<<<<<<< HEAD
         /// The greater-than-equal condition to be applied to a single field when querying for findings.
         public var gte: Swift.Double?
+=======
+        /// The greater-than condition to be applied to a single field when querying for findings.
+        public var gt: Swift.Double?
+        /// The greater-than-equal condition to be applied to a single field when querying for findings.
+        public var gte: Swift.Double?
+        /// The less-than condition to be applied to a single field when querying for findings.
+        public var lt: Swift.Double?
+>>>>>>> main
         /// The less-than-equal condition to be applied to a single field when querying for findings.
         public var lte: Swift.Double?
 
         public init(
             eq: Swift.Double? = nil,
+<<<<<<< HEAD
             gte: Swift.Double? = nil,
+=======
+            gt: Swift.Double? = nil,
+            gte: Swift.Double? = nil,
+            lt: Swift.Double? = nil,
+>>>>>>> main
             lte: Swift.Double? = nil
         )
         {
             self.eq = eq
+            self.gt = gt
             self.gte = gte
+            self.lt = lt
             self.lte = lte
         }
     }
@@ -54435,6 +57544,128 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.OrganizationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationType = "ConfigurationType"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationType = self.configurationType {
+            try encodeContainer.encode(configurationType.rawValue, forKey: .configurationType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.OrganizationConfigurationConfigurationType.self, forKey: .configurationType)
+        configurationType = configurationTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.OrganizationConfigurationStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides information about the way an organization is configured in Security Hub.
+    public struct OrganizationConfiguration: Swift.Equatable {
+        /// Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT. This automatically enables Security Hub and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU.
+        public var configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType?
+        /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED.
+        public var status: SecurityHubClientTypes.OrganizationConfigurationStatus?
+        /// Provides an explanation if the value of Status is equal to FAILED when ConfigurationType is equal to CENTRAL.
+        public var statusMessage: Swift.String?
+
+        public init(
+            configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType? = nil,
+            status: SecurityHubClientTypes.OrganizationConfigurationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.configurationType = configurationType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum OrganizationConfigurationConfigurationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case central
+        case local
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationConfigurationConfigurationType] {
+            return [
+                .central,
+                .local,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .central: return "CENTRAL"
+            case .local: return "LOCAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrganizationConfigurationConfigurationType(rawValue: rawValue) ?? OrganizationConfigurationConfigurationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+    public enum OrganizationConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enabled
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationConfigurationStatus] {
+            return [
+                .enabled,
+                .failed,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrganizationConfigurationStatus(rawValue: rawValue) ?? OrganizationConfigurationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SecurityHubClientTypes.Page: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lineRange = "LineRange"
@@ -54488,6 +57719,274 @@ extension SecurityHubClientTypes {
         }
     }
 
+}
+
+extension SecurityHubClientTypes.ParameterConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case value = "Value"
+        case valueType = "ValueType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+        if let valueType = self.valueType {
+            try encodeContainer.encode(valueType.rawValue, forKey: .valueType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ParameterValueType.self, forKey: .valueType)
+        valueType = valueTypeDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ParameterValue.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that provides the current value of a security control parameter and identifies whether it has been customized.
+    public struct ParameterConfiguration: Swift.Equatable {
+        /// The current value of a control parameter.
+        public var value: SecurityHubClientTypes.ParameterValue?
+        /// Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub behavior. When ValueType is set equal to DEFAULT, the default behavior can be a specific Security Hub default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT, Security Hub ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM, the Value field can't be empty.
+        /// This member is required.
+        public var valueType: SecurityHubClientTypes.ParameterValueType?
+
+        public init(
+            value: SecurityHubClientTypes.ParameterValue? = nil,
+            valueType: SecurityHubClientTypes.ParameterValueType? = nil
+        )
+        {
+            self.value = value
+            self.valueType = valueType
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.ParameterDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationOptions = "ConfigurationOptions"
+        case description = "Description"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationOptions = self.configurationOptions {
+            try encodeContainer.encode(configurationOptions, forKey: .configurationOptions)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let configurationOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ConfigurationOptions.self, forKey: .configurationOptions)
+        configurationOptions = configurationOptionsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that describes a security control parameter and the options for customizing it.
+    public struct ParameterDefinition: Swift.Equatable {
+        /// The options for customizing a control parameter. Customization options vary based on the data type of the parameter.
+        /// This member is required.
+        public var configurationOptions: SecurityHubClientTypes.ConfigurationOptions?
+        /// Description of a control parameter.
+        /// This member is required.
+        public var description: Swift.String?
+
+        public init(
+            configurationOptions: SecurityHubClientTypes.ConfigurationOptions? = nil,
+            description: Swift.String? = nil
+        )
+        {
+            self.configurationOptions = configurationOptions
+            self.description = description
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.ParameterValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boolean = "Boolean"
+        case double = "Double"
+        case `enum` = "Enum"
+        case enumlist = "EnumList"
+        case integer = "Integer"
+        case integerlist = "IntegerList"
+        case string = "String"
+        case stringlist = "StringList"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .boolean(boolean):
+                try container.encode(boolean, forKey: .boolean)
+            case let .double(double):
+                try container.encode(double, forKey: .double)
+            case let .`enum`(`enum`):
+                try container.encode(`enum`, forKey: .`enum`)
+            case let .enumlist(enumlist):
+                var enumlistContainer = container.nestedUnkeyedContainer(forKey: .enumlist)
+                for nonemptystring0 in enumlist {
+                    try enumlistContainer.encode(nonemptystring0)
+                }
+            case let .integer(integer):
+                try container.encode(integer, forKey: .integer)
+            case let .integerlist(integerlist):
+                var integerlistContainer = container.nestedUnkeyedContainer(forKey: .integerlist)
+                for integer0 in integerlist {
+                    try integerlistContainer.encode(integer0)
+                }
+            case let .string(string):
+                try container.encode(string, forKey: .string)
+            case let .stringlist(stringlist):
+                var stringlistContainer = container.nestedUnkeyedContainer(forKey: .stringlist)
+                for nonemptystring0 in stringlist {
+                    try stringlistContainer.encode(nonemptystring0)
+                }
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let integerDecoded = try values.decodeIfPresent(Swift.Int.self, forKey: .integer)
+        if let integer = integerDecoded {
+            self = .integer(integer)
+            return
+        }
+        let integerlistContainer = try values.decodeIfPresent([Swift.Int?].self, forKey: .integerlist)
+        var integerlistDecoded0:[Swift.Int]? = nil
+        if let integerlistContainer = integerlistContainer {
+            integerlistDecoded0 = [Swift.Int]()
+            for integer0 in integerlistContainer {
+                if let integer0 = integer0 {
+                    integerlistDecoded0?.append(integer0)
+                }
+            }
+        }
+        if let integerlist = integerlistDecoded0 {
+            self = .integerlist(integerlist)
+            return
+        }
+        let doubleDecoded = try values.decodeIfPresent(Swift.Double.self, forKey: .double)
+        if let double = doubleDecoded {
+            self = .double(double)
+            return
+        }
+        let stringDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .string)
+        if let string = stringDecoded {
+            self = .string(string)
+            return
+        }
+        let stringlistContainer = try values.decodeIfPresent([Swift.String?].self, forKey: .stringlist)
+        var stringlistDecoded0:[Swift.String]? = nil
+        if let stringlistContainer = stringlistContainer {
+            stringlistDecoded0 = [Swift.String]()
+            for string0 in stringlistContainer {
+                if let string0 = string0 {
+                    stringlistDecoded0?.append(string0)
+                }
+            }
+        }
+        if let stringlist = stringlistDecoded0 {
+            self = .stringlist(stringlist)
+            return
+        }
+        let booleanDecoded = try values.decodeIfPresent(Swift.Bool.self, forKey: .boolean)
+        if let boolean = booleanDecoded {
+            self = .boolean(boolean)
+            return
+        }
+        let enumDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .enum)
+        if let `enum` = enumDecoded {
+            self = .`enum`(`enum`)
+            return
+        }
+        let enumlistContainer = try values.decodeIfPresent([Swift.String?].self, forKey: .enumlist)
+        var enumlistDecoded0:[Swift.String]? = nil
+        if let enumlistContainer = enumlistContainer {
+            enumlistDecoded0 = [Swift.String]()
+            for string0 in enumlistContainer {
+                if let string0 = string0 {
+                    enumlistDecoded0?.append(string0)
+                }
+            }
+        }
+        if let enumlist = enumlistDecoded0 {
+            self = .enumlist(enumlist)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that includes the data type of a security control parameter and its current value.
+    public enum ParameterValue: Swift.Equatable {
+        /// A control parameter that is an integer.
+        case integer(Swift.Int)
+        /// A control parameter that is a list of integers.
+        case integerlist([Swift.Int])
+        /// A control parameter that is a double.
+        case double(Swift.Double)
+        /// A control parameter that is a string.
+        case string(Swift.String)
+        /// A control parameter that is a list of strings.
+        case stringlist([Swift.String])
+        /// A control parameter that is a boolean.
+        case boolean(Swift.Bool)
+        /// A control parameter that is an enum.
+        case `enum`(Swift.String)
+        /// A control parameter that is a list of enums.
+        case enumlist([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum ParameterValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case custom
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParameterValueType] {
+            return [
+                .custom,
+                .default,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .default: return "DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParameterValueType(rawValue: rawValue) ?? ParameterValueType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SecurityHubClientTypes {
@@ -54657,6 +58156,43 @@ extension SecurityHubClientTypes {
             self.operationStartTime = operationStartTime
             self.rebootOption = rebootOption
         }
+    }
+
+}
+
+extension SecurityHubClientTypes.Policy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityhub = "SecurityHub"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .securityhub(securityhub):
+                try container.encode(securityhub, forKey: .securityhub)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let securityhubDecoded = try values.decodeIfPresent(SecurityHubClientTypes.SecurityHubPolicy.self, forKey: .securityhub)
+        if let securityhub = securityhubDecoded {
+            self = .securityhub(securityhub)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    public enum Policy: Swift.Equatable {
+        /// The Amazon Web Service that the configuration policy applies to.
+        case securityhub(SecurityHubClientTypes.SecurityHubPolicy)
+        case sdkUnknown(Swift.String)
     }
 
 }
@@ -55422,6 +58958,8 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case applicationName = "ApplicationName"
         case dataClassification = "DataClassification"
         case details = "Details"
         case id = "Id"
@@ -55434,6 +58972,12 @@ extension SecurityHubClientTypes.Resource: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let applicationName = self.applicationName {
+            try encodeContainer.encode(applicationName, forKey: .applicationName)
+        }
         if let dataClassification = self.dataClassification {
             try encodeContainer.encode(dataClassification, forKey: .dataClassification)
         }
@@ -55490,12 +59034,20 @@ extension SecurityHubClientTypes.Resource: Swift.Codable {
         dataClassification = dataClassificationDecoded
         let detailsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ResourceDetails.self, forKey: .details)
         details = detailsDecoded
+        let applicationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationName)
+        applicationName = applicationNameDecoded
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
     }
 }
 
 extension SecurityHubClientTypes {
     /// A resource related to a finding.
     public struct Resource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the application that is related to a finding.
+        public var applicationArn: Swift.String?
+        /// The name of the application that is related to a finding.
+        public var applicationName: Swift.String?
         /// Contains information about sensitive data that was detected on the resource.
         public var dataClassification: SecurityHubClientTypes.DataClassificationDetails?
         /// Additional details about the resource related to a finding.
@@ -55516,6 +59068,8 @@ extension SecurityHubClientTypes {
         public var type: Swift.String?
 
         public init(
+            applicationArn: Swift.String? = nil,
+            applicationName: Swift.String? = nil,
             dataClassification: SecurityHubClientTypes.DataClassificationDetails? = nil,
             details: SecurityHubClientTypes.ResourceDetails? = nil,
             id: Swift.String? = nil,
@@ -55526,6 +59080,8 @@ extension SecurityHubClientTypes {
             type: Swift.String? = nil
         )
         {
+            self.applicationArn = applicationArn
+            self.applicationName = applicationName
             self.dataClassification = dataClassification
             self.details = details
             self.id = id
@@ -55627,6 +59183,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsDmsReplicationInstance = "AwsDmsReplicationInstance"
         case awsDmsReplicationTask = "AwsDmsReplicationTask"
         case awsDynamoDbTable = "AwsDynamoDbTable"
+        case awsEc2ClientVpnEndpoint = "AwsEc2ClientVpnEndpoint"
         case awsEc2Eip = "AwsEc2Eip"
         case awsEc2Instance = "AwsEc2Instance"
         case awsEc2LaunchTemplate = "AwsEc2LaunchTemplate"
@@ -55680,6 +59237,10 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsRdsEventSubscription = "AwsRdsEventSubscription"
         case awsRedshiftCluster = "AwsRedshiftCluster"
         case awsRoute53HostedZone = "AwsRoute53HostedZone"
+<<<<<<< HEAD
+=======
+        case awsS3AccessPoint = "AwsS3AccessPoint"
+>>>>>>> main
         case awsS3AccountPublicAccessBlock = "AwsS3AccountPublicAccessBlock"
         case awsS3Bucket = "AwsS3Bucket"
         case awsS3Object = "AwsS3Object"
@@ -55771,6 +59332,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsDynamoDbTable = self.awsDynamoDbTable {
             try encodeContainer.encode(awsDynamoDbTable, forKey: .awsDynamoDbTable)
+        }
+        if let awsEc2ClientVpnEndpoint = self.awsEc2ClientVpnEndpoint {
+            try encodeContainer.encode(awsEc2ClientVpnEndpoint, forKey: .awsEc2ClientVpnEndpoint)
         }
         if let awsEc2Eip = self.awsEc2Eip {
             try encodeContainer.encode(awsEc2Eip, forKey: .awsEc2Eip)
@@ -55931,6 +59495,12 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         if let awsRoute53HostedZone = self.awsRoute53HostedZone {
             try encodeContainer.encode(awsRoute53HostedZone, forKey: .awsRoute53HostedZone)
         }
+<<<<<<< HEAD
+=======
+        if let awsS3AccessPoint = self.awsS3AccessPoint {
+            try encodeContainer.encode(awsS3AccessPoint, forKey: .awsS3AccessPoint)
+        }
+>>>>>>> main
         if let awsS3AccountPublicAccessBlock = self.awsS3AccountPublicAccessBlock {
             try encodeContainer.encode(awsS3AccountPublicAccessBlock, forKey: .awsS3AccountPublicAccessBlock)
         }
@@ -56207,6 +59777,13 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsRoute53HostedZone = awsRoute53HostedZoneDecoded
         let awsMskClusterDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsMskClusterDetails.self, forKey: .awsMskCluster)
         awsMskCluster = awsMskClusterDecoded
+<<<<<<< HEAD
+=======
+        let awsS3AccessPointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccessPointDetails.self, forKey: .awsS3AccessPoint)
+        awsS3AccessPoint = awsS3AccessPointDecoded
+        let awsEc2ClientVpnEndpointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.self, forKey: .awsEc2ClientVpnEndpoint)
+        awsEc2ClientVpnEndpoint = awsEc2ClientVpnEndpointDecoded
+>>>>>>> main
     }
 }
 
@@ -56257,6 +59834,8 @@ extension SecurityHubClientTypes {
         public var awsDmsReplicationTask: SecurityHubClientTypes.AwsDmsReplicationTaskDetails?
         /// Details about a DynamoDB table.
         public var awsDynamoDbTable: SecurityHubClientTypes.AwsDynamoDbTableDetails?
+        /// Provides details about an Client VPN endpoint. A Client VPN endpoint is the resource that you create and configure to enable and manage client VPN sessions. It's the termination point for all client VPN sessions.
+        public var awsEc2ClientVpnEndpoint: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails?
         /// Details about an Elastic IP address.
         public var awsEc2Eip: SecurityHubClientTypes.AwsEc2EipDetails?
         /// Details about an EC2 instance related to a finding.
@@ -56363,6 +59942,11 @@ extension SecurityHubClientTypes {
         public var awsRedshiftCluster: SecurityHubClientTypes.AwsRedshiftClusterDetails?
         /// Provides details about an Amazon Route 53 hosted zone, including the four name servers assigned to the hosted zone. A hosted zone represents a collection of records that can be managed together, belonging to a single parent domain name.
         public var awsRoute53HostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneDetails?
+<<<<<<< HEAD
+=======
+        /// Provides details about an Amazon Simple Storage Service (Amazon S3) access point. S3 access points are named network endpoints that are attached to S3 buckets that you can use to perform S3 object operations.
+        public var awsS3AccessPoint: SecurityHubClientTypes.AwsS3AccessPointDetails?
+>>>>>>> main
         /// Details about the Amazon S3 Public Access Block configuration for an account.
         public var awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails?
         /// Details about an S3 bucket related to a finding.
@@ -56435,6 +60019,7 @@ extension SecurityHubClientTypes {
             awsDmsReplicationInstance: SecurityHubClientTypes.AwsDmsReplicationInstanceDetails? = nil,
             awsDmsReplicationTask: SecurityHubClientTypes.AwsDmsReplicationTaskDetails? = nil,
             awsDynamoDbTable: SecurityHubClientTypes.AwsDynamoDbTableDetails? = nil,
+            awsEc2ClientVpnEndpoint: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails? = nil,
             awsEc2Eip: SecurityHubClientTypes.AwsEc2EipDetails? = nil,
             awsEc2Instance: SecurityHubClientTypes.AwsEc2InstanceDetails? = nil,
             awsEc2LaunchTemplate: SecurityHubClientTypes.AwsEc2LaunchTemplateDetails? = nil,
@@ -56488,6 +60073,10 @@ extension SecurityHubClientTypes {
             awsRdsEventSubscription: SecurityHubClientTypes.AwsRdsEventSubscriptionDetails? = nil,
             awsRedshiftCluster: SecurityHubClientTypes.AwsRedshiftClusterDetails? = nil,
             awsRoute53HostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneDetails? = nil,
+<<<<<<< HEAD
+=======
+            awsS3AccessPoint: SecurityHubClientTypes.AwsS3AccessPointDetails? = nil,
+>>>>>>> main
             awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
             awsS3Bucket: SecurityHubClientTypes.AwsS3BucketDetails? = nil,
             awsS3Object: SecurityHubClientTypes.AwsS3ObjectDetails? = nil,
@@ -56534,6 +60123,7 @@ extension SecurityHubClientTypes {
             self.awsDmsReplicationInstance = awsDmsReplicationInstance
             self.awsDmsReplicationTask = awsDmsReplicationTask
             self.awsDynamoDbTable = awsDynamoDbTable
+            self.awsEc2ClientVpnEndpoint = awsEc2ClientVpnEndpoint
             self.awsEc2Eip = awsEc2Eip
             self.awsEc2Instance = awsEc2Instance
             self.awsEc2LaunchTemplate = awsEc2LaunchTemplate
@@ -56587,6 +60177,10 @@ extension SecurityHubClientTypes {
             self.awsRdsEventSubscription = awsRdsEventSubscription
             self.awsRedshiftCluster = awsRedshiftCluster
             self.awsRoute53HostedZone = awsRoute53HostedZone
+<<<<<<< HEAD
+=======
+            self.awsS3AccessPoint = awsS3AccessPoint
+>>>>>>> main
             self.awsS3AccountPublicAccessBlock = awsS3AccountPublicAccessBlock
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
@@ -56612,6 +60206,70 @@ extension SecurityHubClientTypes {
         }
     }
 
+}
+
+extension ResourceInUseException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.code = output.code
+            self.properties.message = output.message
+        } else {
+            self.properties.code = nil
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected because it conflicts with the resource's availability. For example, you tried to update a security control that's currently in the UPDATING state.
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+struct ResourceInUseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let code: Swift.String?
+}
+
+extension ResourceInUseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+    }
 }
 
 extension ResourceNotFoundException {
@@ -58094,18 +61752,30 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes.SecurityControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case lastUpdateReason = "LastUpdateReason"
+        case parameters = "Parameters"
         case remediationUrl = "RemediationUrl"
         case securityControlArn = "SecurityControlArn"
         case securityControlId = "SecurityControlId"
         case securityControlStatus = "SecurityControlStatus"
         case severityRating = "SeverityRating"
         case title = "Title"
+        case updateStatus = "UpdateStatus"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastUpdateReason = self.lastUpdateReason {
+            try encodeContainer.encode(lastUpdateReason, forKey: .lastUpdateReason)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, parameters0) in parameters {
+                try parametersContainer.encode(parameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let remediationUrl = self.remediationUrl {
             try encodeContainer.encode(remediationUrl, forKey: .remediationUrl)
@@ -58125,6 +61795,9 @@ extension SecurityHubClientTypes.SecurityControl: Swift.Codable {
         if let title = self.title {
             try encodeContainer.encode(title, forKey: .title)
         }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus.rawValue, forKey: .updateStatus)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -58143,6 +61816,21 @@ extension SecurityHubClientTypes.SecurityControl: Swift.Codable {
         severityRating = severityRatingDecoded
         let securityControlStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ControlStatus.self, forKey: .securityControlStatus)
         securityControlStatus = securityControlStatusDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.UpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: SecurityHubClientTypes.ParameterConfiguration?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:SecurityHubClientTypes.ParameterConfiguration]()
+            for (key0, parameterconfiguration0) in parametersContainer {
+                if let parameterconfiguration0 = parameterconfiguration0 {
+                    parametersDecoded0?[key0] = parameterconfiguration0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let lastUpdateReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdateReason)
+        lastUpdateReason = lastUpdateReasonDecoded
     }
 }
 
@@ -58152,6 +61840,10 @@ extension SecurityHubClientTypes {
         /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
         /// This member is required.
         public var description: Swift.String?
+        /// The most recent reason for updating the customizable properties of a security control. This differs from the UpdateReason field of the [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html) API, which tracks the reason for updating the enablement status of a control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores.
+        public var lastUpdateReason: Swift.String?
+        /// An object that identifies the name of a control parameter, its current value, and whether it has been customized.
+        public var parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]?
         /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
@@ -58170,24 +61862,89 @@ extension SecurityHubClientTypes {
         /// The title of a security control.
         /// This member is required.
         public var title: Swift.String?
+        /// Identifies whether customizable properties of a security control are reflected in Security Hub findings. A status of READY indicates findings include the current parameter values. A status of UPDATING indicates that all findings may not include the current parameter values.
+        public var updateStatus: SecurityHubClientTypes.UpdateStatus?
 
         public init(
             description: Swift.String? = nil,
+            lastUpdateReason: Swift.String? = nil,
+            parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]? = nil,
             remediationUrl: Swift.String? = nil,
             securityControlArn: Swift.String? = nil,
             securityControlId: Swift.String? = nil,
             securityControlStatus: SecurityHubClientTypes.ControlStatus? = nil,
             severityRating: SecurityHubClientTypes.SeverityRating? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = nil,
+            updateStatus: SecurityHubClientTypes.UpdateStatus? = nil
         )
         {
             self.description = description
+            self.lastUpdateReason = lastUpdateReason
+            self.parameters = parameters
             self.remediationUrl = remediationUrl
             self.securityControlArn = securityControlArn
             self.securityControlId = securityControlId
             self.securityControlStatus = securityControlStatus
             self.severityRating = severityRating
             self.title = title
+            self.updateStatus = updateStatus
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.SecurityControlCustomParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case parameters = "Parameters"
+        case securityControlId = "SecurityControlId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, parameters0) in parameters {
+                try parametersContainer.encode(parameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: SecurityHubClientTypes.ParameterConfiguration?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:SecurityHubClientTypes.ParameterConfiguration]()
+            for (key0, parameterconfiguration0) in parametersContainer {
+                if let parameterconfiguration0 = parameterconfiguration0 {
+                    parametersDecoded0?[key0] = parameterconfiguration0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A list of security controls and control parameter values that are included in a configuration policy.
+    public struct SecurityControlCustomParameter: Swift.Equatable {
+        /// An object that specifies parameter values for a control in a configuration policy.
+        public var parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]?
+        /// The ID of the security control.
+        public var securityControlId: Swift.String?
+
+        public init(
+            parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]? = nil,
+            securityControlId: Swift.String? = nil
+        )
+        {
+            self.parameters = parameters
+            self.securityControlId = securityControlId
         }
     }
 
@@ -58196,7 +61953,9 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes.SecurityControlDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentRegionAvailability = "CurrentRegionAvailability"
+        case customizableProperties = "CustomizableProperties"
         case description = "Description"
+        case parameterDefinitions = "ParameterDefinitions"
         case remediationUrl = "RemediationUrl"
         case securityControlId = "SecurityControlId"
         case severityRating = "SeverityRating"
@@ -58208,8 +61967,20 @@ extension SecurityHubClientTypes.SecurityControlDefinition: Swift.Codable {
         if let currentRegionAvailability = self.currentRegionAvailability {
             try encodeContainer.encode(currentRegionAvailability.rawValue, forKey: .currentRegionAvailability)
         }
+        if let customizableProperties = customizableProperties {
+            var customizablePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customizableProperties)
+            for securitycontrolproperty0 in customizableProperties {
+                try customizablePropertiesContainer.encode(securitycontrolproperty0.rawValue)
+            }
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let parameterDefinitions = parameterDefinitions {
+            var parameterDefinitionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameterDefinitions)
+            for (dictKey0, parameterDefinitions0) in parameterDefinitions {
+                try parameterDefinitionsContainer.encode(parameterDefinitions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let remediationUrl = self.remediationUrl {
             try encodeContainer.encode(remediationUrl, forKey: .remediationUrl)
@@ -58239,6 +62010,28 @@ extension SecurityHubClientTypes.SecurityControlDefinition: Swift.Codable {
         severityRating = severityRatingDecoded
         let currentRegionAvailabilityDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RegionAvailabilityStatus.self, forKey: .currentRegionAvailability)
         currentRegionAvailability = currentRegionAvailabilityDecoded
+        let customizablePropertiesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.SecurityControlProperty?].self, forKey: .customizableProperties)
+        var customizablePropertiesDecoded0:[SecurityHubClientTypes.SecurityControlProperty]? = nil
+        if let customizablePropertiesContainer = customizablePropertiesContainer {
+            customizablePropertiesDecoded0 = [SecurityHubClientTypes.SecurityControlProperty]()
+            for enum0 in customizablePropertiesContainer {
+                if let enum0 = enum0 {
+                    customizablePropertiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        customizableProperties = customizablePropertiesDecoded0
+        let parameterDefinitionsContainer = try containerValues.decodeIfPresent([Swift.String: SecurityHubClientTypes.ParameterDefinition?].self, forKey: .parameterDefinitions)
+        var parameterDefinitionsDecoded0: [Swift.String:SecurityHubClientTypes.ParameterDefinition]? = nil
+        if let parameterDefinitionsContainer = parameterDefinitionsContainer {
+            parameterDefinitionsDecoded0 = [Swift.String:SecurityHubClientTypes.ParameterDefinition]()
+            for (key0, parameterdefinition0) in parameterDefinitionsContainer {
+                if let parameterdefinition0 = parameterdefinition0 {
+                    parameterDefinitionsDecoded0?[key0] = parameterdefinition0
+                }
+            }
+        }
+        parameterDefinitions = parameterDefinitionsDecoded0
     }
 }
 
@@ -58248,9 +62041,13 @@ extension SecurityHubClientTypes {
         /// Specifies whether a security control is available in the current Amazon Web Services Region.
         /// This member is required.
         public var currentRegionAvailability: SecurityHubClientTypes.RegionAvailabilityStatus?
+        /// Security control properties that you can customize. Currently, only parameter customization is supported for select controls. An empty array is returned for controls that don’t support custom properties.
+        public var customizableProperties: [SecurityHubClientTypes.SecurityControlProperty]?
         /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
         /// This member is required.
         public var description: Swift.String?
+        /// An object that provides a security control parameter name, description, and the options for customizing it. This object is excluded for a control that doesn't support custom parameters.
+        public var parameterDefinitions: [Swift.String:SecurityHubClientTypes.ParameterDefinition]?
         /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
@@ -58266,7 +62063,9 @@ extension SecurityHubClientTypes {
 
         public init(
             currentRegionAvailability: SecurityHubClientTypes.RegionAvailabilityStatus? = nil,
+            customizableProperties: [SecurityHubClientTypes.SecurityControlProperty]? = nil,
             description: Swift.String? = nil,
+            parameterDefinitions: [Swift.String:SecurityHubClientTypes.ParameterDefinition]? = nil,
             remediationUrl: Swift.String? = nil,
             securityControlId: Swift.String? = nil,
             severityRating: SecurityHubClientTypes.SeverityRating? = nil,
@@ -58274,11 +62073,257 @@ extension SecurityHubClientTypes {
         )
         {
             self.currentRegionAvailability = currentRegionAvailability
+            self.customizableProperties = customizableProperties
             self.description = description
+            self.parameterDefinitions = parameterDefinitions
             self.remediationUrl = remediationUrl
             self.securityControlId = securityControlId
             self.severityRating = severityRating
             self.title = title
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.SecurityControlParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let value = value {
+            var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
+            for nonemptystring0 in value {
+                try valueContainer.encode(nonemptystring0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .value)
+        var valueDecoded0:[Swift.String]? = nil
+        if let valueContainer = valueContainer {
+            valueDecoded0 = [Swift.String]()
+            for string0 in valueContainer {
+                if let string0 = string0 {
+                    valueDecoded0?.append(string0)
+                }
+            }
+        }
+        value = valueDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A parameter that a security control accepts.
+    public struct SecurityControlParameter: Swift.Equatable {
+        /// The name of a
+        public var name: Swift.String?
+        /// The current value of a control parameter.
+        public var value: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            value: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum SecurityControlProperty: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case parameters
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityControlProperty] {
+            return [
+                .parameters,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .parameters: return "Parameters"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SecurityControlProperty(rawValue: rawValue) ?? SecurityControlProperty.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.SecurityControlsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case disabledSecurityControlIdentifiers = "DisabledSecurityControlIdentifiers"
+        case enabledSecurityControlIdentifiers = "EnabledSecurityControlIdentifiers"
+        case securityControlCustomParameters = "SecurityControlCustomParameters"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let disabledSecurityControlIdentifiers = disabledSecurityControlIdentifiers {
+            var disabledSecurityControlIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disabledSecurityControlIdentifiers)
+            for nonemptystring0 in disabledSecurityControlIdentifiers {
+                try disabledSecurityControlIdentifiersContainer.encode(nonemptystring0)
+            }
+        }
+        if let enabledSecurityControlIdentifiers = enabledSecurityControlIdentifiers {
+            var enabledSecurityControlIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enabledSecurityControlIdentifiers)
+            for nonemptystring0 in enabledSecurityControlIdentifiers {
+                try enabledSecurityControlIdentifiersContainer.encode(nonemptystring0)
+            }
+        }
+        if let securityControlCustomParameters = securityControlCustomParameters {
+            var securityControlCustomParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityControlCustomParameters)
+            for securitycontrolcustomparameter0 in securityControlCustomParameters {
+                try securityControlCustomParametersContainer.encode(securitycontrolcustomparameter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledSecurityControlIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .enabledSecurityControlIdentifiers)
+        var enabledSecurityControlIdentifiersDecoded0:[Swift.String]? = nil
+        if let enabledSecurityControlIdentifiersContainer = enabledSecurityControlIdentifiersContainer {
+            enabledSecurityControlIdentifiersDecoded0 = [Swift.String]()
+            for string0 in enabledSecurityControlIdentifiersContainer {
+                if let string0 = string0 {
+                    enabledSecurityControlIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        enabledSecurityControlIdentifiers = enabledSecurityControlIdentifiersDecoded0
+        let disabledSecurityControlIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .disabledSecurityControlIdentifiers)
+        var disabledSecurityControlIdentifiersDecoded0:[Swift.String]? = nil
+        if let disabledSecurityControlIdentifiersContainer = disabledSecurityControlIdentifiersContainer {
+            disabledSecurityControlIdentifiersDecoded0 = [Swift.String]()
+            for string0 in disabledSecurityControlIdentifiersContainer {
+                if let string0 = string0 {
+                    disabledSecurityControlIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        disabledSecurityControlIdentifiers = disabledSecurityControlIdentifiersDecoded0
+        let securityControlCustomParametersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.SecurityControlCustomParameter?].self, forKey: .securityControlCustomParameters)
+        var securityControlCustomParametersDecoded0:[SecurityHubClientTypes.SecurityControlCustomParameter]? = nil
+        if let securityControlCustomParametersContainer = securityControlCustomParametersContainer {
+            securityControlCustomParametersDecoded0 = [SecurityHubClientTypes.SecurityControlCustomParameter]()
+            for structure0 in securityControlCustomParametersContainer {
+                if let structure0 = structure0 {
+                    securityControlCustomParametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityControlCustomParameters = securityControlCustomParametersDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that defines which security controls are enabled in an Security Hub configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
+    public struct SecurityControlsConfiguration: Swift.Equatable {
+        /// A list of security controls that are disabled in the configuration policy. Security Hub enables all other controls (including newly released controls) other than the listed controls.
+        public var disabledSecurityControlIdentifiers: [Swift.String]?
+        /// A list of security controls that are enabled in the configuration policy. Security Hub disables all other controls (including newly released controls) other than the listed controls.
+        public var enabledSecurityControlIdentifiers: [Swift.String]?
+        /// A list of security controls and control parameter values that are included in a configuration policy.
+        public var securityControlCustomParameters: [SecurityHubClientTypes.SecurityControlCustomParameter]?
+
+        public init(
+            disabledSecurityControlIdentifiers: [Swift.String]? = nil,
+            enabledSecurityControlIdentifiers: [Swift.String]? = nil,
+            securityControlCustomParameters: [SecurityHubClientTypes.SecurityControlCustomParameter]? = nil
+        )
+        {
+            self.disabledSecurityControlIdentifiers = disabledSecurityControlIdentifiers
+            self.enabledSecurityControlIdentifiers = enabledSecurityControlIdentifiers
+            self.securityControlCustomParameters = securityControlCustomParameters
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.SecurityHubPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledStandardIdentifiers = "EnabledStandardIdentifiers"
+        case securityControlsConfiguration = "SecurityControlsConfiguration"
+        case serviceEnabled = "ServiceEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledStandardIdentifiers = enabledStandardIdentifiers {
+            var enabledStandardIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enabledStandardIdentifiers)
+            for nonemptystring0 in enabledStandardIdentifiers {
+                try enabledStandardIdentifiersContainer.encode(nonemptystring0)
+            }
+        }
+        if let securityControlsConfiguration = self.securityControlsConfiguration {
+            try encodeContainer.encode(securityControlsConfiguration, forKey: .securityControlsConfiguration)
+        }
+        if let serviceEnabled = self.serviceEnabled {
+            try encodeContainer.encode(serviceEnabled, forKey: .serviceEnabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .serviceEnabled)
+        serviceEnabled = serviceEnabledDecoded
+        let enabledStandardIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .enabledStandardIdentifiers)
+        var enabledStandardIdentifiersDecoded0:[Swift.String]? = nil
+        if let enabledStandardIdentifiersContainer = enabledStandardIdentifiersContainer {
+            enabledStandardIdentifiersDecoded0 = [Swift.String]()
+            for string0 in enabledStandardIdentifiersContainer {
+                if let string0 = string0 {
+                    enabledStandardIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        enabledStandardIdentifiers = enabledStandardIdentifiersDecoded0
+        let securityControlsConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SecurityControlsConfiguration.self, forKey: .securityControlsConfiguration)
+        securityControlsConfiguration = securityControlsConfigurationDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An object that defines how Security Hub is configured. The configuration policy includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    public struct SecurityHubPolicy: Swift.Equatable {
+        /// A list that defines which security standards are enabled in the configuration policy.
+        public var enabledStandardIdentifiers: [Swift.String]?
+        /// An object that defines which security controls are enabled in the configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
+        public var securityControlsConfiguration: SecurityHubClientTypes.SecurityControlsConfiguration?
+        /// Indicates whether Security Hub is enabled in the policy.
+        public var serviceEnabled: Swift.Bool?
+
+        public init(
+            enabledStandardIdentifiers: [Swift.String]? = nil,
+            securityControlsConfiguration: SecurityHubClientTypes.SecurityControlsConfiguration? = nil,
+            serviceEnabled: Swift.Bool? = nil
+        )
+        {
+            self.enabledStandardIdentifiers = enabledStandardIdentifiers
+            self.securityControlsConfiguration = securityControlsConfiguration
+            self.serviceEnabled = serviceEnabled
         }
     }
 
@@ -58471,7 +62516,7 @@ extension SecurityHubClientTypes {
         ///
         /// * 90–100 - CRITICAL
         public var label: SecurityHubClientTypes.SeverityLabel?
-        /// Deprecated. The normalized severity of a finding. This attribute is being deprecated. Instead of providing Normalized, provide Label. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.
+        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.
         ///
         /// * INFORMATIONAL - 0
         ///
@@ -58485,7 +62530,11 @@ extension SecurityHubClientTypes {
         public var normalized: Swift.Int?
         /// The native severity from the finding product that generated the finding.
         public var original: Swift.String?
+<<<<<<< HEAD
         /// Deprecated. This attribute is being deprecated. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
+=======
+        /// Deprecated. This attribute isn't included in findings. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
+>>>>>>> main
         public var product: Swift.Double?
 
         public init(
@@ -59384,7 +63433,7 @@ extension SecurityHubClientTypes {
         public var standardsControlTitle: Swift.String?
         /// The last time that a control's enablement status in a specified standard was updated.
         public var updatedAt: ClientRuntime.Date?
-        /// The reason for updating the control's enablement status in a specified standard.
+        /// The reason for updating a control's enablement status in a specified standard.
         public var updatedReason: Swift.String?
 
         public init(
@@ -59762,6 +63811,269 @@ extension SecurityHubClientTypes {
 
 }
 
+extension StartConfigurationPolicyAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyIdentifier = "ConfigurationPolicyIdentifier"
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationPolicyIdentifier = self.configurationPolicyIdentifier {
+            try encodeContainer.encode(configurationPolicyIdentifier, forKey: .configurationPolicyIdentifier)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+}
+
+extension StartConfigurationPolicyAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicyAssociation/associate"
+    }
+}
+
+public struct StartConfigurationPolicyAssociationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+    /// This member is required.
+    public var configurationPolicyIdentifier: Swift.String?
+    /// The identifier of the target account, organizational unit, or the root to associate with the specified configuration.
+    /// This member is required.
+    public var target: SecurityHubClientTypes.Target?
+
+    public init(
+        configurationPolicyIdentifier: Swift.String? = nil,
+        target: SecurityHubClientTypes.Target? = nil
+    )
+    {
+        self.configurationPolicyIdentifier = configurationPolicyIdentifier
+        self.target = target
+    }
+}
+
+struct StartConfigurationPolicyAssociationInputBody: Swift.Equatable {
+    let configurationPolicyIdentifier: Swift.String?
+    let target: SecurityHubClientTypes.Target?
+}
+
+extension StartConfigurationPolicyAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyIdentifier = "ConfigurationPolicyIdentifier"
+        case target = "Target"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationPolicyIdentifier)
+        configurationPolicyIdentifier = configurationPolicyIdentifierDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Target.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+extension StartConfigurationPolicyAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartConfigurationPolicyAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associationStatus = output.associationStatus
+            self.associationStatusMessage = output.associationStatusMessage
+            self.associationType = output.associationType
+            self.configurationPolicyId = output.configurationPolicyId
+            self.targetId = output.targetId
+            self.targetType = output.targetType
+            self.updatedAt = output.updatedAt
+        } else {
+            self.associationStatus = nil
+            self.associationStatusMessage = nil
+            self.associationType = nil
+            self.configurationPolicyId = nil
+            self.targetId = nil
+            self.targetType = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct StartConfigurationPolicyAssociationOutput: Swift.Equatable {
+    /// The current status of the association between the specified target and the configuration.
+    public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
+    /// An explanation for a FAILED value for AssociationStatus.
+    public var associationStatusMessage: Swift.String?
+    /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+    public var associationType: SecurityHubClientTypes.AssociationType?
+    /// The UUID of the configuration policy.
+    public var configurationPolicyId: Swift.String?
+    /// The identifier of the target account, organizational unit, or the organization root with which the configuration is associated.
+    public var targetId: Swift.String?
+    /// Indicates whether the target is an Amazon Web Services account, organizational unit, or the organization root.
+    public var targetType: SecurityHubClientTypes.TargetType?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy association was last updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus? = nil,
+        associationStatusMessage: Swift.String? = nil,
+        associationType: SecurityHubClientTypes.AssociationType? = nil,
+        configurationPolicyId: Swift.String? = nil,
+        targetId: Swift.String? = nil,
+        targetType: SecurityHubClientTypes.TargetType? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.associationStatus = associationStatus
+        self.associationStatusMessage = associationStatusMessage
+        self.associationType = associationType
+        self.configurationPolicyId = configurationPolicyId
+        self.targetId = targetId
+        self.targetType = targetType
+        self.updatedAt = updatedAt
+    }
+}
+
+struct StartConfigurationPolicyAssociationOutputBody: Swift.Equatable {
+    let configurationPolicyId: Swift.String?
+    let targetId: Swift.String?
+    let targetType: SecurityHubClientTypes.TargetType?
+    let associationType: SecurityHubClientTypes.AssociationType?
+    let updatedAt: ClientRuntime.Date?
+    let associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
+    let associationStatusMessage: Swift.String?
+}
+
+extension StartConfigurationPolicyAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case associationStatusMessage = "AssociationStatusMessage"
+        case associationType = "AssociationType"
+        case configurationPolicyId = "ConfigurationPolicyId"
+        case targetId = "TargetId"
+        case targetType = "TargetType"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationPolicyId)
+        configurationPolicyId = configurationPolicyIdDecoded
+        let targetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetId)
+        targetId = targetIdDecoded
+        let targetTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.TargetType.self, forKey: .targetType)
+        targetType = targetTypeDecoded
+        let associationTypeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationType.self, forKey: .associationType)
+        associationType = associationTypeDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ConfigurationPolicyAssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let associationStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationStatusMessage)
+        associationStatusMessage = associationStatusMessageDecoded
+    }
+}
+
+enum StartConfigurationPolicyAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartConfigurationPolicyDisassociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyIdentifier = "ConfigurationPolicyIdentifier"
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationPolicyIdentifier = self.configurationPolicyIdentifier {
+            try encodeContainer.encode(configurationPolicyIdentifier, forKey: .configurationPolicyIdentifier)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+}
+
+extension StartConfigurationPolicyDisassociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/configurationPolicyAssociation/disassociate"
+    }
+}
+
+public struct StartConfigurationPolicyDisassociationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+    /// This member is required.
+    public var configurationPolicyIdentifier: Swift.String?
+    /// The identifier of the target account, organizational unit, or the root to disassociate from the specified configuration.
+    public var target: SecurityHubClientTypes.Target?
+
+    public init(
+        configurationPolicyIdentifier: Swift.String? = nil,
+        target: SecurityHubClientTypes.Target? = nil
+    )
+    {
+        self.configurationPolicyIdentifier = configurationPolicyIdentifier
+        self.target = target
+    }
+}
+
+struct StartConfigurationPolicyDisassociationInputBody: Swift.Equatable {
+    let target: SecurityHubClientTypes.Target?
+    let configurationPolicyIdentifier: Swift.String?
+}
+
+extension StartConfigurationPolicyDisassociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyIdentifier = "ConfigurationPolicyIdentifier"
+        case target = "Target"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Target.self, forKey: .target)
+        target = targetDecoded
+        let configurationPolicyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationPolicyIdentifier)
+        configurationPolicyIdentifier = configurationPolicyIdentifierDecoded
+    }
+}
+
+extension StartConfigurationPolicyDisassociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StartConfigurationPolicyDisassociationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StartConfigurationPolicyDisassociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension SecurityHubClientTypes.StatelessCustomActionDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case publishMetricAction = "PublishMetricAction"
@@ -59957,6 +64269,61 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes.StringConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue = "DefaultValue"
+        case expressionDescription = "ExpressionDescription"
+        case re2Expression = "Re2Expression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = self.defaultValue {
+            try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let expressionDescription = self.expressionDescription {
+            try encodeContainer.encode(expressionDescription, forKey: .expressionDescription)
+        }
+        if let re2Expression = self.re2Expression {
+            try encodeContainer.encode(re2Expression, forKey: .re2Expression)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultValue)
+        defaultValue = defaultValueDecoded
+        let re2ExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .re2Expression)
+        re2Expression = re2ExpressionDecoded
+        let expressionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expressionDescription)
+        expressionDescription = expressionDescriptionDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is a string.
+    public struct StringConfigurationOptions: Swift.Equatable {
+        /// The Security Hub default value for a control parameter that is a string.
+        public var defaultValue: Swift.String?
+        /// The description of the RE2 regular expression.
+        public var expressionDescription: Swift.String?
+        /// An RE2 regular expression that Security Hub uses to validate a user-provided control parameter string.
+        public var re2Expression: Swift.String?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            expressionDescription: Swift.String? = nil,
+            re2Expression: Swift.String? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.expressionDescription = expressionDescription
+            self.re2Expression = re2Expression
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.StringFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comparison = "Comparison"
@@ -60075,6 +64442,83 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes.StringListConfigurationOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue = "DefaultValue"
+        case expressionDescription = "ExpressionDescription"
+        case maxItems = "MaxItems"
+        case re2Expression = "Re2Expression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = defaultValue {
+            var defaultValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValue)
+            for nonemptystring0 in defaultValue {
+                try defaultValueContainer.encode(nonemptystring0)
+            }
+        }
+        if let expressionDescription = self.expressionDescription {
+            try encodeContainer.encode(expressionDescription, forKey: .expressionDescription)
+        }
+        if let maxItems = self.maxItems {
+            try encodeContainer.encode(maxItems, forKey: .maxItems)
+        }
+        if let re2Expression = self.re2Expression {
+            try encodeContainer.encode(re2Expression, forKey: .re2Expression)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultValueContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .defaultValue)
+        var defaultValueDecoded0:[Swift.String]? = nil
+        if let defaultValueContainer = defaultValueContainer {
+            defaultValueDecoded0 = [Swift.String]()
+            for string0 in defaultValueContainer {
+                if let string0 = string0 {
+                    defaultValueDecoded0?.append(string0)
+                }
+            }
+        }
+        defaultValue = defaultValueDecoded0
+        let re2ExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .re2Expression)
+        re2Expression = re2ExpressionDecoded
+        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
+        maxItems = maxItemsDecoded
+        let expressionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expressionDescription)
+        expressionDescription = expressionDescriptionDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The options for customizing a security control parameter that is a list of strings.
+    public struct StringListConfigurationOptions: Swift.Equatable {
+        /// The Security Hub default value for a control parameter that is a list of strings.
+        public var defaultValue: [Swift.String]?
+        /// The description of the RE2 regular expression.
+        public var expressionDescription: Swift.String?
+        /// The maximum number of list items that a string list control parameter can accept.
+        public var maxItems: Swift.Int?
+        /// An RE2 regular expression that Security Hub uses to validate a user-provided list of strings for a control parameter.
+        public var re2Expression: Swift.String?
+
+        public init(
+            defaultValue: [Swift.String]? = nil,
+            expressionDescription: Swift.String? = nil,
+            maxItems: Swift.Int? = nil,
+            re2Expression: Swift.String? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.expressionDescription = expressionDescription
+            self.maxItems = maxItems
+            self.re2Expression = re2Expression
+        }
+    }
+
+}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
@@ -60166,6 +64610,98 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SecurityHubClientTypes.Target: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountid = "AccountId"
+        case organizationalunitid = "OrganizationalUnitId"
+        case rootid = "RootId"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .accountid(accountid):
+                try container.encode(accountid, forKey: .accountid)
+            case let .organizationalunitid(organizationalunitid):
+                try container.encode(organizationalunitid, forKey: .organizationalunitid)
+            case let .rootid(rootid):
+                try container.encode(rootid, forKey: .rootid)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let accountidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .accountid)
+        if let accountid = accountidDecoded {
+            self = .accountid(accountid)
+            return
+        }
+        let organizationalunitidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .organizationalunitid)
+        if let organizationalunitid = organizationalunitidDecoded {
+            self = .organizationalunitid(organizationalunitid)
+            return
+        }
+        let rootidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .rootid)
+        if let rootid = rootidDecoded {
+            self = .rootid(rootid)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The target account, organizational unit, or the root that is associated with an Security Hub configuration. The configuration can be a configuration policy or self-managed behavior.
+    public enum Target: Swift.Equatable {
+        /// The Amazon Web Services account ID of the target account.
+        case accountid(Swift.String)
+        /// The organizational unit ID of the target organizational unit.
+        case organizationalunitid(Swift.String)
+        /// The ID of the organization root.
+        case rootid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum TargetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case account
+        case organizationalUnit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetType] {
+            return [
+                .account,
+                .organizationalUnit,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .organizationalUnit: return "ORGANIZATIONAL_UNIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TargetType(rawValue: rawValue) ?? TargetType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+>>>>>>> main
 extension SecurityHubClientTypes.Threat: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filePaths = "FilePaths"
@@ -60481,6 +65017,61 @@ extension SecurityHubClientTypes {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.ruleArn = ruleArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.UnprocessedConfigurationPolicyAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicyAssociationIdentifiers = "ConfigurationPolicyAssociationIdentifiers"
+        case errorCode = "ErrorCode"
+        case errorReason = "ErrorReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationPolicyAssociationIdentifiers = self.configurationPolicyAssociationIdentifiers {
+            try encodeContainer.encode(configurationPolicyAssociationIdentifiers, forKey: .configurationPolicyAssociationIdentifiers)
+        }
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorReason = self.errorReason {
+            try encodeContainer.encode(errorReason, forKey: .errorReason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationPolicyAssociationIdentifiersDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ConfigurationPolicyAssociation.self, forKey: .configurationPolicyAssociationIdentifiers)
+        configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiersDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorReason)
+        errorReason = errorReasonDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An array of configuration policy associations, one for each configuration policy association identifier, that was specified in a BatchGetConfigurationPolicyAssociations request but couldn’t be processed due to an error.
+    public struct UnprocessedConfigurationPolicyAssociation: Swift.Equatable {
+        /// Configuration policy association identifiers that were specified in a BatchGetConfigurationPolicyAssociations request but couldn’t be processed due to an error.
+        public var configurationPolicyAssociationIdentifiers: SecurityHubClientTypes.ConfigurationPolicyAssociation?
+        /// An HTTP status code that identifies why the configuration policy association failed.
+        public var errorCode: Swift.String?
+        /// A string that identifies why the configuration policy association failed.
+        public var errorReason: Swift.String?
+
+        public init(
+            configurationPolicyAssociationIdentifiers: SecurityHubClientTypes.ConfigurationPolicyAssociation? = nil,
+            errorCode: Swift.String? = nil,
+            errorReason: Swift.String? = nil
+        )
+        {
+            self.configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers
+            self.errorCode = errorCode
+            self.errorReason = errorReason
         }
     }
 
@@ -60980,6 +65571,214 @@ extension SecurityHubClientTypes {
 
 }
 
+extension UpdateConfigurationPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicy = "ConfigurationPolicy"
+        case description = "Description"
+        case name = "Name"
+        case updatedReason = "UpdatedReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationPolicy = self.configurationPolicy {
+            try encodeContainer.encode(configurationPolicy, forKey: .configurationPolicy)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updatedReason = self.updatedReason {
+            try encodeContainer.encode(updatedReason, forKey: .updatedReason)
+        }
+    }
+}
+
+extension UpdateConfigurationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/configurationPolicy/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateConfigurationPolicyInput: Swift.Equatable {
+    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls). When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
+    public var configurationPolicy: SecurityHubClientTypes.Policy?
+    /// The description of the configuration policy.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
+    public var name: Swift.String?
+    /// The reason for updating the configuration policy.
+    public var updatedReason: Swift.String?
+
+    public init(
+        configurationPolicy: SecurityHubClientTypes.Policy? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updatedReason: Swift.String? = nil
+    )
+    {
+        self.configurationPolicy = configurationPolicy
+        self.description = description
+        self.identifier = identifier
+        self.name = name
+        self.updatedReason = updatedReason
+    }
+}
+
+struct UpdateConfigurationPolicyInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let updatedReason: Swift.String?
+    let configurationPolicy: SecurityHubClientTypes.Policy?
+}
+
+extension UpdateConfigurationPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationPolicy = "ConfigurationPolicy"
+        case description = "Description"
+        case name = "Name"
+        case updatedReason = "UpdatedReason"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let updatedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedReason)
+        updatedReason = updatedReasonDecoded
+        let configurationPolicyDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Policy.self, forKey: .configurationPolicy)
+        configurationPolicy = configurationPolicyDecoded
+    }
+}
+
+extension UpdateConfigurationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateConfigurationPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.configurationPolicy = output.configurationPolicy
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.name = output.name
+            self.updatedAt = output.updatedAt
+        } else {
+            self.arn = nil
+            self.configurationPolicy = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.name = nil
+            self.updatedAt = nil
+        }
+    }
+}
+
+public struct UpdateConfigurationPolicyOutput: Swift.Equatable {
+    /// The ARN of the configuration policy.
+    public var arn: Swift.String?
+    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    public var configurationPolicy: SecurityHubClientTypes.Policy?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy was created.
+    public var createdAt: ClientRuntime.Date?
+    /// The description of the configuration policy.
+    public var description: Swift.String?
+    /// The UUID of the configuration policy.
+    public var id: Swift.String?
+    /// The name of the configuration policy.
+    public var name: Swift.String?
+    /// The date and time, in UTC and ISO 8601 format, that the configuration policy was last updated.
+    public var updatedAt: ClientRuntime.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        configurationPolicy: SecurityHubClientTypes.Policy? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updatedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.configurationPolicy = configurationPolicy
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.name = name
+        self.updatedAt = updatedAt
+    }
+}
+
+struct UpdateConfigurationPolicyOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let id: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let updatedAt: ClientRuntime.Date?
+    let createdAt: ClientRuntime.Date?
+    let configurationPolicy: SecurityHubClientTypes.Policy?
+}
+
+extension UpdateConfigurationPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case configurationPolicy = "ConfigurationPolicy"
+        case createdAt = "CreatedAt"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case updatedAt = "UpdatedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let configurationPolicyDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.Policy.self, forKey: .configurationPolicy)
+        configurationPolicy = configurationPolicyDecoded
+    }
+}
+
+enum UpdateConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateFindingAggregatorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findingAggregatorArn = "FindingAggregatorArn"
@@ -61371,6 +66170,7 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "AutoEnable"
         case autoEnableStandards = "AutoEnableStandards"
+        case organizationConfiguration = "OrganizationConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -61380,6 +66180,9 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
         }
         if let autoEnableStandards = self.autoEnableStandards {
             try encodeContainer.encode(autoEnableStandards.rawValue, forKey: .autoEnableStandards)
+        }
+        if let organizationConfiguration = self.organizationConfiguration {
+            try encodeContainer.encode(organizationConfiguration, forKey: .organizationConfiguration)
         }
     }
 }
@@ -61391,31 +66194,37 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
-    /// Whether to automatically enable Security Hub for new accounts in the organization. By default, this is false, and new accounts are not added automatically. To automatically enable Security Hub for new accounts, set this to true.
+    /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
     /// This member is required.
     public var autoEnable: Swift.Bool?
-    /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) for new member accounts in the organization. By default, this parameter is equal to DEFAULT, and new member accounts are automatically enabled with default Security Hub standards. To opt out of enabling default standards for new member accounts, set this parameter equal to NONE.
+    /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
     public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
+    /// Provides information about the way an organization is configured in Security Hub.
+    public var organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
 
     public init(
         autoEnable: Swift.Bool? = nil,
-        autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil
+        autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil,
+        organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration? = nil
     )
     {
         self.autoEnable = autoEnable
         self.autoEnableStandards = autoEnableStandards
+        self.organizationConfiguration = organizationConfiguration
     }
 }
 
 struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
     let autoEnable: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
+    let organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
 }
 
 extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "AutoEnable"
         case autoEnableStandards = "AutoEnableStandards"
+        case organizationConfiguration = "OrganizationConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -61424,6 +66233,8 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
         autoEnable = autoEnableDecoded
         let autoEnableStandardsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutoEnableStandards.self, forKey: .autoEnableStandards)
         autoEnableStandards = autoEnableStandardsDecoded
+        let organizationConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.OrganizationConfiguration.self, forKey: .organizationConfiguration)
+        organizationConfiguration = organizationConfigurationDecoded
     }
 }
 
@@ -61442,15 +66253,133 @@ enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseError
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdateSecurityControlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdateReason = "LastUpdateReason"
+        case parameters = "Parameters"
+        case securityControlId = "SecurityControlId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastUpdateReason = self.lastUpdateReason {
+            try encodeContainer.encode(lastUpdateReason, forKey: .lastUpdateReason)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, parameters0) in parameters {
+                try parametersContainer.encode(parameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+    }
+}
+
+extension UpdateSecurityControlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/securityControl/update"
+    }
+}
+
+public struct UpdateSecurityControlInput: Swift.Equatable {
+    /// The most recent reason for updating the properties of the security control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores.
+    public var lastUpdateReason: Swift.String?
+    /// An object that specifies which security control parameters to update.
+    /// This member is required.
+    public var parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]?
+    /// The Amazon Resource Name (ARN) or ID of the control to update.
+    /// This member is required.
+    public var securityControlId: Swift.String?
+
+    public init(
+        lastUpdateReason: Swift.String? = nil,
+        parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]? = nil,
+        securityControlId: Swift.String? = nil
+    )
+    {
+        self.lastUpdateReason = lastUpdateReason
+        self.parameters = parameters
+        self.securityControlId = securityControlId
+    }
+}
+
+struct UpdateSecurityControlInputBody: Swift.Equatable {
+    let securityControlId: Swift.String?
+    let parameters: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]?
+    let lastUpdateReason: Swift.String?
+}
+
+extension UpdateSecurityControlInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdateReason = "LastUpdateReason"
+        case parameters = "Parameters"
+        case securityControlId = "SecurityControlId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: SecurityHubClientTypes.ParameterConfiguration?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:SecurityHubClientTypes.ParameterConfiguration]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:SecurityHubClientTypes.ParameterConfiguration]()
+            for (key0, parameterconfiguration0) in parametersContainer {
+                if let parameterconfiguration0 = parameterconfiguration0 {
+                    parametersDecoded0?[key0] = parameterconfiguration0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let lastUpdateReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdateReason)
+        lastUpdateReason = lastUpdateReasonDecoded
+    }
+}
+
+extension UpdateSecurityControlOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateSecurityControlOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateSecurityControlOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension UpdateSecurityHubConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnableControls = "AutoEnableControls"
@@ -61525,6 +66454,7 @@ enum UpdateSecurityHubConfigurationOutputError: ClientRuntime.HttpResponseErrorB
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -61617,6 +66547,7 @@ enum UpdateStandardsControlOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -61626,6 +66557,41 @@ enum UpdateStandardsControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SecurityHubClientTypes {
+    public enum UpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ready
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .ready,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ready: return "READY"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateStatus(rawValue: rawValue) ?? UpdateStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+>>>>>>> main
 extension SecurityHubClientTypes {
     public enum VerificationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case benignPositive

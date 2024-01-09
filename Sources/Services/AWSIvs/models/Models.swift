@@ -2869,7 +2869,7 @@ extension ListChannelsInput: Swift.Encodable {
         if let filterByRecordingConfigurationArn = self.filterByRecordingConfigurationArn {
             try encodeContainer.encode(filterByRecordingConfigurationArn, forKey: .filterByRecordingConfigurationArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2890,14 +2890,14 @@ public struct ListChannelsInput: Swift.Equatable {
     /// Filters the channel list to match the specified recording-configuration ARN.
     public var filterByRecordingConfigurationArn: Swift.String?
     /// Maximum number of channels to return. Default: 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first channel to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
         filterByName: Swift.String? = nil,
         filterByRecordingConfigurationArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2912,7 +2912,7 @@ struct ListChannelsInputBody: Swift.Equatable {
     let filterByName: Swift.String?
     let filterByRecordingConfigurationArn: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListChannelsInputBody: Swift.Decodable {
@@ -2931,7 +2931,7 @@ extension ListChannelsInputBody: Swift.Decodable {
         filterByRecordingConfigurationArn = filterByRecordingConfigurationArnDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -3017,7 +3017,7 @@ extension ListPlaybackKeyPairsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3034,12 +3034,12 @@ extension ListPlaybackKeyPairsInput: ClientRuntime.URLPathProvider {
 
 public struct ListPlaybackKeyPairsInput: Swift.Equatable {
     /// Maximum number of key pairs to return. Default: your service quota or 100, whichever is smaller.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first key pair to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3050,7 +3050,7 @@ public struct ListPlaybackKeyPairsInput: Swift.Equatable {
 
 struct ListPlaybackKeyPairsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListPlaybackKeyPairsInputBody: Swift.Decodable {
@@ -3063,7 +3063,7 @@ extension ListPlaybackKeyPairsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -3148,7 +3148,7 @@ extension ListRecordingConfigurationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3165,12 +3165,12 @@ extension ListRecordingConfigurationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListRecordingConfigurationsInput: Swift.Equatable {
     /// Maximum number of recording configurations to return. Default: your service quota or 100, whichever is smaller.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first recording configuration to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3181,7 +3181,7 @@ public struct ListRecordingConfigurationsInput: Swift.Equatable {
 
 struct ListRecordingConfigurationsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListRecordingConfigurationsInputBody: Swift.Decodable {
@@ -3194,7 +3194,7 @@ extension ListRecordingConfigurationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -3284,7 +3284,7 @@ extension ListStreamKeysInput: Swift.Encodable {
         if let channelArn = self.channelArn {
             try encodeContainer.encode(channelArn, forKey: .channelArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3304,13 +3304,13 @@ public struct ListStreamKeysInput: Swift.Equatable {
     /// This member is required.
     public var channelArn: Swift.String?
     /// Maximum number of streamKeys to return. Default: 1.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first stream key to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
         channelArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3323,7 +3323,7 @@ public struct ListStreamKeysInput: Swift.Equatable {
 struct ListStreamKeysInputBody: Swift.Equatable {
     let channelArn: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListStreamKeysInputBody: Swift.Decodable {
@@ -3339,7 +3339,7 @@ extension ListStreamKeysInputBody: Swift.Decodable {
         channelArn = channelArnDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -3429,7 +3429,7 @@ extension ListStreamSessionsInput: Swift.Encodable {
         if let channelArn = self.channelArn {
             try encodeContainer.encode(channelArn, forKey: .channelArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3449,13 +3449,13 @@ public struct ListStreamSessionsInput: Swift.Equatable {
     /// This member is required.
     public var channelArn: Swift.String?
     /// Maximum number of streams to return. Default: 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first stream to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
         channelArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3468,7 +3468,7 @@ public struct ListStreamSessionsInput: Swift.Equatable {
 struct ListStreamSessionsInputBody: Swift.Equatable {
     let channelArn: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListStreamSessionsInputBody: Swift.Decodable {
@@ -3484,7 +3484,7 @@ extension ListStreamSessionsInputBody: Swift.Decodable {
         channelArn = channelArnDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -3574,7 +3574,7 @@ extension ListStreamsInput: Swift.Encodable {
         if let filterBy = self.filterBy {
             try encodeContainer.encode(filterBy, forKey: .filterBy)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3593,13 +3593,13 @@ public struct ListStreamsInput: Swift.Equatable {
     /// Filters the stream list to match the specified criterion.
     public var filterBy: IvsClientTypes.StreamFilters?
     /// Maximum number of streams to return. Default: 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first stream to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
         filterBy: IvsClientTypes.StreamFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3612,7 +3612,7 @@ public struct ListStreamsInput: Swift.Equatable {
 struct ListStreamsInputBody: Swift.Equatable {
     let filterBy: IvsClientTypes.StreamFilters?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListStreamsInputBody: Swift.Decodable {
@@ -3628,7 +3628,7 @@ extension ListStreamsInputBody: Swift.Decodable {
         filterBy = filterByDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -5700,7 +5700,7 @@ extension IvsClientTypes.ThumbnailConfiguration: Swift.Codable {
                 try storageContainer.encode(thumbnailconfigurationstorage0.rawValue)
             }
         }
-        if targetIntervalSeconds != 0 {
+        if let targetIntervalSeconds = self.targetIntervalSeconds {
             try encodeContainer.encode(targetIntervalSeconds, forKey: .targetIntervalSeconds)
         }
     }
@@ -5709,7 +5709,7 @@ extension IvsClientTypes.ThumbnailConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let recordingModeDecoded = try containerValues.decodeIfPresent(IvsClientTypes.RecordingMode.self, forKey: .recordingMode)
         recordingMode = recordingModeDecoded
-        let targetIntervalSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetIntervalSeconds) ?? 0
+        let targetIntervalSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetIntervalSeconds)
         targetIntervalSeconds = targetIntervalSecondsDecoded
         let resolutionDecoded = try containerValues.decodeIfPresent(IvsClientTypes.ThumbnailConfigurationResolution.self, forKey: .resolution)
         resolution = resolutionDecoded
@@ -5737,13 +5737,13 @@ extension IvsClientTypes {
         /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
         public var storage: [IvsClientTypes.ThumbnailConfigurationStorage]?
         /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60. Important: For the BASIC channel type, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See [ Amazon IVS Streaming Configuration](https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html) for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
-        public var targetIntervalSeconds: Swift.Int
+        public var targetIntervalSeconds: Swift.Int?
 
         public init(
             recordingMode: IvsClientTypes.RecordingMode? = nil,
             resolution: IvsClientTypes.ThumbnailConfigurationResolution? = nil,
             storage: [IvsClientTypes.ThumbnailConfigurationStorage]? = nil,
-            targetIntervalSeconds: Swift.Int = 0
+            targetIntervalSeconds: Swift.Int? = nil
         )
         {
             self.recordingMode = recordingMode

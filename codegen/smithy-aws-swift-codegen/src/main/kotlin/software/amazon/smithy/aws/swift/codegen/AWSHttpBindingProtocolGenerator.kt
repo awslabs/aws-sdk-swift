@@ -52,6 +52,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     val responseTestBuilder = HttpProtocolUnitTestResponseGenerator.Builder()
     val errorTestBuilder = HttpProtocolUnitTestErrorGenerator.Builder()
     open val testsToIgnore: Set<String> = setOf()
+    open val tagsToIgnore: Set<String> = setOf()
 
     override val shouldRenderDecodableBodyStructForInputShapes = true
     override val shouldRenderCodingKeysForEncodable = true
@@ -68,7 +69,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             getProtocolHttpBindingResolver(ctx, defaultContentType),
             serdeContext,
             imports,
-            testsToIgnore
+            testsToIgnore,
+            tagsToIgnore,
         ).generateProtocolTests() + renderEndpointsTests(ctx)
     }
 

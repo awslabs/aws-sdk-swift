@@ -12238,12 +12238,15 @@
                         "smithy.api#documentation": "<p>The number of times to retry the job when the job fails due to an\n                <code>InternalServerError</code>.</p>"
                     }
                 },
+<<<<<<< HEAD
                 "RemoteDebugConfig": {
                     "target": "com.amazonaws.sagemaker#RemoteDebugConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for remote debugging. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
                     }
                 },
+=======
+>>>>>>> main
                 "InfraCheckConfig": {
                     "target": "com.amazonaws.sagemaker#InfraCheckConfig",
                     "traits": {
@@ -22954,12 +22957,15 @@
                         "smithy.api#documentation": "<p>The number of times to retry the job when the job fails due to an\n                <code>InternalServerError</code>.</p>"
                     }
                 },
+<<<<<<< HEAD
                 "RemoteDebugConfig": {
                     "target": "com.amazonaws.sagemaker#RemoteDebugConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for remote debugging. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
                     }
                 },
+=======
+>>>>>>> main
                 "InfraCheckConfig": {
                     "target": "com.amazonaws.sagemaker#InfraCheckConfig",
                     "traits": {

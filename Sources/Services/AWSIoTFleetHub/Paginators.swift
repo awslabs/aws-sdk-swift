@@ -12,7 +12,11 @@ extension IoTFleetHubClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
+>>>>>>> main
     }
 }
 
@@ -23,7 +27,11 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[IoTFleetHubClientTypes.ApplicationSummary]`
     /// - Returns: `[IoTFleetHubClientTypes.ApplicationSummary]`

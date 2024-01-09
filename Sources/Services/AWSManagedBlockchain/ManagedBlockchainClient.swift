@@ -67,7 +67,9 @@ public struct ManagedBlockchainClientLogHandlerFactory: ClientRuntime.SDKLogHand
 }
 
 extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
-    /// Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor contains information required for token based access to your Ethereum nodes.
+    /// Performs the `CreateAccessor` operation on the `TaigaWebService` service.
+    ///
+    /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access.
     ///
     /// - Parameter CreateAccessorInput : [no documentation found]
     ///
@@ -99,6 +101,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateAccessorInput, CreateAccessorOutput, CreateAccessorOutputError>(id: "createAccessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAccessorInput, CreateAccessorOutput, CreateAccessorOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessorInput, CreateAccessorOutput, CreateAccessorOutputError>())
@@ -114,10 +117,29 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessorOutput, CreateAccessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessorOutput, CreateAccessorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessorOutput, CreateAccessorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateAccessorInput, CreateAccessorOutput>(id: "createAccessor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAccessorInput, CreateAccessorOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessorInput, CreateAccessorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessorInput, CreateAccessorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessorInput, CreateAccessorOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccessorInput, CreateAccessorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccessorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMember` operation on the `TaigaWebService` service.
+    ///
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter CreateMemberInput : [no documentation found]
@@ -152,6 +174,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateMemberInput, CreateMemberOutput, CreateMemberOutputError>(id: "createMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMemberInput, CreateMemberOutput, CreateMemberOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMemberInput, CreateMemberOutput, CreateMemberOutputError>())
@@ -167,10 +190,29 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMemberOutput, CreateMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMemberOutput, CreateMemberOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMemberOutput, CreateMemberOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateMemberInput, CreateMemberOutput>(id: "createMember")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMemberInput, CreateMemberOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMemberInput, CreateMemberOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMemberInput, CreateMemberOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMemberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMemberInput, CreateMemberOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMemberInput, CreateMemberOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMemberOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMemberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMemberOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMemberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMemberOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateNetwork` operation on the `TaigaWebService` service.
+    ///
     /// Creates a new blockchain network using Amazon Managed Blockchain. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter CreateNetworkInput : [no documentation found]
@@ -203,6 +245,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateNetworkInput, CreateNetworkOutput, CreateNetworkOutputError>(id: "createNetwork")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkInput, CreateNetworkOutput, CreateNetworkOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkInput, CreateNetworkOutput, CreateNetworkOutputError>())
@@ -218,10 +261,29 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkOutput, CreateNetworkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkOutput, CreateNetworkOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkOutput, CreateNetworkOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateNetworkInput, CreateNetworkOutput>(id: "createNetwork")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkInput, CreateNetworkOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkInput, CreateNetworkOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkInput, CreateNetworkOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkInput, CreateNetworkOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateNetworkInput, CreateNetworkOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateNetworkOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateNode` operation on the `TaigaWebService` service.
+    ///
     /// Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// - Parameter CreateNodeInput : [no documentation found]
@@ -256,6 +318,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateNodeInput, CreateNodeOutput, CreateNodeOutputError>(id: "createNode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNodeInput, CreateNodeOutput, CreateNodeOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNodeInput, CreateNodeOutput, CreateNodeOutputError>())
@@ -271,10 +334,29 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNodeOutput, CreateNodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNodeOutput, CreateNodeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNodeOutput, CreateNodeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateNodeInput, CreateNodeOutput>(id: "createNode")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNodeInput, CreateNodeOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNodeInput, CreateNodeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNodeInput, CreateNodeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNodeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNodeInput, CreateNodeOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateNodeInput, CreateNodeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNodeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNodeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNodeOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateNodeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNodeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateProposal` operation on the `TaigaWebService` service.
+    ///
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter CreateProposalInput : [no documentation found]
@@ -307,6 +389,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateProposalInput, CreateProposalOutput, CreateProposalOutputError>(id: "createProposal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProposalInput, CreateProposalOutput, CreateProposalOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProposalInput, CreateProposalOutput, CreateProposalOutputError>())
@@ -322,10 +405,29 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProposalOutput, CreateProposalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProposalOutput, CreateProposalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProposalOutput, CreateProposalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateProposalInput, CreateProposalOutput>(id: "createProposal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateProposalInput, CreateProposalOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProposalInput, CreateProposalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProposalInput, CreateProposalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProposalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProposalInput, CreateProposalOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProposalInput, CreateProposalOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProposalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProposalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProposalOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateProposalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProposalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccessor` operation on the `TaigaWebService` service.
+    ///
     /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
     ///
     /// - Parameter DeleteAccessorInput : [no documentation found]
@@ -356,6 +458,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteAccessorInput, DeleteAccessorOutput, DeleteAccessorOutputError>(id: "deleteAccessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessorInput, DeleteAccessorOutput, DeleteAccessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessorInput, DeleteAccessorOutput>())
@@ -367,10 +470,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessorOutput, DeleteAccessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessorOutput, DeleteAccessorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessorOutput, DeleteAccessorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteAccessorInput, DeleteAccessorOutput>(id: "deleteAccessor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessorInput, DeleteAccessorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessorInput, DeleteAccessorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccessorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMember` operation on the `TaigaWebService` service.
+    ///
     /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is deleted also. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter DeleteMemberInput : [no documentation found]
@@ -402,6 +520,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteMemberInput, DeleteMemberOutput, DeleteMemberOutputError>(id: "deleteMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMemberInput, DeleteMemberOutput, DeleteMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMemberInput, DeleteMemberOutput>())
@@ -413,10 +532,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMemberOutput, DeleteMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMemberOutput, DeleteMemberOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMemberOutput, DeleteMemberOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteMemberInput, DeleteMemberOutput>(id: "deleteMember")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMemberInput, DeleteMemberOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMemberInput, DeleteMemberOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMemberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMemberOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMemberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMemberOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMemberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMemberOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteNode` operation on the `TaigaWebService` service.
+    ///
     /// Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// - Parameter DeleteNodeInput : [no documentation found]
@@ -448,6 +582,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteNodeInput, DeleteNodeOutput, DeleteNodeOutputError>(id: "deleteNode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNodeInput, DeleteNodeOutput, DeleteNodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNodeInput, DeleteNodeOutput>())
@@ -460,10 +595,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNodeOutput, DeleteNodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNodeOutput, DeleteNodeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNodeOutput, DeleteNodeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteNodeInput, DeleteNodeOutput>(id: "deleteNode")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNodeInput, DeleteNodeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNodeInput, DeleteNodeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNodeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteNodeInput, DeleteNodeOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNodeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNodeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNodeOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteNodeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNodeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccessor` operation on the `TaigaWebService` service.
+    ///
     /// Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
     ///
     /// - Parameter GetAccessorInput : [no documentation found]
@@ -494,6 +645,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetAccessorInput, GetAccessorOutput, GetAccessorOutputError>(id: "getAccessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessorInput, GetAccessorOutput, GetAccessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessorInput, GetAccessorOutput>())
@@ -505,10 +657,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessorOutput, GetAccessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessorOutput, GetAccessorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessorOutput, GetAccessorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetAccessorInput, GetAccessorOutput>(id: "getAccessor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessorInput, GetAccessorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessorInput, GetAccessorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccessorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccessorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessorOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccessorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMember` operation on the `TaigaWebService` service.
+    ///
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter GetMemberInput : [no documentation found]
@@ -539,6 +706,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetMemberInput, GetMemberOutput, GetMemberOutputError>(id: "getMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMemberInput, GetMemberOutput, GetMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMemberInput, GetMemberOutput>())
@@ -550,10 +718,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMemberOutput, GetMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMemberOutput, GetMemberOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMemberOutput, GetMemberOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetMemberInput, GetMemberOutput>(id: "getMember")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMemberInput, GetMemberOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMemberInput, GetMemberOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMemberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMemberOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMemberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMemberOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMemberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMemberOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetNetwork` operation on the `TaigaWebService` service.
+    ///
     /// Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// - Parameter GetNetworkInput : [no documentation found]
@@ -584,6 +767,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetNetworkInput, GetNetworkOutput, GetNetworkOutputError>(id: "getNetwork")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkInput, GetNetworkOutput, GetNetworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkInput, GetNetworkOutput>())
@@ -595,10 +779,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkOutput, GetNetworkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkOutput, GetNetworkOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkOutput, GetNetworkOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetNetworkInput, GetNetworkOutput>(id: "getNetwork")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkInput, GetNetworkOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkInput, GetNetworkOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetNetworkOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetNode` operation on the `TaigaWebService` service.
+    ///
     /// Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// - Parameter GetNodeInput : [no documentation found]
@@ -629,6 +828,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetNodeInput, GetNodeOutput, GetNodeOutputError>(id: "getNode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNodeInput, GetNodeOutput, GetNodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNodeInput, GetNodeOutput>())
@@ -641,10 +841,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNodeOutput, GetNodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNodeOutput, GetNodeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNodeOutput, GetNodeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetNodeInput, GetNodeOutput>(id: "getNode")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNodeInput, GetNodeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNodeInput, GetNodeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNodeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetNodeInput, GetNodeOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNodeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNodeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNodeOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetNodeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNodeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetProposal` operation on the `TaigaWebService` service.
+    ///
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter GetProposalInput : [no documentation found]
@@ -675,6 +891,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetProposalInput, GetProposalOutput, GetProposalOutputError>(id: "getProposal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProposalInput, GetProposalOutput, GetProposalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProposalInput, GetProposalOutput>())
@@ -686,10 +903,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProposalOutput, GetProposalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProposalOutput, GetProposalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProposalOutput, GetProposalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetProposalInput, GetProposalOutput>(id: "getProposal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProposalInput, GetProposalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProposalInput, GetProposalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProposalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProposalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProposalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProposalOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetProposalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProposalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccessors` operation on the `TaigaWebService` service.
+    ///
     /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
     ///
     /// - Parameter ListAccessorsInput : [no documentation found]
@@ -719,6 +951,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListAccessorsInput, ListAccessorsOutput, ListAccessorsOutputError>(id: "listAccessors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessorsInput, ListAccessorsOutput, ListAccessorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessorsInput, ListAccessorsOutput>())
@@ -731,10 +964,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessorsOutput, ListAccessorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessorsOutput, ListAccessorsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessorsOutput, ListAccessorsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListAccessorsInput, ListAccessorsOutput>(id: "listAccessors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessorsInput, ListAccessorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessorsInput, ListAccessorsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAccessorsInput, ListAccessorsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessorsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccessorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessorsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListInvitations` operation on the `TaigaWebService` service.
+    ///
     /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter ListInvitationsInput : [no documentation found]
@@ -766,6 +1015,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListInvitationsInput, ListInvitationsOutput, ListInvitationsOutputError>(id: "listInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvitationsInput, ListInvitationsOutput, ListInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInvitationsInput, ListInvitationsOutput>())
@@ -778,10 +1028,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInvitationsOutput, ListInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInvitationsOutput, ListInvitationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInvitationsOutput, ListInvitationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListInvitationsInput, ListInvitationsOutput>(id: "listInvitations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvitationsInput, ListInvitationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInvitationsInput, ListInvitationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInvitationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInvitationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInvitationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInvitationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInvitationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMembers` operation on the `TaigaWebService` service.
+    ///
     /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter ListMembersInput : [no documentation found]
@@ -811,6 +1077,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListMembersInput, ListMembersOutput, ListMembersOutputError>(id: "listMembers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembersInput, ListMembersOutput, ListMembersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMembersInput, ListMembersOutput>())
@@ -823,10 +1090,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMembersOutput, ListMembersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMembersOutput, ListMembersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMembersOutput, ListMembersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListMembersInput, ListMembersOutput>(id: "listMembers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembersInput, ListMembersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMembersInput, ListMembersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMembersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMembersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMembersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMembersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMembersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMembersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListNetworks` operation on the `TaigaWebService` service.
+    ///
     /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// - Parameter ListNetworksInput : [no documentation found]
@@ -856,6 +1139,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListNetworksInput, ListNetworksOutput, ListNetworksOutputError>(id: "listNetworks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworksInput, ListNetworksOutput, ListNetworksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworksInput, ListNetworksOutput>())
@@ -868,10 +1152,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworksOutput, ListNetworksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworksOutput, ListNetworksOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworksOutput, ListNetworksOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListNetworksInput, ListNetworksOutput>(id: "listNetworks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworksInput, ListNetworksOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworksInput, ListNetworksOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworksOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNetworksInput, ListNetworksOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworksOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworksOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListNetworksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworksOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListNodes` operation on the `TaigaWebService` service.
+    ///
     /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
     ///
     /// - Parameter ListNodesInput : [no documentation found]
@@ -901,6 +1201,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListNodesInput, ListNodesOutput, ListNodesOutputError>(id: "listNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNodesInput, ListNodesOutput, ListNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNodesInput, ListNodesOutput>())
@@ -913,10 +1214,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNodesOutput, ListNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNodesOutput, ListNodesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNodesOutput, ListNodesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListNodesInput, ListNodesOutput>(id: "listNodes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNodesInput, ListNodesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNodesInput, ListNodesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNodesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNodesInput, ListNodesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNodesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNodesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNodesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListNodesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNodesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListProposalVotes` operation on the `TaigaWebService` service.
+    ///
     /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter ListProposalVotesInput : [no documentation found]
@@ -946,6 +1263,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListProposalVotesInput, ListProposalVotesOutput, ListProposalVotesOutputError>(id: "listProposalVotes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProposalVotesInput, ListProposalVotesOutput, ListProposalVotesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProposalVotesInput, ListProposalVotesOutput>())
@@ -958,10 +1276,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProposalVotesOutput, ListProposalVotesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProposalVotesOutput, ListProposalVotesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProposalVotesOutput, ListProposalVotesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListProposalVotesInput, ListProposalVotesOutput>(id: "listProposalVotes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProposalVotesInput, ListProposalVotesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProposalVotesInput, ListProposalVotesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProposalVotesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProposalVotesInput, ListProposalVotesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProposalVotesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProposalVotesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProposalVotesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListProposalVotesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProposalVotesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListProposals` operation on the `TaigaWebService` service.
+    ///
     /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter ListProposalsInput : [no documentation found]
@@ -992,6 +1326,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListProposalsInput, ListProposalsOutput, ListProposalsOutputError>(id: "listProposals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProposalsInput, ListProposalsOutput, ListProposalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProposalsInput, ListProposalsOutput>())
@@ -1004,10 +1339,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProposalsOutput, ListProposalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProposalsOutput, ListProposalsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProposalsOutput, ListProposalsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListProposalsInput, ListProposalsOutput>(id: "listProposals")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProposalsInput, ListProposalsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProposalsInput, ListProposalsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProposalsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProposalsInput, ListProposalsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProposalsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProposalsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProposalsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListProposalsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProposalsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `TaigaWebService` service.
+    ///
     /// Returns a list of tags for the specified resource. Each tag consists of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1037,6 +1388,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -1048,10 +1400,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RejectInvitation` operation on the `TaigaWebService` service.
+    ///
     /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter RejectInvitationInput : [no documentation found]
@@ -1083,6 +1450,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RejectInvitationInput, RejectInvitationOutput, RejectInvitationOutputError>(id: "rejectInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectInvitationInput, RejectInvitationOutput, RejectInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectInvitationInput, RejectInvitationOutput>())
@@ -1094,10 +1462,25 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectInvitationOutput, RejectInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectInvitationOutput, RejectInvitationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectInvitationOutput, RejectInvitationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RejectInvitationInput, RejectInvitationOutput>(id: "rejectInvitation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectInvitationInput, RejectInvitationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectInvitationInput, RejectInvitationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RejectInvitationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RejectInvitationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectInvitationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectInvitationOutput>(responseClosure(decoder: decoder), responseErrorClosure(RejectInvitationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectInvitationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `TaigaWebService` service.
+    ///
     /// Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is overwritten with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1128,6 +1511,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1142,10 +1526,28 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `TaigaWebService` service.
+    ///
     /// Removes the specified tags from the Amazon Managed Blockchain resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1175,6 +1577,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1187,10 +1590,26 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateMember` operation on the `TaigaWebService` service.
+    ///
     /// Updates a member configuration with new parameters. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter UpdateMemberInput : [no documentation found]
@@ -1221,6 +1640,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateMemberInput, UpdateMemberOutput, UpdateMemberOutputError>(id: "updateMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMemberInput, UpdateMemberOutput, UpdateMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMemberInput, UpdateMemberOutput>())
@@ -1235,10 +1655,28 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMemberOutput, UpdateMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMemberOutput, UpdateMemberOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMemberOutput, UpdateMemberOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateMemberInput, UpdateMemberOutput>(id: "updateMember")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMemberInput, UpdateMemberOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMemberInput, UpdateMemberOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMemberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMemberInput, UpdateMemberOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateMemberInput, UpdateMemberOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMemberOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMemberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMemberOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateMemberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMemberOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateNode` operation on the `TaigaWebService` service.
+    ///
     /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter UpdateNodeInput : [no documentation found]
@@ -1269,6 +1707,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateNodeInput, UpdateNodeOutput, UpdateNodeOutputError>(id: "updateNode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNodeInput, UpdateNodeOutput, UpdateNodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNodeInput, UpdateNodeOutput>())
@@ -1283,10 +1722,28 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNodeOutput, UpdateNodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNodeOutput, UpdateNodeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNodeOutput, UpdateNodeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateNodeInput, UpdateNodeOutput>(id: "updateNode")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNodeInput, UpdateNodeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNodeInput, UpdateNodeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNodeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNodeInput, UpdateNodeOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateNodeInput, UpdateNodeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNodeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNodeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNodeOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateNodeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNodeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `VoteOnProposal` operation on the `TaigaWebService` service.
+    ///
     /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric.
     ///
     /// - Parameter VoteOnProposalInput : [no documentation found]
@@ -1318,6 +1775,7 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
                       .withSigningName(value: "managedblockchain")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<VoteOnProposalInput, VoteOnProposalOutput, VoteOnProposalOutputError>(id: "voteOnProposal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VoteOnProposalInput, VoteOnProposalOutput, VoteOnProposalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VoteOnProposalInput, VoteOnProposalOutput>())
@@ -1332,6 +1790,22 @@ extension ManagedBlockchainClient: ManagedBlockchainClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VoteOnProposalOutput, VoteOnProposalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VoteOnProposalOutput, VoteOnProposalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VoteOnProposalOutput, VoteOnProposalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<VoteOnProposalInput, VoteOnProposalOutput>(id: "voteOnProposal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VoteOnProposalInput, VoteOnProposalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VoteOnProposalInput, VoteOnProposalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VoteOnProposalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<VoteOnProposalInput, VoteOnProposalOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<VoteOnProposalInput, VoteOnProposalOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, VoteOnProposalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VoteOnProposalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VoteOnProposalOutput>(responseClosure(decoder: decoder), responseErrorClosure(VoteOnProposalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VoteOnProposalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

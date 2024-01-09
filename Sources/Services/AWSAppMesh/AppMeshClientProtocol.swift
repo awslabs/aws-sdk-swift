@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// App Mesh is a service mesh based on the Envoy proxy that makes it easy to monitor and control microservices. App Mesh standardizes how your microservices communicate, giving you end-to-end visibility and helping to ensure high availability for your applications. App Mesh gives you consistent visibility and network traffic controls for every microservice in an application. You can use App Mesh with Amazon Web Services Fargate, Amazon ECS, Amazon EKS, Kubernetes on Amazon Web Services, and Amazon EC2. App Mesh supports microservice applications that use service discovery naming for their components. For more information about service discovery on Amazon ECS, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html) in the Amazon Elastic Container Service Developer Guide. Kubernetes kube-dns and coredns are supported. For more information, see [DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) in the Kubernetes documentation.
 public protocol AppMeshClientProtocol {
+    /// Performs the `CreateGatewayRoute` operation on the `AppMesh` service.
+    ///
     /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see [Gateway routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html).
     ///
     /// - Parameter CreateGatewayRouteInput : [no documentation found]
@@ -22,6 +24,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createGatewayRoute(input: CreateGatewayRouteInput) async throws -> CreateGatewayRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMesh` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see [Service meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html).
     ///
     /// - Parameter CreateMeshInput :
@@ -40,6 +47,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createMesh(input: CreateMeshInput) async throws -> CreateMeshOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Creates a route that is associated with a virtual router. You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html).
     ///
     /// - Parameter CreateRouteInput :
@@ -58,6 +70,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVirtualGateway` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see [Virtual gateways](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_gateways.html).
     ///
     /// - Parameter CreateVirtualGatewayInput : [no documentation found]
@@ -76,6 +93,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createVirtualGateway(input: CreateVirtualGatewayInput) async throws -> CreateVirtualGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVirtualNode` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH_RESOURCE_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters. By default, App Mesh uses the name of the resource you specified in APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with your own name. For more information about virtual nodes, see [Virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html). You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information aboutApp Mesh Envoy variables, see [Envoy image](https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html) in the App Mesh User Guide.
     ///
     /// - Parameter CreateVirtualNodeInput :
@@ -94,6 +116,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createVirtualNode(input: CreateVirtualNodeInput) async throws -> CreateVirtualNodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVirtualRouter` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see [Virtual routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html).
     ///
     /// - Parameter CreateVirtualRouterInput :
@@ -112,6 +139,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createVirtualRouter(input: CreateVirtualRouterInput) async throws -> CreateVirtualRouterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVirtualService` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see [Virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html).
     ///
     /// - Parameter CreateVirtualServiceInput :
@@ -130,6 +162,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func createVirtualService(input: CreateVirtualServiceInput) async throws -> CreateVirtualServiceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGatewayRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing gateway route.
     ///
     /// - Parameter DeleteGatewayRouteInput : [no documentation found]
@@ -147,6 +184,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteGatewayRoute(input: DeleteGatewayRouteInput) async throws -> DeleteGatewayRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMesh` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
     ///
     /// - Parameter DeleteMeshInput :
@@ -164,6 +206,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteMesh(input: DeleteMeshInput) async throws -> DeleteMeshOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing route.
     ///
     /// - Parameter DeleteRouteInput :
@@ -181,6 +228,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVirtualGateway` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
     ///
     /// - Parameter DeleteVirtualGatewayInput : [no documentation found]
@@ -198,6 +250,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteVirtualGateway(input: DeleteVirtualGatewayInput) async throws -> DeleteVirtualGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVirtualNode` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
     ///
     /// - Parameter DeleteVirtualNodeInput : Deletes a virtual node input.
@@ -215,6 +272,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteVirtualNode(input: DeleteVirtualNodeInput) async throws -> DeleteVirtualNodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVirtualRouter` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
     ///
     /// - Parameter DeleteVirtualRouterInput :
@@ -232,6 +294,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteVirtualRouter(input: DeleteVirtualRouterInput) async throws -> DeleteVirtualRouterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVirtualService` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes an existing virtual service.
     ///
     /// - Parameter DeleteVirtualServiceInput :
@@ -249,6 +316,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func deleteVirtualService(input: DeleteVirtualServiceInput) async throws -> DeleteVirtualServiceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeGatewayRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing gateway route.
     ///
     /// - Parameter DescribeGatewayRouteInput : [no documentation found]
@@ -265,6 +337,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeGatewayRoute(input: DescribeGatewayRouteInput) async throws -> DescribeGatewayRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeMesh` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing service mesh.
     ///
     /// - Parameter DescribeMeshInput :
@@ -281,6 +358,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeMesh(input: DescribeMeshInput) async throws -> DescribeMeshOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing route.
     ///
     /// - Parameter DescribeRouteInput :
@@ -297,6 +379,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeRoute(input: DescribeRouteInput) async throws -> DescribeRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeVirtualGateway` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing virtual gateway.
     ///
     /// - Parameter DescribeVirtualGatewayInput : [no documentation found]
@@ -313,6 +400,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeVirtualGateway(input: DescribeVirtualGatewayInput) async throws -> DescribeVirtualGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeVirtualNode` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing virtual node.
     ///
     /// - Parameter DescribeVirtualNodeInput :
@@ -329,6 +421,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeVirtualNode(input: DescribeVirtualNodeInput) async throws -> DescribeVirtualNodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeVirtualRouter` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing virtual router.
     ///
     /// - Parameter DescribeVirtualRouterInput :
@@ -345,6 +442,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeVirtualRouter(input: DescribeVirtualRouterInput) async throws -> DescribeVirtualRouterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeVirtualService` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Describes an existing virtual service.
     ///
     /// - Parameter DescribeVirtualServiceInput :
@@ -361,6 +463,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func describeVirtualService(input: DescribeVirtualServiceInput) async throws -> DescribeVirtualServiceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGatewayRoutes` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing gateway routes that are associated to a virtual gateway.
     ///
     /// - Parameter ListGatewayRoutesInput : [no documentation found]
@@ -377,6 +484,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listGatewayRoutes(input: ListGatewayRoutesInput) async throws -> ListGatewayRoutesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMeshes` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing service meshes.
     ///
     /// - Parameter ListMeshesInput :
@@ -393,6 +505,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listMeshes(input: ListMeshesInput) async throws -> ListMeshesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRoutes` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing routes in a service mesh.
     ///
     /// - Parameter ListRoutesInput :
@@ -409,6 +526,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listRoutes(input: ListRoutesInput) async throws -> ListRoutesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// List the tags for an App Mesh resource.
     ///
     /// - Parameter ListTagsForResourceInput :
@@ -425,6 +547,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVirtualGateways` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing virtual gateways in a service mesh.
     ///
     /// - Parameter ListVirtualGatewaysInput : [no documentation found]
@@ -441,6 +568,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listVirtualGateways(input: ListVirtualGatewaysInput) async throws -> ListVirtualGatewaysOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVirtualNodes` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing virtual nodes.
     ///
     /// - Parameter ListVirtualNodesInput :
@@ -457,6 +589,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listVirtualNodes(input: ListVirtualNodesInput) async throws -> ListVirtualNodesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVirtualRouters` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing virtual routers in a service mesh.
     ///
     /// - Parameter ListVirtualRoutersInput :
@@ -473,6 +610,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listVirtualRouters(input: ListVirtualRoutersInput) async throws -> ListVirtualRoutersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVirtualServices` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Returns a list of existing virtual services in a service mesh.
     ///
     /// - Parameter ListVirtualServicesInput :
@@ -489,6 +631,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func listVirtualServices(input: ListVirtualServicesInput) async throws -> ListVirtualServicesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
     /// - Parameter TagResourceInput :
@@ -506,6 +653,11 @@ public protocol AppMeshClientProtocol {
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     /// - `TooManyTagsException` : The request exceeds the maximum allowed number of tags allowed per resource. The current limit is 50 user tags per resource. You must reduce the number of tags in the request. None of the tags in this request were applied.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput :
@@ -522,6 +674,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGatewayRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
     ///
     /// - Parameter UpdateGatewayRouteInput : [no documentation found]
@@ -540,6 +697,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func updateGatewayRoute(input: UpdateGatewayRouteInput) async throws -> UpdateGatewayRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMesh` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing service mesh.
     ///
     /// - Parameter UpdateMeshInput :
@@ -557,6 +719,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func updateMesh(input: UpdateMeshInput) async throws -> UpdateMeshOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRoute` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing route for a specified service mesh and virtual router.
     ///
     /// - Parameter UpdateRouteInput :
@@ -575,6 +742,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func updateRoute(input: UpdateRouteInput) async throws -> UpdateRouteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVirtualGateway` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing virtual gateway in a specified service mesh.
     ///
     /// - Parameter UpdateVirtualGatewayInput : [no documentation found]
@@ -593,6 +765,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func updateVirtualGateway(input: UpdateVirtualGatewayInput) async throws -> UpdateVirtualGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVirtualNode` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing virtual node in a specified service mesh.
     ///
     /// - Parameter UpdateVirtualNodeInput :
@@ -611,6 +788,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func updateVirtualNode(input: UpdateVirtualNodeInput) async throws -> UpdateVirtualNodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVirtualRouter` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing virtual router in a specified service mesh.
     ///
     /// - Parameter UpdateVirtualRouterInput :
@@ -629,6 +811,11 @@ public protocol AppMeshClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyRequestsException` : The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
     func updateVirtualRouter(input: UpdateVirtualRouterInput) async throws -> UpdateVirtualRouterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVirtualService` operation on the `AppMesh` service.
+    ///
+>>>>>>> main
     /// Updates an existing virtual service in a specified service mesh.
     ///
     /// - Parameter UpdateVirtualServiceInput :

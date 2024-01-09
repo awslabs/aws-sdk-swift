@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Describes all of the AWS IoT 1-Click device-related API operations for the service. Also provides sample requests, responses, and errors for the supported web services protocols.
 public protocol IoT1ClickDevicesClientProtocol {
+    /// Performs the `ClaimDevicesByClaimCode` operation on the `IoT1ClickDevicesService` service.
+    ///
     /// Adds device(s) to your account (i.e., claim one or more devices) if and only if you received a claim code with the device(s).
     ///
     /// - Parameter ClaimDevicesByClaimCodeInput : [no documentation found]
@@ -17,6 +19,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `InvalidRequestException` : [no documentation found]
     func claimDevicesByClaimCode(input: ClaimDevicesByClaimCodeInput) async throws -> ClaimDevicesByClaimCodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDevice` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Given a device ID, returns a DescribeDeviceResponse object describing the details of the device.
     ///
     /// - Parameter DescribeDeviceInput : [no documentation found]
@@ -30,6 +37,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `FinalizeDeviceClaim` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Given a device ID, finalizes the claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
     ///
     /// - Parameter FinalizeDeviceClaimInput : [no documentation found]
@@ -45,6 +57,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func finalizeDeviceClaim(input: FinalizeDeviceClaimInput) async throws -> FinalizeDeviceClaimOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeviceMethods` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Given a device ID, returns the invokable methods associated with the device.
     ///
     /// - Parameter GetDeviceMethodsInput : [no documentation found]
@@ -58,6 +75,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func getDeviceMethods(input: GetDeviceMethodsInput) async throws -> GetDeviceMethodsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InitiateDeviceClaim` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Given a device ID, initiates a claim request for the associated device. Claiming a device consists of initiating a claim, then publishing a device event, and finalizing the claim. For a device of type button, a device event can be published by simply clicking the device.
     ///
     /// - Parameter InitiateDeviceClaimInput : [no documentation found]
@@ -72,6 +94,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func initiateDeviceClaim(input: InitiateDeviceClaimInput) async throws -> InitiateDeviceClaimOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InvokeDeviceMethod` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Given a device ID, issues a request to invoke a named device method (with possible parameters). See the "Example POST" code snippet below.
     ///
     /// - Parameter InvokeDeviceMethodInput : [no documentation found]
@@ -88,6 +115,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `ResourceConflictException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func invokeDeviceMethod(input: InvokeDeviceMethodInput) async throws -> InvokeDeviceMethodOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeviceEvents` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Using a device ID, returns a DeviceEventsResponse object containing an array of events for the device.
     ///
     /// - Parameter ListDeviceEventsInput : [no documentation found]
@@ -102,6 +134,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `RangeNotSatisfiableException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func listDeviceEvents(input: ListDeviceEventsInput) async throws -> ListDeviceEventsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDevices` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Lists the 1-Click compatible devices associated with your AWS account.
     ///
     /// - Parameter ListDevicesInput : [no documentation found]
@@ -115,6 +152,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `RangeNotSatisfiableException` : [no documentation found]
     func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Lists the tags associated with the specified resource ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -127,6 +169,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InternalFailureException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Adds or updates the tags associated with the resource ARN. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits) for the maximum number of tags allowed per resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -140,6 +187,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UnclaimDevice` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Disassociates a device from your AWS account using its device ID.
     ///
     /// - Parameter UnclaimDeviceInput : [no documentation found]
@@ -153,6 +205,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func unclaimDevice(input: UnclaimDeviceInput) async throws -> UnclaimDeviceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Using tag keys, deletes the tags (key/value pairs) associated with the specified resource ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -166,6 +223,11 @@ public protocol IoT1ClickDevicesClientProtocol {
     /// - `InvalidRequestException` : [no documentation found]
     /// - `ResourceNotFoundException` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDeviceState` operation on the `IoT1ClickDevicesService` service.
+    ///
+>>>>>>> main
     /// Using a Boolean value (true or false), this operation enables or disables the device given a device ID.
     ///
     /// - Parameter UpdateDeviceStateInput : [no documentation found]

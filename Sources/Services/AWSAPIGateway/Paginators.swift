@@ -12,7 +12,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetApiKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetApiKeysOutput`
     public func getApiKeysPaginated(input: GetApiKeysInput) -> ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutput>(input: input, inputKey: \GetApiKeysInput.position, outputKey: \GetApiKeysOutput.position, paginationFunction: self.getApiKeys(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetApiKeysInput, GetApiKeysOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getApiKeys(input:))
+>>>>>>> main
     }
 }
 
@@ -27,7 +31,11 @@ extension GetApiKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetApiKeysInput, Output == GetApiKeysOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetApiKeysInput, OperationStackOutput == GetApiKeysOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getApiKeysPaginated`
     /// to access the nested member `[APIGatewayClientTypes.ApiKey]`
     /// - Returns: `[APIGatewayClientTypes.ApiKey]`
@@ -45,7 +53,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetBasePathMappingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBasePathMappingsOutput`
     public func getBasePathMappingsPaginated(input: GetBasePathMappingsInput) -> ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutput>(input: input, inputKey: \GetBasePathMappingsInput.position, outputKey: \GetBasePathMappingsOutput.position, paginationFunction: self.getBasePathMappings(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBasePathMappingsInput, GetBasePathMappingsOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getBasePathMappings(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension GetBasePathMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetBasePathMappingsInput, Output == GetBasePathMappingsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetBasePathMappingsInput, OperationStackOutput == GetBasePathMappingsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getBasePathMappingsPaginated`
     /// to access the nested member `[APIGatewayClientTypes.BasePathMapping]`
     /// - Returns: `[APIGatewayClientTypes.BasePathMapping]`
@@ -76,7 +92,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetClientCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetClientCertificatesOutput`
     public func getClientCertificatesPaginated(input: GetClientCertificatesInput) -> ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutput>(input: input, inputKey: \GetClientCertificatesInput.position, outputKey: \GetClientCertificatesOutput.position, paginationFunction: self.getClientCertificates(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetClientCertificatesInput, GetClientCertificatesOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getClientCertificates(input:))
+>>>>>>> main
     }
 }
 
@@ -88,7 +108,11 @@ extension GetClientCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetClientCertificatesInput, Output == GetClientCertificatesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetClientCertificatesInput, OperationStackOutput == GetClientCertificatesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getClientCertificatesPaginated`
     /// to access the nested member `[APIGatewayClientTypes.ClientCertificate]`
     /// - Returns: `[APIGatewayClientTypes.ClientCertificate]`
@@ -106,7 +130,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetDeploymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDeploymentsOutput`
     public func getDeploymentsPaginated(input: GetDeploymentsInput) -> ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutput>(input: input, inputKey: \GetDeploymentsInput.position, outputKey: \GetDeploymentsOutput.position, paginationFunction: self.getDeployments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetDeploymentsInput, GetDeploymentsOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getDeployments(input:))
+>>>>>>> main
     }
 }
 
@@ -119,7 +147,11 @@ extension GetDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetDeploymentsInput, Output == GetDeploymentsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetDeploymentsInput, OperationStackOutput == GetDeploymentsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getDeploymentsPaginated`
     /// to access the nested member `[APIGatewayClientTypes.Deployment]`
     /// - Returns: `[APIGatewayClientTypes.Deployment]`
@@ -137,7 +169,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetDomainNamesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDomainNamesOutput`
     public func getDomainNamesPaginated(input: GetDomainNamesInput) -> ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutput>(input: input, inputKey: \GetDomainNamesInput.position, outputKey: \GetDomainNamesOutput.position, paginationFunction: self.getDomainNames(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetDomainNamesInput, GetDomainNamesOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getDomainNames(input:))
+>>>>>>> main
     }
 }
 
@@ -149,7 +185,11 @@ extension GetDomainNamesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetDomainNamesInput, Output == GetDomainNamesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetDomainNamesInput, OperationStackOutput == GetDomainNamesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getDomainNamesPaginated`
     /// to access the nested member `[APIGatewayClientTypes.DomainName]`
     /// - Returns: `[APIGatewayClientTypes.DomainName]`
@@ -167,7 +207,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetModelsOutput`
     public func getModelsPaginated(input: GetModelsInput) -> ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput>(input: input, inputKey: \GetModelsInput.position, outputKey: \GetModelsOutput.position, paginationFunction: self.getModels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getModels(input:))
+>>>>>>> main
     }
 }
 
@@ -180,7 +224,11 @@ extension GetModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetModelsInput, Output == GetModelsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetModelsInput, OperationStackOutput == GetModelsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getModelsPaginated`
     /// to access the nested member `[APIGatewayClientTypes.Model]`
     /// - Returns: `[APIGatewayClientTypes.Model]`
@@ -198,7 +246,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesOutput`
     public func getResourcesPaginated(input: GetResourcesInput) -> ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput>(input: input, inputKey: \GetResourcesInput.position, outputKey: \GetResourcesOutput.position, paginationFunction: self.getResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getResources(input:))
+>>>>>>> main
     }
 }
 
@@ -212,7 +264,11 @@ extension GetResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetResourcesInput, Output == GetResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetResourcesInput, OperationStackOutput == GetResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getResourcesPaginated`
     /// to access the nested member `[APIGatewayClientTypes.Resource]`
     /// - Returns: `[APIGatewayClientTypes.Resource]`
@@ -230,7 +286,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetRestApisInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetRestApisOutput`
     public func getRestApisPaginated(input: GetRestApisInput) -> ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutput>(input: input, inputKey: \GetRestApisInput.position, outputKey: \GetRestApisOutput.position, paginationFunction: self.getRestApis(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetRestApisInput, GetRestApisOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getRestApis(input:))
+>>>>>>> main
     }
 }
 
@@ -242,7 +302,11 @@ extension GetRestApisInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetRestApisInput, Output == GetRestApisOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetRestApisInput, OperationStackOutput == GetRestApisOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getRestApisPaginated`
     /// to access the nested member `[APIGatewayClientTypes.RestApi]`
     /// - Returns: `[APIGatewayClientTypes.RestApi]`
@@ -260,7 +324,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetUsageInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUsageOutput`
     public func getUsagePaginated(input: GetUsageInput) -> ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutput>(input: input, inputKey: \GetUsageInput.position, outputKey: \GetUsageOutput.position, paginationFunction: self.getUsage(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetUsageInput, GetUsageOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getUsage(input:))
+>>>>>>> main
     }
 }
 
@@ -276,7 +344,11 @@ extension GetUsageInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetUsageInput, Output == GetUsageOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetUsageInput, OperationStackOutput == GetUsageOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getUsagePaginated`
     /// to access the nested member `[(String, [[Swift.Int]])]`
     /// - Returns: `[(String, [[Swift.Int]])]`
@@ -294,7 +366,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetUsagePlanKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUsagePlanKeysOutput`
     public func getUsagePlanKeysPaginated(input: GetUsagePlanKeysInput) -> ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutput>(input: input, inputKey: \GetUsagePlanKeysInput.position, outputKey: \GetUsagePlanKeysOutput.position, paginationFunction: self.getUsagePlanKeys(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetUsagePlanKeysInput, GetUsagePlanKeysOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getUsagePlanKeys(input:))
+>>>>>>> main
     }
 }
 
@@ -308,7 +384,11 @@ extension GetUsagePlanKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetUsagePlanKeysInput, Output == GetUsagePlanKeysOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetUsagePlanKeysInput, OperationStackOutput == GetUsagePlanKeysOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getUsagePlanKeysPaginated`
     /// to access the nested member `[APIGatewayClientTypes.UsagePlanKey]`
     /// - Returns: `[APIGatewayClientTypes.UsagePlanKey]`
@@ -326,7 +406,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetUsagePlansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUsagePlansOutput`
     public func getUsagePlansPaginated(input: GetUsagePlansInput) -> ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutput>(input: input, inputKey: \GetUsagePlansInput.position, outputKey: \GetUsagePlansOutput.position, paginationFunction: self.getUsagePlans(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetUsagePlansInput, GetUsagePlansOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getUsagePlans(input:))
+>>>>>>> main
     }
 }
 
@@ -339,7 +423,11 @@ extension GetUsagePlansInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetUsagePlansInput, Output == GetUsagePlansOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetUsagePlansInput, OperationStackOutput == GetUsagePlansOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getUsagePlansPaginated`
     /// to access the nested member `[APIGatewayClientTypes.UsagePlan]`
     /// - Returns: `[APIGatewayClientTypes.UsagePlan]`
@@ -357,7 +445,11 @@ extension APIGatewayClient {
     ///     - input: A `[GetVpcLinksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetVpcLinksOutput`
     public func getVpcLinksPaginated(input: GetVpcLinksInput) -> ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutput>(input: input, inputKey: \GetVpcLinksInput.position, outputKey: \GetVpcLinksOutput.position, paginationFunction: self.getVpcLinks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetVpcLinksInput, GetVpcLinksOutput>(input: input, inputKey: \.position, outputKey: \.position, paginationFunction: self.getVpcLinks(input:))
+>>>>>>> main
     }
 }
 
@@ -369,7 +461,11 @@ extension GetVpcLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetVpcLinksInput, Output == GetVpcLinksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetVpcLinksInput, OperationStackOutput == GetVpcLinksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getVpcLinksPaginated`
     /// to access the nested member `[APIGatewayClientTypes.VpcLink]`
     /// - Returns: `[APIGatewayClientTypes.VpcLink]`

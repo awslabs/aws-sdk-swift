@@ -745,7 +745,7 @@ extension NeptuneClientTypes.CloudwatchLogsExportConfiguration: Swift.Codable {
 }
 
 extension NeptuneClientTypes {
-    /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs will be exported (or not exported) to CloudWatch Logs.
+    /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs will be exported (or not exported) to CloudWatch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See [Publishing Neptune logs to Amazon CloudWatch logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
     public struct CloudwatchLogsExportConfiguration: Swift.Equatable {
         /// The list of log types to disable.
         public var disableLogTypes: [Swift.String]?
@@ -773,6 +773,7 @@ extension NeptuneClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
         case iops = "Iops"
         case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
+        case storageType = "StorageType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -798,6 +799,9 @@ extension NeptuneClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         if let pendingCloudwatchLogsExports = pendingCloudwatchLogsExports {
             try container.encode(pendingCloudwatchLogsExports, forKey: ClientRuntime.Key("PendingCloudwatchLogsExports"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -812,6 +816,8 @@ extension NeptuneClientTypes.ClusterPendingModifiedValues: Swift.Codable {
         engineVersion = engineVersionDecoded
         let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
         backupRetentionPeriod = backupRetentionPeriodDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
         let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
@@ -836,6 +842,8 @@ extension NeptuneClientTypes {
         public var iops: Swift.Int?
         /// This PendingCloudwatchLogsExports structure specifies pending changes to which CloudWatch logs are enabled and which are disabled.
         public var pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports?
+        /// The storage type for the DB cluster.
+        public var storageType: Swift.String?
 
         public init(
             allocatedStorage: Swift.Int? = nil,
@@ -844,7 +852,8 @@ extension NeptuneClientTypes {
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
-            pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports? = nil
+            pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports? = nil,
+            storageType: Swift.String? = nil
         )
         {
             self.allocatedStorage = allocatedStorage
@@ -854,6 +863,7 @@ extension NeptuneClientTypes {
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.iops = iops
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
+            self.storageType = storageType
         }
     }
 
@@ -1880,6 +1890,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -1948,7 +1961,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var dbSubnetGroupName: Swift.String?
     /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
-    /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
+    /// A list of the log types that this DB cluster should export to CloudWatch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See [Publishing Neptune logs to Amazon CloudWatch logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// If set to true, enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -1996,6 +2009,18 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
     /// Specifies whether the DB cluster is encrypted.
     public var storageEncrypted: Swift.Bool?
+    /// The storage type to associate with the DB cluster. Valid Values:
+    ///
+    /// * standard | iopt1
+    ///
+    ///
+    /// Default:
+    ///
+    /// * standard
+    ///
+    ///
+    /// When you create a Neptune cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+    public var storageType: Swift.String?
     /// The tags to assign to the new DB cluster.
     public var tags: [NeptuneClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with this DB cluster.
@@ -2027,6 +2052,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         replicationSourceIdentifier: Swift.String? = nil,
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageEncrypted: Swift.Bool? = nil,
+        storageType: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -2056,6 +2082,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.replicationSourceIdentifier = replicationSourceIdentifier
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.storageEncrypted = storageEncrypted
+        self.storageType = storageType
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -2089,6 +2116,7 @@ struct CreateDBClusterInputBody: Swift.Equatable {
     let deletionProtection: Swift.Bool?
     let serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
     let globalClusterIdentifier: Swift.String?
+    let storageType: Swift.String?
 }
 
 extension CreateDBClusterInputBody: Swift.Decodable {
@@ -2118,6 +2146,7 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case replicationSourceIdentifier = "ReplicationSourceIdentifier"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case tags = "Tags"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
@@ -2246,6 +2275,49 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+    }
+}
+
+extension CreateDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct CreateDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct CreateDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension CreateDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -4150,6 +4222,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         case globalClusterIdentifier = "GlobalClusterIdentifier"
         case hostedZoneId = "HostedZoneId"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+        case ioOptimizedNextAllowedModificationTime = "IOOptimizedNextAllowedModificationTime"
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
         case masterUsername = "MasterUsername"
@@ -4165,6 +4238,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case vpcSecurityGroups = "VpcSecurityGroups"
     }
 
@@ -4296,6 +4370,9 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
+        if let ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime {
+            try container.encodeTimestamp(ioOptimizedNextAllowedModificationTime, format: .dateTime, forKey: ClientRuntime.Key("IOOptimizedNextAllowedModificationTime"))
+        }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
@@ -4349,6 +4426,9 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         }
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
+        }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
             if !vpcSecurityGroups.isEmpty {
@@ -4571,6 +4651,10 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
+        let ioOptimizedNextAllowedModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .ioOptimizedNextAllowedModificationTime)
+        ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTimeDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -4617,7 +4701,7 @@ extension NeptuneClientTypes {
         public var deletionProtection: Swift.Bool?
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
         public var earliestRestorableTime: ClientRuntime.Date?
-        /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
+        /// A list of the log types that this DB cluster is configured to export to CloudWatch Logs. Valid log types are: audit (to publish audit logs to CloudWatch) and slowquery (to publish slow-query logs to CloudWatch). See [Publishing Neptune logs to Amazon CloudWatch logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
         public var enabledCloudwatchLogsExports: [Swift.String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public var endpoint: Swift.String?
@@ -4631,6 +4715,11 @@ extension NeptuneClientTypes {
         public var hostedZoneId: Swift.String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
+<<<<<<< HEAD
+=======
+        /// The next time you can modify the DB cluster to use the iopt1 storage type.
+        public var ioOptimizedNextAllowedModificationTime: ClientRuntime.Date?
+>>>>>>> main
         /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster.
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -4661,6 +4750,11 @@ extension NeptuneClientTypes {
         public var status: Swift.String?
         /// Specifies whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+<<<<<<< HEAD
+=======
+        /// The storage type associated with the DB cluster.
+        public var storageType: Swift.String?
+>>>>>>> main
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]?
 
@@ -4692,6 +4786,10 @@ extension NeptuneClientTypes {
             globalClusterIdentifier: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
+<<<<<<< HEAD
+=======
+            ioOptimizedNextAllowedModificationTime: ClientRuntime.Date? = nil,
+>>>>>>> main
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             masterUsername: Swift.String? = nil,
@@ -4707,6 +4805,10 @@ extension NeptuneClientTypes {
             serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+<<<<<<< HEAD
+=======
+            storageType: Swift.String? = nil,
+>>>>>>> main
             vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -4737,6 +4839,7 @@ extension NeptuneClientTypes {
             self.globalClusterIdentifier = globalClusterIdentifier
             self.hostedZoneId = hostedZoneId
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
+            self.ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
@@ -4752,6 +4855,7 @@ extension NeptuneClientTypes {
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -5753,6 +5857,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         case sourceDBClusterSnapshotArn = "SourceDBClusterSnapshotArn"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case vpcId = "VpcId"
     }
 
@@ -5824,6 +5929,9 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let vpcId = vpcId {
             try container.encode(vpcId, forKey: ClientRuntime.Key("VpcId"))
         }
@@ -5888,6 +5996,8 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Codable {
         sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArnDecoded
         let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
         iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -5932,6 +6042,11 @@ extension NeptuneClientTypes {
         public var status: Swift.String?
         /// Specifies whether the DB cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
+<<<<<<< HEAD
+=======
+        /// The storage type associated with the DB cluster snapshot.
+        public var storageType: Swift.String?
+>>>>>>> main
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public var vpcId: Swift.String?
 
@@ -5955,6 +6070,10 @@ extension NeptuneClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+<<<<<<< HEAD
+=======
+            storageType: Swift.String? = nil,
+>>>>>>> main
             vpcId: Swift.String? = nil
         )
         {
@@ -5977,6 +6096,7 @@ extension NeptuneClientTypes {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.vpcId = vpcId
         }
     }
@@ -16040,6 +16160,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         if let serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration {
             try container.encode(serverlessV2ScalingConfiguration, forKey: ClientRuntime.Key("ServerlessV2ScalingConfiguration"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             if !vpcSecurityGroupIds.isEmpty {
                 var vpcSecurityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("VpcSecurityGroupIds"))
@@ -16072,7 +16195,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     ///
     /// * Must be a value from 1 to 35
     public var backupRetentionPeriod: Swift.Int?
-    /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster.
+    /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. See [Using the CLI to publish Neptune audit logs to CloudWatch Logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html#cloudwatch-logs-cli).
     public var cloudwatchLogsExportConfiguration: NeptuneClientTypes.CloudwatchLogsExportConfiguration?
     /// If set to true, tags are copied to any snapshot of the DB cluster that is created.
     public var copyTagsToSnapshot: Swift.Bool?
@@ -16126,6 +16249,15 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var preferredMaintenanceWindow: Swift.String?
     /// Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see [Using Amazon Neptune Serverless](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html) in the Amazon Neptune User Guide.
     public var serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
+    /// The storage type to associate with the DB cluster. Valid Values:
+    ///
+    /// * standard | iopt1
+    ///
+    ///
+    /// Default:
+    ///
+    /// * standard
+    public var storageType: Swift.String?
     /// A list of VPC security groups that the DB cluster will belong to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
@@ -16148,6 +16280,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
+        storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
@@ -16169,6 +16302,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
+        self.storageType = storageType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
 }
@@ -16193,6 +16327,7 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let deletionProtection: Swift.Bool?
     let copyTagsToSnapshot: Swift.Bool?
     let serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
+    let storageType: Swift.String?
 }
 
 extension ModifyDBClusterInputBody: Swift.Decodable {
@@ -16215,6 +16350,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
+        case storageType = "StorageType"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
 
@@ -16275,6 +16411,49 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
         let serverlessV2ScalingConfigurationDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ServerlessV2ScalingConfiguration.self, forKey: .serverlessV2ScalingConfiguration)
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+    }
+}
+
+extension ModifyDBClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct ModifyDBClusterOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct ModifyDBClusterOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension ModifyDBClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -16334,6 +16513,7 @@ enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -18433,7 +18613,7 @@ extension NeptuneClientTypes.PendingCloudwatchLogsExports: Swift.Codable {
 }
 
 extension NeptuneClientTypes {
-    /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated.
+    /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See [Publishing Neptune logs to Amazon CloudWatch logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
     public struct PendingCloudwatchLogsExports: Swift.Equatable {
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
         public var logTypesToDisable: [Swift.String]?
@@ -19937,6 +20117,9 @@ extension RestoreDBClusterFromSnapshotInput: Swift.Encodable {
         if let snapshotIdentifier = snapshotIdentifier {
             try container.encode(snapshotIdentifier, forKey: ClientRuntime.Key("SnapshotIdentifier"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -20025,6 +20208,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     /// * Must match the identifier of an existing Snapshot.
     /// This member is required.
     public var snapshotIdentifier: Swift.String?
+    /// Specifies the storage type to be associated with the DB cluster. Valid values: standard, iopt1 Default: standard
+    public var storageType: Swift.String?
     /// The tags to be assigned to the restored DB cluster.
     public var tags: [NeptuneClientTypes.Tag]?
     /// A list of VPC security groups that the new DB cluster will belong to.
@@ -20047,6 +20232,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         port: Swift.Int? = nil,
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
+        storageType: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -20067,6 +20253,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         self.port = port
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
+        self.storageType = storageType
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -20091,6 +20278,7 @@ struct RestoreDBClusterFromSnapshotInputBody: Swift.Equatable {
     let deletionProtection: Swift.Bool?
     let copyTagsToSnapshot: Swift.Bool?
     let serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
+    let storageType: Swift.String?
 }
 
 extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
@@ -20111,6 +20299,7 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         case port = "Port"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case snapshotIdentifier = "SnapshotIdentifier"
+        case storageType = "StorageType"
         case tags = "Tags"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
@@ -20221,6 +20410,49 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         copyTagsToSnapshot = copyTagsToSnapshotDecoded
         let serverlessV2ScalingConfigurationDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ServerlessV2ScalingConfiguration.self, forKey: .serverlessV2ScalingConfiguration)
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+    }
+}
+
+extension RestoreDBClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreDBClusterFromSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct RestoreDBClusterFromSnapshotOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension RestoreDBClusterFromSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 
@@ -20341,6 +20573,9 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
         if let sourceDBClusterIdentifier = sourceDBClusterIdentifier {
             try container.encode(sourceDBClusterIdentifier, forKey: ClientRuntime.Key("SourceDBClusterIdentifier"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -20443,6 +20678,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// * Must match the identifier of an existing DBCluster.
     /// This member is required.
     public var sourceDBClusterIdentifier: Swift.String?
+    /// Specifies the storage type to be associated with the DB cluster. Valid values: standard, iopt1 Default: standard
+    public var storageType: Swift.String?
     /// The tags to be applied to the restored DB cluster.
     public var tags: [NeptuneClientTypes.Tag]?
     /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise. Default: false Constraints: Cannot be specified if RestoreToTime parameter is provided.
@@ -20464,6 +20701,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         restoreType: Swift.String? = nil,
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
+        storageType: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -20482,6 +20720,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         self.restoreType = restoreType
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+        self.storageType = storageType
         self.tags = tags
         self.useLatestRestorableTime = useLatestRestorableTime
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -20505,6 +20744,7 @@ struct RestoreDBClusterToPointInTimeInputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
     let deletionProtection: Swift.Bool?
     let serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
+    let storageType: Swift.String?
 }
 
 extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
@@ -20522,6 +20762,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         case restoreType = "RestoreType"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+        case storageType = "StorageType"
         case tags = "Tags"
         case useLatestRestorableTime = "UseLatestRestorableTime"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -20612,6 +20853,49 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         deletionProtection = deletionProtectionDecoded
         let serverlessV2ScalingConfigurationDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ServerlessV2ScalingConfiguration.self, forKey: .serverlessV2ScalingConfiguration)
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
+    }
+}
+
+extension RestoreDBClusterToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestoreDBClusterToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbCluster = output.dbCluster
+        } else {
+            self.dbCluster = nil
+        }
+    }
+}
+
+public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
+    /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
+    public var dbCluster: NeptuneClientTypes.DBCluster?
+
+    public init(
+        dbCluster: NeptuneClientTypes.DBCluster? = nil
+    )
+    {
+        self.dbCluster = dbCluster
+    }
+}
+
+struct RestoreDBClusterToPointInTimeOutputBody: Swift.Equatable {
+    let dbCluster: NeptuneClientTypes.DBCluster?
+}
+
+extension RestoreDBClusterToPointInTimeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbCluster = "DBCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
+        let dbClusterDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.DBCluster.self, forKey: .dbCluster)
+        dbCluster = dbClusterDecoded
     }
 }
 

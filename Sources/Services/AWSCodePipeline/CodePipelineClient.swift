@@ -67,6 +67,8 @@ public struct CodePipelineClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 }
 
 extension CodePipelineClient: CodePipelineClientProtocol {
+    /// Performs the `AcknowledgeJob` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
     ///
     /// - Parameter AcknowledgeJobInput : Represents the input of an AcknowledgeJob action.
@@ -95,6 +97,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AcknowledgeJobInput, AcknowledgeJobOutput, AcknowledgeJobOutputError>(id: "acknowledgeJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput, AcknowledgeJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput>())
@@ -110,10 +113,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeJobOutput, AcknowledgeJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeJobOutput, AcknowledgeJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeJobOutput, AcknowledgeJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AcknowledgeJobInput, AcknowledgeJobOutput>(id: "acknowledgeJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcknowledgeJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput>(xAmzTarget: "CodePipeline_20150709.AcknowledgeJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcknowledgeJobInput, AcknowledgeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcknowledgeJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(AcknowledgeJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AcknowledgeThirdPartyJob` operation on the `CodePipeline_20150709` service.
+    ///
     /// Confirms a job worker has received the specified job. Used for partner actions only.
     ///
     /// - Parameter AcknowledgeThirdPartyJobInput : Represents the input of an AcknowledgeThirdPartyJob action.
@@ -143,6 +165,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput, AcknowledgeThirdPartyJobOutputError>(id: "acknowledgeThirdPartyJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput, AcknowledgeThirdPartyJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput>())
@@ -158,10 +181,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeThirdPartyJobOutput, AcknowledgeThirdPartyJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeThirdPartyJobOutput, AcknowledgeThirdPartyJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeThirdPartyJobOutput, AcknowledgeThirdPartyJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput>(id: "acknowledgeThirdPartyJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcknowledgeThirdPartyJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput>(xAmzTarget: "CodePipeline_20150709.AcknowledgeThirdPartyJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcknowledgeThirdPartyJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeThirdPartyJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeThirdPartyJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(AcknowledgeThirdPartyJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeThirdPartyJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateCustomActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions.
     ///
     /// - Parameter CreateCustomActionTypeInput : Represents the input of a CreateCustomActionType operation.
@@ -192,6 +234,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCustomActionTypeInput, CreateCustomActionTypeOutput, CreateCustomActionTypeOutputError>(id: "createCustomActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput, CreateCustomActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput>())
@@ -207,10 +250,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomActionTypeOutput, CreateCustomActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomActionTypeOutput, CreateCustomActionTypeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomActionTypeOutput, CreateCustomActionTypeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCustomActionTypeInput, CreateCustomActionTypeOutput>(id: "createCustomActionType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomActionTypeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput>(xAmzTarget: "CodePipeline_20150709.CreateCustomActionType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCustomActionTypeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomActionTypeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomActionTypeOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCustomActionTypeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomActionTypeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Creates a pipeline. In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
     ///
     /// - Parameter CreatePipelineInput : Represents the input of a CreatePipeline action.
@@ -246,6 +308,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePipelineInput, CreatePipelineOutput, CreatePipelineOutputError>(id: "createPipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePipelineInput, CreatePipelineOutput, CreatePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePipelineInput, CreatePipelineOutput>())
@@ -261,10 +324,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipelineOutput, CreatePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipelineOutput, CreatePipelineOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePipelineOutput, CreatePipelineOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePipelineInput, CreatePipelineOutput>(id: "createPipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePipelineInput, CreatePipelineOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePipelineInput, CreatePipelineOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePipelineInput, CreatePipelineOutput>(xAmzTarget: "CodePipeline_20150709.CreatePipeline"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePipelineInput, CreatePipelineOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePipelineInput, CreatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePipelineOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePipelineOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCustomActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field.
     ///
     /// - Parameter DeleteCustomActionTypeInput : Represents the input of a DeleteCustomActionType operation. The custom action will be marked as deleted.
@@ -292,6 +374,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput, DeleteCustomActionTypeOutputError>(id: "deleteCustomActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput, DeleteCustomActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput>())
@@ -307,10 +390,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomActionTypeOutput, DeleteCustomActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomActionTypeOutput, DeleteCustomActionTypeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomActionTypeOutput, DeleteCustomActionTypeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput>(id: "deleteCustomActionType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomActionTypeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput>(xAmzTarget: "CodePipeline_20150709.DeleteCustomActionType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCustomActionTypeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomActionTypeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomActionTypeOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCustomActionTypeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomActionTypeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Deletes the specified pipeline.
     ///
     /// - Parameter DeletePipelineInput : Represents the input of a DeletePipeline action.
@@ -338,6 +440,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePipelineInput, DeletePipelineOutput, DeletePipelineOutputError>(id: "deletePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePipelineInput, DeletePipelineOutput, DeletePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
@@ -353,10 +456,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipelineOutput, DeletePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipelineOutput, DeletePipelineOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePipelineOutput, DeletePipelineOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePipelineInput, DeletePipelineOutput>(id: "deletePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePipelineInput, DeletePipelineOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePipelineInput, DeletePipelineOutput>(xAmzTarget: "CodePipeline_20150709.DeletePipeline"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePipelineInput, DeletePipelineOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePipelineInput, DeletePipelineOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePipelineOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePipelineOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteWebhook` operation on the `CodePipeline_20150709` service.
+    ///
     /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
     ///
     /// - Parameter DeleteWebhookInput : [no documentation found]
@@ -384,6 +506,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteWebhookInput, DeleteWebhookOutput, DeleteWebhookOutputError>(id: "deleteWebhook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWebhookInput, DeleteWebhookOutput, DeleteWebhookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
@@ -399,10 +522,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWebhookOutput, DeleteWebhookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWebhookOutput, DeleteWebhookOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWebhookOutput, DeleteWebhookOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteWebhookInput, DeleteWebhookOutput>(id: "deleteWebhook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWebhookOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(xAmzTarget: "CodePipeline_20150709.DeleteWebhook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteWebhookInput, DeleteWebhookOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWebhookOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWebhookOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWebhookOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteWebhookOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWebhookOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeregisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    ///
     /// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub.
     ///
     /// - Parameter DeregisterWebhookWithThirdPartyInput : [no documentation found]
@@ -430,6 +572,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput, DeregisterWebhookWithThirdPartyOutputError>(id: "deregisterWebhookWithThirdParty")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput, DeregisterWebhookWithThirdPartyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput>())
@@ -445,10 +588,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterWebhookWithThirdPartyOutput, DeregisterWebhookWithThirdPartyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterWebhookWithThirdPartyOutput, DeregisterWebhookWithThirdPartyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterWebhookWithThirdPartyOutput, DeregisterWebhookWithThirdPartyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput>(id: "deregisterWebhookWithThirdParty")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterWebhookWithThirdPartyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput>(xAmzTarget: "CodePipeline_20150709.DeregisterWebhookWithThirdParty"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterWebhookWithThirdPartyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterWebhookWithThirdPartyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterWebhookWithThirdPartyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeregisterWebhookWithThirdPartyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterWebhookWithThirdPartyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisableStageTransition` operation on the `CodePipeline_20150709` service.
+    ///
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
     ///
     /// - Parameter DisableStageTransitionInput : Represents the input of a DisableStageTransition action.
@@ -477,6 +639,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisableStageTransitionInput, DisableStageTransitionOutput, DisableStageTransitionOutputError>(id: "disableStageTransition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput, DisableStageTransitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput>())
@@ -492,10 +655,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableStageTransitionOutput, DisableStageTransitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableStageTransitionOutput, DisableStageTransitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableStageTransitionOutput, DisableStageTransitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisableStageTransitionInput, DisableStageTransitionOutput>(id: "disableStageTransition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableStageTransitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput>(xAmzTarget: "CodePipeline_20150709.DisableStageTransition"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableStageTransitionInput, DisableStageTransitionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableStageTransitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableStageTransitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableStageTransitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableStageTransitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableStageTransitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableStageTransition` operation on the `CodePipeline_20150709` service.
+    ///
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline.
     ///
     /// - Parameter EnableStageTransitionInput : Represents the input of an EnableStageTransition action.
@@ -524,6 +706,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnableStageTransitionInput, EnableStageTransitionOutput, EnableStageTransitionOutputError>(id: "enableStageTransition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput, EnableStageTransitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput>())
@@ -539,10 +722,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableStageTransitionOutput, EnableStageTransitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableStageTransitionOutput, EnableStageTransitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableStageTransitionOutput, EnableStageTransitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnableStageTransitionInput, EnableStageTransitionOutput>(id: "enableStageTransition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableStageTransitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput>(xAmzTarget: "CodePipeline_20150709.EnableStageTransition"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableStageTransitionInput, EnableStageTransitionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableStageTransitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableStageTransitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableStageTransitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableStageTransitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableStageTransitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model.
     ///
     /// - Parameter GetActionTypeInput : [no documentation found]
@@ -570,6 +772,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetActionTypeInput, GetActionTypeOutput, GetActionTypeOutputError>(id: "getActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActionTypeInput, GetActionTypeOutput, GetActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActionTypeInput, GetActionTypeOutput>())
@@ -585,10 +788,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActionTypeOutput, GetActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActionTypeOutput, GetActionTypeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetActionTypeOutput, GetActionTypeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetActionTypeInput, GetActionTypeOutput>(id: "getActionType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActionTypeInput, GetActionTypeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActionTypeInput, GetActionTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetActionTypeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetActionTypeInput, GetActionTypeOutput>(xAmzTarget: "CodePipeline_20150709.GetActionType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetActionTypeInput, GetActionTypeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetActionTypeInput, GetActionTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetActionTypeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActionTypeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActionTypeOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetActionTypeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetActionTypeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetJobDetails` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about a job. Used for custom actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
     /// - Parameter GetJobDetailsInput : Represents the input of a GetJobDetails action.
@@ -616,6 +838,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetJobDetailsInput, GetJobDetailsOutput, GetJobDetailsOutputError>(id: "getJobDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobDetailsInput, GetJobDetailsOutput, GetJobDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobDetailsInput, GetJobDetailsOutput>())
@@ -631,10 +854,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobDetailsOutput, GetJobDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobDetailsOutput, GetJobDetailsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobDetailsOutput, GetJobDetailsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetJobDetailsInput, GetJobDetailsOutput>(id: "getJobDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobDetailsInput, GetJobDetailsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobDetailsInput, GetJobDetailsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetJobDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetJobDetailsInput, GetJobDetailsOutput>(xAmzTarget: "CodePipeline_20150709.GetJobDetails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetJobDetailsInput, GetJobDetailsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetJobDetailsInput, GetJobDetailsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetJobDetailsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobDetailsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetJobDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobDetailsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with [UpdatePipeline].
     ///
     /// - Parameter GetPipelineInput : Represents the input of a GetPipeline action.
@@ -663,6 +905,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPipelineInput, GetPipelineOutput, GetPipelineOutputError>(id: "getPipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineInput, GetPipelineOutput, GetPipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineInput, GetPipelineOutput>())
@@ -678,10 +921,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineOutput, GetPipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineOutput, GetPipelineOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPipelineOutput, GetPipelineOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPipelineInput, GetPipelineOutput>(id: "getPipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineInput, GetPipelineOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineInput, GetPipelineOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPipelineInput, GetPipelineOutput>(xAmzTarget: "CodePipeline_20150709.GetPipeline"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPipelineInput, GetPipelineOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPipelineInput, GetPipelineOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPipelineOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPipelineOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
     ///
     /// - Parameter GetPipelineExecutionInput : Represents the input of a GetPipelineExecution action.
@@ -710,6 +972,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPipelineExecutionInput, GetPipelineExecutionOutput, GetPipelineExecutionOutputError>(id: "getPipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput, GetPipelineExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput>())
@@ -725,10 +988,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineExecutionOutput, GetPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineExecutionOutput, GetPipelineExecutionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPipelineExecutionOutput, GetPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPipelineExecutionInput, GetPipelineExecutionOutput>(id: "getPipelineExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPipelineExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput>(xAmzTarget: "CodePipeline_20150709.GetPipelineExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPipelineExecutionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPipelineExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPipelineState` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about the state of a pipeline, including the stages and actions. Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state.
     ///
     /// - Parameter GetPipelineStateInput : Represents the input of a GetPipelineState action.
@@ -756,6 +1038,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPipelineStateInput, GetPipelineStateOutput, GetPipelineStateOutputError>(id: "getPipelineState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineStateInput, GetPipelineStateOutput, GetPipelineStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineStateInput, GetPipelineStateOutput>())
@@ -771,10 +1054,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineStateOutput, GetPipelineStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineStateOutput, GetPipelineStateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPipelineStateOutput, GetPipelineStateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPipelineStateInput, GetPipelineStateOutput>(id: "getPipelineState")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineStateInput, GetPipelineStateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineStateInput, GetPipelineStateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPipelineStateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPipelineStateInput, GetPipelineStateOutput>(xAmzTarget: "CodePipeline_20150709.GetPipelineState"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPipelineStateInput, GetPipelineStateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPipelineStateInput, GetPipelineStateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPipelineStateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineStateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineStateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPipelineStateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPipelineStateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetThirdPartyJobDetails` operation on the `CodePipeline_20150709` service.
+    ///
     /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
     /// - Parameter GetThirdPartyJobDetailsInput : Represents the input of a GetThirdPartyJobDetails action.
@@ -804,6 +1106,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput, GetThirdPartyJobDetailsOutputError>(id: "getThirdPartyJobDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput, GetThirdPartyJobDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput>())
@@ -819,10 +1122,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThirdPartyJobDetailsOutput, GetThirdPartyJobDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThirdPartyJobDetailsOutput, GetThirdPartyJobDetailsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetThirdPartyJobDetailsOutput, GetThirdPartyJobDetailsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput>(id: "getThirdPartyJobDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetThirdPartyJobDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput>(xAmzTarget: "CodePipeline_20150709.GetThirdPartyJobDetails"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetThirdPartyJobDetailsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThirdPartyJobDetailsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThirdPartyJobDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetThirdPartyJobDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetThirdPartyJobDetailsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListActionExecutions` operation on the `CodePipeline_20150709` service.
+    ///
     /// Lists the action executions that have occurred in a pipeline.
     ///
     /// - Parameter ListActionExecutionsInput : [no documentation found]
@@ -852,6 +1174,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListActionExecutionsInput, ListActionExecutionsOutput, ListActionExecutionsOutputError>(id: "listActionExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput, ListActionExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput>())
@@ -867,10 +1190,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionExecutionsOutput, ListActionExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionExecutionsOutput, ListActionExecutionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActionExecutionsOutput, ListActionExecutionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListActionExecutionsInput, ListActionExecutionsOutput>(id: "listActionExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListActionExecutionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput>(xAmzTarget: "CodePipeline_20150709.ListActionExecutions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListActionExecutionsInput, ListActionExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListActionExecutionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionExecutionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionExecutionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListActionExecutionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActionExecutionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListActionTypes` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a summary of all CodePipeline action types associated with your account.
     ///
     /// - Parameter ListActionTypesInput : Represents the input of a ListActionTypes action.
@@ -898,6 +1240,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListActionTypesInput, ListActionTypesOutput, ListActionTypesOutputError>(id: "listActionTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionTypesInput, ListActionTypesOutput, ListActionTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionTypesInput, ListActionTypesOutput>())
@@ -913,10 +1256,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionTypesOutput, ListActionTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionTypesOutput, ListActionTypesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActionTypesOutput, ListActionTypesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListActionTypesInput, ListActionTypesOutput>(id: "listActionTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionTypesInput, ListActionTypesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionTypesInput, ListActionTypesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListActionTypesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListActionTypesInput, ListActionTypesOutput>(xAmzTarget: "CodePipeline_20150709.ListActionTypes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListActionTypesInput, ListActionTypesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListActionTypesInput, ListActionTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListActionTypesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionTypesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListActionTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActionTypesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPipelineExecutions` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a summary of the most recent executions for a pipeline.
     ///
     /// - Parameter ListPipelineExecutionsInput : Represents the input of a ListPipelineExecutions action.
@@ -945,6 +1307,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPipelineExecutionsInput, ListPipelineExecutionsOutput, ListPipelineExecutionsOutputError>(id: "listPipelineExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput, ListPipelineExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>())
@@ -960,10 +1323,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelineExecutionsOutput, ListPipelineExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelineExecutionsOutput, ListPipelineExecutionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPipelineExecutionsOutput, ListPipelineExecutionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(id: "listPipelineExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPipelineExecutionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(xAmzTarget: "CodePipeline_20150709.ListPipelineExecutions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPipelineExecutionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelineExecutionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelineExecutionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPipelineExecutionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPipelineExecutionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPipelines` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a summary of all of the pipelines associated with your account.
     ///
     /// - Parameter ListPipelinesInput : Represents the input of a ListPipelines action.
@@ -991,6 +1373,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPipelinesInput, ListPipelinesOutput, ListPipelinesOutputError>(id: "listPipelines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutput, ListPipelinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutput>())
@@ -1006,10 +1389,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelinesOutput, ListPipelinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelinesOutput, ListPipelinesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPipelinesOutput, ListPipelinesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPipelinesInput, ListPipelinesOutput>(id: "listPipelines")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPipelinesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPipelinesInput, ListPipelinesOutput>(xAmzTarget: "CodePipeline_20150709.ListPipelines"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPipelinesInput, ListPipelinesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPipelinesInput, ListPipelinesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPipelinesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelinesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPipelinesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPipelinesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1039,6 +1441,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -1054,10 +1457,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "CodePipeline_20150709.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListWebhooks` operation on the `CodePipeline_20150709` service.
+    ///
     /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
     ///
     /// - Parameter ListWebhooksInput : [no documentation found]
@@ -1085,6 +1507,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListWebhooksInput, ListWebhooksOutput, ListWebhooksOutputError>(id: "listWebhooks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWebhooksInput, ListWebhooksOutput, ListWebhooksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWebhooksInput, ListWebhooksOutput>())
@@ -1100,10 +1523,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWebhooksOutput, ListWebhooksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWebhooksOutput, ListWebhooksOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWebhooksOutput, ListWebhooksOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListWebhooksInput, ListWebhooksOutput>(id: "listWebhooks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWebhooksInput, ListWebhooksOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWebhooksInput, ListWebhooksOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWebhooksOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListWebhooksInput, ListWebhooksOutput>(xAmzTarget: "CodePipeline_20150709.ListWebhooks"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListWebhooksInput, ListWebhooksOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListWebhooksInput, ListWebhooksOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWebhooksOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWebhooksOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWebhooksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListWebhooksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWebhooksOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PollForJobs` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
     /// - Parameter PollForJobsInput : Represents the input of a PollForJobs action.
@@ -1131,6 +1573,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PollForJobsInput, PollForJobsOutput, PollForJobsOutputError>(id: "pollForJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForJobsInput, PollForJobsOutput, PollForJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForJobsInput, PollForJobsOutput>())
@@ -1146,10 +1589,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForJobsOutput, PollForJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForJobsOutput, PollForJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PollForJobsOutput, PollForJobsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PollForJobsInput, PollForJobsOutput>(id: "pollForJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForJobsInput, PollForJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForJobsInput, PollForJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PollForJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PollForJobsInput, PollForJobsOutput>(xAmzTarget: "CodePipeline_20150709.PollForJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PollForJobsInput, PollForJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PollForJobsInput, PollForJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PollForJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PollForJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PollForJobsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PollForThirdPartyJobs` operation on the `CodePipeline_20150709` service.
+    ///
     /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
     ///
     /// - Parameter PollForThirdPartyJobsInput : Represents the input of a PollForThirdPartyJobs action.
@@ -1177,6 +1639,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput, PollForThirdPartyJobsOutputError>(id: "pollForThirdPartyJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput, PollForThirdPartyJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput>())
@@ -1192,10 +1655,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForThirdPartyJobsOutput, PollForThirdPartyJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForThirdPartyJobsOutput, PollForThirdPartyJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PollForThirdPartyJobsOutput, PollForThirdPartyJobsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput>(id: "pollForThirdPartyJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PollForThirdPartyJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput>(xAmzTarget: "CodePipeline_20150709.PollForThirdPartyJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PollForThirdPartyJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForThirdPartyJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForThirdPartyJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PollForThirdPartyJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PollForThirdPartyJobsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutActionRevision` operation on the `CodePipeline_20150709` service.
+    ///
     /// Provides information to CodePipeline about new revisions to a source.
     ///
     /// - Parameter PutActionRevisionInput : Represents the input of a PutActionRevision action.
@@ -1225,6 +1707,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutActionRevisionInput, PutActionRevisionOutput, PutActionRevisionOutputError>(id: "putActionRevision")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutActionRevisionInput, PutActionRevisionOutput, PutActionRevisionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutActionRevisionInput, PutActionRevisionOutput>())
@@ -1240,10 +1723,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutActionRevisionOutput, PutActionRevisionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutActionRevisionOutput, PutActionRevisionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutActionRevisionOutput, PutActionRevisionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutActionRevisionInput, PutActionRevisionOutput>(id: "putActionRevision")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutActionRevisionInput, PutActionRevisionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutActionRevisionInput, PutActionRevisionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutActionRevisionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutActionRevisionInput, PutActionRevisionOutput>(xAmzTarget: "CodePipeline_20150709.PutActionRevision"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutActionRevisionInput, PutActionRevisionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutActionRevisionInput, PutActionRevisionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutActionRevisionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutActionRevisionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutActionRevisionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutActionRevisionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutActionRevisionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutApprovalResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected.
     ///
     /// - Parameter PutApprovalResultInput : Represents the input of a PutApprovalResult action.
@@ -1275,6 +1777,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutApprovalResultInput, PutApprovalResultOutput, PutApprovalResultOutputError>(id: "putApprovalResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApprovalResultInput, PutApprovalResultOutput, PutApprovalResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApprovalResultInput, PutApprovalResultOutput>())
@@ -1290,10 +1793,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutApprovalResultOutput, PutApprovalResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApprovalResultOutput, PutApprovalResultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutApprovalResultOutput, PutApprovalResultOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutApprovalResultInput, PutApprovalResultOutput>(id: "putApprovalResult")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApprovalResultInput, PutApprovalResultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApprovalResultInput, PutApprovalResultOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutApprovalResultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutApprovalResultInput, PutApprovalResultOutput>(xAmzTarget: "CodePipeline_20150709.PutApprovalResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutApprovalResultInput, PutApprovalResultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutApprovalResultInput, PutApprovalResultOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutApprovalResultOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutApprovalResultOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApprovalResultOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutApprovalResultOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutApprovalResultOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutJobFailureResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
     /// - Parameter PutJobFailureResultInput : Represents the input of a PutJobFailureResult action.
@@ -1322,6 +1844,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutJobFailureResultInput, PutJobFailureResultOutput, PutJobFailureResultOutputError>(id: "putJobFailureResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput, PutJobFailureResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput>())
@@ -1337,10 +1860,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobFailureResultOutput, PutJobFailureResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobFailureResultOutput, PutJobFailureResultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutJobFailureResultOutput, PutJobFailureResultOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutJobFailureResultInput, PutJobFailureResultOutput>(id: "putJobFailureResult")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutJobFailureResultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput>(xAmzTarget: "CodePipeline_20150709.PutJobFailureResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutJobFailureResultInput, PutJobFailureResultOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutJobFailureResultOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobFailureResultOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobFailureResultOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutJobFailureResultOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutJobFailureResultOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
     /// - Parameter PutJobSuccessResultInput : Represents the input of a PutJobSuccessResult action.
@@ -1370,6 +1912,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutJobSuccessResultInput, PutJobSuccessResultOutput, PutJobSuccessResultOutputError>(id: "putJobSuccessResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput, PutJobSuccessResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput>())
@@ -1385,10 +1928,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobSuccessResultOutput, PutJobSuccessResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobSuccessResultOutput, PutJobSuccessResultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutJobSuccessResultOutput, PutJobSuccessResultOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutJobSuccessResultInput, PutJobSuccessResultOutput>(id: "putJobSuccessResult")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutJobSuccessResultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput>(xAmzTarget: "CodePipeline_20150709.PutJobSuccessResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutJobSuccessResultOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobSuccessResultOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobSuccessResultOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutJobSuccessResultOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutJobSuccessResultOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutThirdPartyJobFailureResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
     /// - Parameter PutThirdPartyJobFailureResultInput : Represents the input of a PutThirdPartyJobFailureResult action.
@@ -1418,6 +1980,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput, PutThirdPartyJobFailureResultOutputError>(id: "putThirdPartyJobFailureResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput, PutThirdPartyJobFailureResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput>())
@@ -1433,10 +1996,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutThirdPartyJobFailureResultOutput, PutThirdPartyJobFailureResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutThirdPartyJobFailureResultOutput, PutThirdPartyJobFailureResultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutThirdPartyJobFailureResultOutput, PutThirdPartyJobFailureResultOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput>(id: "putThirdPartyJobFailureResult")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutThirdPartyJobFailureResultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput>(xAmzTarget: "CodePipeline_20150709.PutThirdPartyJobFailureResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutThirdPartyJobFailureResultOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutThirdPartyJobFailureResultOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutThirdPartyJobFailureResultOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutThirdPartyJobFailureResultOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutThirdPartyJobFailureResultOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutThirdPartyJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    ///
     /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
     /// - Parameter PutThirdPartyJobSuccessResultInput : Represents the input of a PutThirdPartyJobSuccessResult action.
@@ -1466,6 +2048,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput, PutThirdPartyJobSuccessResultOutputError>(id: "putThirdPartyJobSuccessResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput, PutThirdPartyJobSuccessResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput>())
@@ -1481,10 +2064,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutThirdPartyJobSuccessResultOutput, PutThirdPartyJobSuccessResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutThirdPartyJobSuccessResultOutput, PutThirdPartyJobSuccessResultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutThirdPartyJobSuccessResultOutput, PutThirdPartyJobSuccessResultOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput>(id: "putThirdPartyJobSuccessResult")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutThirdPartyJobSuccessResultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput>(xAmzTarget: "CodePipeline_20150709.PutThirdPartyJobSuccessResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutThirdPartyJobSuccessResultOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutThirdPartyJobSuccessResultOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutThirdPartyJobSuccessResultOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutThirdPartyJobSuccessResultOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutThirdPartyJobSuccessResultOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutWebhook` operation on the `CodePipeline_20150709` service.
+    ///
     /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL.
     ///
     /// - Parameter PutWebhookInput : [no documentation found]
@@ -1518,6 +2120,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutWebhookInput, PutWebhookOutput, PutWebhookOutputError>(id: "putWebhook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutWebhookInput, PutWebhookOutput, PutWebhookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutWebhookInput, PutWebhookOutput>())
@@ -1533,10 +2136,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutWebhookOutput, PutWebhookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutWebhookOutput, PutWebhookOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutWebhookOutput, PutWebhookOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutWebhookInput, PutWebhookOutput>(id: "putWebhook")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutWebhookInput, PutWebhookOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutWebhookInput, PutWebhookOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutWebhookOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutWebhookInput, PutWebhookOutput>(xAmzTarget: "CodePipeline_20150709.PutWebhook"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutWebhookInput, PutWebhookOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutWebhookInput, PutWebhookOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutWebhookOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutWebhookOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutWebhookOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutWebhookOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutWebhookOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RegisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    ///
     /// Configures a connection between the webhook that was created and the external tool with events to be detected.
     ///
     /// - Parameter RegisterWebhookWithThirdPartyInput : [no documentation found]
@@ -1564,6 +2186,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput, RegisterWebhookWithThirdPartyOutputError>(id: "registerWebhookWithThirdParty")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput, RegisterWebhookWithThirdPartyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput>())
@@ -1579,10 +2202,32 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterWebhookWithThirdPartyOutput, RegisterWebhookWithThirdPartyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterWebhookWithThirdPartyOutput, RegisterWebhookWithThirdPartyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterWebhookWithThirdPartyOutput, RegisterWebhookWithThirdPartyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput>(id: "registerWebhookWithThirdParty")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterWebhookWithThirdPartyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput>(xAmzTarget: "CodePipeline_20150709.RegisterWebhookWithThirdParty"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterWebhookWithThirdPartyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterWebhookWithThirdPartyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterWebhookWithThirdPartyOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegisterWebhookWithThirdPartyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterWebhookWithThirdPartyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `RetryStageExecution` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
     ///
     /// - Parameter RetryStageExecutionInput : Represents the input of a RetryStageExecution action.
@@ -1614,6 +2259,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RetryStageExecutionInput, RetryStageExecutionOutput, RetryStageExecutionOutputError>(id: "retryStageExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput, RetryStageExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput>())
@@ -1629,10 +2275,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryStageExecutionOutput, RetryStageExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryStageExecutionOutput, RetryStageExecutionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetryStageExecutionOutput, RetryStageExecutionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RetryStageExecutionInput, RetryStageExecutionOutput>(id: "retryStageExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RetryStageExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput>(xAmzTarget: "CodePipeline_20150709.RetryStageExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RetryStageExecutionInput, RetryStageExecutionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RetryStageExecutionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryStageExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryStageExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(RetryStageExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetryStageExecutionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
     ///
     /// - Parameter StartPipelineExecutionInput : Represents the input of a StartPipelineExecution action.
@@ -1661,6 +2326,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartPipelineExecutionInput, StartPipelineExecutionOutput, StartPipelineExecutionOutputError>(id: "startPipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput, StartPipelineExecutionOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput, StartPipelineExecutionOutputError>())
@@ -1677,10 +2343,30 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPipelineExecutionOutput, StartPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPipelineExecutionOutput, StartPipelineExecutionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPipelineExecutionOutput, StartPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartPipelineExecutionInput, StartPipelineExecutionOutput>(id: "startPipelineExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartPipelineExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(xAmzTarget: "CodePipeline_20150709.StartPipelineExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartPipelineExecutionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPipelineExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPipelineExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartPipelineExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StopPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
     /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state.
     ///
     /// - Parameter StopPipelineExecutionInput : [no documentation found]
@@ -1711,6 +2397,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StopPipelineExecutionInput, StopPipelineExecutionOutput, StopPipelineExecutionOutputError>(id: "stopPipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput, StopPipelineExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>())
@@ -1726,10 +2413,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPipelineExecutionOutput, StopPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPipelineExecutionOutput, StopPipelineExecutionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopPipelineExecutionOutput, StopPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StopPipelineExecutionInput, StopPipelineExecutionOutput>(id: "stopPipelineExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopPipelineExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>(xAmzTarget: "CodePipeline_20150709.StopPipelineExecution"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopPipelineExecutionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPipelineExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPipelineExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopPipelineExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopPipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `CodePipeline_20150709` service.
+    ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1761,6 +2467,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1776,10 +2483,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "CodePipeline_20150709.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `CodePipeline_20150709` service.
+    ///
     /// Removes tags from an Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1810,6 +2536,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1825,10 +2552,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "CodePipeline_20150709.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateActionType` operation on the `CodePipeline_20150709` service.
+    ///
     /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateActionType to provide the full structure.
     ///
     /// - Parameter UpdateActionTypeInput : [no documentation found]
@@ -1857,6 +2603,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateActionTypeInput, UpdateActionTypeOutput, UpdateActionTypeOutputError>(id: "updateActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput, UpdateActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput>())
@@ -1872,10 +2619,29 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateActionTypeOutput, UpdateActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActionTypeOutput, UpdateActionTypeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateActionTypeOutput, UpdateActionTypeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateActionTypeInput, UpdateActionTypeOutput>(id: "updateActionType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateActionTypeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput>(xAmzTarget: "CodePipeline_20150709.UpdateActionType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateActionTypeInput, UpdateActionTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateActionTypeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateActionTypeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActionTypeOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateActionTypeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateActionTypeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePipeline` operation on the `CodePipeline_20150709` service.
+    ///
     /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
     ///
     /// - Parameter UpdatePipelineInput : Represents the input of an UpdatePipeline action.
@@ -1907,6 +2673,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePipelineInput, UpdatePipelineOutput, UpdatePipelineOutputError>(id: "updatePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineInput, UpdatePipelineOutput, UpdatePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
@@ -1922,6 +2689,23 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineOutput, UpdatePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput, UpdatePipelineOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineOutput, UpdatePipelineOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePipelineInput, UpdatePipelineOutput>(id: "updatePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(xAmzTarget: "CodePipeline_20150709.UpdatePipeline"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePipelineInput, UpdatePipelineOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePipelineOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -67,6 +67,84 @@ public struct VerifiedPermissionsClientLogHandlerFactory: ClientRuntime.SDKLogHa
 }
 
 extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
+    /// Performs the `BatchIsAuthorized` operation on the `VerifiedPermissions` service.
+    ///
+    /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2. Authorization of bob to view photo1 and photo2, or bob and alice to view photo1, are valid batches. The request is evaluated against all policies in the specified policy store that match the entities that you declare. The result of the decisions is a series of Allow or Deny responses, along with the IDs of the policies that produced each decision. The entities of a BatchIsAuthorized API request can contain up to 100 principals and up to 100 resources. The requests of a BatchIsAuthorized API request can contain up to 30 requests. The BatchIsAuthorized operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:IsAuthorized in their IAM policies.
+    ///
+<<<<<<< HEAD
+    /// - Returns: `CreateIdentitySourceOutput` : [no documentation found]
+=======
+    /// - Parameter BatchIsAuthorizedInput : [no documentation found]
+    ///
+    /// - Returns: `BatchIsAuthorizedOutput` : [no documentation found]
+>>>>>>> main
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
+    /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
+    ///
+    /// * UnrecognizedEntityType The policy includes an entity type that isn't found in the schema.
+    ///
+    /// * UnrecognizedActionId The policy includes an action id that isn't found in the schema.
+    ///
+    /// * InvalidActionApplication The policy includes an action that, according to the schema, doesn't support the specified principal and resource.
+    ///
+    /// * UnexpectedType The policy included an operand that isn't a valid type for the specified operation.
+    ///
+    /// * IncompatibleTypes The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.
+    ///
+    /// * MissingAttribute The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * UnsafeOptionalAttributeAccess The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the [has (presence of attribute test) operator](https://docs.cedarpolicy.com/policies/syntax-operators.html#has-presence-of-attribute-test) in the Cedar Policy Language Guide.
+    ///
+    /// * ImpossiblePolicy Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.
+    ///
+    /// * WrongNumberArguments The policy references an extension type with the wrong number of arguments.
+    ///
+    /// * FunctionArgumentValidationError Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
+    /// - `ConflictException` : The request failed because another request to modify a resource occurred at the same.
+    /// - `ResourceNotFoundException` : The request failed because it references a resource that doesn't exist.
+    public func batchIsAuthorized(input: BatchIsAuthorizedInput) async throws -> BatchIsAuthorizedOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchIsAuthorized")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "verifiedpermissions")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchIsAuthorizedInput, BatchIsAuthorizedOutput>(id: "batchIsAuthorized")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchIsAuthorizedInput, BatchIsAuthorizedOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchIsAuthorizedInput, BatchIsAuthorizedOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchIsAuthorizedOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchIsAuthorizedInput, BatchIsAuthorizedOutput>(xAmzTarget: "VerifiedPermissions.BatchIsAuthorized"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchIsAuthorizedInput, BatchIsAuthorizedOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchIsAuthorizedInput, BatchIsAuthorizedOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchIsAuthorizedOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchIsAuthorizedOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchIsAuthorizedOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchIsAuthorizedOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchIsAuthorizedOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateIdentitySource` operation on the `VerifiedPermissions` service.
+    ///
     /// Creates a reference to an Amazon Cognito user pool as an external identity provider (IdP). After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operation. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Amazon Cognito provides both identity tokens and access tokens, and Verified Permissions can use either or both. Any combination of identity and access tokens results in the same Cedar principal. Verified Permissions automatically translates the information about the identities into the standard Cedar attributes that can be evaluated by your policies. Because the Amazon Cognito identity and access tokens can contain different information, the tokens you choose to use determine which principal attributes are available to access when evaluating Cedar policies. If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire. To reference a user from this identity source in your Cedar policies, use the following syntax. IdentityType::"<CognitoUserPoolIdentifier>|<CognitoClientId> Where IdentityType is the string that you provide to the PrincipalEntityType parameter for this operation. The CognitoUserPoolId and CognitoClientId are defined by the Amazon Cognito user pool. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreateIdentitySourceInput : [no documentation found]
@@ -119,6 +197,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateIdentitySourceInput, CreateIdentitySourceOutput, CreateIdentitySourceOutputError>(id: "createIdentitySource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput, CreateIdentitySourceOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput, CreateIdentitySourceOutputError>())
@@ -135,10 +214,30 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentitySourceOutput, CreateIdentitySourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentitySourceOutput, CreateIdentitySourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentitySourceOutput, CreateIdentitySourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateIdentitySourceInput, CreateIdentitySourceOutput>(id: "createIdentitySource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentitySourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>(xAmzTarget: "VerifiedPermissions.CreateIdentitySource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIdentitySourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentitySourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentitySourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateIdentitySourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePolicy` operation on the `VerifiedPermissions` service.
+    ///
     /// Creates a Cedar policy and saves it in the specified policy store. You can create either a static policy or a policy linked to a policy template.
     ///
     /// * To create a static policy, provide the Cedar policy text in the StaticPolicy section of the PolicyDefinition.
@@ -198,6 +297,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>(id: "createPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>())
@@ -214,10 +314,33 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput, CreatePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput, CreatePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput, CreatePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutput>(id: "createPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePolicyInput, CreatePolicyOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyInput, CreatePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePolicyInput, CreatePolicyOutput>(xAmzTarget: "VerifiedPermissions.CreatePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePolicyInput, CreatePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePolicyInput, CreatePolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePolicyStore` operation on the `VerifiedPermissions` service.
+    ///
+>>>>>>> main
     /// Creates a policy store. A policy store is a container for policy resources. Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace), Verified Permissions currently supports only one namespace per policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreatePolicyStoreInput : [no documentation found]
@@ -269,6 +392,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePolicyStoreInput, CreatePolicyStoreOutput, CreatePolicyStoreOutputError>(id: "createPolicyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput, CreatePolicyStoreOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput, CreatePolicyStoreOutputError>())
@@ -285,10 +409,30 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyStoreOutput, CreatePolicyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyStoreOutput, CreatePolicyStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyStoreOutput, CreatePolicyStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePolicyStoreInput, CreatePolicyStoreOutput>(id: "createPolicyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput>(xAmzTarget: "VerifiedPermissions.CreatePolicyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePolicyStoreInput, CreatePolicyStoreOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePolicyTemplate` operation on the `VerifiedPermissions` service.
+    ///
     /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreatePolicyTemplateInput : [no documentation found]
@@ -341,6 +485,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePolicyTemplateInput, CreatePolicyTemplateOutput, CreatePolicyTemplateOutputError>(id: "createPolicyTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput, CreatePolicyTemplateOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput, CreatePolicyTemplateOutputError>())
@@ -357,10 +502,30 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyTemplateOutput, CreatePolicyTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyTemplateOutput, CreatePolicyTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyTemplateOutput, CreatePolicyTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePolicyTemplateInput, CreatePolicyTemplateOutput>(id: "createPolicyTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput>(xAmzTarget: "VerifiedPermissions.CreatePolicyTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePolicyTemplateInput, CreatePolicyTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteIdentitySource` operation on the `VerifiedPermissions` service.
+    ///
     /// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html). operations.
     ///
     /// - Parameter DeleteIdentitySourceInput : [no documentation found]
@@ -412,6 +577,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteIdentitySourceInput, DeleteIdentitySourceOutput, DeleteIdentitySourceOutputError>(id: "deleteIdentitySource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput, DeleteIdentitySourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>())
@@ -427,10 +593,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentitySourceOutput, DeleteIdentitySourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentitySourceOutput, DeleteIdentitySourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentitySourceOutput, DeleteIdentitySourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>(id: "deleteIdentitySource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentitySourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>(xAmzTarget: "VerifiedPermissions.DeleteIdentitySource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentitySourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentitySourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentitySourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteIdentitySourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePolicy` operation on the `VerifiedPermissions` service.
+    ///
     /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
@@ -482,6 +667,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutput, DeletePolicyOutputError>(id: "deletePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutput, DeletePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
@@ -497,10 +683,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput, DeletePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput, DeletePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput, DeletePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutput>(id: "deletePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePolicyInput, DeletePolicyOutput>(xAmzTarget: "VerifiedPermissions.DeletePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePolicyInput, DeletePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePolicyInput, DeletePolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePolicyStore` operation on the `VerifiedPermissions` service.
+    ///
     /// Deletes the specified policy store. This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code.
     ///
     /// - Parameter DeletePolicyStoreInput : [no documentation found]
@@ -550,6 +755,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePolicyStoreInput, DeletePolicyStoreOutput, DeletePolicyStoreOutputError>(id: "deletePolicyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput, DeletePolicyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput>())
@@ -565,10 +771,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyStoreOutput, DeletePolicyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyStoreOutput, DeletePolicyStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyStoreOutput, DeletePolicyStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePolicyStoreInput, DeletePolicyStoreOutput>(id: "deletePolicyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput>(xAmzTarget: "VerifiedPermissions.DeletePolicyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePolicyStoreInput, DeletePolicyStoreOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePolicyTemplate` operation on the `VerifiedPermissions` service.
+    ///
     /// Deletes the specified policy template from the policy store. This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
     ///
     /// - Parameter DeletePolicyTemplateInput : [no documentation found]
@@ -620,6 +845,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePolicyTemplateInput, DeletePolicyTemplateOutput, DeletePolicyTemplateOutputError>(id: "deletePolicyTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput, DeletePolicyTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput>())
@@ -635,10 +861,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyTemplateOutput, DeletePolicyTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyTemplateOutput, DeletePolicyTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyTemplateOutput, DeletePolicyTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePolicyTemplateInput, DeletePolicyTemplateOutput>(id: "deletePolicyTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput>(xAmzTarget: "VerifiedPermissions.DeletePolicyTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePolicyTemplateInput, DeletePolicyTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetIdentitySource` operation on the `VerifiedPermissions` service.
+    ///
     /// Retrieves the details about the specified identity source.
     ///
     /// - Parameter GetIdentitySourceInput : [no documentation found]
@@ -689,6 +934,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetIdentitySourceInput, GetIdentitySourceOutput, GetIdentitySourceOutputError>(id: "getIdentitySource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput, GetIdentitySourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>())
@@ -704,10 +950,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentitySourceOutput, GetIdentitySourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentitySourceOutput, GetIdentitySourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentitySourceOutput, GetIdentitySourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetIdentitySourceInput, GetIdentitySourceOutput>(id: "getIdentitySource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentitySourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>(xAmzTarget: "VerifiedPermissions.GetIdentitySource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentitySourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentitySourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentitySourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetIdentitySourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPolicy` operation on the `VerifiedPermissions` service.
+    ///
     /// Retrieves information about the specified policy.
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
@@ -758,6 +1023,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutput, GetPolicyOutputError>(id: "getPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutput, GetPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
@@ -773,10 +1039,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutput, GetPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput, GetPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutput, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutput>(id: "getPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPolicyInput, GetPolicyOutput>(xAmzTarget: "VerifiedPermissions.GetPolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPolicyInput, GetPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPolicyInput, GetPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPolicyStore` operation on the `VerifiedPermissions` service.
+    ///
     /// Retrieves details about a policy store.
     ///
     /// - Parameter GetPolicyStoreInput : [no documentation found]
@@ -827,6 +1112,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPolicyStoreInput, GetPolicyStoreOutput, GetPolicyStoreOutputError>(id: "getPolicyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput, GetPolicyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput>())
@@ -842,10 +1128,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyStoreOutput, GetPolicyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyStoreOutput, GetPolicyStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyStoreOutput, GetPolicyStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPolicyStoreInput, GetPolicyStoreOutput>(id: "getPolicyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput>(xAmzTarget: "VerifiedPermissions.GetPolicyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPolicyStoreInput, GetPolicyStoreOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPolicyTemplate` operation on the `VerifiedPermissions` service.
+    ///
     /// Retrieve the details for the specified policy template in the specified policy store.
     ///
     /// - Parameter GetPolicyTemplateInput : [no documentation found]
@@ -896,6 +1201,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPolicyTemplateInput, GetPolicyTemplateOutput, GetPolicyTemplateOutputError>(id: "getPolicyTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput, GetPolicyTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput>())
@@ -911,10 +1217,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyTemplateOutput, GetPolicyTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyTemplateOutput, GetPolicyTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyTemplateOutput, GetPolicyTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPolicyTemplateInput, GetPolicyTemplateOutput>(id: "getPolicyTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput>(xAmzTarget: "VerifiedPermissions.GetPolicyTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPolicyTemplateInput, GetPolicyTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSchema` operation on the `VerifiedPermissions` service.
+    ///
     /// Retrieve the details for the specified schema in the specified policy store.
     ///
     /// - Parameter GetSchemaInput : [no documentation found]
@@ -965,6 +1290,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetSchemaInput, GetSchemaOutput, GetSchemaOutputError>(id: "getSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSchemaInput, GetSchemaOutput, GetSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSchemaInput, GetSchemaOutput>())
@@ -980,10 +1306,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSchemaOutput, GetSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSchemaOutput, GetSchemaOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSchemaOutput, GetSchemaOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetSchemaInput, GetSchemaOutput>(id: "getSchema")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSchemaInput, GetSchemaOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSchemaInput, GetSchemaOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSchemaOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSchemaInput, GetSchemaOutput>(xAmzTarget: "VerifiedPermissions.GetSchema"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetSchemaInput, GetSchemaOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSchemaInput, GetSchemaOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSchemaOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSchemaOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSchemaOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSchemaOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSchemaOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `IsAuthorized` operation on the `VerifiedPermissions` service.
+    ///
     /// Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision.
     ///
     /// - Parameter IsAuthorizedInput : [no documentation found]
@@ -1034,6 +1379,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<IsAuthorizedInput, IsAuthorizedOutput, IsAuthorizedOutputError>(id: "isAuthorized")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsAuthorizedInput, IsAuthorizedOutput, IsAuthorizedOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsAuthorizedInput, IsAuthorizedOutput>())
@@ -1049,10 +1395,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IsAuthorizedOutput, IsAuthorizedOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IsAuthorizedOutput, IsAuthorizedOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IsAuthorizedOutput, IsAuthorizedOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<IsAuthorizedInput, IsAuthorizedOutput>(id: "isAuthorized")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsAuthorizedInput, IsAuthorizedOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsAuthorizedInput, IsAuthorizedOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IsAuthorizedOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<IsAuthorizedInput, IsAuthorizedOutput>(xAmzTarget: "VerifiedPermissions.IsAuthorized"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<IsAuthorizedInput, IsAuthorizedOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IsAuthorizedInput, IsAuthorizedOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IsAuthorizedOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IsAuthorizedOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IsAuthorizedOutput>(responseClosure(decoder: decoder), responseErrorClosure(IsAuthorizedOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IsAuthorizedOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `IsAuthorizedWithToken` operation on the `VerifiedPermissions` service.
+    ///
     /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a [JSON web token (JWT)](https://wikipedia.org/wiki/JSON_Web_Token). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision. If you specify the identityToken parameter, then this operation derives the principal from that token. You must not also include that principal in the entities parameter or the operation fails and reports a conflict between the two entity sources. If you provide only an accessToken, then you can include the entity as part of the entities parameter to provide additional attributes. At this time, Verified Permissions accepts tokens from only Amazon Cognito. Verified Permissions validates each token that is specified in a request by checking its expiration date and its signature. If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire.
     ///
     /// - Parameter IsAuthorizedWithTokenInput : [no documentation found]
@@ -1103,6 +1468,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput, IsAuthorizedWithTokenOutputError>(id: "isAuthorizedWithToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput, IsAuthorizedWithTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput>())
@@ -1118,10 +1484,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IsAuthorizedWithTokenOutput, IsAuthorizedWithTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IsAuthorizedWithTokenOutput, IsAuthorizedWithTokenOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IsAuthorizedWithTokenOutput, IsAuthorizedWithTokenOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput>(id: "isAuthorizedWithToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<IsAuthorizedWithTokenOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput>(xAmzTarget: "VerifiedPermissions.IsAuthorizedWithToken"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<IsAuthorizedWithTokenInput, IsAuthorizedWithTokenOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, IsAuthorizedWithTokenOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IsAuthorizedWithTokenOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IsAuthorizedWithTokenOutput>(responseClosure(decoder: decoder), responseErrorClosure(IsAuthorizedWithTokenOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IsAuthorizedWithTokenOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListIdentitySources` operation on the `VerifiedPermissions` service.
+    ///
     /// Returns a paginated list of all of the identity sources defined in the specified policy store.
     ///
     /// - Parameter ListIdentitySourcesInput : [no documentation found]
@@ -1172,6 +1557,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListIdentitySourcesInput, ListIdentitySourcesOutput, ListIdentitySourcesOutputError>(id: "listIdentitySources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput, ListIdentitySourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>())
@@ -1187,10 +1573,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentitySourcesOutput, ListIdentitySourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentitySourcesOutput, ListIdentitySourcesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentitySourcesOutput, ListIdentitySourcesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListIdentitySourcesInput, ListIdentitySourcesOutput>(id: "listIdentitySources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentitySourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>(xAmzTarget: "VerifiedPermissions.ListIdentitySources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentitySourcesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentitySourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentitySourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListIdentitySourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentitySourcesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicies` operation on the `VerifiedPermissions` service.
+    ///
     /// Returns a paginated list of all policies stored in the specified policy store.
     ///
     /// - Parameter ListPoliciesInput : [no documentation found]
@@ -1241,6 +1646,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutput, ListPoliciesOutputError>(id: "listPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutput, ListPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutput>())
@@ -1256,10 +1662,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput, ListPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput, ListPoliciesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput, ListPoliciesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutput>(id: "listPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPoliciesInput, ListPoliciesOutput>(xAmzTarget: "VerifiedPermissions.ListPolicies"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPoliciesInput, ListPoliciesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoliciesInput, ListPoliciesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicyStores` operation on the `VerifiedPermissions` service.
+    ///
     /// Returns a paginated list of all policy stores in the calling Amazon Web Services account.
     ///
     /// - Parameter ListPolicyStoresInput : [no documentation found]
@@ -1309,6 +1734,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPolicyStoresInput, ListPolicyStoresOutput, ListPolicyStoresOutputError>(id: "listPolicyStores")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput, ListPolicyStoresOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput>())
@@ -1324,10 +1750,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyStoresOutput, ListPolicyStoresOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyStoresOutput, ListPolicyStoresOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyStoresOutput, ListPolicyStoresOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPolicyStoresInput, ListPolicyStoresOutput>(id: "listPolicyStores")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPolicyStoresOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput>(xAmzTarget: "VerifiedPermissions.ListPolicyStores"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPolicyStoresInput, ListPolicyStoresOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyStoresOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyStoresOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyStoresOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPolicyStoresOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyStoresOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicyTemplates` operation on the `VerifiedPermissions` service.
+    ///
     /// Returns a paginated list of all policy templates in the specified policy store.
     ///
     /// - Parameter ListPolicyTemplatesInput : [no documentation found]
@@ -1378,6 +1823,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPolicyTemplatesInput, ListPolicyTemplatesOutput, ListPolicyTemplatesOutputError>(id: "listPolicyTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput, ListPolicyTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput>())
@@ -1393,10 +1839,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyTemplatesOutput, ListPolicyTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTemplatesOutput, ListPolicyTemplatesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyTemplatesOutput, ListPolicyTemplatesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPolicyTemplatesInput, ListPolicyTemplatesOutput>(id: "listPolicyTemplates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPolicyTemplatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput>(xAmzTarget: "VerifiedPermissions.ListPolicyTemplates"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPolicyTemplatesInput, ListPolicyTemplatesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyTemplatesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyTemplatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTemplatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPolicyTemplatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyTemplatesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutSchema` operation on the `VerifiedPermissions` service.
+    ///
     /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter PutSchemaInput : [no documentation found]
@@ -1449,6 +1914,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutSchemaInput, PutSchemaOutput, PutSchemaOutputError>(id: "putSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSchemaInput, PutSchemaOutput, PutSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSchemaInput, PutSchemaOutput>())
@@ -1464,10 +1930,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSchemaOutput, PutSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSchemaOutput, PutSchemaOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSchemaOutput, PutSchemaOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutSchemaInput, PutSchemaOutput>(id: "putSchema")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSchemaInput, PutSchemaOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSchemaInput, PutSchemaOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSchemaOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutSchemaInput, PutSchemaOutput>(xAmzTarget: "VerifiedPermissions.PutSchema"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutSchemaInput, PutSchemaOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSchemaInput, PutSchemaOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSchemaOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSchemaOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSchemaOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutSchemaOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSchemaOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateIdentitySource` operation on the `VerifiedPermissions` service.
+    ///
     /// Updates the specified identity source to use a new identity provider (IdP) source, or to change the mapping of identities from the IdP to a different principal entity type. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdateIdentitySourceInput : [no documentation found]
@@ -1519,6 +2004,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateIdentitySourceInput, UpdateIdentitySourceOutput, UpdateIdentitySourceOutputError>(id: "updateIdentitySource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput, UpdateIdentitySourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput>())
@@ -1534,10 +2020,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentitySourceOutput, UpdateIdentitySourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentitySourceOutput, UpdateIdentitySourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentitySourceOutput, UpdateIdentitySourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateIdentitySourceInput, UpdateIdentitySourceOutput>(id: "updateIdentitySource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentitySourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput>(xAmzTarget: "VerifiedPermissions.UpdateIdentitySource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentitySourceInput, UpdateIdentitySourceOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentitySourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentitySourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentitySourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateIdentitySourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePolicy` operation on the `VerifiedPermissions` service.
+    ///
     /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the [UpdatePolicyDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition) parameter. You can directly update only static policies. To change a template-linked policy, you must update the template instead, using [UpdatePolicyTemplate](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html).
     ///
     /// * If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static policy doesn't pass validation, the operation fails and the update isn't stored.
@@ -1617,6 +2122,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePolicyInput, UpdatePolicyOutput, UpdatePolicyOutputError>(id: "updatePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyInput, UpdatePolicyOutput, UpdatePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
@@ -1632,10 +2138,29 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyOutput, UpdatePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyOutput, UpdatePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyOutput, UpdatePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePolicyInput, UpdatePolicyOutput>(id: "updatePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(xAmzTarget: "VerifiedPermissions.UpdatePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePolicyInput, UpdatePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePolicyStore` operation on the `VerifiedPermissions` service.
+    ///
     /// Modifies the validation setting for a policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdatePolicyStoreInput : [no documentation found]
@@ -1687,6 +2212,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePolicyStoreInput, UpdatePolicyStoreOutput, UpdatePolicyStoreOutputError>(id: "updatePolicyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput, UpdatePolicyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput>())
@@ -1702,10 +2228,32 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyStoreOutput, UpdatePolicyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyStoreOutput, UpdatePolicyStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyStoreOutput, UpdatePolicyStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePolicyStoreInput, UpdatePolicyStoreOutput>(id: "updatePolicyStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePolicyStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput>(xAmzTarget: "VerifiedPermissions.UpdatePolicyStore"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePolicyStoreInput, UpdatePolicyStoreOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePolicyStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePolicyStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePolicyTemplate` operation on the `VerifiedPermissions` service.
+    ///
+>>>>>>> main
     /// Updates the specified policy template. You can update only the description and the some elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody). Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdatePolicyTemplateInput : [no documentation found]
@@ -1757,6 +2305,7 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
                       .withSigningName(value: "verifiedpermissions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput, UpdatePolicyTemplateOutputError>(id: "updatePolicyTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput, UpdatePolicyTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput>())
@@ -1772,6 +2321,23 @@ extension VerifiedPermissionsClient: VerifiedPermissionsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyTemplateOutput, UpdatePolicyTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyTemplateOutput, UpdatePolicyTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyTemplateOutput, UpdatePolicyTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput>(id: "updatePolicyTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePolicyTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput>(xAmzTarget: "VerifiedPermissions.UpdatePolicyTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePolicyTemplateInput, UpdatePolicyTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePolicyTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePolicyTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

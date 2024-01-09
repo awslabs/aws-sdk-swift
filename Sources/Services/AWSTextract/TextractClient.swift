@@ -67,6 +67,8 @@ public struct TextractClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 }
 
 extension TextractClient: TextractClientProtocol {
+    /// Performs the `AnalyzeDocument` operation on the `Textract` service.
+    ///
     /// Analyzes an input document for relationships between detected items. The types of information returned are as follows:
     ///
     /// * Form data (key-value pairs). The related information is returned in two [Block] objects, each of type KEY_VALUE_SET: a KEY Block object and a VALUE Block object. For example, Name: Ana Silva Carolina contains a key and value. Name: is the key. Ana Silva Carolina is the value.
@@ -117,6 +119,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AnalyzeDocumentInput, AnalyzeDocumentOutput, AnalyzeDocumentOutputError>(id: "analyzeDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput, AnalyzeDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>())
@@ -132,10 +135,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeDocumentOutput, AnalyzeDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeDocumentOutput, AnalyzeDocumentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeDocumentOutput, AnalyzeDocumentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AnalyzeDocumentInput, AnalyzeDocumentOutput>(id: "analyzeDocument")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AnalyzeDocumentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>(xAmzTarget: "Textract.AnalyzeDocument"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AnalyzeDocumentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeDocumentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeDocumentOutput>(responseClosure(decoder: decoder), responseErrorClosure(AnalyzeDocumentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeDocumentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AnalyzeExpense` operation on the `Textract` service.
+    ///
     /// AnalyzeExpense synchronously analyzes an input document for financially related relationships between text. Information is returned as ExpenseDocuments and seperated as follows:
     ///
     /// * LineItemGroups- A data set containing LineItems which store information about the lines of text, such as an item purchased and its price on a receipt.
@@ -174,6 +196,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AnalyzeExpenseInput, AnalyzeExpenseOutput, AnalyzeExpenseOutputError>(id: "analyzeExpense")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput, AnalyzeExpenseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>())
@@ -189,10 +212,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeExpenseOutput, AnalyzeExpenseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeExpenseOutput, AnalyzeExpenseOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeExpenseOutput, AnalyzeExpenseOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AnalyzeExpenseInput, AnalyzeExpenseOutput>(id: "analyzeExpense")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AnalyzeExpenseOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>(xAmzTarget: "Textract.AnalyzeExpense"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AnalyzeExpenseOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeExpenseOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeExpenseOutput>(responseClosure(decoder: decoder), responseErrorClosure(AnalyzeExpenseOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeExpenseOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AnalyzeID` operation on the `Textract` service.
+    ///
     /// Analyzes identity documents for relevant information. This information is extracted and returned as IdentityDocumentFields, which records both the normalized field and value of the extracted text. Unlike other Amazon Textract operations, AnalyzeID doesn't return any Geometry data.
     ///
     /// - Parameter AnalyzeIDInput : [no documentation found]
@@ -227,6 +269,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AnalyzeIDInput, AnalyzeIDOutput, AnalyzeIDOutputError>(id: "analyzeID")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeIDInput, AnalyzeIDOutput, AnalyzeIDOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeIDInput, AnalyzeIDOutput>())
@@ -459,10 +502,254 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAdapterVersionOutput, DeleteAdapterVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAdapterVersionOutput, DeleteAdapterVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAdapterVersionOutput, DeleteAdapterVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AnalyzeIDInput, AnalyzeIDOutput>(id: "analyzeID")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeIDInput, AnalyzeIDOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeIDInput, AnalyzeIDOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AnalyzeIDOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AnalyzeIDInput, AnalyzeIDOutput>(xAmzTarget: "Textract.AnalyzeID"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AnalyzeIDInput, AnalyzeIDOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AnalyzeIDInput, AnalyzeIDOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AnalyzeIDOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeIDOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeIDOutput>(responseClosure(decoder: decoder), responseErrorClosure(AnalyzeIDOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeIDOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAdapter` operation on the `Textract` service.
+    ///
+    /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES. You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
+    ///
+    /// - Parameter CreateAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `LimitExceededException` : An Amazon Textract service limit was exceeded. For example, if you start too many asynchronous jobs concurrently, calls to start operations (StartDocumentTextDetection, for example) raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Textract service limit.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func createAdapter(input: CreateAdapterInput) async throws -> CreateAdapterOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAdapter")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateAdapterInput, CreateAdapterOutput>(id: "createAdapter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAdapterInput, CreateAdapterOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAdapterInput, CreateAdapterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAdapterInput, CreateAdapterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAdapterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAdapterInput, CreateAdapterOutput>(xAmzTarget: "Textract.CreateAdapter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAdapterInput, CreateAdapterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAdapterInput, CreateAdapterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAdapterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAdapterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAdapterOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAdapterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAdapterOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateAdapterVersion` operation on the `Textract` service.
+    ///
+    /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Requires that you specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an optional ClientRequestToken, and optional tags.
+    ///
+    /// - Parameter CreateAdapterVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAdapterVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `IdempotentParameterMismatchException` : A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidKMSKeyException` : Indicates you do not have decrypt permissions with the KMS key entered, or the KMS key was entered incorrectly.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `InvalidS3ObjectException` : Amazon Textract is unable to access the S3 object that's specified in the request. for more information, [Configure Access to Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html) For troubleshooting information, see [Troubleshooting Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/troubleshooting.html)
+    /// - `LimitExceededException` : An Amazon Textract service limit was exceeded. For example, if you start too many asynchronous jobs concurrently, calls to start operations (StartDocumentTextDetection, for example) raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Textract service limit.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ServiceQuotaExceededException` : Returned when a request cannot be completed as it would exceed a maximum service quota.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func createAdapterVersion(input: CreateAdapterVersionInput) async throws -> CreateAdapterVersionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAdapterVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateAdapterVersionInput, CreateAdapterVersionOutput>(id: "createAdapterVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAdapterVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>(xAmzTarget: "Textract.CreateAdapterVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAdapterVersionInput, CreateAdapterVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAdapterVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAdapterVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAdapterVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAdapterVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAdapterVersionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteAdapter` operation on the `Textract` service.
+    ///
+    /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
+    ///
+    /// - Parameter DeleteAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func deleteAdapter(input: DeleteAdapterInput) async throws -> DeleteAdapterOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAdapter")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteAdapterInput, DeleteAdapterOutput>(id: "deleteAdapter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAdapterInput, DeleteAdapterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAdapterInput, DeleteAdapterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAdapterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAdapterInput, DeleteAdapterOutput>(xAmzTarget: "Textract.DeleteAdapter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAdapterInput, DeleteAdapterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAdapterInput, DeleteAdapterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAdapterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAdapterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAdapterOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAdapterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAdapterOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteAdapterVersion` operation on the `Textract` service.
+    ///
+    /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
+    ///
+    /// - Parameter DeleteAdapterVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAdapterVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func deleteAdapterVersion(input: DeleteAdapterVersionInput) async throws -> DeleteAdapterVersionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAdapterVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>(id: "deleteAdapterVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAdapterVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>(xAmzTarget: "Textract.DeleteAdapterVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAdapterVersionInput, DeleteAdapterVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAdapterVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAdapterVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAdapterVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAdapterVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAdapterVersionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DetectDocumentText` operation on the `Textract` service.
+    ///
     /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. DetectDocumentText is a synchronous operation. To analyze documents asynchronously, use [StartDocumentTextDetection]. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter DetectDocumentTextInput : [no documentation found]
@@ -497,6 +784,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DetectDocumentTextInput, DetectDocumentTextOutput, DetectDocumentTextOutputError>(id: "detectDocumentText")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput, DetectDocumentTextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>())
@@ -614,10 +902,135 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAdapterVersionOutput, GetAdapterVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAdapterVersionOutput, GetAdapterVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAdapterVersionOutput, GetAdapterVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DetectDocumentTextInput, DetectDocumentTextOutput>(id: "detectDocumentText")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetectDocumentTextOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>(xAmzTarget: "Textract.DetectDocumentText"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetectDocumentTextInput, DetectDocumentTextOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetectDocumentTextOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectDocumentTextOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectDocumentTextOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetectDocumentTextOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectDocumentTextOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAdapter` operation on the `Textract` service.
+    ///
+    /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes.
+    ///
+    /// - Parameter GetAdapterInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdapterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func getAdapter(input: GetAdapterInput) async throws -> GetAdapterOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAdapter")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetAdapterInput, GetAdapterOutput>(id: "getAdapter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAdapterInput, GetAdapterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAdapterInput, GetAdapterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAdapterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAdapterInput, GetAdapterOutput>(xAmzTarget: "Textract.GetAdapter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAdapterInput, GetAdapterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAdapterInput, GetAdapterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAdapterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAdapterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAdapterOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAdapterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAdapterOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetAdapterVersion` operation on the `Textract` service.
+    ///
+    /// Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
+    ///
+    /// - Parameter GetAdapterVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdapterVersionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func getAdapterVersion(input: GetAdapterVersionInput) async throws -> GetAdapterVersionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAdapterVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetAdapterVersionInput, GetAdapterVersionOutput>(id: "getAdapterVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAdapterVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>(xAmzTarget: "Textract.GetAdapterVersion"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAdapterVersionInput, GetAdapterVersionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAdapterVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAdapterVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAdapterVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAdapterVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAdapterVersionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetDocumentAnalysis` operation on the `Textract` service.
+    ///
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a document. You start asynchronous text analysis by calling [StartDocumentAnalysis], which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis. To get the results of the text-detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. GetDocumentAnalysis returns an array of [Block] objects. The following types of information are returned:
     ///
     /// * Form data (key-value pairs). The related information is returned in two [Block] objects, each of type KEY_VALUE_SET: a KEY Block object and a VALUE Block object. For example, Name: Ana Silva Carolina contains a key and value. Name: is the key. Ana Silva Carolina is the value.
@@ -664,6 +1077,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetDocumentAnalysisInput, GetDocumentAnalysisOutput, GetDocumentAnalysisOutputError>(id: "getDocumentAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput, GetDocumentAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>())
@@ -679,10 +1093,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentAnalysisOutput, GetDocumentAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentAnalysisOutput, GetDocumentAnalysisOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentAnalysisOutput, GetDocumentAnalysisOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>(id: "getDocumentAnalysis")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDocumentAnalysisOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>(xAmzTarget: "Textract.GetDocumentAnalysis"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDocumentAnalysisOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentAnalysisOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentAnalysisOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDocumentAnalysisOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentAnalysisOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDocumentTextDetection` operation on the `Textract` service.
+    ///
     /// Gets the results for an Amazon Textract asynchronous operation that detects text in a document. Amazon Textract can detect lines of text and the words that make up a line of text. You start asynchronous text detection by calling [StartDocumentTextDetection], which returns a job identifier (JobId). When the text detection operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentTextDetection. To get the results of the text-detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentTextDetection, and pass the job identifier (JobId) from the initial call to StartDocumentTextDetection. GetDocumentTextDetection returns an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetDocumentTextDetection, and populate the NextToken request parameter with the token value that's returned from the previous call to GetDocumentTextDetection. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter GetDocumentTextDetectionInput : [no documentation found]
@@ -716,6 +1149,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput, GetDocumentTextDetectionOutputError>(id: "getDocumentTextDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput, GetDocumentTextDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>())
@@ -731,10 +1165,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentTextDetectionOutput, GetDocumentTextDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentTextDetectionOutput, GetDocumentTextDetectionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentTextDetectionOutput, GetDocumentTextDetectionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>(id: "getDocumentTextDetection")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDocumentTextDetectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>(xAmzTarget: "Textract.GetDocumentTextDetection"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDocumentTextDetectionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentTextDetectionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentTextDetectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDocumentTextDetectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentTextDetectionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetExpenseAnalysis` operation on the `Textract` service.
+    ///
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and receipts. Amazon Textract finds contact information, items purchased, and vendor name, from input invoices and receipts. You start asynchronous invoice/receipt analysis by calling [StartExpenseAnalysis], which returns a job identifier (JobId). Upon completion of the invoice/receipt analysis, Amazon Textract publishes the completion status to the Amazon Simple Notification Service (Amazon SNS) topic. This topic must be registered in the initial call to StartExpenseAnalysis. To get the results of the invoice/receipt analysis operation, first ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetExpenseAnalysis, and pass the job identifier (JobId) from the initial call to StartExpenseAnalysis. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetExpenseAnalysis, and populate the NextToken request parameter with the token value that's returned from the previous call to GetExpenseAnalysis. For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoices-receipts.html).
     ///
     /// - Parameter GetExpenseAnalysisInput : [no documentation found]
@@ -768,6 +1221,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetExpenseAnalysisInput, GetExpenseAnalysisOutput, GetExpenseAnalysisOutputError>(id: "getExpenseAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput, GetExpenseAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>())
@@ -783,10 +1237,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExpenseAnalysisOutput, GetExpenseAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExpenseAnalysisOutput, GetExpenseAnalysisOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetExpenseAnalysisOutput, GetExpenseAnalysisOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>(id: "getExpenseAnalysis")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetExpenseAnalysisOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>(xAmzTarget: "Textract.GetExpenseAnalysis"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetExpenseAnalysisOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExpenseAnalysisOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExpenseAnalysisOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetExpenseAnalysisOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetExpenseAnalysisOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLendingAnalysis` operation on the `Textract` service.
+    ///
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a lending document. You start asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartLendingAnalysis. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass the job identifier (JobId) from the initial call to StartLendingAnalysis.
     ///
     /// - Parameter GetLendingAnalysisInput : [no documentation found]
@@ -820,6 +1293,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetLendingAnalysisInput, GetLendingAnalysisOutput, GetLendingAnalysisOutputError>(id: "getLendingAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput, GetLendingAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>())
@@ -835,10 +1309,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLendingAnalysisOutput, GetLendingAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLendingAnalysisOutput, GetLendingAnalysisOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLendingAnalysisOutput, GetLendingAnalysisOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetLendingAnalysisInput, GetLendingAnalysisOutput>(id: "getLendingAnalysis")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLendingAnalysisOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>(xAmzTarget: "Textract.GetLendingAnalysis"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLendingAnalysisOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLendingAnalysisOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLendingAnalysisOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLendingAnalysisOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLendingAnalysisOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLendingAnalysisSummary` operation on the `Textract` service.
+    ///
     /// Gets summarized results for the StartLendingAnalysis operation, which analyzes text in a lending document. The returned summary consists of information about documents grouped together by a common document type. Information like detected signatures, page numbers, and split documents is returned with respect to the type of grouped document. You start asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartLendingAnalysis. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysisSummary, and pass the job identifier (JobId) from the initial call to StartLendingAnalysis.
     ///
     /// - Parameter GetLendingAnalysisSummaryInput : [no documentation found]
@@ -872,6 +1365,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput, GetLendingAnalysisSummaryOutputError>(id: "getLendingAnalysisSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput, GetLendingAnalysisSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>())
@@ -1039,10 +1533,187 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>(id: "getLendingAnalysisSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLendingAnalysisSummaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>(xAmzTarget: "Textract.GetLendingAnalysisSummary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLendingAnalysisSummaryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLendingAnalysisSummaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLendingAnalysisSummaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLendingAnalysisSummaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLendingAnalysisSummaryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAdapterVersions` operation on the `Textract` service.
+    ///
+    /// List all version of an adapter that meet the specified filtration criteria.
+    ///
+    /// - Parameter ListAdapterVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAdapterVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func listAdapterVersions(input: ListAdapterVersionsInput) async throws -> ListAdapterVersionsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAdapterVersions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListAdapterVersionsInput, ListAdapterVersionsOutput>(id: "listAdapterVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAdapterVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>(xAmzTarget: "Textract.ListAdapterVersions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAdapterVersionsInput, ListAdapterVersionsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAdapterVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAdapterVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAdapterVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAdapterVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAdapterVersionsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListAdapters` operation on the `Textract` service.
+    ///
+    /// Lists all adapters that match the specified filtration criteria.
+    ///
+    /// - Parameter ListAdaptersInput : [no documentation found]
+    ///
+    /// - Returns: `ListAdaptersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func listAdapters(input: ListAdaptersInput) async throws -> ListAdaptersOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAdapters")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListAdaptersInput, ListAdaptersOutput>(id: "listAdapters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAdaptersInput, ListAdaptersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAdaptersInput, ListAdaptersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAdaptersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAdaptersInput, ListAdaptersOutput>(xAmzTarget: "Textract.ListAdapters"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAdaptersInput, ListAdaptersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAdaptersInput, ListAdaptersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAdaptersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAdaptersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAdaptersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAdaptersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAdaptersOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListTagsForResource` operation on the `Textract` service.
+    ///
+    /// Lists all tags for an Amazon Textract resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You aren't authorized to perform the action. Use the Amazon Resource Name (ARN) of an authorized user or IAM role to perform the operation.
+    /// - `InternalServerError` : Amazon Textract experienced a service issue. Try your call again.
+    /// - `InvalidParameterException` : An input parameter violated a constraint. For example, in synchronous operations, an InvalidParameterException exception occurs when neither of the S3Object or Bytes values are supplied in the Document request parameter. Validate your parameter before calling the API operation again.
+    /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
+    /// - `ResourceNotFoundException` : Returned when an operation tried to access a nonexistent resource.
+    /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
+    /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "textract")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Textract.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `StartDocumentAnalysis` operation on the `Textract` service.
+    ///
     /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentAnalysis], and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
     ///
     /// - Parameter StartDocumentAnalysisInput : [no documentation found]
@@ -1080,6 +1751,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartDocumentAnalysisInput, StartDocumentAnalysisOutput, StartDocumentAnalysisOutputError>(id: "startDocumentAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput, StartDocumentAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>())
@@ -1095,10 +1767,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDocumentAnalysisOutput, StartDocumentAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDocumentAnalysisOutput, StartDocumentAnalysisOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDocumentAnalysisOutput, StartDocumentAnalysisOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>(id: "startDocumentAnalysis")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDocumentAnalysisOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>(xAmzTarget: "Textract.StartDocumentAnalysis"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDocumentAnalysisOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDocumentAnalysisOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDocumentAnalysisOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartDocumentAnalysisOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDocumentAnalysisOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartDocumentTextDetection` operation on the `Textract` service.
+    ///
     /// Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of text and the words that make up a line of text. StartDocumentTextDetection can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartTextDetection returns a job identifier (JobId) that you use to get the results of the operation. When text detection is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentTextDetection], and pass the job identifier (JobId) from the initial call to StartDocumentTextDetection. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter StartDocumentTextDetectionInput : [no documentation found]
@@ -1136,6 +1827,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput, StartDocumentTextDetectionOutputError>(id: "startDocumentTextDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput, StartDocumentTextDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>())
@@ -1151,10 +1843,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDocumentTextDetectionOutput, StartDocumentTextDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDocumentTextDetectionOutput, StartDocumentTextDetectionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDocumentTextDetectionOutput, StartDocumentTextDetectionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>(id: "startDocumentTextDetection")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDocumentTextDetectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>(xAmzTarget: "Textract.StartDocumentTextDetection"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDocumentTextDetectionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDocumentTextDetectionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDocumentTextDetectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartDocumentTextDetectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDocumentTextDetectionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartExpenseAnalysis` operation on the `Textract` service.
+    ///
     /// Starts the asynchronous analysis of invoices or receipts for data like contact information, items purchased, and vendor names. StartExpenseAnalysis can analyze text in documents that are in JPEG, PNG, and PDF format. The documents must be stored in an Amazon S3 bucket. Use the [DocumentLocation] parameter to specify the name of your S3 bucket and the name of the document in that bucket. StartExpenseAnalysis returns a job identifier (JobId) that you will provide to GetExpenseAnalysis to retrieve the results of the operation. When the analysis of the input invoices/receipts is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you provide to the NotificationChannel. To obtain the results of the invoice and receipt analysis operation, ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetExpenseAnalysis], and pass the job identifier (JobId) that was returned by your call to StartExpenseAnalysis. For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoice-receipts.html).
     ///
     /// - Parameter StartExpenseAnalysisInput : [no documentation found]
@@ -1192,6 +1903,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartExpenseAnalysisInput, StartExpenseAnalysisOutput, StartExpenseAnalysisOutputError>(id: "startExpenseAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput, StartExpenseAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>())
@@ -1207,10 +1919,29 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExpenseAnalysisOutput, StartExpenseAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExpenseAnalysisOutput, StartExpenseAnalysisOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExpenseAnalysisOutput, StartExpenseAnalysisOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>(id: "startExpenseAnalysis")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartExpenseAnalysisOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>(xAmzTarget: "Textract.StartExpenseAnalysis"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartExpenseAnalysisOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExpenseAnalysisOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExpenseAnalysisOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartExpenseAnalysisOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExpenseAnalysisOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartLendingAnalysis` operation on the `Textract` service.
+    ///
     /// Starts the classification and analysis of an input document. StartLendingAnalysis initiates the classification and analysis of a packet of lending documents. StartLendingAnalysis operates on a document file located in an Amazon S3 bucket. StartLendingAnalysis can analyze text in documents that are in one of the following formats: JPEG, PNG, TIFF, PDF. Use DocumentLocation to specify the bucket name and the file name of the document. StartLendingAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When the text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If the status is SUCCEEDED you can call either GetLendingAnalysis or GetLendingAnalysisSummary and provide the JobId to obtain the results of the analysis. If using OutputConfig to specify an Amazon S3 bucket, the output will be contained within the specified prefix in a directory labeled with the job-id. In the directory there are 3 sub-directories:
     ///
     /// * detailedResponse (contains the GetLendingAnalysis response)
@@ -1254,6 +1985,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartLendingAnalysisInput, StartLendingAnalysisOutput, StartLendingAnalysisOutputError>(id: "startLendingAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput, StartLendingAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>())
@@ -1269,10 +2001,32 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLendingAnalysisOutput, StartLendingAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLendingAnalysisOutput, StartLendingAnalysisOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLendingAnalysisOutput, StartLendingAnalysisOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartLendingAnalysisInput, StartLendingAnalysisOutput>(id: "startLendingAnalysis")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLendingAnalysisOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>(xAmzTarget: "Textract.StartLendingAnalysis"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLendingAnalysisOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLendingAnalysisOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLendingAnalysisOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartLendingAnalysisOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLendingAnalysisOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Adds one or more tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1306,6 +2060,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1321,10 +2076,32 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Textract.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Removes any tags with the specified keys from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1357,6 +2134,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1372,10 +2150,32 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Textract.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAdapter` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Update the configuration for an adapter. FeatureTypes configurations cannot be updated. At least one new parameter must be specified as an argument.
     ///
     /// - Parameter UpdateAdapterInput : [no documentation found]
@@ -1409,6 +2209,7 @@ extension TextractClient: TextractClientProtocol {
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateAdapterInput, UpdateAdapterOutput, UpdateAdapterOutputError>(id: "updateAdapter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAdapterInput, UpdateAdapterOutput, UpdateAdapterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAdapterInput, UpdateAdapterOutput>())
@@ -1424,6 +2225,23 @@ extension TextractClient: TextractClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAdapterOutput, UpdateAdapterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAdapterOutput, UpdateAdapterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAdapterOutput, UpdateAdapterOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateAdapterInput, UpdateAdapterOutput>(id: "updateAdapter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAdapterInput, UpdateAdapterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAdapterInput, UpdateAdapterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAdapterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAdapterInput, UpdateAdapterOutput>(xAmzTarget: "Textract.UpdateAdapter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAdapterInput, UpdateAdapterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAdapterInput, UpdateAdapterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAdapterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAdapterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAdapterOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAdapterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAdapterOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

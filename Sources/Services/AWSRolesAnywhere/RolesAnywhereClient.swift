@@ -67,6 +67,8 @@ public struct RolesAnywhereClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension RolesAnywhereClient: RolesAnywhereClientProtocol {
+    /// Performs the `CreateProfile` operation on the `RolesAnywhere` service.
+    ///
     /// Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:CreateProfile.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
@@ -94,6 +96,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateProfileInput, CreateProfileOutput, CreateProfileOutputError>(id: "createProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProfileInput, CreateProfileOutput, CreateProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProfileInput, CreateProfileOutput>())
@@ -108,10 +111,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfileOutput, CreateProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfileOutput, CreateProfileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProfileOutput, CreateProfileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateProfileInput, CreateProfileOutput>(id: "createProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProfileInput, CreateProfileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProfileInput, CreateProfileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProfileInput, CreateProfileOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProfileInput, CreateProfileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProfileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProfileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateTrustAnchor` operation on the `RolesAnywhere` service.
+    ///
     /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor.
     ///
     /// - Parameter CreateTrustAnchorInput : [no documentation found]
@@ -139,6 +160,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateTrustAnchorInput, CreateTrustAnchorOutput, CreateTrustAnchorOutputError>(id: "createTrustAnchor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput, CreateTrustAnchorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput>())
@@ -153,10 +175,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustAnchorOutput, CreateTrustAnchorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustAnchorOutput, CreateTrustAnchorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustAnchorOutput, CreateTrustAnchorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateTrustAnchorInput, CreateTrustAnchorOutput>(id: "createTrustAnchor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrustAnchorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrustAnchorInput, CreateTrustAnchorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustAnchorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustAnchorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustAnchorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTrustAnchorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustAnchorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCrl` operation on the `RolesAnywhere` service.
+    ///
     /// Deletes a certificate revocation list (CRL). Required permissions: rolesanywhere:DeleteCrl.
     ///
     /// - Parameter DeleteCrlInput : [no documentation found]
@@ -184,6 +224,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCrlInput, DeleteCrlOutput, DeleteCrlOutputError>(id: "deleteCrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCrlInput, DeleteCrlOutput, DeleteCrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCrlInput, DeleteCrlOutput>())
@@ -195,10 +236,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCrlOutput, DeleteCrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCrlOutput, DeleteCrlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCrlOutput, DeleteCrlOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCrlInput, DeleteCrlOutput>(id: "deleteCrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCrlInput, DeleteCrlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCrlInput, DeleteCrlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCrlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCrlOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCrlOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCrlOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCrlOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCrlOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteProfile` operation on the `RolesAnywhere` service.
+    ///
     /// Deletes a profile. Required permissions: rolesanywhere:DeleteProfile.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
@@ -226,6 +282,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteProfileInput, DeleteProfileOutput, DeleteProfileOutputError>(id: "deleteProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutput, DeleteProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutput>())
@@ -237,10 +294,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileOutput, DeleteProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileOutput, DeleteProfileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileOutput, DeleteProfileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteProfileInput, DeleteProfileOutput>(id: "deleteProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProfileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteTrustAnchor` operation on the `RolesAnywhere` service.
+    ///
     /// Deletes a trust anchor. Required permissions: rolesanywhere:DeleteTrustAnchor.
     ///
     /// - Parameter DeleteTrustAnchorInput : [no documentation found]
@@ -268,6 +340,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteTrustAnchorInput, DeleteTrustAnchorOutput, DeleteTrustAnchorOutputError>(id: "deleteTrustAnchor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustAnchorInput, DeleteTrustAnchorOutput, DeleteTrustAnchorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustAnchorInput, DeleteTrustAnchorOutput>())
@@ -279,10 +352,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustAnchorOutput, DeleteTrustAnchorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustAnchorOutput, DeleteTrustAnchorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustAnchorOutput, DeleteTrustAnchorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteTrustAnchorInput, DeleteTrustAnchorOutput>(id: "deleteTrustAnchor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustAnchorInput, DeleteTrustAnchorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustAnchorInput, DeleteTrustAnchorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrustAnchorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustAnchorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustAnchorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustAnchorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTrustAnchorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustAnchorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisableCrl` operation on the `RolesAnywhere` service.
+    ///
     /// Disables a certificate revocation list (CRL). Required permissions: rolesanywhere:DisableCrl.
     ///
     /// - Parameter DisableCrlInput : [no documentation found]
@@ -310,6 +398,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisableCrlInput, DisableCrlOutput, DisableCrlOutputError>(id: "disableCrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableCrlInput, DisableCrlOutput, DisableCrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableCrlInput, DisableCrlOutput>())
@@ -321,10 +410,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableCrlOutput, DisableCrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableCrlOutput, DisableCrlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableCrlOutput, DisableCrlOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisableCrlInput, DisableCrlOutput>(id: "disableCrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableCrlInput, DisableCrlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableCrlInput, DisableCrlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableCrlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableCrlOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableCrlOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableCrlOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableCrlOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableCrlOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisableProfile` operation on the `RolesAnywhere` service.
+    ///
     /// Disables a profile. When disabled, temporary credential requests with this profile fail. Required permissions: rolesanywhere:DisableProfile.
     ///
     /// - Parameter DisableProfileInput : [no documentation found]
@@ -352,6 +456,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisableProfileInput, DisableProfileOutput, DisableProfileOutputError>(id: "disableProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableProfileInput, DisableProfileOutput, DisableProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableProfileInput, DisableProfileOutput>())
@@ -363,10 +468,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableProfileOutput, DisableProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableProfileOutput, DisableProfileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableProfileOutput, DisableProfileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisableProfileInput, DisableProfileOutput>(id: "disableProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableProfileInput, DisableProfileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableProfileInput, DisableProfileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableProfileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableProfileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisableTrustAnchor` operation on the `RolesAnywhere` service.
+    ///
     /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized. Required permissions: rolesanywhere:DisableTrustAnchor.
     ///
     /// - Parameter DisableTrustAnchorInput : [no documentation found]
@@ -394,6 +514,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisableTrustAnchorInput, DisableTrustAnchorOutput, DisableTrustAnchorOutputError>(id: "disableTrustAnchor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableTrustAnchorInput, DisableTrustAnchorOutput, DisableTrustAnchorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableTrustAnchorInput, DisableTrustAnchorOutput>())
@@ -405,10 +526,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableTrustAnchorOutput, DisableTrustAnchorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableTrustAnchorOutput, DisableTrustAnchorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableTrustAnchorOutput, DisableTrustAnchorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisableTrustAnchorInput, DisableTrustAnchorOutput>(id: "disableTrustAnchor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableTrustAnchorInput, DisableTrustAnchorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableTrustAnchorInput, DisableTrustAnchorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableTrustAnchorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableTrustAnchorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableTrustAnchorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableTrustAnchorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableTrustAnchorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableTrustAnchorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableCrl` operation on the `RolesAnywhere` service.
+    ///
     /// Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials. Required permissions: rolesanywhere:EnableCrl.
     ///
     /// - Parameter EnableCrlInput : [no documentation found]
@@ -436,6 +572,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnableCrlInput, EnableCrlOutput, EnableCrlOutputError>(id: "enableCrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableCrlInput, EnableCrlOutput, EnableCrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableCrlInput, EnableCrlOutput>())
@@ -447,10 +584,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableCrlOutput, EnableCrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableCrlOutput, EnableCrlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableCrlOutput, EnableCrlOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnableCrlInput, EnableCrlOutput>(id: "enableCrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableCrlInput, EnableCrlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableCrlInput, EnableCrlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableCrlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableCrlOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableCrlOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableCrlOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableCrlOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableCrlOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableProfile` operation on the `RolesAnywhere` service.
+    ///
     /// Enables temporary credential requests for a profile. Required permissions: rolesanywhere:EnableProfile.
     ///
     /// - Parameter EnableProfileInput : [no documentation found]
@@ -478,6 +630,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnableProfileInput, EnableProfileOutput, EnableProfileOutputError>(id: "enableProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableProfileInput, EnableProfileOutput, EnableProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableProfileInput, EnableProfileOutput>())
@@ -489,10 +642,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableProfileOutput, EnableProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableProfileOutput, EnableProfileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableProfileOutput, EnableProfileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnableProfileInput, EnableProfileOutput>(id: "enableProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableProfileInput, EnableProfileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableProfileInput, EnableProfileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableProfileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableProfileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableTrustAnchor` operation on the `RolesAnywhere` service.
+    ///
     /// Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation. Required permissions: rolesanywhere:EnableTrustAnchor.
     ///
     /// - Parameter EnableTrustAnchorInput : [no documentation found]
@@ -520,6 +688,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnableTrustAnchorInput, EnableTrustAnchorOutput, EnableTrustAnchorOutputError>(id: "enableTrustAnchor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableTrustAnchorInput, EnableTrustAnchorOutput, EnableTrustAnchorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableTrustAnchorInput, EnableTrustAnchorOutput>())
@@ -531,10 +700,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableTrustAnchorOutput, EnableTrustAnchorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableTrustAnchorOutput, EnableTrustAnchorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableTrustAnchorOutput, EnableTrustAnchorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnableTrustAnchorInput, EnableTrustAnchorOutput>(id: "enableTrustAnchor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableTrustAnchorInput, EnableTrustAnchorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableTrustAnchorInput, EnableTrustAnchorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableTrustAnchorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableTrustAnchorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableTrustAnchorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableTrustAnchorOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableTrustAnchorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableTrustAnchorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCrl` operation on the `RolesAnywhere` service.
+    ///
     /// Gets a certificate revocation list (CRL). Required permissions: rolesanywhere:GetCrl.
     ///
     /// - Parameter GetCrlInput : [no documentation found]
@@ -561,6 +745,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCrlInput, GetCrlOutput, GetCrlOutputError>(id: "getCrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCrlInput, GetCrlOutput, GetCrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCrlInput, GetCrlOutput>())
@@ -572,10 +757,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCrlOutput, GetCrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCrlOutput, GetCrlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCrlOutput, GetCrlOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCrlInput, GetCrlOutput>(id: "getCrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCrlInput, GetCrlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCrlInput, GetCrlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCrlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCrlOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCrlOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCrlOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCrlOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCrlOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetProfile` operation on the `RolesAnywhere` service.
+    ///
     /// Gets a profile. Required permissions: rolesanywhere:GetProfile.
     ///
     /// - Parameter GetProfileInput : [no documentation found]
@@ -603,6 +803,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetProfileInput, GetProfileOutput, GetProfileOutputError>(id: "getProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileInput, GetProfileOutput, GetProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutput>())
@@ -614,10 +815,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileOutput, GetProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileOutput, GetProfileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProfileOutput, GetProfileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetProfileInput, GetProfileOutput>(id: "getProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileInput, GetProfileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProfileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProfileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSubject` operation on the `RolesAnywhere` service.
+    ///
     /// Gets a subject, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication. Required permissions: rolesanywhere:GetSubject.
     ///
     /// - Parameter GetSubjectInput : [no documentation found]
@@ -645,6 +861,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetSubjectInput, GetSubjectOutput, GetSubjectOutputError>(id: "getSubject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubjectInput, GetSubjectOutput, GetSubjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubjectInput, GetSubjectOutput>())
@@ -656,10 +873,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubjectOutput, GetSubjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubjectOutput, GetSubjectOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubjectOutput, GetSubjectOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetSubjectInput, GetSubjectOutput>(id: "getSubject")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubjectInput, GetSubjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubjectInput, GetSubjectOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubjectOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubjectOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSubjectOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubjectOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetTrustAnchor` operation on the `RolesAnywhere` service.
+    ///
     /// Gets a trust anchor. Required permissions: rolesanywhere:GetTrustAnchor.
     ///
     /// - Parameter GetTrustAnchorInput : [no documentation found]
@@ -688,6 +920,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetTrustAnchorInput, GetTrustAnchorOutput, GetTrustAnchorOutputError>(id: "getTrustAnchor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustAnchorInput, GetTrustAnchorOutput, GetTrustAnchorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustAnchorInput, GetTrustAnchorOutput>())
@@ -699,10 +932,25 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustAnchorOutput, GetTrustAnchorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustAnchorOutput, GetTrustAnchorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustAnchorOutput, GetTrustAnchorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetTrustAnchorInput, GetTrustAnchorOutput>(id: "getTrustAnchor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustAnchorInput, GetTrustAnchorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustAnchorInput, GetTrustAnchorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustAnchorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustAnchorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustAnchorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustAnchorOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTrustAnchorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustAnchorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ImportCrl` operation on the `RolesAnywhere` service.
+    ///
     /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:ImportCrl.
     ///
     /// - Parameter ImportCrlInput : [no documentation found]
@@ -730,6 +978,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ImportCrlInput, ImportCrlOutput, ImportCrlOutputError>(id: "importCrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportCrlInput, ImportCrlOutput, ImportCrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportCrlInput, ImportCrlOutput>())
@@ -744,10 +993,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportCrlOutput, ImportCrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportCrlOutput, ImportCrlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportCrlOutput, ImportCrlOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ImportCrlInput, ImportCrlOutput>(id: "importCrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportCrlInput, ImportCrlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportCrlInput, ImportCrlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportCrlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportCrlInput, ImportCrlOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ImportCrlInput, ImportCrlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportCrlOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportCrlOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportCrlOutput>(responseClosure(decoder: decoder), responseErrorClosure(ImportCrlOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportCrlOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCrls` operation on the `RolesAnywhere` service.
+    ///
     /// Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListCrls.
     ///
     /// - Parameter ListCrlsInput : [no documentation found]
@@ -775,6 +1042,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCrlsInput, ListCrlsOutput, ListCrlsOutputError>(id: "listCrls")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrlsInput, ListCrlsOutput, ListCrlsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrlsInput, ListCrlsOutput>())
@@ -787,10 +1055,26 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrlsOutput, ListCrlsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrlsOutput, ListCrlsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrlsOutput, ListCrlsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCrlsInput, ListCrlsOutput>(id: "listCrls")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrlsInput, ListCrlsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrlsInput, ListCrlsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCrlsInput, ListCrlsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrlsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrlsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCrlsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrlsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListProfiles` operation on the `RolesAnywhere` service.
+    ///
     /// Lists all profiles in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListProfiles.
     ///
     /// - Parameter ListProfilesInput : [no documentation found]
@@ -818,6 +1102,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListProfilesInput, ListProfilesOutput, ListProfilesOutputError>(id: "listProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfilesInput, ListProfilesOutput, ListProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfilesInput, ListProfilesOutput>())
@@ -830,10 +1115,26 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfilesOutput, ListProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfilesOutput, ListProfilesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProfilesOutput, ListProfilesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListProfilesInput, ListProfilesOutput>(id: "listProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfilesInput, ListProfilesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfilesInput, ListProfilesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProfilesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProfilesInput, ListProfilesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProfilesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfilesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfilesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListProfilesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProfilesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSubjects` operation on the `RolesAnywhere` service.
+    ///
     /// Lists the subjects in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListSubjects.
     ///
     /// - Parameter ListSubjectsInput : [no documentation found]
@@ -861,6 +1162,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListSubjectsInput, ListSubjectsOutput, ListSubjectsOutputError>(id: "listSubjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubjectsInput, ListSubjectsOutput, ListSubjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubjectsInput, ListSubjectsOutput>())
@@ -873,10 +1175,26 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubjectsOutput, ListSubjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubjectsOutput, ListSubjectsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubjectsOutput, ListSubjectsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListSubjectsInput, ListSubjectsOutput>(id: "listSubjects")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubjectsInput, ListSubjectsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubjectsInput, ListSubjectsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubjectsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSubjectsInput, ListSubjectsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubjectsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubjectsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubjectsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSubjectsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubjectsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `RolesAnywhere` service.
+    ///
     /// Lists the tags attached to the resource. Required permissions: rolesanywhere:ListTagsForResource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -905,6 +1223,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -917,10 +1236,26 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTrustAnchors` operation on the `RolesAnywhere` service.
+    ///
     /// Lists the trust anchors in the authenticated account and Amazon Web Services Region. Required permissions: rolesanywhere:ListTrustAnchors.
     ///
     /// - Parameter ListTrustAnchorsInput : [no documentation found]
@@ -948,6 +1283,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTrustAnchorsInput, ListTrustAnchorsOutput, ListTrustAnchorsOutputError>(id: "listTrustAnchors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput, ListTrustAnchorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput>())
@@ -960,10 +1296,26 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustAnchorsOutput, ListTrustAnchorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustAnchorsOutput, ListTrustAnchorsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustAnchorsOutput, ListTrustAnchorsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTrustAnchorsInput, ListTrustAnchorsOutput>(id: "listTrustAnchors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustAnchorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustAnchorsInput, ListTrustAnchorsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustAnchorsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustAnchorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustAnchorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrustAnchorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustAnchorsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutNotificationSettings` operation on the `RolesAnywhere` service.
+    ///
     /// Attaches a list of notification settings to a trust anchor. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify. Required permissions: rolesanywhere:PutNotificationSettings.
     ///
     /// - Parameter PutNotificationSettingsInput : [no documentation found]
@@ -992,6 +1344,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutNotificationSettingsInput, PutNotificationSettingsOutput, PutNotificationSettingsOutputError>(id: "putNotificationSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput, PutNotificationSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput>())
@@ -1006,10 +1359,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutNotificationSettingsOutput, PutNotificationSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutNotificationSettingsOutput, PutNotificationSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutNotificationSettingsOutput, PutNotificationSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutNotificationSettingsInput, PutNotificationSettingsOutput>(id: "putNotificationSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutNotificationSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutNotificationSettingsInput, PutNotificationSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutNotificationSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutNotificationSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutNotificationSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutNotificationSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutNotificationSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResetNotificationSettings` operation on the `RolesAnywhere` service.
+    ///
     /// Resets the custom notification setting to IAM Roles Anywhere default setting. Required permissions: rolesanywhere:ResetNotificationSettings.
     ///
     /// - Parameter ResetNotificationSettingsInput : [no documentation found]
@@ -1038,6 +1409,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ResetNotificationSettingsInput, ResetNotificationSettingsOutput, ResetNotificationSettingsOutputError>(id: "resetNotificationSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput, ResetNotificationSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>())
@@ -1052,10 +1424,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetNotificationSettingsOutput, ResetNotificationSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetNotificationSettingsOutput, ResetNotificationSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetNotificationSettingsOutput, ResetNotificationSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>(id: "resetNotificationSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetNotificationSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResetNotificationSettingsInput, ResetNotificationSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetNotificationSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetNotificationSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetNotificationSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetNotificationSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetNotificationSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `RolesAnywhere` service.
+    ///
     /// Attaches tags to a resource. Required permissions: rolesanywhere:TagResource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1085,6 +1475,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1099,10 +1490,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `RolesAnywhere` service.
+    ///
     /// Removes tags from the resource. Required permissions: rolesanywhere:UntagResource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1131,6 +1540,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1145,10 +1555,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateCrl` operation on the `RolesAnywhere` service.
+    ///
     /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials. Required permissions: rolesanywhere:UpdateCrl.
     ///
     /// - Parameter UpdateCrlInput : [no documentation found]
@@ -1177,6 +1605,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCrlInput, UpdateCrlOutput, UpdateCrlOutputError>(id: "updateCrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCrlInput, UpdateCrlOutput, UpdateCrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCrlInput, UpdateCrlOutput>())
@@ -1191,10 +1620,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCrlOutput, UpdateCrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCrlOutput, UpdateCrlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCrlOutput, UpdateCrlOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCrlInput, UpdateCrlOutput>(id: "updateCrl")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCrlInput, UpdateCrlOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCrlInput, UpdateCrlOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCrlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCrlInput, UpdateCrlOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCrlInput, UpdateCrlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCrlOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCrlOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCrlOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCrlOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCrlOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateProfile` operation on the `RolesAnywhere` service.
+    ///
     /// Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
@@ -1223,6 +1670,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateProfileInput, UpdateProfileOutput, UpdateProfileOutputError>(id: "updateProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutput, UpdateProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutput>())
@@ -1237,10 +1685,28 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfileOutput, UpdateProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfileOutput, UpdateProfileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProfileOutput, UpdateProfileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateProfileInput, UpdateProfileOutput>(id: "updateProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProfileInput, UpdateProfileOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateProfileInput, UpdateProfileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProfileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProfileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateTrustAnchor` operation on the `RolesAnywhere` service.
+    ///
     /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:UpdateTrustAnchor.
     ///
     /// - Parameter UpdateTrustAnchorInput : [no documentation found]
@@ -1269,6 +1735,7 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
                       .withSigningName(value: "rolesanywhere")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateTrustAnchorInput, UpdateTrustAnchorOutput, UpdateTrustAnchorOutputError>(id: "updateTrustAnchor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput, UpdateTrustAnchorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>())
@@ -1283,6 +1750,22 @@ extension RolesAnywhereClient: RolesAnywhereClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustAnchorOutput, UpdateTrustAnchorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustAnchorOutput, UpdateTrustAnchorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustAnchorOutput, UpdateTrustAnchorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>(id: "updateTrustAnchor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrustAnchorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrustAnchorInput, UpdateTrustAnchorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustAnchorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustAnchorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustAnchorOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateTrustAnchorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustAnchorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

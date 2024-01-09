@@ -12,7 +12,11 @@ extension MediaPackageClient {
     ///     - input: A `[ListChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
+>>>>>>> main
     }
 }
 
@@ -24,7 +28,11 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListChannelsInput, Output == ListChannelsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListChannelsInput, OperationStackOutput == ListChannelsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listChannelsPaginated`
     /// to access the nested member `[MediaPackageClientTypes.Channel]`
     /// - Returns: `[MediaPackageClientTypes.Channel]`
@@ -42,7 +50,11 @@ extension MediaPackageClient {
     ///     - input: A `[ListHarvestJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHarvestJobsOutput`
     public func listHarvestJobsPaginated(input: ListHarvestJobsInput) -> ClientRuntime.PaginatorSequence<ListHarvestJobsInput, ListHarvestJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListHarvestJobsInput, ListHarvestJobsOutput>(input: input, inputKey: \ListHarvestJobsInput.nextToken, outputKey: \ListHarvestJobsOutput.nextToken, paginationFunction: self.listHarvestJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListHarvestJobsInput, ListHarvestJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHarvestJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -56,7 +68,11 @@ extension ListHarvestJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListHarvestJobsInput, Output == ListHarvestJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListHarvestJobsInput, OperationStackOutput == ListHarvestJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listHarvestJobsPaginated`
     /// to access the nested member `[MediaPackageClientTypes.HarvestJob]`
     /// - Returns: `[MediaPackageClientTypes.HarvestJob]`
@@ -74,7 +90,11 @@ extension MediaPackageClient {
     ///     - input: A `[ListOriginEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOriginEndpointsOutput`
     public func listOriginEndpointsPaginated(input: ListOriginEndpointsInput) -> ClientRuntime.PaginatorSequence<ListOriginEndpointsInput, ListOriginEndpointsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOriginEndpointsInput, ListOriginEndpointsOutput>(input: input, inputKey: \ListOriginEndpointsInput.nextToken, outputKey: \ListOriginEndpointsOutput.nextToken, paginationFunction: self.listOriginEndpoints(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOriginEndpointsInput, ListOriginEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOriginEndpoints(input:))
+>>>>>>> main
     }
 }
 
@@ -87,7 +107,11 @@ extension ListOriginEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListOriginEndpointsInput, Output == ListOriginEndpointsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListOriginEndpointsInput, OperationStackOutput == ListOriginEndpointsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOriginEndpointsPaginated`
     /// to access the nested member `[MediaPackageClientTypes.OriginEndpoint]`
     /// - Returns: `[MediaPackageClientTypes.OriginEndpoint]`

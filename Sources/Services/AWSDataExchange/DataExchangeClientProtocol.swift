@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// AWS Data Exchange is a service that makes it easy for AWS customers to exchange data in the cloud. You can use the AWS Data Exchange APIs to create, update, manage, and access file-based data set in the AWS Cloud. As a subscriber, you can view and access the data sets that you have an entitlement to through a subscription. You can use the APIs to download or copy your entitled data sets to Amazon Simple Storage Service (Amazon S3) for use across a variety of AWS analytics and machine learning services. As a provider, you can create and manage your data sets that you would like to publish to a product. Being able to package and provide your data sets into products requires a few steps to determine eligibility. For more information, visit the AWS Data Exchange User Guide. A data set is a collection of data that can be changed or updated over time. Data sets can be updated using revisions, which represent a new version or incremental change to a data set. A revision contains one or more assets. An asset in AWS Data Exchange is a piece of data that can be stored as an Amazon S3 object, Redshift datashare, API Gateway API, AWS Lake Formation data permission, or Amazon S3 data access. The asset can be a structured data file, an image file, or some other data file. Jobs are asynchronous import or export operations used to create or copy assets.
 public protocol DataExchangeClientProtocol {
+    /// Performs the `CancelJob` operation on the `DataExchange` service.
+    ///
     /// This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
     ///
     /// - Parameter CancelJobInput : [no documentation found]
@@ -19,6 +21,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDataSet` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation creates a data set.
     ///
     /// - Parameter CreateDataSetInput : [no documentation found]
@@ -34,6 +41,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEventAction` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation creates an event action.
     ///
     /// - Parameter CreateEventActionInput : [no documentation found]
@@ -49,6 +61,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateJob` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation creates a job.
     ///
     /// - Parameter CreateJobInput : [no documentation found]
@@ -65,6 +82,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRevision` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation creates a revision for a data set.
     ///
     /// - Parameter CreateRevisionInput : [no documentation found]
@@ -80,6 +102,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAsset` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation deletes an asset.
     ///
     /// - Parameter DeleteAssetInput : [no documentation found]
@@ -96,6 +123,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDataSet` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation deletes a data set.
     ///
     /// - Parameter DeleteDataSetInput : [no documentation found]
@@ -112,6 +144,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEventAction` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation deletes the event action.
     ///
     /// - Parameter DeleteEventActionInput : [no documentation found]
@@ -126,6 +163,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRevision` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation deletes a revision.
     ///
     /// - Parameter DeleteRevisionInput : [no documentation found]
@@ -142,6 +184,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAsset` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation returns information about an asset.
     ///
     /// - Parameter GetAssetInput : [no documentation found]
@@ -156,6 +203,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func getAsset(input: GetAssetInput) async throws -> GetAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataSet` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation returns information about a data set.
     ///
     /// - Parameter GetDataSetInput : [no documentation found]
@@ -170,6 +222,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEventAction` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation retrieves information about an event action.
     ///
     /// - Parameter GetEventActionInput : [no documentation found]
@@ -184,6 +241,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetJob` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation returns information about a job.
     ///
     /// - Parameter GetJobInput : [no documentation found]
@@ -198,6 +260,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func getJob(input: GetJobInput) async throws -> GetJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRevision` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation returns information about a revision.
     ///
     /// - Parameter GetRevisionInput : [no documentation found]
@@ -212,6 +279,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataSetRevisions` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
     ///
     /// - Parameter ListDataSetRevisionsInput : [no documentation found]
@@ -226,6 +298,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataSets` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
     ///
     /// - Parameter ListDataSetsInput : [no documentation found]
@@ -240,6 +317,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEventActions` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation lists your event actions.
     ///
     /// - Parameter ListEventActionsInput : [no documentation found]
@@ -254,6 +336,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobs` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation lists your jobs sorted by CreatedAt in descending order.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
@@ -268,6 +355,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRevisionAssets` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation lists a revision's assets sorted alphabetically in descending order.
     ///
     /// - Parameter ListRevisionAssetsInput : [no documentation found]
@@ -282,12 +374,22 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation lists the tags on the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RevokeRevision` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation revokes subscribers' access to a revision.
     ///
     /// - Parameter RevokeRevisionInput : [no documentation found]
@@ -304,6 +406,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendApiAsset` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
     ///
     /// - Parameter SendApiAssetInput : [no documentation found]
@@ -319,6 +426,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendDataSetNotification` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// The type of event associated with the data set.
     ///
     /// - Parameter SendDataSetNotificationInput : [no documentation found]
@@ -335,6 +447,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func sendDataSetNotification(input: SendDataSetNotificationInput) async throws -> SendDataSetNotificationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartJob` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation starts a job.
     ///
     /// - Parameter StartJobInput : [no documentation found]
@@ -351,18 +468,33 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func startJob(input: StartJobInput) async throws -> StartJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAsset` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation updates an asset.
     ///
     /// - Parameter UpdateAssetInput : [no documentation found]
@@ -379,6 +511,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDataSet` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation updates a data set.
     ///
     /// - Parameter UpdateDataSetInput : [no documentation found]
@@ -394,6 +531,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEventAction` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation updates the event action.
     ///
     /// - Parameter UpdateEventActionInput : [no documentation found]
@@ -409,6 +551,11 @@ public protocol DataExchangeClientProtocol {
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request was invalid.
     func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRevision` operation on the `DataExchange` service.
+    ///
+>>>>>>> main
     /// This operation updates a revision.
     ///
     /// - Parameter UpdateRevisionInput : [no documentation found]

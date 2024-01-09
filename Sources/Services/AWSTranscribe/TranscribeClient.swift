@@ -67,6 +67,8 @@ public struct TranscribeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 }
 
 extension TranscribeClient: TranscribeClientProtocol {
+    /// Performs the `CreateCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
     /// Creates a new Call Analytics category. All categories are automatically applied to your Call Analytics transcriptions. Note that in order to apply categories to your transcriptions, you must create them before submitting your transcription request, as categories cannot be applied retroactively. When creating a new category, you can use the InputType parameter to label the category as a POST_CALL or a REAL_TIME category. POST_CALL categories can only be applied to post-call transcriptions and REAL_TIME categories can only be applied to real-time transcriptions. If you do not include InputType, your category is created as a POST_CALL category by default. Call Analytics categories are composed of rules. For each category, you must create between 1 and 20 rules. Rules can include these parameters: , , , and . To update an existing category, see . To learn more about Call Analytics categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html).
     ///
     /// - Parameter CreateCallAnalyticsCategoryInput : [no documentation found]
@@ -96,6 +98,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput, CreateCallAnalyticsCategoryOutputError>(id: "createCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput, CreateCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
@@ -111,10 +114,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCallAnalyticsCategoryOutput, CreateCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCallAnalyticsCategoryOutput, CreateCallAnalyticsCategoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCallAnalyticsCategoryOutput, CreateCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(id: "createCallAnalyticsCategory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCallAnalyticsCategoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.CreateCallAnalyticsCategory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCallAnalyticsCategoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCallAnalyticsCategoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCallAnalyticsCategoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCallAnalyticsCategoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLanguageModel` operation on the `Transcribe` service.
+    ///
     /// Creates a new custom language model. When creating a new custom language model, you must specify:
     ///
     /// * If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio sample rates under 16,000 Hz) base model
@@ -152,6 +174,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateLanguageModelInput, CreateLanguageModelOutput, CreateLanguageModelOutputError>(id: "createLanguageModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput, CreateLanguageModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
@@ -167,10 +190,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLanguageModelOutput, CreateLanguageModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLanguageModelOutput, CreateLanguageModelOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLanguageModelOutput, CreateLanguageModelOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateLanguageModelInput, CreateLanguageModelOutput>(id: "createLanguageModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLanguageModelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(xAmzTarget: "Transcribe.CreateLanguageModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLanguageModelOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLanguageModelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLanguageModelOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLanguageModelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLanguageModelOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMedicalVocabulary` operation on the `Transcribe` service.
+    ///
     /// Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary, you must first upload a text file that contains your vocabulary table into an Amazon S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag; CreateMedicalVocabulary does not support the Phrases flag and only accepts vocabularies in table format. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
     /// - Parameter CreateMedicalVocabularyInput : [no documentation found]
@@ -200,6 +242,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput, CreateMedicalVocabularyOutputError>(id: "createMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput, CreateMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
@@ -215,10 +258,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMedicalVocabularyOutput, CreateMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMedicalVocabularyOutput, CreateMedicalVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMedicalVocabularyOutput, CreateMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(id: "createMedicalVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMedicalVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(xAmzTarget: "Transcribe.CreateMedicalVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMedicalVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMedicalVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMedicalVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMedicalVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateVocabulary` operation on the `Transcribe` service.
+    ///
     /// Creates a new custom vocabulary. When creating a new custom vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request. Or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
     /// - Parameter CreateVocabularyInput : [no documentation found]
@@ -248,6 +310,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateVocabularyInput, CreateVocabularyOutput, CreateVocabularyOutputError>(id: "createVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVocabularyInput, CreateVocabularyOutput, CreateVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
@@ -263,10 +326,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVocabularyOutput, CreateVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVocabularyOutput, CreateVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVocabularyOutput, CreateVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateVocabularyInput, CreateVocabularyOutput>(id: "createVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(xAmzTarget: "Transcribe.CreateVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVocabularyInput, CreateVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateVocabularyFilter` operation on the `Transcribe` service.
+    ///
     /// Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask, delete, or flag specific words from your transcript. Custom vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Vocabulary filtering](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     ///
     /// - Parameter CreateVocabularyFilterInput : [no documentation found]
@@ -296,6 +378,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateVocabularyFilterInput, CreateVocabularyFilterOutput, CreateVocabularyFilterOutputError>(id: "createVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput, CreateVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
@@ -311,10 +394,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVocabularyFilterOutput, CreateVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVocabularyFilterOutput, CreateVocabularyFilterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVocabularyFilterOutput, CreateVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(id: "createVocabularyFilter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVocabularyFilterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(xAmzTarget: "Transcribe.CreateVocabularyFilter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVocabularyFilterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVocabularyFilterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVocabularyFilterOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVocabularyFilterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
     /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName. Category names are case sensitive.
     ///
     /// - Parameter DeleteCallAnalyticsCategoryInput : [no documentation found]
@@ -344,6 +446,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput, DeleteCallAnalyticsCategoryOutputError>(id: "deleteCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput, DeleteCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
@@ -359,10 +462,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCallAnalyticsCategoryOutput, DeleteCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsCategoryOutput, DeleteCallAnalyticsCategoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsCategoryOutput, DeleteCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(id: "deleteCallAnalyticsCategory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCallAnalyticsCategoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.DeleteCallAnalyticsCategory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCallAnalyticsCategoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCallAnalyticsCategoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsCategoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCallAnalyticsCategoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCallAnalyticsJob` operation on the `Transcribe` service.
+    ///
     /// Deletes a Call Analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName. Job names are case sensitive.
     ///
     /// - Parameter DeleteCallAnalyticsJobInput : [no documentation found]
@@ -391,6 +513,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput, DeleteCallAnalyticsJobOutputError>(id: "deleteCallAnalyticsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput, DeleteCallAnalyticsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
@@ -406,10 +529,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCallAnalyticsJobOutput, DeleteCallAnalyticsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsJobOutput, DeleteCallAnalyticsJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsJobOutput, DeleteCallAnalyticsJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(id: "deleteCallAnalyticsJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCallAnalyticsJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(xAmzTarget: "Transcribe.DeleteCallAnalyticsJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCallAnalyticsJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCallAnalyticsJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCallAnalyticsJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteLanguageModel` operation on the `Transcribe` service.
+    ///
     /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName. custom language model names are case sensitive.
     ///
     /// - Parameter DeleteLanguageModelInput : [no documentation found]
@@ -438,6 +580,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteLanguageModelInput, DeleteLanguageModelOutput, DeleteLanguageModelOutputError>(id: "deleteLanguageModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput, DeleteLanguageModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
@@ -453,10 +596,84 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLanguageModelOutput, DeleteLanguageModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLanguageModelOutput, DeleteLanguageModelOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLanguageModelOutput, DeleteLanguageModelOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteLanguageModelInput, DeleteLanguageModelOutput>(id: "deleteLanguageModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLanguageModelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(xAmzTarget: "Transcribe.DeleteLanguageModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLanguageModelOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLanguageModelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLanguageModelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLanguageModelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLanguageModelOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMedicalScribeJob` operation on the `Transcribe` service.
+    ///
+    /// Deletes a Medical Scribe job. To use this operation, specify the name of the job you want to delete using MedicalScribeJobName. Job names are case sensitive.
+    ///
+<<<<<<< HEAD
+    /// - Returns: `DeleteMedicalTranscriptionJobOutput` : [no documentation found]
+=======
+    /// - Parameter DeleteMedicalScribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMedicalScribeJobOutput` : [no documentation found]
+>>>>>>> main
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+<<<<<<< HEAD
+=======
+    public func deleteMedicalScribeJob(input: DeleteMedicalScribeJobInput) async throws -> DeleteMedicalScribeJobOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMedicalScribeJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "transcribe")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(id: "deleteMedicalScribeJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMedicalScribeJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(xAmzTarget: "Transcribe.DeleteMedicalScribeJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMedicalScribeJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalScribeJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalScribeJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMedicalScribeJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteMedicalTranscriptionJob` operation on the `Transcribe` service.
+    ///
     /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
     ///
     /// - Parameter DeleteMedicalTranscriptionJobInput : [no documentation found]
@@ -469,6 +686,7 @@ extension TranscribeClient: TranscribeClientProtocol {
     /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+>>>>>>> main
     public func deleteMedicalTranscriptionJob(input: DeleteMedicalTranscriptionJobInput) async throws -> DeleteMedicalTranscriptionJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -485,6 +703,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput, DeleteMedicalTranscriptionJobOutputError>(id: "deleteMedicalTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput, DeleteMedicalTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
@@ -500,10 +719,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalTranscriptionJobOutput, DeleteMedicalTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalTranscriptionJobOutput, DeleteMedicalTranscriptionJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalTranscriptionJobOutput, DeleteMedicalTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(id: "deleteMedicalTranscriptionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMedicalTranscriptionJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(xAmzTarget: "Transcribe.DeleteMedicalTranscriptionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMedicalTranscriptionJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalTranscriptionJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalTranscriptionJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMedicalTranscriptionJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMedicalVocabulary` operation on the `Transcribe` service.
+    ///
     /// Deletes a custom medical vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
     /// - Parameter DeleteMedicalVocabularyInput : [no documentation found]
@@ -533,6 +771,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput, DeleteMedicalVocabularyOutputError>(id: "deleteMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput, DeleteMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
@@ -548,10 +787,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalVocabularyOutput, DeleteMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalVocabularyOutput, DeleteMedicalVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalVocabularyOutput, DeleteMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(id: "deleteMedicalVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMedicalVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(xAmzTarget: "Transcribe.DeleteMedicalVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMedicalVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMedicalVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteTranscriptionJob` operation on the `Transcribe` service.
+    ///
     /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName. Job names are case sensitive.
     ///
     /// - Parameter DeleteTranscriptionJobInput : [no documentation found]
@@ -580,6 +838,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput, DeleteTranscriptionJobOutputError>(id: "deleteTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput, DeleteTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
@@ -595,10 +854,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTranscriptionJobOutput, DeleteTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTranscriptionJobOutput, DeleteTranscriptionJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTranscriptionJobOutput, DeleteTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(id: "deleteTranscriptionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTranscriptionJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(xAmzTarget: "Transcribe.DeleteTranscriptionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTranscriptionJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTranscriptionJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTranscriptionJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTranscriptionJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVocabulary` operation on the `Transcribe` service.
+    ///
     /// Deletes a custom vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
     /// - Parameter DeleteVocabularyInput : [no documentation found]
@@ -628,6 +906,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteVocabularyInput, DeleteVocabularyOutput, DeleteVocabularyOutputError>(id: "deleteVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput, DeleteVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
@@ -643,10 +922,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVocabularyOutput, DeleteVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVocabularyOutput, DeleteVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVocabularyOutput, DeleteVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteVocabularyInput, DeleteVocabularyOutput>(id: "deleteVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(xAmzTarget: "Transcribe.DeleteVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVocabularyFilter` operation on the `Transcribe` service.
+    ///
     /// Deletes a custom vocabulary filter. To use this operation, specify the name of the custom vocabulary filter you want to delete using VocabularyFilterName. Custom vocabulary filter names are case sensitive.
     ///
     /// - Parameter DeleteVocabularyFilterInput : [no documentation found]
@@ -676,6 +974,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput, DeleteVocabularyFilterOutputError>(id: "deleteVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput, DeleteVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
@@ -691,10 +990,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVocabularyFilterOutput, DeleteVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVocabularyFilterOutput, DeleteVocabularyFilterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVocabularyFilterOutput, DeleteVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(id: "deleteVocabularyFilter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVocabularyFilterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(xAmzTarget: "Transcribe.DeleteVocabularyFilter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVocabularyFilterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVocabularyFilterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVocabularyFilterOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVocabularyFilterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLanguageModel` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified custom language model. This operation also shows if the base language model that you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use DescribeLanguageModel to help identify the reason for this failure.
     ///
     /// - Parameter DescribeLanguageModelInput : [no documentation found]
@@ -724,6 +1042,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeLanguageModelInput, DescribeLanguageModelOutput, DescribeLanguageModelOutputError>(id: "describeLanguageModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput, DescribeLanguageModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
@@ -739,10 +1058,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLanguageModelOutput, DescribeLanguageModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLanguageModelOutput, DescribeLanguageModelOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLanguageModelOutput, DescribeLanguageModelOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeLanguageModelInput, DescribeLanguageModelOutput>(id: "describeLanguageModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLanguageModelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(xAmzTarget: "Transcribe.DescribeLanguageModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLanguageModelOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLanguageModelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLanguageModelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLanguageModelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLanguageModelOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified Call Analytics category. To get a list of your Call Analytics categories, use the operation.
     ///
     /// - Parameter GetCallAnalyticsCategoryInput : [no documentation found]
@@ -772,6 +1110,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput, GetCallAnalyticsCategoryOutputError>(id: "getCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput, GetCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
@@ -787,10 +1126,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallAnalyticsCategoryOutput, GetCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallAnalyticsCategoryOutput, GetCallAnalyticsCategoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallAnalyticsCategoryOutput, GetCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(id: "getCallAnalyticsCategory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallAnalyticsCategoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.GetCallAnalyticsCategory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallAnalyticsCategoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallAnalyticsCategoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallAnalyticsCategoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCallAnalyticsCategoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCallAnalyticsJob` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus. If the status is COMPLETED, the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFileUri. If you chose to redact the audio in your media file, you can find your redacted media file at the location specified in RedactedMediaFileUri. To get a list of your Call Analytics jobs, use the operation.
     ///
     /// - Parameter GetCallAnalyticsJobInput : [no documentation found]
@@ -820,6 +1178,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput, GetCallAnalyticsJobOutputError>(id: "getCallAnalyticsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput, GetCallAnalyticsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
@@ -835,10 +1194,85 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallAnalyticsJobOutput, GetCallAnalyticsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallAnalyticsJobOutput, GetCallAnalyticsJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallAnalyticsJobOutput, GetCallAnalyticsJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(id: "getCallAnalyticsJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallAnalyticsJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(xAmzTarget: "Transcribe.GetCallAnalyticsJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallAnalyticsJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallAnalyticsJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallAnalyticsJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCallAnalyticsJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMedicalScribeJob` operation on the `Transcribe` service.
+    ///
+    /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in MedicalScribeOutput. If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation.
+    ///
+<<<<<<< HEAD
+    /// - Returns: `GetMedicalTranscriptionJobOutput` : [no documentation found]
+=======
+    /// - Parameter GetMedicalScribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetMedicalScribeJobOutput` : [no documentation found]
+>>>>>>> main
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
+<<<<<<< HEAD
+=======
+    public func getMedicalScribeJob(input: GetMedicalScribeJobInput) async throws -> GetMedicalScribeJobOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMedicalScribeJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "transcribe")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(id: "getMedicalScribeJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMedicalScribeJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(xAmzTarget: "Transcribe.GetMedicalScribeJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMedicalScribeJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalScribeJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalScribeJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMedicalScribeJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetMedicalTranscriptionJob` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. To get a list of your medical transcription jobs, use the operation.
     ///
     /// - Parameter GetMedicalTranscriptionJobInput : [no documentation found]
@@ -852,6 +1286,7 @@ extension TranscribeClient: TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
+>>>>>>> main
     public func getMedicalTranscriptionJob(input: GetMedicalTranscriptionJobInput) async throws -> GetMedicalTranscriptionJobOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -868,6 +1303,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput, GetMedicalTranscriptionJobOutputError>(id: "getMedicalTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput, GetMedicalTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
@@ -883,10 +1319,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalTranscriptionJobOutput, GetMedicalTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalTranscriptionJobOutput, GetMedicalTranscriptionJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalTranscriptionJobOutput, GetMedicalTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(id: "getMedicalTranscriptionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMedicalTranscriptionJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(xAmzTarget: "Transcribe.GetMedicalTranscriptionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMedicalTranscriptionJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalTranscriptionJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalTranscriptionJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMedicalTranscriptionJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMedicalVocabulary` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified custom medical vocabulary. To view the status of the specified custom medical vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary failed. To get a list of your custom medical vocabularies, use the operation.
     ///
     /// - Parameter GetMedicalVocabularyInput : [no documentation found]
@@ -916,6 +1371,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetMedicalVocabularyInput, GetMedicalVocabularyOutput, GetMedicalVocabularyOutputError>(id: "getMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput, GetMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
@@ -931,10 +1387,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalVocabularyOutput, GetMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalVocabularyOutput, GetMedicalVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalVocabularyOutput, GetMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(id: "getMedicalVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMedicalVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(xAmzTarget: "Transcribe.GetMedicalVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMedicalVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMedicalVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetTranscriptionJob` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri. To get a list of your transcription jobs, use the operation.
     ///
     /// - Parameter GetTranscriptionJobInput : [no documentation found]
@@ -964,6 +1439,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetTranscriptionJobInput, GetTranscriptionJobOutput, GetTranscriptionJobOutputError>(id: "getTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput, GetTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
@@ -979,10 +1455,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTranscriptionJobOutput, GetTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTranscriptionJobOutput, GetTranscriptionJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTranscriptionJobOutput, GetTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetTranscriptionJobInput, GetTranscriptionJobOutput>(id: "getTranscriptionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTranscriptionJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(xAmzTarget: "Transcribe.GetTranscriptionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTranscriptionJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTranscriptionJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTranscriptionJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTranscriptionJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVocabulary` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified custom vocabulary. To view the status of the specified custom vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your custom vocabulary failed. To get a list of your custom vocabularies, use the operation.
     ///
     /// - Parameter GetVocabularyInput : [no documentation found]
@@ -1012,6 +1507,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetVocabularyInput, GetVocabularyOutput, GetVocabularyOutputError>(id: "getVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVocabularyInput, GetVocabularyOutput, GetVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVocabularyInput, GetVocabularyOutput>())
@@ -1027,10 +1523,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVocabularyOutput, GetVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVocabularyOutput, GetVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVocabularyOutput, GetVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetVocabularyInput, GetVocabularyOutput>(id: "getVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVocabularyInput, GetVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVocabularyInput, GetVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetVocabularyInput, GetVocabularyOutput>(xAmzTarget: "Transcribe.GetVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetVocabularyInput, GetVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVocabularyInput, GetVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVocabularyFilter` operation on the `Transcribe` service.
+    ///
     /// Provides information about the specified custom vocabulary filter. To get a list of your custom vocabulary filters, use the operation.
     ///
     /// - Parameter GetVocabularyFilterInput : [no documentation found]
@@ -1060,6 +1575,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetVocabularyFilterInput, GetVocabularyFilterOutput, GetVocabularyFilterOutputError>(id: "getVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput, GetVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
@@ -1075,10 +1591,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVocabularyFilterOutput, GetVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVocabularyFilterOutput, GetVocabularyFilterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVocabularyFilterOutput, GetVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetVocabularyFilterInput, GetVocabularyFilterOutput>(id: "getVocabularyFilter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVocabularyFilterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(xAmzTarget: "Transcribe.GetVocabularyFilter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVocabularyFilterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVocabularyFilterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVocabularyFilterOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVocabularyFilterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCallAnalyticsCategories` operation on the `Transcribe` service.
+    ///
     /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the operation.
     ///
     /// - Parameter ListCallAnalyticsCategoriesInput : [no documentation found]
@@ -1107,6 +1642,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput, ListCallAnalyticsCategoriesOutputError>(id: "listCallAnalyticsCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput, ListCallAnalyticsCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
@@ -1123,10 +1659,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCallAnalyticsCategoriesOutput, ListCallAnalyticsCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCallAnalyticsCategoriesOutput, ListCallAnalyticsCategoriesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCallAnalyticsCategoriesOutput, ListCallAnalyticsCategoriesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(id: "listCallAnalyticsCategories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCallAnalyticsCategoriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(xAmzTarget: "Transcribe.ListCallAnalyticsCategories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCallAnalyticsCategoriesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCallAnalyticsCategoriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCallAnalyticsCategoriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCallAnalyticsCategoriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCallAnalyticsCategoriesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCallAnalyticsJobs` operation on the `Transcribe` service.
+    ///
     /// Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the operation.
     ///
     /// - Parameter ListCallAnalyticsJobsInput : [no documentation found]
@@ -1155,6 +1711,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput, ListCallAnalyticsJobsOutputError>(id: "listCallAnalyticsJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput, ListCallAnalyticsJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
@@ -1171,10 +1728,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCallAnalyticsJobsOutput, ListCallAnalyticsJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCallAnalyticsJobsOutput, ListCallAnalyticsJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCallAnalyticsJobsOutput, ListCallAnalyticsJobsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(id: "listCallAnalyticsJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCallAnalyticsJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(xAmzTarget: "Transcribe.ListCallAnalyticsJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCallAnalyticsJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCallAnalyticsJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCallAnalyticsJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCallAnalyticsJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCallAnalyticsJobsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListLanguageModels` operation on the `Transcribe` service.
+    ///
     /// Provides a list of custom language models that match the specified criteria. If no criteria are specified, all custom language models are returned. To get detailed information about a specific custom language model, use the operation.
     ///
     /// - Parameter ListLanguageModelsInput : [no documentation found]
@@ -1203,6 +1780,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListLanguageModelsInput, ListLanguageModelsOutput, ListLanguageModelsOutputError>(id: "listLanguageModels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput, ListLanguageModelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
@@ -1219,10 +1797,86 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLanguageModelsOutput, ListLanguageModelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLanguageModelsOutput, ListLanguageModelsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLanguageModelsOutput, ListLanguageModelsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListLanguageModelsInput, ListLanguageModelsOutput>(id: "listLanguageModels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLanguageModelsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(xAmzTarget: "Transcribe.ListLanguageModels"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLanguageModelsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLanguageModelsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLanguageModelsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLanguageModelsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLanguageModelsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMedicalScribeJobs` operation on the `Transcribe` service.
+    ///
+    /// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the operation.
+    ///
+<<<<<<< HEAD
+    /// - Returns: `ListMedicalTranscriptionJobsOutput` : [no documentation found]
+=======
+    /// - Parameter ListMedicalScribeJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMedicalScribeJobsOutput` : [no documentation found]
+>>>>>>> main
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+<<<<<<< HEAD
+=======
+    public func listMedicalScribeJobs(input: ListMedicalScribeJobsInput) async throws -> ListMedicalScribeJobsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMedicalScribeJobs")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "transcribe")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(id: "listMedicalScribeJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMedicalScribeJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(xAmzTarget: "Transcribe.ListMedicalScribeJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMedicalScribeJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalScribeJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalScribeJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMedicalScribeJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalScribeJobsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListMedicalTranscriptionJobs` operation on the `Transcribe` service.
+    ///
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the operation.
     ///
     /// - Parameter ListMedicalTranscriptionJobsInput : [no documentation found]
@@ -1235,6 +1889,7 @@ extension TranscribeClient: TranscribeClientProtocol {
     /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+>>>>>>> main
     public func listMedicalTranscriptionJobs(input: ListMedicalTranscriptionJobsInput) async throws -> ListMedicalTranscriptionJobsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1251,6 +1906,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput, ListMedicalTranscriptionJobsOutputError>(id: "listMedicalTranscriptionJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput, ListMedicalTranscriptionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
@@ -1267,10 +1923,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalTranscriptionJobsOutput, ListMedicalTranscriptionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalTranscriptionJobsOutput, ListMedicalTranscriptionJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalTranscriptionJobsOutput, ListMedicalTranscriptionJobsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(id: "listMedicalTranscriptionJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMedicalTranscriptionJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(xAmzTarget: "Transcribe.ListMedicalTranscriptionJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMedicalTranscriptionJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalTranscriptionJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalTranscriptionJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMedicalTranscriptionJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalTranscriptionJobsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMedicalVocabularies` operation on the `Transcribe` service.
+    ///
     /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the operation.
     ///
     /// - Parameter ListMedicalVocabulariesInput : [no documentation found]
@@ -1299,6 +1975,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput, ListMedicalVocabulariesOutputError>(id: "listMedicalVocabularies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput, ListMedicalVocabulariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
@@ -1315,10 +1992,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalVocabulariesOutput, ListMedicalVocabulariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalVocabulariesOutput, ListMedicalVocabulariesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalVocabulariesOutput, ListMedicalVocabulariesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(id: "listMedicalVocabularies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMedicalVocabulariesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(xAmzTarget: "Transcribe.ListMedicalVocabularies"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMedicalVocabulariesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalVocabulariesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalVocabulariesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMedicalVocabulariesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalVocabulariesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `Transcribe` service.
+    ///
     /// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1348,6 +2045,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -1363,10 +2061,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Transcribe.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTranscriptionJobs` operation on the `Transcribe` service.
+    ///
     /// Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the operation.
     ///
     /// - Parameter ListTranscriptionJobsInput : [no documentation found]
@@ -1395,6 +2112,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTranscriptionJobsInput, ListTranscriptionJobsOutput, ListTranscriptionJobsOutputError>(id: "listTranscriptionJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput, ListTranscriptionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
@@ -1411,10 +2129,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTranscriptionJobsOutput, ListTranscriptionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTranscriptionJobsOutput, ListTranscriptionJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTranscriptionJobsOutput, ListTranscriptionJobsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(id: "listTranscriptionJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTranscriptionJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(xAmzTarget: "Transcribe.ListTranscriptionJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTranscriptionJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTranscriptionJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTranscriptionJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTranscriptionJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTranscriptionJobsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListVocabularies` operation on the `Transcribe` service.
+    ///
     /// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the operation.
     ///
     /// - Parameter ListVocabulariesInput : [no documentation found]
@@ -1443,6 +2181,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListVocabulariesInput, ListVocabulariesOutput, ListVocabulariesOutputError>(id: "listVocabularies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVocabulariesInput, ListVocabulariesOutput, ListVocabulariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
@@ -1459,10 +2198,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVocabulariesOutput, ListVocabulariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVocabulariesOutput, ListVocabulariesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVocabulariesOutput, ListVocabulariesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListVocabulariesInput, ListVocabulariesOutput>(id: "listVocabularies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVocabulariesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(xAmzTarget: "Transcribe.ListVocabularies"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListVocabulariesInput, ListVocabulariesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVocabulariesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVocabulariesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVocabulariesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVocabulariesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVocabulariesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListVocabularyFilters` operation on the `Transcribe` service.
+    ///
     /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the operation.
     ///
     /// - Parameter ListVocabularyFiltersInput : [no documentation found]
@@ -1491,6 +2250,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListVocabularyFiltersInput, ListVocabularyFiltersOutput, ListVocabularyFiltersOutputError>(id: "listVocabularyFilters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput, ListVocabularyFiltersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
@@ -1507,10 +2267,30 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVocabularyFiltersOutput, ListVocabularyFiltersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVocabularyFiltersOutput, ListVocabularyFiltersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVocabularyFiltersOutput, ListVocabularyFiltersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(id: "listVocabularyFilters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVocabularyFiltersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(xAmzTarget: "Transcribe.ListVocabularyFilters"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVocabularyFiltersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVocabularyFiltersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVocabularyFiltersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVocabularyFiltersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVocabularyFiltersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartCallAnalyticsJob` operation on the `Transcribe` service.
+    ///
     /// Transcribes the audio from a customer service call and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Call Analytics provides you with call characteristics, call summarization, speaker sentiment, and optional redaction of your text transcript and your audio file. You can also apply custom categories to flag specified conditions. To learn more about these features and insights, refer to [Analyzing call center audio with Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html). If you want to apply categories to your Call Analytics job, you must create them before submitting your job request. Categories cannot be retroactively applied to a job. To create a new category, use the operation. To learn more about Call Analytics categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html). To make a StartCallAnalyticsJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. Note that job queuing is enabled by default for Call Analytics jobs. You must include the following parameters in your StartCallAnalyticsJob request:
     ///
     /// * region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
@@ -1551,6 +2331,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput, StartCallAnalyticsJobOutputError>(id: "startCallAnalyticsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput, StartCallAnalyticsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
@@ -1566,11 +2347,92 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCallAnalyticsJobOutput, StartCallAnalyticsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCallAnalyticsJobOutput, StartCallAnalyticsJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsJobOutput, StartCallAnalyticsJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(id: "startCallAnalyticsJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartCallAnalyticsJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(xAmzTarget: "Transcribe.StartCallAnalyticsJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartCallAnalyticsJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCallAnalyticsJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCallAnalyticsJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartCallAnalyticsJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to [How Amazon Transcribe Medical works](https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works-med.html). To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:
+    /// Performs the `StartMedicalScribeJob` operation on the `Transcribe` service.
+    ///
+    /// Transcribes patient-clinician conversations and generates clinical notes. Amazon Web Services HealthScribe automatically provides rich conversation transcripts, identifies speaker roles, classifies dialogues, extracts medical terms, and generates preliminary clinical notes. To learn more about these features, refer to [Amazon Web Services HealthScribe](https://docs.aws.amazon.com/transcribe/latest/dg/health-scribe.html). To make a StartMedicalScribeJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:
+    ///
+    /// * DataAccessRoleArn: The ARN of an IAM role with the these minimum permissions: read permission on input file Amazon S3 bucket specified in Media, write permission on the Amazon S3 bucket specified in OutputBucketName, and full permissions on the KMS key specified in OutputEncryptionKMSKeyId (if set). The role should also allow transcribe.amazonaws.com to assume it.
+    ///
+    /// * Media (MediaFileUri): The Amazon S3 location of your media file.
+    ///
+    /// * MedicalScribeJobName: A custom name you create for your MedicalScribe job that is unique within your Amazon Web Services account.
+    ///
+    /// * OutputBucketName: The Amazon S3 bucket where you want your output files stored.
+    ///
+    /// * Settings: A MedicalScribeSettings obect that must set exactly one of ShowSpeakerLabels or ChannelIdentification to true. If ShowSpeakerLabels is true, MaxSpeakerLabels must also be set.
+    ///
+    /// * ChannelDefinitions: A MedicalScribeChannelDefinitions array should be set if and only if the ChannelIdentification value of Settings is set to true.
+    ///
+    /// - Parameter StartMedicalScribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartMedicalScribeJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    public func startMedicalScribeJob(input: StartMedicalScribeJobInput) async throws -> StartMedicalScribeJobOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startMedicalScribeJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "transcribe")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(id: "startMedicalScribeJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMedicalScribeJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(xAmzTarget: "Transcribe.StartMedicalScribeJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMedicalScribeJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalScribeJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalScribeJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMedicalScribeJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `StartMedicalTranscriptionJob` operation on the `Transcribe` service.
+    ///
+    /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to [How Amazon Transcribe Medical works](https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works-med.html). To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:
     ///
     /// * region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
     ///
@@ -1613,6 +2475,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput, StartMedicalTranscriptionJobOutputError>(id: "startMedicalTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput, StartMedicalTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
@@ -1628,10 +2491,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalTranscriptionJobOutput, StartMedicalTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalTranscriptionJobOutput, StartMedicalTranscriptionJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMedicalTranscriptionJobOutput, StartMedicalTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(id: "startMedicalTranscriptionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMedicalTranscriptionJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(xAmzTarget: "Transcribe.StartMedicalTranscriptionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMedicalTranscriptionJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalTranscriptionJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalTranscriptionJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMedicalTranscriptionJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartTranscriptionJob` operation on the `Transcribe` service.
+    ///
     /// Transcribes the audio from a media file and applies any additional Request Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request:
     ///
     /// * region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
@@ -1640,7 +2522,7 @@ extension TranscribeClient: TranscribeClientProtocol {
     ///
     /// * Media (MediaFileUri): The Amazon S3 location of your media file.
     ///
-    /// * One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you don't know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
+    /// * One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you do not know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
     ///
     /// - Parameter StartTranscriptionJobInput : [no documentation found]
     ///
@@ -1669,6 +2551,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartTranscriptionJobInput, StartTranscriptionJobOutput, StartTranscriptionJobOutputError>(id: "startTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput, StartTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
@@ -1684,10 +2567,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTranscriptionJobOutput, StartTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTranscriptionJobOutput, StartTranscriptionJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTranscriptionJobOutput, StartTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartTranscriptionJobInput, StartTranscriptionJobOutput>(id: "startTranscriptionJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartTranscriptionJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(xAmzTarget: "Transcribe.StartTranscriptionJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartTranscriptionJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTranscriptionJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTranscriptionJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartTranscriptionJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `Transcribe` service.
+    ///
     /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1718,6 +2620,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -1733,10 +2636,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Transcribe.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `Transcribe` service.
+    ///
     /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1767,6 +2689,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -1782,10 +2705,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Transcribe.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
     /// Updates the specified Call Analytics category with new rules. Note that the UpdateCallAnalyticsCategory operation overwrites all existing rules contained in the specified category. You cannot append additional rules onto an existing category. To create a new category, see .
     ///
     /// - Parameter UpdateCallAnalyticsCategoryInput : [no documentation found]
@@ -1816,6 +2758,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput, UpdateCallAnalyticsCategoryOutputError>(id: "updateCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput, UpdateCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
@@ -1831,10 +2774,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCallAnalyticsCategoryOutput, UpdateCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCallAnalyticsCategoryOutput, UpdateCallAnalyticsCategoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCallAnalyticsCategoryOutput, UpdateCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(id: "updateCallAnalyticsCategory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCallAnalyticsCategoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.UpdateCallAnalyticsCategory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCallAnalyticsCategoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCallAnalyticsCategoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCallAnalyticsCategoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCallAnalyticsCategoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateMedicalVocabulary` operation on the `Transcribe` service.
+    ///
     /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
     /// - Parameter UpdateMedicalVocabularyInput : [no documentation found]
@@ -1865,6 +2827,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput, UpdateMedicalVocabularyOutputError>(id: "updateMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput, UpdateMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
@@ -1880,10 +2843,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMedicalVocabularyOutput, UpdateMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMedicalVocabularyOutput, UpdateMedicalVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMedicalVocabularyOutput, UpdateMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(id: "updateMedicalVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMedicalVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(xAmzTarget: "Transcribe.UpdateMedicalVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMedicalVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMedicalVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMedicalVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateMedicalVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateVocabulary` operation on the `Transcribe` service.
+    ///
     /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
     /// - Parameter UpdateVocabularyInput : [no documentation found]
@@ -1914,6 +2896,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateVocabularyInput, UpdateVocabularyOutput, UpdateVocabularyOutputError>(id: "updateVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput, UpdateVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
@@ -1929,10 +2912,29 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVocabularyOutput, UpdateVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVocabularyOutput, UpdateVocabularyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVocabularyOutput, UpdateVocabularyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateVocabularyInput, UpdateVocabularyOutput>(id: "updateVocabulary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVocabularyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(xAmzTarget: "Transcribe.UpdateVocabulary"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVocabularyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVocabularyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVocabularyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateVocabularyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVocabularyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateVocabularyFilter` operation on the `Transcribe` service.
+    ///
     /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter.
     ///
     /// - Parameter UpdateVocabularyFilterInput : [no documentation found]
@@ -1962,6 +2964,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput, UpdateVocabularyFilterOutputError>(id: "updateVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput, UpdateVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
@@ -1977,6 +2980,23 @@ extension TranscribeClient: TranscribeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVocabularyFilterOutput, UpdateVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVocabularyFilterOutput, UpdateVocabularyFilterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVocabularyFilterOutput, UpdateVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(id: "updateVocabularyFilter")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVocabularyFilterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(xAmzTarget: "Transcribe.UpdateVocabularyFilter"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVocabularyFilterOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVocabularyFilterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVocabularyFilterOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateVocabularyFilterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -4,7 +4,10 @@ import ClientRuntime
 
 /// The FinSpace APIs let you take actions inside the FinSpace.
 public protocol FinspacedataClientProtocol {
+    /// Performs the `AssociateUserToPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
     /// Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter AssociateUserToPermissionGroupInput : [no documentation found]
     ///
@@ -20,7 +23,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func associateUserToPermissionGroup(input: AssociateUserToPermissionGroupInput) async throws -> AssociateUserToPermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateChangeset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Creates a new Changeset in a FinSpace Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter CreateChangesetInput : The request for a CreateChangeset operation.
     ///
@@ -37,7 +46,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createChangeset(input: CreateChangesetInput) async throws -> CreateChangesetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDataset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Creates a new FinSpace Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter CreateDatasetInput : The request for a CreateDataset operation
     ///
@@ -54,7 +69,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDataView` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Creates a Dataview for a Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter CreateDataViewInput : Request for creating a data view.
     ///
@@ -70,7 +91,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createDataView(input: CreateDataViewInput) async throws -> CreateDataViewOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Creates a group of permissions for various actions that a user can perform in FinSpace.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter CreatePermissionGroupInput : [no documentation found]
     ///
@@ -86,7 +113,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createPermissionGroup(input: CreatePermissionGroupInput) async throws -> CreatePermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUser` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Creates a new user in FinSpace.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
@@ -102,7 +135,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDataset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Deletes a FinSpace Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter DeleteDatasetInput : The request for a DeleteDataset operation.
     ///
@@ -119,7 +158,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Deletes a permission group. This action is irreversible.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter DeletePermissionGroupInput : [no documentation found]
     ///
@@ -136,7 +181,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deletePermissionGroup(input: DeletePermissionGroupInput) async throws -> DeletePermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisableUser` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Denies access to the FinSpace web application and API for the specified user.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter DisableUserInput : [no documentation found]
     ///
@@ -152,7 +203,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func disableUser(input: DisableUserInput) async throws -> DisableUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateUserFromPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Removes a user from a permission group.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter DisassociateUserFromPermissionGroupInput : [no documentation found]
     ///
@@ -168,7 +225,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func disassociateUserFromPermissionGroup(input: DisassociateUserFromPermissionGroupInput) async throws -> DisassociateUserFromPermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `EnableUser` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Allows the specified user to access the FinSpace web application and API.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter EnableUserInput : [no documentation found]
     ///
@@ -185,7 +248,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func enableUser(input: EnableUserInput) async throws -> EnableUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetChangeset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Get information about a Changeset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetChangesetInput : Request to describe a changeset.
     ///
@@ -201,7 +270,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getChangeset(input: GetChangesetInput) async throws -> GetChangesetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Returns information about a Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetDatasetInput : Request for the GetDataset operation.
     ///
@@ -217,7 +292,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getDataset(input: GetDatasetInput) async throws -> GetDatasetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataView` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Gets information about a Dataview.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetDataViewInput : Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id.
     ///
@@ -232,11 +313,17 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getDataView(input: GetDataViewInput) async throws -> GetDataViewOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetExternalDataViewAccessDetails` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Returns the credentials to access the external Dataview from an S3 location. To call this API:
     ///
     /// * You must retrieve the programmatic credentials.
     ///
     /// * You must be a member of a FinSpace user group, where the dataset that you want to access has Read Dataset Data permissions.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetExternalDataViewAccessDetailsInput : [no documentation found]
     ///
@@ -251,7 +338,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getExternalDataViewAccessDetails(input: GetExternalDataViewAccessDetailsInput) async throws -> GetExternalDataViewAccessDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Retrieves the details of a specific permission group.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetPermissionGroupInput : [no documentation found]
     ///
@@ -266,7 +359,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getPermissionGroup(input: GetPermissionGroupInput) async throws -> GetPermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetProgrammaticAccessCredentials` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Request programmatic credentials to use with FinSpace SDK. For more information, see [Step 2. Access credentials programmatically using IAM access key id and secret access key](https://docs.aws.amazon.com/finspace/latest/data-api/fs-using-the-finspace-api.html#accessing-credentials).
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetProgrammaticAccessCredentialsInput : Request for GetProgrammaticAccessCredentials operation
     ///
@@ -280,7 +379,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getProgrammaticAccessCredentials(input: GetProgrammaticAccessCredentialsInput) async throws -> GetProgrammaticAccessCredentialsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetUser` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Retrieves details for a specific user.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetUserInput : [no documentation found]
     ///
@@ -295,7 +400,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getUser(input: GetUserInput) async throws -> GetUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWorkingLocation` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// A temporary Amazon S3 location, where you can copy your files from a source location to stage or use as a scratch space in FinSpace notebook.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetWorkingLocationInput : [no documentation found]
     ///
@@ -309,7 +420,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkingLocation(input: GetWorkingLocationInput) async throws -> GetWorkingLocationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChangesets` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists the FinSpace Changesets for a Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListChangesetsInput : Request to ListChangesetsRequest. It exposes minimal query filters.
     ///
@@ -325,7 +442,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listChangesets(input: ListChangesetsInput) async throws -> ListChangesetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDatasets` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists all of the active Datasets that a user has access to.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListDatasetsInput : Request for the ListDatasets operation.
     ///
@@ -340,7 +463,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataViews` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists all available Dataviews for a Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListDataViewsInput : Request for a list data views.
     ///
@@ -355,7 +484,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listDataViews(input: ListDataViewsInput) async throws -> ListDataViewsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPermissionGroups` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists all available permission groups in FinSpace.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListPermissionGroupsInput : [no documentation found]
     ///
@@ -369,7 +504,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listPermissionGroups(input: ListPermissionGroupsInput) async throws -> ListPermissionGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPermissionGroupsByUser` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists all the permission groups that are associated with a specific user.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListPermissionGroupsByUserInput : [no documentation found]
     ///
@@ -384,7 +525,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listPermissionGroupsByUser(input: ListPermissionGroupsByUserInput) async throws -> ListPermissionGroupsByUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListUsers` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists all available users in FinSpace.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListUsersInput : [no documentation found]
     ///
@@ -398,7 +545,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListUsersByPermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Lists details of all the users in a specific permission group.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListUsersByPermissionGroupInput : [no documentation found]
     ///
@@ -413,7 +566,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listUsersByPermissionGroup(input: ListUsersByPermissionGroupInput) async throws -> ListUsersByPermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ResetUserPassword` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ResetUserPasswordInput : [no documentation found]
     ///
@@ -429,7 +588,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateChangeset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Updates a FinSpace Changeset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter UpdateChangesetInput : Request to update an existing changeset.
     ///
@@ -445,7 +610,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateChangeset(input: UpdateChangesetInput) async throws -> UpdateChangesetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDataset` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Updates a FinSpace Dataset.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter UpdateDatasetInput : The request for an UpdateDataset operation
     ///
@@ -461,7 +632,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePermissionGroup` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Modifies the details of a permission group. You cannot modify a permissionGroupID.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter UpdatePermissionGroupInput : [no documentation found]
     ///
@@ -477,7 +654,13 @@ public protocol FinspacedataClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updatePermissionGroup(input: UpdatePermissionGroupInput) async throws -> UpdatePermissionGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateUser` operation on the `AWSHabaneroPublicAPI` service.
+    ///
+>>>>>>> main
     /// Modifies the details of the specified user. You cannot update the userId for a user.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
     ///

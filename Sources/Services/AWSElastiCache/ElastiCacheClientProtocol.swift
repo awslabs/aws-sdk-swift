@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon ElastiCache Amazon ElastiCache is a web service that makes it easier to set up, operate, and scale a distributed cache in the cloud. With ElastiCache, customers get all of the benefits of a high-performance, in-memory cache with less of the administrative burden involved in launching and managing a distributed cache. The service makes setup, scaling, and cluster failure handling much simpler than in a self-managed cache deployment. In addition, through integration with Amazon CloudWatch, customers get enhanced visibility into the key performance statistics associated with their cache and can receive alarms if a part of their cache runs hot.
 public protocol ElastiCacheClientProtocol {
+    /// Performs the `AddTagsToResource` operation on the `AmazonElastiCacheV9` service.
+    ///
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html) in the ElastiCache User Guide.
     ///
     /// - Parameter AddTagsToResourceInput : Represents the input of an AddTagsToResource operation.
@@ -19,13 +21,22 @@ public protocol ElastiCacheClientProtocol {
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func addTagsToResource(input: AddTagsToResourceInput) async throws -> AddTagsToResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AuthorizeCacheSecurityGroupIngress` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Allows network ingress to a cache security group. Applications using ElastiCache must be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization mechanism. You cannot authorize ingress from an Amazon EC2 security group in one region to an ElastiCache cluster in another region.
     ///
     /// - Parameter AuthorizeCacheSecurityGroupIngressInput : Represents the input of an AuthorizeCacheSecurityGroupIngress operation.
@@ -41,6 +52,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func authorizeCacheSecurityGroupIngress(input: AuthorizeCacheSecurityGroupIngressInput) async throws -> AuthorizeCacheSecurityGroupIngressOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchApplyUpdateAction` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/applying-updates.html).
     ///
     /// - Parameter BatchApplyUpdateActionInput : [no documentation found]
@@ -53,6 +69,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
     func batchApplyUpdateAction(input: BatchApplyUpdateActionInput) async throws -> BatchApplyUpdateActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchStopUpdateAction` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/stopping-self-service-updates.html).
     ///
     /// - Parameter BatchStopUpdateActionInput : [no documentation found]
@@ -65,6 +86,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
     func batchStopUpdateAction(input: BatchStopUpdateActionInput) async throws -> BatchStopUpdateActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CompleteMigration` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Complete the migration of data.
     ///
     /// - Parameter CompleteMigrationInput : [no documentation found]
@@ -78,6 +104,31 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReplicationGroupNotUnderMigrationFault` : The designated replication group is not available for data migration.
     func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CopyServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Creates a copy of an existing serverless cache’s snapshot. Available for Redis only.
+    ///
+    /// - Parameter CopyServerlessCacheSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CopyServerlessCacheSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
+    /// - `ServerlessCacheSnapshotAlreadyExistsFault` : A serverless cache snapshot with this name already exists. Available for Redis only.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
+    /// - `ServerlessCacheSnapshotQuotaExceededFault` : The number of serverless cache snapshots exceeds the customer snapshot quota. Available for Redis only.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    func copyServerlessCacheSnapshot(input: CopyServerlessCacheSnapshotInput) async throws -> CopyServerlessCacheSnapshotOutput
+    /// Performs the `CopySnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Makes a copy of an existing snapshot. This operation is valid for Redis only. Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see [Exporting Snapshots](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html) and [Authentication & Access Control](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.html). You could receive the following error messages. Error Messages
     ///
     /// * Error Message: The S3 bucket %s is outside of the region. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
@@ -111,6 +162,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis. This operation is not supported for Redis (cluster mode enabled) clusters.
     ///
     /// - Parameter CreateCacheClusterInput : Represents the input of a CreateCacheCluster operation.
@@ -135,6 +191,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func createCacheCluster(input: CreateCacheClusterInput) async throws -> CreateCacheClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:
     ///
     /// * [ModifyCacheParameterGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyCacheParameterGroup.html) in the ElastiCache API Reference.
@@ -155,6 +216,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func createCacheParameterGroup(input: CreateCacheParameterGroupInput) async throws -> CreateCacheParameterGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCacheSecurityGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Creates a new cache security group. Use a cache security group to control access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see [CreateCacheSubnetGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html).
     ///
     /// - Parameter CreateCacheSecurityGroupInput : Represents the input of a CreateCacheSecurityGroup operation.
@@ -170,6 +236,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func createCacheSecurityGroup(input: CreateCacheSecurityGroupInput) async throws -> CreateCacheSecurityGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCacheSubnetGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Creates a new cache subnet group. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
     ///
     /// - Parameter CreateCacheSubnetGroupInput : Represents the input of a CreateCacheSubnetGroup operation.
@@ -186,6 +257,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func createCacheSubnetGroup(input: CreateCacheSubnetGroupInput) async throws -> CreateCacheSubnetGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis, you can create cross-region read replica clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across regions. For more information, see [Replication Across Regions Using Global Datastore](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastore.html).
     ///
     /// * The GlobalReplicationGroupIdSuffix is the name of the Global datastore.
@@ -205,6 +281,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     func createGlobalReplicationGroup(input: CreateGlobalReplicationGroupInput) async throws -> CreateGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Redis (cluster mode disabled) replication group is a collection of clusters, where one of the clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed. The node or shard limit can be increased to a maximum of 500 per cluster if the Redis engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.Creating.html). For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) and choose the limit type Nodes per cluster per instance type. When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' scaling. For more information, see [Scaling ElastiCache for Redis Clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Scaling.html) in the ElastiCache User Guide. This operation is valid for Redis only.
     ///
     /// - Parameter CreateReplicationGroupInput : Represents the input of a CreateReplicationGroup operation.
@@ -234,6 +315,54 @@ public protocol ElastiCacheClientProtocol {
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     func createReplicationGroup(input: CreateReplicationGroupInput) async throws -> CreateReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateServerlessCache` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Creates a serverless cache.
+    ///
+    /// - Parameter CreateServerlessCacheInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServerlessCacheOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidCredentialsException` : You must enter valid credentials.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
+    /// - `ServerlessCacheAlreadyExistsFault` : A serverless cache with this name already exists.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheQuotaForCustomerExceededFault` : The number of serverless caches exceeds the customer quota.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
+    func createServerlessCache(input: CreateServerlessCacheInput) async throws -> CreateServerlessCacheOutput
+    /// Performs the `CreateServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Redis only.
+    ///
+    /// - Parameter CreateServerlessCacheSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateServerlessCacheSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheSnapshotAlreadyExistsFault` : A serverless cache snapshot with this name already exists. Available for Redis only.
+    /// - `ServerlessCacheSnapshotQuotaExceededFault` : The number of serverless cache snapshots exceeds the customer snapshot quota. Available for Redis only.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
+    func createServerlessCacheSnapshot(input: CreateServerlessCacheSnapshotInput) async throws -> CreateServerlessCacheSnapshotOutput
+    /// Performs the `CreateSnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Creates a copy of an entire cluster or replication group at a specific moment in time. This operation is valid for Redis only.
     ///
     /// - Parameter CreateSnapshotInput : Represents the input of a CreateSnapshot operation.
@@ -261,6 +390,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUser` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// For Redis engine version 6.0 onwards: Creates a Redis user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -278,6 +412,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `UserAlreadyExistsFault` : A user with this ID already exists.
     /// - `UserQuotaExceededFault` : The quota of users has been exceeded.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUserGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// For Redis engine version 6.0 onwards: Creates a Redis user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html)
     ///
     /// - Parameter CreateUserGroupInput : [no documentation found]
@@ -296,6 +435,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `UserGroupQuotaExceededFault` : The number of users exceeds the user group limit.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func createUserGroup(input: CreateUserGroupInput) async throws -> CreateUserGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DecreaseNodeGroupsInGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Decreases the number of node groups in a Global datastore
     ///
     /// - Parameter DecreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
@@ -310,6 +454,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func decreaseNodeGroupsInGlobalReplicationGroup(input: DecreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> DecreaseNodeGroupsInGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DecreaseReplicaCount` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
     /// - Parameter DecreaseReplicaCountInput : [no documentation found]
@@ -332,6 +481,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     func decreaseReplicaCount(input: DecreaseReplicaCountInput) async throws -> DecreaseReplicaCountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:
     ///
     /// * Redis (cluster mode enabled) clusters
@@ -370,6 +524,11 @@ public protocol ElastiCacheClientProtocol {
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     func deleteCacheCluster(input: DeleteCacheClusterInput) async throws -> DeleteCacheClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters. You cannot delete the default cache parameter groups in your account.
     ///
     /// - Parameter DeleteCacheParameterGroupInput : Represents the input of a DeleteCacheParameterGroup operation.
@@ -384,6 +543,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func deleteCacheParameterGroup(input: DeleteCacheParameterGroupInput) async throws -> DeleteCacheParameterGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCacheSecurityGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deletes a cache security group. You cannot delete a cache security group if it is associated with any clusters.
     ///
     /// - Parameter DeleteCacheSecurityGroupInput : Represents the input of a DeleteCacheSecurityGroup operation.
@@ -398,6 +562,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func deleteCacheSecurityGroup(input: DeleteCacheSecurityGroupInput) async throws -> DeleteCacheSecurityGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCacheSubnetGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deletes a cache subnet group. You cannot delete a default cache subnet group or one that is associated with any clusters.
     ///
     /// - Parameter DeleteCacheSubnetGroupInput : Represents the input of a DeleteCacheSubnetGroup operation.
@@ -410,6 +579,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `CacheSubnetGroupInUse` : The requested cache subnet group is currently in use.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     func deleteCacheSubnetGroup(input: DeleteCacheSubnetGroupInput) async throws -> DeleteCacheSubnetGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deleting a Global datastore is a two-step process:
     ///
     /// * First, you must [DisassociateGlobalReplicationGroup] to remove the secondary clusters in the Global datastore.
@@ -430,6 +604,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func deleteGlobalReplicationGroup(input: DeleteGlobalReplicationGroupInput) async throws -> DeleteGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation. This operation is valid for Redis only.
     ///
     /// - Parameter DeleteReplicationGroupInput : Represents the input of a DeleteReplicationGroup operation.
@@ -454,6 +633,46 @@ public protocol ElastiCacheClientProtocol {
     /// Neither of these are supported by ElastiCache.
     /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots.
     func deleteReplicationGroup(input: DeleteReplicationGroupInput) async throws -> DeleteReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteServerlessCache` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Deletes a specified existing serverless cache.
+    ///
+    /// - Parameter DeleteServerlessCacheInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServerlessCacheOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidCredentialsException` : You must enter valid credentials.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheSnapshotAlreadyExistsFault` : A serverless cache snapshot with this name already exists. Available for Redis only.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    func deleteServerlessCache(input: DeleteServerlessCacheInput) async throws -> DeleteServerlessCacheOutput
+    /// Performs the `DeleteServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Deletes an existing serverless cache snapshot. Available for Redis only.
+    ///
+    /// - Parameter DeleteServerlessCacheSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServerlessCacheSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    func deleteServerlessCacheSnapshot(input: DeleteServerlessCacheSnapshotInput) async throws -> DeleteServerlessCacheSnapshotOutput
+    /// Performs the `DeleteSnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. This operation is valid for Redis only.
     ///
     /// - Parameter DeleteSnapshotInput : Represents the input of a DeleteSnapshot operation.
@@ -468,6 +687,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidSnapshotStateFault` : The current state of the snapshot does not allow the requested operation to occur.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteUser` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// For Redis engine version 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
@@ -483,6 +707,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteUserGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// For Redis engine version 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
     ///
     /// - Parameter DeleteUserGroupInput : [no documentation found]
@@ -497,6 +726,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     func deleteUserGroup(input: DeleteUserGroupInput) async throws -> DeleteUserGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCacheClusters` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
     ///
     /// - Parameter DescribeCacheClustersInput : Represents the input of a DescribeCacheClusters operation.
@@ -510,12 +744,22 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeCacheClusters(input: DescribeCacheClustersInput) async throws -> DescribeCacheClustersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCacheEngineVersions` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns a list of the available cache engines and their versions.
     ///
     /// - Parameter DescribeCacheEngineVersionsInput : Represents the input of a DescribeCacheEngineVersions operation.
     ///
     /// - Returns: `DescribeCacheEngineVersionsOutput` : Represents the output of a [DescribeCacheEngineVersions] operation.
     func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCacheParameterGroups` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
     ///
     /// - Parameter DescribeCacheParameterGroupsInput : Represents the input of a DescribeCacheParameterGroups operation.
@@ -529,6 +773,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeCacheParameterGroups(input: DescribeCacheParameterGroupsInput) async throws -> DescribeCacheParameterGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCacheParameters` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns the detailed parameter list for a particular cache parameter group.
     ///
     /// - Parameter DescribeCacheParametersInput : Represents the input of a DescribeCacheParameters operation.
@@ -542,6 +791,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeCacheParameters(input: DescribeCacheParametersInput) async throws -> DescribeCacheParametersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCacheSecurityGroups` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup
     ///
     /// - Parameter DescribeCacheSecurityGroupsInput : Represents the input of a DescribeCacheSecurityGroups operation.
@@ -555,6 +809,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeCacheSecurityGroups(input: DescribeCacheSecurityGroupsInput) async throws -> DescribeCacheSecurityGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCacheSubnetGroups` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
     ///
     /// - Parameter DescribeCacheSubnetGroupsInput : Represents the input of a DescribeCacheSubnetGroups operation.
@@ -566,6 +825,11 @@ public protocol ElastiCacheClientProtocol {
     /// __Possible Exceptions:__
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     func describeCacheSubnetGroups(input: DescribeCacheSubnetGroupsInput) async throws -> DescribeCacheSubnetGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEngineDefaultParameters` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns the default engine and system parameter information for the specified cache engine.
     ///
     /// - Parameter DescribeEngineDefaultParametersInput : Represents the input of a DescribeEngineDefaultParameters operation.
@@ -578,6 +842,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEvents` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
     /// - Parameter DescribeEventsInput : Represents the input of a DescribeEvents operation.
@@ -590,6 +859,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeGlobalReplicationGroups` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
     ///
     /// - Parameter DescribeGlobalReplicationGroupsInput : [no documentation found]
@@ -603,6 +877,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeGlobalReplicationGroups(input: DescribeGlobalReplicationGroupsInput) async throws -> DescribeGlobalReplicationGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeReplicationGroups` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups. This operation is valid for Redis only.
     ///
     /// - Parameter DescribeReplicationGroupsInput : Represents the input of a DescribeReplicationGroups operation.
@@ -616,6 +895,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     func describeReplicationGroups(input: DescribeReplicationGroupsInput) async throws -> DescribeReplicationGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeReservedCacheNodes` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
     ///
     /// - Parameter DescribeReservedCacheNodesInput : Represents the input of a DescribeReservedCacheNodes operation.
@@ -629,6 +913,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
     func describeReservedCacheNodes(input: DescribeReservedCacheNodesInput) async throws -> DescribeReservedCacheNodesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeReservedCacheNodesOfferings` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Lists available reserved cache node offerings.
     ///
     /// - Parameter DescribeReservedCacheNodesOfferingsInput : Represents the input of a DescribeReservedCacheNodesOfferings operation.
@@ -642,6 +931,42 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
     func describeReservedCacheNodesOfferings(input: DescribeReservedCacheNodesOfferingsInput) async throws -> DescribeReservedCacheNodesOfferingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeServerlessCaches` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Returns information about a specific serverless cache. If no identifier is specified, then the API returns information on all the serverless caches belonging to this Amazon Web Services account.
+    ///
+    /// - Parameter DescribeServerlessCachesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServerlessCachesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    func describeServerlessCaches(input: DescribeServerlessCachesInput) async throws -> DescribeServerlessCachesOutput
+    /// Performs the `DescribeServerlessCacheSnapshots` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Returns information about serverless cache snapshots. By default, this API lists all of the customer’s serverless cache snapshots. It can also describe a single serverless cache snapshot, or the snapshots associated with a particular serverless cache. Available for Redis only.
+    ///
+    /// - Parameter DescribeServerlessCacheSnapshotsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServerlessCacheSnapshotsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
+    func describeServerlessCacheSnapshots(input: DescribeServerlessCacheSnapshotsInput) async throws -> DescribeServerlessCacheSnapshotsOutput
+    /// Performs the `DescribeServiceUpdates` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns details of the service updates
     ///
     /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
@@ -655,6 +980,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ServiceUpdateNotFoundFault` : The service update doesn't exist
     func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeSnapshots` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster. This operation is valid for Redis only.
     ///
     /// - Parameter DescribeSnapshotsInput : Represents the input of a DescribeSnapshotsMessage operation.
@@ -669,6 +999,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeUpdateActions` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns details of the update actions
     ///
     /// - Parameter DescribeUpdateActionsInput : [no documentation found]
@@ -681,6 +1016,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func describeUpdateActions(input: DescribeUpdateActionsInput) async throws -> DescribeUpdateActionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeUserGroups` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns a list of user groups.
     ///
     /// - Parameter DescribeUserGroupsInput : [no documentation found]
@@ -694,6 +1034,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     func describeUserGroups(input: DescribeUserGroupsInput) async throws -> DescribeUserGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeUsers` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Returns a list of users.
     ///
     /// - Parameter DescribeUsersInput : [no documentation found]
@@ -707,6 +1052,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Remove a secondary cluster from the Global datastore using the Global datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that Amazon region.
     ///
     /// - Parameter DisassociateGlobalReplicationGroupInput : [no documentation found]
@@ -721,6 +1071,27 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func disassociateGlobalReplicationGroup(input: DisassociateGlobalReplicationGroupInput) async throws -> DisassociateGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportServerlessCacheSnapshot` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Redis only.
+    ///
+    /// - Parameter ExportServerlessCacheSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `ExportServerlessCacheSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    func exportServerlessCacheSnapshot(input: ExportServerlessCacheSnapshotInput) async throws -> ExportServerlessCacheSnapshotOutput
+    /// Performs the `FailoverGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary.
     ///
     /// - Parameter FailoverGlobalReplicationGroupInput : [no documentation found]
@@ -735,6 +1106,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func failoverGlobalReplicationGroup(input: FailoverGlobalReplicationGroupInput) async throws -> FailoverGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `IncreaseNodeGroupsInGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Increase the number of node groups in the Global datastore
     ///
     /// - Parameter IncreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
@@ -748,6 +1124,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func increaseNodeGroupsInGlobalReplicationGroup(input: IncreaseNodeGroupsInGlobalReplicationGroupInput) async throws -> IncreaseNodeGroupsInGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `IncreaseReplicaCount` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Dynamically increases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
     /// - Parameter IncreaseReplicaCountInput : [no documentation found]
@@ -770,6 +1151,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `NoOperationFault` : The operation was not performed because no changes were required.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     func increaseReplicaCount(input: IncreaseReplicaCountInput) async throws -> IncreaseReplicaCountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAllowedNodeTypeModifications` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Lists all available node types that you can scale your Redis cluster's or replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
     ///
     /// - Parameter ListAllowedNodeTypeModificationsInput : The input parameters for the ListAllowedNodeTypeModifications operation.
@@ -784,6 +1170,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     func listAllowedNodeTypeModifications(input: ListAllowedNodeTypeModificationsInput) async throws -> ListAllowedNodeTypeModificationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
     ///
     /// - Parameter ListTagsForResourceInput : The input parameters for the ListTagsForResource operation.
@@ -799,12 +1190,21 @@ public protocol ElastiCacheClientProtocol {
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
     ///
     /// - Parameter ModifyCacheClusterInput : Represents the input of a ModifyCacheCluster operation.
@@ -826,6 +1226,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes in a single cluster.
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     func modifyCacheCluster(input: ModifyCacheClusterInput) async throws -> ModifyCacheClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
     /// - Parameter ModifyCacheParameterGroupInput : Represents the input of a ModifyCacheParameterGroup operation.
@@ -845,6 +1250,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func modifyCacheParameterGroup(input: ModifyCacheParameterGroupInput) async throws -> ModifyCacheParameterGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyCacheSubnetGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Modifies an existing cache subnet group.
     ///
     /// - Parameter ModifyCacheSubnetGroupInput : Represents the input of a ModifyCacheSubnetGroup operation.
@@ -860,6 +1270,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `SubnetInUse` : The requested subnet is being used by another cache subnet group.
     /// - `SubnetNotAllowedFault` : At least one subnet ID does not match the other subnet IDs. This mismatch typically occurs when a user sets one subnet ID to a regional Availability Zone and a different one to an outpost. Or when a user sets the subnet ID to an Outpost when not subscribed on this service.
     func modifyCacheSubnetGroup(input: ModifyCacheSubnetGroupInput) async throws -> ModifyCacheSubnetGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Modifies the settings for a Global datastore.
     ///
     /// - Parameter ModifyGlobalReplicationGroupInput : [no documentation found]
@@ -873,7 +1288,13 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func modifyGlobalReplicationGroup(input: ModifyGlobalReplicationGroupInput) async throws -> ModifyGlobalReplicationGroupOutput
+<<<<<<< HEAD
     /// Modifies the settings for a replication group.
+=======
+    /// Performs the `ModifyReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// Modifies the settings for a replication group. This is limited to Redis 7 and newer.
+>>>>>>> main
     ///
     /// * [Scaling for Amazon ElastiCache for Redis (cluster mode enabled)](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/scaling-redis-cluster-mode-enabled.html) in the ElastiCache User Guide
     ///
@@ -906,6 +1327,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     func modifyReplicationGroup(input: ModifyReplicationGroupInput) async throws -> ModifyReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyReplicationGroupShardConfiguration` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
     ///
     /// - Parameter ModifyReplicationGroupShardConfigurationInput : Represents the input for a ModifyReplicationGroupShardConfiguration operation.
@@ -926,6 +1352,31 @@ public protocol ElastiCacheClientProtocol {
     /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of cache nodes per customer.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     func modifyReplicationGroupShardConfiguration(input: ModifyReplicationGroupShardConfigurationInput) async throws -> ModifyReplicationGroupShardConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyServerlessCache` operation on the `AmazonElastiCacheV9` service.
+    ///
+    /// This API modifies the attributes of a serverless cache.
+    ///
+    /// - Parameter ModifyServerlessCacheInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyServerlessCacheOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidCredentialsException` : You must enter valid credentials.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `InvalidUserGroupStateFault` : The user group is not in an active state.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
+    /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
+    func modifyServerlessCache(input: ModifyServerlessCacheInput) async throws -> ModifyServerlessCacheOutput
+    /// Performs the `ModifyUser` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Changes user password(s) and/or access string.
     ///
     /// - Parameter ModifyUserInput : [no documentation found]
@@ -941,6 +1392,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ServiceLinkedRoleNotFoundFault` : The specified service linked role (SLR) was not found.
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func modifyUser(input: ModifyUserInput) async throws -> ModifyUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ModifyUserGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Changes the list of users that belong to the user group.
     ///
     /// - Parameter ModifyUserGroupInput : [no documentation found]
@@ -959,6 +1415,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func modifyUserGroup(input: ModifyUserGroupInput) async throws -> ModifyUserGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PurchaseReservedCacheNodesOffering` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/reserved-nodes.html) for Redis or [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/reserved-nodes.html) for Memcached.
     ///
     /// - Parameter PurchaseReservedCacheNodesOfferingInput : Represents the input of a PurchaseReservedCacheNodesOffering operation.
@@ -975,6 +1436,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReservedCacheNodesOfferingNotFoundFault` : The requested cache node offering does not exist.
     /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would cause the resource to have more than the allowed number of tags. The maximum number of tags permitted on a resource is 50.
     func purchaseReservedCacheNodesOffering(input: PurchaseReservedCacheNodesOfferingInput) async throws -> PurchaseReservedCacheNodesOfferingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RebalanceSlotsInGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Redistribute slots to ensure uniform distribution across existing shards in the cluster.
     ///
     /// - Parameter RebalanceSlotsInGlobalReplicationGroupInput : [no documentation found]
@@ -988,6 +1454,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func rebalanceSlotsInGlobalReplicationGroup(input: RebalanceSlotsInGlobalReplicationGroupInput) async throws -> RebalanceSlotsInGlobalReplicationGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RebootCacheCluster` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled) clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters. If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/nodes.rebooting.html) for an alternate process.
     ///
     /// - Parameter RebootCacheClusterInput : Represents the input of a RebootCacheCluster operation.
@@ -1000,6 +1471,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     func rebootCacheCluster(input: RebootCacheClusterInput) async throws -> RebootCacheClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemoveTagsFromResource` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html).
     ///
     /// - Parameter RemoveTagsFromResourceInput : Represents the input of a RemoveTagsFromResource operation.
@@ -1015,13 +1491,22 @@ public protocol ElastiCacheClientProtocol {
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     /// - `InvalidARNFault` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidServerlessCacheSnapshotStateFault` : The state of the serverless cache snapshot was not received. Available for Redis only.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReservedCacheNodeNotFoundFault` : The requested reserved cache node was not found.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheSnapshotNotFoundFault` : This serverless cache snapshot could not be found or does not exist. Available for Redis only.
     /// - `SnapshotNotFoundFault` : The requested snapshot name does not refer to an existing snapshot.
     /// - `TagNotFoundFault` : The requested tag was not found on this resource.
     /// - `UserGroupNotFoundFault` : The user group was not found or does not exist
     /// - `UserNotFoundFault` : The user does not exist or could not be found.
     func removeTagsFromResource(input: RemoveTagsFromResourceInput) async throws -> RemoveTagsFromResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ResetCacheParameterGroup` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Modifies the parameters of a cache parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire cache parameter group, specify the ResetAllParameters and CacheParameterGroupName parameters.
     ///
     /// - Parameter ResetCacheParameterGroupInput : Represents the input of a ResetCacheParameterGroup operation.
@@ -1041,6 +1526,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func resetCacheParameterGroup(input: ResetCacheParameterGroupInput) async throws -> ResetCacheParameterGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RevokeCacheSecurityGroupIngress` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized.
     ///
     /// - Parameter RevokeCacheSecurityGroupIngressInput : Represents the input of a RevokeCacheSecurityGroupIngress operation.
@@ -1056,6 +1546,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     func revokeCacheSecurityGroupIngress(input: RevokeCacheSecurityGroupIngressInput) async throws -> RevokeCacheSecurityGroupIngressOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartMigration` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Start the migration of data.
     ///
     /// - Parameter StartMigrationInput : [no documentation found]
@@ -1070,6 +1565,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestFailover` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Represents the input of a TestFailover operation which test automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API. Note the following
     ///
     /// * A customer can use this operation to test automatic failover on up to 5 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.
@@ -1120,6 +1620,11 @@ public protocol ElastiCacheClientProtocol {
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `TestFailoverNotAvailableFault` : The TestFailover action is not available.
     func testFailover(input: TestFailoverInput) async throws -> TestFailoverOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestMigration` operation on the `AmazonElastiCacheV9` service.
+    ///
+>>>>>>> main
     /// Async API to test connection between source and target replication group.
     ///
     /// - Parameter TestMigrationInput : [no documentation found]

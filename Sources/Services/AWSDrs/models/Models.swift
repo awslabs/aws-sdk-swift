@@ -4253,7 +4253,11 @@ extension DisconnectSourceServerInputBody: Swift.Decodable {
 
 extension DisconnectSourceServerOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
+<<<<<<< HEAD
         "DisconnectSourceServerOutput(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+=======
+        "DisconnectSourceServerOutput(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+>>>>>>> main
 }
 
 extension DisconnectSourceServerOutput: ClientRuntime.HttpResponseBinding {
@@ -4261,6 +4265,10 @@ extension DisconnectSourceServerOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DisconnectSourceServerOutputBody = try responseDecoder.decode(responseBody: data)
+<<<<<<< HEAD
+=======
+            self.agentVersion = output.agentVersion
+>>>>>>> main
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
             self.lastLaunchResult = output.lastLaunchResult
@@ -4275,6 +4283,7 @@ extension DisconnectSourceServerOutput: ClientRuntime.HttpResponseBinding {
             self.stagingArea = output.stagingArea
             self.tags = output.tags
         } else {
+            self.agentVersion = nil
             self.arn = nil
             self.dataReplicationInfo = nil
             self.lastLaunchResult = nil
@@ -4293,6 +4302,11 @@ extension DisconnectSourceServerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DisconnectSourceServerOutput: Swift.Equatable {
+<<<<<<< HEAD
+=======
+    /// The version of the DRS agent installed on the source server
+    public var agentVersion: Swift.String?
+>>>>>>> main
     /// The ARN of the Source Server.
     public var arn: Swift.String?
     /// The Data Replication Info of the Source Server.
@@ -4321,6 +4335,7 @@ public struct DisconnectSourceServerOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        agentVersion: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: DrsClientTypes.DataReplicationInfo? = nil,
         lastLaunchResult: DrsClientTypes.LastLaunchResult? = nil,
@@ -4336,6 +4351,7 @@ public struct DisconnectSourceServerOutput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.agentVersion = agentVersion
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
         self.lastLaunchResult = lastLaunchResult
@@ -4366,10 +4382,12 @@ struct DisconnectSourceServerOutputBody: Swift.Equatable {
     let replicationDirection: DrsClientTypes.ReplicationDirection?
     let reversedDirectionSourceServerArn: Swift.String?
     let sourceNetworkID: Swift.String?
+    let agentVersion: Swift.String?
 }
 
 extension DisconnectSourceServerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentVersion
         case arn
         case dataReplicationInfo
         case lastLaunchResult
@@ -4422,6 +4440,23 @@ extension DisconnectSourceServerOutputBody: Swift.Decodable {
         reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
         let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
         sourceNetworkID = sourceNetworkIDDecoded
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
+    }
+}
+
+enum DisconnectSourceServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8544,6 +8579,7 @@ enum PutLaunchActionOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension DrsClientTypes.RecoveryInstance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentVersion
         case arn
         case dataReplicationInfo
         case ec2InstanceID
@@ -8562,6 +8598,9 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentVersion = self.agentVersion {
+            try encodeContainer.encode(agentVersion, forKey: .agentVersion)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -8648,17 +8687,21 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         originEnvironment = originEnvironmentDecoded
         let originAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAvailabilityZone)
         originAvailabilityZone = originAvailabilityZoneDecoded
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
     }
 }
 
 extension DrsClientTypes.RecoveryInstance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RecoveryInstance(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originAvailabilityZone: \(Swift.String(describing: originAvailabilityZone)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
+        "RecoveryInstance(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originAvailabilityZone: \(Swift.String(describing: originAvailabilityZone)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
     /// A Recovery Instance is a replica of a Source Server running on EC2.
     public struct RecoveryInstance: Swift.Equatable {
+        /// The version of the DRS agent installed on the recovery instance
+        public var agentVersion: Swift.String?
         /// The ARN of the Recovery Instance.
         public var arn: Swift.String?
         /// The Data Replication Info of the Recovery Instance.
@@ -8689,6 +8732,7 @@ extension DrsClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            agentVersion: Swift.String? = nil,
             arn: Swift.String? = nil,
             dataReplicationInfo: DrsClientTypes.RecoveryInstanceDataReplicationInfo? = nil,
             ec2InstanceID: Swift.String? = nil,
@@ -8705,6 +8749,7 @@ extension DrsClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.agentVersion = agentVersion
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.ec2InstanceID = ec2InstanceID
@@ -10462,7 +10507,11 @@ extension RetryDataReplicationInputBody: Swift.Decodable {
 
 extension RetryDataReplicationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
+<<<<<<< HEAD
         "RetryDataReplicationOutput(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+=======
+        "RetryDataReplicationOutput(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+>>>>>>> main
 }
 
 extension RetryDataReplicationOutput: ClientRuntime.HttpResponseBinding {
@@ -10470,6 +10519,10 @@ extension RetryDataReplicationOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: RetryDataReplicationOutputBody = try responseDecoder.decode(responseBody: data)
+<<<<<<< HEAD
+=======
+            self.agentVersion = output.agentVersion
+>>>>>>> main
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
             self.lastLaunchResult = output.lastLaunchResult
@@ -10484,6 +10537,7 @@ extension RetryDataReplicationOutput: ClientRuntime.HttpResponseBinding {
             self.stagingArea = output.stagingArea
             self.tags = output.tags
         } else {
+            self.agentVersion = nil
             self.arn = nil
             self.dataReplicationInfo = nil
             self.lastLaunchResult = nil
@@ -10502,6 +10556,11 @@ extension RetryDataReplicationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RetryDataReplicationOutput: Swift.Equatable {
+<<<<<<< HEAD
+=======
+    /// The version of the DRS agent installed on the source server
+    public var agentVersion: Swift.String?
+>>>>>>> main
     /// The ARN of the Source Server.
     public var arn: Swift.String?
     /// The Data Replication Info of the Source Server.
@@ -10530,6 +10589,7 @@ public struct RetryDataReplicationOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        agentVersion: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: DrsClientTypes.DataReplicationInfo? = nil,
         lastLaunchResult: DrsClientTypes.LastLaunchResult? = nil,
@@ -10545,6 +10605,7 @@ public struct RetryDataReplicationOutput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.agentVersion = agentVersion
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
         self.lastLaunchResult = lastLaunchResult
@@ -10575,10 +10636,12 @@ struct RetryDataReplicationOutputBody: Swift.Equatable {
     let replicationDirection: DrsClientTypes.ReplicationDirection?
     let reversedDirectionSourceServerArn: Swift.String?
     let sourceNetworkID: Swift.String?
+    let agentVersion: Swift.String?
 }
 
 extension RetryDataReplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentVersion
         case arn
         case dataReplicationInfo
         case lastLaunchResult
@@ -10631,6 +10694,23 @@ extension RetryDataReplicationOutputBody: Swift.Decodable {
         reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
         let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
         sourceNetworkID = sourceNetworkIDDecoded
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
+    }
+}
+
+enum RetryDataReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -11283,6 +11363,7 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.SourceServer: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentVersion
         case arn
         case dataReplicationInfo
         case lastLaunchResult
@@ -11300,6 +11381,9 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentVersion = self.agentVersion {
+            try encodeContainer.encode(agentVersion, forKey: .agentVersion)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -11381,16 +11465,20 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
         let sourceNetworkIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceNetworkID)
         sourceNetworkID = sourceNetworkIDDecoded
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
     }
 }
 
 extension DrsClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SourceServer(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "SourceServer(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceNetworkID: \(Swift.String(describing: sourceNetworkID)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
     public struct SourceServer: Swift.Equatable {
+        /// The version of the DRS agent installed on the source server
+        public var agentVersion: Swift.String?
         /// The ARN of the Source Server.
         public var arn: Swift.String?
         /// The Data Replication Info of the Source Server.
@@ -11419,6 +11507,7 @@ extension DrsClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            agentVersion: Swift.String? = nil,
             arn: Swift.String? = nil,
             dataReplicationInfo: DrsClientTypes.DataReplicationInfo? = nil,
             lastLaunchResult: DrsClientTypes.LastLaunchResult? = nil,
@@ -11434,6 +11523,7 @@ extension DrsClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.agentVersion = agentVersion
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.lastLaunchResult = lastLaunchResult

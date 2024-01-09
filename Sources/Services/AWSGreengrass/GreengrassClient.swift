@@ -67,6 +67,8 @@ public struct GreengrassClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 }
 
 extension GreengrassClient: GreengrassClientProtocol {
+    /// Performs the `AssociateRoleToGroup` operation on the `Greengrass` service.
+    ///
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
     ///
     /// - Parameter AssociateRoleToGroupInput : [no documentation found]
@@ -94,6 +96,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateRoleToGroupInput, AssociateRoleToGroupOutput, AssociateRoleToGroupOutputError>(id: "associateRoleToGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput, AssociateRoleToGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>())
@@ -108,10 +111,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateRoleToGroupOutput, AssociateRoleToGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateRoleToGroupOutput, AssociateRoleToGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateRoleToGroupOutput, AssociateRoleToGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>(id: "associateRoleToGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateRoleToGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateRoleToGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateRoleToGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateRoleToGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateRoleToGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateRoleToGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateServiceRoleToAccount` operation on the `Greengrass` service.
+    ///
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
     ///
     /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
@@ -139,6 +160,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput, AssociateServiceRoleToAccountOutputError>(id: "associateServiceRoleToAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput, AssociateServiceRoleToAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>())
@@ -153,10 +175,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateServiceRoleToAccountOutput, AssociateServiceRoleToAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateServiceRoleToAccountOutput, AssociateServiceRoleToAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateServiceRoleToAccountOutput, AssociateServiceRoleToAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>(id: "associateServiceRoleToAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateServiceRoleToAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateServiceRoleToAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateServiceRoleToAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateServiceRoleToAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateServiceRoleToAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateServiceRoleToAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateConnectorDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateConnectorDefinitionInput : [no documentation found]
@@ -183,6 +223,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput, CreateConnectorDefinitionOutputError>(id: "createConnectorDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput, CreateConnectorDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>())
@@ -198,10 +239,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectorDefinitionOutput, CreateConnectorDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectorDefinitionOutput, CreateConnectorDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectorDefinitionOutput, CreateConnectorDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>(id: "createConnectorDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConnectorDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConnectorDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectorDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectorDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateConnectorDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateConnectorDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a connector definition which has already been defined.
     ///
     /// - Parameter CreateConnectorDefinitionVersionInput : [no documentation found]
@@ -228,6 +288,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput, CreateConnectorDefinitionVersionOutputError>(id: "createConnectorDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput, CreateConnectorDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>())
@@ -243,10 +304,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectorDefinitionVersionOutput, CreateConnectorDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectorDefinitionVersionOutput, CreateConnectorDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectorDefinitionVersionOutput, CreateConnectorDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>(id: "createConnectorDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConnectorDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateConnectorDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectorDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectorDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateConnectorDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectorDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateCoreDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
     ///
     /// - Parameter CreateCoreDefinitionInput : Information needed to create a core definition.
@@ -273,6 +353,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCoreDefinitionInput, CreateCoreDefinitionOutput, CreateCoreDefinitionOutputError>(id: "createCoreDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput, CreateCoreDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>())
@@ -288,10 +369,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCoreDefinitionOutput, CreateCoreDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCoreDefinitionOutput, CreateCoreDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCoreDefinitionOutput, CreateCoreDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>(id: "createCoreDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCoreDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCoreDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCoreDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCoreDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCoreDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateCoreDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
     ///
     /// - Parameter CreateCoreDefinitionVersionInput : [no documentation found]
@@ -318,6 +418,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput, CreateCoreDefinitionVersionOutputError>(id: "createCoreDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput, CreateCoreDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>())
@@ -333,10 +434,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCoreDefinitionVersionOutput, CreateCoreDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCoreDefinitionVersionOutput, CreateCoreDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCoreDefinitionVersionOutput, CreateCoreDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>(id: "createCoreDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCoreDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCoreDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCoreDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCoreDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCoreDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCoreDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateDeployment` operation on the `Greengrass` service.
+    ///
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
@@ -363,6 +483,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateDeploymentInput, CreateDeploymentOutput, CreateDeploymentOutputError>(id: "createDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeploymentInput, CreateDeploymentOutput, CreateDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
@@ -378,10 +499,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeploymentOutput, CreateDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput, CreateDeploymentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeploymentOutput, CreateDeploymentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateDeploymentInput, CreateDeploymentOutput>(id: "createDeployment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeploymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDeploymentInput, CreateDeploymentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeploymentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeploymentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateDeploymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateDeviceDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateDeviceDefinitionInput : [no documentation found]
@@ -408,6 +548,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput, CreateDeviceDefinitionOutputError>(id: "createDeviceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput, CreateDeviceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>())
@@ -423,10 +564,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceDefinitionOutput, CreateDeviceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceDefinitionOutput, CreateDeviceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceDefinitionOutput, CreateDeviceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>(id: "createDeviceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeviceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeviceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateDeviceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateDeviceDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a device definition that has already been defined.
     ///
     /// - Parameter CreateDeviceDefinitionVersionInput : [no documentation found]
@@ -453,6 +613,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput, CreateDeviceDefinitionVersionOutputError>(id: "createDeviceDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput, CreateDeviceDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>())
@@ -468,10 +629,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceDefinitionVersionOutput, CreateDeviceDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceDefinitionVersionOutput, CreateDeviceDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceDefinitionVersionOutput, CreateDeviceDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>(id: "createDeviceDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeviceDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeviceDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateDeviceDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateFunctionDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
     ///
     /// - Parameter CreateFunctionDefinitionInput : [no documentation found]
@@ -498,6 +678,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput, CreateFunctionDefinitionOutputError>(id: "createFunctionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput, CreateFunctionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>())
@@ -513,10 +694,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionDefinitionOutput, CreateFunctionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionDefinitionOutput, CreateFunctionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionDefinitionOutput, CreateFunctionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>(id: "createFunctionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateFunctionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateFunctionDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a Lambda function definition that has already been defined.
     ///
     /// - Parameter CreateFunctionDefinitionVersionInput : Information needed to create a function definition version.
@@ -543,6 +743,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput, CreateFunctionDefinitionVersionOutputError>(id: "createFunctionDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput, CreateFunctionDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>())
@@ -558,10 +759,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionDefinitionVersionOutput, CreateFunctionDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionDefinitionVersionOutput, CreateFunctionDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionDefinitionVersionOutput, CreateFunctionDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>(id: "createFunctionDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFunctionDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFunctionDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateFunctionDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateGroup` operation on the `Greengrass` service.
+    ///
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
@@ -588,6 +808,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutput, CreateGroupOutputError>(id: "createGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutput, CreateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutput>())
@@ -603,10 +824,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutput, CreateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput, CreateGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutput, CreateGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutput>(id: "createGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateGroupInput, CreateGroupOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGroupInput, CreateGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGroupInput, CreateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateGroupCertificateAuthority` operation on the `Greengrass` service.
+    ///
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
     ///
     /// - Parameter CreateGroupCertificateAuthorityInput : [no documentation found]
@@ -634,6 +874,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput, CreateGroupCertificateAuthorityOutputError>(id: "createGroupCertificateAuthority")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput, CreateGroupCertificateAuthorityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>())
@@ -646,10 +887,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupCertificateAuthorityOutput, CreateGroupCertificateAuthorityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupCertificateAuthorityOutput, CreateGroupCertificateAuthorityOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupCertificateAuthorityOutput, CreateGroupCertificateAuthorityOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>(id: "createGroupCertificateAuthority")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupCertificateAuthorityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupCertificateAuthorityOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupCertificateAuthorityOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupCertificateAuthorityOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupCertificateAuthorityOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateGroupVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a group which has already been defined.
     ///
     /// - Parameter CreateGroupVersionInput : [no documentation found]
@@ -676,6 +933,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateGroupVersionInput, CreateGroupVersionOutput, CreateGroupVersionOutputError>(id: "createGroupVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput, CreateGroupVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>())
@@ -691,10 +949,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupVersionOutput, CreateGroupVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupVersionOutput, CreateGroupVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupVersionOutput, CreateGroupVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateGroupVersionInput, CreateGroupVersionOutput>(id: "createGroupVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLoggerDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateLoggerDefinitionInput : [no documentation found]
@@ -721,6 +998,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput, CreateLoggerDefinitionOutputError>(id: "createLoggerDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput, CreateLoggerDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>())
@@ -736,10 +1014,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoggerDefinitionOutput, CreateLoggerDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoggerDefinitionOutput, CreateLoggerDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoggerDefinitionOutput, CreateLoggerDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>(id: "createLoggerDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLoggerDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoggerDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoggerDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoggerDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoggerDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLoggerDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a logger definition that has already been defined.
     ///
     /// - Parameter CreateLoggerDefinitionVersionInput : [no documentation found]
@@ -766,6 +1063,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput, CreateLoggerDefinitionVersionOutputError>(id: "createLoggerDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput, CreateLoggerDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>())
@@ -781,10 +1079,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoggerDefinitionVersionOutput, CreateLoggerDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoggerDefinitionVersionOutput, CreateLoggerDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoggerDefinitionVersionOutput, CreateLoggerDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>(id: "createLoggerDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLoggerDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoggerDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoggerDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoggerDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoggerDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoggerDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateResourceDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
     ///
     /// - Parameter CreateResourceDefinitionInput : [no documentation found]
@@ -811,6 +1128,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateResourceDefinitionInput, CreateResourceDefinitionOutput, CreateResourceDefinitionOutputError>(id: "createResourceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput, CreateResourceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>())
@@ -826,10 +1144,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceDefinitionOutput, CreateResourceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceDefinitionOutput, CreateResourceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResourceDefinitionOutput, CreateResourceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>(id: "createResourceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResourceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResourceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateResourceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateResourceDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a resource definition that has already been defined.
     ///
     /// - Parameter CreateResourceDefinitionVersionInput : [no documentation found]
@@ -856,6 +1193,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput, CreateResourceDefinitionVersionOutputError>(id: "createResourceDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput, CreateResourceDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>())
@@ -871,10 +1209,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceDefinitionVersionOutput, CreateResourceDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceDefinitionVersionOutput, CreateResourceDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResourceDefinitionVersionOutput, CreateResourceDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>(id: "createResourceDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResourceDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResourceDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateResourceDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResourceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSoftwareUpdateJob` operation on the `Greengrass` service.
+    ///
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
     ///
     /// - Parameter CreateSoftwareUpdateJobInput : [no documentation found]
@@ -902,6 +1259,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput, CreateSoftwareUpdateJobOutputError>(id: "createSoftwareUpdateJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput, CreateSoftwareUpdateJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>())
@@ -917,10 +1275,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSoftwareUpdateJobOutput, CreateSoftwareUpdateJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSoftwareUpdateJobOutput, CreateSoftwareUpdateJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSoftwareUpdateJobOutput, CreateSoftwareUpdateJobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>(id: "createSoftwareUpdateJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSoftwareUpdateJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSoftwareUpdateJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSoftwareUpdateJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSoftwareUpdateJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSoftwareUpdateJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSoftwareUpdateJobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateSubscriptionDefinitionInput : [no documentation found]
@@ -947,6 +1324,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput, CreateSubscriptionDefinitionOutputError>(id: "createSubscriptionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput, CreateSubscriptionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>())
@@ -962,10 +1340,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriptionDefinitionOutput, CreateSubscriptionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriptionDefinitionOutput, CreateSubscriptionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriptionDefinitionOutput, CreateSubscriptionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>(id: "createSubscriptionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSubscriptionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSubscriptionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriptionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriptionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSubscriptionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSubscriptionDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Creates a version of a subscription definition which has already been defined.
     ///
     /// - Parameter CreateSubscriptionDefinitionVersionInput : [no documentation found]
@@ -992,6 +1389,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput, CreateSubscriptionDefinitionVersionOutputError>(id: "createSubscriptionDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput, CreateSubscriptionDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>())
@@ -1007,10 +1405,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriptionDefinitionVersionOutput, CreateSubscriptionDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriptionDefinitionVersionOutput, CreateSubscriptionDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriptionDefinitionVersionOutput, CreateSubscriptionDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>(id: "createSubscriptionDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSubscriptionDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSubscriptionDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriptionDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriptionDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSubscriptionDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriptionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteConnectorDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a connector definition.
     ///
     /// - Parameter DeleteConnectorDefinitionInput : [no documentation found]
@@ -1037,6 +1454,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput, DeleteConnectorDefinitionOutputError>(id: "deleteConnectorDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput, DeleteConnectorDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput>())
@@ -1048,10 +1466,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectorDefinitionOutput, DeleteConnectorDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectorDefinitionOutput, DeleteConnectorDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectorDefinitionOutput, DeleteConnectorDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput>(id: "deleteConnectorDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConnectorDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConnectorDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectorDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectorDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteConnectorDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCoreDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a core definition.
     ///
     /// - Parameter DeleteCoreDefinitionInput : [no documentation found]
@@ -1078,6 +1511,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput, DeleteCoreDefinitionOutputError>(id: "deleteCoreDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput, DeleteCoreDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput>())
@@ -1089,10 +1523,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCoreDefinitionOutput, DeleteCoreDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCoreDefinitionOutput, DeleteCoreDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreDefinitionOutput, DeleteCoreDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput>(id: "deleteCoreDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCoreDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCoreDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCoreDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCoreDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCoreDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteDeviceDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a device definition.
     ///
     /// - Parameter DeleteDeviceDefinitionInput : [no documentation found]
@@ -1119,6 +1568,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput, DeleteDeviceDefinitionOutputError>(id: "deleteDeviceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput, DeleteDeviceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput>())
@@ -1130,10 +1580,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceDefinitionOutput, DeleteDeviceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceDefinitionOutput, DeleteDeviceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceDefinitionOutput, DeleteDeviceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput>(id: "deleteDeviceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteDeviceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteFunctionDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a Lambda function definition.
     ///
     /// - Parameter DeleteFunctionDefinitionInput : [no documentation found]
@@ -1160,6 +1625,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput, DeleteFunctionDefinitionOutputError>(id: "deleteFunctionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput, DeleteFunctionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput>())
@@ -1171,10 +1637,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionDefinitionOutput, DeleteFunctionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionDefinitionOutput, DeleteFunctionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionDefinitionOutput, DeleteFunctionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput>(id: "deleteFunctionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFunctionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFunctionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFunctionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteGroup` operation on the `Greengrass` service.
+    ///
     /// Deletes a group.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
@@ -1201,6 +1682,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutput, DeleteGroupOutputError>(id: "deleteGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutput, DeleteGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
@@ -1212,10 +1694,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutput, DeleteGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput, DeleteGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutput, DeleteGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutput>(id: "deleteGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteLoggerDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a logger definition.
     ///
     /// - Parameter DeleteLoggerDefinitionInput : [no documentation found]
@@ -1242,6 +1739,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput, DeleteLoggerDefinitionOutputError>(id: "deleteLoggerDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput, DeleteLoggerDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput>())
@@ -1253,10 +1751,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoggerDefinitionOutput, DeleteLoggerDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoggerDefinitionOutput, DeleteLoggerDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoggerDefinitionOutput, DeleteLoggerDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput>(id: "deleteLoggerDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLoggerDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoggerDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoggerDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoggerDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLoggerDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteResourceDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a resource definition.
     ///
     /// - Parameter DeleteResourceDefinitionInput : [no documentation found]
@@ -1283,6 +1796,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput, DeleteResourceDefinitionOutputError>(id: "deleteResourceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput, DeleteResourceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput>())
@@ -1294,10 +1808,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceDefinitionOutput, DeleteResourceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceDefinitionOutput, DeleteResourceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceDefinitionOutput, DeleteResourceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput>(id: "deleteResourceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteResourceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
     /// Deletes a subscription definition.
     ///
     /// - Parameter DeleteSubscriptionDefinitionInput : [no documentation found]
@@ -1324,6 +1853,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput, DeleteSubscriptionDefinitionOutputError>(id: "deleteSubscriptionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput, DeleteSubscriptionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput>())
@@ -1335,10 +1865,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubscriptionDefinitionOutput, DeleteSubscriptionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubscriptionDefinitionOutput, DeleteSubscriptionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSubscriptionDefinitionOutput, DeleteSubscriptionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput>(id: "deleteSubscriptionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSubscriptionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSubscriptionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubscriptionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubscriptionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSubscriptionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateRoleFromGroup` operation on the `Greengrass` service.
+    ///
     /// Disassociates the role from a group.
     ///
     /// - Parameter DisassociateRoleFromGroupInput : [no documentation found]
@@ -1366,6 +1911,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput, DisassociateRoleFromGroupOutputError>(id: "disassociateRoleFromGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput, DisassociateRoleFromGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput>())
@@ -1377,10 +1923,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateRoleFromGroupOutput, DisassociateRoleFromGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateRoleFromGroupOutput, DisassociateRoleFromGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateRoleFromGroupOutput, DisassociateRoleFromGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput>(id: "disassociateRoleFromGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateRoleFromGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateRoleFromGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateRoleFromGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateRoleFromGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateRoleFromGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateRoleFromGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateServiceRoleFromAccount` operation on the `Greengrass` service.
+    ///
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
     ///
     /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
@@ -1407,6 +1968,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput, DisassociateServiceRoleFromAccountOutputError>(id: "disassociateServiceRoleFromAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput, DisassociateServiceRoleFromAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>())
@@ -1418,10 +1980,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateServiceRoleFromAccountOutput, DisassociateServiceRoleFromAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateServiceRoleFromAccountOutput, DisassociateServiceRoleFromAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateServiceRoleFromAccountOutput, DisassociateServiceRoleFromAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>(id: "disassociateServiceRoleFromAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateServiceRoleFromAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateServiceRoleFromAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateServiceRoleFromAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateServiceRoleFromAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateServiceRoleFromAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateServiceRoleFromAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAssociatedRole` operation on the `Greengrass` service.
+    ///
     /// Retrieves the role associated with a particular group.
     ///
     /// - Parameter GetAssociatedRoleInput : [no documentation found]
@@ -1449,6 +2026,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetAssociatedRoleInput, GetAssociatedRoleOutput, GetAssociatedRoleOutputError>(id: "getAssociatedRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssociatedRoleInput, GetAssociatedRoleOutput, GetAssociatedRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssociatedRoleInput, GetAssociatedRoleOutput>())
@@ -1460,10 +2038,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssociatedRoleOutput, GetAssociatedRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssociatedRoleOutput, GetAssociatedRoleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssociatedRoleOutput, GetAssociatedRoleOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetAssociatedRoleInput, GetAssociatedRoleOutput>(id: "getAssociatedRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssociatedRoleInput, GetAssociatedRoleOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssociatedRoleInput, GetAssociatedRoleOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAssociatedRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAssociatedRoleOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssociatedRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssociatedRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAssociatedRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssociatedRoleOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetBulkDeploymentStatus` operation on the `Greengrass` service.
+    ///
     /// Returns the status of a bulk deployment.
     ///
     /// - Parameter GetBulkDeploymentStatusInput : [no documentation found]
@@ -1490,6 +2083,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput, GetBulkDeploymentStatusOutputError>(id: "getBulkDeploymentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput, GetBulkDeploymentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput>())
@@ -1501,10 +2095,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBulkDeploymentStatusOutput, GetBulkDeploymentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBulkDeploymentStatusOutput, GetBulkDeploymentStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBulkDeploymentStatusOutput, GetBulkDeploymentStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput>(id: "getBulkDeploymentStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBulkDeploymentStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBulkDeploymentStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBulkDeploymentStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBulkDeploymentStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBulkDeploymentStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBulkDeploymentStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetConnectivityInfo` operation on the `Greengrass` service.
+    ///
     /// Retrieves the connectivity information for a core.
     ///
     /// - Parameter GetConnectivityInfoInput : [no documentation found]
@@ -1532,6 +2141,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetConnectivityInfoInput, GetConnectivityInfoOutput, GetConnectivityInfoOutputError>(id: "getConnectivityInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput, GetConnectivityInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>())
@@ -1543,10 +2153,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectivityInfoOutput, GetConnectivityInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectivityInfoOutput, GetConnectivityInfoOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectivityInfoOutput, GetConnectivityInfoOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetConnectivityInfoInput, GetConnectivityInfoOutput>(id: "getConnectivityInfo")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConnectivityInfoOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConnectivityInfoOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectivityInfoOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectivityInfoOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetConnectivityInfoOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectivityInfoOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetConnectorDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a connector definition.
     ///
     /// - Parameter GetConnectorDefinitionInput : [no documentation found]
@@ -1573,6 +2198,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetConnectorDefinitionInput, GetConnectorDefinitionOutput, GetConnectorDefinitionOutputError>(id: "getConnectorDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectorDefinitionInput, GetConnectorDefinitionOutput, GetConnectorDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectorDefinitionInput, GetConnectorDefinitionOutput>())
@@ -1584,10 +2210,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectorDefinitionOutput, GetConnectorDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectorDefinitionOutput, GetConnectorDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectorDefinitionOutput, GetConnectorDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetConnectorDefinitionInput, GetConnectorDefinitionOutput>(id: "getConnectorDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectorDefinitionInput, GetConnectorDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectorDefinitionInput, GetConnectorDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConnectorDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConnectorDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectorDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectorDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetConnectorDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetConnectorDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
     ///
     /// - Parameter GetConnectorDefinitionVersionInput : [no documentation found]
@@ -1614,6 +2255,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput, GetConnectorDefinitionVersionOutputError>(id: "getConnectorDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput, GetConnectorDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>())
@@ -1626,10 +2268,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectorDefinitionVersionOutput, GetConnectorDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectorDefinitionVersionOutput, GetConnectorDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectorDefinitionVersionOutput, GetConnectorDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>(id: "getConnectorDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConnectorDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConnectorDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectorDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectorDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetConnectorDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectorDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCoreDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a core definition version.
     ///
     /// - Parameter GetCoreDefinitionInput : [no documentation found]
@@ -1656,6 +2314,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCoreDefinitionInput, GetCoreDefinitionOutput, GetCoreDefinitionOutputError>(id: "getCoreDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCoreDefinitionInput, GetCoreDefinitionOutput, GetCoreDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCoreDefinitionInput, GetCoreDefinitionOutput>())
@@ -1667,10 +2326,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreDefinitionOutput, GetCoreDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreDefinitionOutput, GetCoreDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreDefinitionOutput, GetCoreDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCoreDefinitionInput, GetCoreDefinitionOutput>(id: "getCoreDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCoreDefinitionInput, GetCoreDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCoreDefinitionInput, GetCoreDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCoreDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCoreDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCoreDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCoreDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a core definition version.
     ///
     /// - Parameter GetCoreDefinitionVersionInput : [no documentation found]
@@ -1697,6 +2371,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput, GetCoreDefinitionVersionOutputError>(id: "getCoreDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput, GetCoreDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput>())
@@ -1708,10 +2383,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreDefinitionVersionOutput, GetCoreDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreDefinitionVersionOutput, GetCoreDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreDefinitionVersionOutput, GetCoreDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput>(id: "getCoreDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCoreDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCoreDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCoreDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDeploymentStatus` operation on the `Greengrass` service.
+    ///
     /// Returns the status of a deployment.
     ///
     /// - Parameter GetDeploymentStatusInput : [no documentation found]
@@ -1738,6 +2428,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetDeploymentStatusInput, GetDeploymentStatusOutput, GetDeploymentStatusOutputError>(id: "getDeploymentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeploymentStatusInput, GetDeploymentStatusOutput, GetDeploymentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeploymentStatusInput, GetDeploymentStatusOutput>())
@@ -1749,10 +2440,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeploymentStatusOutput, GetDeploymentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeploymentStatusOutput, GetDeploymentStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeploymentStatusOutput, GetDeploymentStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetDeploymentStatusInput, GetDeploymentStatusOutput>(id: "getDeploymentStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeploymentStatusInput, GetDeploymentStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeploymentStatusInput, GetDeploymentStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeploymentStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeploymentStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeploymentStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeploymentStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDeploymentStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeploymentStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDeviceDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a device definition.
     ///
     /// - Parameter GetDeviceDefinitionInput : [no documentation found]
@@ -1779,6 +2485,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetDeviceDefinitionInput, GetDeviceDefinitionOutput, GetDeviceDefinitionOutputError>(id: "getDeviceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceDefinitionInput, GetDeviceDefinitionOutput, GetDeviceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceDefinitionInput, GetDeviceDefinitionOutput>())
@@ -1790,10 +2497,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceDefinitionOutput, GetDeviceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceDefinitionOutput, GetDeviceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceDefinitionOutput, GetDeviceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetDeviceDefinitionInput, GetDeviceDefinitionOutput>(id: "getDeviceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceDefinitionInput, GetDeviceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceDefinitionInput, GetDeviceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDeviceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDeviceDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a device definition version.
     ///
     /// - Parameter GetDeviceDefinitionVersionInput : [no documentation found]
@@ -1820,6 +2542,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput, GetDeviceDefinitionVersionOutputError>(id: "getDeviceDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput, GetDeviceDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>())
@@ -1832,10 +2555,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceDefinitionVersionOutput, GetDeviceDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceDefinitionVersionOutput, GetDeviceDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceDefinitionVersionOutput, GetDeviceDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>(id: "getDeviceDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDeviceDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetFunctionDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
     ///
     /// - Parameter GetFunctionDefinitionInput : [no documentation found]
@@ -1862,6 +2601,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetFunctionDefinitionInput, GetFunctionDefinitionOutput, GetFunctionDefinitionOutputError>(id: "getFunctionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionDefinitionInput, GetFunctionDefinitionOutput, GetFunctionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionDefinitionInput, GetFunctionDefinitionOutput>())
@@ -1873,10 +2613,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionDefinitionOutput, GetFunctionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionDefinitionOutput, GetFunctionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionDefinitionOutput, GetFunctionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetFunctionDefinitionInput, GetFunctionDefinitionOutput>(id: "getFunctionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionDefinitionInput, GetFunctionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionDefinitionInput, GetFunctionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFunctionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetFunctionDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
     ///
     /// - Parameter GetFunctionDefinitionVersionInput : [no documentation found]
@@ -1903,6 +2658,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput, GetFunctionDefinitionVersionOutputError>(id: "getFunctionDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput, GetFunctionDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>())
@@ -1915,10 +2671,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionDefinitionVersionOutput, GetFunctionDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionDefinitionVersionOutput, GetFunctionDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionDefinitionVersionOutput, GetFunctionDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>(id: "getFunctionDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFunctionDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFunctionDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFunctionDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGroup` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a group.
     ///
     /// - Parameter GetGroupInput : [no documentation found]
@@ -1945,6 +2717,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutput, GetGroupOutputError>(id: "getGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutput, GetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutput>())
@@ -1956,10 +2729,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutput, GetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutput, GetGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutput, GetGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutput>(id: "getGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGroupCertificateAuthority` operation on the `Greengrass` service.
+    ///
     /// Retreives the CA associated with a group. Returns the public key of the CA.
     ///
     /// - Parameter GetGroupCertificateAuthorityInput : [no documentation found]
@@ -1987,6 +2775,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput, GetGroupCertificateAuthorityOutputError>(id: "getGroupCertificateAuthority")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput, GetGroupCertificateAuthorityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput>())
@@ -1998,10 +2787,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupCertificateAuthorityOutput, GetGroupCertificateAuthorityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupCertificateAuthorityOutput, GetGroupCertificateAuthorityOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupCertificateAuthorityOutput, GetGroupCertificateAuthorityOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput>(id: "getGroupCertificateAuthority")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupCertificateAuthorityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupCertificateAuthorityOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupCertificateAuthorityOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupCertificateAuthorityOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupCertificateAuthorityOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGroupCertificateConfiguration` operation on the `Greengrass` service.
+    ///
     /// Retrieves the current configuration for the CA used by the group.
     ///
     /// - Parameter GetGroupCertificateConfigurationInput : [no documentation found]
@@ -2029,6 +2833,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput, GetGroupCertificateConfigurationOutputError>(id: "getGroupCertificateConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput, GetGroupCertificateConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput>())
@@ -2040,10 +2845,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupCertificateConfigurationOutput, GetGroupCertificateConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupCertificateConfigurationOutput, GetGroupCertificateConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupCertificateConfigurationOutput, GetGroupCertificateConfigurationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput>(id: "getGroupCertificateConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupCertificateConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupCertificateConfigurationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupCertificateConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupCertificateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupCertificateConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupCertificateConfigurationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGroupVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a group version.
     ///
     /// - Parameter GetGroupVersionInput : [no documentation found]
@@ -2070,6 +2890,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetGroupVersionInput, GetGroupVersionOutput, GetGroupVersionOutputError>(id: "getGroupVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupVersionInput, GetGroupVersionOutput, GetGroupVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupVersionInput, GetGroupVersionOutput>())
@@ -2081,10 +2902,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupVersionOutput, GetGroupVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupVersionOutput, GetGroupVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupVersionOutput, GetGroupVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetGroupVersionInput, GetGroupVersionOutput>(id: "getGroupVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupVersionInput, GetGroupVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupVersionInput, GetGroupVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLoggerDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a logger definition.
     ///
     /// - Parameter GetLoggerDefinitionInput : [no documentation found]
@@ -2111,6 +2947,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetLoggerDefinitionInput, GetLoggerDefinitionOutput, GetLoggerDefinitionOutputError>(id: "getLoggerDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoggerDefinitionInput, GetLoggerDefinitionOutput, GetLoggerDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoggerDefinitionInput, GetLoggerDefinitionOutput>())
@@ -2122,10 +2959,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoggerDefinitionOutput, GetLoggerDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoggerDefinitionOutput, GetLoggerDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoggerDefinitionOutput, GetLoggerDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetLoggerDefinitionInput, GetLoggerDefinitionOutput>(id: "getLoggerDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoggerDefinitionInput, GetLoggerDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoggerDefinitionInput, GetLoggerDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoggerDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoggerDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoggerDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoggerDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLoggerDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLoggerDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a logger definition version.
     ///
     /// - Parameter GetLoggerDefinitionVersionInput : [no documentation found]
@@ -2152,6 +3004,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput, GetLoggerDefinitionVersionOutputError>(id: "getLoggerDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput, GetLoggerDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>())
@@ -2164,10 +3017,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoggerDefinitionVersionOutput, GetLoggerDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoggerDefinitionVersionOutput, GetLoggerDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoggerDefinitionVersionOutput, GetLoggerDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>(id: "getLoggerDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoggerDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoggerDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoggerDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoggerDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLoggerDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoggerDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetResourceDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a resource definition, including its creation time and latest version.
     ///
     /// - Parameter GetResourceDefinitionInput : [no documentation found]
@@ -2194,6 +3063,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetResourceDefinitionInput, GetResourceDefinitionOutput, GetResourceDefinitionOutputError>(id: "getResourceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceDefinitionInput, GetResourceDefinitionOutput, GetResourceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceDefinitionInput, GetResourceDefinitionOutput>())
@@ -2205,10 +3075,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceDefinitionOutput, GetResourceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceDefinitionOutput, GetResourceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceDefinitionOutput, GetResourceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetResourceDefinitionInput, GetResourceDefinitionOutput>(id: "getResourceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceDefinitionInput, GetResourceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceDefinitionInput, GetResourceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetResourceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetResourceDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a resource definition version, including which resources are included in the version.
     ///
     /// - Parameter GetResourceDefinitionVersionInput : [no documentation found]
@@ -2235,6 +3120,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput, GetResourceDefinitionVersionOutputError>(id: "getResourceDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput, GetResourceDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput>())
@@ -2246,10 +3132,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceDefinitionVersionOutput, GetResourceDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceDefinitionVersionOutput, GetResourceDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceDefinitionVersionOutput, GetResourceDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput>(id: "getResourceDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetResourceDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServiceRoleForAccount` operation on the `Greengrass` service.
+    ///
     /// Retrieves the service role that is attached to your account.
     ///
     /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
@@ -2276,6 +3177,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput, GetServiceRoleForAccountOutputError>(id: "getServiceRoleForAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput, GetServiceRoleForAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>())
@@ -2287,10 +3189,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceRoleForAccountOutput, GetServiceRoleForAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceRoleForAccountOutput, GetServiceRoleForAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceRoleForAccountOutput, GetServiceRoleForAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>(id: "getServiceRoleForAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceRoleForAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceRoleForAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceRoleForAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceRoleForAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceRoleForAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceRoleForAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a subscription definition.
     ///
     /// - Parameter GetSubscriptionDefinitionInput : [no documentation found]
@@ -2317,6 +3234,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput, GetSubscriptionDefinitionOutputError>(id: "getSubscriptionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput, GetSubscriptionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput>())
@@ -2328,10 +3246,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionDefinitionOutput, GetSubscriptionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionDefinitionOutput, GetSubscriptionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionDefinitionOutput, GetSubscriptionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput>(id: "getSubscriptionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSubscriptionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSubscriptionDefinitionVersion` operation on the `Greengrass` service.
+    ///
     /// Retrieves information about a subscription definition version.
     ///
     /// - Parameter GetSubscriptionDefinitionVersionInput : [no documentation found]
@@ -2358,6 +3291,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput, GetSubscriptionDefinitionVersionOutputError>(id: "getSubscriptionDefinitionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput, GetSubscriptionDefinitionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>())
@@ -2370,10 +3304,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionDefinitionVersionOutput, GetSubscriptionDefinitionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionDefinitionVersionOutput, GetSubscriptionDefinitionVersionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionDefinitionVersionOutput, GetSubscriptionDefinitionVersionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>(id: "getSubscriptionDefinitionVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriptionDefinitionVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSubscriptionDefinitionVersionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionDefinitionVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionDefinitionVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSubscriptionDefinitionVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetThingRuntimeConfiguration` operation on the `Greengrass` service.
+    ///
     /// Get the runtime configuration of a thing.
     ///
     /// - Parameter GetThingRuntimeConfigurationInput : [no documentation found]
@@ -2401,6 +3351,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput, GetThingRuntimeConfigurationOutputError>(id: "getThingRuntimeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput, GetThingRuntimeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput>())
@@ -2412,10 +3363,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThingRuntimeConfigurationOutput, GetThingRuntimeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThingRuntimeConfigurationOutput, GetThingRuntimeConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetThingRuntimeConfigurationOutput, GetThingRuntimeConfigurationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput>(id: "getThingRuntimeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetThingRuntimeConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetThingRuntimeConfigurationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThingRuntimeConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThingRuntimeConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetThingRuntimeConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetThingRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListBulkDeploymentDetailedReports` operation on the `Greengrass` service.
+    ///
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     ///
     /// - Parameter ListBulkDeploymentDetailedReportsInput : [no documentation found]
@@ -2442,6 +3408,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput, ListBulkDeploymentDetailedReportsOutputError>(id: "listBulkDeploymentDetailedReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput, ListBulkDeploymentDetailedReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>())
@@ -2454,10 +3421,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBulkDeploymentDetailedReportsOutput, ListBulkDeploymentDetailedReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBulkDeploymentDetailedReportsOutput, ListBulkDeploymentDetailedReportsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBulkDeploymentDetailedReportsOutput, ListBulkDeploymentDetailedReportsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>(id: "listBulkDeploymentDetailedReports")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBulkDeploymentDetailedReportsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBulkDeploymentDetailedReportsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBulkDeploymentDetailedReportsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBulkDeploymentDetailedReportsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBulkDeploymentDetailedReportsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBulkDeploymentDetailedReportsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListBulkDeployments` operation on the `Greengrass` service.
+    ///
     /// Returns a list of bulk deployments.
     ///
     /// - Parameter ListBulkDeploymentsInput : [no documentation found]
@@ -2484,6 +3467,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListBulkDeploymentsInput, ListBulkDeploymentsOutput, ListBulkDeploymentsOutputError>(id: "listBulkDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput, ListBulkDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>())
@@ -2496,10 +3480,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBulkDeploymentsOutput, ListBulkDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBulkDeploymentsOutput, ListBulkDeploymentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBulkDeploymentsOutput, ListBulkDeploymentsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>(id: "listBulkDeployments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBulkDeploymentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBulkDeploymentsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBulkDeploymentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBulkDeploymentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBulkDeploymentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBulkDeploymentsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListConnectorDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
     ///
     /// - Parameter ListConnectorDefinitionVersionsInput : [no documentation found]
@@ -2526,6 +3526,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput, ListConnectorDefinitionVersionsOutputError>(id: "listConnectorDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput, ListConnectorDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>())
@@ -2538,10 +3539,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConnectorDefinitionVersionsOutput, ListConnectorDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConnectorDefinitionVersionsOutput, ListConnectorDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConnectorDefinitionVersionsOutput, ListConnectorDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>(id: "listConnectorDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConnectorDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConnectorDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConnectorDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConnectorDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListConnectorDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConnectorDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListConnectorDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of connector definitions.
     ///
     /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
@@ -2563,6 +3580,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput, ListConnectorDefinitionsOutputError>(id: "listConnectorDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput, ListConnectorDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>())
@@ -2575,10 +3593,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConnectorDefinitionsOutput, ListConnectorDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConnectorDefinitionsOutput, ListConnectorDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConnectorDefinitionsOutput, ListConnectorDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>(id: "listConnectorDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListConnectorDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListConnectorDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConnectorDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConnectorDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListConnectorDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConnectorDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCoreDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a core definition.
     ///
     /// - Parameter ListCoreDefinitionVersionsInput : [no documentation found]
@@ -2605,6 +3639,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput, ListCoreDefinitionVersionsOutputError>(id: "listCoreDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput, ListCoreDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>())
@@ -2617,10 +3652,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreDefinitionVersionsOutput, ListCoreDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreDefinitionVersionsOutput, ListCoreDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoreDefinitionVersionsOutput, ListCoreDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>(id: "listCoreDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCoreDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCoreDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCoreDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoreDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCoreDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of core definitions.
     ///
     /// - Parameter ListCoreDefinitionsInput : [no documentation found]
@@ -2642,6 +3693,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCoreDefinitionsInput, ListCoreDefinitionsOutput, ListCoreDefinitionsOutputError>(id: "listCoreDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput, ListCoreDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>())
@@ -2654,10 +3706,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreDefinitionsOutput, ListCoreDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreDefinitionsOutput, ListCoreDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoreDefinitionsOutput, ListCoreDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>(id: "listCoreDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCoreDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCoreDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCoreDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoreDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDeployments` operation on the `Greengrass` service.
+    ///
     /// Returns a history of deployments for the group.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
@@ -2684,6 +3752,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListDeploymentsInput, ListDeploymentsOutput, ListDeploymentsOutputError>(id: "listDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeploymentsInput, ListDeploymentsOutput, ListDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
@@ -2696,10 +3765,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeploymentsOutput, ListDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput, ListDeploymentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeploymentsOutput, ListDeploymentsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListDeploymentsInput, ListDeploymentsOutput>(id: "listDeployments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeploymentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeploymentsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeploymentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDeploymentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDeviceDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a device definition.
     ///
     /// - Parameter ListDeviceDefinitionVersionsInput : [no documentation found]
@@ -2726,6 +3811,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput, ListDeviceDefinitionVersionsOutputError>(id: "listDeviceDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput, ListDeviceDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>())
@@ -2738,10 +3824,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceDefinitionVersionsOutput, ListDeviceDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceDefinitionVersionsOutput, ListDeviceDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceDefinitionVersionsOutput, ListDeviceDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>(id: "listDeviceDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDeviceDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDeviceDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of device definitions.
     ///
     /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
@@ -2763,6 +3865,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput, ListDeviceDefinitionsOutputError>(id: "listDeviceDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput, ListDeviceDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>())
@@ -2775,10 +3878,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceDefinitionsOutput, ListDeviceDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceDefinitionsOutput, ListDeviceDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceDefinitionsOutput, ListDeviceDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>(id: "listDeviceDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDeviceDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListFunctionDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a Lambda function definition.
     ///
     /// - Parameter ListFunctionDefinitionVersionsInput : [no documentation found]
@@ -2805,6 +3924,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput, ListFunctionDefinitionVersionsOutputError>(id: "listFunctionDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput, ListFunctionDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>())
@@ -2817,10 +3937,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionDefinitionVersionsOutput, ListFunctionDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionDefinitionVersionsOutput, ListFunctionDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionDefinitionVersionsOutput, ListFunctionDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>(id: "listFunctionDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFunctionDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListFunctionDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of Lambda function definitions.
     ///
     /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
@@ -2842,6 +3978,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput, ListFunctionDefinitionsOutputError>(id: "listFunctionDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput, ListFunctionDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>())
@@ -2854,10 +3991,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionDefinitionsOutput, ListFunctionDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionDefinitionsOutput, ListFunctionDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionDefinitionsOutput, ListFunctionDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>(id: "listFunctionDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFunctionDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFunctionDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFunctionDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListGroupCertificateAuthorities` operation on the `Greengrass` service.
+    ///
     /// Retrieves the current CAs for a group.
     ///
     /// - Parameter ListGroupCertificateAuthoritiesInput : [no documentation found]
@@ -2885,6 +4038,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput, ListGroupCertificateAuthoritiesOutputError>(id: "listGroupCertificateAuthorities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput, ListGroupCertificateAuthoritiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput>())
@@ -2896,10 +4050,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupCertificateAuthoritiesOutput, ListGroupCertificateAuthoritiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupCertificateAuthoritiesOutput, ListGroupCertificateAuthoritiesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupCertificateAuthoritiesOutput, ListGroupCertificateAuthoritiesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput>(id: "listGroupCertificateAuthorities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupCertificateAuthoritiesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupCertificateAuthoritiesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupCertificateAuthoritiesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupCertificateAuthoritiesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupCertificateAuthoritiesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupCertificateAuthoritiesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListGroupVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a group.
     ///
     /// - Parameter ListGroupVersionsInput : [no documentation found]
@@ -2926,6 +4095,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListGroupVersionsInput, ListGroupVersionsOutput, ListGroupVersionsOutputError>(id: "listGroupVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput, ListGroupVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput>())
@@ -2938,10 +4108,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupVersionsOutput, ListGroupVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupVersionsOutput, ListGroupVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupVersionsOutput, ListGroupVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListGroupVersionsInput, ListGroupVersionsOutput>(id: "listGroupVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListGroups` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of groups.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
@@ -2963,6 +4149,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutput, ListGroupsOutputError>(id: "listGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutput, ListGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutput>())
@@ -2975,10 +4162,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutput, ListGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput, ListGroupsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutput, ListGroupsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutput>(id: "listGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListGroupsInput, ListGroupsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListLoggerDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a logger definition.
     ///
     /// - Parameter ListLoggerDefinitionVersionsInput : [no documentation found]
@@ -3005,6 +4208,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput, ListLoggerDefinitionVersionsOutputError>(id: "listLoggerDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput, ListLoggerDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>())
@@ -3017,10 +4221,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoggerDefinitionVersionsOutput, ListLoggerDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoggerDefinitionVersionsOutput, ListLoggerDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoggerDefinitionVersionsOutput, ListLoggerDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>(id: "listLoggerDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLoggerDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLoggerDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoggerDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoggerDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLoggerDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoggerDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListLoggerDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of logger definitions.
     ///
     /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
@@ -3042,6 +4262,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput, ListLoggerDefinitionsOutputError>(id: "listLoggerDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput, ListLoggerDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>())
@@ -3054,10 +4275,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoggerDefinitionsOutput, ListLoggerDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoggerDefinitionsOutput, ListLoggerDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoggerDefinitionsOutput, ListLoggerDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>(id: "listLoggerDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLoggerDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLoggerDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoggerDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoggerDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLoggerDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoggerDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListResourceDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a resource definition.
     ///
     /// - Parameter ListResourceDefinitionVersionsInput : [no documentation found]
@@ -3084,6 +4321,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput, ListResourceDefinitionVersionsOutputError>(id: "listResourceDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput, ListResourceDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>())
@@ -3096,10 +4334,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceDefinitionVersionsOutput, ListResourceDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceDefinitionVersionsOutput, ListResourceDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceDefinitionVersionsOutput, ListResourceDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>(id: "listResourceDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListResourceDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListResourceDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of resource definitions.
     ///
     /// - Parameter ListResourceDefinitionsInput : [no documentation found]
@@ -3121,6 +4375,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListResourceDefinitionsInput, ListResourceDefinitionsOutput, ListResourceDefinitionsOutputError>(id: "listResourceDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput, ListResourceDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>())
@@ -3133,10 +4388,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceDefinitionsOutput, ListResourceDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceDefinitionsOutput, ListResourceDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceDefinitionsOutput, ListResourceDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>(id: "listResourceDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResourceDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListResourceDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSubscriptionDefinitionVersions` operation on the `Greengrass` service.
+    ///
     /// Lists the versions of a subscription definition.
     ///
     /// - Parameter ListSubscriptionDefinitionVersionsInput : [no documentation found]
@@ -3163,6 +4434,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput, ListSubscriptionDefinitionVersionsOutputError>(id: "listSubscriptionDefinitionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput, ListSubscriptionDefinitionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>())
@@ -3175,10 +4447,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionDefinitionVersionsOutput, ListSubscriptionDefinitionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionDefinitionVersionsOutput, ListSubscriptionDefinitionVersionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionDefinitionVersionsOutput, ListSubscriptionDefinitionVersionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>(id: "listSubscriptionDefinitionVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscriptionDefinitionVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubscriptionDefinitionVersionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionDefinitionVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionDefinitionVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSubscriptionDefinitionVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSubscriptionDefinitions` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of subscription definitions.
     ///
     /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
@@ -3200,6 +4488,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput, ListSubscriptionDefinitionsOutputError>(id: "listSubscriptionDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput, ListSubscriptionDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>())
@@ -3212,10 +4501,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionDefinitionsOutput, ListSubscriptionDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionDefinitionsOutput, ListSubscriptionDefinitionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionDefinitionsOutput, ListSubscriptionDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>(id: "listSubscriptionDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscriptionDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSubscriptionDefinitionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSubscriptionDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionDefinitionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `Greengrass` service.
+    ///
     /// Retrieves a list of resource tags for a resource arn.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -3242,6 +4547,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -3253,10 +4559,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResetDeployments` operation on the `Greengrass` service.
+    ///
     /// Resets a group's deployments.
     ///
     /// - Parameter ResetDeploymentsInput : Information needed to reset deployments.
@@ -3283,6 +4604,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ResetDeploymentsInput, ResetDeploymentsOutput, ResetDeploymentsOutputError>(id: "resetDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput, ResetDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>())
@@ -3298,10 +4620,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDeploymentsOutput, ResetDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDeploymentsOutput, ResetDeploymentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetDeploymentsOutput, ResetDeploymentsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ResetDeploymentsInput, ResetDeploymentsOutput>(id: "resetDeployments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetDeploymentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetDeploymentsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDeploymentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDeploymentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetDeploymentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetDeploymentsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartBulkDeployment` operation on the `Greengrass` service.
+    ///
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
     ///
     /// - Parameter StartBulkDeploymentInput : [no documentation found]
@@ -3328,6 +4669,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StartBulkDeploymentInput, StartBulkDeploymentOutput, StartBulkDeploymentOutputError>(id: "startBulkDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput, StartBulkDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>())
@@ -3343,10 +4685,29 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBulkDeploymentOutput, StartBulkDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBulkDeploymentOutput, StartBulkDeploymentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBulkDeploymentOutput, StartBulkDeploymentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StartBulkDeploymentInput, StartBulkDeploymentOutput>(id: "startBulkDeployment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBulkDeploymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBulkDeploymentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBulkDeploymentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBulkDeploymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartBulkDeploymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBulkDeploymentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StopBulkDeployment` operation on the `Greengrass` service.
+    ///
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
     ///
     /// - Parameter StopBulkDeploymentInput : [no documentation found]
@@ -3373,6 +4734,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<StopBulkDeploymentInput, StopBulkDeploymentOutput, StopBulkDeploymentOutputError>(id: "stopBulkDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBulkDeploymentInput, StopBulkDeploymentOutput, StopBulkDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBulkDeploymentInput, StopBulkDeploymentOutput>())
@@ -3384,10 +4746,25 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBulkDeploymentOutput, StopBulkDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBulkDeploymentOutput, StopBulkDeploymentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopBulkDeploymentOutput, StopBulkDeploymentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<StopBulkDeploymentInput, StopBulkDeploymentOutput>(id: "stopBulkDeployment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBulkDeploymentInput, StopBulkDeploymentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBulkDeploymentInput, StopBulkDeploymentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopBulkDeploymentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopBulkDeploymentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBulkDeploymentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBulkDeploymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopBulkDeploymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopBulkDeploymentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `Greengrass` service.
+    ///
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
     ///
     /// - Parameter TagResourceInput : A map of the key-value pairs for the resource tag.
@@ -3414,6 +4791,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3428,10 +4806,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `Greengrass` service.
+    ///
     /// Remove resource tags from a Greengrass Resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -3458,6 +4854,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3470,10 +4867,26 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateConnectivityInfo` operation on the `Greengrass` service.
+    ///
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
     ///
     /// - Parameter UpdateConnectivityInfoInput : Connectivity information.
@@ -3501,6 +4914,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput, UpdateConnectivityInfoOutputError>(id: "updateConnectivityInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput, UpdateConnectivityInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>())
@@ -3515,10 +4929,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectivityInfoOutput, UpdateConnectivityInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectivityInfoOutput, UpdateConnectivityInfoOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectivityInfoOutput, UpdateConnectivityInfoOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>(id: "updateConnectivityInfo")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConnectivityInfoOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConnectivityInfoOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectivityInfoOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectivityInfoOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateConnectivityInfoOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectivityInfoOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateConnectorDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a connector definition.
     ///
     /// - Parameter UpdateConnectorDefinitionInput : [no documentation found]
@@ -3545,6 +4977,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput, UpdateConnectorDefinitionOutputError>(id: "updateConnectorDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput, UpdateConnectorDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>())
@@ -3559,10 +4992,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectorDefinitionOutput, UpdateConnectorDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectorDefinitionOutput, UpdateConnectorDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectorDefinitionOutput, UpdateConnectorDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>(id: "updateConnectorDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConnectorDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateConnectorDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectorDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectorDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateConnectorDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateCoreDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a core definition.
     ///
     /// - Parameter UpdateCoreDefinitionInput : [no documentation found]
@@ -3589,6 +5040,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput, UpdateCoreDefinitionOutputError>(id: "updateCoreDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput, UpdateCoreDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>())
@@ -3603,10 +5055,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCoreDefinitionOutput, UpdateCoreDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCoreDefinitionOutput, UpdateCoreDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCoreDefinitionOutput, UpdateCoreDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>(id: "updateCoreDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCoreDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCoreDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCoreDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCoreDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCoreDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateDeviceDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a device definition.
     ///
     /// - Parameter UpdateDeviceDefinitionInput : [no documentation found]
@@ -3633,6 +5103,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput, UpdateDeviceDefinitionOutputError>(id: "updateDeviceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput, UpdateDeviceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>())
@@ -3647,10 +5118,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceDefinitionOutput, UpdateDeviceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceDefinitionOutput, UpdateDeviceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceDefinitionOutput, UpdateDeviceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>(id: "updateDeviceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDeviceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDeviceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateDeviceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateFunctionDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a Lambda function definition.
     ///
     /// - Parameter UpdateFunctionDefinitionInput : [no documentation found]
@@ -3677,6 +5166,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput, UpdateFunctionDefinitionOutputError>(id: "updateFunctionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput, UpdateFunctionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>())
@@ -3691,10 +5181,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionDefinitionOutput, UpdateFunctionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionDefinitionOutput, UpdateFunctionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionDefinitionOutput, UpdateFunctionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>(id: "updateFunctionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFunctionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFunctionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateFunctionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateGroup` operation on the `Greengrass` service.
+    ///
     /// Updates a group.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
@@ -3721,6 +5229,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutput, UpdateGroupOutputError>(id: "updateGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutput, UpdateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutput>())
@@ -3735,10 +5244,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutput, UpdateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput, UpdateGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutput, UpdateGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutput>(id: "updateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGroupInput, UpdateGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateGroupInput, UpdateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateGroupCertificateConfiguration` operation on the `Greengrass` service.
+    ///
     /// Updates the Certificate expiry time for a group.
     ///
     /// - Parameter UpdateGroupCertificateConfigurationInput : [no documentation found]
@@ -3766,6 +5293,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput, UpdateGroupCertificateConfigurationOutputError>(id: "updateGroupCertificateConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput, UpdateGroupCertificateConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>())
@@ -3780,10 +5308,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupCertificateConfigurationOutput, UpdateGroupCertificateConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupCertificateConfigurationOutput, UpdateGroupCertificateConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupCertificateConfigurationOutput, UpdateGroupCertificateConfigurationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>(id: "updateGroupCertificateConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGroupCertificateConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGroupCertificateConfigurationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupCertificateConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupCertificateConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGroupCertificateConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupCertificateConfigurationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLoggerDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a logger definition.
     ///
     /// - Parameter UpdateLoggerDefinitionInput : [no documentation found]
@@ -3810,6 +5356,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput, UpdateLoggerDefinitionOutputError>(id: "updateLoggerDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput, UpdateLoggerDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>())
@@ -3824,10 +5371,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoggerDefinitionOutput, UpdateLoggerDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoggerDefinitionOutput, UpdateLoggerDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLoggerDefinitionOutput, UpdateLoggerDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>(id: "updateLoggerDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLoggerDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLoggerDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoggerDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoggerDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLoggerDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateResourceDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a resource definition.
     ///
     /// - Parameter UpdateResourceDefinitionInput : [no documentation found]
@@ -3854,6 +5419,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput, UpdateResourceDefinitionOutputError>(id: "updateResourceDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput, UpdateResourceDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>())
@@ -3868,10 +5434,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceDefinitionOutput, UpdateResourceDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceDefinitionOutput, UpdateResourceDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceDefinitionOutput, UpdateResourceDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>(id: "updateResourceDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResourceDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResourceDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateResourceDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
     /// Updates a subscription definition.
     ///
     /// - Parameter UpdateSubscriptionDefinitionInput : [no documentation found]
@@ -3898,6 +5482,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput, UpdateSubscriptionDefinitionOutputError>(id: "updateSubscriptionDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput, UpdateSubscriptionDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>())
@@ -3912,10 +5497,28 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriptionDefinitionOutput, UpdateSubscriptionDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriptionDefinitionOutput, UpdateSubscriptionDefinitionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriptionDefinitionOutput, UpdateSubscriptionDefinitionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>(id: "updateSubscriptionDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSubscriptionDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSubscriptionDefinitionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriptionDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriptionDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSubscriptionDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateThingRuntimeConfiguration` operation on the `Greengrass` service.
+    ///
     /// Updates the runtime configuration of a thing.
     ///
     /// - Parameter UpdateThingRuntimeConfigurationInput : [no documentation found]
@@ -3943,6 +5546,7 @@ extension GreengrassClient: GreengrassClientProtocol {
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput, UpdateThingRuntimeConfigurationOutputError>(id: "updateThingRuntimeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput, UpdateThingRuntimeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>())
@@ -3957,6 +5561,22 @@ extension GreengrassClient: GreengrassClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThingRuntimeConfigurationOutput, UpdateThingRuntimeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThingRuntimeConfigurationOutput, UpdateThingRuntimeConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThingRuntimeConfigurationOutput, UpdateThingRuntimeConfigurationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>(id: "updateThingRuntimeConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateThingRuntimeConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateThingRuntimeConfigurationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThingRuntimeConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThingRuntimeConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateThingRuntimeConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThingRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -12,7 +12,11 @@ extension EBSClient {
     ///     - input: A `[ListChangedBlocksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChangedBlocksOutput`
     public func listChangedBlocksPaginated(input: ListChangedBlocksInput) -> ClientRuntime.PaginatorSequence<ListChangedBlocksInput, ListChangedBlocksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListChangedBlocksInput, ListChangedBlocksOutput>(input: input, inputKey: \ListChangedBlocksInput.nextToken, outputKey: \ListChangedBlocksOutput.nextToken, paginationFunction: self.listChangedBlocks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListChangedBlocksInput, ListChangedBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChangedBlocks(input:))
+>>>>>>> main
     }
 }
 
@@ -36,7 +40,11 @@ extension EBSClient {
     ///     - input: A `[ListSnapshotBlocksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotBlocksOutput`
     public func listSnapshotBlocksPaginated(input: ListSnapshotBlocksInput) -> ClientRuntime.PaginatorSequence<ListSnapshotBlocksInput, ListSnapshotBlocksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSnapshotBlocksInput, ListSnapshotBlocksOutput>(input: input, inputKey: \ListSnapshotBlocksInput.nextToken, outputKey: \ListSnapshotBlocksOutput.nextToken, paginationFunction: self.listSnapshotBlocks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSnapshotBlocksInput, ListSnapshotBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSnapshotBlocks(input:))
+>>>>>>> main
     }
 }
 

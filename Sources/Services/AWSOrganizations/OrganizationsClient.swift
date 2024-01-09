@@ -67,6 +67,8 @@ public struct OrganizationsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension OrganizationsClient: OrganizationsClientProtocol {
+    /// Performs the `AcceptHandshake` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Sends a response to the originator of a handshake agreeing to the action proposed by the handshake request. You can only call this operation by the following principals when they also have the relevant IAM permissions:
     ///
     /// * Invitation to join or Approve all features request handshakes: only a principal from the member account. The user who calls the API for an invitation to join must have the organizations:AcceptHandshake permission. If you enabled all features in the organization, the user must also have the iam:CreateServiceLinkedRole permission so that Organizations can create the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide.
@@ -176,6 +178,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AcceptHandshakeInput, AcceptHandshakeOutput, AcceptHandshakeOutputError>(id: "acceptHandshake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput, AcceptHandshakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>())
@@ -191,10 +194,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptHandshakeOutput, AcceptHandshakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptHandshakeOutput, AcceptHandshakeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptHandshakeOutput, AcceptHandshakeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AcceptHandshakeInput, AcceptHandshakeOutput>(id: "acceptHandshake")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptHandshakeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.AcceptHandshake"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptHandshakeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptHandshakeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptHandshakeOutput>(responseClosure(decoder: decoder), responseErrorClosure(AcceptHandshakeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptHandshakeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AttachPolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
@@ -360,6 +382,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AttachPolicyInput, AttachPolicyOutput, AttachPolicyOutputError>(id: "attachPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachPolicyInput, AttachPolicyOutput, AttachPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachPolicyInput, AttachPolicyOutput>())
@@ -375,10 +398,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachPolicyOutput, AttachPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachPolicyOutput, AttachPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachPolicyOutput, AttachPolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AttachPolicyInput, AttachPolicyOutput>(id: "attachPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachPolicyInput, AttachPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachPolicyInput, AttachPolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AttachPolicyInput, AttachPolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.AttachPolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachPolicyInput, AttachPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AttachPolicyInput, AttachPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachPolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachPolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CancelHandshake` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED. This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use [DeclineHandshake] instead. After a handshake is canceled, the recipient can no longer respond to that handshake. After you cancel a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
     ///
     /// - Parameter CancelHandshakeInput : [no documentation found]
@@ -460,6 +502,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CancelHandshakeInput, CancelHandshakeOutput, CancelHandshakeOutputError>(id: "cancelHandshake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelHandshakeInput, CancelHandshakeOutput, CancelHandshakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelHandshakeInput, CancelHandshakeOutput>())
@@ -475,10 +518,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelHandshakeOutput, CancelHandshakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelHandshakeOutput, CancelHandshakeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelHandshakeOutput, CancelHandshakeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CancelHandshakeInput, CancelHandshakeOutput>(id: "cancelHandshake")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelHandshakeInput, CancelHandshakeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelHandshakeInput, CancelHandshakeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelHandshakeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.CancelHandshake"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CancelHandshakeInput, CancelHandshakeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelHandshakeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelHandshakeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelHandshakeOutput>(responseClosure(decoder: decoder), responseErrorClosure(CancelHandshakeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelHandshakeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CloseAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Closes an Amazon Web Services member account within an organization. You can close an account when [all features are enabled ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html). You can't close the management account with this API. This is an asynchronous request that Amazon Web Services performs in the background. Because CloseAccount operates asynchronously, it can return a successful completion message even though account closure might still be in progress. You need to wait a few minutes before the account is fully closed. To check the status of the request, do one of the following:
     ///
     /// * Use the AccountId that you sent in the CloseAccount request to provide as a parameter to the [DescribeAccount] operation. While the close account request is in progress, Account status will indicate PENDING_CLOSURE. When the close account request completes, the status will change to SUSPENDED.
@@ -644,6 +706,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CloseAccountInput, CloseAccountOutput, CloseAccountOutputError>(id: "closeAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloseAccountInput, CloseAccountOutput, CloseAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloseAccountInput, CloseAccountOutput>())
@@ -659,10 +722,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloseAccountOutput, CloseAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloseAccountOutput, CloseAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CloseAccountOutput, CloseAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CloseAccountInput, CloseAccountOutput>(id: "closeAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloseAccountInput, CloseAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloseAccountInput, CloseAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CloseAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CloseAccountInput, CloseAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.CloseAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CloseAccountInput, CloseAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CloseAccountInput, CloseAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CloseAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloseAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloseAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(CloseAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CloseAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Creates an Amazon Web Services account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that Amazon Web Services performs in the background. Because CreateAccount operates asynchronously, it can return a successful completion message even though account initialization might still be in progress. You might need to wait a few minutes before you can successfully access the account. To check the status of the request, do one of the following:
     ///
     /// * Use the Id value of the CreateAccountStatus response element from this operation to provide as a parameter to the [DescribeCreateAccountStatus] operation.
@@ -831,6 +913,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateAccountInput, CreateAccountOutput, CreateAccountOutputError>(id: "createAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountInput, CreateAccountOutput, CreateAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountInput, CreateAccountOutput>())
@@ -846,10 +929,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountOutput, CreateAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountOutput, CreateAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountOutput, CreateAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateAccountInput, CreateAccountOutput>(id: "createAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountInput, CreateAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountInput, CreateAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAccountInput, CreateAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccountInput, CreateAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccountInput, CreateAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateGovCloudAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// This action is available if all of the following are true:
     ///
     /// * You're authorized to create accounts in the Amazon Web Services GovCloud (US) Region. For more information on the Amazon Web Services GovCloud (US) Region, see the [ Amazon Web Services GovCloud User Guide.](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/welcome.html)
@@ -1036,6 +1138,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateGovCloudAccountInput, CreateGovCloudAccountOutput, CreateGovCloudAccountOutputError>(id: "createGovCloudAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput, CreateGovCloudAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>())
@@ -1051,10 +1154,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGovCloudAccountOutput, CreateGovCloudAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGovCloudAccountOutput, CreateGovCloudAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGovCloudAccountOutput, CreateGovCloudAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(id: "createGovCloudAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGovCloudAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateGovCloudAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGovCloudAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGovCloudAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGovCloudAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGovCloudAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGovCloudAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the [management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization policies.
     ///
     /// - Parameter CreateOrganizationInput : [no documentation found]
@@ -1204,6 +1326,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateOrganizationInput, CreateOrganizationOutput, CreateOrganizationOutputError>(id: "createOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOrganizationInput, CreateOrganizationOutput, CreateOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOrganizationInput, CreateOrganizationOutput>())
@@ -1219,10 +1342,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOrganizationOutput, CreateOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOrganizationOutput, CreateOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOrganizationOutput, CreateOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateOrganizationInput, CreateOrganizationOutput>(id: "createOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOrganizationInput, CreateOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOrganizationInput, CreateOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateOrganizationInput, CreateOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateOrganizationalUnit` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Creates an organizational unit (OU) within a root or parent OU. An OU is a container for accounts that enables you to organize your accounts to apply policies according to your business requirements. The number of levels deep that you can nest OUs is dependent upon the policy types enabled for that root. For service control policies, the limit is five. For more information about OUs, see [Managing organizational units (OUs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account.
     ///
     /// - Parameter CreateOrganizationalUnitInput : [no documentation found]
@@ -1373,6 +1515,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput, CreateOrganizationalUnitOutputError>(id: "createOrganizationalUnit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput, CreateOrganizationalUnitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>())
@@ -1388,10 +1531,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOrganizationalUnitOutput, CreateOrganizationalUnitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOrganizationalUnitOutput, CreateOrganizationalUnitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOrganizationalUnitOutput, CreateOrganizationalUnitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(id: "createOrganizationalUnit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOrganizationalUnitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateOrganizationalUnit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOrganizationalUnitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOrganizationalUnitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOrganizationalUnitOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateOrganizationalUnitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Creates a policy of a specified type that you can attach to a root, an organizational unit (OU), or an individual Amazon Web Services account. For more information about policies and their use, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html). If the request includes tags, then the requester must have the organizations:TagResource permission. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter CreatePolicyInput : [no documentation found]
@@ -1544,6 +1706,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>(id: "createPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyInput, CreatePolicyOutput>())
@@ -1559,10 +1722,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput, CreatePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput, CreatePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput, CreatePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutput>(id: "createPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyInput, CreatePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePolicyInput, CreatePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreatePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePolicyInput, CreatePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePolicyInput, CreatePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeclineHandshake` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Declines a handshake request. This sets the handshake state to DECLINED and effectively deactivates the request. This operation can be called only from the account that received the handshake. The originator of the handshake can use [CancelHandshake] instead. The originator can't reactivate a declined request, but can reinitiate the process with a new handshake request. After you decline a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that, it's deleted.
     ///
     /// - Parameter DeclineHandshakeInput : [no documentation found]
@@ -1644,6 +1826,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeclineHandshakeInput, DeclineHandshakeOutput, DeclineHandshakeOutputError>(id: "declineHandshake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput, DeclineHandshakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>())
@@ -1659,10 +1842,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeclineHandshakeOutput, DeclineHandshakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeclineHandshakeOutput, DeclineHandshakeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeclineHandshakeOutput, DeclineHandshakeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeclineHandshakeInput, DeclineHandshakeOutput>(id: "declineHandshake")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeclineHandshakeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeclineHandshake"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeclineHandshakeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeclineHandshakeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeclineHandshakeOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeclineHandshakeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeclineHandshakeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts.
     ///
     /// - Parameter DeleteOrganizationInput : [no documentation found]
@@ -1743,6 +1945,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteOrganizationInput, DeleteOrganizationOutput, DeleteOrganizationOutputError>(id: "deleteOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput, DeleteOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>())
@@ -1758,10 +1961,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationOutput, DeleteOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationOutput, DeleteOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationOutput, DeleteOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteOrganizationInput, DeleteOrganizationOutput>(id: "deleteOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeleteOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteOrganizationalUnit` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Deletes an organizational unit (OU) from a root or another OU. You must first remove all accounts and child OUs from the OU that you want to delete. This operation can be called only from the organization's management account.
     ///
     /// - Parameter DeleteOrganizationalUnitInput : [no documentation found]
@@ -1843,6 +2065,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput, DeleteOrganizationalUnitOutputError>(id: "deleteOrganizationalUnit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput, DeleteOrganizationalUnitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>())
@@ -1858,10 +2081,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationalUnitOutput, DeleteOrganizationalUnitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationalUnitOutput, DeleteOrganizationalUnitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationalUnitOutput, DeleteOrganizationalUnitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(id: "deleteOrganizationalUnit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOrganizationalUnitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeleteOrganizationalUnit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOrganizationalUnitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOrganizationalUnitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOrganizationalUnitOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteOrganizationalUnitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Deletes the specified policy from your organization. Before you perform this operation, you must first detach the policy from all organizational units (OUs), roots, and accounts. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
@@ -1944,6 +2186,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutput, DeletePolicyOutputError>(id: "deletePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutput, DeletePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
@@ -1959,10 +2202,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput, DeletePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput, DeletePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput, DeletePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutput>(id: "deletePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePolicyInput, DeletePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeletePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePolicyInput, DeletePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePolicyInput, DeletePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteResourcePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Deletes the resource policy from your organization. You can only call this operation from the organization's management account.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -2064,6 +2326,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
@@ -2079,10 +2342,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutput, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(id: "deleteResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeleteResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteResourcePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeregisterDelegatedAdministrator` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Removes the specified member Amazon Web Services account as a delegated administrator for the specified Amazon Web Services service. Deregistering a delegated administrator can have unintended impacts on the functionality of the enabled Amazon Web Services service. See the documentation for the enabled service before you deregister a delegated administrator so that you understand any potential impacts. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
     ///
     /// - Parameter DeregisterDelegatedAdministratorInput : [no documentation found]
@@ -2234,6 +2516,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput, DeregisterDelegatedAdministratorOutputError>(id: "deregisterDelegatedAdministrator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput, DeregisterDelegatedAdministratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>())
@@ -2249,10 +2532,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterDelegatedAdministratorOutput, DeregisterDelegatedAdministratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterDelegatedAdministratorOutput, DeregisterDelegatedAdministratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterDelegatedAdministratorOutput, DeregisterDelegatedAdministratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(id: "deregisterDelegatedAdministrator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterDelegatedAdministratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeregisterDelegatedAdministrator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterDelegatedAdministratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterDelegatedAdministratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterDelegatedAdministratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeregisterDelegatedAdministratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterDelegatedAdministratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves Organizations-related information about the specified account. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeAccountInput : [no documentation found]
@@ -2332,6 +2634,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeAccountInput, DescribeAccountOutput, DescribeAccountOutputError>(id: "describeAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountInput, DescribeAccountOutput, DescribeAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountInput, DescribeAccountOutput>())
@@ -2347,10 +2650,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountOutput, DescribeAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountOutput, DescribeAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountOutput, DescribeAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeAccountInput, DescribeAccountOutput>(id: "describeAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountInput, DescribeAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountInput, DescribeAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountInput, DescribeAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountInput, DescribeAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountInput, DescribeAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeCreateAccountStatus` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves the current status of an asynchronous request to create an account. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeCreateAccountStatusInput : [no documentation found]
@@ -2431,6 +2753,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput, DescribeCreateAccountStatusOutputError>(id: "describeCreateAccountStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput, DescribeCreateAccountStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>())
@@ -2446,10 +2769,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCreateAccountStatusOutput, DescribeCreateAccountStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCreateAccountStatusOutput, DescribeCreateAccountStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCreateAccountStatusOutput, DescribeCreateAccountStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(id: "describeCreateAccountStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCreateAccountStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeCreateAccountStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCreateAccountStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCreateAccountStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCreateAccountStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeCreateAccountStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCreateAccountStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeEffectivePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Returns the contents of the effective policy for specified policy type and account. The effective policy is the aggregation of any policies of the specified type that the account inherits, plus any policy of that type that is directly attached to the account. This operation applies only to policy types other than service control policies (SCPs). For more information about policy inheritance, see [Understanding management policy inheritance](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html) in the Organizations User Guide. This operation can be called from any account in the organization.
     ///
     /// - Parameter DescribeEffectivePolicyInput : [no documentation found]
@@ -2600,6 +2942,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput, DescribeEffectivePolicyOutputError>(id: "describeEffectivePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput, DescribeEffectivePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>())
@@ -2615,10 +2958,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEffectivePolicyOutput, DescribeEffectivePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEffectivePolicyOutput, DescribeEffectivePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEffectivePolicyOutput, DescribeEffectivePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(id: "describeEffectivePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEffectivePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeEffectivePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEffectivePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEffectivePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEffectivePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeEffectivePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEffectivePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeHandshake` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves information about a previously requested handshake. The handshake ID comes from the response to the original [InviteAccountToOrganization] operation that generated the handshake. You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days after they change to that state. They're then deleted and no longer accessible. This operation can be called from any account in the organization.
     ///
     /// - Parameter DescribeHandshakeInput : [no documentation found]
@@ -2698,6 +3060,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeHandshakeInput, DescribeHandshakeOutput, DescribeHandshakeOutputError>(id: "describeHandshake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput, DescribeHandshakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>())
@@ -2713,10 +3076,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHandshakeOutput, DescribeHandshakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHandshakeOutput, DescribeHandshakeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHandshakeOutput, DescribeHandshakeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeHandshakeInput, DescribeHandshakeOutput>(id: "describeHandshake")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeHandshakeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeHandshake"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeHandshakeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHandshakeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHandshakeOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeHandshakeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHandshakeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves information about the organization that the user's account belongs to. This operation can be called from any account in the organization. Even if a policy type is shown as available in the organization, you can disable it separately at the root level with [DisablePolicyType]. Use [ListRoots] to see the status of policy types for a specified root.
     ///
     /// - Parameter DescribeOrganizationInput : [no documentation found]
@@ -2747,6 +3129,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeOrganizationInput, DescribeOrganizationOutput, DescribeOrganizationOutputError>(id: "describeOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput, DescribeOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>())
@@ -2762,10 +3145,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationOutput, DescribeOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationOutput, DescribeOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationOutput, DescribeOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationInput, DescribeOrganizationOutput>(id: "describeOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeOrganizationalUnit` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves information about an organizational unit (OU). This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeOrganizationalUnitInput : [no documentation found]
@@ -2845,6 +3247,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput, DescribeOrganizationalUnitOutputError>(id: "describeOrganizationalUnit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput, DescribeOrganizationalUnitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>())
@@ -2860,10 +3263,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationalUnitOutput, DescribeOrganizationalUnitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationalUnitOutput, DescribeOrganizationalUnitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationalUnitOutput, DescribeOrganizationalUnitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(id: "describeOrganizationalUnit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeOrganizationalUnitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeOrganizationalUnit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeOrganizationalUnitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationalUnitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationalUnitOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeOrganizationalUnitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves information about a policy. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribePolicyInput : [no documentation found]
@@ -2944,6 +3366,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribePolicyInput, DescribePolicyOutput, DescribePolicyOutputError>(id: "describePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePolicyInput, DescribePolicyOutput, DescribePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePolicyInput, DescribePolicyOutput>())
@@ -2959,10 +3382,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePolicyOutput, DescribePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePolicyOutput, DescribePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePolicyOutput, DescribePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribePolicyInput, DescribePolicyOutput>(id: "describePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePolicyInput, DescribePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePolicyInput, DescribePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePolicyInput, DescribePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePolicyInput, DescribePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePolicyInput, DescribePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeResourcePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves information about a resource policy. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DescribeResourcePolicyInput : [no documentation found]
@@ -3063,6 +3505,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(id: "describeResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
@@ -3078,10 +3521,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourcePolicyOutput, DescribeResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(id: "describeResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResourcePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeResourcePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourcePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeResourcePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DetachPolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Detaches a policy from a target root, organizational unit (OU), or account. If the policy being detached is a service control policy (SCP), the changes to permissions for Identity and Access Management (IAM) users and roles in affected accounts are immediate. Every root, OU, and account must have at least one SCP attached. If you want to replace the default FullAWSAccess policy with an SCP that limits the permissions that can be delegated, you must attach the replacement SCP before you can remove the default SCP. This is the authorization strategy of an "[allow list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_allowlist)". If you instead attach a second SCP and leave the FullAWSAccess SCP still attached, and specify "Effect": "Deny" in the second SCP to override the "Effect": "Allow" in the FullAWSAccess policy (or any other attached SCP), you're using the authorization strategy of a "[deny list](https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist)". This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter DetachPolicyInput : [no documentation found]
@@ -3235,6 +3697,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DetachPolicyInput, DetachPolicyOutput, DetachPolicyOutputError>(id: "detachPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachPolicyInput, DetachPolicyOutput, DetachPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachPolicyInput, DetachPolicyOutput>())
@@ -3250,10 +3713,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachPolicyOutput, DetachPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachPolicyOutput, DetachPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachPolicyOutput, DetachPolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DetachPolicyInput, DetachPolicyOutput>(id: "detachPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachPolicyInput, DetachPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachPolicyInput, DetachPolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DetachPolicyInput, DetachPolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DetachPolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachPolicyInput, DetachPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetachPolicyInput, DetachPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachPolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachPolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisableAWSServiceAccess` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Disables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal) with Organizations. When you disable integration, the specified service no longer can create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in new accounts in your organization. This means the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations. We strongly recommend that you don't use this command to disable integration between Organizations and the specified Amazon Web Services service. Instead, use the console or commands that are provided by the specified service. This lets the trusted service perform any required initialization when enabling trusted access, such as creating any required resources and any required clean up of resources when disabling trusted access. For information about how to disable trusted service access to your organization using the trusted service, see the Learn more link under the Supports Trusted Access column at [Amazon Web Services services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html). on this page. If you disable access by using this command, it causes the following actions to occur:
     ///
     /// * The service can no longer create a service-linked role in the accounts in your organization. This means that the service can't perform operations on your behalf on any new accounts in your organization. The service can still perform operations in older accounts until the service completes its clean-up from Organizations.
@@ -3412,6 +3894,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput, DisableAWSServiceAccessOutputError>(id: "disableAWSServiceAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput, DisableAWSServiceAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>())
@@ -3427,10 +3910,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAWSServiceAccessOutput, DisableAWSServiceAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAWSServiceAccessOutput, DisableAWSServiceAccessOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableAWSServiceAccessOutput, DisableAWSServiceAccessOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(id: "disableAWSServiceAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableAWSServiceAccessOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(xAmzTarget: "AWSOrganizationsV20161128.DisableAWSServiceAccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableAWSServiceAccessOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAWSServiceAccessOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAWSServiceAccessOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableAWSServiceAccessOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableAWSServiceAccessOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisablePolicyType` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Disables an organizational policy type in a root. A policy of a certain type can be attached to entities in a root only if that type is enabled in the root. After you perform this operation, you no longer can attach policies of the specified type to that root or to any organizational unit (OU) or account in that root. You can undo this by using the [EnablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. If you disable a policy type for a root, it still appears enabled for the organization if [all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) are enabled for the organization. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. To view the status of available policy types in the organization, use [DescribeOrganization].
     ///
     /// - Parameter DisablePolicyTypeInput : [no documentation found]
@@ -3583,6 +4085,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisablePolicyTypeInput, DisablePolicyTypeOutput, DisablePolicyTypeOutputError>(id: "disablePolicyType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput, DisablePolicyTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>())
@@ -3598,10 +4101,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisablePolicyTypeOutput, DisablePolicyTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisablePolicyTypeOutput, DisablePolicyTypeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisablePolicyTypeOutput, DisablePolicyTypeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisablePolicyTypeInput, DisablePolicyTypeOutput>(id: "disablePolicyType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisablePolicyTypeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(xAmzTarget: "AWSOrganizationsV20161128.DisablePolicyType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisablePolicyTypeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisablePolicyTypeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisablePolicyTypeOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisablePolicyTypeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisablePolicyTypeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableAWSServiceAccess` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Enables the integration of an Amazon Web Services service (the service that is specified by ServicePrincipal) with Organizations. When you enable integration, you allow the specified service to create a [service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in all the accounts in your organization. This allows the service to perform operations on your behalf in your organization and its accounts. We recommend that you enable integration between Organizations and the specified Amazon Web Services service by using the console or commands that are provided by the specified service. Doing so ensures that the service is aware that it can create the resources that are required for the integration. How the service creates those resources in the organization's accounts depends on that service. For more information, see the documentation for the other Amazon Web Services service. For more information about enabling services to integrate with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. You can only call this operation from the organization's management account and only if the organization has [enabled all features](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html).
     ///
     /// - Parameter EnableAWSServiceAccessInput : [no documentation found]
@@ -3751,6 +4273,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput, EnableAWSServiceAccessOutputError>(id: "enableAWSServiceAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput, EnableAWSServiceAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>())
@@ -3766,10 +4289,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAWSServiceAccessOutput, EnableAWSServiceAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAWSServiceAccessOutput, EnableAWSServiceAccessOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAWSServiceAccessOutput, EnableAWSServiceAccessOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(id: "enableAWSServiceAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableAWSServiceAccessOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(xAmzTarget: "AWSOrganizationsV20161128.EnableAWSServiceAccess"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableAWSServiceAccessOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAWSServiceAccessOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAWSServiceAccessOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableAWSServiceAccessOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAWSServiceAccessOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableAllFeatures` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Enables all features in an organization. This enables the use of organization policies that can restrict the services and actions that can be called in each account. Until you enable all features, you have access only to consolidated billing, and you can't use any of the advanced account administration features that Organizations supports. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide. This operation is required only for organizations that were created explicitly with only the consolidated billing features enabled. Calling this operation sends a handshake to every invited account in the organization. The feature set change can be finalized and the additional features enabled only after all administrators in the invited accounts approve the change by accepting the handshake. After you enable all features, you can separately enable or disable individual policy types in a root using [EnablePolicyType] and [DisablePolicyType]. To see the status of policy types in a root, use [ListRoots]. After all invited member accounts accept the handshake, you finalize the feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES". This completes the change. After you enable all features in your organization, the management account in the organization can apply policies on all member accounts. These policies can restrict what users and even administrators in those accounts can do. The management account can apply policies that prevent accounts from leaving the organization. Ensure that your account administrators are aware of this. This operation can be called only from the organization's management account.
     ///
     /// - Parameter EnableAllFeaturesInput : [no documentation found]
@@ -3868,6 +4410,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnableAllFeaturesInput, EnableAllFeaturesOutput, EnableAllFeaturesOutputError>(id: "enableAllFeatures")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput, EnableAllFeaturesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>())
@@ -3883,10 +4426,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAllFeaturesOutput, EnableAllFeaturesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAllFeaturesOutput, EnableAllFeaturesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAllFeaturesOutput, EnableAllFeaturesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnableAllFeaturesInput, EnableAllFeaturesOutput>(id: "enableAllFeatures")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableAllFeaturesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(xAmzTarget: "AWSOrganizationsV20161128.EnableAllFeatures"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableAllFeaturesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAllFeaturesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAllFeaturesOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableAllFeaturesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAllFeaturesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnablePolicyType` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Enables a policy type in a root. After you enable a policy type in a root, you can attach policies of that type to the root, any organizational unit (OU), or account in that root. You can undo this by using the [DisablePolicyType] operation. This is an asynchronous request that Amazon Web Services performs in the background. Amazon Web Services recommends that you first use [ListRoots] to see the status of policy types for a specified root, and then use this operation. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. You can enable a policy type in a root only if that policy type is available in the organization. To view the status of available policy types in the organization, use [DescribeOrganization].
     ///
     /// - Parameter EnablePolicyTypeInput : [no documentation found]
@@ -4040,6 +4602,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EnablePolicyTypeInput, EnablePolicyTypeOutput, EnablePolicyTypeOutputError>(id: "enablePolicyType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput, EnablePolicyTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>())
@@ -4055,10 +4618,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnablePolicyTypeOutput, EnablePolicyTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnablePolicyTypeOutput, EnablePolicyTypeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnablePolicyTypeOutput, EnablePolicyTypeOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EnablePolicyTypeInput, EnablePolicyTypeOutput>(id: "enablePolicyType")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnablePolicyTypeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(xAmzTarget: "AWSOrganizationsV20161128.EnablePolicyType"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnablePolicyTypeOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnablePolicyTypeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnablePolicyTypeOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnablePolicyTypeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnablePolicyTypeOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `InviteAccountToOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a [Handshake] whose details are in the response.
     ///
     /// * You can invite Amazon Web Services accounts only from the same seller as the management account. For example, if your organization's management account was created by Amazon Internet Services Pvt. Ltd (AISPL), an Amazon Web Services seller in India, you can invite only other AISPL accounts to your organization. You can't combine accounts from AISPL and Amazon Web Services or from any other Amazon Web Services seller. For more information, see [Consolidated billing in India](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilling-India.html).
@@ -4236,6 +4818,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput, InviteAccountToOrganizationOutputError>(id: "inviteAccountToOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput, InviteAccountToOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>())
@@ -4251,10 +4834,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InviteAccountToOrganizationOutput, InviteAccountToOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InviteAccountToOrganizationOutput, InviteAccountToOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InviteAccountToOrganizationOutput, InviteAccountToOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(id: "inviteAccountToOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InviteAccountToOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.InviteAccountToOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InviteAccountToOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InviteAccountToOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InviteAccountToOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(InviteAccountToOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InviteAccountToOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `LeaveOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. This operation can be called only from a member account in the organization.
     ///
     /// * The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.
@@ -4428,6 +5030,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<LeaveOrganizationInput, LeaveOrganizationOutput, LeaveOrganizationOutputError>(id: "leaveOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput, LeaveOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>())
@@ -4443,10 +5046,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LeaveOrganizationOutput, LeaveOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LeaveOrganizationOutput, LeaveOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LeaveOrganizationOutput, LeaveOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<LeaveOrganizationInput, LeaveOrganizationOutput>(id: "leaveOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LeaveOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.LeaveOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LeaveOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LeaveOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LeaveOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(LeaveOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LeaveOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAWSServiceAccessForOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Organizations User Guide. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListAWSServiceAccessForOrganizationInput : [no documentation found]
@@ -4595,6 +5217,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput, ListAWSServiceAccessForOrganizationOutputError>(id: "listAWSServiceAccessForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput, ListAWSServiceAccessForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>())
@@ -4610,10 +5233,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAWSServiceAccessForOrganizationOutput, ListAWSServiceAccessForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAWSServiceAccessForOrganizationOutput, ListAWSServiceAccessForOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAWSServiceAccessForOrganizationOutput, ListAWSServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(id: "listAWSServiceAccessForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAWSServiceAccessForOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListAWSServiceAccessForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAWSServiceAccessForOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAWSServiceAccessForOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAWSServiceAccessForOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAWSServiceAccessForOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAWSServiceAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccounts` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the [ListAccountsForParent] operation instead. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListAccountsInput : [no documentation found]
@@ -4692,6 +5334,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListAccountsInput, ListAccountsOutput, ListAccountsOutputError>(id: "listAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsInput, ListAccountsOutput, ListAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsInput, ListAccountsOutput>())
@@ -4707,10 +5350,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsOutput, ListAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsOutput, ListAccountsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutput, ListAccountsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListAccountsInput, ListAccountsOutput>(id: "listAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsInput, ListAccountsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsInput, ListAccountsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountsInput, ListAccountsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListAccounts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountsInput, ListAccountsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountsInput, ListAccountsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccountsForParent` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the [ListAccounts] operation. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListAccountsForParentInput : [no documentation found]
@@ -4790,6 +5452,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListAccountsForParentInput, ListAccountsForParentOutput, ListAccountsForParentOutputError>(id: "listAccountsForParent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput, ListAccountsForParentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>())
@@ -4805,10 +5468,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsForParentOutput, ListAccountsForParentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsForParentOutput, ListAccountsForParentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsForParentOutput, ListAccountsForParentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListAccountsForParentInput, ListAccountsForParentOutput>(id: "listAccountsForParent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsForParentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListAccountsForParent"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsForParentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsForParentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsForParentOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountsForParentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsForParentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChildren` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with [ListParents] enables you to traverse the tree structure that makes up this root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListChildrenInput : [no documentation found]
@@ -4888,6 +5570,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListChildrenInput, ListChildrenOutput, ListChildrenOutputError>(id: "listChildren")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChildrenInput, ListChildrenOutput, ListChildrenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChildrenInput, ListChildrenOutput>())
@@ -4903,10 +5586,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChildrenOutput, ListChildrenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChildrenOutput, ListChildrenOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChildrenOutput, ListChildrenOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListChildrenInput, ListChildrenOutput>(id: "listChildren")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChildrenInput, ListChildrenOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChildrenInput, ListChildrenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChildrenOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListChildrenInput, ListChildrenOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListChildren"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListChildrenInput, ListChildrenOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListChildrenInput, ListChildrenOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChildrenOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChildrenOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChildrenOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChildrenOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChildrenOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCreateAccountStatus` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the account creation requests that match the specified status that is currently being tracked for the organization. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListCreateAccountStatusInput : [no documentation found]
@@ -4986,6 +5688,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCreateAccountStatusInput, ListCreateAccountStatusOutput, ListCreateAccountStatusOutputError>(id: "listCreateAccountStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput, ListCreateAccountStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>())
@@ -5001,10 +5704,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCreateAccountStatusOutput, ListCreateAccountStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCreateAccountStatusOutput, ListCreateAccountStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCreateAccountStatusOutput, ListCreateAccountStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(id: "listCreateAccountStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCreateAccountStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListCreateAccountStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCreateAccountStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCreateAccountStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCreateAccountStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCreateAccountStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCreateAccountStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDelegatedAdministrators` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListDelegatedAdministratorsInput : [no documentation found]
@@ -5153,6 +5875,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput, ListDelegatedAdministratorsOutputError>(id: "listDelegatedAdministrators")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput, ListDelegatedAdministratorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>())
@@ -5168,10 +5891,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDelegatedAdministratorsOutput, ListDelegatedAdministratorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDelegatedAdministratorsOutput, ListDelegatedAdministratorsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDelegatedAdministratorsOutput, ListDelegatedAdministratorsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(id: "listDelegatedAdministrators")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDelegatedAdministratorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListDelegatedAdministrators"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDelegatedAdministratorsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDelegatedAdministratorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDelegatedAdministratorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDelegatedAdministratorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDelegatedAdministratorsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDelegatedServicesForAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// List the Amazon Web Services services for which the specified account is a delegated administrator. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListDelegatedServicesForAccountInput : [no documentation found]
@@ -5322,6 +6064,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput, ListDelegatedServicesForAccountOutputError>(id: "listDelegatedServicesForAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput, ListDelegatedServicesForAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>())
@@ -5337,10 +6080,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDelegatedServicesForAccountOutput, ListDelegatedServicesForAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDelegatedServicesForAccountOutput, ListDelegatedServicesForAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDelegatedServicesForAccountOutput, ListDelegatedServicesForAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(id: "listDelegatedServicesForAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDelegatedServicesForAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListDelegatedServicesForAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDelegatedServicesForAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDelegatedServicesForAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDelegatedServicesForAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDelegatedServicesForAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDelegatedServicesForAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListHandshakesForAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called from any account in the organization.
     ///
     /// - Parameter ListHandshakesForAccountInput : [no documentation found]
@@ -5419,6 +6181,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListHandshakesForAccountInput, ListHandshakesForAccountOutput, ListHandshakesForAccountOutputError>(id: "listHandshakesForAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput, ListHandshakesForAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>())
@@ -5434,10 +6197,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHandshakesForAccountOutput, ListHandshakesForAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHandshakesForAccountOutput, ListHandshakesForAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHandshakesForAccountOutput, ListHandshakesForAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(id: "listHandshakesForAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHandshakesForAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListHandshakesForAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHandshakesForAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHandshakesForAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHandshakesForAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListHandshakesForAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHandshakesForAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListHandshakesForOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListHandshakesForOrganizationInput : [no documentation found]
@@ -5517,6 +6299,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput, ListHandshakesForOrganizationOutputError>(id: "listHandshakesForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput, ListHandshakesForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>())
@@ -5532,10 +6315,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHandshakesForOrganizationOutput, ListHandshakesForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHandshakesForOrganizationOutput, ListHandshakesForOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHandshakesForOrganizationOutput, ListHandshakesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(id: "listHandshakesForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListHandshakesForOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListHandshakesForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListHandshakesForOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHandshakesForOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHandshakesForOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListHandshakesForOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHandshakesForOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListOrganizationalUnitsForParent` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the organizational units (OUs) in a parent organizational unit or root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListOrganizationalUnitsForParentInput : [no documentation found]
@@ -5615,6 +6417,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput, ListOrganizationalUnitsForParentOutputError>(id: "listOrganizationalUnitsForParent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput, ListOrganizationalUnitsForParentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>())
@@ -5630,10 +6433,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationalUnitsForParentOutput, ListOrganizationalUnitsForParentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationalUnitsForParentOutput, ListOrganizationalUnitsForParentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationalUnitsForParentOutput, ListOrganizationalUnitsForParentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(id: "listOrganizationalUnitsForParent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOrganizationalUnitsForParentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListOrganizationalUnitsForParent"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOrganizationalUnitsForParentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationalUnitsForParentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationalUnitsForParentOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOrganizationalUnitsForParentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationalUnitsForParentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListParents` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with [ListChildren] enables you to traverse the tree structure that makes up this root. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. In the current release, a child can have only a single parent.
     ///
     /// - Parameter ListParentsInput : [no documentation found]
@@ -5713,6 +6535,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListParentsInput, ListParentsOutput, ListParentsOutputError>(id: "listParents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListParentsInput, ListParentsOutput, ListParentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListParentsInput, ListParentsOutput>())
@@ -5728,10 +6551,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListParentsOutput, ListParentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListParentsOutput, ListParentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListParentsOutput, ListParentsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListParentsInput, ListParentsOutput>(id: "listParents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListParentsInput, ListParentsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListParentsInput, ListParentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListParentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListParentsInput, ListParentsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListParents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListParentsInput, ListParentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListParentsInput, ListParentsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListParentsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListParentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListParentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListParentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListParentsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicies` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Retrieves the list of all policies in an organization of a specified type. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListPoliciesInput : [no documentation found]
@@ -5811,6 +6653,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutput, ListPoliciesOutputError>(id: "listPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutput, ListPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutput>())
@@ -5826,10 +6669,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput, ListPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput, ListPoliciesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput, ListPoliciesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutput>(id: "listPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPoliciesInput, ListPoliciesOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListPolicies"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPoliciesInput, ListPoliciesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoliciesInput, ListPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPoliciesForTarget` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListPoliciesForTargetInput : [no documentation found]
@@ -5910,6 +6772,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPoliciesForTargetInput, ListPoliciesForTargetOutput, ListPoliciesForTargetOutputError>(id: "listPoliciesForTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput, ListPoliciesForTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>())
@@ -5925,10 +6788,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesForTargetOutput, ListPoliciesForTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesForTargetOutput, ListPoliciesForTargetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesForTargetOutput, ListPoliciesForTargetOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(id: "listPoliciesForTarget")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesForTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListPoliciesForTarget"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesForTargetOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesForTargetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesForTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesForTargetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesForTargetOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRoots` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists the roots that are defined in the current organization. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service. Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use [DescribeOrganization].
     ///
     /// - Parameter ListRootsInput : [no documentation found]
@@ -6007,6 +6889,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListRootsInput, ListRootsOutput, ListRootsOutputError>(id: "listRoots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRootsInput, ListRootsOutput, ListRootsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRootsInput, ListRootsOutput>())
@@ -6022,10 +6905,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRootsOutput, ListRootsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRootsOutput, ListRootsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRootsOutput, ListRootsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListRootsInput, ListRootsOutput>(id: "listRoots")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRootsInput, ListRootsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRootsInput, ListRootsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRootsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRootsInput, ListRootsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListRoots"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRootsInput, ListRootsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRootsInput, ListRootsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRootsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRootsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRootsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRootsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRootsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations.
     ///
     /// * Amazon Web Services account
@@ -6116,6 +7018,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -6131,10 +7034,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTargetsForPolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to. Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter ListTargetsForPolicyInput : [no documentation found]
@@ -6215,6 +7137,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTargetsForPolicyInput, ListTargetsForPolicyOutput, ListTargetsForPolicyOutputError>(id: "listTargetsForPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput, ListTargetsForPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>())
@@ -6230,10 +7153,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTargetsForPolicyOutput, ListTargetsForPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTargetsForPolicyOutput, ListTargetsForPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTargetsForPolicyOutput, ListTargetsForPolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(id: "listTargetsForPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTargetsForPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListTargetsForPolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTargetsForPolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTargetsForPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTargetsForPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTargetsForPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTargetsForPolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MoveAccount` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Moves an account from its current source parent root or organizational unit (OU) to the specified destination parent root or OU. This operation can be called only from the organization's management account.
     ///
     /// - Parameter MoveAccountInput : [no documentation found]
@@ -6317,6 +7259,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MoveAccountInput, MoveAccountOutput, MoveAccountOutputError>(id: "moveAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MoveAccountInput, MoveAccountOutput, MoveAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MoveAccountInput, MoveAccountOutput>())
@@ -6332,10 +7275,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MoveAccountOutput, MoveAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MoveAccountOutput, MoveAccountOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MoveAccountOutput, MoveAccountOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MoveAccountInput, MoveAccountOutput>(id: "moveAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MoveAccountInput, MoveAccountOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MoveAccountInput, MoveAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MoveAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MoveAccountInput, MoveAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.MoveAccount"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MoveAccountInput, MoveAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MoveAccountInput, MoveAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MoveAccountOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MoveAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MoveAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(MoveAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MoveAccountOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutResourcePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Creates or updates a resource policy. You can only call this operation from the organization's management account.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
@@ -6485,6 +7447,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>(id: "putResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, PutResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
@@ -6500,10 +7463,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutput, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput>(id: "putResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.PutResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutResourcePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RegisterDelegatedAdministrator` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Enables the specified member account to administer the Organizations features of the specified Amazon Web Services service. It grants read-only access to Organizations service data. The account still requires IAM permissions to access and administer the Amazon Web Services service. You can run this action only for Amazon Web Services services that support this feature. For a current list of services that support it, see the column Supports Delegated Administrator in the table at [Amazon Web Services Services that you can use with Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html) in the Organizations User Guide. This operation can be called only from the organization's management account.
     ///
     /// - Parameter RegisterDelegatedAdministratorInput : [no documentation found]
@@ -6655,6 +7637,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput, RegisterDelegatedAdministratorOutputError>(id: "registerDelegatedAdministrator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput, RegisterDelegatedAdministratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>())
@@ -6670,10 +7653,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDelegatedAdministratorOutput, RegisterDelegatedAdministratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDelegatedAdministratorOutput, RegisterDelegatedAdministratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDelegatedAdministratorOutput, RegisterDelegatedAdministratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(id: "registerDelegatedAdministrator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterDelegatedAdministratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(xAmzTarget: "AWSOrganizationsV20161128.RegisterDelegatedAdministrator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterDelegatedAdministratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDelegatedAdministratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDelegatedAdministratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegisterDelegatedAdministratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDelegatedAdministratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveAccountFromOrganization` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. This operation can be called only from the organization's management account. Member accounts can remove themselves with [LeaveOrganization] instead.
     ///
     /// * You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
@@ -6830,6 +7832,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput, RemoveAccountFromOrganizationOutputError>(id: "removeAccountFromOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput, RemoveAccountFromOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>())
@@ -6845,10 +7848,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAccountFromOrganizationOutput, RemoveAccountFromOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAccountFromOrganizationOutput, RemoveAccountFromOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAccountFromOrganizationOutput, RemoveAccountFromOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(id: "removeAccountFromOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveAccountFromOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.RemoveAccountFromOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveAccountFromOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAccountFromOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAccountFromOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveAccountFromOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAccountFromOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Adds one or more tags to the specified resource. Currently, you can attach tags to the following resources in Organizations.
     ///
     /// * Amazon Web Services account
@@ -7009,6 +8031,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -7024,10 +8047,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSOrganizationsV20161128.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Removes any tags with the specified keys from the specified resource. You can attach tags to the following resources in Organizations.
     ///
     /// * Amazon Web Services account
@@ -7188,6 +8230,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -7203,10 +8246,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSOrganizationsV20161128.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateOrganizationalUnit` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs and accounts remain in place, and any attached policies of the OU remain attached. This operation can be called only from the organization's management account.
     ///
     /// - Parameter UpdateOrganizationalUnitInput : [no documentation found]
@@ -7288,6 +8350,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput, UpdateOrganizationalUnitOutputError>(id: "updateOrganizationalUnit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput, UpdateOrganizationalUnitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>())
@@ -7303,10 +8366,29 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOrganizationalUnitOutput, UpdateOrganizationalUnitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOrganizationalUnitOutput, UpdateOrganizationalUnitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOrganizationalUnitOutput, UpdateOrganizationalUnitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(id: "updateOrganizationalUnit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOrganizationalUnitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.UpdateOrganizationalUnit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOrganizationalUnitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOrganizationalUnitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOrganizationalUnitOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateOrganizationalUnitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePolicy` operation on the `AWSOrganizationsV20161128` service.
+    ///
     /// Updates an existing policy with a new name, description, or content. If you don't supply any parameter, that value remains unchanged. You can't change a policy's type. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     ///
     /// - Parameter UpdatePolicyInput : [no documentation found]
@@ -7460,6 +8542,7 @@ extension OrganizationsClient: OrganizationsClientProtocol {
                       .withSigningName(value: "organizations")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePolicyInput, UpdatePolicyOutput, UpdatePolicyOutputError>(id: "updatePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyInput, UpdatePolicyOutput, UpdatePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
@@ -7475,6 +8558,23 @@ extension OrganizationsClient: OrganizationsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyOutput, UpdatePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyOutput, UpdatePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyOutput, UpdatePolicyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePolicyInput, UpdatePolicyOutput>(id: "updatePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.UpdatePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePolicyInput, UpdatePolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePolicyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePolicyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

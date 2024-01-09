@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Pinpoint Email Service Welcome to the Amazon Pinpoint Email API Reference. This guide provides information about the Amazon Pinpoint Email API (version 1.0), including supported operations, data types, parameters, and schemas. [Amazon Pinpoint](https://aws.amazon.com/pinpoint) is an AWS service that you can use to engage with your customers across multiple messaging channels. You can use Amazon Pinpoint to send email, SMS text messages, voice messages, and push notifications. The Amazon Pinpoint Email API provides programmatic access to options that are unique to the email channel and supplement the options provided by the Amazon Pinpoint API. If you're new to Amazon Pinpoint, you might find it helpful to also review the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html). The Amazon Pinpoint Developer Guide provides tutorials, code samples, and procedures that demonstrate how to use Amazon Pinpoint features programmatically and how to integrate Amazon Pinpoint functionality into mobile apps and other types of applications. The guide also provides information about key topics such as Amazon Pinpoint integration with other AWS services and the limits that apply to using the service. The Amazon Pinpoint Email API is available in several AWS Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#pinpoint_region) in the Amazon Web Services General Reference. To learn more about AWS Regions, see [Managing AWS Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html) in the Amazon Web Services General Reference. In each Region, AWS maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see [AWS Global Infrastructure](http://aws.amazon.com/about-aws/global-infrastructure/).
 public protocol PinpointEmailClientProtocol {
+    /// Performs the `CreateConfigurationSet` operation on the `AmazonPinpointEmailService` service.
+    ///
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter CreateConfigurationSetInput : A request to create a configuration set.
@@ -20,6 +22,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConfigurationSetEventDestination` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Create an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
     ///
     /// - Parameter CreateConfigurationSetEventDestinationInput : A request to add an event destination to a configuration set.
@@ -35,6 +42,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDedicatedIpPool` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool.
     ///
     /// - Parameter CreateDedicatedIpPoolInput : A request to create a new dedicated IP pool.
@@ -50,6 +62,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createDedicatedIpPool(input: CreateDedicatedIpPoolInput) async throws -> CreateDedicatedIpPoolOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDeliverabilityTestReport` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
     /// - Parameter CreateDeliverabilityTestReportInput : A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
@@ -69,6 +86,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createDeliverabilityTestReport(input: CreateDeliverabilityTestReportInput) async throws -> CreateDeliverabilityTestReportOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEmailIdentity` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email address or domain that you use when you send email. Before you can use an identity to send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission to send email from the address. When you verify an email address, Amazon Pinpoint sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon Pinpoint detects these records in the DNS configuration for your domain. It usually takes around 72 hours to complete the domain verification process.
     ///
     /// - Parameter CreateEmailIdentityInput : A request to begin the verification process for an email identity (an email address or domain).
@@ -83,6 +105,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createEmailIdentity(input: CreateEmailIdentityInput) async throws -> CreateEmailIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConfigurationSet` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Delete an existing configuration set. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter DeleteConfigurationSetInput : A request to delete a configuration set.
@@ -97,6 +124,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Delete an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter DeleteConfigurationSetEventDestinationInput : A request to delete an event destination from a configuration set.
@@ -110,6 +142,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDedicatedIpPool` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Delete a dedicated IP pool.
     ///
     /// - Parameter DeleteDedicatedIpPoolInput : A request to delete a dedicated IP pool.
@@ -124,6 +161,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteDedicatedIpPool(input: DeleteDedicatedIpPoolInput) async throws -> DeleteDedicatedIpPoolOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEmailIdentity` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity can be either an email address or a domain name.
     ///
     /// - Parameter DeleteEmailIdentityInput : A request to delete an existing email identity. When you delete an identity, you lose the ability to use Amazon Pinpoint to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
@@ -138,6 +180,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteEmailIdentity(input: DeleteEmailIdentityInput) async throws -> DeleteEmailIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAccount` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Obtain information about the email-sending status and capabilities of your Amazon Pinpoint account in the current AWS Region.
     ///
     /// - Parameter GetAccountInput : A request to obtain information about the email-sending capabilities of your Amazon Pinpoint account.
@@ -150,6 +197,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBlacklistReports` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
     /// - Parameter GetBlacklistReportsInput : A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
@@ -163,6 +215,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getBlacklistReports(input: GetBlacklistReportsInput) async throws -> GetBlacklistReportsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConfigurationSet` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter GetConfigurationSetInput : A request to obtain information about a configuration set.
@@ -176,6 +233,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getConfigurationSet(input: GetConfigurationSetInput) async throws -> GetConfigurationSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConfigurationSetEventDestinations` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve a list of event destinations that are associated with a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter GetConfigurationSetEventDestinationsInput : A request to obtain information about the event destinations for a configuration set.
@@ -189,6 +251,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDedicatedIp` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
     /// - Parameter GetDedicatedIpInput : A request to obtain more information about a dedicated IP address.
@@ -202,6 +269,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDedicatedIp(input: GetDedicatedIpInput) async throws -> GetDedicatedIpOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDedicatedIps` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
     ///
     /// - Parameter GetDedicatedIpsInput : A request to obtain more information about dedicated IP pools.
@@ -215,6 +287,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDedicatedIps(input: GetDedicatedIpsInput) async throws -> GetDedicatedIpsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeliverabilityDashboardOptions` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
     /// - Parameter GetDeliverabilityDashboardOptionsInput : Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
@@ -228,6 +305,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDeliverabilityDashboardOptions(input: GetDeliverabilityDashboardOptionsInput) async throws -> GetDeliverabilityDashboardOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeliverabilityTestReport` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve the results of a predictive inbox placement test.
     ///
     /// - Parameter GetDeliverabilityTestReportInput : A request to retrieve the results of a predictive inbox placement test.
@@ -241,6 +323,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDeliverabilityTestReport(input: GetDeliverabilityTestReportInput) async throws -> GetDeliverabilityTestReportOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDomainDeliverabilityCampaign` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
     ///
     /// - Parameter GetDomainDeliverabilityCampaignInput : Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
@@ -254,6 +341,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDomainDeliverabilityCampaign(input: GetDomainDeliverabilityCampaignInput) async throws -> GetDomainDeliverabilityCampaignOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDomainStatisticsReport` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
     /// - Parameter GetDomainStatisticsReportInput : A request to obtain deliverability metrics for a domain.
@@ -267,6 +359,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDomainStatisticsReport(input: GetDomainStatisticsReportInput) async throws -> GetDomainStatisticsReportOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEmailIdentity` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Provides information about a specific identity associated with your Amazon Pinpoint account, including the identity's verification status, its DKIM authentication status, and its custom Mail-From settings.
     ///
     /// - Parameter GetEmailIdentityInput : A request to return details about an email identity.
@@ -280,6 +377,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getEmailIdentity(input: GetEmailIdentityInput) async throws -> GetEmailIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConfigurationSets` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter ListConfigurationSetsInput : A request to obtain a list of configuration sets for your Amazon Pinpoint account in the current AWS Region.
@@ -292,6 +394,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDedicatedIpPools` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region.
     ///
     /// - Parameter ListDedicatedIpPoolsInput : A request to obtain a list of dedicated IP pools.
@@ -304,6 +411,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listDedicatedIpPools(input: ListDedicatedIpPoolsInput) async throws -> ListDedicatedIpPoolsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeliverabilityTestReports` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
     /// - Parameter ListDeliverabilityTestReportsInput : A request to list all of the predictive inbox placement tests that you've performed.
@@ -317,6 +429,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listDeliverabilityTestReports(input: ListDeliverabilityTestReportsInput) async throws -> ListDeliverabilityTestReportsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDomainDeliverabilityCampaigns` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
     ///
     /// - Parameter ListDomainDeliverabilityCampaignsInput : Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
@@ -330,6 +447,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listDomainDeliverabilityCampaigns(input: ListDomainDeliverabilityCampaignsInput) async throws -> ListDomainDeliverabilityCampaignsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEmailIdentities` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't.
     ///
     /// - Parameter ListEmailIdentitiesInput : A request to list all of the email identities associated with your Amazon Pinpoint account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
@@ -342,6 +464,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -355,6 +482,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAccountDedicatedIpWarmupAttributes` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
     /// - Parameter PutAccountDedicatedIpWarmupAttributesInput : A request to enable or disable the automatic IP address warm-up feature.
@@ -367,6 +499,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountDedicatedIpWarmupAttributes(input: PutAccountDedicatedIpWarmupAttributesInput) async throws -> PutAccountDedicatedIpWarmupAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAccountSendingAttributes` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Enable or disable the ability of your account to send email.
     ///
     /// - Parameter PutAccountSendingAttributesInput : A request to change the ability of your account to send email.
@@ -379,6 +516,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountSendingAttributes(input: PutAccountSendingAttributesInput) async throws -> PutAccountSendingAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
     /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to associate a configuration set with a dedicated IP pool.
@@ -392,6 +534,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutConfigurationSetReputationOptions` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific AWS Region.
     ///
     /// - Parameter PutConfigurationSetReputationOptionsInput : A request to enable or disable tracking of reputation metrics for a configuration set.
@@ -405,6 +552,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetReputationOptions(input: PutConfigurationSetReputationOptionsInput) async throws -> PutConfigurationSetReputationOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutConfigurationSetSendingOptions` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region.
     ///
     /// - Parameter PutConfigurationSetSendingOptionsInput : A request to enable or disable the ability of Amazon Pinpoint to send emails that use a specific configuration set.
@@ -418,6 +570,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetSendingOptions(input: PutConfigurationSetSendingOptionsInput) async throws -> PutConfigurationSetSendingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutConfigurationSetTrackingOptions` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Specify a custom domain to use for open and click tracking elements in email that you send using Amazon Pinpoint.
     ///
     /// - Parameter PutConfigurationSetTrackingOptionsInput : A request to add a custom domain for tracking open and click events to a configuration set.
@@ -431,6 +588,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetTrackingOptions(input: PutConfigurationSetTrackingOptionsInput) async throws -> PutConfigurationSetTrackingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutDedicatedIpInPool` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Pinpoint account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
     /// - Parameter PutDedicatedIpInPoolInput : A request to move a dedicated IP address to a dedicated IP pool.
@@ -444,6 +606,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDedicatedIpInPool(input: PutDedicatedIpInPoolInput) async throws -> PutDedicatedIpInPoolOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutDedicatedIpWarmupAttributes` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     ///
     ///
     /// - Parameter PutDedicatedIpWarmupAttributesInput : A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
@@ -457,6 +624,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDedicatedIpWarmupAttributes(input: PutDedicatedIpWarmupAttributesInput) async throws -> PutDedicatedIpWarmupAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutDeliverabilityDashboardOption` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
     /// - Parameter PutDeliverabilityDashboardOptionInput : Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
@@ -472,6 +644,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDeliverabilityDashboardOption(input: PutDeliverabilityDashboardOptionInput) async throws -> PutDeliverabilityDashboardOptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutEmailIdentityDkimAttributes` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
     /// - Parameter PutEmailIdentityDkimAttributesInput : A request to enable or disable DKIM signing of email that you send from an email identity.
@@ -485,6 +662,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityDkimAttributes(input: PutEmailIdentityDkimAttributesInput) async throws -> PutEmailIdentityDkimAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutEmailIdentityFeedbackAttributes` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. When you enable feedback forwarding, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you disable feedback forwarding, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
     ///
     /// - Parameter PutEmailIdentityFeedbackAttributesInput : A request to set the attributes that control how bounce and complaint events are processed.
@@ -498,6 +680,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityFeedbackAttributes(input: PutEmailIdentityFeedbackAttributesInput) async throws -> PutEmailIdentityFeedbackAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutEmailIdentityMailFromAttributes` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
     /// - Parameter PutEmailIdentityMailFromAttributesInput : A request to configure the custom MAIL FROM domain for a verified identity.
@@ -511,6 +698,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityMailFromAttributes(input: PutEmailIdentityMailFromAttributesInput) async throws -> PutEmailIdentityMailFromAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendEmail` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Sends an email message. You can use the Amazon Pinpoint Email API to send two types of messages:
     ///
     /// * Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles the message for you.
@@ -533,6 +725,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -547,6 +744,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -561,6 +763,11 @@ public protocol PinpointEmailClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `AmazonPinpointEmailService` service.
+    ///
+>>>>>>> main
     /// Update the configuration of an event destination for a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter UpdateConfigurationSetEventDestinationInput : A request to change the settings for an event destination for a configuration set.

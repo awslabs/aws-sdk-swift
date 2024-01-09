@@ -23,7 +23,9 @@ extension AccessDeniedException {
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be access_denied.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -87,7 +89,9 @@ extension AuthorizationPendingException {
 public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be authorization_pending.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -128,6 +132,11 @@ extension AuthorizationPendingExceptionBody: Swift.Decodable {
         let error_descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error_description)
         error_description = error_descriptionDecoded
     }
+}
+
+extension CreateTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTokenInput(clientId: \(Swift.String(describing: clientId)), code: \(Swift.String(describing: code)), deviceCode: \(Swift.String(describing: deviceCode)), grantType: \(Swift.String(describing: grantType)), redirectUri: \(Swift.String(describing: redirectUri)), scope: \(Swift.String(describing: scope)), clientSecret: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateTokenInput: Swift.Encodable {
@@ -181,24 +190,24 @@ extension CreateTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateTokenInput: Swift.Equatable {
-    /// The unique identifier string for each client. This value should come from the persisted result of the [RegisterClient] API.
+    /// The unique identifier string for the client or application. This value comes from the result of the [RegisterClient] API.
     /// This member is required.
     public var clientId: Swift.String?
     /// A secret string generated for the client. This value should come from the persisted result of the [RegisterClient] API.
     /// This member is required.
     public var clientSecret: Swift.String?
-    /// The authorization code received from the authorization service. This parameter is required to perform an authorization grant request to get access to a token.
+    /// Used only when calling this API for the Authorization Code grant type. The short-term code is used to identify this authorization request. This grant type is currently unsupported for the [CreateToken] API.
     public var code: Swift.String?
-    /// Used only when calling this API for the device code grant type. This short-term code is used to identify this authentication attempt. This should come from an in-memory reference to the result of the [StartDeviceAuthorization] API.
+    /// Used only when calling this API for the Device Code grant type. This short-term code is used to identify this authorization request. This comes from the result of the [StartDeviceAuthorization] API.
     public var deviceCode: Swift.String?
-    /// Supports grant types for the authorization code, refresh token, and device code request. For device code requests, specify the following value: urn:ietf:params:oauth:grant-type:device_code  For information about how to obtain the device code, see the [StartDeviceAuthorization] topic.
+    /// Supports the following OAuth grant types: Device Code and Refresh Token. Specify either of the following values, depending on the grant type that you want: * Device Code - urn:ietf:params:oauth:grant-type:device_code * Refresh Token - refresh_token For information about how to obtain the device code, see the [StartDeviceAuthorization] topic.
     /// This member is required.
     public var grantType: Swift.String?
-    /// The location of the application that will receive the authorization code. Users authorize the service to send the request to this location.
+    /// Used only when calling this API for the Authorization Code grant type. This value specifies the location of the client or application that has registered to receive the authorization code.
     public var redirectUri: Swift.String?
-    /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html). The token used to obtain an access token in the event that the access token is invalid or expired.
+    /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-term tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
     public var refreshToken: Swift.String?
-    /// The list of scopes that is defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token.
+    /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If this value is not specified, IAM Identity Center authorizes all scopes that are configured for the client during the call to [RegisterClient].
     public var scope: [Swift.String]?
 
     public init(
@@ -276,6 +285,18 @@ extension CreateTokenInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTokenOutputBody = try responseDecoder.decode(responseBody: data)
+=======
+extension CreateTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTokenOutput(expiresIn: \(Swift.String(describing: expiresIn)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\", idToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -297,15 +318,15 @@ extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateTokenOutput: Swift.Equatable {
-    /// An opaque token to access IAM Identity Center resources assigned to a user.
+    /// A bearer token to access AWS accounts and applications assigned to a user.
     public var accessToken: Swift.String?
     /// Indicates the time in seconds when an access token will expire.
     public var expiresIn: Swift.Int
-    /// Currently, idToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html). The identifier of the user that associated with the access token, if present.
+    /// The idToken is not implemented or supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html). A JSON Web Token (JWT) that identifies who is associated with the issued access token.
     public var idToken: Swift.String?
-    /// Currently, refreshToken is not yet implemented and is not supported. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html). A token that, if present, can be used to refresh a previously issued access token that might have expired.
+    /// A token that, if present, can be used to refresh a previously issued access token that might have expired. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
     public var refreshToken: Swift.String?
-    /// Used to notify the client that the returned token is an access token. The supported type is BearerToken.
+    /// Used to notify the client that the returned token is an access token. The supported token type is Bearer.
     public var tokenType: Swift.String?
 
     public init(
@@ -377,6 +398,361 @@ enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateTokenWithIAMInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTokenWithIAMInput(clientId: \(Swift.String(describing: clientId)), code: \(Swift.String(describing: code)), grantType: \(Swift.String(describing: grantType)), redirectUri: \(Swift.String(describing: redirectUri)), requestedTokenType: \(Swift.String(describing: requestedTokenType)), scope: \(Swift.String(describing: scope)), subjectTokenType: \(Swift.String(describing: subjectTokenType)), assertion: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\", subjectToken: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateTokenWithIAMInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assertion
+        case clientId
+        case code
+        case grantType
+        case redirectUri
+        case refreshToken
+        case requestedTokenType
+        case scope
+        case subjectToken
+        case subjectTokenType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assertion = self.assertion {
+            try encodeContainer.encode(assertion, forKey: .assertion)
+        }
+        if let clientId = self.clientId {
+            try encodeContainer.encode(clientId, forKey: .clientId)
+        }
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let grantType = self.grantType {
+            try encodeContainer.encode(grantType, forKey: .grantType)
+        }
+        if let redirectUri = self.redirectUri {
+            try encodeContainer.encode(redirectUri, forKey: .redirectUri)
+        }
+        if let refreshToken = self.refreshToken {
+            try encodeContainer.encode(refreshToken, forKey: .refreshToken)
+        }
+        if let requestedTokenType = self.requestedTokenType {
+            try encodeContainer.encode(requestedTokenType, forKey: .requestedTokenType)
+        }
+        if let scope = scope {
+            var scopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scope)
+            for scope0 in scope {
+                try scopeContainer.encode(scope0)
+            }
+        }
+        if let subjectToken = self.subjectToken {
+            try encodeContainer.encode(subjectToken, forKey: .subjectToken)
+        }
+        if let subjectTokenType = self.subjectTokenType {
+            try encodeContainer.encode(subjectTokenType, forKey: .subjectTokenType)
+        }
+    }
+}
+
+extension CreateTokenWithIAMInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "aws_iam", value: "t"))
+            return items
+        }
+    }
+}
+
+extension CreateTokenWithIAMInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/token"
+    }
+}
+
+public struct CreateTokenWithIAMInput: Swift.Equatable {
+    /// Used only when calling this API for the JWT Bearer grant type. This value specifies the JSON Web Token (JWT) issued by a trusted token issuer. To authorize a trusted token issuer, configure the JWT Bearer GrantOptions for the application.
+    public var assertion: Swift.String?
+    /// The unique identifier string for the client or application. This value is an application ARN that has OAuth grants configured.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// Used only when calling this API for the Authorization Code grant type. This short-term code is used to identify this authorization request. The code is obtained through a redirect from IAM Identity Center to a redirect URI persisted in the Authorization Code GrantOptions for the application.
+    public var code: Swift.String?
+    /// Supports the following OAuth grant types: Authorization Code, Refresh Token, JWT Bearer, and Token Exchange. Specify one of the following values, depending on the grant type that you want: * Authorization Code - authorization_code * Refresh Token - refresh_token * JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer * Token Exchange - urn:ietf:params:oauth:grant-type:token-exchange
+    /// This member is required.
+    public var grantType: Swift.String?
+    /// Used only when calling this API for the Authorization Code grant type. This value specifies the location of the client or application that has registered to receive the authorization code.
+    public var redirectUri: Swift.String?
+    /// Used only when calling this API for the Refresh Token grant type. This token is used to refresh short-term tokens, such as the access token, that might expire. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
+    public var refreshToken: Swift.String?
+    /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that the requester can receive. The following values are supported: * Access Token - urn:ietf:params:oauth:token-type:access_token * Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
+    public var requestedTokenType: Swift.String?
+    /// The list of scopes for which authorization is requested. The access token that is issued is limited to the scopes that are granted. If the value is not specified, IAM Identity Center authorizes all scopes configured for the application, including the following default scopes: openid, aws, sts:identity_context.
+    public var scope: [Swift.String]?
+    /// Used only when calling this API for the Token Exchange grant type. This value specifies the subject of the exchange. The value of the subject token must be an access token issued by IAM Identity Center to a different client or application. The access token must have authorized scopes that indicate the requested application as a target audience.
+    public var subjectToken: Swift.String?
+    /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that is passed as the subject of the exchange. The following value is supported: * Access Token - urn:ietf:params:oauth:token-type:access_token
+    public var subjectTokenType: Swift.String?
+
+    public init(
+        assertion: Swift.String? = nil,
+        clientId: Swift.String? = nil,
+        code: Swift.String? = nil,
+        grantType: Swift.String? = nil,
+        redirectUri: Swift.String? = nil,
+        refreshToken: Swift.String? = nil,
+        requestedTokenType: Swift.String? = nil,
+        scope: [Swift.String]? = nil,
+        subjectToken: Swift.String? = nil,
+        subjectTokenType: Swift.String? = nil
+    )
+    {
+        self.assertion = assertion
+        self.clientId = clientId
+        self.code = code
+        self.grantType = grantType
+        self.redirectUri = redirectUri
+        self.refreshToken = refreshToken
+        self.requestedTokenType = requestedTokenType
+        self.scope = scope
+        self.subjectToken = subjectToken
+        self.subjectTokenType = subjectTokenType
+    }
+}
+
+struct CreateTokenWithIAMInputBody: Swift.Equatable {
+    let clientId: Swift.String?
+    let grantType: Swift.String?
+    let code: Swift.String?
+    let refreshToken: Swift.String?
+    let assertion: Swift.String?
+    let scope: [Swift.String]?
+    let redirectUri: Swift.String?
+    let subjectToken: Swift.String?
+    let subjectTokenType: Swift.String?
+    let requestedTokenType: Swift.String?
+}
+
+extension CreateTokenWithIAMInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assertion
+        case clientId
+        case code
+        case grantType
+        case redirectUri
+        case refreshToken
+        case requestedTokenType
+        case scope
+        case subjectToken
+        case subjectTokenType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
+        clientId = clientIdDecoded
+        let grantTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grantType)
+        grantType = grantTypeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let refreshTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshToken)
+        refreshToken = refreshTokenDecoded
+        let assertionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assertion)
+        assertion = assertionDecoded
+        let scopeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .scope)
+        var scopeDecoded0:[Swift.String]? = nil
+        if let scopeContainer = scopeContainer {
+            scopeDecoded0 = [Swift.String]()
+            for string0 in scopeContainer {
+                if let string0 = string0 {
+                    scopeDecoded0?.append(string0)
+                }
+            }
+        }
+        scope = scopeDecoded0
+        let redirectUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redirectUri)
+        redirectUri = redirectUriDecoded
+        let subjectTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectToken)
+        subjectToken = subjectTokenDecoded
+        let subjectTokenTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subjectTokenType)
+        subjectTokenType = subjectTokenTypeDecoded
+        let requestedTokenTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestedTokenType)
+        requestedTokenType = requestedTokenTypeDecoded
+    }
+}
+
+extension CreateTokenWithIAMOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTokenWithIAMOutput(expiresIn: \(Swift.String(describing: expiresIn)), issuedTokenType: \(Swift.String(describing: issuedTokenType)), scope: \(Swift.String(describing: scope)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\", idToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateTokenWithIAMOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTokenWithIAMOutputBody = try responseDecoder.decode(responseBody: data)
+>>>>>>> main
+            self.accessToken = output.accessToken
+            self.expiresIn = output.expiresIn
+            self.idToken = output.idToken
+            self.issuedTokenType = output.issuedTokenType
+            self.refreshToken = output.refreshToken
+            self.scope = output.scope
+            self.tokenType = output.tokenType
+        } else {
+            self.accessToken = nil
+            self.expiresIn = 0
+            self.idToken = nil
+            self.issuedTokenType = nil
+            self.refreshToken = nil
+            self.scope = nil
+            self.tokenType = nil
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct CreateTokenOutput: Swift.Equatable {
+    /// An opaque token to access IAM Identity Center resources assigned to a user.
+=======
+public struct CreateTokenWithIAMOutput: Swift.Equatable {
+    /// A bearer token to access AWS accounts and applications assigned to a user.
+>>>>>>> main
+    public var accessToken: Swift.String?
+    /// Indicates the time in seconds when an access token will expire.
+    public var expiresIn: Swift.Int
+    /// A JSON Web Token (JWT) that identifies the user associated with the issued access token.
+    public var idToken: Swift.String?
+    /// Indicates the type of tokens that are issued by IAM Identity Center. The following values are supported: * Access Token - urn:ietf:params:oauth:token-type:access_token * Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
+    public var issuedTokenType: Swift.String?
+    /// A token that, if present, can be used to refresh a previously issued access token that might have expired. For more information about the features and limitations of the current IAM Identity Center OIDC implementation, see Considerations for Using this Guide in the [IAM Identity Center OIDC API Reference](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
+    public var refreshToken: Swift.String?
+    /// The list of scopes for which authorization is granted. The access token that is issued is limited to the scopes that are granted.
+    public var scope: [Swift.String]?
+    /// Used to notify the requester that the returned token is an access token. The supported token type is Bearer.
+    public var tokenType: Swift.String?
+
+    public init(
+        accessToken: Swift.String? = nil,
+        expiresIn: Swift.Int = 0,
+        idToken: Swift.String? = nil,
+        issuedTokenType: Swift.String? = nil,
+        refreshToken: Swift.String? = nil,
+        scope: [Swift.String]? = nil,
+        tokenType: Swift.String? = nil
+    )
+    {
+        self.accessToken = accessToken
+        self.expiresIn = expiresIn
+        self.idToken = idToken
+        self.issuedTokenType = issuedTokenType
+        self.refreshToken = refreshToken
+        self.scope = scope
+        self.tokenType = tokenType
+    }
+}
+
+<<<<<<< HEAD
+struct CreateTokenOutputBody: Swift.Equatable {
+=======
+struct CreateTokenWithIAMOutputBody: Swift.Equatable {
+>>>>>>> main
+    let accessToken: Swift.String?
+    let tokenType: Swift.String?
+    let expiresIn: Swift.Int
+    let refreshToken: Swift.String?
+    let idToken: Swift.String?
+    let issuedTokenType: Swift.String?
+    let scope: [Swift.String]?
+}
+
+<<<<<<< HEAD
+extension CreateTokenOutputBody: Swift.Decodable {
+=======
+extension CreateTokenWithIAMOutputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessToken
+        case expiresIn
+        case idToken
+        case issuedTokenType
+        case refreshToken
+        case scope
+        case tokenType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
+        accessToken = accessTokenDecoded
+        let tokenTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenType)
+        tokenType = tokenTypeDecoded
+        let expiresInDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expiresIn) ?? 0
+        expiresIn = expiresInDecoded
+        let refreshTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshToken)
+        refreshToken = refreshTokenDecoded
+        let idTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idToken)
+        idToken = idTokenDecoded
+        let issuedTokenTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuedTokenType)
+        issuedTokenType = issuedTokenTypeDecoded
+        let scopeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .scope)
+        var scopeDecoded0:[Swift.String]? = nil
+        if let scopeContainer = scopeContainer {
+            scopeDecoded0 = [Swift.String]()
+            for string0 in scopeContainer {
+                if let string0 = string0 {
+                    scopeDecoded0?.append(string0)
+                }
+            }
+        }
+        scope = scopeDecoded0
+    }
+}
+
+enum CreateTokenWithIAMOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationPendingException": return try await AuthorizationPendingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantException": return try await InvalidGrantException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestRegionException": return try await InvalidRequestRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedGrantTypeException": return try await UnsupportedGrantTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AuthorizationPendingException": return try await AuthorizationPendingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidGrantException": return try await InvalidGrantException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedGrantTypeException": return try await UnsupportedGrantTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ExpiredTokenException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -398,7 +774,9 @@ extension ExpiredTokenException {
 public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be expired_token.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -462,7 +840,9 @@ extension InternalServerException {
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be server_error.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -526,7 +906,9 @@ extension InvalidClientException {
 public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be invalid_client.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -590,7 +972,9 @@ extension InvalidClientMetadataException {
 public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be invalid_client_metadata.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -654,7 +1038,9 @@ extension InvalidGrantException {
 public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be invalid_grant.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -718,7 +1104,9 @@ extension InvalidRequestException {
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be invalid_request.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -761,6 +1149,92 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
+extension InvalidRequestRegionException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidRequestRegionExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.endpoint = output.endpoint
+            self.properties.error = output.error
+            self.properties.error_description = output.error_description
+            self.properties.region = output.region
+        } else {
+            self.properties.endpoint = nil
+            self.properties.error = nil
+            self.properties.error_description = nil
+            self.properties.region = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Indicates that a token provided as input to the request was issued by and is only usable by calling IAM Identity Center endpoints in another region.
+public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Indicates the IAM Identity Center endpoint which the requester may call with this token.
+        public internal(set) var endpoint: Swift.String? = nil
+        /// Single error code. For this exception the value will be invalid_request.
+        public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
+        public internal(set) var error_description: Swift.String? = nil
+        /// Indicates the region which the requester may call with this token.
+        public internal(set) var region: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestRegionException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        endpoint: Swift.String? = nil,
+        error: Swift.String? = nil,
+        error_description: Swift.String? = nil,
+        region: Swift.String? = nil
+    )
+    {
+        self.properties.endpoint = endpoint
+        self.properties.error = error
+        self.properties.error_description = error_description
+        self.properties.region = region
+    }
+}
+
+struct InvalidRequestRegionExceptionBody: Swift.Equatable {
+    let error: Swift.String?
+    let error_description: Swift.String?
+    let endpoint: Swift.String?
+    let region: Swift.String?
+}
+
+extension InvalidRequestRegionExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpoint
+        case error
+        case error_description
+        case region
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let error_descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error_description)
+        error_description = error_descriptionDecoded
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+    }
+}
+
 extension InvalidScopeException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -782,7 +1256,9 @@ extension InvalidScopeException {
 public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be invalid_scope.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -910,6 +1386,14 @@ extension RegisterClientInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension RegisterClientOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterClientOutput(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), clientIdIssuedAt: \(Swift.String(describing: clientIdIssuedAt)), clientSecretExpiresAt: \(Swift.String(describing: clientSecretExpiresAt)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+>>>>>>> main
 extension RegisterClientOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -933,7 +1417,11 @@ extension RegisterClientOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RegisterClientOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// The endpoint where the client can request authorization.
+=======
+    /// An endpoint that the client can use to request authorization.
+>>>>>>> main
     public var authorizationEndpoint: Swift.String?
     /// The unique identifier string for each client. This client uses this identifier to get authenticated by the service in subsequent calls.
     public var clientId: Swift.String?
@@ -943,7 +1431,7 @@ public struct RegisterClientOutput: Swift.Equatable {
     public var clientSecret: Swift.String?
     /// Indicates the time at which the clientId and clientSecret will become invalid.
     public var clientSecretExpiresAt: Swift.Int
-    /// The endpoint where the client can get an access token.
+    /// An endpoint that the client can use to create tokens.
     public var tokenEndpoint: Swift.String?
 
     public init(
@@ -1035,7 +1523,9 @@ extension SlowDownException {
 public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be slow_down.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -1078,6 +1568,11 @@ extension SlowDownExceptionBody: Swift.Decodable {
     }
 }
 
+extension StartDeviceAuthorizationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartDeviceAuthorizationInput(clientId: \(Swift.String(describing: clientId)), startUrl: \(Swift.String(describing: startUrl)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
 extension StartDeviceAuthorizationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientId
@@ -1112,7 +1607,7 @@ public struct StartDeviceAuthorizationInput: Swift.Equatable {
     /// A secret string that is generated for the client. This value should come from the persisted result of the [RegisterClient] API operation.
     /// This member is required.
     public var clientSecret: Swift.String?
-    /// The URL for the AWS access portal. For more information, see [Using the AWS access portal](https://docs.aws.amazon.com/singlesignon/latest/userguide/using-the-portal.html) in the IAM Identity Center User Guide.
+    /// The URL for the Amazon Web Services access portal. For more information, see [Using the Amazon Web Services access portal](https://docs.aws.amazon.com/singlesignon/latest/userguide/using-the-portal.html) in the IAM Identity Center User Guide.
     /// This member is required.
     public var startUrl: Swift.String?
 
@@ -1278,7 +1773,9 @@ extension UnauthorizedClientException {
 public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be unauthorized_client.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 
@@ -1342,7 +1839,9 @@ extension UnsupportedGrantTypeException {
 public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Single error code. For this exception the value will be unsupported_grant_type.
         public internal(set) var error: Swift.String? = nil
+        /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
         public internal(set) var error_description: Swift.String? = nil
     }
 

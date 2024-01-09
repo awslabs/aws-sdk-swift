@@ -2006,7 +2006,7 @@ extension GetJobOutputOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
         self.status = httpResponse.statusCode.rawValue
@@ -2773,6 +2773,7 @@ extension GlacierClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct InitiateJobInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InitiateJobInputBodyMiddleware"
 
@@ -2811,6 +2812,8 @@ public struct InitiateJobInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension InitiateJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobParameters
@@ -3035,6 +3038,7 @@ enum InitiateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -3068,13 +3072,17 @@ public struct InitiateVaultLockInputBodyMiddleware: ClientRuntime.Middleware {
             }
         } catch let err {
             throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<InitiateVaultLockInput>
     public typealias MOutput = ClientRuntime.OperationOutput<InitiateVaultLockOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension InitiateVaultLockInput: Swift.Encodable {
@@ -5607,6 +5615,7 @@ enum SetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SetVaultAccessPolicyInputBodyMiddleware"
 
@@ -5645,6 +5654,8 @@ public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware 
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SetVaultAccessPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
@@ -5733,6 +5744,7 @@ enum SetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SetVaultNotificationsInputBodyMiddleware"
 
@@ -5771,6 +5783,8 @@ public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SetVaultNotificationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case vaultNotificationConfig
@@ -5964,6 +5978,7 @@ extension GlacierClientTypes {
     }
 }
 
+<<<<<<< HEAD
 public struct UploadArchiveInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UploadArchiveInputBodyMiddleware"
 
@@ -5989,6 +6004,8 @@ public struct UploadArchiveInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UploadArchiveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body
@@ -6205,6 +6222,7 @@ extension GlacierClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UploadMultipartPartInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UploadMultipartPartInputBodyMiddleware"
 
@@ -6230,6 +6248,8 @@ public struct UploadMultipartPartInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UploadMultipartPartInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body

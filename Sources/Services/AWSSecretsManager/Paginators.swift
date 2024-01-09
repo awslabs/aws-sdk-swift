@@ -3,6 +3,32 @@
 import ClientRuntime
 
 extension SecretsManagerClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[BatchGetSecretValueOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[BatchGetSecretValueInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `BatchGetSecretValueOutput`
+    public func batchGetSecretValuePaginated(input: BatchGetSecretValueInput) -> ClientRuntime.PaginatorSequence<BatchGetSecretValueInput, BatchGetSecretValueOutput> {
+        return ClientRuntime.PaginatorSequence<BatchGetSecretValueInput, BatchGetSecretValueOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.batchGetSecretValue(input:))
+    }
+}
+
+extension BatchGetSecretValueInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> BatchGetSecretValueInput {
+        return BatchGetSecretValueInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            secretIdList: self.secretIdList
+        )}
+}
+extension SecretsManagerClient {
+>>>>>>> main
     /// Paginate over `[ListSecretsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -12,7 +38,11 @@ extension SecretsManagerClient {
     ///     - input: A `[ListSecretsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecretsOutput`
     public func listSecretsPaginated(input: ListSecretsInput) -> ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput>(input: input, inputKey: \ListSecretsInput.nextToken, outputKey: \ListSecretsOutput.nextToken, paginationFunction: self.listSecrets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecrets(input:))
+>>>>>>> main
     }
 }
 
@@ -36,7 +66,11 @@ extension SecretsManagerClient {
     ///     - input: A `[ListSecretVersionIdsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecretVersionIdsOutput`
     public func listSecretVersionIdsPaginated(input: ListSecretVersionIdsInput) -> ClientRuntime.PaginatorSequence<ListSecretVersionIdsInput, ListSecretVersionIdsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(input: input, inputKey: \ListSecretVersionIdsInput.nextToken, outputKey: \ListSecretVersionIdsOutput.nextToken, paginationFunction: self.listSecretVersionIds(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecretVersionIds(input:))
+>>>>>>> main
     }
 }
 

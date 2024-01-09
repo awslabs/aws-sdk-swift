@@ -12,7 +12,11 @@ extension PricingClient {
     ///     - input: A `[DescribeServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeServicesOutput`
     public func describeServicesPaginated(input: DescribeServicesInput) -> ClientRuntime.PaginatorSequence<DescribeServicesInput, DescribeServicesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeServicesInput, DescribeServicesOutput>(input: input, inputKey: \DescribeServicesInput.nextToken, outputKey: \DescribeServicesOutput.nextToken, paginationFunction: self.describeServices(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeServicesInput, DescribeServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeServices(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension DescribeServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeServicesInput, Output == DescribeServicesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeServicesInput, OperationStackOutput == DescribeServicesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeServicesPaginated`
     /// to access the nested member `[PricingClientTypes.Service]`
     /// - Returns: `[PricingClientTypes.Service]`
@@ -44,7 +52,11 @@ extension PricingClient {
     ///     - input: A `[GetAttributeValuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAttributeValuesOutput`
     public func getAttributeValuesPaginated(input: GetAttributeValuesInput) -> ClientRuntime.PaginatorSequence<GetAttributeValuesInput, GetAttributeValuesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetAttributeValuesInput, GetAttributeValuesOutput>(input: input, inputKey: \GetAttributeValuesInput.nextToken, outputKey: \GetAttributeValuesOutput.nextToken, paginationFunction: self.getAttributeValues(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetAttributeValuesInput, GetAttributeValuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAttributeValues(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension GetAttributeValuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetAttributeValuesInput, Output == GetAttributeValuesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetAttributeValuesInput, OperationStackOutput == GetAttributeValuesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getAttributeValuesPaginated`
     /// to access the nested member `[PricingClientTypes.AttributeValue]`
     /// - Returns: `[PricingClientTypes.AttributeValue]`
@@ -76,7 +92,11 @@ extension PricingClient {
     ///     - input: A `[GetProductsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetProductsOutput`
     public func getProductsPaginated(input: GetProductsInput) -> ClientRuntime.PaginatorSequence<GetProductsInput, GetProductsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetProductsInput, GetProductsOutput>(input: input, inputKey: \GetProductsInput.nextToken, outputKey: \GetProductsOutput.nextToken, paginationFunction: self.getProducts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetProductsInput, GetProductsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getProducts(input:))
+>>>>>>> main
     }
 }
 
@@ -91,7 +111,11 @@ extension GetProductsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetProductsInput, Output == GetProductsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetProductsInput, OperationStackOutput == GetProductsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getProductsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -109,7 +133,11 @@ extension PricingClient {
     ///     - input: A `[ListPriceListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPriceListsOutput`
     public func listPriceListsPaginated(input: ListPriceListsInput) -> ClientRuntime.PaginatorSequence<ListPriceListsInput, ListPriceListsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPriceListsInput, ListPriceListsOutput>(input: input, inputKey: \ListPriceListsInput.nextToken, outputKey: \ListPriceListsOutput.nextToken, paginationFunction: self.listPriceLists(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPriceListsInput, ListPriceListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPriceLists(input:))
+>>>>>>> main
     }
 }
 
@@ -125,7 +153,11 @@ extension ListPriceListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPriceListsInput, Output == ListPriceListsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPriceListsInput, OperationStackOutput == ListPriceListsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPriceListsPaginated`
     /// to access the nested member `[PricingClientTypes.PriceList]`
     /// - Returns: `[PricingClientTypes.PriceList]`

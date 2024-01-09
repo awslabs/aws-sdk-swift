@@ -1183,6 +1183,7 @@ extension KafkaClientTypes.ClusterInfo: Swift.Codable {
         case creationTime = "creationTime"
         case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
         case currentVersion = "currentVersion"
+        case customerActionStatus = "customerActionStatus"
         case encryptionInfo = "encryptionInfo"
         case enhancedMonitoring = "enhancedMonitoring"
         case loggingInfo = "loggingInfo"
@@ -1221,6 +1222,9 @@ extension KafkaClientTypes.ClusterInfo: Swift.Codable {
         }
         if let currentVersion = self.currentVersion {
             try encodeContainer.encode(currentVersion, forKey: .currentVersion)
+        }
+        if let customerActionStatus = self.customerActionStatus {
+            try encodeContainer.encode(customerActionStatus.rawValue, forKey: .customerActionStatus)
         }
         if let encryptionInfo = self.encryptionInfo {
             try encodeContainer.encode(encryptionInfo, forKey: .encryptionInfo)
@@ -1309,6 +1313,8 @@ extension KafkaClientTypes.ClusterInfo: Swift.Codable {
         zookeeperConnectStringTls = zookeeperConnectStringTlsDecoded
         let storageModeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.StorageMode.self, forKey: .storageMode)
         storageMode = storageModeDecoded
+        let customerActionStatusDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.CustomerActionStatus.self, forKey: .customerActionStatus)
+        customerActionStatus = customerActionStatusDecoded
     }
 }
 
@@ -1331,6 +1337,8 @@ extension KafkaClientTypes {
         public var currentBrokerSoftwareInfo: KafkaClientTypes.BrokerSoftwareInfo?
         /// The current version of the MSK cluster.
         public var currentVersion: Swift.String?
+        /// Determines if there is an action required from the customer.
+        public var customerActionStatus: KafkaClientTypes.CustomerActionStatus?
         /// Includes all encryption-related information.
         public var encryptionInfo: KafkaClientTypes.EncryptionInfo?
         /// Specifies which metrics are gathered for the MSK cluster. This property has the following possible values: DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION. For a list of the metrics associated with each of these levels of monitoring, see [Monitoring](https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html).
@@ -1361,6 +1369,7 @@ extension KafkaClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             currentBrokerSoftwareInfo: KafkaClientTypes.BrokerSoftwareInfo? = nil,
             currentVersion: Swift.String? = nil,
+            customerActionStatus: KafkaClientTypes.CustomerActionStatus? = nil,
             encryptionInfo: KafkaClientTypes.EncryptionInfo? = nil,
             enhancedMonitoring: KafkaClientTypes.EnhancedMonitoring? = nil,
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
@@ -1382,6 +1391,7 @@ extension KafkaClientTypes {
             self.creationTime = creationTime
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
             self.currentVersion = currentVersion
+            self.customerActionStatus = customerActionStatus
             self.encryptionInfo = encryptionInfo
             self.enhancedMonitoring = enhancedMonitoring
             self.loggingInfo = loggingInfo
@@ -3831,6 +3841,45 @@ enum CreateVpcConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension KafkaClientTypes {
+    /// A type of an action required from the customer.
+    public enum CustomerActionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case actionRecommended
+        case criticalActionRequired
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomerActionStatus] {
+            return [
+                .actionRecommended,
+                .criticalActionRequired,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionRecommended: return "ACTION_RECOMMENDED"
+            case .criticalActionRequired: return "CRITICAL_ACTION_REQUIRED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomerActionStatus(rawValue: rawValue) ?? CustomerActionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeleteClusterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8822,6 +8871,7 @@ extension KafkaClientTypes.Provisioned: Swift.Codable {
         case brokerNodeGroupInfo = "brokerNodeGroupInfo"
         case clientAuthentication = "clientAuthentication"
         case currentBrokerSoftwareInfo = "currentBrokerSoftwareInfo"
+        case customerActionStatus = "customerActionStatus"
         case encryptionInfo = "encryptionInfo"
         case enhancedMonitoring = "enhancedMonitoring"
         case loggingInfo = "loggingInfo"
@@ -8842,6 +8892,9 @@ extension KafkaClientTypes.Provisioned: Swift.Codable {
         }
         if let currentBrokerSoftwareInfo = self.currentBrokerSoftwareInfo {
             try encodeContainer.encode(currentBrokerSoftwareInfo, forKey: .currentBrokerSoftwareInfo)
+        }
+        if let customerActionStatus = self.customerActionStatus {
+            try encodeContainer.encode(customerActionStatus.rawValue, forKey: .customerActionStatus)
         }
         if let encryptionInfo = self.encryptionInfo {
             try encodeContainer.encode(encryptionInfo, forKey: .encryptionInfo)
@@ -8893,6 +8946,8 @@ extension KafkaClientTypes.Provisioned: Swift.Codable {
         zookeeperConnectStringTls = zookeeperConnectStringTlsDecoded
         let storageModeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.StorageMode.self, forKey: .storageMode)
         storageMode = storageModeDecoded
+        let customerActionStatusDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.CustomerActionStatus.self, forKey: .customerActionStatus)
+        customerActionStatus = customerActionStatusDecoded
     }
 }
 
@@ -8906,6 +8961,8 @@ extension KafkaClientTypes {
         public var clientAuthentication: KafkaClientTypes.ClientAuthentication?
         /// Information about the Apache Kafka version deployed on the brokers.
         public var currentBrokerSoftwareInfo: KafkaClientTypes.BrokerSoftwareInfo?
+        /// Determines if there is an action required from the customer.
+        public var customerActionStatus: KafkaClientTypes.CustomerActionStatus?
         /// Includes all encryption-related information.
         public var encryptionInfo: KafkaClientTypes.EncryptionInfo?
         /// Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
@@ -8928,6 +8985,7 @@ extension KafkaClientTypes {
             brokerNodeGroupInfo: KafkaClientTypes.BrokerNodeGroupInfo? = nil,
             clientAuthentication: KafkaClientTypes.ClientAuthentication? = nil,
             currentBrokerSoftwareInfo: KafkaClientTypes.BrokerSoftwareInfo? = nil,
+            customerActionStatus: KafkaClientTypes.CustomerActionStatus? = nil,
             encryptionInfo: KafkaClientTypes.EncryptionInfo? = nil,
             enhancedMonitoring: KafkaClientTypes.EnhancedMonitoring? = nil,
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
@@ -8941,6 +8999,7 @@ extension KafkaClientTypes {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
+            self.customerActionStatus = customerActionStatus
             self.encryptionInfo = encryptionInfo
             self.enhancedMonitoring = enhancedMonitoring
             self.loggingInfo = loggingInfo

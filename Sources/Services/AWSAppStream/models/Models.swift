@@ -12311,6 +12311,7 @@ extension AppStreamClientTypes {
         case windows
         case windowsServer2016
         case windowsServer2019
+        case windowsServer2022
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformType] {
@@ -12319,6 +12320,7 @@ extension AppStreamClientTypes {
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
+                .windowsServer2022,
                 .sdkUnknown("")
             ]
         }
@@ -12332,6 +12334,7 @@ extension AppStreamClientTypes {
             case .windows: return "WINDOWS"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
+            case .windowsServer2022: return "WINDOWS_SERVER_2022"
             case let .sdkUnknown(s): return s
             }
         }

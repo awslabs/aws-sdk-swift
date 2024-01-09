@@ -12,7 +12,11 @@ extension KeyspacesClient {
     ///     - input: A `[ListKeyspacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKeyspacesOutput`
     public func listKeyspacesPaginated(input: ListKeyspacesInput) -> ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutput>(input: input, inputKey: \ListKeyspacesInput.nextToken, outputKey: \ListKeyspacesOutput.nextToken, paginationFunction: self.listKeyspaces(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListKeyspacesInput, ListKeyspacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKeyspaces(input:))
+>>>>>>> main
     }
 }
 
@@ -24,7 +28,11 @@ extension ListKeyspacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListKeyspacesInput, Output == ListKeyspacesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListKeyspacesInput, OperationStackOutput == ListKeyspacesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listKeyspacesPaginated`
     /// to access the nested member `[KeyspacesClientTypes.KeyspaceSummary]`
     /// - Returns: `[KeyspacesClientTypes.KeyspaceSummary]`
@@ -42,7 +50,11 @@ extension KeyspacesClient {
     ///     - input: A `[ListTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
     public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTables(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +67,11 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTablesInput, OperationStackOutput == ListTablesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[KeyspacesClientTypes.TableSummary]`
     /// - Returns: `[KeyspacesClientTypes.TableSummary]`
@@ -73,7 +89,11 @@ extension KeyspacesClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+>>>>>>> main
     }
 }
 
@@ -86,7 +106,11 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[KeyspacesClientTypes.Tag]`
     /// - Returns: `[KeyspacesClientTypes.Tag]`

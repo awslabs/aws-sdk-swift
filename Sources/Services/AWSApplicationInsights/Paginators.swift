@@ -12,7 +12,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
+>>>>>>> main
     }
 }
 
@@ -34,7 +38,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutput`
     public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutput.nextToken, paginationFunction: self.listComponents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponents(input:))
+>>>>>>> main
     }
 }
 
@@ -57,7 +65,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListConfigurationHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationHistoryOutput`
     public func listConfigurationHistoryPaginated(input: ListConfigurationHistoryInput) -> ClientRuntime.PaginatorSequence<ListConfigurationHistoryInput, ListConfigurationHistoryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListConfigurationHistoryInput, ListConfigurationHistoryOutput>(input: input, inputKey: \ListConfigurationHistoryInput.nextToken, outputKey: \ListConfigurationHistoryOutput.nextToken, paginationFunction: self.listConfigurationHistory(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListConfigurationHistoryInput, ListConfigurationHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationHistory(input:))
+>>>>>>> main
     }
 }
 
@@ -83,7 +95,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListLogPatternsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLogPatternsOutput`
     public func listLogPatternsPaginated(input: ListLogPatternsInput) -> ClientRuntime.PaginatorSequence<ListLogPatternsInput, ListLogPatternsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListLogPatternsInput, ListLogPatternsOutput>(input: input, inputKey: \ListLogPatternsInput.nextToken, outputKey: \ListLogPatternsOutput.nextToken, paginationFunction: self.listLogPatterns(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListLogPatternsInput, ListLogPatternsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLogPatterns(input:))
+>>>>>>> main
     }
 }
 
@@ -107,7 +123,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListLogPatternSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLogPatternSetsOutput`
     public func listLogPatternSetsPaginated(input: ListLogPatternSetsInput) -> ClientRuntime.PaginatorSequence<ListLogPatternSetsInput, ListLogPatternSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListLogPatternSetsInput, ListLogPatternSetsOutput>(input: input, inputKey: \ListLogPatternSetsInput.nextToken, outputKey: \ListLogPatternSetsOutput.nextToken, paginationFunction: self.listLogPatternSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListLogPatternSetsInput, ListLogPatternSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLogPatternSets(input:))
+>>>>>>> main
     }
 }
 
@@ -130,7 +150,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListProblemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProblemsOutput`
     public func listProblemsPaginated(input: ListProblemsInput) -> ClientRuntime.PaginatorSequence<ListProblemsInput, ListProblemsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProblemsInput, ListProblemsOutput>(input: input, inputKey: \ListProblemsInput.nextToken, outputKey: \ListProblemsOutput.nextToken, paginationFunction: self.listProblems(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProblemsInput, ListProblemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProblems(input:))
+>>>>>>> main
     }
 }
 
@@ -157,7 +181,11 @@ extension ApplicationInsightsClient {
     ///     - input: A `[ListWorkloadsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkloadsOutput`
     public func listWorkloadsPaginated(input: ListWorkloadsInput) -> ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput>(input: input, inputKey: \ListWorkloadsInput.nextToken, outputKey: \ListWorkloadsOutput.nextToken, paginationFunction: self.listWorkloads(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListWorkloadsInput, ListWorkloadsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkloads(input:))
+>>>>>>> main
     }
 }
 

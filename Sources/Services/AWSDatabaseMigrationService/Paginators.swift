@@ -12,7 +12,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeApplicableIndividualAssessmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeApplicableIndividualAssessmentsOutput`
     public func describeApplicableIndividualAssessmentsPaginated(input: DescribeApplicableIndividualAssessmentsInput) -> ClientRuntime.PaginatorSequence<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutput>(input: input, inputKey: \DescribeApplicableIndividualAssessmentsInput.marker, outputKey: \DescribeApplicableIndividualAssessmentsOutput.marker, paginationFunction: self.describeApplicableIndividualAssessments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeApplicableIndividualAssessments(input:))
+>>>>>>> main
     }
 }
 
@@ -38,7 +42,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCertificatesOutput`
     public func describeCertificatesPaginated(input: DescribeCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput>(input: input, inputKey: \DescribeCertificatesInput.marker, outputKey: \DescribeCertificatesOutput.marker, paginationFunction: self.describeCertificates(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCertificates(input:))
+>>>>>>> main
     }
 }
 
@@ -60,7 +68,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConnectionsOutput`
     public func describeConnectionsPaginated(input: DescribeConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeConnectionsInput, DescribeConnectionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConnectionsInput, DescribeConnectionsOutput>(input: input, inputKey: \DescribeConnectionsInput.marker, outputKey: \DescribeConnectionsOutput.marker, paginationFunction: self.describeConnections(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConnectionsInput, DescribeConnectionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeConnections(input:))
+>>>>>>> main
     }
 }
 
@@ -82,7 +94,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeDataProvidersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataProvidersOutput`
     public func describeDataProvidersPaginated(input: DescribeDataProvidersInput) -> ClientRuntime.PaginatorSequence<DescribeDataProvidersInput, DescribeDataProvidersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeDataProvidersInput, DescribeDataProvidersOutput>(input: input, inputKey: \DescribeDataProvidersInput.marker, outputKey: \DescribeDataProvidersOutput.marker, paginationFunction: self.describeDataProviders(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeDataProvidersInput, DescribeDataProvidersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDataProviders(input:))
+>>>>>>> main
     }
 }
 
@@ -104,7 +120,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointsOutput`
     public func describeEndpointsPaginated(input: DescribeEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointsInput, DescribeEndpointsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEndpointsInput, DescribeEndpointsOutput>(input: input, inputKey: \DescribeEndpointsInput.marker, outputKey: \DescribeEndpointsOutput.marker, paginationFunction: self.describeEndpoints(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEndpointsInput, DescribeEndpointsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEndpoints(input:))
+>>>>>>> main
     }
 }
 
@@ -126,7 +146,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeEndpointSettingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointSettingsOutput`
     public func describeEndpointSettingsPaginated(input: DescribeEndpointSettingsInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutput>(input: input, inputKey: \DescribeEndpointSettingsInput.marker, outputKey: \DescribeEndpointSettingsOutput.marker, paginationFunction: self.describeEndpointSettings(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEndpointSettings(input:))
+>>>>>>> main
     }
 }
 
@@ -148,7 +172,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeEndpointTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointTypesOutput`
     public func describeEndpointTypesPaginated(input: DescribeEndpointTypesInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointTypesInput, DescribeEndpointTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEndpointTypesInput, DescribeEndpointTypesOutput>(input: input, inputKey: \DescribeEndpointTypesInput.marker, outputKey: \DescribeEndpointTypesOutput.marker, paginationFunction: self.describeEndpointTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEndpointTypesInput, DescribeEndpointTypesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEndpointTypes(input:))
+>>>>>>> main
     }
 }
 
@@ -170,7 +198,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineVersionsOutput`
     public func describeEngineVersionsPaginated(input: DescribeEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(input: input, inputKey: \DescribeEngineVersionsInput.marker, outputKey: \DescribeEngineVersionsOutput.marker, paginationFunction: self.describeEngineVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEngineVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -191,7 +223,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEvents(input:))
+>>>>>>> main
     }
 }
 
@@ -219,7 +255,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutput`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutput.marker, paginationFunction: self.describeEventSubscriptions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEventSubscriptions(input:))
+>>>>>>> main
     }
 }
 
@@ -242,7 +282,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeExtensionPackAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeExtensionPackAssociationsOutput`
     public func describeExtensionPackAssociationsPaginated(input: DescribeExtensionPackAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput>(input: input, inputKey: \DescribeExtensionPackAssociationsInput.marker, outputKey: \DescribeExtensionPackAssociationsOutput.marker, paginationFunction: self.describeExtensionPackAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeExtensionPackAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -265,7 +309,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeFleetAdvisorCollectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAdvisorCollectorsOutput`
     public func describeFleetAdvisorCollectorsPaginated(input: DescribeFleetAdvisorCollectorsInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutput>(input: input, inputKey: \DescribeFleetAdvisorCollectorsInput.nextToken, outputKey: \DescribeFleetAdvisorCollectorsOutput.nextToken, paginationFunction: self.describeFleetAdvisorCollectors(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetAdvisorCollectors(input:))
+>>>>>>> main
     }
 }
 
@@ -287,7 +335,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeFleetAdvisorDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAdvisorDatabasesOutput`
     public func describeFleetAdvisorDatabasesPaginated(input: DescribeFleetAdvisorDatabasesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutput>(input: input, inputKey: \DescribeFleetAdvisorDatabasesInput.nextToken, outputKey: \DescribeFleetAdvisorDatabasesOutput.nextToken, paginationFunction: self.describeFleetAdvisorDatabases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetAdvisorDatabases(input:))
+>>>>>>> main
     }
 }
 
@@ -309,7 +361,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeFleetAdvisorLsaAnalysisInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAdvisorLsaAnalysisOutput`
     public func describeFleetAdvisorLsaAnalysisPaginated(input: DescribeFleetAdvisorLsaAnalysisInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutput>(input: input, inputKey: \DescribeFleetAdvisorLsaAnalysisInput.nextToken, outputKey: \DescribeFleetAdvisorLsaAnalysisOutput.nextToken, paginationFunction: self.describeFleetAdvisorLsaAnalysis(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetAdvisorLsaAnalysis(input:))
+>>>>>>> main
     }
 }
 
@@ -330,7 +386,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeFleetAdvisorSchemaObjectSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAdvisorSchemaObjectSummaryOutput`
     public func describeFleetAdvisorSchemaObjectSummaryPaginated(input: DescribeFleetAdvisorSchemaObjectSummaryInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutput>(input: input, inputKey: \DescribeFleetAdvisorSchemaObjectSummaryInput.nextToken, outputKey: \DescribeFleetAdvisorSchemaObjectSummaryOutput.nextToken, paginationFunction: self.describeFleetAdvisorSchemaObjectSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetAdvisorSchemaObjectSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -352,7 +412,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeFleetAdvisorSchemasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAdvisorSchemasOutput`
     public func describeFleetAdvisorSchemasPaginated(input: DescribeFleetAdvisorSchemasInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutput>(input: input, inputKey: \DescribeFleetAdvisorSchemasInput.nextToken, outputKey: \DescribeFleetAdvisorSchemasOutput.nextToken, paginationFunction: self.describeFleetAdvisorSchemas(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetAdvisorSchemas(input:))
+>>>>>>> main
     }
 }
 
@@ -374,7 +438,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeInstanceProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceProfilesOutput`
     public func describeInstanceProfilesPaginated(input: DescribeInstanceProfilesInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutput>(input: input, inputKey: \DescribeInstanceProfilesInput.marker, outputKey: \DescribeInstanceProfilesOutput.marker, paginationFunction: self.describeInstanceProfiles(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeInstanceProfiles(input:))
+>>>>>>> main
     }
 }
 
@@ -396,7 +464,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeMetadataModelAssessmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelAssessmentsOutput`
     public func describeMetadataModelAssessmentsPaginated(input: DescribeMetadataModelAssessmentsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput>(input: input, inputKey: \DescribeMetadataModelAssessmentsInput.marker, outputKey: \DescribeMetadataModelAssessmentsOutput.marker, paginationFunction: self.describeMetadataModelAssessments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelAssessments(input:))
+>>>>>>> main
     }
 }
 
@@ -419,7 +491,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeMetadataModelConversionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelConversionsOutput`
     public func describeMetadataModelConversionsPaginated(input: DescribeMetadataModelConversionsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>(input: input, inputKey: \DescribeMetadataModelConversionsInput.marker, outputKey: \DescribeMetadataModelConversionsOutput.marker, paginationFunction: self.describeMetadataModelConversions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelConversions(input:))
+>>>>>>> main
     }
 }
 
@@ -442,7 +518,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeMetadataModelExportsAsScriptInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelExportsAsScriptOutput`
     public func describeMetadataModelExportsAsScriptPaginated(input: DescribeMetadataModelExportsAsScriptInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput>(input: input, inputKey: \DescribeMetadataModelExportsAsScriptInput.marker, outputKey: \DescribeMetadataModelExportsAsScriptOutput.marker, paginationFunction: self.describeMetadataModelExportsAsScript(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelExportsAsScript(input:))
+>>>>>>> main
     }
 }
 
@@ -465,7 +545,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeMetadataModelExportsToTargetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelExportsToTargetOutput`
     public func describeMetadataModelExportsToTargetPaginated(input: DescribeMetadataModelExportsToTargetInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput>(input: input, inputKey: \DescribeMetadataModelExportsToTargetInput.marker, outputKey: \DescribeMetadataModelExportsToTargetOutput.marker, paginationFunction: self.describeMetadataModelExportsToTarget(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelExportsToTarget(input:))
+>>>>>>> main
     }
 }
 
@@ -488,7 +572,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeMetadataModelImportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelImportsOutput`
     public func describeMetadataModelImportsPaginated(input: DescribeMetadataModelImportsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput>(input: input, inputKey: \DescribeMetadataModelImportsInput.marker, outputKey: \DescribeMetadataModelImportsOutput.marker, paginationFunction: self.describeMetadataModelImports(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelImports(input:))
+>>>>>>> main
     }
 }
 
@@ -511,7 +599,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeMigrationProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMigrationProjectsOutput`
     public func describeMigrationProjectsPaginated(input: DescribeMigrationProjectsInput) -> ClientRuntime.PaginatorSequence<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutput>(input: input, inputKey: \DescribeMigrationProjectsInput.marker, outputKey: \DescribeMigrationProjectsOutput.marker, paginationFunction: self.describeMigrationProjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMigrationProjects(input:))
+>>>>>>> main
     }
 }
 
@@ -533,7 +625,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeOrderableReplicationInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableReplicationInstancesOutput`
     public func describeOrderableReplicationInstancesPaginated(input: DescribeOrderableReplicationInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutput>(input: input, inputKey: \DescribeOrderableReplicationInstancesInput.marker, outputKey: \DescribeOrderableReplicationInstancesOutput.marker, paginationFunction: self.describeOrderableReplicationInstances(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOrderableReplicationInstances(input:))
+>>>>>>> main
     }
 }
 
@@ -554,7 +650,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutput`
     public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutput.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
+>>>>>>> main
     }
 }
 
@@ -577,7 +677,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeRecommendationLimitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRecommendationLimitationsOutput`
     public func describeRecommendationLimitationsPaginated(input: DescribeRecommendationLimitationsInput) -> ClientRuntime.PaginatorSequence<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutput>(input: input, inputKey: \DescribeRecommendationLimitationsInput.nextToken, outputKey: \DescribeRecommendationLimitationsOutput.nextToken, paginationFunction: self.describeRecommendationLimitations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRecommendationLimitationsInput, DescribeRecommendationLimitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRecommendationLimitations(input:))
+>>>>>>> main
     }
 }
 
@@ -599,7 +703,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRecommendationsOutput`
     public func describeRecommendationsPaginated(input: DescribeRecommendationsInput) -> ClientRuntime.PaginatorSequence<DescribeRecommendationsInput, DescribeRecommendationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRecommendationsInput, DescribeRecommendationsOutput>(input: input, inputKey: \DescribeRecommendationsInput.nextToken, outputKey: \DescribeRecommendationsOutput.nextToken, paginationFunction: self.describeRecommendations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRecommendationsInput, DescribeRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRecommendations(input:))
+>>>>>>> main
     }
 }
 
@@ -621,7 +729,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationConfigsOutput`
     public func describeReplicationConfigsPaginated(input: DescribeReplicationConfigsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationConfigsInput, DescribeReplicationConfigsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationConfigsInput, DescribeReplicationConfigsOutput>(input: input, inputKey: \DescribeReplicationConfigsInput.marker, outputKey: \DescribeReplicationConfigsOutput.marker, paginationFunction: self.describeReplicationConfigs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationConfigsInput, DescribeReplicationConfigsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationConfigs(input:))
+>>>>>>> main
     }
 }
 
@@ -643,7 +755,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationInstancesOutput`
     public func describeReplicationInstancesPaginated(input: DescribeReplicationInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>(input: input, inputKey: \DescribeReplicationInstancesInput.marker, outputKey: \DescribeReplicationInstancesOutput.marker, paginationFunction: self.describeReplicationInstances(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationInstances(input:))
+>>>>>>> main
     }
 }
 
@@ -665,7 +781,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationInstanceTaskLogsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationInstanceTaskLogsOutput`
     public func describeReplicationInstanceTaskLogsPaginated(input: DescribeReplicationInstanceTaskLogsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutput>(input: input, inputKey: \DescribeReplicationInstanceTaskLogsInput.marker, outputKey: \DescribeReplicationInstanceTaskLogsOutput.marker, paginationFunction: self.describeReplicationInstanceTaskLogs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationInstanceTaskLogs(input:))
+>>>>>>> main
     }
 }
 
@@ -687,7 +807,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationsOutput`
     public func describeReplicationsPaginated(input: DescribeReplicationsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationsInput, DescribeReplicationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationsInput, DescribeReplicationsOutput>(input: input, inputKey: \DescribeReplicationsInput.marker, outputKey: \DescribeReplicationsOutput.marker, paginationFunction: self.describeReplications(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationsInput, DescribeReplicationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplications(input:))
+>>>>>>> main
     }
 }
 
@@ -709,7 +833,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationSubnetGroupsOutput`
     public func describeReplicationSubnetGroupsPaginated(input: DescribeReplicationSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutput>(input: input, inputKey: \DescribeReplicationSubnetGroupsInput.marker, outputKey: \DescribeReplicationSubnetGroupsOutput.marker, paginationFunction: self.describeReplicationSubnetGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationSubnetGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -731,7 +859,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationTableStatisticsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationTableStatisticsOutput`
     public func describeReplicationTableStatisticsPaginated(input: DescribeReplicationTableStatisticsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationTableStatisticsInput, DescribeReplicationTableStatisticsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationTableStatisticsInput, DescribeReplicationTableStatisticsOutput>(input: input, inputKey: \DescribeReplicationTableStatisticsInput.marker, outputKey: \DescribeReplicationTableStatisticsOutput.marker, paginationFunction: self.describeReplicationTableStatistics(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationTableStatisticsInput, DescribeReplicationTableStatisticsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationTableStatistics(input:))
+>>>>>>> main
     }
 }
 
@@ -754,7 +886,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationTaskAssessmentResultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationTaskAssessmentResultsOutput`
     public func describeReplicationTaskAssessmentResultsPaginated(input: DescribeReplicationTaskAssessmentResultsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutput>(input: input, inputKey: \DescribeReplicationTaskAssessmentResultsInput.marker, outputKey: \DescribeReplicationTaskAssessmentResultsOutput.marker, paginationFunction: self.describeReplicationTaskAssessmentResults(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationTaskAssessmentResults(input:))
+>>>>>>> main
     }
 }
 
@@ -776,7 +912,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationTaskAssessmentRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationTaskAssessmentRunsOutput`
     public func describeReplicationTaskAssessmentRunsPaginated(input: DescribeReplicationTaskAssessmentRunsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutput>(input: input, inputKey: \DescribeReplicationTaskAssessmentRunsInput.marker, outputKey: \DescribeReplicationTaskAssessmentRunsOutput.marker, paginationFunction: self.describeReplicationTaskAssessmentRuns(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationTaskAssessmentRuns(input:))
+>>>>>>> main
     }
 }
 
@@ -798,7 +938,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationTaskIndividualAssessmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationTaskIndividualAssessmentsOutput`
     public func describeReplicationTaskIndividualAssessmentsPaginated(input: DescribeReplicationTaskIndividualAssessmentsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutput>(input: input, inputKey: \DescribeReplicationTaskIndividualAssessmentsInput.marker, outputKey: \DescribeReplicationTaskIndividualAssessmentsOutput.marker, paginationFunction: self.describeReplicationTaskIndividualAssessments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationTaskIndividualAssessments(input:))
+>>>>>>> main
     }
 }
 
@@ -820,7 +964,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeReplicationTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationTasksOutput`
     public func describeReplicationTasksPaginated(input: DescribeReplicationTasksInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationTasksInput, DescribeReplicationTasksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(input: input, inputKey: \DescribeReplicationTasksInput.marker, outputKey: \DescribeReplicationTasksOutput.marker, paginationFunction: self.describeReplicationTasks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeReplicationTasksInput, DescribeReplicationTasksOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationTasks(input:))
+>>>>>>> main
     }
 }
 
@@ -843,7 +991,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeSchemasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSchemasOutput`
     public func describeSchemasPaginated(input: DescribeSchemasInput) -> ClientRuntime.PaginatorSequence<DescribeSchemasInput, DescribeSchemasOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeSchemasInput, DescribeSchemasOutput>(input: input, inputKey: \DescribeSchemasInput.marker, outputKey: \DescribeSchemasOutput.marker, paginationFunction: self.describeSchemas(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeSchemasInput, DescribeSchemasOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeSchemas(input:))
+>>>>>>> main
     }
 }
 
@@ -865,7 +1017,11 @@ extension DatabaseMigrationClient {
     ///     - input: A `[DescribeTableStatisticsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTableStatisticsOutput`
     public func describeTableStatisticsPaginated(input: DescribeTableStatisticsInput) -> ClientRuntime.PaginatorSequence<DescribeTableStatisticsInput, DescribeTableStatisticsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeTableStatisticsInput, DescribeTableStatisticsOutput>(input: input, inputKey: \DescribeTableStatisticsInput.marker, outputKey: \DescribeTableStatisticsOutput.marker, paginationFunction: self.describeTableStatistics(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeTableStatisticsInput, DescribeTableStatisticsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeTableStatistics(input:))
+>>>>>>> main
     }
 }
 

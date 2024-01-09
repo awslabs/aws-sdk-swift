@@ -12,7 +12,11 @@ extension SupportClient {
     ///     - input: A `[DescribeCasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCasesOutput`
     public func describeCasesPaginated(input: DescribeCasesInput) -> ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutput>(input: input, inputKey: \DescribeCasesInput.nextToken, outputKey: \DescribeCasesOutput.nextToken, paginationFunction: self.describeCases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeCasesInput, DescribeCasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCases(input:))
+>>>>>>> main
     }
 }
 
@@ -31,7 +35,11 @@ extension DescribeCasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeCasesInput, Output == DescribeCasesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeCasesInput, OperationStackOutput == DescribeCasesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCasesPaginated`
     /// to access the nested member `[SupportClientTypes.CaseDetails]`
     /// - Returns: `[SupportClientTypes.CaseDetails]`
@@ -49,7 +57,11 @@ extension SupportClient {
     ///     - input: A `[DescribeCommunicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCommunicationsOutput`
     public func describeCommunicationsPaginated(input: DescribeCommunicationsInput) -> ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutput>(input: input, inputKey: \DescribeCommunicationsInput.nextToken, outputKey: \DescribeCommunicationsOutput.nextToken, paginationFunction: self.describeCommunications(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeCommunicationsInput, DescribeCommunicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCommunications(input:))
+>>>>>>> main
     }
 }
 
@@ -64,7 +76,11 @@ extension DescribeCommunicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeCommunicationsInput, Output == DescribeCommunicationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeCommunicationsInput, OperationStackOutput == DescribeCommunicationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCommunicationsPaginated`
     /// to access the nested member `[SupportClientTypes.Communication]`
     /// - Returns: `[SupportClientTypes.Communication]`

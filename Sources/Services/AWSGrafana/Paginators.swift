@@ -12,7 +12,11 @@ extension GrafanaClient {
     ///     - input: A `[ListVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsOutput`
     public func listVersionsPaginated(input: ListVersionsInput) -> ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \ListVersionsInput.nextToken, outputKey: \ListVersionsOutput.nextToken, paginationFunction: self.listVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListVersionsInput, ListVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListVersionsInput, Output == ListVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListVersionsInput, OperationStackOutput == ListVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listVersionsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

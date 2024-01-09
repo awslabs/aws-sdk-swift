@@ -67,6 +67,8 @@ public struct WorkSpacesWebClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
+    /// Performs the `AssociateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Associates a browser settings resource with a web portal.
     ///
     /// - Parameter AssociateBrowserSettingsInput : [no documentation found]
@@ -98,6 +100,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(id: "associateBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>())
@@ -110,10 +113,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBrowserSettingsOutput, AssociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>(id: "associateBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Associates an IP access settings resource with a web portal.
     ///
     /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
@@ -145,6 +164,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(id: "associateIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>())
@@ -157,10 +177,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateIpAccessSettingsOutput, AssociateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>(id: "associateIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateIpAccessSettingsInput, AssociateIpAccessSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Associates a network settings resource with a web portal.
     ///
     /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
@@ -192,6 +228,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(id: "associateNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>())
@@ -204,10 +241,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateNetworkSettingsOutput, AssociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>(id: "associateNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Associates a trust store with a web portal.
     ///
     /// - Parameter AssociateTrustStoreInput : [no documentation found]
@@ -238,6 +291,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateTrustStoreInput, AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(id: "associateTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput, AssociateTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>())
@@ -250,10 +304,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrustStoreOutput, AssociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateTrustStoreInput, AssociateTrustStoreOutput>(id: "associateTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateTrustStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateTrustStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrustStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrustStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateTrustStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrustStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Associates a user access logging settings resource with a web portal.
     ///
     /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
@@ -285,6 +355,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(id: "associateUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>())
@@ -297,10 +368,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserAccessLoggingSettingsOutput, AssociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>(id: "associateUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Associates a user settings resource with a web portal.
     ///
     /// - Parameter AssociateUserSettingsInput : [no documentation found]
@@ -332,6 +419,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateUserSettingsInput, AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(id: "associateUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput, AssociateUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>())
@@ -344,10 +432,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserSettingsOutput, AssociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateUserSettingsInput, AssociateUserSettingsOutput>(id: "associateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     ///
     /// - Parameter CreateBrowserSettingsInput : [no documentation found]
@@ -380,6 +484,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(id: "createBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>())
@@ -395,10 +500,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBrowserSettingsOutput, CreateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>(id: "createBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateBrowserSettingsInput, CreateBrowserSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates an identity provider resource that is then associated with a web portal.
     ///
     /// - Parameter CreateIdentityProviderInput : [no documentation found]
@@ -431,6 +555,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(id: "createIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput, CreateIdentityProviderOutputError>())
@@ -446,10 +571,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityProviderOutput, CreateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutput>(id: "createIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentityProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIdentityProviderOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateIdentityProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates an IP access settings resource that can be associated with a web portal.
     ///
     /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
@@ -481,6 +625,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(id: "createIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>())
@@ -496,10 +641,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIpAccessSettingsOutput, CreateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>(id: "createIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateIpAccessSettingsInput, CreateIpAccessSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     ///
     /// - Parameter CreateNetworkSettingsInput : [no documentation found]
@@ -531,6 +695,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(id: "createNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>())
@@ -546,10 +711,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSettingsOutput, CreateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>(id: "createNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateNetworkSettingsInput, CreateNetworkSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePortal` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates a web portal.
     ///
     /// - Parameter CreatePortalInput : [no documentation found]
@@ -582,6 +766,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePortalInput, CreatePortalOutput, CreatePortalOutputError>(id: "createPortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePortalInput, CreatePortalOutput, CreatePortalOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortalInput, CreatePortalOutput, CreatePortalOutputError>())
@@ -597,10 +782,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortalOutput, CreatePortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortalOutput, CreatePortalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortalOutput, CreatePortalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePortalInput, CreatePortalOutput>(id: "createPortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePortalInput, CreatePortalOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePortalInput, CreatePortalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePortalInput, CreatePortalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePortalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePortalInput, CreatePortalOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePortalInput, CreatePortalOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePortalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortalOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePortalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     ///
     /// - Parameter CreateTrustStoreInput : [no documentation found]
@@ -632,6 +836,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateTrustStoreInput, CreateTrustStoreOutput, CreateTrustStoreOutputError>(id: "createTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput, CreateTrustStoreOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput, CreateTrustStoreOutputError>())
@@ -647,10 +852,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustStoreOutput, CreateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateTrustStoreInput, CreateTrustStoreOutput>(id: "createTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrustStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTrustStoreInput, CreateTrustStoreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTrustStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTrustStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates a user access logging settings resource that can be associated with a web portal.
     ///
     /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
@@ -682,6 +906,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(id: "createUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>())
@@ -697,10 +922,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserAccessLoggingSettingsOutput, CreateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>(id: "createUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     ///
     /// - Parameter CreateUserSettingsInput : [no documentation found]
@@ -732,6 +976,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateUserSettingsInput, CreateUserSettingsOutput, CreateUserSettingsOutputError>(id: "createUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput, CreateUserSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput, CreateUserSettingsOutputError>())
@@ -747,10 +992,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserSettingsOutput, CreateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateUserSettingsInput, CreateUserSettingsOutput>(id: "createUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUserSettingsInput, CreateUserSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes browser settings.
     ///
     /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
@@ -781,6 +1045,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(id: "deleteBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>())
@@ -792,10 +1057,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBrowserSettingsOutput, DeleteBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>(id: "deleteBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes the identity provider.
     ///
     /// - Parameter DeleteIdentityProviderInput : [no documentation found]
@@ -826,6 +1106,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(id: "deleteIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
@@ -837,10 +1118,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityProviderOutput, DeleteIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(id: "deleteIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentityProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIdentityProviderOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteIdentityProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes IP access settings.
     ///
     /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
@@ -871,6 +1167,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(id: "deleteIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>())
@@ -882,10 +1179,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIpAccessSettingsOutput, DeleteIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>(id: "deleteIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIpAccessSettingsInput, DeleteIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes network settings.
     ///
     /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
@@ -916,6 +1228,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(id: "deleteNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>())
@@ -927,10 +1240,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSettingsOutput, DeleteNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>(id: "deleteNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePortal` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes a web portal.
     ///
     /// - Parameter DeletePortalInput : [no documentation found]
@@ -961,6 +1289,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePortalInput, DeletePortalOutput, DeletePortalOutputError>(id: "deletePortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortalInput, DeletePortalOutput, DeletePortalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutput>())
@@ -972,10 +1301,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortalOutput, DeletePortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortalOutput, DeletePortalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortalOutput, DeletePortalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePortalInput, DeletePortalOutput>(id: "deletePortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortalInput, DeletePortalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePortalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePortalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortalOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePortalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes the trust store.
     ///
     /// - Parameter DeleteTrustStoreInput : [no documentation found]
@@ -1006,6 +1350,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteTrustStoreInput, DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(id: "deleteTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput, DeleteTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>())
@@ -1017,10 +1362,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustStoreOutput, DeleteTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteTrustStoreInput, DeleteTrustStoreOutput>(id: "deleteTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrustStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTrustStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTrustStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes user access logging settings.
     ///
     /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
@@ -1051,6 +1411,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(id: "deleteUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>())
@@ -1062,10 +1423,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserAccessLoggingSettingsOutput, DeleteUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>(id: "deleteUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Deletes user settings.
     ///
     /// - Parameter DeleteUserSettingsInput : [no documentation found]
@@ -1096,6 +1472,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteUserSettingsInput, DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(id: "deleteUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput, DeleteUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput>())
@@ -1107,10 +1484,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserSettingsOutput, DeleteUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteUserSettingsInput, DeleteUserSettingsOutput>(id: "deleteUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Disassociates browser settings from a web portal.
     ///
     /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
@@ -1141,6 +1533,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(id: "disassociateBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>())
@@ -1152,10 +1545,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBrowserSettingsOutput, DisassociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>(id: "disassociateBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Disassociates IP access settings from a web portal.
     ///
     /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
@@ -1186,6 +1594,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(id: "disassociateIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>())
@@ -1197,10 +1606,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateIpAccessSettingsOutput, DisassociateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>(id: "disassociateIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateIpAccessSettingsInput, DisassociateIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Disassociates network settings from a web portal.
     ///
     /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
@@ -1231,6 +1655,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(id: "disassociateNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>())
@@ -1242,10 +1667,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateNetworkSettingsOutput, DisassociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>(id: "disassociateNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Disassociates a trust store from a web portal.
     ///
     /// - Parameter DisassociateTrustStoreInput : [no documentation found]
@@ -1276,6 +1716,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateTrustStoreInput, DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(id: "disassociateTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>())
@@ -1287,10 +1728,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrustStoreOutput, DisassociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>(id: "disassociateTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateTrustStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateTrustStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrustStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrustStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateTrustStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrustStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Disassociates user access logging settings from a web portal.
     ///
     /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
@@ -1321,6 +1777,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(id: "disassociateUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>())
@@ -1332,10 +1789,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserAccessLoggingSettingsOutput, DisassociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>(id: "disassociateUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Disassociates user settings from a web portal.
     ///
     /// - Parameter DisassociateUserSettingsInput : [no documentation found]
@@ -1366,6 +1838,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateUserSettingsInput, DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(id: "disassociateUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>())
@@ -1377,10 +1850,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserSettingsOutput, DisassociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>(id: "disassociateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets browser settings.
     ///
     /// - Parameter GetBrowserSettingsInput : [no documentation found]
@@ -1411,6 +1899,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetBrowserSettingsInput, GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(id: "getBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput, GetBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput>())
@@ -1422,10 +1911,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBrowserSettingsOutput, GetBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetBrowserSettingsInput, GetBrowserSettingsOutput>(id: "getBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the identity provider.
     ///
     /// - Parameter GetIdentityProviderInput : [no documentation found]
@@ -1456,6 +1960,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetIdentityProviderInput, GetIdentityProviderOutput, GetIdentityProviderOutputError>(id: "getIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput, GetIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput>())
@@ -1467,10 +1972,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityProviderOutput, GetIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetIdentityProviderInput, GetIdentityProviderOutput>(id: "getIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderInput, GetIdentityProviderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentityProviderOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetIdentityProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the IP access settings.
     ///
     /// - Parameter GetIpAccessSettingsInput : [no documentation found]
@@ -1501,6 +2021,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetIpAccessSettingsInput, GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(id: "getIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>())
@@ -1512,10 +2033,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIpAccessSettingsOutput, GetIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>(id: "getIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIpAccessSettingsInput, GetIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the network settings.
     ///
     /// - Parameter GetNetworkSettingsInput : [no documentation found]
@@ -1546,6 +2082,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetNetworkSettingsInput, GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(id: "getNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput, GetNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput>())
@@ -1557,10 +2094,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSettingsOutput, GetNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetNetworkSettingsInput, GetNetworkSettingsOutput>(id: "getNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPortal` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the web portal.
     ///
     /// - Parameter GetPortalInput : [no documentation found]
@@ -1591,6 +2143,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPortalInput, GetPortalOutput, GetPortalOutputError>(id: "getPortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalInput, GetPortalOutput, GetPortalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutput>())
@@ -1602,10 +2155,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalOutput, GetPortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalOutput, GetPortalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalOutput, GetPortalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPortalInput, GetPortalOutput>(id: "getPortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalInput, GetPortalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPortalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPortalServiceProviderMetadata` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the service provider metadata.
     ///
     /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
@@ -1636,6 +2204,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(id: "getPortalServiceProviderMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>())
@@ -1647,10 +2216,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalServiceProviderMetadataOutput, GetPortalServiceProviderMetadataOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>(id: "getPortalServiceProviderMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPortalServiceProviderMetadataOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPortalServiceProviderMetadataOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalServiceProviderMetadataOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalServiceProviderMetadataOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPortalServiceProviderMetadataOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalServiceProviderMetadataOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the trust store.
     ///
     /// - Parameter GetTrustStoreInput : [no documentation found]
@@ -1681,6 +2265,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetTrustStoreInput, GetTrustStoreOutput, GetTrustStoreOutputError>(id: "getTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreInput, GetTrustStoreOutput, GetTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutput>())
@@ -1692,10 +2277,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreOutput, GetTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreOutput, GetTrustStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreOutput, GetTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetTrustStoreInput, GetTrustStoreOutput>(id: "getTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreInput, GetTrustStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTrustStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetTrustStoreCertificate` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets the trust store certificate.
     ///
     /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
@@ -1726,6 +2326,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(id: "getTrustStoreCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>())
@@ -1738,10 +2339,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreCertificateOutput, GetTrustStoreCertificateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>(id: "getTrustStoreCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrustStoreCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTrustStoreCertificateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTrustStoreCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreCertificateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets user access logging settings.
     ///
     /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
@@ -1772,6 +2389,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(id: "getUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>())
@@ -1783,10 +2401,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserAccessLoggingSettingsOutput, GetUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>(id: "getUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Gets user settings.
     ///
     /// - Parameter GetUserSettingsInput : [no documentation found]
@@ -1817,6 +2450,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutput, GetUserSettingsOutputError>(id: "getUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutput, GetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
@@ -1828,10 +2462,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutput, GetUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutput>(id: "getUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of browser settings.
     ///
     /// - Parameter ListBrowserSettingsInput : [no documentation found]
@@ -1861,6 +2510,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListBrowserSettingsInput, ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(id: "listBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput, ListBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>())
@@ -1873,10 +2523,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBrowserSettingsOutput, ListBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListBrowserSettingsInput, ListBrowserSettingsOutput>(id: "listBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListIdentityProviders` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of identity providers for a specific web portal.
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
@@ -1906,6 +2572,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput, ListIdentityProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
@@ -1918,10 +2585,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutput, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutput>(id: "listIdentityProviders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProvidersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProvidersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListIdentityProvidersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of IP access settings.
     ///
     /// - Parameter ListIpAccessSettingsInput : [no documentation found]
@@ -1951,6 +2634,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListIpAccessSettingsInput, ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(id: "listIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>())
@@ -1963,10 +2647,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpAccessSettingsOutput, ListIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>(id: "listIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIpAccessSettingsInput, ListIpAccessSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of network settings.
     ///
     /// - Parameter ListNetworkSettingsInput : [no documentation found]
@@ -1996,6 +2696,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListNetworkSettingsInput, ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(id: "listNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput, ListNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>())
@@ -2008,10 +2709,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSettingsOutput, ListNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListNetworkSettingsInput, ListNetworkSettingsOutput>(id: "listNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPortals` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list or web portals.
     ///
     /// - Parameter ListPortalsInput : [no documentation found]
@@ -2041,6 +2758,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPortalsInput, ListPortalsOutput, ListPortalsOutputError>(id: "listPortals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortalsInput, ListPortalsOutput, ListPortalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortalsInput, ListPortalsOutput>())
@@ -2053,10 +2771,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortalsOutput, ListPortalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortalsOutput, ListPortalsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortalsOutput, ListPortalsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPortalsInput, ListPortalsOutput>(id: "listPortals")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortalsInput, ListPortalsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortalsInput, ListPortalsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPortalsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPortalsInput, ListPortalsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPortalsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortalsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortalsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPortalsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortalsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -2087,6 +2821,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2098,10 +2833,25 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTrustStoreCertificates` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of trust store certificates.
     ///
     /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
@@ -2132,6 +2882,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(id: "listTrustStoreCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>())
@@ -2144,10 +2895,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoreCertificatesOutput, ListTrustStoreCertificatesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>(id: "listTrustStoreCertificates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustStoreCertificatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustStoreCertificatesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoreCertificatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoreCertificatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrustStoreCertificatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoreCertificatesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTrustStores` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of trust stores.
     ///
     /// - Parameter ListTrustStoresInput : [no documentation found]
@@ -2177,6 +2944,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTrustStoresInput, ListTrustStoresOutput, ListTrustStoresOutputError>(id: "listTrustStores")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoresInput, ListTrustStoresOutput, ListTrustStoresOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
@@ -2189,10 +2957,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoresOutput, ListTrustStoresOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoresOutput, ListTrustStoresOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoresOutput, ListTrustStoresOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTrustStoresInput, ListTrustStoresOutput>(id: "listTrustStores")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrustStoresOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTrustStoresInput, ListTrustStoresOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTrustStoresOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoresOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoresOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTrustStoresOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoresOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of user access logging settings.
     ///
     /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
@@ -2222,6 +3006,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(id: "listUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>())
@@ -2234,10 +3019,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAccessLoggingSettingsOutput, ListUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>(id: "listUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Retrieves a list of user settings.
     ///
     /// - Parameter ListUserSettingsInput : [no documentation found]
@@ -2267,6 +3068,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListUserSettingsInput, ListUserSettingsOutput, ListUserSettingsOutputError>(id: "listUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserSettingsInput, ListUserSettingsOutput, ListUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserSettingsInput, ListUserSettingsOutput>())
@@ -2279,10 +3081,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserSettingsOutput, ListUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserSettingsOutput, ListUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserSettingsOutput, ListUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListUserSettingsInput, ListUserSettingsOutput>(id: "listUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserSettingsInput, ListUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserSettingsInput, ListUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUserSettingsInput, ListUserSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Adds or overwrites one or more tags for the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -2314,6 +3132,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
@@ -2329,10 +3148,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<TagResourceInput, TagResourceOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -2363,6 +3201,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -2375,10 +3214,26 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates browser settings.
     ///
     /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
@@ -2409,6 +3264,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(id: "updateBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>())
@@ -2424,10 +3280,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBrowserSettingsOutput, UpdateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>(id: "updateBrowserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBrowserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBrowserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBrowserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBrowserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateBrowserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBrowserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates the identity provider.
     ///
     /// - Parameter UpdateIdentityProviderInput : [no documentation found]
@@ -2458,6 +3333,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(id: "updateIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>())
@@ -2473,10 +3349,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderOutput, UpdateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(id: "updateIdentityProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIdentityProviderOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateIdentityProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates IP access settings.
     ///
     /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
@@ -2507,6 +3402,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(id: "updateIpAccessSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>())
@@ -2522,10 +3418,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIpAccessSettingsOutput, UpdateIpAccessSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>(id: "updateIpAccessSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIpAccessSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateIpAccessSettingsInput, UpdateIpAccessSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIpAccessSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIpAccessSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIpAccessSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateIpAccessSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIpAccessSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates network settings.
     ///
     /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
@@ -2556,6 +3471,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(id: "updateNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>())
@@ -2571,10 +3487,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSettingsOutput, UpdateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>(id: "updateNetworkSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateNetworkSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePortal` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates a web portal.
     ///
     /// - Parameter UpdatePortalInput : [no documentation found]
@@ -2606,6 +3541,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePortalInput, UpdatePortalOutput, UpdatePortalOutputError>(id: "updatePortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortalInput, UpdatePortalOutput, UpdatePortalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortalInput, UpdatePortalOutput>())
@@ -2620,10 +3556,28 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortalOutput, UpdatePortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortalOutput, UpdatePortalOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortalOutput, UpdatePortalOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePortalInput, UpdatePortalOutput>(id: "updatePortal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortalInput, UpdatePortalOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortalInput, UpdatePortalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePortalOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePortalInput, UpdatePortalOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePortalInput, UpdatePortalOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePortalOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortalOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortalOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePortalOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortalOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateTrustStore` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates the trust store.
     ///
     /// - Parameter UpdateTrustStoreInput : [no documentation found]
@@ -2655,6 +3609,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateTrustStoreInput, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(id: "updateTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput, UpdateTrustStoreOutputError>())
@@ -2670,10 +3625,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustStoreOutput, UpdateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateTrustStoreInput, UpdateTrustStoreOutput>(id: "updateTrustStore")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrustStoreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTrustStoreInput, UpdateTrustStoreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTrustStoreOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustStoreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateTrustStoreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustStoreOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates the user access logging settings.
     ///
     /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
@@ -2704,6 +3678,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(id: "updateUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>())
@@ -2719,10 +3694,29 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserAccessLoggingSettingsOutput, UpdateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>(id: "updateUserAccessLoggingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserAccessLoggingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserAccessLoggingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserAccessLoggingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserAccessLoggingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserAccessLoggingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserAccessLoggingSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateUserSettings` operation on the `AWSErmineControlPlaneService` service.
+    ///
     /// Updates the user settings.
     ///
     /// - Parameter UpdateUserSettingsInput : [no documentation found]
@@ -2753,6 +3747,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(id: "updateUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(keyPath: \.clientToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>())
@@ -2768,6 +3763,23 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutput>(id: "updateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

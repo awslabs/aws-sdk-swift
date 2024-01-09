@@ -5,6 +5,8 @@ import ClientRuntime
 /// Most of these APIs are no longer supported and will not be updated. We recommend using the latest versions in the [Amazon Chime SDK API reference](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/welcome.html), in the Amazon Chime SDK. Using the latest versions requires migrating to dedicated namespaces. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. The Amazon Chime application programming interface (API) is designed so administrators can perform key tasks, such as creating and managing Amazon Chime accounts, users, and Voice Connectors. This guide provides detailed information about the Amazon Chime API, including operations, types, inputs and outputs, and error codes. You can use an AWS SDK, the AWS Command Line Interface (AWS CLI), or the REST API to make API calls for Amazon Chime. We recommend using an AWS SDK or the AWS CLI. The page for each API action contains a See Also section that includes links to information about using the action with a language-specific AWS SDK or the AWS CLI. Using an AWS SDK You don't need to write code to calculate a signature for request authentication. The SDK clients authenticate your requests by using access keys that you provide. For more information about AWS SDKs, see the [AWS Developer Center](http://aws.amazon.com/developer/). Using the AWS CLI Use your access keys with the AWS CLI to make API calls. For information about setting up the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the AWS Command Line Interface User Guide. For a list of available Amazon Chime commands, see the [Amazon Chime commands](https://docs.aws.amazon.com/cli/latest/reference/chime/index.html) in the AWS CLI Command Reference. Using REST APIs If you use REST to make API calls, you must authenticate your request by providing a signature. Amazon Chime supports Signature Version 4. For more information, see [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) in the Amazon Web Services General Reference. When making REST API calls, use the service name chime and REST endpoint https://service.chime.aws.amazon.com. Administrative permissions are controlled using AWS Identity and Access Management (IAM). For more information, see [Identity and Access Management for Amazon Chime](https://docs.aws.amazon.com/chime/latest/ag/security-iam.html) in the Amazon Chime Administration Guide.
 @available(*, deprecated, message: "This namespace has been deprecated")
 public protocol ChimeClientProtocol {
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -24,6 +26,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func associatePhoneNumbersWithVoiceConnector(input: AssociatePhoneNumbersWithVoiceConnectorInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Associates phone numbers with the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -43,6 +50,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func associatePhoneNumbersWithVoiceConnectorGroup(input: AssociatePhoneNumbersWithVoiceConnectorGroupInput) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociatePhoneNumberWithUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Associates a phone number with the specified Amazon Chime user.
     ///
     /// - Parameter AssociatePhoneNumberWithUserInput : [no documentation found]
@@ -61,6 +73,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func associatePhoneNumberWithUser(input: AssociatePhoneNumberWithUserInput) async throws -> AssociatePhoneNumberWithUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateSigninDelegateGroupsWithAccount` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Associates the specified sign-in delegate groups with the specified Amazon Chime account.
     ///
     /// - Parameter AssociateSigninDelegateGroupsWithAccountInput : [no documentation found]
@@ -78,6 +95,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func associateSigninDelegateGroupsWithAccount(input: AssociateSigninDelegateGroupsWithAccountInput) async throws -> AssociateSigninDelegateGroupsWithAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchCreateAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_BatchCreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by BatchCreateAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -97,6 +119,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchCreateAttendee(input: BatchCreateAttendeeInput) async throws -> BatchCreateAttendeeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchCreateChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds a specified number of users to a channel. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_BatchCreateChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by BatchCreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -114,6 +141,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchCreateChannelMembership(input: BatchCreateChannelMembershipInput) async throws -> BatchCreateChannelMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchCreateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
     /// - Parameter BatchCreateRoomMembershipInput : [no documentation found]
@@ -131,6 +163,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchCreateRoomMembership(input: BatchCreateRoomMembershipInput) async throws -> BatchCreateRoomMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchDeletePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
     /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
@@ -148,6 +185,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchDeletePhoneNumber(input: BatchDeletePhoneNumberInput) async throws -> BatchDeletePhoneNumberOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchSuspendUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the [InviteUsers] action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the [BatchUnsuspendUser] action. To sign out users without suspending them, use the [LogoutUser] action.
     ///
     /// - Parameter BatchSuspendUserInput : [no documentation found]
@@ -165,6 +207,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchSuspendUser(input: BatchSuspendUserInput) async throws -> BatchSuspendUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchUnsuspendUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see [ Managing Your Amazon Chime Accounts ](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the account types, in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     ///
     /// - Parameter BatchUnsuspendUserInput : [no documentation found]
@@ -182,6 +229,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchUnsuspendUser(input: BatchUnsuspendUserInput) async throws -> BatchUnsuspendUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchUpdatePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
     /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
@@ -199,6 +251,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchUpdatePhoneNumber(input: BatchUpdatePhoneNumberInput) async throws -> BatchUpdatePhoneNumberOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchUpdateUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates user details within the [UpdateUserRequestItem] object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
     ///
     /// - Parameter BatchUpdateUserInput : [no documentation found]
@@ -216,6 +273,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func batchUpdateUser(input: BatchUpdateUserInput) async throws -> BatchUpdateUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAccount` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter CreateAccountInput : [no documentation found]
@@ -233,6 +295,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAccount(input: CreateAccountInput) async throws -> CreateAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -252,6 +319,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstance(input: CreateAppInstanceInput) async throws -> CreateAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     ///
     /// * ChannelModerator actions across all channels in the AppInstance.
@@ -278,6 +350,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstanceAdmin(input: CreateAppInstanceAdminInput) async throws -> CreateAppInstanceAdminOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -297,6 +374,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstanceUser(input: CreateAppInstanceUserInput) async throws -> CreateAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -316,6 +398,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAttendee(input: CreateAttendeeInput) async throws -> CreateAttendeeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBot` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a bot for an Amazon Chime Enterprise account.
     ///
     /// - Parameter CreateBotInput : [no documentation found]
@@ -334,6 +421,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createBot(input: CreateBotInput) async throws -> CreateBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateChannel` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -353,6 +445,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateChannelBan` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateChannelBan in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -372,6 +469,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createChannelBan(input: CreateChannelBanInput) async throws -> CreateChannelBanOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:
     ///
     /// * List messages
@@ -411,6 +513,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createChannelMembership(input: CreateChannelMembershipInput) async throws -> CreateChannelMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateChannelModerator` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a new ChannelModerator. A channel moderator can:
     ///
     /// * Add and remove other members of the channel.
@@ -443,6 +550,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createChannelModerator(input: CreateChannelModeratorInput) async throws -> CreateChannelModeratorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_CreateMediaCapturePipeline), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -461,6 +573,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaCapturePipeline(input: CreateMediaCapturePipelineInput) async throws -> CreateMediaCapturePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMeeting in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -479,6 +596,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMeeting(input: CreateMeetingInput) async throws -> CreateMeetingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMeetingDialOut` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. This API is is not available in a dedicated namespace.
     ///
     /// - Parameter CreateMeetingDialOutInput : [no documentation found]
@@ -497,6 +619,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMeetingDialOut(input: CreateMeetingDialOutInput) async throws -> CreateMeetingDialOutOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMeetingWithAttendees` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide . This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeetingWithAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeetingWithAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMeetingWithAttendees in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -515,6 +642,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMeetingWithAttendees(input: CreateMeetingWithAttendeesInput) async throws -> CreateMeetingWithAttendeesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePhoneNumberOrder` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
     ///
     /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
@@ -533,6 +665,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createPhoneNumberOrder(input: CreatePhoneNumberOrderInput) async throws -> CreatePhoneNumberOrderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -551,6 +688,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createProxySession(input: CreateProxySessionInput) async throws -> CreateProxySessionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRoom` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a chat room for the specified Amazon Chime Enterprise account.
     ///
     /// - Parameter CreateRoomInput : [no documentation found]
@@ -569,6 +711,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
     /// - Parameter CreateRoomMembershipInput : [no documentation found]
@@ -588,6 +735,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createRoomMembership(input: CreateRoomMembershipInput) async throws -> CreateRoomMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -608,6 +760,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createSipMediaApplication(input: CreateSipMediaApplicationInput) async throws -> CreateSipMediaApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSipMediaApplicationCall` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     ///
@@ -627,6 +784,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createSipMediaApplicationCall(input: CreateSipMediaApplicationCallInput) async throws -> CreateSipMediaApplicationCallOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -647,6 +809,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createSipRule(input: CreateSipRuleInput) async throws -> CreateSipRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates a user under the specified Amazon Chime account.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -665,6 +832,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling [CreateVoiceConnectorRequest$RequireEncryption] configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -684,6 +856,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createVoiceConnector(input: CreateVoiceConnectorInput) async throws -> CreateVoiceConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -703,6 +880,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createVoiceConnectorGroup(input: CreateVoiceConnectorGroupInput) async throws -> CreateVoiceConnectorGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAccount` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the [BatchSuspendUser] action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
     ///
     /// - Parameter DeleteAccountInput : [no documentation found]
@@ -721,6 +903,11 @@ public protocol ChimeClientProtocol {
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
     func deleteAccount(input: DeleteAccountInput) async throws -> DeleteAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes an AppInstance and all associated data asynchronously. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -738,6 +925,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstance(input: DeleteAppInstanceInput) async throws -> DeleteAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     ///
@@ -756,6 +948,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput) async throws -> DeleteAppInstanceAdminOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -774,6 +971,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstanceStreamingConfigurations(input: DeleteAppInstanceStreamingConfigurationsInput) async throws -> DeleteAppInstanceStreamingConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -791,6 +993,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstanceUser(input: DeleteAppInstanceUserInput) async throws -> DeleteAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -809,6 +1016,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAttendee(input: DeleteAttendeeInput) async throws -> DeleteAttendeeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteChannel` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -826,6 +1038,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteChannelBan` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Removes a user from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelBan in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -843,6 +1060,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteChannelBan(input: DeleteChannelBanInput) async throws -> DeleteChannelBanOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelMembership in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -861,6 +1083,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteChannelMembership(input: DeleteChannelMembershipInput) async throws -> DeleteChannelMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -878,6 +1105,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteChannelMessage(input: DeleteChannelMessageInput) async throws -> DeleteChannelMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteChannelModerator` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelModerator in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -895,6 +1127,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteChannelModerator(input: DeleteChannelModeratorInput) async throws -> DeleteChannelModeratorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the events configuration that allows a bot to receive outgoing events.
     ///
     /// - Parameter DeleteEventsConfigurationInput : [no documentation found]
@@ -911,6 +1148,11 @@ public protocol ChimeClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteEventsConfiguration(input: DeleteEventsConfigurationInput) async throws -> DeleteEventsConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_DeleteMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -929,6 +1171,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaCapturePipeline(input: DeleteMediaCapturePipelineInput) async throws -> DeleteMediaCapturePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteMeeting in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -947,6 +1194,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMeeting(input: DeleteMeetingInput) async throws -> DeleteMeetingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
     /// - Parameter DeletePhoneNumberInput : [no documentation found]
@@ -964,6 +1216,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deletePhoneNumber(input: DeletePhoneNumberInput) async throws -> DeletePhoneNumberOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -982,6 +1239,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteProxySession(input: DeleteProxySessionInput) async throws -> DeleteProxySessionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRoom` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes a chat room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter DeleteRoomInput : [no documentation found]
@@ -999,6 +1261,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Removes a member from a chat room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter DeleteRoomMembershipInput : [no documentation found]
@@ -1016,6 +1283,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteRoomMembership(input: DeleteRoomMembershipInput) async throws -> DeleteRoomMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1035,6 +1307,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteSipMediaApplication(input: DeleteSipMediaApplicationInput) async throws -> DeleteSipMediaApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes a SIP rule. You must disable a SIP rule before you can delete it. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1054,6 +1331,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteSipRule(input: DeleteSipRuleInput) async throws -> DeleteSipRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1073,6 +1355,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnector(input: DeleteVoiceConnectorInput) async throws -> DeleteVoiceConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1091,6 +1378,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorEmergencyCallingConfiguration(input: DeleteVoiceConnectorEmergencyCallingConfigurationInput) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1110,6 +1402,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorGroup(input: DeleteVoiceConnectorGroupInput) async throws -> DeleteVoiceConnectorGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1128,6 +1425,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorOrigination(input: DeleteVoiceConnectorOriginationInput) async throws -> DeleteVoiceConnectorOriginationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1146,6 +1448,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorProxy(input: DeleteVoiceConnectorProxyInput) async throws -> DeleteVoiceConnectorProxyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1164,6 +1471,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorStreamingConfiguration(input: DeleteVoiceConnectorStreamingConfigurationInput) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1182,6 +1494,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorTermination(input: DeleteVoiceConnectorTerminationInput) async throws -> DeleteVoiceConnectorTerminationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1200,6 +1517,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteVoiceConnectorTerminationCredentials(input: DeleteVoiceConnectorTerminationCredentialsInput) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -1217,6 +1539,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstance(input: DescribeAppInstanceInput) async throws -> DescribeAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstanceAdmin. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     ///
@@ -1234,6 +1561,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstanceAdmin(input: DescribeAppInstanceAdminInput) async throws -> DescribeAppInstanceAdminOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -1251,6 +1583,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstanceUser(input: DescribeAppInstanceUserInput) async throws -> DescribeAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeChannel` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1268,6 +1605,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeChannelBan` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelBan in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1286,6 +1628,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeChannelBan(input: DescribeChannelBanInput) async throws -> DescribeChannelBanOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelMembership in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1304,6 +1651,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeChannelMembership(input: DescribeChannelMembershipInput) async throws -> DescribeChannelMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeChannelMembershipForAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the details of a channel based on the membership of the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembershipForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembershipForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelMembershipForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1321,6 +1673,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeChannelMembershipForAppInstanceUser(input: DescribeChannelMembershipForAppInstanceUserInput) async throws -> DescribeChannelMembershipForAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeChannelModeratedByAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of a channel moderated by the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1338,6 +1695,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeChannelModeratedByAppInstanceUser(input: DescribeChannelModeratedByAppInstanceUserInput) async throws -> DescribeChannelModeratedByAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeChannelModerator` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelModerator in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1356,6 +1718,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeChannelModerator(input: DescribeChannelModeratorInput) async throws -> DescribeChannelModeratorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociatePhoneNumberFromUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Disassociates the primary provisioned phone number from the specified Amazon Chime user.
     ///
     /// - Parameter DisassociatePhoneNumberFromUserInput : [no documentation found]
@@ -1373,6 +1740,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func disassociatePhoneNumberFromUser(input: DisassociatePhoneNumberFromUserInput) async throws -> DisassociatePhoneNumberFromUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1391,6 +1763,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func disassociatePhoneNumbersFromVoiceConnector(input: DisassociatePhoneNumbersFromVoiceConnectorInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1409,6 +1786,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func disassociatePhoneNumbersFromVoiceConnectorGroup(input: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateSigninDelegateGroupsFromAccount` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
     ///
     /// - Parameter DisassociateSigninDelegateGroupsFromAccountInput : [no documentation found]
@@ -1426,6 +1808,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func disassociateSigninDelegateGroupsFromAccount(input: DisassociateSigninDelegateGroupsFromAccountInput) async throws -> DisassociateSigninDelegateGroupsFromAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAccount` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
     ///
     /// - Parameter GetAccountInput : [no documentation found]
@@ -1443,6 +1830,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAccountSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
@@ -1460,6 +1852,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppInstanceRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the retention settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_GetAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     ///
@@ -1478,6 +1875,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getAppInstanceRetentionSettings(input: GetAppInstanceRetentionSettingsInput) async throws -> GetAppInstanceRetentionSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the streaming settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1496,6 +1898,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getAppInstanceStreamingConfigurations(input: GetAppInstanceStreamingConfigurationsInput) async throws -> GetAppInstanceStreamingConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -1514,6 +1921,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getAttendee(input: GetAttendeeInput) async throws -> GetAttendeeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBot` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
     ///
     /// - Parameter GetBotInput : [no documentation found]
@@ -1531,6 +1943,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getBot(input: GetBotInput) async throws -> GetBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1549,6 +1966,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getChannelMessage(input: GetChannelMessageInput) async throws -> GetChannelMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
     ///
     /// - Parameter GetEventsConfigurationInput : [no documentation found]
@@ -1566,6 +1988,11 @@ public protocol ChimeClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getEventsConfiguration(input: GetEventsConfigurationInput) async throws -> GetEventsConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGlobalSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
     /// - Parameter GetGlobalSettingsInput : [no documentation found]
@@ -1582,6 +2009,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets an existing media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_GetMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -1600,6 +2032,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaCapturePipeline(input: GetMediaCapturePipelineInput) async throws -> GetMediaCapturePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     @available(*, deprecated, message: "Replaced by GetMeeting in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -1618,6 +2055,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMeeting(input: GetMeetingInput) async throws -> GetMeetingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMessagingSessionEndpoint` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// The details of the endpoint for the messaging session. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingSessionEndpoint](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingSessionEndpoint.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetMessagingSessionEndpoint in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1634,6 +2076,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMessagingSessionEndpoint(input: GetMessagingSessionEndpointInput) async throws -> GetMessagingSessionEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
     /// - Parameter GetPhoneNumberInput : [no documentation found]
@@ -1651,6 +2098,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getPhoneNumber(input: GetPhoneNumberInput) async throws -> GetPhoneNumberOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPhoneNumberOrder` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
     /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
@@ -1668,6 +2120,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getPhoneNumberOrder(input: GetPhoneNumberOrderInput) async throws -> GetPhoneNumberOrderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPhoneNumberSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
     /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
@@ -1684,6 +2141,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getPhoneNumberSettings(input: GetPhoneNumberSettingsInput) async throws -> GetPhoneNumberSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1702,6 +2164,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getProxySession(input: GetProxySessionInput) async throws -> GetProxySessionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter GetRetentionSettingsInput : [no documentation found]
@@ -1719,6 +2186,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getRetentionSettings(input: GetRetentionSettingsInput) async throws -> GetRetentionSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRoom` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter GetRoomInput : [no documentation found]
@@ -1736,6 +2208,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getRoom(input: GetRoomInput) async throws -> GetRoomOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1754,6 +2231,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getSipMediaApplication(input: GetSipMediaApplicationInput) async throws -> GetSipMediaApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1772,6 +2254,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getSipMediaApplicationLoggingConfiguration(input: GetSipMediaApplicationLoggingConfigurationInput) async throws -> GetSipMediaApplicationLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1790,6 +2277,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getSipRule(input: GetSipRuleInput) async throws -> GetSipRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the [ListUsers] action, and then filter by email address.
     ///
     /// - Parameter GetUserInput : [no documentation found]
@@ -1807,6 +2299,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getUser(input: GetUserInput) async throws -> GetUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetUserSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves settings for the specified user ID, such as any associated phone number settings.
     ///
     /// - Parameter GetUserSettingsInput : [no documentation found]
@@ -1824,6 +2321,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1842,6 +2344,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnector(input: GetVoiceConnectorInput) async throws -> GetVoiceConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1860,6 +2367,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorEmergencyCallingConfiguration(input: GetVoiceConnectorEmergencyCallingConfigurationInput) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1878,6 +2390,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorGroup(input: GetVoiceConnectorGroupInput) async throws -> GetVoiceConnectorGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1896,6 +2413,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorLoggingConfiguration(input: GetVoiceConnectorLoggingConfigurationInput) async throws -> GetVoiceConnectorLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves origination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1914,6 +2436,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorOrigination(input: GetVoiceConnectorOriginationInput) async throws -> GetVoiceConnectorOriginationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1932,6 +2459,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorProxy(input: GetVoiceConnectorProxyInput) async throws -> GetVoiceConnectorProxyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1950,6 +2482,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorStreamingConfiguration(input: GetVoiceConnectorStreamingConfigurationInput) async throws -> GetVoiceConnectorStreamingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Retrieves termination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1968,6 +2505,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorTermination(input: GetVoiceConnectorTerminationInput) async throws -> GetVoiceConnectorTerminationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTerminationHealth](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTerminationHealth.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorTerminationHealth in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1986,6 +2528,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceConnectorTerminationHealth(input: GetVoiceConnectorTerminationHealthInput) async throws -> GetVoiceConnectorTerminationHealthOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InviteUsers` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
     ///
     /// - Parameter InviteUsersInput : [no documentation found]
@@ -2003,6 +2550,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func inviteUsers(input: InviteUsersInput) async throws -> InviteUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAccounts` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     ///
     /// - Parameter ListAccountsInput : [no documentation found]
@@ -2020,6 +2572,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAccounts(input: ListAccountsInput) async throws -> ListAccountsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstanceAdmins` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns a list of the administrators in the AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceAdmins](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceAdmins.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2037,6 +2594,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstanceAdmins(input: ListAppInstanceAdminsInput) async throws -> ListAppInstanceAdminsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstances` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists all Amazon Chime AppInstances created under a single AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstances](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstances.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2054,6 +2616,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstances(input: ListAppInstancesInput) async throws -> ListAppInstancesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstanceUsers` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// List all AppInstanceUsers created under a single AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceUsers](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceUsers.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2071,6 +2638,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstanceUsers(input: ListAppInstanceUsersInput) async throws -> ListAppInstanceUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAttendees` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -2089,6 +2661,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAttendees(input: ListAttendeesInput) async throws -> ListAttendeesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAttendeeTags` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the tags applied to an Amazon Chime SDK attendee resource. ListAttendeeTags is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -2107,6 +2684,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAttendeeTags(input: ListAttendeeTagsInput) async throws -> ListAttendeeTagsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBots` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     ///
     /// - Parameter ListBotsInput : [no documentation found]
@@ -2124,6 +2706,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listBots(input: ListBotsInput) async throws -> ListBotsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannelBans` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists all the users banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelBans](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelBans.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2141,6 +2728,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannelBans(input: ListChannelBansInput) async throws -> ListChannelBansOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannelMemberships` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMemberships](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMemberships.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2158,6 +2750,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannelMemberships(input: ListChannelMembershipsInput) async throws -> ListChannelMembershipsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannelMembershipsForAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2175,6 +2772,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannelMembershipsForAppInstanceUser(input: ListChannelMembershipsForAppInstanceUserInput) async throws -> ListChannelMembershipsForAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannelMessages` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMessages](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMessages.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2192,6 +2794,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannelMessages(input: ListChannelMessagesInput) async throws -> ListChannelMessagesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannelModerators` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelModerators](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelModerators.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2209,6 +2816,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannelModerators(input: ListChannelModeratorsInput) async throws -> ListChannelModeratorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannels` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results. Functionality & restrictions
     ///
     /// * Use privacy = PUBLIC to retrieve all public channels in the account.
@@ -2233,6 +2845,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListChannelsModeratedByAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelsModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelsModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2250,6 +2867,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listChannelsModeratedByAppInstanceUser(input: ListChannelsModeratedByAppInstanceUserInput) async throws -> ListChannelsModeratedByAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMediaCapturePipelines` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Returns a list of media capture pipelines. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListMediaCapturePipelines](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_ListMediaCapturePipelines.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -2267,6 +2889,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaCapturePipelines(input: ListMediaCapturePipelinesInput) async throws -> ListMediaCapturePipelinesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMeetings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists up to 100 active Amazon Chime SDK meetings. ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -2284,6 +2911,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMeetings(input: ListMeetingsInput) async throws -> ListMeetingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMeetingTags` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the tags applied to an Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use ListTagsForResource in the Amazon Chime SDK Meetings Namespace.")
     ///
@@ -2302,6 +2934,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMeetingTags(input: ListMeetingTagsInput) async throws -> ListMeetingTagsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPhoneNumberOrders` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the phone number orders for the administrator's Amazon Chime account.
     ///
     /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
@@ -2318,6 +2955,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listPhoneNumberOrders(input: ListPhoneNumberOrdersInput) async throws -> ListPhoneNumberOrdersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPhoneNumbers` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     ///
     /// - Parameter ListPhoneNumbersInput : [no documentation found]
@@ -2335,6 +2977,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listPhoneNumbers(input: ListPhoneNumbersInput) async throws -> ListPhoneNumbersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProxySessions` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the proxy sessions for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListProxySessions](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2353,6 +3000,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listProxySessions(input: ListProxySessionsInput) async throws -> ListProxySessionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRoomMemberships` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     ///
     /// - Parameter ListRoomMembershipsInput : [no documentation found]
@@ -2370,6 +3022,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listRoomMemberships(input: ListRoomMembershipsInput) async throws -> ListRoomMembershipsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRooms` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     ///
     /// - Parameter ListRoomsInput : [no documentation found]
@@ -2387,6 +3044,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listRooms(input: ListRoomsInput) async throws -> ListRoomsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSipMediaApplications` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the SIP media applications under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipMediaApplications](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipMediaApplications.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2404,6 +3066,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listSipMediaApplications(input: ListSipMediaApplicationsInput) async throws -> ListSipMediaApplicationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSipRules` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the SIP rules under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipRules](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipRules.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2421,6 +3088,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listSipRules(input: ListSipRulesInput) async throws -> ListSipRulesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists supported phone number countries.
     ///
     /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
@@ -2438,6 +3110,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listSupportedPhoneNumberCountries(input: ListSupportedPhoneNumberCountriesInput) async throws -> ListSupportedPhoneNumberCountriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the tags applied to an Amazon Chime SDK meeting and messaging resources. This API is is no longer supported and will not be updated. We recommend using the applicable latest version in the Amazon Chime SDK.
     ///
     /// * For meetings: [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html).
@@ -2462,6 +3139,11 @@ public protocol ChimeClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListUsers` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
@@ -2479,6 +3161,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVoiceConnectorGroups` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorGroups](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorGroups.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2496,6 +3183,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listVoiceConnectorGroups(input: ListVoiceConnectorGroupsInput) async throws -> ListVoiceConnectorGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVoiceConnectors` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectors](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectors.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2513,6 +3205,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listVoiceConnectors(input: ListVoiceConnectorsInput) async throws -> ListVoiceConnectorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Lists the SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2531,6 +3228,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listVoiceConnectorTerminationCredentials(input: ListVoiceConnectorTerminationCredentialsInput) async throws -> ListVoiceConnectorTerminationCredentialsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `LogoutUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Logs out the specified user from all of the devices they are currently logged into.
     ///
     /// - Parameter LogoutUserInput : [no documentation found]
@@ -2548,6 +3250,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func logoutUser(input: LogoutUserInput) async throws -> LogoutUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppInstanceRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Sets the amount of time in days that a given AppInstance retains data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutAppInstanceRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_PutAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2567,6 +3274,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput) async throws -> PutAppInstanceRetentionSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// The data streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_PutMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2585,6 +3297,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putAppInstanceStreamingConfigurations(input: PutAppInstanceStreamingConfigurationsInput) async throws -> PutAppInstanceStreamingConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see [Bot].
     ///
     /// - Parameter PutEventsConfigurationInput : [no documentation found]
@@ -2602,6 +3319,11 @@ public protocol ChimeClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putEventsConfiguration(input: PutEventsConfigurationInput) async throws -> PutEventsConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see [Logging Amazon Chime API Calls with AWS CloudTrail](https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter PutRetentionSettingsInput : [no documentation found]
@@ -2620,6 +3342,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putRetentionSettings(input: PutRetentionSettingsInput) async throws -> PutRetentionSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2638,6 +3365,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putSipMediaApplicationLoggingConfiguration(input: PutSipMediaApplicationLoggingConfigurationInput) async throws -> PutSipMediaApplicationLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2656,6 +3388,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorEmergencyCallingConfiguration(input: PutVoiceConnectorEmergencyCallingConfigurationInput) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2674,6 +3411,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorLoggingConfiguration(input: PutVoiceConnectorLoggingConfigurationInput) async throws -> PutVoiceConnectorLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2692,6 +3434,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorOrigination(input: PutVoiceConnectorOriginationInput) async throws -> PutVoiceConnectorOriginationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2711,6 +3458,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorProxy(input: PutVoiceConnectorProxyInput) async throws -> PutVoiceConnectorProxyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2729,6 +3481,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorStreamingConfiguration(input: PutVoiceConnectorStreamingConfigurationInput) async throws -> PutVoiceConnectorStreamingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2748,6 +3505,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorTermination(input: PutVoiceConnectorTerminationInput) async throws -> PutVoiceConnectorTerminationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2766,6 +3528,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putVoiceConnectorTerminationCredentials(input: PutVoiceConnectorTerminationCredentialsInput) async throws -> PutVoiceConnectorTerminationCredentialsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RedactChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [RedactChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_RedactChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by RedactChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2783,6 +3550,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func redactChannelMessage(input: RedactChannelMessageInput) async throws -> RedactChannelMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RedactConversationMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Redacts the specified message from the specified Amazon Chime conversation.
     ///
     /// - Parameter RedactConversationMessageInput : [no documentation found]
@@ -2800,6 +3572,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func redactConversationMessage(input: RedactConversationMessageInput) async throws -> RedactConversationMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RedactRoomMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Redacts the specified message from the specified Amazon Chime channel.
     ///
     /// - Parameter RedactRoomMessageInput : [no documentation found]
@@ -2817,6 +3594,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func redactRoomMessage(input: RedactRoomMessageInput) async throws -> RedactRoomMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegenerateSecurityToken` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Regenerates the security token for a bot.
     ///
     /// - Parameter RegenerateSecurityTokenInput : [no documentation found]
@@ -2834,6 +3616,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func regenerateSecurityToken(input: RegenerateSecurityTokenInput) async throws -> RegenerateSecurityTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ResetPersonalPIN` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the [User] object with the updated personal meeting PIN.
     ///
     /// - Parameter ResetPersonalPINInput : [no documentation found]
@@ -2851,6 +3638,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func resetPersonalPIN(input: ResetPersonalPINInput) async throws -> ResetPersonalPINOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RestorePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Moves a phone number from the Deletion queue back into the phone number Inventory.
     ///
     /// - Parameter RestorePhoneNumberInput : [no documentation found]
@@ -2869,6 +3661,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func restorePhoneNumber(input: RestorePhoneNumberInput) async throws -> RestorePhoneNumberOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     ///
     /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
@@ -2886,6 +3683,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func searchAvailablePhoneNumbers(input: SearchAvailablePhoneNumbersInput) async throws -> SearchAvailablePhoneNumbersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [SendChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_SendChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by SendChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2904,6 +3706,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func sendChannelMessage(input: SendChannelMessageInput) async throws -> SendChannelMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartMeetingTranscription` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services. This API is is no longer supported and will not be updated. We recommend using the latest version, [StartMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StartMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by StartMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -2924,6 +3731,11 @@ public protocol ChimeClientProtocol {
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
     func startMeetingTranscription(input: StartMeetingTranscriptionInput) async throws -> StartMeetingTranscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopMeetingTranscription` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Stops transcription for the specified meetingId. This API is is no longer supported and will not be updated. We recommend using the latest version, [StopMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StopMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by StopMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -2943,6 +3755,11 @@ public protocol ChimeClientProtocol {
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     /// - `UnprocessableEntityException` : The request was well-formed but was unable to be followed due to semantic errors.
     func stopMeetingTranscription(input: StopMeetingTranscriptionInput) async throws -> StopMeetingTranscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Applies the specified tags to the specified Amazon Chime attendee. TagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -2962,6 +3779,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func tagAttendee(input: TagAttendeeInput) async throws -> TagAttendeeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Applies the specified tags to the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use TagResource in the Amazon Chime SDK Meetings Namespace.")
     ///
@@ -2981,6 +3803,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func tagMeeting(input: TagMeetingInput) async throws -> TagMeetingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by TagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     ///
@@ -2998,6 +3825,11 @@ public protocol ChimeClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Untags the specified tags from the specified Amazon Chime SDK attendee. UntagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -3016,6 +3848,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func untagAttendee(input: UntagAttendeeInput) async throws -> UntagAttendeeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Untags the specified tags from the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use UntagResource in the Amazon Chime SDK Meetings Namespace.")
     ///
@@ -3034,6 +3871,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func untagMeeting(input: UntagMeetingInput) async throws -> UntagMeetingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Untags the specified tags from the specified Amazon Chime SDK meeting resource. Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UntagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     ///
@@ -3051,6 +3893,11 @@ public protocol ChimeClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAccount` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
     ///
     /// - Parameter UpdateAccountInput : [no documentation found]
@@ -3068,6 +3915,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAccount(input: UpdateAccountInput) async throws -> UpdateAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAccountSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter UpdateAccountSettingsInput : [no documentation found]
@@ -3086,6 +3938,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates AppInstance metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -3104,6 +3961,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAppInstance(input: UpdateAppInstanceInput) async throws -> UpdateAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the details of an AppInstanceUser. You can update names and metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -3122,6 +3984,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAppInstanceUser(input: UpdateAppInstanceUserInput) async throws -> UpdateAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBot` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
     ///
     /// - Parameter UpdateBotInput : [no documentation found]
@@ -3139,6 +4006,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateBot(input: UpdateBotInput) async throws -> UpdateBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateChannel` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3157,6 +4029,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3175,6 +4052,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateChannelMessage(input: UpdateChannelMessageInput) async throws -> UpdateChannelMessageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateChannelReadMarker` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelReadMarker](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelReadMarker.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannelReadMarker in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3193,6 +4075,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateChannelReadMarker(input: UpdateChannelReadMarkerInput) async throws -> UpdateChannelReadMarkerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGlobalSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
     /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
@@ -3209,6 +4096,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
     /// - Parameter UpdatePhoneNumberInput : [no documentation found]
@@ -3227,6 +4119,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePhoneNumberSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
     /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
@@ -3243,6 +4140,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updatePhoneNumberSettings(input: UpdatePhoneNumberSettingsInput) async throws -> UpdatePhoneNumberSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the specified proxy session details, such as voice or SMS capabilities. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3261,6 +4163,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateProxySession(input: UpdateProxySessionInput) async throws -> UpdateProxySessionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRoom` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter UpdateRoomInput : [no documentation found]
@@ -3278,6 +4185,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateRoom(input: UpdateRoomInput) async throws -> UpdateRoomOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
     ///
     /// - Parameter UpdateRoomMembershipInput : [no documentation found]
@@ -3295,6 +4207,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateRoomMembership(input: UpdateRoomMembershipInput) async throws -> UpdateRoomMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the details of the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3314,6 +4231,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateSipMediaApplication(input: UpdateSipMediaApplicationInput) async throws -> UpdateSipMediaApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSipMediaApplicationCall` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3333,6 +4255,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateSipMediaApplicationCall(input: UpdateSipMediaApplicationCallInput) async throws -> UpdateSipMediaApplicationCallOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the details of the specified SIP rule. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3353,6 +4280,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateSipRule(input: UpdateSipRuleInput) async throws -> UpdateSipRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateUser` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
@@ -3370,6 +4302,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateUserSettings` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates the settings for the specified user, such as phone number settings.
     ///
     /// - Parameter UpdateUserSettingsInput : [no documentation found]
@@ -3387,6 +4324,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3405,6 +4347,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateVoiceConnector(input: UpdateVoiceConnectorInput) async throws -> UpdateVoiceConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3424,6 +4371,11 @@ public protocol ChimeClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateVoiceConnectorGroup(input: UpdateVoiceConnectorGroupInput) async throws -> UpdateVoiceConnectorGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ValidateE911Address` operation on the `UCBuzzConsoleService` service.
+    ///
+>>>>>>> main
     /// Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. This API is is no longer supported and will not be updated. We recommend using the latest version, [ValidateE911Address](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ValidateE911Address.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ValidateE911Address in the Amazon Chime SDK Voice Namespace")
     ///

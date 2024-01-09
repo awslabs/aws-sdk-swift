@@ -761,6 +761,50 @@ extension LambdaClientTypes {
 }
 
 extension LambdaClientTypes {
+    public enum ApplicationLogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case debug
+        case error
+        case fatal
+        case info
+        case trace
+        case warn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationLogLevel] {
+            return [
+                .debug,
+                .error,
+                .fatal,
+                .info,
+                .trace,
+                .warn,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .debug: return "DEBUG"
+            case .error: return "ERROR"
+            case .fatal: return "FATAL"
+            case .info: return "INFO"
+            case .trace: return "TRACE"
+            case .warn: return "WARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationLogLevel(rawValue: rawValue) ?? ApplicationLogLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LambdaClientTypes {
     public enum Architecture: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case arm64
         case x8664
@@ -2406,6 +2450,7 @@ extension CreateFunctionInput: Swift.Encodable {
         case imageConfig = "ImageConfig"
         case kmsKeyArn = "KMSKeyArn"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
         case publish = "Publish"
@@ -2467,6 +2512,9 @@ extension CreateFunctionInput: Swift.Encodable {
             for layerversionarn0 in layers {
                 try layersContainer.encode(layerversionarn0)
             }
+        }
+        if let loggingConfig = self.loggingConfig {
+            try encodeContainer.encode(loggingConfig, forKey: .loggingConfig)
         }
         if let memorySize = self.memorySize {
             try encodeContainer.encode(memorySize, forKey: .memorySize)
@@ -2548,6 +2596,8 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// The amount of [memory available to the function](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-memory-console) at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
     public var memorySize: Swift.Int?
     /// The type of deployment package. Set to Image for container image and set to Zip for .zip file archive.
@@ -2584,6 +2634,7 @@ public struct CreateFunctionInput: Swift.Equatable {
         imageConfig: LambdaClientTypes.ImageConfig? = nil,
         kmsKeyArn: Swift.String? = nil,
         layers: [Swift.String]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
         publish: Swift.Bool? = nil,
@@ -2609,6 +2660,7 @@ public struct CreateFunctionInput: Swift.Equatable {
         self.imageConfig = imageConfig
         self.kmsKeyArn = kmsKeyArn
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.memorySize = memorySize
         self.packageType = packageType
         self.publish = publish
@@ -2646,6 +2698,7 @@ struct CreateFunctionInputBody: Swift.Equatable {
     let architectures: [LambdaClientTypes.Architecture]?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStart?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension CreateFunctionInputBody: Swift.Decodable {
@@ -2663,6 +2716,7 @@ extension CreateFunctionInputBody: Swift.Decodable {
         case imageConfig = "ImageConfig"
         case kmsKeyArn = "KMSKeyArn"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
         case publish = "Publish"
@@ -2759,6 +2813,8 @@ extension CreateFunctionInputBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStart.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
     }
 }
 
@@ -2785,6 +2841,7 @@ extension CreateFunctionOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = output.lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = output.lastUpdateStatusReasonCode
             self.layers = output.layers
+            self.loggingConfig = output.loggingConfig
             self.masterArn = output.masterArn
             self.memorySize = output.memorySize
             self.packageType = output.packageType
@@ -2821,6 +2878,7 @@ extension CreateFunctionOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = nil
             self.lastUpdateStatusReasonCode = nil
             self.layers = nil
+            self.loggingConfig = nil
             self.masterArn = nil
             self.memorySize = nil
             self.packageType = nil
@@ -2880,6 +2938,8 @@ public struct CreateFunctionOutput: Swift.Equatable {
     public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
     /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
     public var layers: [LambdaClientTypes.Layer]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// For Lambda@Edge functions, the ARN of the main function.
     public var masterArn: Swift.String?
     /// The amount of memory available to the function at runtime.
@@ -2934,6 +2994,7 @@ public struct CreateFunctionOutput: Swift.Equatable {
         lastUpdateStatusReason: Swift.String? = nil,
         lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
         layers: [LambdaClientTypes.Layer]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         masterArn: Swift.String? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
@@ -2971,6 +3032,7 @@ public struct CreateFunctionOutput: Swift.Equatable {
         self.lastUpdateStatusReason = lastUpdateStatusReason
         self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.masterArn = masterArn
         self.memorySize = memorySize
         self.packageType = packageType
@@ -3027,6 +3089,7 @@ struct CreateFunctionOutputBody: Swift.Equatable {
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
     let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension CreateFunctionOutputBody: Swift.Decodable {
@@ -3049,6 +3112,7 @@ extension CreateFunctionOutputBody: Swift.Decodable {
         case lastUpdateStatusReason = "LastUpdateStatusReason"
         case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
@@ -3167,6 +3231,27 @@ extension CreateFunctionOutputBody: Swift.Decodable {
         snapStart = snapStartDecoded
         let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
         runtimeVersionConfig = runtimeVersionConfigDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
+    }
+}
+
+enum CreateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeSigningConfigNotFoundException": return try await CodeSigningConfigNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CodeStorageExceededException": return try await CodeStorageExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CodeVerificationFailedException": return try await CodeVerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCodeSignatureException": return try await InvalidCodeSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6034,6 +6119,7 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         case lastUpdateStatusReason = "LastUpdateStatusReason"
         case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
@@ -6117,6 +6203,9 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
             for layer0 in layers {
                 try layersContainer.encode(layer0)
             }
+        }
+        if let loggingConfig = self.loggingConfig {
+            try encodeContainer.encode(loggingConfig, forKey: .loggingConfig)
         }
         if let masterArn = self.masterArn {
             try encodeContainer.encode(masterArn, forKey: .masterArn)
@@ -6270,6 +6359,8 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         snapStart = snapStartDecoded
         let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
         runtimeVersionConfig = runtimeVersionConfigDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
     }
 }
 
@@ -6312,6 +6403,8 @@ extension LambdaClientTypes {
         public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
         /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
         public var layers: [LambdaClientTypes.Layer]?
+        /// The function's Amazon CloudWatch Logs configuration settings.
+        public var loggingConfig: LambdaClientTypes.LoggingConfig?
         /// For Lambda@Edge functions, the ARN of the main function.
         public var masterArn: Swift.String?
         /// The amount of memory available to the function at runtime.
@@ -6366,6 +6459,7 @@ extension LambdaClientTypes {
             lastUpdateStatusReason: Swift.String? = nil,
             lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
             layers: [LambdaClientTypes.Layer]? = nil,
+            loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
             masterArn: Swift.String? = nil,
             memorySize: Swift.Int? = nil,
             packageType: LambdaClientTypes.PackageType? = nil,
@@ -6403,6 +6497,7 @@ extension LambdaClientTypes {
             self.lastUpdateStatusReason = lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
             self.layers = layers
+            self.loggingConfig = loggingConfig
             self.masterArn = masterArn
             self.memorySize = memorySize
             self.packageType = packageType
@@ -7692,6 +7787,7 @@ extension GetFunctionConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = output.lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = output.lastUpdateStatusReasonCode
             self.layers = output.layers
+            self.loggingConfig = output.loggingConfig
             self.masterArn = output.masterArn
             self.memorySize = output.memorySize
             self.packageType = output.packageType
@@ -7728,6 +7824,7 @@ extension GetFunctionConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = nil
             self.lastUpdateStatusReasonCode = nil
             self.layers = nil
+            self.loggingConfig = nil
             self.masterArn = nil
             self.memorySize = nil
             self.packageType = nil
@@ -7787,6 +7884,8 @@ public struct GetFunctionConfigurationOutput: Swift.Equatable {
     public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
     /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
     public var layers: [LambdaClientTypes.Layer]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// For Lambda@Edge functions, the ARN of the main function.
     public var masterArn: Swift.String?
     /// The amount of memory available to the function at runtime.
@@ -7841,6 +7940,7 @@ public struct GetFunctionConfigurationOutput: Swift.Equatable {
         lastUpdateStatusReason: Swift.String? = nil,
         lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
         layers: [LambdaClientTypes.Layer]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         masterArn: Swift.String? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
@@ -7878,6 +7978,7 @@ public struct GetFunctionConfigurationOutput: Swift.Equatable {
         self.lastUpdateStatusReason = lastUpdateStatusReason
         self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.masterArn = masterArn
         self.memorySize = memorySize
         self.packageType = packageType
@@ -7934,6 +8035,7 @@ struct GetFunctionConfigurationOutputBody: Swift.Equatable {
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
     let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension GetFunctionConfigurationOutputBody: Swift.Decodable {
@@ -7956,6 +8058,7 @@ extension GetFunctionConfigurationOutputBody: Swift.Decodable {
         case lastUpdateStatusReason = "LastUpdateStatusReason"
         case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
@@ -8074,6 +8177,22 @@ extension GetFunctionConfigurationOutputBody: Swift.Decodable {
         snapStart = snapStartDecoded
         let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
         runtimeVersionConfig = runtimeVersionConfigDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
+    }
+}
+
+enum GetFunctionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -10148,6 +10267,7 @@ extension LambdaClientTypes {
     }
 }
 
+<<<<<<< HEAD
 public struct InvokeAsyncInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InvokeAsyncInputBodyMiddleware"
 
@@ -10173,6 +10293,8 @@ public struct InvokeAsyncInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension InvokeAsyncInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invokeArgs = "InvokeArgs"
@@ -10290,6 +10412,7 @@ enum InvokeAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct InvokeInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InvokeInputBodyMiddleware"
 
@@ -10316,6 +10439,8 @@ public struct InvokeInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension InvokeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
@@ -10495,7 +10620,11 @@ extension InvokeOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.payload = nil
         }
         self.statusCode = httpResponse.statusCode.rawValue
@@ -10685,6 +10814,7 @@ extension LambdaClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct InvokeWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "InvokeWithResponseStreamInputBodyMiddleware"
 
@@ -10711,6 +10841,8 @@ public struct InvokeWithResponseStreamInputBodyMiddleware: ClientRuntime.Middlew
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension InvokeWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeWithResponseStreamInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
@@ -13344,6 +13476,41 @@ enum ListVersionsByFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension LambdaClientTypes {
+    public enum LogFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case json
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogFormat] {
+            return [
+                .json,
+                .text,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .text: return "Text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LogFormat(rawValue: rawValue) ?? LogFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+>>>>>>> main
 extension LambdaClientTypes {
     public enum LogType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
@@ -13374,6 +13541,71 @@ extension LambdaClientTypes {
             self = LogType(rawValue: rawValue) ?? LogType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension LambdaClientTypes.LoggingConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationLogLevel = "ApplicationLogLevel"
+        case logFormat = "LogFormat"
+        case logGroup = "LogGroup"
+        case systemLogLevel = "SystemLogLevel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationLogLevel = self.applicationLogLevel {
+            try encodeContainer.encode(applicationLogLevel.rawValue, forKey: .applicationLogLevel)
+        }
+        if let logFormat = self.logFormat {
+            try encodeContainer.encode(logFormat.rawValue, forKey: .logFormat)
+        }
+        if let logGroup = self.logGroup {
+            try encodeContainer.encode(logGroup, forKey: .logGroup)
+        }
+        if let systemLogLevel = self.systemLogLevel {
+            try encodeContainer.encode(systemLogLevel.rawValue, forKey: .systemLogLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logFormatDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LogFormat.self, forKey: .logFormat)
+        logFormat = logFormatDecoded
+        let applicationLogLevelDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ApplicationLogLevel.self, forKey: .applicationLogLevel)
+        applicationLogLevel = applicationLogLevelDecoded
+        let systemLogLevelDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SystemLogLevel.self, forKey: .systemLogLevel)
+        systemLogLevel = systemLogLevelDecoded
+        let logGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroup)
+        logGroup = logGroupDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public struct LoggingConfig: Swift.Equatable {
+        /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level and lower.
+        public var applicationLogLevel: LambdaClientTypes.ApplicationLogLevel?
+        /// The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and structured JSON.
+        public var logFormat: LambdaClientTypes.LogFormat?
+        /// The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/. To use a different log group, enter an existing log group or enter a new log group name.
+        public var logGroup: Swift.String?
+        /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level and lower.
+        public var systemLogLevel: LambdaClientTypes.SystemLogLevel?
+
+        public init(
+            applicationLogLevel: LambdaClientTypes.ApplicationLogLevel? = nil,
+            logFormat: LambdaClientTypes.LogFormat? = nil,
+            logGroup: Swift.String? = nil,
+            systemLogLevel: LambdaClientTypes.SystemLogLevel? = nil
+        )
+        {
+            self.applicationLogLevel = applicationLogLevel
+            self.logFormat = logFormat
+            self.logGroup = logGroup
+            self.systemLogLevel = systemLogLevel
+        }
+    }
+
 }
 
 extension LambdaClientTypes.OnFailure: Swift.Codable {
@@ -14200,6 +14432,7 @@ extension PublishVersionOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = output.lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = output.lastUpdateStatusReasonCode
             self.layers = output.layers
+            self.loggingConfig = output.loggingConfig
             self.masterArn = output.masterArn
             self.memorySize = output.memorySize
             self.packageType = output.packageType
@@ -14236,6 +14469,7 @@ extension PublishVersionOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = nil
             self.lastUpdateStatusReasonCode = nil
             self.layers = nil
+            self.loggingConfig = nil
             self.masterArn = nil
             self.memorySize = nil
             self.packageType = nil
@@ -14295,6 +14529,8 @@ public struct PublishVersionOutput: Swift.Equatable {
     public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
     /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
     public var layers: [LambdaClientTypes.Layer]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// For Lambda@Edge functions, the ARN of the main function.
     public var masterArn: Swift.String?
     /// The amount of memory available to the function at runtime.
@@ -14349,6 +14585,7 @@ public struct PublishVersionOutput: Swift.Equatable {
         lastUpdateStatusReason: Swift.String? = nil,
         lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
         layers: [LambdaClientTypes.Layer]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         masterArn: Swift.String? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
@@ -14386,6 +14623,7 @@ public struct PublishVersionOutput: Swift.Equatable {
         self.lastUpdateStatusReason = lastUpdateStatusReason
         self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.masterArn = masterArn
         self.memorySize = memorySize
         self.packageType = packageType
@@ -14442,6 +14680,7 @@ struct PublishVersionOutputBody: Swift.Equatable {
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
     let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension PublishVersionOutputBody: Swift.Decodable {
@@ -14464,6 +14703,7 @@ extension PublishVersionOutputBody: Swift.Decodable {
         case lastUpdateStatusReason = "LastUpdateStatusReason"
         case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
@@ -14582,6 +14822,25 @@ extension PublishVersionOutputBody: Swift.Decodable {
         snapStart = snapStartDecoded
         let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
         runtimeVersionConfig = runtimeVersionConfigDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
+    }
+}
+
+enum PublishVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeStorageExceededException": return try await CodeStorageExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -16066,6 +16325,7 @@ extension LambdaClientTypes {
         case go1x
         case java11
         case java17
+        case java21
         case java8
         case java8al2
         case nodejs
@@ -16074,15 +16334,18 @@ extension LambdaClientTypes {
         case nodejs14x
         case nodejs16x
         case nodejs18x
+        case nodejs20x
         case nodejs43
         case nodejs43edge
         case nodejs610
         case nodejs810
         case provided
         case providedal2
+        case providedal2023
         case python27
         case python310
         case python311
+        case python312
         case python36
         case python37
         case python38
@@ -16102,6 +16365,7 @@ extension LambdaClientTypes {
                 .go1x,
                 .java11,
                 .java17,
+                .java21,
                 .java8,
                 .java8al2,
                 .nodejs,
@@ -16110,15 +16374,18 @@ extension LambdaClientTypes {
                 .nodejs14x,
                 .nodejs16x,
                 .nodejs18x,
+                .nodejs20x,
                 .nodejs43,
                 .nodejs43edge,
                 .nodejs610,
                 .nodejs810,
                 .provided,
                 .providedal2,
+                .providedal2023,
                 .python27,
                 .python310,
                 .python311,
+                .python312,
                 .python36,
                 .python37,
                 .python38,
@@ -16143,6 +16410,7 @@ extension LambdaClientTypes {
             case .go1x: return "go1.x"
             case .java11: return "java11"
             case .java17: return "java17"
+            case .java21: return "java21"
             case .java8: return "java8"
             case .java8al2: return "java8.al2"
             case .nodejs: return "nodejs"
@@ -16151,15 +16419,18 @@ extension LambdaClientTypes {
             case .nodejs14x: return "nodejs14.x"
             case .nodejs16x: return "nodejs16.x"
             case .nodejs18x: return "nodejs18.x"
+            case .nodejs20x: return "nodejs20.x"
             case .nodejs43: return "nodejs4.3"
             case .nodejs43edge: return "nodejs4.3-edge"
             case .nodejs610: return "nodejs6.10"
             case .nodejs810: return "nodejs8.10"
             case .provided: return "provided"
             case .providedal2: return "provided.al2"
+            case .providedal2023: return "provided.al2023"
             case .python27: return "python2.7"
             case .python310: return "python3.10"
             case .python311: return "python3.11"
+            case .python312: return "python3.12"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"
@@ -17110,6 +17381,41 @@ extension SubnetIPAddressLimitReachedExceptionBody: Swift.Decodable {
         type = typeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    public enum SystemLogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case debug
+        case info
+        case warn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SystemLogLevel] {
+            return [
+                .debug,
+                .info,
+                .warn,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .debug: return "DEBUG"
+            case .info: return "INFO"
+            case .warn: return "WARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SystemLogLevel(rawValue: rawValue) ?? SystemLogLevel.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -18749,6 +19055,7 @@ extension UpdateFunctionCodeOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = output.lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = output.lastUpdateStatusReasonCode
             self.layers = output.layers
+            self.loggingConfig = output.loggingConfig
             self.masterArn = output.masterArn
             self.memorySize = output.memorySize
             self.packageType = output.packageType
@@ -18785,6 +19092,7 @@ extension UpdateFunctionCodeOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = nil
             self.lastUpdateStatusReasonCode = nil
             self.layers = nil
+            self.loggingConfig = nil
             self.masterArn = nil
             self.memorySize = nil
             self.packageType = nil
@@ -18844,6 +19152,8 @@ public struct UpdateFunctionCodeOutput: Swift.Equatable {
     public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
     /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
     public var layers: [LambdaClientTypes.Layer]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// For Lambda@Edge functions, the ARN of the main function.
     public var masterArn: Swift.String?
     /// The amount of memory available to the function at runtime.
@@ -18898,6 +19208,7 @@ public struct UpdateFunctionCodeOutput: Swift.Equatable {
         lastUpdateStatusReason: Swift.String? = nil,
         lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
         layers: [LambdaClientTypes.Layer]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         masterArn: Swift.String? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
@@ -18935,6 +19246,7 @@ public struct UpdateFunctionCodeOutput: Swift.Equatable {
         self.lastUpdateStatusReason = lastUpdateStatusReason
         self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.masterArn = masterArn
         self.memorySize = memorySize
         self.packageType = packageType
@@ -18991,6 +19303,7 @@ struct UpdateFunctionCodeOutputBody: Swift.Equatable {
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
     let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension UpdateFunctionCodeOutputBody: Swift.Decodable {
@@ -19013,6 +19326,7 @@ extension UpdateFunctionCodeOutputBody: Swift.Decodable {
         case lastUpdateStatusReason = "LastUpdateStatusReason"
         case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
@@ -19131,6 +19445,28 @@ extension UpdateFunctionCodeOutputBody: Swift.Decodable {
         snapStart = snapStartDecoded
         let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
         runtimeVersionConfig = runtimeVersionConfigDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
+    }
+}
+
+enum UpdateFunctionCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeSigningConfigNotFoundException": return try await CodeSigningConfigNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CodeStorageExceededException": return try await CodeStorageExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CodeVerificationFailedException": return try await CodeVerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCodeSignatureException": return try await InvalidCodeSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -19165,6 +19501,7 @@ extension UpdateFunctionConfigurationInput: Swift.Encodable {
         case imageConfig = "ImageConfig"
         case kmsKeyArn = "KMSKeyArn"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case memorySize = "MemorySize"
         case revisionId = "RevisionId"
         case role = "Role"
@@ -19209,6 +19546,9 @@ extension UpdateFunctionConfigurationInput: Swift.Encodable {
             for layerversionarn0 in layers {
                 try layersContainer.encode(layerversionarn0)
             }
+        }
+        if let loggingConfig = self.loggingConfig {
+            try encodeContainer.encode(loggingConfig, forKey: .loggingConfig)
         }
         if let memorySize = self.memorySize {
             try encodeContainer.encode(memorySize, forKey: .memorySize)
@@ -19277,6 +19617,8 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// The amount of [memory available to the function](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-memory-console) at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
     public var memorySize: Swift.Int?
     /// Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
@@ -19305,6 +19647,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
         imageConfig: LambdaClientTypes.ImageConfig? = nil,
         kmsKeyArn: Swift.String? = nil,
         layers: [Swift.String]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         memorySize: Swift.Int? = nil,
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
@@ -19325,6 +19668,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
         self.imageConfig = imageConfig
         self.kmsKeyArn = kmsKeyArn
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.memorySize = memorySize
         self.revisionId = revisionId
         self.role = role
@@ -19354,6 +19698,7 @@ struct UpdateFunctionConfigurationInputBody: Swift.Equatable {
     let imageConfig: LambdaClientTypes.ImageConfig?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStart?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension UpdateFunctionConfigurationInputBody: Swift.Decodable {
@@ -19367,6 +19712,7 @@ extension UpdateFunctionConfigurationInputBody: Swift.Decodable {
         case imageConfig = "ImageConfig"
         case kmsKeyArn = "KMSKeyArn"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case memorySize = "MemorySize"
         case revisionId = "RevisionId"
         case role = "Role"
@@ -19431,6 +19777,8 @@ extension UpdateFunctionConfigurationInputBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStart.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
     }
 }
 
@@ -19457,6 +19805,7 @@ extension UpdateFunctionConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = output.lastUpdateStatusReason
             self.lastUpdateStatusReasonCode = output.lastUpdateStatusReasonCode
             self.layers = output.layers
+            self.loggingConfig = output.loggingConfig
             self.masterArn = output.masterArn
             self.memorySize = output.memorySize
             self.packageType = output.packageType
@@ -19493,6 +19842,7 @@ extension UpdateFunctionConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.lastUpdateStatusReason = nil
             self.lastUpdateStatusReasonCode = nil
             self.layers = nil
+            self.loggingConfig = nil
             self.masterArn = nil
             self.memorySize = nil
             self.packageType = nil
@@ -19552,6 +19902,8 @@ public struct UpdateFunctionConfigurationOutput: Swift.Equatable {
     public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
     /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
     public var layers: [LambdaClientTypes.Layer]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
     /// For Lambda@Edge functions, the ARN of the main function.
     public var masterArn: Swift.String?
     /// The amount of memory available to the function at runtime.
@@ -19606,6 +19958,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Equatable {
         lastUpdateStatusReason: Swift.String? = nil,
         lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
         layers: [LambdaClientTypes.Layer]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
         masterArn: Swift.String? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
@@ -19643,6 +19996,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Equatable {
         self.lastUpdateStatusReason = lastUpdateStatusReason
         self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
         self.layers = layers
+        self.loggingConfig = loggingConfig
         self.masterArn = masterArn
         self.memorySize = memorySize
         self.packageType = packageType
@@ -19699,6 +20053,7 @@ struct UpdateFunctionConfigurationOutputBody: Swift.Equatable {
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
     let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
+    let loggingConfig: LambdaClientTypes.LoggingConfig?
 }
 
 extension UpdateFunctionConfigurationOutputBody: Swift.Decodable {
@@ -19721,6 +20076,7 @@ extension UpdateFunctionConfigurationOutputBody: Swift.Decodable {
         case lastUpdateStatusReason = "LastUpdateStatusReason"
         case lastUpdateStatusReasonCode = "LastUpdateStatusReasonCode"
         case layers = "Layers"
+        case loggingConfig = "LoggingConfig"
         case masterArn = "MasterArn"
         case memorySize = "MemorySize"
         case packageType = "PackageType"
@@ -19839,6 +20195,27 @@ extension UpdateFunctionConfigurationOutputBody: Swift.Decodable {
         snapStart = snapStartDecoded
         let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
         runtimeVersionConfig = runtimeVersionConfigDecoded
+        let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
+        loggingConfig = loggingConfigDecoded
+    }
+}
+
+enum UpdateFunctionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CodeSigningConfigNotFoundException": return try await CodeSigningConfigNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CodeVerificationFailedException": return try await CodeVerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCodeSignatureException": return try await InvalidCodeSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

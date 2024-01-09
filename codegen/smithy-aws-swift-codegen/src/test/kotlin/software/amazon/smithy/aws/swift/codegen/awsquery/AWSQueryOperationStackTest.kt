@@ -19,14 +19,7 @@ class AWSQueryOperationStackTest {
         val context = setupTests("awsquery/query-empty-input-output.smithy", "aws.protocoltests.query#AwsQuery")
         val contents = getFileContents(context.manifest, "/Example/QueryProtocolClient.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-extension QueryProtocolClient: QueryProtocolClientProtocol {
-    /// This is a very cool operation.
-    ///
-    /// - Parameter NoInputAndOutputInput : [no documentation found]
-    ///
-    /// - Returns: `NoInputAndOutputOutput` : [no documentation found]
+        val expectedContents = """
     public func noInputAndOutput(input: NoInputAndOutputInput) async throws -> NoInputAndOutputOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -38,32 +31,25 @@ extension QueryProtocolClient: QueryProtocolClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes!)
-                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
-                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .build()
-        var operation = ClientRuntime.OperationStack<NoInputAndOutputInput, NoInputAndOutputOutput, NoInputAndOutputOutputError>(id: "noInputAndOutput")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput, NoInputAndOutputOutputError>())
+        var operation = ClientRuntime.OperationStack<NoInputAndOutputInput, NoInputAndOutputOutput>(id: "noInputAndOutput")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
         let endpointParams = EndpointParams()
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NoInputAndOutputOutput, NoInputAndOutputOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NoInputAndOutputOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<NoInputAndOutputOutput, NoInputAndOutputOutputError>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(xmlName: "NoInputAndOutputInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NoInputAndOutputOutput, NoInputAndOutputOutputError>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<NoInputAndOutputOutput, NoInputAndOutputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NoInputAndOutputOutput, NoInputAndOutputOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NoInputAndOutputOutput, NoInputAndOutputOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, NoInputAndOutputOutput>(options: config.retryStrategyOptions))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NoInputAndOutputOutput>(responseClosure(decoder: decoder), responseErrorClosure(NoInputAndOutputOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NoInputAndOutputOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
-
-}"""
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

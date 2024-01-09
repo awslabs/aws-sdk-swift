@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// With License Manager, you can discover and track your commercial Linux subscriptions on running Amazon EC2 instances.
 public protocol LicenseManagerLinuxSubscriptionsClientProtocol {
+    /// Performs the `GetServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the Linux subscriptions service settings.
     ///
     /// - Parameter GetServiceSettingsInput : [no documentation found]
@@ -17,6 +19,11 @@ public protocol LicenseManagerLinuxSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLinuxSubscriptionInstances` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
+>>>>>>> main
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     ///
     /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
@@ -30,6 +37,11 @@ public protocol LicenseManagerLinuxSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLinuxSubscriptions` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
+>>>>>>> main
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     ///
     /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
@@ -43,6 +55,11 @@ public protocol LicenseManagerLinuxSubscriptionsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
+>>>>>>> main
     /// Updates the service settings for Linux subscriptions.
     ///
     /// - Parameter UpdateServiceSettingsInput : [no documentation found]

@@ -67,6 +67,8 @@ public struct GlobalAcceleratorClientLogHandlerFactory: ClientRuntime.SDKLogHand
 }
 
 extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
+    /// Performs the `AddCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
     ///
     /// - Parameter AddCustomRoutingEndpointsInput : [no documentation found]
@@ -99,6 +101,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput, AddCustomRoutingEndpointsOutputError>(id: "addCustomRoutingEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput, AddCustomRoutingEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>())
@@ -114,10 +117,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddCustomRoutingEndpointsOutput, AddCustomRoutingEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddCustomRoutingEndpointsOutput, AddCustomRoutingEndpointsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddCustomRoutingEndpointsOutput, AddCustomRoutingEndpointsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>(id: "addCustomRoutingEndpoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddCustomRoutingEndpointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.AddCustomRoutingEndpoints"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddCustomRoutingEndpointsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddCustomRoutingEndpointsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddCustomRoutingEndpointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddCustomRoutingEndpointsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddCustomRoutingEndpointsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AddEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the [CreateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_CreateEndpointGroup.html) API) or when you update an endpoint group (with the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator:
     ///
     /// * It's faster, because Global Accelerator only has to resolve the new endpoints that you're adding, rather than resolving new and existing endpoints.
@@ -156,6 +178,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AddEndpointsInput, AddEndpointsOutput, AddEndpointsOutputError>(id: "addEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddEndpointsInput, AddEndpointsOutput, AddEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddEndpointsInput, AddEndpointsOutput>())
@@ -171,10 +194,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddEndpointsOutput, AddEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddEndpointsOutput, AddEndpointsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddEndpointsOutput, AddEndpointsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AddEndpointsInput, AddEndpointsOutput>(id: "addEndpoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddEndpointsInput, AddEndpointsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddEndpointsInput, AddEndpointsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddEndpointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddEndpointsInput, AddEndpointsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.AddEndpoints"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddEndpointsInput, AddEndpointsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddEndpointsInput, AddEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddEndpointsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddEndpointsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddEndpointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddEndpointsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddEndpointsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AdvertiseByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use [ WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
@@ -205,6 +247,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput, AdvertiseByoipCidrOutputError>(id: "advertiseByoipCidr")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput, AdvertiseByoipCidrOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>())
@@ -220,10 +263,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdvertiseByoipCidrOutput, AdvertiseByoipCidrOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdvertiseByoipCidrOutput, AdvertiseByoipCidrOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdvertiseByoipCidrOutput, AdvertiseByoipCidrOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>(id: "advertiseByoipCidr")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdvertiseByoipCidrOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>(xAmzTarget: "GlobalAccelerator_V20180706.AdvertiseByoipCidr"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AdvertiseByoipCidrOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AdvertiseByoipCidrOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AdvertiseByoipCidrOutput>(responseClosure(decoder: decoder), responseErrorClosure(AdvertiseByoipCidrOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AdvertiseByoipCidrOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AllowCustomRoutingTraffic` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
     /// - Parameter AllowCustomRoutingTrafficInput : [no documentation found]
@@ -252,6 +314,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput, AllowCustomRoutingTrafficOutputError>(id: "allowCustomRoutingTraffic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput, AllowCustomRoutingTrafficOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>())
@@ -267,10 +330,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllowCustomRoutingTrafficOutput, AllowCustomRoutingTrafficOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllowCustomRoutingTrafficOutput, AllowCustomRoutingTrafficOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AllowCustomRoutingTrafficOutput, AllowCustomRoutingTrafficOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>(id: "allowCustomRoutingTraffic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AllowCustomRoutingTrafficOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>(xAmzTarget: "GlobalAccelerator_V20180706.AllowCustomRoutingTraffic"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AllowCustomRoutingTrafficOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllowCustomRoutingTrafficOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllowCustomRoutingTrafficOutput>(responseClosure(decoder: decoder), responseErrorClosure(AllowCustomRoutingTrafficOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AllowCustomRoutingTrafficOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateAcceleratorInput : [no documentation found]
@@ -299,6 +381,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateAcceleratorInput, CreateAcceleratorOutput, CreateAcceleratorOutputError>(id: "createAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput, CreateAcceleratorOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput, CreateAcceleratorOutputError>())
@@ -315,14 +398,41 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAcceleratorOutput, CreateAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAcceleratorOutput, CreateAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAcceleratorOutput, CreateAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateAcceleratorInput, CreateAcceleratorOutput>(id: "createAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to add a resource listed in the attachment to an accelerator, you must sign in to an account specified as a principal. Then you can add the resources that are listed to any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can add as endpoints resources that are listed in the attachment.
     ///
     /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
     ///
+=======
+    /// Performs the `CreateCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to add a resource listed in the attachment to an accelerator, you must sign in to an account specified as a principal. Then you can add the resources that are listed to any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can add as endpoints resources that are listed in the attachment.
+    ///
+    /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
+    ///
+>>>>>>> main
     /// - Returns: `CreateCrossAccountAttachmentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
@@ -349,6 +459,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(id: "createCrossAccountAttachment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>())
@@ -365,10 +476,33 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCrossAccountAttachmentOutput, CreateCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(id: "createCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCrossAccountAttachmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCrossAccountAttachmentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCrossAccountAttachmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCrossAccountAttachmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCrossAccountAttachmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+>>>>>>> main
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateCustomRoutingAcceleratorInput : [no documentation found]
@@ -398,6 +532,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>(id: "createCustomRoutingAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>())
@@ -414,10 +549,30 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomRoutingAcceleratorOutput, CreateCustomRoutingAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>(id: "createCustomRoutingAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomRoutingAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateCustomRoutingAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCustomRoutingAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomRoutingAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomRoutingAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCustomRoutingAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region.
     ///
     /// - Parameter CreateCustomRoutingEndpointGroupInput : [no documentation found]
@@ -451,6 +606,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>(id: "createCustomRoutingEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>())
@@ -467,10 +623,30 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomRoutingEndpointGroupOutput, CreateCustomRoutingEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>(id: "createCustomRoutingEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomRoutingEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateCustomRoutingEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCustomRoutingEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomRoutingEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomRoutingEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCustomRoutingEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomRoutingEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify.
     ///
     /// - Parameter CreateCustomRoutingListenerInput : [no documentation found]
@@ -501,6 +677,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>(id: "createCustomRoutingListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>())
@@ -517,10 +694,30 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomRoutingListenerOutput, CreateCustomRoutingListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>(id: "createCustomRoutingListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomRoutingListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateCustomRoutingListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCustomRoutingListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomRoutingListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomRoutingListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCustomRoutingListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter CreateEndpointGroupInput : [no documentation found]
@@ -553,6 +750,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateEndpointGroupInput, CreateEndpointGroupOutput, CreateEndpointGroupOutputError>(id: "createEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput, CreateEndpointGroupOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput, CreateEndpointGroupOutputError>())
@@ -569,10 +767,30 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEndpointGroupOutput, CreateEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEndpointGroupOutput, CreateEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEndpointGroupOutput, CreateEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateEndpointGroupInput, CreateEndpointGroupOutput>(id: "createEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify.
     ///
     /// - Parameter CreateListenerInput : [no documentation found]
@@ -603,6 +821,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateListenerInput, CreateListenerOutput, CreateListenerOutputError>(id: "createListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateListenerInput, CreateListenerOutput, CreateListenerOutputError>(keyPath: \.idempotencyToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateListenerInput, CreateListenerOutput, CreateListenerOutputError>())
@@ -619,10 +838,30 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateListenerOutput, CreateListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateListenerOutput, CreateListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateListenerOutput, CreateListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateListenerInput, CreateListenerOutput>(id: "createListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateListenerInput, CreateListenerOutput>(keyPath: \.idempotencyToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateListenerInput, CreateListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateListenerInput, CreateListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateListenerInput, CreateListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.CreateListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateListenerInput, CreateListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateListenerInput, CreateListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteAcceleratorInput : [no documentation found]
@@ -653,6 +892,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteAcceleratorInput, DeleteAcceleratorOutput, DeleteAcceleratorOutputError>(id: "deleteAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput, DeleteAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>())
@@ -724,10 +964,87 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCrossAccountAttachmentOutput, DeleteCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteAcceleratorInput, DeleteAcceleratorOutput>(id: "deleteAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources by doing the following:
+    ///
+    /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
+    ///
+    /// * If the principal is an accelerator, Global Accelerator reviews just that accelerator and removes cross-account endpoints from it.
+    ///
+    ///
+    /// If there are overlapping permissions provided by multiple cross-account attachments, Global Accelerator only removes endpoints if there are no current cross-account attachments that provide access permission. For example, if you delete a cross-account attachment that lists an accelerator as a principal, but another cross-account attachment includes the account ID that owns that accelerator, endpoints will not be removed from the accelerator.
+    ///
+    /// - Parameter DeleteCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    public func deleteCrossAccountAttachment(input: DeleteCrossAccountAttachmentInput) async throws -> DeleteCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(id: "deleteCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCrossAccountAttachmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCrossAccountAttachmentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCrossAccountAttachmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCrossAccountAttachmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCrossAccountAttachmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteCustomRoutingAcceleratorInput : [no documentation found]
@@ -758,6 +1075,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput, DeleteCustomRoutingAcceleratorOutputError>(id: "deleteCustomRoutingAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput, DeleteCustomRoutingAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>())
@@ -773,10 +1091,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomRoutingAcceleratorOutput, DeleteCustomRoutingAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingAcceleratorOutput, DeleteCustomRoutingAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomRoutingAcceleratorOutput, DeleteCustomRoutingAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>(id: "deleteCustomRoutingAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomRoutingAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteCustomRoutingAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCustomRoutingAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomRoutingAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCustomRoutingAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     ///
     /// - Parameter DeleteCustomRoutingEndpointGroupInput : [no documentation found]
@@ -805,6 +1142,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput, DeleteCustomRoutingEndpointGroupOutputError>(id: "deleteCustomRoutingEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput, DeleteCustomRoutingEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>())
@@ -820,10 +1158,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomRoutingEndpointGroupOutput, DeleteCustomRoutingEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingEndpointGroupOutput, DeleteCustomRoutingEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomRoutingEndpointGroupOutput, DeleteCustomRoutingEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>(id: "deleteCustomRoutingEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomRoutingEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteCustomRoutingEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCustomRoutingEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomRoutingEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCustomRoutingEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomRoutingEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a listener for a custom routing accelerator.
     ///
     /// - Parameter DeleteCustomRoutingListenerInput : [no documentation found]
@@ -853,6 +1210,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput, DeleteCustomRoutingListenerOutputError>(id: "deleteCustomRoutingListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput, DeleteCustomRoutingListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>())
@@ -868,10 +1226,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomRoutingListenerOutput, DeleteCustomRoutingListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingListenerOutput, DeleteCustomRoutingListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomRoutingListenerOutput, DeleteCustomRoutingListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>(id: "deleteCustomRoutingListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomRoutingListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteCustomRoutingListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCustomRoutingListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomRoutingListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCustomRoutingListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete an endpoint group from a listener.
     ///
     /// - Parameter DeleteEndpointGroupInput : [no documentation found]
@@ -900,6 +1277,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteEndpointGroupInput, DeleteEndpointGroupOutput, DeleteEndpointGroupOutputError>(id: "deleteEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput, DeleteEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>())
@@ -915,10 +1293,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointGroupOutput, DeleteEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointGroupOutput, DeleteEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointGroupOutput, DeleteEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>(id: "deleteEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a listener from an accelerator.
     ///
     /// - Parameter DeleteListenerInput : [no documentation found]
@@ -948,6 +1345,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteListenerInput, DeleteListenerOutput, DeleteListenerOutputError>(id: "deleteListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteListenerInput, DeleteListenerOutput, DeleteListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteListenerInput, DeleteListenerOutput>())
@@ -963,10 +1361,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteListenerOutput, DeleteListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteListenerOutput, DeleteListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteListenerOutput, DeleteListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteListenerInput, DeleteListenerOutput>(id: "deleteListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteListenerInput, DeleteListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteListenerInput, DeleteListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteListenerInput, DeleteListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeleteListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteListenerInput, DeleteListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteListenerInput, DeleteListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DenyCustomRoutingTraffic` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
     /// - Parameter DenyCustomRoutingTrafficInput : [no documentation found]
@@ -995,6 +1412,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput, DenyCustomRoutingTrafficOutputError>(id: "denyCustomRoutingTraffic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput, DenyCustomRoutingTrafficOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>())
@@ -1010,10 +1428,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DenyCustomRoutingTrafficOutput, DenyCustomRoutingTrafficOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DenyCustomRoutingTrafficOutput, DenyCustomRoutingTrafficOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DenyCustomRoutingTrafficOutput, DenyCustomRoutingTrafficOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>(id: "denyCustomRoutingTraffic")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DenyCustomRoutingTrafficOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DenyCustomRoutingTraffic"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DenyCustomRoutingTrafficOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DenyCustomRoutingTrafficOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DenyCustomRoutingTrafficOutput>(responseClosure(decoder: decoder), responseErrorClosure(DenyCustomRoutingTrafficOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DenyCustomRoutingTrafficOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeprovisionByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html) and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
@@ -1044,6 +1481,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput, DeprovisionByoipCidrOutputError>(id: "deprovisionByoipCidr")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput, DeprovisionByoipCidrOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>())
@@ -1059,10 +1497,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprovisionByoipCidrOutput, DeprovisionByoipCidrOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprovisionByoipCidrOutput, DeprovisionByoipCidrOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeprovisionByoipCidrOutput, DeprovisionByoipCidrOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>(id: "deprovisionByoipCidr")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeprovisionByoipCidrOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DeprovisionByoipCidr"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeprovisionByoipCidrOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprovisionByoipCidrOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprovisionByoipCidrOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeprovisionByoipCidrOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeprovisionByoipCidrOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe an accelerator.
     ///
     /// - Parameter DescribeAcceleratorInput : [no documentation found]
@@ -1091,6 +1548,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeAcceleratorInput, DescribeAcceleratorOutput, DescribeAcceleratorOutputError>(id: "describeAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput, DescribeAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>())
@@ -1106,10 +1564,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAcceleratorOutput, DescribeAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAcceleratorOutput, DescribeAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAcceleratorOutput, DescribeAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeAcceleratorInput, DescribeAcceleratorOutput>(id: "describeAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe the attributes of an accelerator.
     ///
     /// - Parameter DescribeAcceleratorAttributesInput : [no documentation found]
@@ -1138,6 +1615,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput, DescribeAcceleratorAttributesOutputError>(id: "describeAcceleratorAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput, DescribeAcceleratorAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>())
@@ -1201,10 +1679,79 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCrossAccountAttachmentOutput, DescribeCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>(id: "describeAcceleratorAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAcceleratorAttributesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeAcceleratorAttributes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAcceleratorAttributesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAcceleratorAttributesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAcceleratorAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAcceleratorAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// Gets configuration information about a cross-account attachment.
+    ///
+    /// - Parameter DescribeCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    public func describeCrossAccountAttachment(input: DescribeCrossAccountAttachmentInput) async throws -> DescribeCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(id: "describeCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCrossAccountAttachmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCrossAccountAttachmentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCrossAccountAttachmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCrossAccountAttachmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeCrossAccountAttachmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DescribeCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
@@ -1233,6 +1780,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput, DescribeCustomRoutingAcceleratorOutputError>(id: "describeCustomRoutingAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput, DescribeCustomRoutingAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>())
@@ -1248,10 +1796,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingAcceleratorOutput, DescribeCustomRoutingAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingAcceleratorOutput, DescribeCustomRoutingAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingAcceleratorOutput, DescribeCustomRoutingAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>(id: "describeCustomRoutingAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCustomRoutingAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeCustomRoutingAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCustomRoutingAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeCustomRoutingAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe the attributes of a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorAttributesInput : [no documentation found]
@@ -1280,6 +1847,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput, DescribeCustomRoutingAcceleratorAttributesOutputError>(id: "describeCustomRoutingAcceleratorAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput, DescribeCustomRoutingAcceleratorAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>())
@@ -1295,10 +1863,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingAcceleratorAttributesOutput, DescribeCustomRoutingAcceleratorAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput, DescribeCustomRoutingAcceleratorAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput, DescribeCustomRoutingAcceleratorAttributesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>(id: "describeCustomRoutingAcceleratorAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeCustomRoutingAcceleratorAttributes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCustomRoutingAcceleratorAttributesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingAcceleratorAttributesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeCustomRoutingAcceleratorAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe an endpoint group for a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingEndpointGroupInput : [no documentation found]
@@ -1327,6 +1914,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput, DescribeCustomRoutingEndpointGroupOutputError>(id: "describeCustomRoutingEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput, DescribeCustomRoutingEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>())
@@ -1342,10 +1930,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingEndpointGroupOutput, DescribeCustomRoutingEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingEndpointGroupOutput, DescribeCustomRoutingEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingEndpointGroupOutput, DescribeCustomRoutingEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>(id: "describeCustomRoutingEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCustomRoutingEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeCustomRoutingEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCustomRoutingEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeCustomRoutingEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// The description of a listener for a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingListenerInput : [no documentation found]
@@ -1374,6 +1981,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput, DescribeCustomRoutingListenerOutputError>(id: "describeCustomRoutingListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput, DescribeCustomRoutingListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>())
@@ -1389,10 +1997,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingListenerOutput, DescribeCustomRoutingListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingListenerOutput, DescribeCustomRoutingListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingListenerOutput, DescribeCustomRoutingListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>(id: "describeCustomRoutingListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCustomRoutingListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeCustomRoutingListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeCustomRoutingListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomRoutingListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeCustomRoutingListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe an endpoint group.
     ///
     /// - Parameter DescribeEndpointGroupInput : [no documentation found]
@@ -1421,6 +2048,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeEndpointGroupInput, DescribeEndpointGroupOutput, DescribeEndpointGroupOutputError>(id: "describeEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput, DescribeEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>())
@@ -1436,10 +2064,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointGroupOutput, DescribeEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointGroupOutput, DescribeEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointGroupOutput, DescribeEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>(id: "describeEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe a listener.
     ///
     /// - Parameter DescribeListenerInput : [no documentation found]
@@ -1468,6 +2115,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeListenerInput, DescribeListenerOutput, DescribeListenerOutputError>(id: "describeListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeListenerInput, DescribeListenerOutput, DescribeListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeListenerInput, DescribeListenerOutput>())
@@ -1483,10 +2131,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeListenerOutput, DescribeListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeListenerOutput, DescribeListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeListenerOutput, DescribeListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeListenerInput, DescribeListenerOutput>(id: "describeListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeListenerInput, DescribeListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeListenerInput, DescribeListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeListenerInput, DescribeListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.DescribeListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeListenerInput, DescribeListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeListenerInput, DescribeListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccelerators` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListAcceleratorsInput : [no documentation found]
@@ -1515,6 +2182,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListAcceleratorsInput, ListAcceleratorsOutput, ListAcceleratorsOutputError>(id: "listAccelerators")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput, ListAcceleratorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>())
@@ -1530,10 +2198,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAcceleratorsOutput, ListAcceleratorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAcceleratorsOutput, ListAcceleratorsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAcceleratorsOutput, ListAcceleratorsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListAcceleratorsInput, ListAcceleratorsOutput>(id: "listAccelerators")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAcceleratorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListAccelerators"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAcceleratorsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAcceleratorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAcceleratorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAcceleratorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAcceleratorsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListByoipCidrs` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Lists the IP address ranges that were specified in calls to [ProvisionByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html), including the current state and a history of state changes.
     ///
     /// - Parameter ListByoipCidrsInput : [no documentation found]
@@ -1563,6 +2250,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListByoipCidrsInput, ListByoipCidrsOutput, ListByoipCidrsOutputError>(id: "listByoipCidrs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput, ListByoipCidrsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>())
@@ -1721,10 +2409,178 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountResourcesOutput, ListCrossAccountResourcesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListByoipCidrsInput, ListByoipCidrsOutput>(id: "listByoipCidrs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListByoipCidrsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListByoipCidrs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListByoipCidrsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListByoipCidrsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListByoipCidrsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListByoipCidrsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListByoipCidrsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCrossAccountAttachments` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// List the cross-account attachments that have been created in Global Accelerator.
+    ///
+    /// - Parameter ListCrossAccountAttachmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountAttachmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `InvalidNextTokenException` : There isn't another item to return.
+    public func listCrossAccountAttachments(input: ListCrossAccountAttachmentsInput) async throws -> ListCrossAccountAttachmentsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCrossAccountAttachments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(id: "listCrossAccountAttachments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrossAccountAttachmentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCrossAccountAttachments"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrossAccountAttachmentsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountAttachmentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountAttachmentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCrossAccountAttachmentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListCrossAccountResourceAccounts` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// List the accounts that have cross-account endpoints.
+    ///
+    /// - Parameter ListCrossAccountResourceAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountResourceAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    public func listCrossAccountResourceAccounts(input: ListCrossAccountResourceAccountsInput) async throws -> ListCrossAccountResourceAccountsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCrossAccountResourceAccounts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(id: "listCrossAccountResourceAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrossAccountResourceAccountsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCrossAccountResourceAccounts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrossAccountResourceAccountsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountResourceAccountsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountResourceAccountsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCrossAccountResourceAccountsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountResourceAccountsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListCrossAccountResources` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// List the cross-account endpoints available to add to an accelerator.
+    ///
+    /// - Parameter ListCrossAccountResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `InvalidNextTokenException` : There isn't another item to return.
+    public func listCrossAccountResources(input: ListCrossAccountResourcesInput) async throws -> ListCrossAccountResourcesOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCrossAccountResources")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(id: "listCrossAccountResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCrossAccountResourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCrossAccountResources"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCrossAccountResourcesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCrossAccountResourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCrossAccountResourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCrossAccountResourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCrossAccountResourcesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListCustomRoutingAccelerators` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListCustomRoutingAcceleratorsInput : [no documentation found]
@@ -1753,6 +2609,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput, ListCustomRoutingAcceleratorsOutputError>(id: "listCustomRoutingAccelerators")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput, ListCustomRoutingAcceleratorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>())
@@ -1768,10 +2625,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingAcceleratorsOutput, ListCustomRoutingAcceleratorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingAcceleratorsOutput, ListCustomRoutingAcceleratorsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingAcceleratorsOutput, ListCustomRoutingAcceleratorsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(id: "listCustomRoutingAccelerators")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomRoutingAcceleratorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCustomRoutingAccelerators"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomRoutingAcceleratorsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingAcceleratorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingAcceleratorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCustomRoutingAcceleratorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingAcceleratorsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCustomRoutingEndpointGroups` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     ///
     /// - Parameter ListCustomRoutingEndpointGroupsInput : [no documentation found]
@@ -1801,6 +2677,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput, ListCustomRoutingEndpointGroupsOutputError>(id: "listCustomRoutingEndpointGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput, ListCustomRoutingEndpointGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>())
@@ -1816,10 +2693,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingEndpointGroupsOutput, ListCustomRoutingEndpointGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingEndpointGroupsOutput, ListCustomRoutingEndpointGroupsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingEndpointGroupsOutput, ListCustomRoutingEndpointGroupsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(id: "listCustomRoutingEndpointGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomRoutingEndpointGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCustomRoutingEndpointGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomRoutingEndpointGroupsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingEndpointGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingEndpointGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCustomRoutingEndpointGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingEndpointGroupsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCustomRoutingListeners` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the listeners for a custom routing accelerator.
     ///
     /// - Parameter ListCustomRoutingListenersInput : [no documentation found]
@@ -1849,6 +2745,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput, ListCustomRoutingListenersOutputError>(id: "listCustomRoutingListeners")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput, ListCustomRoutingListenersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>())
@@ -1864,10 +2761,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingListenersOutput, ListCustomRoutingListenersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingListenersOutput, ListCustomRoutingListenersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingListenersOutput, ListCustomRoutingListenersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(id: "listCustomRoutingListeners")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomRoutingListenersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCustomRoutingListeners"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomRoutingListenersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingListenersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingListenersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCustomRoutingListenersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingListenersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCustomRoutingPortMappings` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and ports are allowed or denied traffic.
     ///
     /// - Parameter ListCustomRoutingPortMappingsInput : [no documentation found]
@@ -1898,6 +2814,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput, ListCustomRoutingPortMappingsOutputError>(id: "listCustomRoutingPortMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput, ListCustomRoutingPortMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>())
@@ -1913,10 +2830,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingPortMappingsOutput, ListCustomRoutingPortMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingPortMappingsOutput, ListCustomRoutingPortMappingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingPortMappingsOutput, ListCustomRoutingPortMappingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(id: "listCustomRoutingPortMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomRoutingPortMappingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCustomRoutingPortMappings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomRoutingPortMappingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingPortMappingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingPortMappingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCustomRoutingPortMappingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingPortMappingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListCustomRoutingPortMappingsByDestination` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance.
     ///
     /// - Parameter ListCustomRoutingPortMappingsByDestinationInput : [no documentation found]
@@ -1946,6 +2882,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput, ListCustomRoutingPortMappingsByDestinationOutputError>(id: "listCustomRoutingPortMappingsByDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput, ListCustomRoutingPortMappingsByDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>())
@@ -1961,10 +2898,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingPortMappingsByDestinationOutput, ListCustomRoutingPortMappingsByDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingPortMappingsByDestinationOutput, ListCustomRoutingPortMappingsByDestinationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingPortMappingsByDestinationOutput, ListCustomRoutingPortMappingsByDestinationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(id: "listCustomRoutingPortMappingsByDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomRoutingPortMappingsByDestinationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListCustomRoutingPortMappingsByDestination"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCustomRoutingPortMappingsByDestinationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomRoutingPortMappingsByDestinationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomRoutingPortMappingsByDestinationOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCustomRoutingPortMappingsByDestinationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomRoutingPortMappingsByDestinationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListEndpointGroups` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the endpoint groups that are associated with a listener.
     ///
     /// - Parameter ListEndpointGroupsInput : [no documentation found]
@@ -1994,6 +2950,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListEndpointGroupsInput, ListEndpointGroupsOutput, ListEndpointGroupsOutputError>(id: "listEndpointGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput, ListEndpointGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>())
@@ -2009,10 +2966,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointGroupsOutput, ListEndpointGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointGroupsOutput, ListEndpointGroupsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEndpointGroupsOutput, ListEndpointGroupsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListEndpointGroupsInput, ListEndpointGroupsOutput>(id: "listEndpointGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEndpointGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListEndpointGroups"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEndpointGroupsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEndpointGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEndpointGroupsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListListeners` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the listeners for an accelerator.
     ///
     /// - Parameter ListListenersInput : [no documentation found]
@@ -2042,6 +3018,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListListenersInput, ListListenersOutput, ListListenersOutputError>(id: "listListeners")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListListenersInput, ListListenersOutput, ListListenersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListListenersInput, ListListenersOutput>())
@@ -2057,10 +3034,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListListenersOutput, ListListenersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListListenersOutput, ListListenersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListListenersOutput, ListListenersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListListenersInput, ListListenersOutput>(id: "listListeners")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListListenersInput, ListListenersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListListenersInput, ListListenersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListListenersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListListenersInput, ListListenersOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListListeners"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListListenersInput, ListListenersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListListenersInput, ListListenersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListListenersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListListenersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListListenersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListListenersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListListenersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List all tags for an accelerator. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -2089,6 +3085,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2104,10 +3101,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ProvisionByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [ AdvertiseByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter ProvisionByoipCidrInput : [no documentation found]
@@ -2138,6 +3154,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ProvisionByoipCidrInput, ProvisionByoipCidrOutput, ProvisionByoipCidrOutputError>(id: "provisionByoipCidr")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput, ProvisionByoipCidrOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>())
@@ -2153,10 +3170,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionByoipCidrOutput, ProvisionByoipCidrOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionByoipCidrOutput, ProvisionByoipCidrOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionByoipCidrOutput, ProvisionByoipCidrOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>(id: "provisionByoipCidr")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ProvisionByoipCidrOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>(xAmzTarget: "GlobalAccelerator_V20180706.ProvisionByoipCidr"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ProvisionByoipCidrOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionByoipCidrOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionByoipCidrOutput>(responseClosure(decoder: decoder), responseErrorClosure(ProvisionByoipCidrOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ProvisionByoipCidrOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Remove endpoints from a custom routing accelerator.
     ///
     /// - Parameter RemoveCustomRoutingEndpointsInput : [no documentation found]
@@ -2188,6 +3224,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput, RemoveCustomRoutingEndpointsOutputError>(id: "removeCustomRoutingEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput, RemoveCustomRoutingEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>())
@@ -2203,10 +3240,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveCustomRoutingEndpointsOutput, RemoveCustomRoutingEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveCustomRoutingEndpointsOutput, RemoveCustomRoutingEndpointsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveCustomRoutingEndpointsOutput, RemoveCustomRoutingEndpointsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>(id: "removeCustomRoutingEndpoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveCustomRoutingEndpointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.RemoveCustomRoutingEndpoints"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveCustomRoutingEndpointsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveCustomRoutingEndpointsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveCustomRoutingEndpointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveCustomRoutingEndpointsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveCustomRoutingEndpointsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API operation. There are two advantages to using AddEndpoints to remove endpoints instead:
     ///
     /// * It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in the endpoint group except the ones that you want to remove from the group.
@@ -2241,6 +3297,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RemoveEndpointsInput, RemoveEndpointsOutput, RemoveEndpointsOutputError>(id: "removeEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput, RemoveEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>())
@@ -2256,10 +3313,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveEndpointsOutput, RemoveEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveEndpointsOutput, RemoveEndpointsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveEndpointsOutput, RemoveEndpointsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RemoveEndpointsInput, RemoveEndpointsOutput>(id: "removeEndpoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveEndpointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>(xAmzTarget: "GlobalAccelerator_V20180706.RemoveEndpoints"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveEndpointsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveEndpointsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveEndpointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveEndpointsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveEndpointsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Add tags to an accelerator resource. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -2288,6 +3364,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -2303,10 +3380,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "GlobalAccelerator_V20180706.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -2335,6 +3431,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -2350,10 +3447,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update an accelerator to make changes, such as the following:
     ///
     /// * Change the name of the accelerator.
@@ -2394,6 +3510,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateAcceleratorInput, UpdateAcceleratorOutput, UpdateAcceleratorOutputError>(id: "updateAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput, UpdateAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>())
@@ -2409,10 +3526,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAcceleratorOutput, UpdateAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAcceleratorOutput, UpdateAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAcceleratorOutput, UpdateAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateAcceleratorInput, UpdateAcceleratorOutput>(id: "updateAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update the attributes for an accelerator.
     ///
     /// - Parameter UpdateAcceleratorAttributesInput : [no documentation found]
@@ -2442,6 +3578,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput, UpdateAcceleratorAttributesOutputError>(id: "updateAcceleratorAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput, UpdateAcceleratorAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>())
@@ -2514,10 +3651,88 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCrossAccountAttachmentOutput, UpdateCrossAccountAttachmentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>(id: "updateAcceleratorAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAcceleratorAttributesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateAcceleratorAttributes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAcceleratorAttributesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAcceleratorAttributesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAcceleratorAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAcceleratorAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
+    /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources by doing the following:
+    ///
+    /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
+    ///
+    /// * If the principal is an accelerator, Global Accelerator reviews just that accelerator and removes cross-account endpoints from it.
+    ///
+    ///
+    /// If there are overlapping permissions provided by multiple cross-account attachments, Global Accelerator only removes endpoints if there are no current cross-account attachments that provide access permission. For example, if you delete a cross-account attachment that lists an accelerator as a principal, but another cross-account attachment includes the account ID that owns that accelerator, endpoints will not be removed from the accelerator.
+    ///
+    /// - Parameter UpdateCrossAccountAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrossAccountAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
+    /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
+    public func updateCrossAccountAttachment(input: UpdateCrossAccountAttachmentInput) async throws -> UpdateCrossAccountAttachmentOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCrossAccountAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "globalaccelerator")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(id: "updateCrossAccountAttachment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCrossAccountAttachmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateCrossAccountAttachment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCrossAccountAttachmentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCrossAccountAttachmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCrossAccountAttachmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCrossAccountAttachmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorInput : [no documentation found]
@@ -2546,6 +3761,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput, UpdateCustomRoutingAcceleratorOutputError>(id: "updateCustomRoutingAccelerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput, UpdateCustomRoutingAcceleratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>())
@@ -2561,10 +3777,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomRoutingAcceleratorOutput, UpdateCustomRoutingAcceleratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingAcceleratorOutput, UpdateCustomRoutingAcceleratorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomRoutingAcceleratorOutput, UpdateCustomRoutingAcceleratorOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>(id: "updateCustomRoutingAccelerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCustomRoutingAcceleratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateCustomRoutingAccelerator"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCustomRoutingAcceleratorOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomRoutingAcceleratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingAcceleratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCustomRoutingAcceleratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update the attributes for a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorAttributesInput : [no documentation found]
@@ -2594,6 +3829,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput, UpdateCustomRoutingAcceleratorAttributesOutputError>(id: "updateCustomRoutingAcceleratorAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput, UpdateCustomRoutingAcceleratorAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>())
@@ -2609,10 +3845,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomRoutingAcceleratorAttributesOutput, UpdateCustomRoutingAcceleratorAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput, UpdateCustomRoutingAcceleratorAttributesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput, UpdateCustomRoutingAcceleratorAttributesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>(id: "updateCustomRoutingAcceleratorAttributes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateCustomRoutingAcceleratorAttributes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCustomRoutingAcceleratorAttributesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomRoutingAcceleratorAttributesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCustomRoutingAcceleratorAttributesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a listener for a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingListenerInput : [no documentation found]
@@ -2643,6 +3898,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput, UpdateCustomRoutingListenerOutputError>(id: "updateCustomRoutingListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput, UpdateCustomRoutingListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>())
@@ -2658,10 +3914,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomRoutingListenerOutput, UpdateCustomRoutingListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingListenerOutput, UpdateCustomRoutingListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomRoutingListenerOutput, UpdateCustomRoutingListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>(id: "updateCustomRoutingListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCustomRoutingListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateCustomRoutingListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCustomRoutingListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomRoutingListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCustomRoutingListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     ///
     /// - Parameter UpdateEndpointGroupInput : [no documentation found]
@@ -2692,6 +3967,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateEndpointGroupInput, UpdateEndpointGroupOutput, UpdateEndpointGroupOutputError>(id: "updateEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput, UpdateEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>())
@@ -2707,10 +3983,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEndpointGroupOutput, UpdateEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEndpointGroupOutput, UpdateEndpointGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEndpointGroupOutput, UpdateEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>(id: "updateEndpointGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEndpointGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateEndpointGroup"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEndpointGroupOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEndpointGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEndpointGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEndpointGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a listener.
     ///
     /// - Parameter UpdateListenerInput : [no documentation found]
@@ -2741,6 +4036,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateListenerInput, UpdateListenerOutput, UpdateListenerOutputError>(id: "updateListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateListenerInput, UpdateListenerOutput, UpdateListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateListenerInput, UpdateListenerOutput>())
@@ -2756,10 +4052,29 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateListenerOutput, UpdateListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateListenerOutput, UpdateListenerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateListenerOutput, UpdateListenerOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateListenerInput, UpdateListenerOutput>(id: "updateListener")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateListenerInput, UpdateListenerOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateListenerInput, UpdateListenerOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateListenerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateListenerInput, UpdateListenerOutput>(xAmzTarget: "GlobalAccelerator_V20180706.UpdateListener"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateListenerInput, UpdateListenerOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateListenerInput, UpdateListenerOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateListenerOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateListenerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateListenerOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateListenerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateListenerOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `WithdrawByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter WithdrawByoipCidrInput : [no documentation found]
@@ -2790,6 +4105,7 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
                       .withSigningName(value: "globalaccelerator")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<WithdrawByoipCidrInput, WithdrawByoipCidrOutput, WithdrawByoipCidrOutputError>(id: "withdrawByoipCidr")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput, WithdrawByoipCidrOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>())
@@ -2805,6 +4121,23 @@ extension GlobalAcceleratorClient: GlobalAcceleratorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WithdrawByoipCidrOutput, WithdrawByoipCidrOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WithdrawByoipCidrOutput, WithdrawByoipCidrOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<WithdrawByoipCidrOutput, WithdrawByoipCidrOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>(id: "withdrawByoipCidr")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<WithdrawByoipCidrOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>(xAmzTarget: "GlobalAccelerator_V20180706.WithdrawByoipCidr"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, WithdrawByoipCidrOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<WithdrawByoipCidrOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<WithdrawByoipCidrOutput>(responseClosure(decoder: decoder), responseErrorClosure(WithdrawByoipCidrOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<WithdrawByoipCidrOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

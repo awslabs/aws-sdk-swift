@@ -67,6 +67,8 @@ public struct CodeCommitClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 }
 
 extension CodeCommitClient: CodeCommitClientProtocol {
+    /// Performs the `AssociateApprovalRuleTemplateWithRepository` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
     ///
     /// - Parameter AssociateApprovalRuleTemplateWithRepositoryInput : [no documentation found]
@@ -104,6 +106,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput, AssociateApprovalRuleTemplateWithRepositoryOutputError>(id: "associateApprovalRuleTemplateWithRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput, AssociateApprovalRuleTemplateWithRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput>())
@@ -119,10 +122,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateApprovalRuleTemplateWithRepositoryOutput, AssociateApprovalRuleTemplateWithRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutput, AssociateApprovalRuleTemplateWithRepositoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutput, AssociateApprovalRuleTemplateWithRepositoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput>(id: "associateApprovalRuleTemplateWithRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput>(xAmzTarget: "CodeCommit_20150413.AssociateApprovalRuleTemplateWithRepository"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateApprovalRuleTemplateWithRepositoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateApprovalRuleTemplateWithRepositoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateApprovalRuleTemplateWithRepositoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchAssociateApprovalRuleTemplateWithRepositories` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates an association between an approval rule template and one or more specified repositories.
     ///
     /// - Parameter BatchAssociateApprovalRuleTemplateWithRepositoriesInput : [no documentation found]
@@ -158,6 +180,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(id: "batchAssociateApprovalRuleTemplateWithRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>())
@@ -173,10 +196,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(id: "batchAssociateApprovalRuleTemplateWithRepositories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(xAmzTarget: "CodeCommit_20150413.BatchAssociateApprovalRuleTemplateWithRepositories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchDescribeMergeConflicts` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
     ///
     /// - Parameter BatchDescribeMergeConflictsInput : [no documentation found]
@@ -223,6 +265,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput, BatchDescribeMergeConflictsOutputError>(id: "batchDescribeMergeConflicts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput, BatchDescribeMergeConflictsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput>())
@@ -238,10 +281,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeMergeConflictsOutput, BatchDescribeMergeConflictsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeMergeConflictsOutput, BatchDescribeMergeConflictsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeMergeConflictsOutput, BatchDescribeMergeConflictsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput>(id: "batchDescribeMergeConflicts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDescribeMergeConflictsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput>(xAmzTarget: "CodeCommit_20150413.BatchDescribeMergeConflicts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDescribeMergeConflictsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeMergeConflictsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeMergeConflictsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchDescribeMergeConflictsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeMergeConflictsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchDisassociateApprovalRuleTemplateFromRepositories` operation on the `CodeCommit_20150413` service.
+    ///
     /// Removes the association between an approval rule template and one or more specified repositories.
     ///
     /// - Parameter BatchDisassociateApprovalRuleTemplateFromRepositoriesInput : [no documentation found]
@@ -277,6 +339,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(id: "batchDisassociateApprovalRuleTemplateFromRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>())
@@ -292,10 +355,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(id: "batchDisassociateApprovalRuleTemplateFromRepositories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(xAmzTarget: "CodeCommit_20150413.BatchDisassociateApprovalRuleTemplateFromRepositories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchGetCommits` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about the contents of one or more commits in a repository.
     ///
     /// - Parameter BatchGetCommitsInput : [no documentation found]
@@ -331,6 +413,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<BatchGetCommitsInput, BatchGetCommitsOutput, BatchGetCommitsOutputError>(id: "batchGetCommits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput, BatchGetCommitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput>())
@@ -346,10 +429,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetCommitsOutput, BatchGetCommitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetCommitsOutput, BatchGetCommitsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetCommitsOutput, BatchGetCommitsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<BatchGetCommitsInput, BatchGetCommitsOutput>(id: "batchGetCommits")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetCommitsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput>(xAmzTarget: "CodeCommit_20150413.BatchGetCommits"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetCommitsInput, BatchGetCommitsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetCommitsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetCommitsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetCommitsOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetCommitsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetCommitsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchGetRepositories` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about one or more repositories. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
     /// - Parameter BatchGetRepositoriesInput : Represents the input of a batch get repositories operation.
@@ -383,6 +485,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<BatchGetRepositoriesInput, BatchGetRepositoriesOutput, BatchGetRepositoriesOutputError>(id: "batchGetRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput, BatchGetRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput>())
@@ -398,10 +501,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetRepositoriesOutput, BatchGetRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetRepositoriesOutput, BatchGetRepositoriesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetRepositoriesOutput, BatchGetRepositoriesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<BatchGetRepositoriesInput, BatchGetRepositoriesOutput>(id: "batchGetRepositories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetRepositoriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput>(xAmzTarget: "CodeCommit_20150413.BatchGetRepositories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetRepositoriesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetRepositoriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetRepositoriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetRepositoriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetRepositoriesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateApprovalRuleTemplate` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account. When you associate a template with a repository, CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
     ///
     /// - Parameter CreateApprovalRuleTemplateInput : [no documentation found]
@@ -434,6 +556,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput, CreateApprovalRuleTemplateOutputError>(id: "createApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput, CreateApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput>())
@@ -449,10 +572,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApprovalRuleTemplateOutput, CreateApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApprovalRuleTemplateOutput, CreateApprovalRuleTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApprovalRuleTemplateOutput, CreateApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput>(id: "createApprovalRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApprovalRuleTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput>(xAmzTarget: "CodeCommit_20150413.CreateApprovalRuleTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateApprovalRuleTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApprovalRuleTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApprovalRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateApprovalRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApprovalRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateBranch` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates a branch in a repository and points the branch to a commit. Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
     ///
     /// - Parameter CreateBranchInput : Represents the input of a create branch operation.
@@ -492,6 +634,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateBranchInput, CreateBranchOutput, CreateBranchOutputError>(id: "createBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBranchInput, CreateBranchOutput, CreateBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBranchInput, CreateBranchOutput>())
@@ -507,10 +650,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBranchOutput, CreateBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBranchOutput, CreateBranchOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBranchOutput, CreateBranchOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateBranchInput, CreateBranchOutput>(id: "createBranch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBranchInput, CreateBranchOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBranchInput, CreateBranchOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBranchOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateBranchInput, CreateBranchOutput>(xAmzTarget: "CodeCommit_20150413.CreateBranch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateBranchInput, CreateBranchOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBranchInput, CreateBranchOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBranchOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBranchOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBranchOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateBranchOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBranchOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateCommit` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates a commit for a repository on the tip of a specified branch.
     ///
     /// - Parameter CreateCommitInput : [no documentation found]
@@ -574,6 +736,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateCommitInput, CreateCommitOutput, CreateCommitOutputError>(id: "createCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCommitInput, CreateCommitOutput, CreateCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCommitInput, CreateCommitOutput>())
@@ -589,10 +752,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCommitOutput, CreateCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCommitOutput, CreateCommitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCommitOutput, CreateCommitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateCommitInput, CreateCommitOutput>(id: "createCommit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCommitInput, CreateCommitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCommitInput, CreateCommitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCommitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCommitInput, CreateCommitOutput>(xAmzTarget: "CodeCommit_20150413.CreateCommit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCommitInput, CreateCommitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCommitInput, CreateCommitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCommitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCommitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCommitOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCommitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCommitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePullRequest` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates a pull request in the specified repository.
     ///
     /// - Parameter CreatePullRequestInput : [no documentation found]
@@ -643,6 +825,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePullRequestInput, CreatePullRequestOutput, CreatePullRequestOutputError>(id: "createPullRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePullRequestInput, CreatePullRequestOutput, CreatePullRequestOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePullRequestInput, CreatePullRequestOutput, CreatePullRequestOutputError>())
@@ -659,10 +842,30 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullRequestOutput, CreatePullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullRequestOutput, CreatePullRequestOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullRequestOutput, CreatePullRequestOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePullRequestInput, CreatePullRequestOutput>(id: "createPullRequest")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePullRequestInput, CreatePullRequestOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePullRequestInput, CreatePullRequestOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullRequestInput, CreatePullRequestOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePullRequestOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePullRequestInput, CreatePullRequestOutput>(xAmzTarget: "CodeCommit_20150413.CreatePullRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePullRequestInput, CreatePullRequestOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePullRequestInput, CreatePullRequestOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePullRequestOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullRequestOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullRequestOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePullRequestOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullRequestOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePullRequestApprovalRule` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates an approval rule for a pull request.
     ///
     /// - Parameter CreatePullRequestApprovalRuleInput : [no documentation found]
@@ -703,6 +906,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput, CreatePullRequestApprovalRuleOutputError>(id: "createPullRequestApprovalRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput, CreatePullRequestApprovalRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput>())
@@ -718,10 +922,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullRequestApprovalRuleOutput, CreatePullRequestApprovalRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullRequestApprovalRuleOutput, CreatePullRequestApprovalRuleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullRequestApprovalRuleOutput, CreatePullRequestApprovalRuleOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput>(id: "createPullRequestApprovalRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePullRequestApprovalRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput>(xAmzTarget: "CodeCommit_20150413.CreatePullRequestApprovalRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePullRequestApprovalRuleOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullRequestApprovalRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullRequestApprovalRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePullRequestApprovalRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullRequestApprovalRuleOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateRepository` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates a new, empty repository.
     ///
     /// - Parameter CreateRepositoryInput : Represents the input of a create repository operation.
@@ -761,6 +984,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateRepositoryInput, CreateRepositoryOutput, CreateRepositoryOutputError>(id: "createRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutput, CreateRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
@@ -776,10 +1000,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRepositoryOutput, CreateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput, CreateRepositoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRepositoryOutput, CreateRepositoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateRepositoryInput, CreateRepositoryOutput>(id: "createRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(xAmzTarget: "CodeCommit_20150413.CreateRepository"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateRepositoryInput, CreateRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRepositoryInput, CreateRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRepositoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRepositoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRepositoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRepositoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateUnreferencedMergeCommit` operation on the `CodeCommit_20150413` service.
+    ///
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
     ///
     /// - Parameter CreateUnreferencedMergeCommitInput : [no documentation found]
@@ -841,6 +1084,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput, CreateUnreferencedMergeCommitOutputError>(id: "createUnreferencedMergeCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput, CreateUnreferencedMergeCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput>())
@@ -856,10 +1100,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUnreferencedMergeCommitOutput, CreateUnreferencedMergeCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUnreferencedMergeCommitOutput, CreateUnreferencedMergeCommitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUnreferencedMergeCommitOutput, CreateUnreferencedMergeCommitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput>(id: "createUnreferencedMergeCommit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUnreferencedMergeCommitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput>(xAmzTarget: "CodeCommit_20150413.CreateUnreferencedMergeCommit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUnreferencedMergeCommitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUnreferencedMergeCommitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUnreferencedMergeCommitOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUnreferencedMergeCommitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUnreferencedMergeCommitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteApprovalRuleTemplate` operation on the `CodeCommit_20150413` service.
+    ///
     /// Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
     ///
     /// - Parameter DeleteApprovalRuleTemplateInput : [no documentation found]
@@ -888,6 +1151,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput, DeleteApprovalRuleTemplateOutputError>(id: "deleteApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput, DeleteApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput>())
@@ -903,10 +1167,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApprovalRuleTemplateOutput, DeleteApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApprovalRuleTemplateOutput, DeleteApprovalRuleTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApprovalRuleTemplateOutput, DeleteApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput>(id: "deleteApprovalRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApprovalRuleTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput>(xAmzTarget: "CodeCommit_20150413.DeleteApprovalRuleTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteApprovalRuleTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApprovalRuleTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApprovalRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteApprovalRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApprovalRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteBranch` operation on the `CodeCommit_20150413` service.
+    ///
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository.
     ///
     /// - Parameter DeleteBranchInput : Represents the input of a delete branch operation.
@@ -943,6 +1226,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteBranchInput, DeleteBranchOutput, DeleteBranchOutputError>(id: "deleteBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBranchInput, DeleteBranchOutput, DeleteBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBranchInput, DeleteBranchOutput>())
@@ -958,10 +1242,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBranchOutput, DeleteBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBranchOutput, DeleteBranchOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBranchOutput, DeleteBranchOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteBranchInput, DeleteBranchOutput>(id: "deleteBranch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBranchInput, DeleteBranchOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBranchInput, DeleteBranchOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBranchOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteBranchInput, DeleteBranchOutput>(xAmzTarget: "CodeCommit_20150413.DeleteBranch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteBranchInput, DeleteBranchOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBranchInput, DeleteBranchOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteBranchOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBranchOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBranchOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteBranchOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBranchOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCommentContent` operation on the `CodeCommit_20150413` service.
+    ///
     /// Deletes the content of a comment made on a change, file, or commit in a repository.
     ///
     /// - Parameter DeleteCommentContentInput : [no documentation found]
@@ -991,6 +1294,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteCommentContentInput, DeleteCommentContentOutput, DeleteCommentContentOutputError>(id: "deleteCommentContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput, DeleteCommentContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput>())
@@ -1006,10 +1310,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCommentContentOutput, DeleteCommentContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCommentContentOutput, DeleteCommentContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCommentContentOutput, DeleteCommentContentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteCommentContentInput, DeleteCommentContentOutput>(id: "deleteCommentContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCommentContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput>(xAmzTarget: "CodeCommit_20150413.DeleteCommentContent"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCommentContentInput, DeleteCommentContentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCommentContentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCommentContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCommentContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCommentContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCommentContentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteFile` operation on the `CodeCommit_20150413` service.
+    ///
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
     ///
     /// - Parameter DeleteFileInput : [no documentation found]
@@ -1057,6 +1380,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteFileInput, DeleteFileOutput, DeleteFileOutputError>(id: "deleteFile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileInput, DeleteFileOutput, DeleteFileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileInput, DeleteFileOutput>())
@@ -1072,10 +1396,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileOutput, DeleteFileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileOutput, DeleteFileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileOutput, DeleteFileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteFileInput, DeleteFileOutput>(id: "deleteFile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileInput, DeleteFileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileInput, DeleteFileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteFileInput, DeleteFileOutput>(xAmzTarget: "CodeCommit_20150413.DeleteFile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteFileInput, DeleteFileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteFileInput, DeleteFileOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePullRequestApprovalRule` operation on the `CodeCommit_20150413` service.
+    ///
     /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request.
     ///
     /// - Parameter DeletePullRequestApprovalRuleInput : [no documentation found]
@@ -1113,6 +1456,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput, DeletePullRequestApprovalRuleOutputError>(id: "deletePullRequestApprovalRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput, DeletePullRequestApprovalRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput>())
@@ -1128,10 +1472,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePullRequestApprovalRuleOutput, DeletePullRequestApprovalRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePullRequestApprovalRuleOutput, DeletePullRequestApprovalRuleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePullRequestApprovalRuleOutput, DeletePullRequestApprovalRuleOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput>(id: "deletePullRequestApprovalRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePullRequestApprovalRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput>(xAmzTarget: "CodeCommit_20150413.DeletePullRequestApprovalRule"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePullRequestApprovalRuleOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePullRequestApprovalRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePullRequestApprovalRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePullRequestApprovalRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePullRequestApprovalRuleOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRepository` operation on the `CodeCommit_20150413` service.
+    ///
     /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
     ///
     /// - Parameter DeleteRepositoryInput : Represents the input of a delete repository operation.
@@ -1164,6 +1527,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteRepositoryInput, DeleteRepositoryOutput, DeleteRepositoryOutputError>(id: "deleteRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput, DeleteRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
@@ -1179,10 +1543,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryOutput, DeleteRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput, DeleteRepositoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryOutput, DeleteRepositoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteRepositoryInput, DeleteRepositoryOutput>(id: "deleteRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(xAmzTarget: "CodeCommit_20150413.DeleteRepository"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRepositoryInput, DeleteRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRepositoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRepositoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeMergeConflicts` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
     ///
     /// - Parameter DescribeMergeConflictsInput : [no documentation found]
@@ -1231,6 +1614,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeMergeConflictsInput, DescribeMergeConflictsOutput, DescribeMergeConflictsOutputError>(id: "describeMergeConflicts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput, DescribeMergeConflictsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>())
@@ -1246,10 +1630,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMergeConflictsOutput, DescribeMergeConflictsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMergeConflictsOutput, DescribeMergeConflictsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMergeConflictsOutput, DescribeMergeConflictsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>(id: "describeMergeConflicts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMergeConflictsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>(xAmzTarget: "CodeCommit_20150413.DescribeMergeConflicts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMergeConflictsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMergeConflictsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMergeConflictsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeMergeConflictsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMergeConflictsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribePullRequestEvents` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about one or more pull request events.
     ///
     /// - Parameter DescribePullRequestEventsInput : [no documentation found]
@@ -1288,6 +1691,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribePullRequestEventsInput, DescribePullRequestEventsOutput, DescribePullRequestEventsOutputError>(id: "describePullRequestEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput, DescribePullRequestEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>())
@@ -1303,10 +1707,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePullRequestEventsOutput, DescribePullRequestEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePullRequestEventsOutput, DescribePullRequestEventsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePullRequestEventsOutput, DescribePullRequestEventsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>(id: "describePullRequestEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePullRequestEventsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>(xAmzTarget: "CodeCommit_20150413.DescribePullRequestEvents"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePullRequestEventsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePullRequestEventsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePullRequestEventsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribePullRequestEventsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePullRequestEventsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateApprovalRuleTemplateFromRepository` operation on the `CodeCommit_20150413` service.
+    ///
     /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
     ///
     /// - Parameter DisassociateApprovalRuleTemplateFromRepositoryInput : [no documentation found]
@@ -1343,6 +1766,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(id: "disassociateApprovalRuleTemplateFromRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput, DisassociateApprovalRuleTemplateFromRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput>())
@@ -1358,10 +1782,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateApprovalRuleTemplateFromRepositoryOutput, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutput, DisassociateApprovalRuleTemplateFromRepositoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutput, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput>(id: "disassociateApprovalRuleTemplateFromRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput>(xAmzTarget: "CodeCommit_20150413.DisassociateApprovalRuleTemplateFromRepository"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateApprovalRuleTemplateFromRepositoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateApprovalRuleTemplateFromRepositoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateApprovalRuleTemplateFromRepositoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EvaluatePullRequestApprovalRules` operation on the `CodeCommit_20150413` service.
+    ///
     /// Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
     ///
     /// - Parameter EvaluatePullRequestApprovalRulesInput : [no documentation found]
@@ -1398,6 +1841,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput, EvaluatePullRequestApprovalRulesOutputError>(id: "evaluatePullRequestApprovalRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput, EvaluatePullRequestApprovalRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput>())
@@ -1413,10 +1857,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluatePullRequestApprovalRulesOutput, EvaluatePullRequestApprovalRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluatePullRequestApprovalRulesOutput, EvaluatePullRequestApprovalRulesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EvaluatePullRequestApprovalRulesOutput, EvaluatePullRequestApprovalRulesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput>(id: "evaluatePullRequestApprovalRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluatePullRequestApprovalRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput>(xAmzTarget: "CodeCommit_20150413.EvaluatePullRequestApprovalRules"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EvaluatePullRequestApprovalRulesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluatePullRequestApprovalRulesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluatePullRequestApprovalRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(EvaluatePullRequestApprovalRulesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EvaluatePullRequestApprovalRulesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetApprovalRuleTemplate` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about a specified approval rule template.
     ///
     /// - Parameter GetApprovalRuleTemplateInput : [no documentation found]
@@ -1445,6 +1908,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput, GetApprovalRuleTemplateOutputError>(id: "getApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput, GetApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput>())
@@ -1460,10 +1924,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApprovalRuleTemplateOutput, GetApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApprovalRuleTemplateOutput, GetApprovalRuleTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApprovalRuleTemplateOutput, GetApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput>(id: "getApprovalRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApprovalRuleTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput>(xAmzTarget: "CodeCommit_20150413.GetApprovalRuleTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetApprovalRuleTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApprovalRuleTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApprovalRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetApprovalRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApprovalRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetBlob` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns the base-64 encoded content of an individual blob in a repository.
     ///
     /// - Parameter GetBlobInput : Represents the input of a get blob operation.
@@ -1501,6 +1984,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetBlobInput, GetBlobOutput, GetBlobOutputError>(id: "getBlob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlobInput, GetBlobOutput, GetBlobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlobInput, GetBlobOutput>())
@@ -1516,10 +2000,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlobOutput, GetBlobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlobOutput, GetBlobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBlobOutput, GetBlobOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetBlobInput, GetBlobOutput>(id: "getBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlobInput, GetBlobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlobInput, GetBlobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBlobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetBlobInput, GetBlobOutput>(xAmzTarget: "CodeCommit_20150413.GetBlob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetBlobInput, GetBlobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBlobInput, GetBlobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBlobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlobOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBlobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBlobOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetBranch` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about a repository branch, including its name and the last commit ID.
     ///
     /// - Parameter GetBranchInput : Represents the input of a get branch operation.
@@ -1556,6 +2059,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetBranchInput, GetBranchOutput, GetBranchOutputError>(id: "getBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBranchInput, GetBranchOutput, GetBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBranchInput, GetBranchOutput>())
@@ -1571,10 +2075,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBranchOutput, GetBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBranchOutput, GetBranchOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBranchOutput, GetBranchOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetBranchInput, GetBranchOutput>(id: "getBranch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBranchInput, GetBranchOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBranchInput, GetBranchOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBranchOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetBranchInput, GetBranchOutput>(xAmzTarget: "CodeCommit_20150413.GetBranch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetBranchInput, GetBranchOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBranchInput, GetBranchOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBranchOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBranchOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBranchOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBranchOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBranchOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetComment` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns the content of a comment made on a change, file, or commit in a repository. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
     /// - Parameter GetCommentInput : [no documentation found]
@@ -1609,6 +2132,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCommentInput, GetCommentOutput, GetCommentOutputError>(id: "getComment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentInput, GetCommentOutput, GetCommentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentInput, GetCommentOutput>())
@@ -1624,10 +2148,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentOutput, GetCommentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentOutput, GetCommentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentOutput, GetCommentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCommentInput, GetCommentOutput>(id: "getComment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentInput, GetCommentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentInput, GetCommentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentInput, GetCommentOutput>(xAmzTarget: "CodeCommit_20150413.GetComment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCommentInput, GetCommentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentInput, GetCommentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCommentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCommentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCommentReactions` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
     ///
     /// - Parameter GetCommentReactionsInput : [no documentation found]
@@ -1660,6 +2203,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCommentReactionsInput, GetCommentReactionsOutput, GetCommentReactionsOutputError>(id: "getCommentReactions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput, GetCommentReactionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput>())
@@ -1675,10 +2219,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentReactionsOutput, GetCommentReactionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentReactionsOutput, GetCommentReactionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentReactionsOutput, GetCommentReactionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCommentReactionsInput, GetCommentReactionsOutput>(id: "getCommentReactions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentReactionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput>(xAmzTarget: "CodeCommit_20150413.GetCommentReactions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentReactionsInput, GetCommentReactionsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCommentReactionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentReactionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentReactionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCommentReactionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentReactionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCommentsForComparedCommit` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about comments made on the comparison between two commits. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
     /// - Parameter GetCommentsForComparedCommitInput : [no documentation found]
@@ -1717,6 +2280,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput, GetCommentsForComparedCommitOutputError>(id: "getCommentsForComparedCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput, GetCommentsForComparedCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>())
@@ -1732,10 +2296,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentsForComparedCommitOutput, GetCommentsForComparedCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentsForComparedCommitOutput, GetCommentsForComparedCommitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentsForComparedCommitOutput, GetCommentsForComparedCommitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>(id: "getCommentsForComparedCommit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentsForComparedCommitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>(xAmzTarget: "CodeCommit_20150413.GetCommentsForComparedCommit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCommentsForComparedCommitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentsForComparedCommitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentsForComparedCommitOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCommentsForComparedCommitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentsForComparedCommitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCommentsForPullRequest` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns comments made on a pull request. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
     /// - Parameter GetCommentsForPullRequestInput : [no documentation found]
@@ -1778,6 +2361,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput, GetCommentsForPullRequestOutputError>(id: "getCommentsForPullRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput, GetCommentsForPullRequestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>())
@@ -1793,10 +2377,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentsForPullRequestOutput, GetCommentsForPullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentsForPullRequestOutput, GetCommentsForPullRequestOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentsForPullRequestOutput, GetCommentsForPullRequestOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>(id: "getCommentsForPullRequest")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentsForPullRequestOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>(xAmzTarget: "CodeCommit_20150413.GetCommentsForPullRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCommentsForPullRequestOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentsForPullRequestOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentsForPullRequestOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCommentsForPullRequestOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentsForPullRequestOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCommit` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about a commit, including commit message and committer information.
     ///
     /// - Parameter GetCommitInput : Represents the input of a get commit operation.
@@ -1833,6 +2436,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCommitInput, GetCommitOutput, GetCommitOutputError>(id: "getCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommitInput, GetCommitOutput, GetCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommitInput, GetCommitOutput>())
@@ -1848,10 +2452,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommitOutput, GetCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommitOutput, GetCommitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommitOutput, GetCommitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCommitInput, GetCommitOutput>(id: "getCommit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommitInput, GetCommitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommitInput, GetCommitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommitInput, GetCommitOutput>(xAmzTarget: "CodeCommit_20150413.GetCommit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCommitInput, GetCommitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommitInput, GetCommitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCommitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommitOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCommitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDifferences` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
     ///
     /// - Parameter GetDifferencesInput : [no documentation found]
@@ -1893,6 +2516,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetDifferencesInput, GetDifferencesOutput, GetDifferencesOutputError>(id: "getDifferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDifferencesInput, GetDifferencesOutput, GetDifferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDifferencesInput, GetDifferencesOutput>())
@@ -1908,10 +2532,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDifferencesOutput, GetDifferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDifferencesOutput, GetDifferencesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDifferencesOutput, GetDifferencesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetDifferencesInput, GetDifferencesOutput>(id: "getDifferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDifferencesInput, GetDifferencesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDifferencesInput, GetDifferencesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDifferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDifferencesInput, GetDifferencesOutput>(xAmzTarget: "CodeCommit_20150413.GetDifferences"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetDifferencesInput, GetDifferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDifferencesInput, GetDifferencesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDifferencesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDifferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDifferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDifferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDifferencesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetFile` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns the base-64 encoded contents of a specified file and its metadata.
     ///
     /// - Parameter GetFileInput : [no documentation found]
@@ -1951,6 +2594,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetFileInput, GetFileOutput, GetFileOutputError>(id: "getFile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFileInput, GetFileOutput, GetFileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFileInput, GetFileOutput>())
@@ -1966,10 +2610,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFileOutput, GetFileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFileOutput, GetFileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFileOutput, GetFileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetFileInput, GetFileOutput>(id: "getFile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFileInput, GetFileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFileInput, GetFileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFileInput, GetFileOutput>(xAmzTarget: "CodeCommit_20150413.GetFile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFileInput, GetFileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFileInput, GetFileOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetFolder` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns the contents of a specified folder in a repository.
     ///
     /// - Parameter GetFolderInput : [no documentation found]
@@ -2008,6 +2671,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetFolderInput, GetFolderOutput, GetFolderOutputError>(id: "getFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFolderInput, GetFolderOutput, GetFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFolderInput, GetFolderOutput>())
@@ -2023,10 +2687,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFolderOutput, GetFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFolderOutput, GetFolderOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFolderOutput, GetFolderOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetFolderInput, GetFolderOutput>(id: "getFolder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFolderInput, GetFolderOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFolderInput, GetFolderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFolderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFolderInput, GetFolderOutput>(xAmzTarget: "CodeCommit_20150413.GetFolder"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetFolderInput, GetFolderOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFolderInput, GetFolderOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFolderOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFolderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFolderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFolderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFolderOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMergeCommit` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about a specified merge commit.
     ///
     /// - Parameter GetMergeCommitInput : [no documentation found]
@@ -2065,6 +2748,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetMergeCommitInput, GetMergeCommitOutput, GetMergeCommitOutputError>(id: "getMergeCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeCommitInput, GetMergeCommitOutput, GetMergeCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeCommitInput, GetMergeCommitOutput>())
@@ -2080,10 +2764,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeCommitOutput, GetMergeCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeCommitOutput, GetMergeCommitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeCommitOutput, GetMergeCommitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetMergeCommitInput, GetMergeCommitOutput>(id: "getMergeCommit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeCommitInput, GetMergeCommitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeCommitInput, GetMergeCommitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMergeCommitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMergeCommitInput, GetMergeCommitOutput>(xAmzTarget: "CodeCommit_20150413.GetMergeCommit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMergeCommitInput, GetMergeCommitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMergeCommitInput, GetMergeCommitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMergeCommitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeCommitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeCommitOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMergeCommitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeCommitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMergeConflicts` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
     ///
     /// - Parameter GetMergeConflictsInput : [no documentation found]
@@ -2131,6 +2834,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetMergeConflictsInput, GetMergeConflictsOutput, GetMergeConflictsOutputError>(id: "getMergeConflicts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput, GetMergeConflictsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput>())
@@ -2146,10 +2850,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeConflictsOutput, GetMergeConflictsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeConflictsOutput, GetMergeConflictsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeConflictsOutput, GetMergeConflictsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetMergeConflictsInput, GetMergeConflictsOutput>(id: "getMergeConflicts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMergeConflictsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput>(xAmzTarget: "CodeCommit_20150413.GetMergeConflicts"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMergeConflictsInput, GetMergeConflictsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMergeConflictsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeConflictsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeConflictsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMergeConflictsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeConflictsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMergeOptions` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
     ///
     /// - Parameter GetMergeOptionsInput : [no documentation found]
@@ -2191,6 +2914,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetMergeOptionsInput, GetMergeOptionsOutput, GetMergeOptionsOutputError>(id: "getMergeOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput, GetMergeOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput>())
@@ -2206,10 +2930,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeOptionsOutput, GetMergeOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeOptionsOutput, GetMergeOptionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeOptionsOutput, GetMergeOptionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetMergeOptionsInput, GetMergeOptionsOutput>(id: "getMergeOptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMergeOptionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput>(xAmzTarget: "CodeCommit_20150413.GetMergeOptions"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMergeOptionsInput, GetMergeOptionsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMergeOptionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeOptionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeOptionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMergeOptionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeOptionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPullRequest` operation on the `CodeCommit_20150413` service.
+    ///
     /// Gets information about a pull request in a specified repository.
     ///
     /// - Parameter GetPullRequestInput : [no documentation found]
@@ -2243,6 +2986,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPullRequestInput, GetPullRequestOutput, GetPullRequestOutputError>(id: "getPullRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestInput, GetPullRequestOutput, GetPullRequestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestInput, GetPullRequestOutput>())
@@ -2258,10 +3002,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestOutput, GetPullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestOutput, GetPullRequestOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestOutput, GetPullRequestOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPullRequestInput, GetPullRequestOutput>(id: "getPullRequest")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestInput, GetPullRequestOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestInput, GetPullRequestOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPullRequestOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPullRequestInput, GetPullRequestOutput>(xAmzTarget: "CodeCommit_20150413.GetPullRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPullRequestInput, GetPullRequestOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPullRequestInput, GetPullRequestOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPullRequestOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPullRequestOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPullRequestApprovalStates` operation on the `CodeCommit_20150413` service.
+    ///
     /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
     ///
     /// - Parameter GetPullRequestApprovalStatesInput : [no documentation found]
@@ -2297,6 +3060,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput, GetPullRequestApprovalStatesOutputError>(id: "getPullRequestApprovalStates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput, GetPullRequestApprovalStatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput>())
@@ -2312,10 +3076,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestApprovalStatesOutput, GetPullRequestApprovalStatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestApprovalStatesOutput, GetPullRequestApprovalStatesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestApprovalStatesOutput, GetPullRequestApprovalStatesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput>(id: "getPullRequestApprovalStates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPullRequestApprovalStatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput>(xAmzTarget: "CodeCommit_20150413.GetPullRequestApprovalStates"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPullRequestApprovalStatesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestApprovalStatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestApprovalStatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPullRequestApprovalStatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestApprovalStatesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPullRequestOverrideState` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
     ///
     /// - Parameter GetPullRequestOverrideStateInput : [no documentation found]
@@ -2351,6 +3134,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput, GetPullRequestOverrideStateOutputError>(id: "getPullRequestOverrideState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput, GetPullRequestOverrideStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput>())
@@ -2366,10 +3150,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestOverrideStateOutput, GetPullRequestOverrideStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestOverrideStateOutput, GetPullRequestOverrideStateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestOverrideStateOutput, GetPullRequestOverrideStateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput>(id: "getPullRequestOverrideState")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPullRequestOverrideStateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput>(xAmzTarget: "CodeCommit_20150413.GetPullRequestOverrideState"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPullRequestOverrideStateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestOverrideStateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestOverrideStateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPullRequestOverrideStateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestOverrideStateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRepository` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns information about a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
     /// - Parameter GetRepositoryInput : Represents the input of a get repository operation.
@@ -2403,6 +3206,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetRepositoryInput, GetRepositoryOutput, GetRepositoryOutputError>(id: "getRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryInput, GetRepositoryOutput, GetRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryInput, GetRepositoryOutput>())
@@ -2418,10 +3222,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryOutput, GetRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryOutput, GetRepositoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryOutput, GetRepositoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetRepositoryInput, GetRepositoryOutput>(id: "getRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryInput, GetRepositoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryInput, GetRepositoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRepositoryInput, GetRepositoryOutput>(xAmzTarget: "CodeCommit_20150413.GetRepository"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRepositoryInput, GetRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRepositoryInput, GetRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRepositoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRepositoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRepositoryTriggers` operation on the `CodeCommit_20150413` service.
+    ///
     /// Gets information about triggers configured for a repository.
     ///
     /// - Parameter GetRepositoryTriggersInput : Represents the input of a get repository triggers operation.
@@ -2455,6 +3278,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetRepositoryTriggersInput, GetRepositoryTriggersOutput, GetRepositoryTriggersOutputError>(id: "getRepositoryTriggers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput, GetRepositoryTriggersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput>())
@@ -2470,10 +3294,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryTriggersOutput, GetRepositoryTriggersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryTriggersOutput, GetRepositoryTriggersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryTriggersOutput, GetRepositoryTriggersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetRepositoryTriggersInput, GetRepositoryTriggersOutput>(id: "getRepositoryTriggers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRepositoryTriggersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput>(xAmzTarget: "CodeCommit_20150413.GetRepositoryTriggers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRepositoryTriggersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryTriggersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryTriggersOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRepositoryTriggersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryTriggersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListApprovalRuleTemplates` operation on the `CodeCommit_20150413` service.
+    ///
     /// Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
     ///
     /// - Parameter ListApprovalRuleTemplatesInput : [no documentation found]
@@ -2501,6 +3344,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput, ListApprovalRuleTemplatesOutputError>(id: "listApprovalRuleTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput, ListApprovalRuleTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>())
@@ -2516,10 +3360,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApprovalRuleTemplatesOutput, ListApprovalRuleTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApprovalRuleTemplatesOutput, ListApprovalRuleTemplatesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApprovalRuleTemplatesOutput, ListApprovalRuleTemplatesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>(id: "listApprovalRuleTemplates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApprovalRuleTemplatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>(xAmzTarget: "CodeCommit_20150413.ListApprovalRuleTemplates"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListApprovalRuleTemplatesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApprovalRuleTemplatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApprovalRuleTemplatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListApprovalRuleTemplatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApprovalRuleTemplatesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAssociatedApprovalRuleTemplatesForRepository` operation on the `CodeCommit_20150413` service.
+    ///
     /// Lists all approval rule templates that are associated with a specified repository.
     ///
     /// - Parameter ListAssociatedApprovalRuleTemplatesForRepositoryInput : [no documentation found]
@@ -2555,6 +3418,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(id: "listAssociatedApprovalRuleTemplatesForRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>())
@@ -2570,10 +3434,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(id: "listAssociatedApprovalRuleTemplatesForRepository")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(xAmzTarget: "CodeCommit_20150413.ListAssociatedApprovalRuleTemplatesForRepository"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAssociatedApprovalRuleTemplatesForRepositoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListBranches` operation on the `CodeCommit_20150413` service.
+    ///
     /// Gets information about one or more branches in a repository.
     ///
     /// - Parameter ListBranchesInput : Represents the input of a list branches operation.
@@ -2608,6 +3491,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListBranchesInput, ListBranchesOutput, ListBranchesOutputError>(id: "listBranches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBranchesInput, ListBranchesOutput, ListBranchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBranchesInput, ListBranchesOutput>())
@@ -2623,10 +3507,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBranchesOutput, ListBranchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBranchesOutput, ListBranchesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBranchesOutput, ListBranchesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListBranchesInput, ListBranchesOutput>(id: "listBranches")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBranchesInput, ListBranchesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBranchesInput, ListBranchesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBranchesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBranchesInput, ListBranchesOutput>(xAmzTarget: "CodeCommit_20150413.ListBranches"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListBranchesInput, ListBranchesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBranchesInput, ListBranchesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBranchesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBranchesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBranchesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBranchesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBranchesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListFileCommitHistory` operation on the `CodeCommit_20150413` service.
+    ///
     /// Retrieves a list of commits and changes to a specified file.
     ///
     /// - Parameter ListFileCommitHistoryInput : [no documentation found]
@@ -2666,6 +3569,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListFileCommitHistoryInput, ListFileCommitHistoryOutput, ListFileCommitHistoryOutputError>(id: "listFileCommitHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput, ListFileCommitHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>())
@@ -2681,10 +3585,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFileCommitHistoryOutput, ListFileCommitHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFileCommitHistoryOutput, ListFileCommitHistoryOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFileCommitHistoryOutput, ListFileCommitHistoryOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>(id: "listFileCommitHistory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFileCommitHistoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>(xAmzTarget: "CodeCommit_20150413.ListFileCommitHistory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFileCommitHistoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFileCommitHistoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFileCommitHistoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFileCommitHistoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFileCommitHistoryOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPullRequests` operation on the `CodeCommit_20150413` service.
+    ///
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
     ///
     /// - Parameter ListPullRequestsInput : [no documentation found]
@@ -2723,6 +3646,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListPullRequestsInput, ListPullRequestsOutput, ListPullRequestsOutputError>(id: "listPullRequests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPullRequestsInput, ListPullRequestsOutput, ListPullRequestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPullRequestsInput, ListPullRequestsOutput>())
@@ -2738,10 +3662,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPullRequestsOutput, ListPullRequestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPullRequestsOutput, ListPullRequestsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPullRequestsOutput, ListPullRequestsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListPullRequestsInput, ListPullRequestsOutput>(id: "listPullRequests")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPullRequestsInput, ListPullRequestsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPullRequestsInput, ListPullRequestsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPullRequestsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPullRequestsInput, ListPullRequestsOutput>(xAmzTarget: "CodeCommit_20150413.ListPullRequests"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPullRequestsInput, ListPullRequestsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPullRequestsInput, ListPullRequestsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPullRequestsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPullRequestsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPullRequestsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPullRequestsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPullRequestsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRepositories` operation on the `CodeCommit_20150413` service.
+    ///
     /// Gets information about one or more repositories.
     ///
     /// - Parameter ListRepositoriesInput : Represents the input of a list repositories operation.
@@ -2770,6 +3713,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListRepositoriesInput, ListRepositoriesOutput, ListRepositoriesOutputError>(id: "listRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesInput, ListRepositoriesOutput, ListRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
@@ -2785,10 +3729,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesOutput, ListRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesOutput, ListRepositoriesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesOutput, ListRepositoriesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListRepositoriesInput, ListRepositoriesOutput>(id: "listRepositories")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesInput, ListRepositoriesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRepositoriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(xAmzTarget: "CodeCommit_20150413.ListRepositories"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRepositoriesInput, ListRepositoriesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRepositoriesInput, ListRepositoriesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRepositoriesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRepositoriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRepositoriesForApprovalRuleTemplate` operation on the `CodeCommit_20150413` service.
+    ///
     /// Lists all repositories associated with the specified approval rule template.
     ///
     /// - Parameter ListRepositoriesForApprovalRuleTemplateInput : [no documentation found]
@@ -2824,6 +3787,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput, ListRepositoriesForApprovalRuleTemplateOutputError>(id: "listRepositoriesForApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput, ListRepositoriesForApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>())
@@ -2839,10 +3803,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesForApprovalRuleTemplateOutput, ListRepositoriesForApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesForApprovalRuleTemplateOutput, ListRepositoriesForApprovalRuleTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesForApprovalRuleTemplateOutput, ListRepositoriesForApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>(id: "listRepositoriesForApprovalRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRepositoriesForApprovalRuleTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>(xAmzTarget: "CodeCommit_20150413.ListRepositoriesForApprovalRuleTemplate"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRepositoriesForApprovalRuleTemplateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesForApprovalRuleTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesForApprovalRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRepositoriesForApprovalRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesForApprovalRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `CodeCommit_20150413` service.
+    ///
     /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -2872,6 +3855,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
@@ -2887,10 +3871,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "CodeCommit_20150413.ListTagsForResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MergeBranchesByFastForward` operation on the `CodeCommit_20150413` service.
+    ///
     /// Merges two branches using the fast-forward merge strategy.
     ///
     /// - Parameter MergeBranchesByFastForwardInput : [no documentation found]
@@ -2935,6 +3938,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput, MergeBranchesByFastForwardOutputError>(id: "mergeBranchesByFastForward")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput, MergeBranchesByFastForwardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput>())
@@ -2950,10 +3954,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesByFastForwardOutput, MergeBranchesByFastForwardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesByFastForwardOutput, MergeBranchesByFastForwardOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesByFastForwardOutput, MergeBranchesByFastForwardOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput>(id: "mergeBranchesByFastForward")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeBranchesByFastForwardOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput>(xAmzTarget: "CodeCommit_20150413.MergeBranchesByFastForward"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergeBranchesByFastForwardOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesByFastForwardOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesByFastForwardOutput>(responseClosure(decoder: decoder), responseErrorClosure(MergeBranchesByFastForwardOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesByFastForwardOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MergeBranchesBySquash` operation on the `CodeCommit_20150413` service.
+    ///
     /// Merges two branches using the squash merge strategy.
     ///
     /// - Parameter MergeBranchesBySquashInput : [no documentation found]
@@ -3018,6 +4041,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MergeBranchesBySquashInput, MergeBranchesBySquashOutput, MergeBranchesBySquashOutputError>(id: "mergeBranchesBySquash")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput, MergeBranchesBySquashOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput>())
@@ -3033,10 +4057,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesBySquashOutput, MergeBranchesBySquashOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesBySquashOutput, MergeBranchesBySquashOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesBySquashOutput, MergeBranchesBySquashOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MergeBranchesBySquashInput, MergeBranchesBySquashOutput>(id: "mergeBranchesBySquash")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeBranchesBySquashOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput>(xAmzTarget: "CodeCommit_20150413.MergeBranchesBySquash"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergeBranchesBySquashOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesBySquashOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesBySquashOutput>(responseClosure(decoder: decoder), responseErrorClosure(MergeBranchesBySquashOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesBySquashOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MergeBranchesByThreeWay` operation on the `CodeCommit_20150413` service.
+    ///
     /// Merges two specified branches using the three-way merge strategy.
     ///
     /// - Parameter MergeBranchesByThreeWayInput : [no documentation found]
@@ -3101,6 +4144,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput, MergeBranchesByThreeWayOutputError>(id: "mergeBranchesByThreeWay")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput, MergeBranchesByThreeWayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput>())
@@ -3116,10 +4160,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesByThreeWayOutput, MergeBranchesByThreeWayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesByThreeWayOutput, MergeBranchesByThreeWayOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesByThreeWayOutput, MergeBranchesByThreeWayOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput>(id: "mergeBranchesByThreeWay")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeBranchesByThreeWayOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput>(xAmzTarget: "CodeCommit_20150413.MergeBranchesByThreeWay"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergeBranchesByThreeWayOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesByThreeWayOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesByThreeWayOutput>(responseClosure(decoder: decoder), responseErrorClosure(MergeBranchesByThreeWayOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesByThreeWayOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MergePullRequestByFastForward` operation on the `CodeCommit_20150413` service.
+    ///
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
     ///
     /// - Parameter MergePullRequestByFastForwardInput : [no documentation found]
@@ -3164,6 +4227,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput, MergePullRequestByFastForwardOutputError>(id: "mergePullRequestByFastForward")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput, MergePullRequestByFastForwardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput>())
@@ -3179,10 +4243,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestByFastForwardOutput, MergePullRequestByFastForwardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestByFastForwardOutput, MergePullRequestByFastForwardOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestByFastForwardOutput, MergePullRequestByFastForwardOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput>(id: "mergePullRequestByFastForward")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergePullRequestByFastForwardOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput>(xAmzTarget: "CodeCommit_20150413.MergePullRequestByFastForward"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergePullRequestByFastForwardOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestByFastForwardOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestByFastForwardOutput>(responseClosure(decoder: decoder), responseErrorClosure(MergePullRequestByFastForwardOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestByFastForwardOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MergePullRequestBySquash` operation on the `CodeCommit_20150413` service.
+    ///
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
     ///
     /// - Parameter MergePullRequestBySquashInput : [no documentation found]
@@ -3246,6 +4329,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MergePullRequestBySquashInput, MergePullRequestBySquashOutput, MergePullRequestBySquashOutputError>(id: "mergePullRequestBySquash")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput, MergePullRequestBySquashOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput>())
@@ -3261,10 +4345,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestBySquashOutput, MergePullRequestBySquashOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestBySquashOutput, MergePullRequestBySquashOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestBySquashOutput, MergePullRequestBySquashOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MergePullRequestBySquashInput, MergePullRequestBySquashOutput>(id: "mergePullRequestBySquash")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergePullRequestBySquashOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput>(xAmzTarget: "CodeCommit_20150413.MergePullRequestBySquash"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergePullRequestBySquashOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestBySquashOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestBySquashOutput>(responseClosure(decoder: decoder), responseErrorClosure(MergePullRequestBySquashOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestBySquashOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `MergePullRequestByThreeWay` operation on the `CodeCommit_20150413` service.
+    ///
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
     ///
     /// - Parameter MergePullRequestByThreeWayInput : [no documentation found]
@@ -3328,6 +4431,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput, MergePullRequestByThreeWayOutputError>(id: "mergePullRequestByThreeWay")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput, MergePullRequestByThreeWayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput>())
@@ -3343,10 +4447,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestByThreeWayOutput, MergePullRequestByThreeWayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestByThreeWayOutput, MergePullRequestByThreeWayOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestByThreeWayOutput, MergePullRequestByThreeWayOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput>(id: "mergePullRequestByThreeWay")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergePullRequestByThreeWayOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput>(xAmzTarget: "CodeCommit_20150413.MergePullRequestByThreeWay"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, MergePullRequestByThreeWayOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestByThreeWayOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestByThreeWayOutput>(responseClosure(decoder: decoder), responseErrorClosure(MergePullRequestByThreeWayOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestByThreeWayOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `OverridePullRequestApprovalRules` operation on the `CodeCommit_20150413` service.
+    ///
     /// Sets aside (overrides) all approval rule requirements for a specified pull request.
     ///
     /// - Parameter OverridePullRequestApprovalRulesInput : [no documentation found]
@@ -3387,6 +4510,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput, OverridePullRequestApprovalRulesOutputError>(id: "overridePullRequestApprovalRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput, OverridePullRequestApprovalRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput>())
@@ -3402,10 +4526,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OverridePullRequestApprovalRulesOutput, OverridePullRequestApprovalRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OverridePullRequestApprovalRulesOutput, OverridePullRequestApprovalRulesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<OverridePullRequestApprovalRulesOutput, OverridePullRequestApprovalRulesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput>(id: "overridePullRequestApprovalRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OverridePullRequestApprovalRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput>(xAmzTarget: "CodeCommit_20150413.OverridePullRequestApprovalRules"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, OverridePullRequestApprovalRulesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OverridePullRequestApprovalRulesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OverridePullRequestApprovalRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(OverridePullRequestApprovalRulesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<OverridePullRequestApprovalRulesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PostCommentForComparedCommit` operation on the `CodeCommit_20150413` service.
+    ///
     /// Posts a comment on the comparison between two commits.
     ///
     /// - Parameter PostCommentForComparedCommitInput : [no documentation found]
@@ -3454,6 +4597,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput, PostCommentForComparedCommitOutputError>(id: "postCommentForComparedCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput, PostCommentForComparedCommitOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput, PostCommentForComparedCommitOutputError>())
@@ -3470,10 +4614,30 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentForComparedCommitOutput, PostCommentForComparedCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentForComparedCommitOutput, PostCommentForComparedCommitOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentForComparedCommitOutput, PostCommentForComparedCommitOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput>(id: "postCommentForComparedCommit")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostCommentForComparedCommitOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput>(xAmzTarget: "CodeCommit_20150413.PostCommentForComparedCommit"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PostCommentForComparedCommitOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentForComparedCommitOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentForComparedCommitOutput>(responseClosure(decoder: decoder), responseErrorClosure(PostCommentForComparedCommitOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentForComparedCommitOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PostCommentForPullRequest` operation on the `CodeCommit_20150413` service.
+    ///
     /// Posts a comment on a pull request.
     ///
     /// - Parameter PostCommentForPullRequestInput : [no documentation found]
@@ -3526,6 +4690,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PostCommentForPullRequestInput, PostCommentForPullRequestOutput, PostCommentForPullRequestOutputError>(id: "postCommentForPullRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput, PostCommentForPullRequestOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput, PostCommentForPullRequestOutputError>())
@@ -3542,10 +4707,30 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentForPullRequestOutput, PostCommentForPullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentForPullRequestOutput, PostCommentForPullRequestOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentForPullRequestOutput, PostCommentForPullRequestOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PostCommentForPullRequestInput, PostCommentForPullRequestOutput>(id: "postCommentForPullRequest")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostCommentForPullRequestOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput>(xAmzTarget: "CodeCommit_20150413.PostCommentForPullRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PostCommentForPullRequestOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentForPullRequestOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentForPullRequestOutput>(responseClosure(decoder: decoder), responseErrorClosure(PostCommentForPullRequestOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentForPullRequestOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PostCommentReply` operation on the `CodeCommit_20150413` service.
+    ///
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
     ///
     /// - Parameter PostCommentReplyInput : [no documentation found]
@@ -3579,6 +4764,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PostCommentReplyInput, PostCommentReplyOutput, PostCommentReplyOutputError>(id: "postCommentReply")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PostCommentReplyInput, PostCommentReplyOutput, PostCommentReplyOutputError>(keyPath: \.clientRequestToken))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostCommentReplyInput, PostCommentReplyOutput, PostCommentReplyOutputError>())
@@ -3595,10 +4781,30 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentReplyOutput, PostCommentReplyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentReplyOutput, PostCommentReplyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentReplyOutput, PostCommentReplyOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PostCommentReplyInput, PostCommentReplyOutput>(id: "postCommentReply")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<PostCommentReplyInput, PostCommentReplyOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostCommentReplyInput, PostCommentReplyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostCommentReplyInput, PostCommentReplyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostCommentReplyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PostCommentReplyInput, PostCommentReplyOutput>(xAmzTarget: "CodeCommit_20150413.PostCommentReply"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PostCommentReplyInput, PostCommentReplyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostCommentReplyInput, PostCommentReplyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PostCommentReplyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentReplyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentReplyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PostCommentReplyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentReplyOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutCommentReaction` operation on the `CodeCommit_20150413` service.
+    ///
     /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
     ///
     /// - Parameter PutCommentReactionInput : [no documentation found]
@@ -3631,6 +4837,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutCommentReactionInput, PutCommentReactionOutput, PutCommentReactionOutputError>(id: "putCommentReaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCommentReactionInput, PutCommentReactionOutput, PutCommentReactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCommentReactionInput, PutCommentReactionOutput>())
@@ -3646,10 +4853,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCommentReactionOutput, PutCommentReactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCommentReactionOutput, PutCommentReactionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCommentReactionOutput, PutCommentReactionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutCommentReactionInput, PutCommentReactionOutput>(id: "putCommentReaction")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCommentReactionInput, PutCommentReactionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCommentReactionInput, PutCommentReactionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutCommentReactionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutCommentReactionInput, PutCommentReactionOutput>(xAmzTarget: "CodeCommit_20150413.PutCommentReaction"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutCommentReactionInput, PutCommentReactionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutCommentReactionInput, PutCommentReactionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutCommentReactionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCommentReactionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCommentReactionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutCommentReactionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCommentReactionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutFile` operation on the `CodeCommit_20150413` service.
+    ///
     /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
     ///
     /// - Parameter PutFileInput : [no documentation found]
@@ -3705,6 +4931,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutFileInput, PutFileOutput, PutFileOutputError>(id: "putFile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFileInput, PutFileOutput, PutFileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFileInput, PutFileOutput>())
@@ -3720,10 +4947,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFileOutput, PutFileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFileOutput, PutFileOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFileOutput, PutFileOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutFileInput, PutFileOutput>(id: "putFile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFileInput, PutFileOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFileInput, PutFileOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutFileInput, PutFileOutput>(xAmzTarget: "CodeCommit_20150413.PutFile"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutFileInput, PutFileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFileInput, PutFileOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFileOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFileOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutFileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFileOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutRepositoryTriggers` operation on the `CodeCommit_20150413` service.
+    ///
     /// Replaces all triggers for a repository. Used to create or delete triggers.
     ///
     /// - Parameter PutRepositoryTriggersInput : Represents the input of a put repository triggers operation.
@@ -3770,6 +5016,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutRepositoryTriggersInput, PutRepositoryTriggersOutput, PutRepositoryTriggersOutputError>(id: "putRepositoryTriggers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput, PutRepositoryTriggersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput>())
@@ -3785,10 +5032,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRepositoryTriggersOutput, PutRepositoryTriggersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRepositoryTriggersOutput, PutRepositoryTriggersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRepositoryTriggersOutput, PutRepositoryTriggersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutRepositoryTriggersInput, PutRepositoryTriggersOutput>(id: "putRepositoryTriggers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRepositoryTriggersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput>(xAmzTarget: "CodeCommit_20150413.PutRepositoryTriggers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRepositoryTriggersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRepositoryTriggersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRepositoryTriggersOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRepositoryTriggersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRepositoryTriggersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `CodeCommit_20150413` service.
+    ///
     /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -3823,6 +5089,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
@@ -3838,10 +5105,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "CodeCommit_20150413.TagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TestRepositoryTriggers` operation on the `CodeCommit_20150413` service.
+    ///
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
     ///
     /// - Parameter TestRepositoryTriggersInput : Represents the input of a test repository triggers operation.
@@ -3888,6 +5174,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<TestRepositoryTriggersInput, TestRepositoryTriggersOutput, TestRepositoryTriggersOutputError>(id: "testRepositoryTriggers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput, TestRepositoryTriggersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput>())
@@ -3903,10 +5190,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRepositoryTriggersOutput, TestRepositoryTriggersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRepositoryTriggersOutput, TestRepositoryTriggersOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestRepositoryTriggersOutput, TestRepositoryTriggersOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<TestRepositoryTriggersInput, TestRepositoryTriggersOutput>(id: "testRepositoryTriggers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestRepositoryTriggersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput>(xAmzTarget: "CodeCommit_20150413.TestRepositoryTriggers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestRepositoryTriggersOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRepositoryTriggersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRepositoryTriggersOutput>(responseClosure(decoder: decoder), responseErrorClosure(TestRepositoryTriggersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestRepositoryTriggersOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `CodeCommit_20150413` service.
+    ///
     /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -3941,6 +5247,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
@@ -3956,10 +5263,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "CodeCommit_20150413.UntagResource"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateApprovalRuleTemplateContent` operation on the `CodeCommit_20150413` service.
+    ///
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
     ///
     /// - Parameter UpdateApprovalRuleTemplateContentInput : [no documentation found]
@@ -3991,6 +5317,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput, UpdateApprovalRuleTemplateContentOutputError>(id: "updateApprovalRuleTemplateContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput, UpdateApprovalRuleTemplateContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput>())
@@ -4006,10 +5333,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateContentOutput, UpdateApprovalRuleTemplateContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateContentOutput, UpdateApprovalRuleTemplateContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateContentOutput, UpdateApprovalRuleTemplateContentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput>(id: "updateApprovalRuleTemplateContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApprovalRuleTemplateContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput>(xAmzTarget: "CodeCommit_20150413.UpdateApprovalRuleTemplateContent"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApprovalRuleTemplateContentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateApprovalRuleTemplateContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateContentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateApprovalRuleTemplateDescription` operation on the `CodeCommit_20150413` service.
+    ///
     /// Updates the description for a specified approval rule template.
     ///
     /// - Parameter UpdateApprovalRuleTemplateDescriptionInput : [no documentation found]
@@ -4039,6 +5385,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput, UpdateApprovalRuleTemplateDescriptionOutputError>(id: "updateApprovalRuleTemplateDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput, UpdateApprovalRuleTemplateDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput>())
@@ -4054,10 +5401,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateDescriptionOutput, UpdateApprovalRuleTemplateDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateDescriptionOutput, UpdateApprovalRuleTemplateDescriptionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateDescriptionOutput, UpdateApprovalRuleTemplateDescriptionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput>(id: "updateApprovalRuleTemplateDescription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApprovalRuleTemplateDescriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput>(xAmzTarget: "CodeCommit_20150413.UpdateApprovalRuleTemplateDescription"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApprovalRuleTemplateDescriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateDescriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateDescriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateApprovalRuleTemplateDescriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateDescriptionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateApprovalRuleTemplateName` operation on the `CodeCommit_20150413` service.
+    ///
     /// Updates the name of a specified approval rule template.
     ///
     /// - Parameter UpdateApprovalRuleTemplateNameInput : [no documentation found]
@@ -4087,6 +5453,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput, UpdateApprovalRuleTemplateNameOutputError>(id: "updateApprovalRuleTemplateName")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput, UpdateApprovalRuleTemplateNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput>())
@@ -4102,10 +5469,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateNameOutput, UpdateApprovalRuleTemplateNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateNameOutput, UpdateApprovalRuleTemplateNameOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateNameOutput, UpdateApprovalRuleTemplateNameOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput>(id: "updateApprovalRuleTemplateName")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApprovalRuleTemplateNameOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput>(xAmzTarget: "CodeCommit_20150413.UpdateApprovalRuleTemplateName"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateApprovalRuleTemplateNameOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateNameOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateNameOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateApprovalRuleTemplateNameOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateNameOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateComment` operation on the `CodeCommit_20150413` service.
+    ///
     /// Replaces the contents of a comment.
     ///
     /// - Parameter UpdateCommentInput : [no documentation found]
@@ -4138,6 +5524,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateCommentInput, UpdateCommentOutput, UpdateCommentOutputError>(id: "updateComment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCommentInput, UpdateCommentOutput, UpdateCommentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCommentInput, UpdateCommentOutput>())
@@ -4153,10 +5540,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCommentOutput, UpdateCommentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCommentOutput, UpdateCommentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCommentOutput, UpdateCommentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateCommentInput, UpdateCommentOutput>(id: "updateComment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCommentInput, UpdateCommentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCommentInput, UpdateCommentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCommentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCommentInput, UpdateCommentOutput>(xAmzTarget: "CodeCommit_20150413.UpdateComment"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCommentInput, UpdateCommentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCommentInput, UpdateCommentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCommentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCommentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCommentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCommentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCommentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateDefaultBranch` operation on the `CodeCommit_20150413` service.
+    ///
     /// Sets or changes the default branch name for the specified repository. If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
     ///
     /// - Parameter UpdateDefaultBranchInput : Represents the input of an update default branch operation.
@@ -4193,6 +5599,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateDefaultBranchInput, UpdateDefaultBranchOutput, UpdateDefaultBranchOutputError>(id: "updateDefaultBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput, UpdateDefaultBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput>())
@@ -4208,10 +5615,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDefaultBranchOutput, UpdateDefaultBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDefaultBranchOutput, UpdateDefaultBranchOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDefaultBranchOutput, UpdateDefaultBranchOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateDefaultBranchInput, UpdateDefaultBranchOutput>(id: "updateDefaultBranch")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDefaultBranchOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput>(xAmzTarget: "CodeCommit_20150413.UpdateDefaultBranch"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDefaultBranchOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDefaultBranchOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDefaultBranchOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateDefaultBranchOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDefaultBranchOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePullRequestApprovalRuleContent` operation on the `CodeCommit_20150413` service.
+    ///
     /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and the approval pool for approvers.
     ///
     /// - Parameter UpdatePullRequestApprovalRuleContentInput : [no documentation found]
@@ -4253,6 +5679,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput, UpdatePullRequestApprovalRuleContentOutputError>(id: "updatePullRequestApprovalRuleContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput, UpdatePullRequestApprovalRuleContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput>())
@@ -4268,10 +5695,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestApprovalRuleContentOutput, UpdatePullRequestApprovalRuleContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestApprovalRuleContentOutput, UpdatePullRequestApprovalRuleContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestApprovalRuleContentOutput, UpdatePullRequestApprovalRuleContentOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput>(id: "updatePullRequestApprovalRuleContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestApprovalRuleContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestApprovalRuleContent"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePullRequestApprovalRuleContentOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestApprovalRuleContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestApprovalRuleContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePullRequestApprovalRuleContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestApprovalRuleContentOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePullRequestApprovalState` operation on the `CodeCommit_20150413` service.
+    ///
     /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
     ///
     /// - Parameter UpdatePullRequestApprovalStateInput : [no documentation found]
@@ -4313,6 +5759,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput, UpdatePullRequestApprovalStateOutputError>(id: "updatePullRequestApprovalState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput, UpdatePullRequestApprovalStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput>())
@@ -4328,10 +5775,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestApprovalStateOutput, UpdatePullRequestApprovalStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestApprovalStateOutput, UpdatePullRequestApprovalStateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestApprovalStateOutput, UpdatePullRequestApprovalStateOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput>(id: "updatePullRequestApprovalState")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestApprovalStateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestApprovalState"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePullRequestApprovalStateOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestApprovalStateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestApprovalStateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePullRequestApprovalStateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestApprovalStateOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePullRequestDescription` operation on the `CodeCommit_20150413` service.
+    ///
     /// Replaces the contents of the description of a pull request.
     ///
     /// - Parameter UpdatePullRequestDescriptionInput : [no documentation found]
@@ -4362,6 +5828,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput, UpdatePullRequestDescriptionOutputError>(id: "updatePullRequestDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput, UpdatePullRequestDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput>())
@@ -4377,10 +5844,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestDescriptionOutput, UpdatePullRequestDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestDescriptionOutput, UpdatePullRequestDescriptionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestDescriptionOutput, UpdatePullRequestDescriptionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput>(id: "updatePullRequestDescription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestDescriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestDescription"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePullRequestDescriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestDescriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestDescriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePullRequestDescriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestDescriptionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePullRequestStatus` operation on the `CodeCommit_20150413` service.
+    ///
     /// Updates the status of a pull request.
     ///
     /// - Parameter UpdatePullRequestStatusInput : [no documentation found]
@@ -4417,6 +5903,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput, UpdatePullRequestStatusOutputError>(id: "updatePullRequestStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput, UpdatePullRequestStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput>())
@@ -4432,10 +5919,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestStatusOutput, UpdatePullRequestStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestStatusOutput, UpdatePullRequestStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestStatusOutput, UpdatePullRequestStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput>(id: "updatePullRequestStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePullRequestStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePullRequestStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePullRequestTitle` operation on the `CodeCommit_20150413` service.
+    ///
     /// Replaces the title of a pull request.
     ///
     /// - Parameter UpdatePullRequestTitleInput : [no documentation found]
@@ -4467,6 +5973,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput, UpdatePullRequestTitleOutputError>(id: "updatePullRequestTitle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput, UpdatePullRequestTitleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput>())
@@ -4482,10 +5989,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestTitleOutput, UpdatePullRequestTitleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestTitleOutput, UpdatePullRequestTitleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestTitleOutput, UpdatePullRequestTitleOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput>(id: "updatePullRequestTitle")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestTitleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestTitle"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePullRequestTitleOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestTitleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestTitleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePullRequestTitleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestTitleOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRepositoryDescription` operation on the `CodeCommit_20150413` service.
+    ///
     /// Sets or changes the comment or description for a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
     /// - Parameter UpdateRepositoryDescriptionInput : Represents the input of an update repository description operation.
@@ -4520,6 +6046,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput, UpdateRepositoryDescriptionOutputError>(id: "updateRepositoryDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput, UpdateRepositoryDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput>())
@@ -4535,10 +6062,29 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryDescriptionOutput, UpdateRepositoryDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryDescriptionOutput, UpdateRepositoryDescriptionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryDescriptionOutput, UpdateRepositoryDescriptionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput>(id: "updateRepositoryDescription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRepositoryDescriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput>(xAmzTarget: "CodeCommit_20150413.UpdateRepositoryDescription"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRepositoryDescriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryDescriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryDescriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRepositoryDescriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryDescriptionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRepositoryName` operation on the `CodeCommit_20150413` service.
+    ///
     /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     ///
     /// - Parameter UpdateRepositoryNameInput : Represents the input of an update repository description operation.
@@ -4568,6 +6114,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateRepositoryNameInput, UpdateRepositoryNameOutput, UpdateRepositoryNameOutputError>(id: "updateRepositoryName")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput, UpdateRepositoryNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput>())
@@ -4583,6 +6130,23 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryNameOutput, UpdateRepositoryNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryNameOutput, UpdateRepositoryNameOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryNameOutput, UpdateRepositoryNameOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateRepositoryNameInput, UpdateRepositoryNameOutput>(id: "updateRepositoryName")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRepositoryNameOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput>(xAmzTarget: "CodeCommit_20150413.UpdateRepositoryName"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRepositoryNameOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryNameOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryNameOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRepositoryNameOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryNameOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

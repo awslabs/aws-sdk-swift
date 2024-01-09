@@ -67,6 +67,8 @@ public struct ConnectContactLensClientLogHandlerFactory: ClientRuntime.SDKLogHan
 }
 
 extension ConnectContactLensClient: ConnectContactLensClientProtocol {
+    /// Performs the `ListRealtimeContactAnalysisSegments` operation on the `AmazonConnectContactLens` service.
+    ///
     /// Provides a list of analysis segments for a real-time analysis session.
     ///
     /// - Parameter ListRealtimeContactAnalysisSegmentsInput : [no documentation found]
@@ -97,6 +99,7 @@ extension ConnectContactLensClient: ConnectContactLensClientProtocol {
                       .withSigningName(value: "connect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput, ListRealtimeContactAnalysisSegmentsOutputError>(id: "listRealtimeContactAnalysisSegments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput, ListRealtimeContactAnalysisSegmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
@@ -111,6 +114,22 @@ extension ConnectContactLensClient: ConnectContactLensClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRealtimeContactAnalysisSegmentsOutput, ListRealtimeContactAnalysisSegmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRealtimeContactAnalysisSegmentsOutput, ListRealtimeContactAnalysisSegmentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRealtimeContactAnalysisSegmentsOutput, ListRealtimeContactAnalysisSegmentsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(id: "listRealtimeContactAnalysisSegments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRealtimeContactAnalysisSegmentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRealtimeContactAnalysisSegmentsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRealtimeContactAnalysisSegmentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRealtimeContactAnalysisSegmentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRealtimeContactAnalysisSegmentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRealtimeContactAnalysisSegmentsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

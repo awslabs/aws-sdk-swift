@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
 public protocol MediaStoreDataClientProtocol {
+    /// Performs the `DeleteObject` operation on the `MediaStoreObject_20170901` service.
+    ///
     /// Deletes an object at the specified path.
     ///
     /// - Parameter DeleteObjectInput : [no documentation found]
@@ -17,6 +19,11 @@ public protocol MediaStoreDataClientProtocol {
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `ObjectNotFoundException` : Could not perform an operation on an object that does not exist.
     func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeObject` operation on the `MediaStoreObject_20170901` service.
+    ///
+>>>>>>> main
     /// Gets the headers for an object at the specified path.
     ///
     /// - Parameter DescribeObjectInput : [no documentation found]
@@ -30,6 +37,11 @@ public protocol MediaStoreDataClientProtocol {
     /// - `InternalServerError` : The service is temporarily unavailable.
     /// - `ObjectNotFoundException` : Could not perform an operation on an object that does not exist.
     func describeObject(input: DescribeObjectInput) async throws -> DescribeObjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetObject` operation on the `MediaStoreObject_20170901` service.
+    ///
+>>>>>>> main
     /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     ///
     /// - Parameter GetObjectInput : [no documentation found]
@@ -44,6 +56,11 @@ public protocol MediaStoreDataClientProtocol {
     /// - `ObjectNotFoundException` : Could not perform an operation on an object that does not exist.
     /// - `RequestedRangeNotSatisfiableException` : The requested content range is not valid.
     func getObject(input: GetObjectInput) async throws -> GetObjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListItems` operation on the `MediaStoreObject_20170901` service.
+    ///
+>>>>>>> main
     /// Provides a list of metadata entries about folders and objects in the specified folder.
     ///
     /// - Parameter ListItemsInput : [no documentation found]
@@ -56,6 +73,11 @@ public protocol MediaStoreDataClientProtocol {
     /// - `ContainerNotFoundException` : The specified container was not found for the specified account.
     /// - `InternalServerError` : The service is temporarily unavailable.
     func listItems(input: ListItemsInput) async throws -> ListItemsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutObject` operation on the `MediaStoreObject_20170901` service.
+    ///
+>>>>>>> main
     /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     ///
     /// - Parameter PutObjectInput : [no documentation found]

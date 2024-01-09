@@ -217,6 +217,71 @@ extension SSOAdminClientTypes {
 
 }
 
+extension SSOAdminClientTypes.AccountAssignmentForPrincipal: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case permissionSetArn = "PermissionSetArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let permissionSetArn = self.permissionSetArn {
+            try encodeContainer.encode(permissionSetArn, forKey: .permissionSetArn)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let permissionSetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .permissionSetArn)
+        permissionSetArn = permissionSetArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an assignment of an Amazon Web Services account to a principal and the permissions that principal has in the account.
+    public struct AccountAssignmentForPrincipal: Swift.Equatable {
+        /// The account ID number of the Amazon Web Services account.
+        public var accountId: Swift.String?
+        /// The ARN of the IAM Identity Center permission set assigned to this principal for this Amazon Web Services account.
+        public var permissionSetArn: Swift.String?
+        /// The ID of the principal.
+        public var principalId: Swift.String?
+        /// The type of the principal.
+        public var principalType: SSOAdminClientTypes.PrincipalType?
+
+        public init(
+            accountId: Swift.String? = nil,
+            permissionSetArn: Swift.String? = nil,
+            principalId: Swift.String? = nil,
+            principalType: SSOAdminClientTypes.PrincipalType? = nil
+        )
+        {
+            self.accountId = accountId
+            self.permissionSetArn = permissionSetArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+    }
+
+}
+
 extension SSOAdminClientTypes.AccountAssignmentOperationStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate = "CreatedDate"
@@ -385,6 +450,364 @@ extension SSOAdminClientTypes {
         }
     }
 
+}
+
+extension SSOAdminClientTypes.Application: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationAccount = "ApplicationAccount"
+        case applicationArn = "ApplicationArn"
+        case applicationProviderArn = "ApplicationProviderArn"
+        case createdDate = "CreatedDate"
+        case description = "Description"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case portalOptions = "PortalOptions"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationAccount = self.applicationAccount {
+            try encodeContainer.encode(applicationAccount, forKey: .applicationAccount)
+        }
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let applicationProviderArn = self.applicationProviderArn {
+            try encodeContainer.encode(applicationProviderArn, forKey: .applicationProviderArn)
+        }
+        if let createdDate = self.createdDate {
+            try encodeContainer.encodeTimestamp(createdDate, format: .epochSeconds, forKey: .createdDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let portalOptions = self.portalOptions {
+            try encodeContainer.encode(portalOptions, forKey: .portalOptions)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let applicationProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProviderArn)
+        applicationProviderArn = applicationProviderArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let applicationAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationAccount)
+        applicationAccount = applicationAccountDecoded
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ApplicationStatus.self, forKey: .status)
+        status = statusDecoded
+        let portalOptionsDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PortalOptions.self, forKey: .portalOptions)
+        portalOptions = portalOptionsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdDate)
+        createdDate = createdDateDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an application that uses IAM Identity Center for access management.
+    public struct Application: Swift.Equatable {
+        /// The Amazon Web Services account ID number of the application.
+        public var applicationAccount: Swift.String?
+        /// The ARN of the application.
+        public var applicationArn: Swift.String?
+        /// The ARN of the application provider for this application.
+        public var applicationProviderArn: Swift.String?
+        /// The date and time when the application was originally created.
+        public var createdDate: ClientRuntime.Date?
+        /// The description of the application.
+        public var description: Swift.String?
+        /// The ARN of the instance of IAM Identity Center that is configured with this application.
+        public var instanceArn: Swift.String?
+        /// The name of the application.
+        public var name: Swift.String?
+        /// A structure that describes the options for the access portal associated with this application.
+        public var portalOptions: SSOAdminClientTypes.PortalOptions?
+        /// The current status of the application in this instance of IAM Identity Center.
+        public var status: SSOAdminClientTypes.ApplicationStatus?
+
+        public init(
+            applicationAccount: Swift.String? = nil,
+            applicationArn: Swift.String? = nil,
+            applicationProviderArn: Swift.String? = nil,
+            createdDate: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            instanceArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
+            status: SSOAdminClientTypes.ApplicationStatus? = nil
+        )
+        {
+            self.applicationAccount = applicationAccount
+            self.applicationArn = applicationArn
+            self.applicationProviderArn = applicationProviderArn
+            self.createdDate = createdDate
+            self.description = description
+            self.instanceArn = instanceArn
+            self.name = name
+            self.portalOptions = portalOptions
+            self.status = status
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.ApplicationAssignment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an assignment of a principal to an application.
+    public struct ApplicationAssignment: Swift.Equatable {
+        /// The ARN of the application that has principals assigned.
+        /// This member is required.
+        public var applicationArn: Swift.String?
+        /// The unique identifier of the principal assigned to the application.
+        /// This member is required.
+        public var principalId: Swift.String?
+        /// The type of the principal assigned to the application.
+        /// This member is required.
+        public var principalType: SSOAdminClientTypes.PrincipalType?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            principalId: Swift.String? = nil,
+            principalType: SSOAdminClientTypes.PrincipalType? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.ApplicationAssignmentForPrincipal: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an application to which a principal is assigned.
+    public struct ApplicationAssignmentForPrincipal: Swift.Equatable {
+        /// The ARN of the application to which the specified principal is assigned.
+        public var applicationArn: Swift.String?
+        /// The unique identifier of the principal assigned to the application.
+        public var principalId: Swift.String?
+        /// The type of the principal assigned to the application.
+        public var principalType: SSOAdminClientTypes.PrincipalType?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            principalId: Swift.String? = nil,
+            principalType: SSOAdminClientTypes.PrincipalType? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.principalId = principalId
+            self.principalType = principalType
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.ApplicationProvider: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviderArn = "ApplicationProviderArn"
+        case displayData = "DisplayData"
+        case federationProtocol = "FederationProtocol"
+        case resourceServerConfig = "ResourceServerConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationProviderArn = self.applicationProviderArn {
+            try encodeContainer.encode(applicationProviderArn, forKey: .applicationProviderArn)
+        }
+        if let displayData = self.displayData {
+            try encodeContainer.encode(displayData, forKey: .displayData)
+        }
+        if let federationProtocol = self.federationProtocol {
+            try encodeContainer.encode(federationProtocol.rawValue, forKey: .federationProtocol)
+        }
+        if let resourceServerConfig = self.resourceServerConfig {
+            try encodeContainer.encode(resourceServerConfig, forKey: .resourceServerConfig)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProviderArn)
+        applicationProviderArn = applicationProviderArnDecoded
+        let federationProtocolDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.FederationProtocol.self, forKey: .federationProtocol)
+        federationProtocol = federationProtocolDecoded
+        let displayDataDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.DisplayData.self, forKey: .displayData)
+        displayData = displayDataDecoded
+        let resourceServerConfigDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ResourceServerConfig.self, forKey: .resourceServerConfig)
+        resourceServerConfig = resourceServerConfigDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
+    public struct ApplicationProvider: Swift.Equatable {
+        /// The ARN of the application provider.
+        /// This member is required.
+        public var applicationProviderArn: Swift.String?
+        /// A structure that describes how IAM Identity Center represents the application provider in the portal.
+        public var displayData: SSOAdminClientTypes.DisplayData?
+        /// The protocol that the application provider uses to perform federation.
+        public var federationProtocol: SSOAdminClientTypes.FederationProtocol?
+        /// A structure that describes the application provider's resource server.
+        public var resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig?
+
+        public init(
+            applicationProviderArn: Swift.String? = nil,
+            displayData: SSOAdminClientTypes.DisplayData? = nil,
+            federationProtocol: SSOAdminClientTypes.FederationProtocol? = nil,
+            resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig? = nil
+        )
+        {
+            self.applicationProviderArn = applicationProviderArn
+            self.displayData = displayData
+            self.federationProtocol = federationProtocol
+            self.resourceServerConfig = resourceServerConfig
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes {
+    public enum ApplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationStatus(rawValue: rawValue) ?? ApplicationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSOAdminClientTypes {
+    public enum ApplicationVisibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationVisibility] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationVisibility(rawValue: rawValue) ?? ApplicationVisibility.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AttachCustomerManagedPolicyReferenceToPermissionSetInput: Swift.Encodable {
@@ -634,6 +1057,221 @@ extension SSOAdminClientTypes {
 
 }
 
+extension SSOAdminClientTypes.AuthenticationMethod: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iam = "Iam"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .iam(iam):
+                try container.encode(iam, forKey: .iam)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let iamDecoded = try values.decodeIfPresent(SSOAdminClientTypes.IamAuthenticationMethod.self, forKey: .iam)
+        if let iam = iamDecoded {
+            self = .iam(iam)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an authentication method that can be used by an application.
+    public enum AuthenticationMethod: Swift.Equatable {
+        /// A structure that describes details for IAM authentication.
+        case iam(SSOAdminClientTypes.IamAuthenticationMethod)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SSOAdminClientTypes.AuthenticationMethodItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationMethod = "AuthenticationMethod"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationMethod = self.authenticationMethod {
+            try encodeContainer.encode(authenticationMethod, forKey: .authenticationMethod)
+        }
+        if let authenticationMethodType = self.authenticationMethodType {
+            try encodeContainer.encode(authenticationMethodType.rawValue, forKey: .authenticationMethodType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authenticationMethodTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethodType.self, forKey: .authenticationMethodType)
+        authenticationMethodType = authenticationMethodTypeDecoded
+        let authenticationMethodDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethod.self, forKey: .authenticationMethod)
+        authenticationMethod = authenticationMethodDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an authentication method and its type.
+    public struct AuthenticationMethodItem: Swift.Equatable {
+        /// A structure that describes an authentication method. The contents of this structure is determined by the AuthenticationMethodType.
+        public var authenticationMethod: SSOAdminClientTypes.AuthenticationMethod?
+        /// The type of authentication that is used by this method.
+        public var authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+
+        public init(
+            authenticationMethod: SSOAdminClientTypes.AuthenticationMethod? = nil,
+            authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
+        )
+        {
+            self.authenticationMethod = authenticationMethod
+            self.authenticationMethodType = authenticationMethodType
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes {
+    public enum AuthenticationMethodType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case iam
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationMethodType] {
+            return [
+                .iam,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "IAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthenticationMethodType(rawValue: rawValue) ?? AuthenticationMethodType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.AuthorizationCodeGrant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case redirectUris = "RedirectUris"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let redirectUris = redirectUris {
+            var redirectUrisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redirectUris)
+            for uri0 in redirectUris {
+                try redirectUrisContainer.encode(uri0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redirectUrisContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .redirectUris)
+        var redirectUrisDecoded0:[Swift.String]? = nil
+        if let redirectUrisContainer = redirectUrisContainer {
+            redirectUrisDecoded0 = [Swift.String]()
+            for string0 in redirectUrisContainer {
+                if let string0 = string0 {
+                    redirectUrisDecoded0?.append(string0)
+                }
+            }
+        }
+        redirectUris = redirectUrisDecoded0
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Authorization Code Grant.
+    public struct AuthorizationCodeGrant: Swift.Equatable {
+        /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized.
+        public var redirectUris: [Swift.String]?
+
+        public init(
+            redirectUris: [Swift.String]? = nil
+        )
+        {
+            self.redirectUris = redirectUris
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.AuthorizedTokenIssuer: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedAudiences = "AuthorizedAudiences"
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedAudiences = authorizedAudiences {
+            var authorizedAudiencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedAudiences)
+            for tokenissueraudience0 in authorizedAudiences {
+                try authorizedAudiencesContainer.encode(tokenissueraudience0)
+            }
+        }
+        if let trustedTokenIssuerArn = self.trustedTokenIssuerArn {
+            try encodeContainer.encode(trustedTokenIssuerArn, forKey: .trustedTokenIssuerArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+        let authorizedAudiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedAudiences)
+        var authorizedAudiencesDecoded0:[Swift.String]? = nil
+        if let authorizedAudiencesContainer = authorizedAudiencesContainer {
+            authorizedAudiencesDecoded0 = [Swift.String]()
+            for string0 in authorizedAudiencesContainer {
+                if let string0 = string0 {
+                    authorizedAudiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedAudiences = authorizedAudiencesDecoded0
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes a trusted token issuer and associates it with a set of authorized audiences.
+    public struct AuthorizedTokenIssuer: Swift.Equatable {
+        /// An array list of authorized audiences, or applications, that can consume the tokens generated by the associated trusted token issuer.
+        public var authorizedAudiences: [Swift.String]?
+        /// The ARN of the trusted token issuer.
+        public var trustedTokenIssuerArn: Swift.String?
+
+        public init(
+            authorizedAudiences: [Swift.String]? = nil,
+            trustedTokenIssuerArn: Swift.String? = nil
+        )
+        {
+            self.authorizedAudiences = authorizedAudiences
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        }
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -859,6 +1497,313 @@ enum CreateAccountAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateApplicationAssignmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+}
+
+extension CreateApplicationAssignmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateApplicationAssignmentInput: Swift.Equatable {
+    /// The ARN of the application provider under which the operation will run.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// The entity type for which the assignment will be created.
+    /// This member is required.
+    public var principalType: SSOAdminClientTypes.PrincipalType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        principalType: SSOAdminClientTypes.PrincipalType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.principalId = principalId
+        self.principalType = principalType
+    }
+}
+
+struct CreateApplicationAssignmentInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let principalId: Swift.String?
+    let principalType: SSOAdminClientTypes.PrincipalType?
+}
+
+extension CreateApplicationAssignmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+    }
+}
+
+extension CreateApplicationAssignmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateApplicationAssignmentOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateApplicationAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateApplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviderArn = "ApplicationProviderArn"
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case portalOptions = "PortalOptions"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationProviderArn = self.applicationProviderArn {
+            try encodeContainer.encode(applicationProviderArn, forKey: .applicationProviderArn)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let portalOptions = self.portalOptions {
+            try encodeContainer.encode(portalOptions, forKey: .portalOptions)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateApplicationInput: Swift.Equatable {
+    /// The ARN of the application provider under which the operation will run.
+    /// This member is required.
+    public var applicationProviderArn: Swift.String?
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// The description of the .
+    public var description: Swift.String?
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// The name of the .
+    /// This member is required.
+    public var name: Swift.String?
+    /// A structure that describes the options for the portal associated with an application.
+    public var portalOptions: SSOAdminClientTypes.PortalOptions?
+    /// Specifies whether the application is enabled or disabled.
+    public var status: SSOAdminClientTypes.ApplicationStatus?
+    /// Specifies tags to be attached to the application.
+    public var tags: [SSOAdminClientTypes.Tag]?
+
+    public init(
+        applicationProviderArn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
+        status: SSOAdminClientTypes.ApplicationStatus? = nil,
+        tags: [SSOAdminClientTypes.Tag]? = nil
+    )
+    {
+        self.applicationProviderArn = applicationProviderArn
+        self.clientToken = clientToken
+        self.description = description
+        self.instanceArn = instanceArn
+        self.name = name
+        self.portalOptions = portalOptions
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct CreateApplicationInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let applicationProviderArn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let portalOptions: SSOAdminClientTypes.PortalOptions?
+    let tags: [SSOAdminClientTypes.Tag]?
+    let status: SSOAdminClientTypes.ApplicationStatus?
+    let clientToken: Swift.String?
+}
+
+extension CreateApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviderArn = "ApplicationProviderArn"
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case portalOptions = "PortalOptions"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let applicationProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProviderArn)
+        applicationProviderArn = applicationProviderArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let portalOptionsDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PortalOptions.self, forKey: .portalOptions)
+        portalOptions = portalOptionsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[SSOAdminClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [SSOAdminClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ApplicationStatus.self, forKey: .status)
+        status = statusDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationArn = output.applicationArn
+        } else {
+            self.applicationArn = nil
+        }
+    }
+}
+
+public struct CreateApplicationOutput: Swift.Equatable {
+    /// Specifies the ARN of the application.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
+struct CreateApplicationOutputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+}
+
+extension CreateApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension CreateInstanceAccessControlAttributeConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
@@ -946,6 +1891,148 @@ enum CreateInstanceAccessControlAttributeConfigurationOutputError: ClientRuntime
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateInstanceInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// The name of the instance of IAM Identity Center.
+    public var name: Swift.String?
+    /// Specifies tags to be attached to the instance of IAM Identity Center.
+    public var tags: [SSOAdminClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [SSOAdminClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateInstanceInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let clientToken: Swift.String?
+    let tags: [SSOAdminClientTypes.Tag]?
+}
+
+extension CreateInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[SSOAdminClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [SSOAdminClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.instanceArn = output.instanceArn
+        } else {
+            self.instanceArn = nil
+        }
+    }
+}
+
+public struct CreateInstanceOutput: Swift.Equatable {
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    public var instanceArn: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil
+    )
+    {
+        self.instanceArn = instanceArn
+    }
+}
+
+struct CreateInstanceOutputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+}
+
+extension CreateInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+    }
+}
+
+enum CreateInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension CreatePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -1124,6 +2211,188 @@ enum CreatePermissionSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateTrustedTokenIssuerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case tags = "Tags"
+        case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+        case trustedTokenIssuerType = "TrustedTokenIssuerType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let trustedTokenIssuerConfiguration = self.trustedTokenIssuerConfiguration {
+            try encodeContainer.encode(trustedTokenIssuerConfiguration, forKey: .trustedTokenIssuerConfiguration)
+        }
+        if let trustedTokenIssuerType = self.trustedTokenIssuerType {
+            try encodeContainer.encode(trustedTokenIssuerType.rawValue, forKey: .trustedTokenIssuerType)
+        }
+    }
+}
+
+extension CreateTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateTrustedTokenIssuerInput: Swift.Equatable {
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    public var clientToken: Swift.String?
+    /// Specifies the ARN of the instance of IAM Identity Center to contain the new trusted token issuer configuration.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// Specifies the name of the new trusted token issuer configuration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies tags to be attached to the new trusted token issuer configuration.
+    public var tags: [SSOAdminClientTypes.Tag]?
+    /// Specifies settings that apply to the new trusted token issuer configuration. The settings that are available depend on what TrustedTokenIssuerType you specify.
+    /// This member is required.
+    public var trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration?
+    /// Specifies the type of the new trusted token issuer.
+    /// This member is required.
+    public var trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [SSOAdminClientTypes.Tag]? = nil,
+        trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration? = nil,
+        trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.instanceArn = instanceArn
+        self.name = name
+        self.tags = tags
+        self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
+        self.trustedTokenIssuerType = trustedTokenIssuerType
+    }
+}
+
+struct CreateTrustedTokenIssuerInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let name: Swift.String?
+    let trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType?
+    let trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration?
+    let clientToken: Swift.String?
+    let tags: [SSOAdminClientTypes.Tag]?
+}
+
+extension CreateTrustedTokenIssuerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case tags = "Tags"
+        case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+        case trustedTokenIssuerType = "TrustedTokenIssuerType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let trustedTokenIssuerTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.TrustedTokenIssuerType.self, forKey: .trustedTokenIssuerType)
+        trustedTokenIssuerType = trustedTokenIssuerTypeDecoded
+        let trustedTokenIssuerConfigurationDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.TrustedTokenIssuerConfiguration.self, forKey: .trustedTokenIssuerConfiguration)
+        trustedTokenIssuerConfiguration = trustedTokenIssuerConfigurationDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[SSOAdminClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [SSOAdminClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateTrustedTokenIssuerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTrustedTokenIssuerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.trustedTokenIssuerArn = output.trustedTokenIssuerArn
+        } else {
+            self.trustedTokenIssuerArn = nil
+        }
+    }
+}
+
+public struct CreateTrustedTokenIssuerOutput: Swift.Equatable {
+    /// The ARN of the new trusted token issuer configuration.
+    public var trustedTokenIssuerArn: Swift.String?
+
+    public init(
+        trustedTokenIssuerArn: Swift.String? = nil
+    )
+    {
+        self.trustedTokenIssuerArn = trustedTokenIssuerArn
+    }
+}
+
+struct CreateTrustedTokenIssuerOutputBody: Swift.Equatable {
+    let trustedTokenIssuerArn: Swift.String?
+}
+
+extension CreateTrustedTokenIssuerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+    }
+}
+
+enum CreateTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension SSOAdminClientTypes.CustomerManagedPolicyReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -1339,6 +2608,444 @@ enum DeleteAccountAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteApplicationAccessScopeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
+        }
+    }
+}
+
+extension DeleteApplicationAccessScopeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteApplicationAccessScopeInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the access scope to delete.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the name of the access scope to remove from the application.
+    /// This member is required.
+    public var scope: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        scope: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.scope = scope
+    }
+}
+
+struct DeleteApplicationAccessScopeInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let scope: Swift.String?
+}
+
+extension DeleteApplicationAccessScopeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+extension DeleteApplicationAccessScopeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationAccessScopeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationAccessScopeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteApplicationAssignmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+}
+
+extension DeleteApplicationAssignmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteApplicationAssignmentInput: Swift.Equatable {
+    /// Specifies the ARN of the application.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// The entity type for which the assignment will be deleted.
+    /// This member is required.
+    public var principalType: SSOAdminClientTypes.PrincipalType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        principalType: SSOAdminClientTypes.PrincipalType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.principalId = principalId
+        self.principalType = principalType
+    }
+}
+
+struct DeleteApplicationAssignmentInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let principalId: Swift.String?
+    let principalType: SSOAdminClientTypes.PrincipalType?
+}
+
+extension DeleteApplicationAssignmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+    }
+}
+
+extension DeleteApplicationAssignmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationAssignmentOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteApplicationAuthenticationMethodInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let authenticationMethodType = self.authenticationMethodType {
+            try encodeContainer.encode(authenticationMethodType.rawValue, forKey: .authenticationMethodType)
+        }
+    }
+}
+
+extension DeleteApplicationAuthenticationMethodInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteApplicationAuthenticationMethodInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the authentication method to delete.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the authentication method type to delete from the application.
+    /// This member is required.
+    public var authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.authenticationMethodType = authenticationMethodType
+    }
+}
+
+struct DeleteApplicationAuthenticationMethodInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+}
+
+extension DeleteApplicationAuthenticationMethodInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let authenticationMethodTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethodType.self, forKey: .authenticationMethodType)
+        authenticationMethodType = authenticationMethodTypeDecoded
+    }
+}
+
+extension DeleteApplicationAuthenticationMethodOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationAuthenticationMethodOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationAuthenticationMethodOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteApplicationGrantInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case grantType = "GrantType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let grantType = self.grantType {
+            try encodeContainer.encode(grantType.rawValue, forKey: .grantType)
+        }
+    }
+}
+
+extension DeleteApplicationGrantInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteApplicationGrantInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the grant to delete.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the type of grant to delete from the application.
+    /// This member is required.
+    public var grantType: SSOAdminClientTypes.GrantType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        grantType: SSOAdminClientTypes.GrantType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.grantType = grantType
+    }
+}
+
+struct DeleteApplicationGrantInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let grantType: SSOAdminClientTypes.GrantType?
+}
+
+extension DeleteApplicationGrantInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case grantType = "GrantType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let grantTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.GrantType.self, forKey: .grantType)
+        grantType = grantTypeDecoded
+    }
+}
+
+extension DeleteApplicationGrantOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationGrantOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteApplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+    }
+}
+
+extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteApplicationInput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
+struct DeleteApplicationInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+}
+
+extension DeleteApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeleteInlinePolicyFromPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -1500,6 +3207,82 @@ enum DeleteInstanceAccessControlAttributeConfigurationOutputError: ClientRuntime
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+    }
+}
+
+extension DeleteInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteInstanceInput: Swift.Equatable {
+    /// The ARN of the instance of IAM Identity Center under which the operation will run.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil
+    )
+    {
+        self.instanceArn = instanceArn
+    }
+}
+
+struct DeleteInstanceInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+}
+
+extension DeleteInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+    }
+}
+
+extension DeleteInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteInstanceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeletePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -1664,6 +3447,7 @@ enum DeletePermissionsBoundaryFromPermissionSetOutputError: ClientRuntime.HttpRe
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1673,6 +3457,83 @@ enum DeletePermissionsBoundaryFromPermissionSetOutputError: ClientRuntime.HttpRe
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteTrustedTokenIssuerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let trustedTokenIssuerArn = self.trustedTokenIssuerArn {
+            try encodeContainer.encode(trustedTokenIssuerArn, forKey: .trustedTokenIssuerArn)
+        }
+    }
+}
+
+extension DeleteTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteTrustedTokenIssuerInput: Swift.Equatable {
+    /// Specifies the ARN of the trusted token issuer configuration to delete.
+    /// This member is required.
+    public var trustedTokenIssuerArn: Swift.String?
+
+    public init(
+        trustedTokenIssuerArn: Swift.String? = nil
+    )
+    {
+        self.trustedTokenIssuerArn = trustedTokenIssuerArn
+    }
+}
+
+struct DeleteTrustedTokenIssuerInputBody: Swift.Equatable {
+    let trustedTokenIssuerArn: Swift.String?
+}
+
+extension DeleteTrustedTokenIssuerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+    }
+}
+
+extension DeleteTrustedTokenIssuerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTrustedTokenIssuerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DescribeAccountAssignmentCreationStatusInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountAssignmentCreationRequestId = "AccountAssignmentCreationRequestId"
@@ -1905,6 +3766,475 @@ enum DescribeAccountAssignmentDeletionStatusOutputError: ClientRuntime.HttpRespo
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DescribeApplicationAssignmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+}
+
+extension DescribeApplicationAssignmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeApplicationAssignmentInput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// The entity type for which the assignment will be created.
+    /// This member is required.
+    public var principalType: SSOAdminClientTypes.PrincipalType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        principalType: SSOAdminClientTypes.PrincipalType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.principalId = principalId
+        self.principalType = principalType
+    }
+}
+
+struct DescribeApplicationAssignmentInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let principalId: Swift.String?
+    let principalType: SSOAdminClientTypes.PrincipalType?
+}
+
+extension DescribeApplicationAssignmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+    }
+}
+
+extension DescribeApplicationAssignmentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeApplicationAssignmentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationArn = output.applicationArn
+            self.principalId = output.principalId
+            self.principalType = output.principalType
+        } else {
+            self.applicationArn = nil
+            self.principalId = nil
+            self.principalType = nil
+        }
+    }
+}
+
+public struct DescribeApplicationAssignmentOutput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    public var applicationArn: Swift.String?
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    public var principalId: Swift.String?
+    /// The entity type for which the assignment will be created.
+    public var principalType: SSOAdminClientTypes.PrincipalType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        principalType: SSOAdminClientTypes.PrincipalType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.principalId = principalId
+        self.principalType = principalType
+    }
+}
+
+struct DescribeApplicationAssignmentOutputBody: Swift.Equatable {
+    let principalType: SSOAdminClientTypes.PrincipalType?
+    let principalId: Swift.String?
+    let applicationArn: Swift.String?
+}
+
+extension DescribeApplicationAssignmentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+enum DescribeApplicationAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeApplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+    }
+}
+
+extension DescribeApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeApplicationInput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
+struct DescribeApplicationInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+}
+
+extension DescribeApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+extension DescribeApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationAccount = output.applicationAccount
+            self.applicationArn = output.applicationArn
+            self.applicationProviderArn = output.applicationProviderArn
+            self.createdDate = output.createdDate
+            self.description = output.description
+            self.instanceArn = output.instanceArn
+            self.name = output.name
+            self.portalOptions = output.portalOptions
+            self.status = output.status
+        } else {
+            self.applicationAccount = nil
+            self.applicationArn = nil
+            self.applicationProviderArn = nil
+            self.createdDate = nil
+            self.description = nil
+            self.instanceArn = nil
+            self.name = nil
+            self.portalOptions = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct DescribeApplicationOutput: Swift.Equatable {
+    /// The account ID.
+    public var applicationAccount: Swift.String?
+    /// Specifies the ARN of the application.
+    public var applicationArn: Swift.String?
+    /// The ARN of the application provider under which the operation will run.
+    public var applicationProviderArn: Swift.String?
+    /// The date the application was created.
+    public var createdDate: ClientRuntime.Date?
+    /// The description of the .
+    public var description: Swift.String?
+    /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    public var instanceArn: Swift.String?
+    /// The application name.
+    public var name: Swift.String?
+    /// A structure that describes the options for the portal associated with an application.
+    public var portalOptions: SSOAdminClientTypes.PortalOptions?
+    /// Specifies whether the application is enabled or disabled.
+    public var status: SSOAdminClientTypes.ApplicationStatus?
+
+    public init(
+        applicationAccount: Swift.String? = nil,
+        applicationArn: Swift.String? = nil,
+        applicationProviderArn: Swift.String? = nil,
+        createdDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        portalOptions: SSOAdminClientTypes.PortalOptions? = nil,
+        status: SSOAdminClientTypes.ApplicationStatus? = nil
+    )
+    {
+        self.applicationAccount = applicationAccount
+        self.applicationArn = applicationArn
+        self.applicationProviderArn = applicationProviderArn
+        self.createdDate = createdDate
+        self.description = description
+        self.instanceArn = instanceArn
+        self.name = name
+        self.portalOptions = portalOptions
+        self.status = status
+    }
+}
+
+struct DescribeApplicationOutputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let applicationProviderArn: Swift.String?
+    let name: Swift.String?
+    let applicationAccount: Swift.String?
+    let instanceArn: Swift.String?
+    let status: SSOAdminClientTypes.ApplicationStatus?
+    let portalOptions: SSOAdminClientTypes.PortalOptions?
+    let description: Swift.String?
+    let createdDate: ClientRuntime.Date?
+}
+
+extension DescribeApplicationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationAccount = "ApplicationAccount"
+        case applicationArn = "ApplicationArn"
+        case applicationProviderArn = "ApplicationProviderArn"
+        case createdDate = "CreatedDate"
+        case description = "Description"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case portalOptions = "PortalOptions"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let applicationProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProviderArn)
+        applicationProviderArn = applicationProviderArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let applicationAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationAccount)
+        applicationAccount = applicationAccountDecoded
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ApplicationStatus.self, forKey: .status)
+        status = statusDecoded
+        let portalOptionsDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PortalOptions.self, forKey: .portalOptions)
+        portalOptions = portalOptionsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdDate)
+        createdDate = createdDateDecoded
+    }
+}
+
+enum DescribeApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeApplicationProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviderArn = "ApplicationProviderArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationProviderArn = self.applicationProviderArn {
+            try encodeContainer.encode(applicationProviderArn, forKey: .applicationProviderArn)
+        }
+    }
+}
+
+extension DescribeApplicationProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeApplicationProviderInput: Swift.Equatable {
+    /// Specifies the ARN of the application provider for which you want details.
+    /// This member is required.
+    public var applicationProviderArn: Swift.String?
+
+    public init(
+        applicationProviderArn: Swift.String? = nil
+    )
+    {
+        self.applicationProviderArn = applicationProviderArn
+    }
+}
+
+struct DescribeApplicationProviderInputBody: Swift.Equatable {
+    let applicationProviderArn: Swift.String?
+}
+
+extension DescribeApplicationProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviderArn = "ApplicationProviderArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProviderArn)
+        applicationProviderArn = applicationProviderArnDecoded
+    }
+}
+
+extension DescribeApplicationProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeApplicationProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationProviderArn = output.applicationProviderArn
+            self.displayData = output.displayData
+            self.federationProtocol = output.federationProtocol
+            self.resourceServerConfig = output.resourceServerConfig
+        } else {
+            self.applicationProviderArn = nil
+            self.displayData = nil
+            self.federationProtocol = nil
+            self.resourceServerConfig = nil
+        }
+    }
+}
+
+public struct DescribeApplicationProviderOutput: Swift.Equatable {
+    /// The ARN of the application provider.
+    /// This member is required.
+    public var applicationProviderArn: Swift.String?
+    /// A structure with details about the display data for the application provider.
+    public var displayData: SSOAdminClientTypes.DisplayData?
+    /// The protocol used to federate to the application provider.
+    public var federationProtocol: SSOAdminClientTypes.FederationProtocol?
+    /// A structure with details about the receiving application.
+    public var resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig?
+
+    public init(
+        applicationProviderArn: Swift.String? = nil,
+        displayData: SSOAdminClientTypes.DisplayData? = nil,
+        federationProtocol: SSOAdminClientTypes.FederationProtocol? = nil,
+        resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig? = nil
+    )
+    {
+        self.applicationProviderArn = applicationProviderArn
+        self.displayData = displayData
+        self.federationProtocol = federationProtocol
+        self.resourceServerConfig = resourceServerConfig
+    }
+}
+
+struct DescribeApplicationProviderOutputBody: Swift.Equatable {
+    let applicationProviderArn: Swift.String?
+    let federationProtocol: SSOAdminClientTypes.FederationProtocol?
+    let displayData: SSOAdminClientTypes.DisplayData?
+    let resourceServerConfig: SSOAdminClientTypes.ResourceServerConfig?
+}
+
+extension DescribeApplicationProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviderArn = "ApplicationProviderArn"
+        case displayData = "DisplayData"
+        case federationProtocol = "FederationProtocol"
+        case resourceServerConfig = "ResourceServerConfig"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProviderArn)
+        applicationProviderArn = applicationProviderArnDecoded
+        let federationProtocolDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.FederationProtocol.self, forKey: .federationProtocol)
+        federationProtocol = federationProtocolDecoded
+        let displayDataDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.DisplayData.self, forKey: .displayData)
+        displayData = displayDataDecoded
+        let resourceServerConfigDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ResourceServerConfig.self, forKey: .resourceServerConfig)
+        resourceServerConfig = resourceServerConfigDecoded
+    }
+}
+
+enum DescribeApplicationProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DescribeInstanceAccessControlAttributeConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -2028,6 +4358,161 @@ enum DescribeInstanceAccessControlAttributeConfigurationOutputError: ClientRunti
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DescribeInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+    }
+}
+
+extension DescribeInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeInstanceInput: Swift.Equatable {
+    /// The ARN of the instance of IAM Identity Center under which the operation will run.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil
+    )
+    {
+        self.instanceArn = instanceArn
+    }
+}
+
+struct DescribeInstanceInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+}
+
+extension DescribeInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+    }
+}
+
+extension DescribeInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeInstanceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdDate = output.createdDate
+            self.identityStoreId = output.identityStoreId
+            self.instanceArn = output.instanceArn
+            self.name = output.name
+            self.ownerAccountId = output.ownerAccountId
+            self.status = output.status
+        } else {
+            self.createdDate = nil
+            self.identityStoreId = nil
+            self.instanceArn = nil
+            self.name = nil
+            self.ownerAccountId = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct DescribeInstanceOutput: Swift.Equatable {
+    /// The date the instance was created.
+    public var createdDate: ClientRuntime.Date?
+    /// The identifier of the identity store that is connected to the instance of IAM Identity Center.
+    public var identityStoreId: Swift.String?
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    public var instanceArn: Swift.String?
+    /// Specifies the instance name.
+    public var name: Swift.String?
+    /// The identifier of the Amazon Web Services account for which the instance was created.
+    public var ownerAccountId: Swift.String?
+    /// The status of the instance.
+    public var status: SSOAdminClientTypes.InstanceStatus?
+
+    public init(
+        createdDate: ClientRuntime.Date? = nil,
+        identityStoreId: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        ownerAccountId: Swift.String? = nil,
+        status: SSOAdminClientTypes.InstanceStatus? = nil
+    )
+    {
+        self.createdDate = createdDate
+        self.identityStoreId = identityStoreId
+        self.instanceArn = instanceArn
+        self.name = name
+        self.ownerAccountId = ownerAccountId
+        self.status = status
+    }
+}
+
+struct DescribeInstanceOutputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let identityStoreId: Swift.String?
+    let ownerAccountId: Swift.String?
+    let name: Swift.String?
+    let createdDate: ClientRuntime.Date?
+    let status: SSOAdminClientTypes.InstanceStatus?
+}
+
+extension DescribeInstanceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdDate = "CreatedDate"
+        case identityStoreId = "IdentityStoreId"
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+        case ownerAccountId = "OwnerAccountId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let identityStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityStoreId)
+        identityStoreId = identityStoreIdDecoded
+        let ownerAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccountId)
+        ownerAccountId = ownerAccountIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdDate)
+        createdDate = createdDateDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.InstanceStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum DescribeInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DescribePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -2260,6 +4745,142 @@ enum DescribePermissionSetProvisioningStatusOutputError: ClientRuntime.HttpRespo
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DescribeTrustedTokenIssuerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let trustedTokenIssuerArn = self.trustedTokenIssuerArn {
+            try encodeContainer.encode(trustedTokenIssuerArn, forKey: .trustedTokenIssuerArn)
+        }
+    }
+}
+
+extension DescribeTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTrustedTokenIssuerInput: Swift.Equatable {
+    /// Specifies the ARN of the trusted token issuer configuration that you want details about.
+    /// This member is required.
+    public var trustedTokenIssuerArn: Swift.String?
+
+    public init(
+        trustedTokenIssuerArn: Swift.String? = nil
+    )
+    {
+        self.trustedTokenIssuerArn = trustedTokenIssuerArn
+    }
+}
+
+struct DescribeTrustedTokenIssuerInputBody: Swift.Equatable {
+    let trustedTokenIssuerArn: Swift.String?
+}
+
+extension DescribeTrustedTokenIssuerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+    }
+}
+
+extension DescribeTrustedTokenIssuerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTrustedTokenIssuerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.name = output.name
+            self.trustedTokenIssuerArn = output.trustedTokenIssuerArn
+            self.trustedTokenIssuerConfiguration = output.trustedTokenIssuerConfiguration
+            self.trustedTokenIssuerType = output.trustedTokenIssuerType
+        } else {
+            self.name = nil
+            self.trustedTokenIssuerArn = nil
+            self.trustedTokenIssuerConfiguration = nil
+            self.trustedTokenIssuerType = nil
+        }
+    }
+}
+
+public struct DescribeTrustedTokenIssuerOutput: Swift.Equatable {
+    /// The name of the trusted token issuer configuration.
+    public var name: Swift.String?
+    /// The ARN of the trusted token issuer configuration.
+    public var trustedTokenIssuerArn: Swift.String?
+    /// A structure the describes the settings that apply of this trusted token issuer.
+    public var trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration?
+    /// The type of the trusted token issuer.
+    public var trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType?
+
+    public init(
+        name: Swift.String? = nil,
+        trustedTokenIssuerArn: Swift.String? = nil,
+        trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration? = nil,
+        trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType? = nil
+    )
+    {
+        self.name = name
+        self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
+        self.trustedTokenIssuerType = trustedTokenIssuerType
+    }
+}
+
+struct DescribeTrustedTokenIssuerOutputBody: Swift.Equatable {
+    let trustedTokenIssuerArn: Swift.String?
+    let name: Swift.String?
+    let trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType?
+    let trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerConfiguration?
+}
+
+extension DescribeTrustedTokenIssuerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+        case trustedTokenIssuerType = "TrustedTokenIssuerType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let trustedTokenIssuerTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.TrustedTokenIssuerType.self, forKey: .trustedTokenIssuerType)
+        trustedTokenIssuerType = trustedTokenIssuerTypeDecoded
+        let trustedTokenIssuerConfigurationDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.TrustedTokenIssuerConfiguration.self, forKey: .trustedTokenIssuerConfiguration)
+        trustedTokenIssuerConfiguration = trustedTokenIssuerConfigurationDecoded
+    }
+}
+
+enum DescribeTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DetachCustomerManagedPolicyReferenceFromPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customerManagedPolicyReference = "CustomerManagedPolicyReference"
@@ -2460,6 +5081,569 @@ enum DetachManagedPolicyFromPermissionSetOutputError: ClientRuntime.HttpResponse
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SSOAdminClientTypes.DisplayData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case displayName = "DisplayName"
+        case iconUrl = "IconUrl"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let iconUrl = self.iconUrl {
+            try encodeContainer.encode(iconUrl, forKey: .iconUrl)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let iconUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iconUrl)
+        iconUrl = iconUrlDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes how the portal represents an application provider.
+    public struct DisplayData: Swift.Equatable {
+        /// The description of the application provider that appears in the portal.
+        public var description: Swift.String?
+        /// The name of the application provider that appears in the portal.
+        public var displayName: Swift.String?
+        /// A URL that points to an icon that represents the application provider.
+        public var iconUrl: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            iconUrl: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.displayName = displayName
+            self.iconUrl = iconUrl
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes {
+    public enum FederationProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oauth
+        case saml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FederationProtocol] {
+            return [
+                .oauth,
+                .saml,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .oauth: return "OAUTH"
+            case .saml: return "SAML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FederationProtocol(rawValue: rawValue) ?? FederationProtocol.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GetApplicationAccessScopeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
+        }
+    }
+}
+
+extension GetApplicationAccessScopeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetApplicationAccessScopeInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the access scope that you want to retrieve.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the name of the access scope for which you want the authorized targets.
+    /// This member is required.
+    public var scope: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        scope: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.scope = scope
+    }
+}
+
+struct GetApplicationAccessScopeInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let scope: Swift.String?
+}
+
+extension GetApplicationAccessScopeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
+    }
+}
+
+extension GetApplicationAccessScopeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetApplicationAccessScopeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.authorizedTargets = output.authorizedTargets
+            self.scope = output.scope
+        } else {
+            self.authorizedTargets = nil
+            self.scope = nil
+        }
+    }
+}
+
+public struct GetApplicationAccessScopeOutput: Swift.Equatable {
+    /// An array of authorized targets associated with this access scope.
+    public var authorizedTargets: [Swift.String]?
+    /// The name of the access scope that can be used with the authorized targets.
+    /// This member is required.
+    public var scope: Swift.String?
+
+    public init(
+        authorizedTargets: [Swift.String]? = nil,
+        scope: Swift.String? = nil
+    )
+    {
+        self.authorizedTargets = authorizedTargets
+        self.scope = scope
+    }
+}
+
+struct GetApplicationAccessScopeOutputBody: Swift.Equatable {
+    let scope: Swift.String?
+    let authorizedTargets: [Swift.String]?
+}
+
+extension GetApplicationAccessScopeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTargets = "AuthorizedTargets"
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
+        let authorizedTargetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedTargets)
+        var authorizedTargetsDecoded0:[Swift.String]? = nil
+        if let authorizedTargetsContainer = authorizedTargetsContainer {
+            authorizedTargetsDecoded0 = [Swift.String]()
+            for string0 in authorizedTargetsContainer {
+                if let string0 = string0 {
+                    authorizedTargetsDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedTargets = authorizedTargetsDecoded0
+    }
+}
+
+enum GetApplicationAccessScopeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetApplicationAssignmentConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+    }
+}
+
+extension GetApplicationAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetApplicationAssignmentConfigurationInput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
+struct GetApplicationAssignmentConfigurationInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+}
+
+extension GetApplicationAssignmentConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+extension GetApplicationAssignmentConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetApplicationAssignmentConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.assignmentRequired = output.assignmentRequired
+        } else {
+            self.assignmentRequired = nil
+        }
+    }
+}
+
+public struct GetApplicationAssignmentConfigurationOutput: Swift.Equatable {
+    /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html). If false, all users have access to the application.
+    /// This member is required.
+    public var assignmentRequired: Swift.Bool?
+
+    public init(
+        assignmentRequired: Swift.Bool? = nil
+    )
+    {
+        self.assignmentRequired = assignmentRequired
+    }
+}
+
+struct GetApplicationAssignmentConfigurationOutputBody: Swift.Equatable {
+    let assignmentRequired: Swift.Bool?
+}
+
+extension GetApplicationAssignmentConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assignmentRequired = "AssignmentRequired"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let assignmentRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .assignmentRequired)
+        assignmentRequired = assignmentRequiredDecoded
+    }
+}
+
+enum GetApplicationAssignmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetApplicationAuthenticationMethodInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let authenticationMethodType = self.authenticationMethodType {
+            try encodeContainer.encode(authenticationMethodType.rawValue, forKey: .authenticationMethodType)
+        }
+    }
+}
+
+extension GetApplicationAuthenticationMethodInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetApplicationAuthenticationMethodInput: Swift.Equatable {
+    /// Specifies the ARN of the application.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the type of authentication method for which you want details.
+    /// This member is required.
+    public var authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.authenticationMethodType = authenticationMethodType
+    }
+}
+
+struct GetApplicationAuthenticationMethodInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+}
+
+extension GetApplicationAuthenticationMethodInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let authenticationMethodTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethodType.self, forKey: .authenticationMethodType)
+        authenticationMethodType = authenticationMethodTypeDecoded
+    }
+}
+
+extension GetApplicationAuthenticationMethodOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetApplicationAuthenticationMethodOutputBody = try responseDecoder.decode(responseBody: data)
+            self.authenticationMethod = output.authenticationMethod
+        } else {
+            self.authenticationMethod = nil
+        }
+    }
+}
+
+public struct GetApplicationAuthenticationMethodOutput: Swift.Equatable {
+    /// A structure that contains details about the requested authentication method.
+    public var authenticationMethod: SSOAdminClientTypes.AuthenticationMethod?
+
+    public init(
+        authenticationMethod: SSOAdminClientTypes.AuthenticationMethod? = nil
+    )
+    {
+        self.authenticationMethod = authenticationMethod
+    }
+}
+
+struct GetApplicationAuthenticationMethodOutputBody: Swift.Equatable {
+    let authenticationMethod: SSOAdminClientTypes.AuthenticationMethod?
+}
+
+extension GetApplicationAuthenticationMethodOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationMethod = "AuthenticationMethod"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authenticationMethodDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethod.self, forKey: .authenticationMethod)
+        authenticationMethod = authenticationMethodDecoded
+    }
+}
+
+enum GetApplicationAuthenticationMethodOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetApplicationGrantInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case grantType = "GrantType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let grantType = self.grantType {
+            try encodeContainer.encode(grantType.rawValue, forKey: .grantType)
+        }
+    }
+}
+
+extension GetApplicationGrantInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetApplicationGrantInput: Swift.Equatable {
+    /// Specifies the ARN of the application that contains the grant.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the type of grant.
+    /// This member is required.
+    public var grantType: SSOAdminClientTypes.GrantType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        grantType: SSOAdminClientTypes.GrantType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.grantType = grantType
+    }
+}
+
+struct GetApplicationGrantInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let grantType: SSOAdminClientTypes.GrantType?
+}
+
+extension GetApplicationGrantInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case grantType = "GrantType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let grantTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.GrantType.self, forKey: .grantType)
+        grantType = grantTypeDecoded
+    }
+}
+
+extension GetApplicationGrantOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetApplicationGrantOutputBody = try responseDecoder.decode(responseBody: data)
+            self.grant = output.grant
+        } else {
+            self.grant = nil
+        }
+    }
+}
+
+public struct GetApplicationGrantOutput: Swift.Equatable {
+    /// A structure that describes the requested grant.
+    /// This member is required.
+    public var grant: SSOAdminClientTypes.Grant?
+
+    public init(
+        grant: SSOAdminClientTypes.Grant? = nil
+    )
+    {
+        self.grant = grant
+    }
+}
+
+struct GetApplicationGrantOutputBody: Swift.Equatable {
+    let grant: SSOAdminClientTypes.Grant?
+}
+
+extension GetApplicationGrantOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grant = "Grant"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let grantDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.Grant.self, forKey: .grant)
+        grant = grantDecoded
+    }
+}
+
+enum GetApplicationGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension GetInlinePolicyForPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -2692,6 +5876,197 @@ enum GetPermissionsBoundaryForPermissionSetOutputError: ClientRuntime.HttpRespon
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SSOAdminClientTypes.Grant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizationcode = "AuthorizationCode"
+        case jwtbearer = "JwtBearer"
+        case refreshtoken = "RefreshToken"
+        case tokenexchange = "TokenExchange"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .authorizationcode(authorizationcode):
+                try container.encode(authorizationcode, forKey: .authorizationcode)
+            case let .jwtbearer(jwtbearer):
+                try container.encode(jwtbearer, forKey: .jwtbearer)
+            case let .refreshtoken(refreshtoken):
+                try container.encode(refreshtoken, forKey: .refreshtoken)
+            case let .tokenexchange(tokenexchange):
+                try container.encode(tokenexchange, forKey: .tokenexchange)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationcodeDecoded = try values.decodeIfPresent(SSOAdminClientTypes.AuthorizationCodeGrant.self, forKey: .authorizationcode)
+        if let authorizationcode = authorizationcodeDecoded {
+            self = .authorizationcode(authorizationcode)
+            return
+        }
+        let jwtbearerDecoded = try values.decodeIfPresent(SSOAdminClientTypes.JwtBearerGrant.self, forKey: .jwtbearer)
+        if let jwtbearer = jwtbearerDecoded {
+            self = .jwtbearer(jwtbearer)
+            return
+        }
+        let refreshtokenDecoded = try values.decodeIfPresent(SSOAdminClientTypes.RefreshTokenGrant.self, forKey: .refreshtoken)
+        if let refreshtoken = refreshtokenDecoded {
+            self = .refreshtoken(refreshtoken)
+            return
+        }
+        let tokenexchangeDecoded = try values.decodeIfPresent(SSOAdminClientTypes.TokenExchangeGrant.self, forKey: .tokenexchange)
+        if let tokenexchange = tokenexchangeDecoded {
+            self = .tokenexchange(tokenexchange)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// The Grant union represents the set of possible configuration options for the selected grant type. Exactly one member of the union must be specified, and must match the grant type selected.
+    public enum Grant: Swift.Equatable {
+        /// Configuration options for the authorization_code grant type.
+        case authorizationcode(SSOAdminClientTypes.AuthorizationCodeGrant)
+        /// Configuration options for the urn:ietf:params:oauth:grant-type:jwt-bearer grant type.
+        case jwtbearer(SSOAdminClientTypes.JwtBearerGrant)
+        /// Configuration options for the refresh_token grant type.
+        case refreshtoken(SSOAdminClientTypes.RefreshTokenGrant)
+        /// Configuration options for the urn:ietf:params:oauth:grant-type:token-exchange grant type.
+        case tokenexchange(SSOAdminClientTypes.TokenExchangeGrant)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SSOAdminClientTypes.GrantItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grant = "Grant"
+        case grantType = "GrantType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let grant = self.grant {
+            try encodeContainer.encode(grant, forKey: .grant)
+        }
+        if let grantType = self.grantType {
+            try encodeContainer.encode(grantType.rawValue, forKey: .grantType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let grantTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.GrantType.self, forKey: .grantType)
+        grantType = grantTypeDecoded
+        let grantDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.Grant.self, forKey: .grant)
+        grant = grantDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that defines a single grant and its configuration.
+    public struct GrantItem: Swift.Equatable {
+        /// The configuration structure for the selected grant.
+        /// This member is required.
+        public var grant: SSOAdminClientTypes.Grant?
+        /// The type of the selected grant.
+        /// This member is required.
+        public var grantType: SSOAdminClientTypes.GrantType?
+
+        public init(
+            grant: SSOAdminClientTypes.Grant? = nil,
+            grantType: SSOAdminClientTypes.GrantType? = nil
+        )
+        {
+            self.grant = grant
+            self.grantType = grantType
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes {
+    public enum GrantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case authorizationCode
+        case jwtBearer
+        case refreshToken
+        case tokenExchange
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GrantType] {
+            return [
+                .authorizationCode,
+                .jwtBearer,
+                .refreshToken,
+                .tokenExchange,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .authorizationCode: return "authorization_code"
+            case .jwtBearer: return "urn:ietf:params:oauth:grant-type:jwt-bearer"
+            case .refreshToken: return "refresh_token"
+            case .tokenExchange: return "urn:ietf:params:oauth:grant-type:token-exchange"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GrantType(rawValue: rawValue) ?? GrantType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.IamAuthenticationMethod: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actorPolicy = "ActorPolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actorPolicy = self.actorPolicy {
+            try encodeContainer.encode(actorPolicy, forKey: .actorPolicy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actorPolicyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .actorPolicy)
+        actorPolicy = actorPolicyDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes details for authentication that uses IAM.
+    public struct IamAuthenticationMethod: Swift.Equatable {
+        /// An IAM policy document in JSON.
+        /// This member is required.
+        public var actorPolicy: ClientRuntime.Document?
+
+        public init(
+            actorPolicy: ClientRuntime.Document? = nil
+        )
+        {
+            self.actorPolicy = actorPolicy
+        }
+    }
+
+}
+
+>>>>>>> main
 extension SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControlAttributes = "AccessControlAttributes"
@@ -2777,17 +6152,33 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes.InstanceMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdDate = "CreatedDate"
         case identityStoreId = "IdentityStoreId"
         case instanceArn = "InstanceArn"
+        case name = "Name"
+        case ownerAccountId = "OwnerAccountId"
+        case status = "Status"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdDate = self.createdDate {
+            try encodeContainer.encodeTimestamp(createdDate, format: .epochSeconds, forKey: .createdDate)
+        }
         if let identityStoreId = self.identityStoreId {
             try encodeContainer.encode(identityStoreId, forKey: .identityStoreId)
         }
         if let instanceArn = self.instanceArn {
             try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let ownerAccountId = self.ownerAccountId {
+            try encodeContainer.encode(ownerAccountId, forKey: .ownerAccountId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
         }
     }
 
@@ -2797,27 +6188,86 @@ extension SSOAdminClientTypes.InstanceMetadata: Swift.Codable {
         instanceArn = instanceArnDecoded
         let identityStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityStoreId)
         identityStoreId = identityStoreIdDecoded
+        let ownerAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerAccountId)
+        ownerAccountId = ownerAccountIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdDate)
+        createdDate = createdDateDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.InstanceStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
 extension SSOAdminClientTypes {
     /// Provides information about the IAM Identity Center instance.
     public struct InstanceMetadata: Swift.Equatable {
-        /// The identifier of the identity store that is connected to the IAM Identity Center instance.
+        /// The date and time that the Identity Center instance was created.
+        public var createdDate: ClientRuntime.Date?
+        /// The identifier of the identity store that is connected to the Identity Center instance.
         public var identityStoreId: Swift.String?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+        /// The ARN of the Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var instanceArn: Swift.String?
+        /// The name of the Identity Center instance.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID number of the owner of the Identity Center instance.
+        public var ownerAccountId: Swift.String?
+        /// The current status of this Identity Center instance.
+        public var status: SSOAdminClientTypes.InstanceStatus?
 
         public init(
+            createdDate: ClientRuntime.Date? = nil,
             identityStoreId: Swift.String? = nil,
-            instanceArn: Swift.String? = nil
+            instanceArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
+            status: SSOAdminClientTypes.InstanceStatus? = nil
         )
         {
+            self.createdDate = createdDate
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.status = status
         }
     }
 
+}
+
+extension SSOAdminClientTypes {
+    public enum InstanceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case createInProgress
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceStatus] {
+            return [
+                .active,
+                .createInProgress,
+                .deleteInProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceStatus(rawValue: rawValue) ?? InstanceStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension InternalServerException {
@@ -2873,6 +6323,82 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension SSOAdminClientTypes {
+    public enum JwksRetrievalOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case openIdDiscovery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwksRetrievalOption] {
+            return [
+                .openIdDiscovery,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .openIdDiscovery: return "OPEN_ID_DISCOVERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JwksRetrievalOption(rawValue: rawValue) ?? JwksRetrievalOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.JwtBearerGrant: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTokenIssuers = "AuthorizedTokenIssuers"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedTokenIssuers = authorizedTokenIssuers {
+            var authorizedTokenIssuersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedTokenIssuers)
+            for authorizedtokenissuer0 in authorizedTokenIssuers {
+                try authorizedTokenIssuersContainer.encode(authorizedtokenissuer0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizedTokenIssuersContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.AuthorizedTokenIssuer?].self, forKey: .authorizedTokenIssuers)
+        var authorizedTokenIssuersDecoded0:[SSOAdminClientTypes.AuthorizedTokenIssuer]? = nil
+        if let authorizedTokenIssuersContainer = authorizedTokenIssuersContainer {
+            authorizedTokenIssuersDecoded0 = [SSOAdminClientTypes.AuthorizedTokenIssuer]()
+            for structure0 in authorizedTokenIssuersContainer {
+                if let structure0 = structure0 {
+                    authorizedTokenIssuersDecoded0?.append(structure0)
+                }
+            }
+        }
+        authorizedTokenIssuers = authorizedTokenIssuersDecoded0
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that defines configuration settings for an application that supports the JWT Bearer Token Authorization Grant.
+    public struct JwtBearerGrant: Swift.Equatable {
+        /// A list of allowed token issuers trusted by the Identity Center instances for this application.
+        public var authorizedTokenIssuers: [SSOAdminClientTypes.AuthorizedTokenIssuer]?
+
+        public init(
+            authorizedTokenIssuers: [SSOAdminClientTypes.AuthorizedTokenIssuer]? = nil
+        )
+        {
+            self.authorizedTokenIssuers = authorizedTokenIssuers
+        }
+    }
+
 }
 
 extension ListAccountAssignmentCreationStatusInput: Swift.Encodable {
@@ -3191,6 +6717,228 @@ enum ListAccountAssignmentDeletionStatusOutputError: ClientRuntime.HttpResponseE
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SSOAdminClientTypes.ListAccountAssignmentsFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes a filter for account assignments.
+    public struct ListAccountAssignmentsFilter: Swift.Equatable {
+        /// The ID number of an Amazon Web Services account that filters the results in the response.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+        }
+    }
+
+}
+
+extension ListAccountAssignmentsForPrincipalInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+}
+
+extension ListAccountAssignmentsForPrincipalInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListAccountAssignmentsForPrincipalInput: Swift.Equatable {
+    /// Specifies an Amazon Web Services account ID number. Results are filtered to only those that match this ID number.
+    public var filter: SSOAdminClientTypes.ListAccountAssignmentsFilter?
+    /// Specifies the ARN of the instance of IAM Identity Center that contains the principal.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+    /// Specifies the principal for which you want to retrieve the list of account assignments.
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// Specifies the type of the principal.
+    /// This member is required.
+    public var principalType: SSOAdminClientTypes.PrincipalType?
+
+    public init(
+        filter: SSOAdminClientTypes.ListAccountAssignmentsFilter? = nil,
+        instanceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        principalType: SSOAdminClientTypes.PrincipalType? = nil
+    )
+    {
+        self.filter = filter
+        self.instanceArn = instanceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principalId = principalId
+        self.principalType = principalType
+    }
+}
+
+struct ListAccountAssignmentsForPrincipalInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let principalId: Swift.String?
+    let principalType: SSOAdminClientTypes.PrincipalType?
+    let filter: SSOAdminClientTypes.ListAccountAssignmentsFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAccountAssignmentsForPrincipalInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ListAccountAssignmentsFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListAccountAssignmentsForPrincipalOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAccountAssignmentsForPrincipalOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountAssignments = output.accountAssignments
+            self.nextToken = output.nextToken
+        } else {
+            self.accountAssignments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAccountAssignmentsForPrincipalOutput: Swift.Equatable {
+    /// An array list of the account assignments for the principal.
+    public var accountAssignments: [SSOAdminClientTypes.AccountAssignmentForPrincipal]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountAssignments: [SSOAdminClientTypes.AccountAssignmentForPrincipal]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.accountAssignments = accountAssignments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAccountAssignmentsForPrincipalOutputBody: Swift.Equatable {
+    let accountAssignments: [SSOAdminClientTypes.AccountAssignmentForPrincipal]?
+    let nextToken: Swift.String?
+}
+
+extension ListAccountAssignmentsForPrincipalOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountAssignments = "AccountAssignments"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountAssignmentsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.AccountAssignmentForPrincipal?].self, forKey: .accountAssignments)
+        var accountAssignmentsDecoded0:[SSOAdminClientTypes.AccountAssignmentForPrincipal]? = nil
+        if let accountAssignmentsContainer = accountAssignmentsContainer {
+            accountAssignmentsDecoded0 = [SSOAdminClientTypes.AccountAssignmentForPrincipal]()
+            for structure0 in accountAssignmentsContainer {
+                if let structure0 = structure0 {
+                    accountAssignmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountAssignments = accountAssignmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAccountAssignmentsForPrincipalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListAccountAssignmentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -3534,6 +7282,1124 @@ enum ListAccountsForProvisionedPermissionSetOutputError: ClientRuntime.HttpRespo
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListApplicationAccessScopesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationAccessScopesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationAccessScopesInput: Swift.Equatable {
+    /// Specifies the ARN of the application.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAccessScopesInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAccessScopesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListApplicationAccessScopesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationAccessScopesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scopes = output.scopes
+        } else {
+            self.nextToken = nil
+            self.scopes = nil
+        }
+    }
+}
+
+public struct ListApplicationAccessScopesOutput: Swift.Equatable {
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+    /// An array list of access scopes and their authorized targets that are associated with the application.
+    /// This member is required.
+    public var scopes: [SSOAdminClientTypes.ScopeDetails]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scopes: [SSOAdminClientTypes.ScopeDetails]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scopes = scopes
+    }
+}
+
+struct ListApplicationAccessScopesOutputBody: Swift.Equatable {
+    let scopes: [SSOAdminClientTypes.ScopeDetails]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAccessScopesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case scopes = "Scopes"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopesContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.ScopeDetails?].self, forKey: .scopes)
+        var scopesDecoded0:[SSOAdminClientTypes.ScopeDetails]? = nil
+        if let scopesContainer = scopesContainer {
+            scopesDecoded0 = [SSOAdminClientTypes.ScopeDetails]()
+            for structure0 in scopesContainer {
+                if let structure0 = structure0 {
+                    scopesDecoded0?.append(structure0)
+                }
+            }
+        }
+        scopes = scopesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationAccessScopesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.ListApplicationAssignmentsFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes a filter for application assignments.
+    public struct ListApplicationAssignmentsFilter: Swift.Equatable {
+        /// The ARN of an application.
+        public var applicationArn: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+        }
+    }
+
+}
+
+extension ListApplicationAssignmentsForPrincipalInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let principalId = self.principalId {
+            try encodeContainer.encode(principalId, forKey: .principalId)
+        }
+        if let principalType = self.principalType {
+            try encodeContainer.encode(principalType.rawValue, forKey: .principalType)
+        }
+    }
+}
+
+extension ListApplicationAssignmentsForPrincipalInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationAssignmentsForPrincipalInput: Swift.Equatable {
+    /// Filters the output to include only assignments associated with the application that has the specified ARN.
+    public var filter: SSOAdminClientTypes.ListApplicationAssignmentsFilter?
+    /// Specifies the instance of IAM Identity Center that contains principal and applications.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+    /// Specifies the unique identifier of the principal for which you want to retrieve its assignments.
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// Specifies the type of the principal for which you want to retrieve its assignments.
+    /// This member is required.
+    public var principalType: SSOAdminClientTypes.PrincipalType?
+
+    public init(
+        filter: SSOAdminClientTypes.ListApplicationAssignmentsFilter? = nil,
+        instanceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        principalType: SSOAdminClientTypes.PrincipalType? = nil
+    )
+    {
+        self.filter = filter
+        self.instanceArn = instanceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principalId = principalId
+        self.principalType = principalType
+    }
+}
+
+struct ListApplicationAssignmentsForPrincipalInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let principalId: Swift.String?
+    let principalType: SSOAdminClientTypes.PrincipalType?
+    let filter: SSOAdminClientTypes.ListApplicationAssignmentsFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListApplicationAssignmentsForPrincipalInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case principalId = "PrincipalId"
+        case principalType = "PrincipalType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let principalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalId)
+        principalId = principalIdDecoded
+        let principalTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.PrincipalType.self, forKey: .principalType)
+        principalType = principalTypeDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ListApplicationAssignmentsFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListApplicationAssignmentsForPrincipalOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationAssignmentsForPrincipalOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationAssignments = output.applicationAssignments
+            self.nextToken = output.nextToken
+        } else {
+            self.applicationAssignments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationAssignmentsForPrincipalOutput: Swift.Equatable {
+    /// An array list of the application assignments for the specified principal.
+    public var applicationAssignments: [SSOAdminClientTypes.ApplicationAssignmentForPrincipal]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationAssignments: [SSOAdminClientTypes.ApplicationAssignmentForPrincipal]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationAssignments = applicationAssignments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAssignmentsForPrincipalOutputBody: Swift.Equatable {
+    let applicationAssignments: [SSOAdminClientTypes.ApplicationAssignmentForPrincipal]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAssignmentsForPrincipalOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationAssignments = "ApplicationAssignments"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationAssignmentsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.ApplicationAssignmentForPrincipal?].self, forKey: .applicationAssignments)
+        var applicationAssignmentsDecoded0:[SSOAdminClientTypes.ApplicationAssignmentForPrincipal]? = nil
+        if let applicationAssignmentsContainer = applicationAssignmentsContainer {
+            applicationAssignmentsDecoded0 = [SSOAdminClientTypes.ApplicationAssignmentForPrincipal]()
+            for structure0 in applicationAssignmentsContainer {
+                if let structure0 = structure0 {
+                    applicationAssignmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        applicationAssignments = applicationAssignmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationAssignmentsForPrincipalOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListApplicationAssignmentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationAssignmentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationAssignmentsInput: Swift.Equatable {
+    /// Specifies the ARN of the application.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAssignmentsInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAssignmentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListApplicationAssignmentsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationAssignmentsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationAssignments = output.applicationAssignments
+            self.nextToken = output.nextToken
+        } else {
+            self.applicationAssignments = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationAssignmentsOutput: Swift.Equatable {
+    /// The list of users assigned to an application.
+    public var applicationAssignments: [SSOAdminClientTypes.ApplicationAssignment]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationAssignments: [SSOAdminClientTypes.ApplicationAssignment]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationAssignments = applicationAssignments
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAssignmentsOutputBody: Swift.Equatable {
+    let applicationAssignments: [SSOAdminClientTypes.ApplicationAssignment]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAssignmentsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationAssignments = "ApplicationAssignments"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationAssignmentsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.ApplicationAssignment?].self, forKey: .applicationAssignments)
+        var applicationAssignmentsDecoded0:[SSOAdminClientTypes.ApplicationAssignment]? = nil
+        if let applicationAssignmentsContainer = applicationAssignmentsContainer {
+            applicationAssignmentsDecoded0 = [SSOAdminClientTypes.ApplicationAssignment]()
+            for structure0 in applicationAssignmentsContainer {
+                if let structure0 = structure0 {
+                    applicationAssignmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        applicationAssignments = applicationAssignmentsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationAssignmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListApplicationAuthenticationMethodsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationAuthenticationMethodsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationAuthenticationMethodsInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the authentication methods you want to list.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAuthenticationMethodsInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAuthenticationMethodsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListApplicationAuthenticationMethodsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationAuthenticationMethodsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.authenticationMethods = output.authenticationMethods
+            self.nextToken = output.nextToken
+        } else {
+            self.authenticationMethods = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationAuthenticationMethodsOutput: Swift.Equatable {
+    /// An array list of authentication methods for the specified application.
+    public var authenticationMethods: [SSOAdminClientTypes.AuthenticationMethodItem]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        authenticationMethods: [SSOAdminClientTypes.AuthenticationMethodItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.authenticationMethods = authenticationMethods
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAuthenticationMethodsOutputBody: Swift.Equatable {
+    let authenticationMethods: [SSOAdminClientTypes.AuthenticationMethodItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAuthenticationMethodsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationMethods = "AuthenticationMethods"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authenticationMethodsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.AuthenticationMethodItem?].self, forKey: .authenticationMethods)
+        var authenticationMethodsDecoded0:[SSOAdminClientTypes.AuthenticationMethodItem]? = nil
+        if let authenticationMethodsContainer = authenticationMethodsContainer {
+            authenticationMethodsDecoded0 = [SSOAdminClientTypes.AuthenticationMethodItem]()
+            for structure0 in authenticationMethodsContainer {
+                if let structure0 = structure0 {
+                    authenticationMethodsDecoded0?.append(structure0)
+                }
+            }
+        }
+        authenticationMethods = authenticationMethodsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationAuthenticationMethodsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListApplicationGrantsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationGrantsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationGrantsInput: Swift.Equatable {
+    /// Specifies the ARN of the application whose grants you want to list.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationGrantsInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationGrantsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListApplicationGrantsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationGrantsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.grants = output.grants
+            self.nextToken = output.nextToken
+        } else {
+            self.grants = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationGrantsOutput: Swift.Equatable {
+    /// An array list of structures that describe the requested grants.
+    /// This member is required.
+    public var grants: [SSOAdminClientTypes.GrantItem]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        grants: [SSOAdminClientTypes.GrantItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.grants = grants
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationGrantsOutputBody: Swift.Equatable {
+    let grants: [SSOAdminClientTypes.GrantItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationGrantsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grants = "Grants"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let grantsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.GrantItem?].self, forKey: .grants)
+        var grantsDecoded0:[SSOAdminClientTypes.GrantItem]? = nil
+        if let grantsContainer = grantsContainer {
+            grantsDecoded0 = [SSOAdminClientTypes.GrantItem]()
+            for structure0 in grantsContainer {
+                if let structure0 = structure0 {
+                    grantsDecoded0?.append(structure0)
+                }
+            }
+        }
+        grants = grantsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListApplicationProvidersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationProvidersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationProvidersInput: Swift.Equatable {
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationProvidersInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationProvidersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListApplicationProvidersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationProvidersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationProviders = output.applicationProviders
+            self.nextToken = output.nextToken
+        } else {
+            self.applicationProviders = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationProvidersOutput: Swift.Equatable {
+    /// An array list of structures that describe application providers.
+    public var applicationProviders: [SSOAdminClientTypes.ApplicationProvider]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationProviders: [SSOAdminClientTypes.ApplicationProvider]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationProviders = applicationProviders
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationProvidersOutputBody: Swift.Equatable {
+    let applicationProviders: [SSOAdminClientTypes.ApplicationProvider]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationProvidersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationProviders = "ApplicationProviders"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationProvidersContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.ApplicationProvider?].self, forKey: .applicationProviders)
+        var applicationProvidersDecoded0:[SSOAdminClientTypes.ApplicationProvider]? = nil
+        if let applicationProvidersContainer = applicationProvidersContainer {
+            applicationProvidersDecoded0 = [SSOAdminClientTypes.ApplicationProvider]()
+            for structure0 in applicationProvidersContainer {
+                if let structure0 = structure0 {
+                    applicationProvidersDecoded0?.append(structure0)
+                }
+            }
+        }
+        applicationProviders = applicationProvidersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.ListApplicationsFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationAccount = "ApplicationAccount"
+        case applicationProvider = "ApplicationProvider"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationAccount = self.applicationAccount {
+            try encodeContainer.encode(applicationAccount, forKey: .applicationAccount)
+        }
+        if let applicationProvider = self.applicationProvider {
+            try encodeContainer.encode(applicationProvider, forKey: .applicationProvider)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationAccount)
+        applicationAccount = applicationAccountDecoded
+        let applicationProviderDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationProvider)
+        applicationProvider = applicationProviderDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes a filter for applications.
+    public struct ListApplicationsFilter: Swift.Equatable {
+        /// An Amazon Web Services account ID number that filters the results in the response.
+        public var applicationAccount: Swift.String?
+        /// The ARN of an application provider that can filter the results in the response.
+        public var applicationProvider: Swift.String?
+
+        public init(
+            applicationAccount: Swift.String? = nil,
+            applicationProvider: Swift.String? = nil
+        )
+        {
+            self.applicationAccount = applicationAccount
+            self.applicationProvider = applicationProvider
+        }
+    }
+
+}
+
+extension ListApplicationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationsInput: Swift.Equatable {
+    /// Filters response results.
+    public var filter: SSOAdminClientTypes.ListApplicationsFilter?
+    /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: SSOAdminClientTypes.ListApplicationsFilter? = nil,
+        instanceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.instanceArn = instanceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationsInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let filter: SSOAdminClientTypes.ListApplicationsFilter?
+}
+
+extension ListApplicationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ListApplicationsFilter.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applications = output.applications
+            self.nextToken = output.nextToken
+        } else {
+            self.applications = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationsOutput: Swift.Equatable {
+    /// Retrieves all applications associated with the instance.
+    public var applications: [SSOAdminClientTypes.Application]?
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applications: [SSOAdminClientTypes.Application]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applications = applications
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationsOutputBody: Swift.Equatable {
+    let applications: [SSOAdminClientTypes.Application]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applications = "Applications"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationsContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.Application?].self, forKey: .applications)
+        var applicationsDecoded0:[SSOAdminClientTypes.Application]? = nil
+        if let applicationsContainer = applicationsContainer {
+            applicationsDecoded0 = [SSOAdminClientTypes.Application]()
+            for structure0 in applicationsContainer {
+                if let structure0 = structure0 {
+                    applicationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        applications = applicationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListCustomerManagedPolicyReferencesInPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -4488,7 +9354,6 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 
 public struct ListTagsForResourceInput: Swift.Equatable {
     /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
-    /// This member is required.
     public var instanceArn: Swift.String?
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
@@ -4606,6 +9471,278 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListTrustedTokenIssuersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListTrustedTokenIssuersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTrustedTokenIssuersInput: Swift.Equatable {
+    /// Specifies the ARN of the instance of IAM Identity Center with the trusted token issuer configurations that you want to list.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceArn = instanceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListTrustedTokenIssuersInputBody: Swift.Equatable {
+    let instanceArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListTrustedTokenIssuersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListTrustedTokenIssuersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTrustedTokenIssuersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.trustedTokenIssuers = output.trustedTokenIssuers
+        } else {
+            self.nextToken = nil
+            self.trustedTokenIssuers = nil
+        }
+    }
+}
+
+public struct ListTrustedTokenIssuersOutput: Swift.Equatable {
+    /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+    public var nextToken: Swift.String?
+    /// An array list of the trusted token issuer configurations.
+    public var trustedTokenIssuers: [SSOAdminClientTypes.TrustedTokenIssuerMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trustedTokenIssuers: [SSOAdminClientTypes.TrustedTokenIssuerMetadata]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.trustedTokenIssuers = trustedTokenIssuers
+    }
+}
+
+struct ListTrustedTokenIssuersOutputBody: Swift.Equatable {
+    let trustedTokenIssuers: [SSOAdminClientTypes.TrustedTokenIssuerMetadata]?
+    let nextToken: Swift.String?
+}
+
+extension ListTrustedTokenIssuersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case trustedTokenIssuers = "TrustedTokenIssuers"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuersContainer = try containerValues.decodeIfPresent([SSOAdminClientTypes.TrustedTokenIssuerMetadata?].self, forKey: .trustedTokenIssuers)
+        var trustedTokenIssuersDecoded0:[SSOAdminClientTypes.TrustedTokenIssuerMetadata]? = nil
+        if let trustedTokenIssuersContainer = trustedTokenIssuersContainer {
+            trustedTokenIssuersDecoded0 = [SSOAdminClientTypes.TrustedTokenIssuerMetadata]()
+            for structure0 in trustedTokenIssuersContainer {
+                if let structure0 = structure0 {
+                    trustedTokenIssuersDecoded0?.append(structure0)
+                }
+            }
+        }
+        trustedTokenIssuers = trustedTokenIssuersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTrustedTokenIssuersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.OidcJwtConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case claimAttributePath = "ClaimAttributePath"
+        case identityStoreAttributePath = "IdentityStoreAttributePath"
+        case issuerUrl = "IssuerUrl"
+        case jwksRetrievalOption = "JwksRetrievalOption"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let claimAttributePath = self.claimAttributePath {
+            try encodeContainer.encode(claimAttributePath, forKey: .claimAttributePath)
+        }
+        if let identityStoreAttributePath = self.identityStoreAttributePath {
+            try encodeContainer.encode(identityStoreAttributePath, forKey: .identityStoreAttributePath)
+        }
+        if let issuerUrl = self.issuerUrl {
+            try encodeContainer.encode(issuerUrl, forKey: .issuerUrl)
+        }
+        if let jwksRetrievalOption = self.jwksRetrievalOption {
+            try encodeContainer.encode(jwksRetrievalOption.rawValue, forKey: .jwksRetrievalOption)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issuerUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuerUrl)
+        issuerUrl = issuerUrlDecoded
+        let claimAttributePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .claimAttributePath)
+        claimAttributePath = claimAttributePathDecoded
+        let identityStoreAttributePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityStoreAttributePath)
+        identityStoreAttributePath = identityStoreAttributePathDecoded
+        let jwksRetrievalOptionDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.JwksRetrievalOption.self, forKey: .jwksRetrievalOption)
+        jwksRetrievalOption = jwksRetrievalOptionDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes configuration settings for a trusted token issuer that supports OpenID Connect (OIDC) and JSON Web Tokens (JWTs).
+    public struct OidcJwtConfiguration: Swift.Equatable {
+        /// The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        /// This member is required.
+        public var claimAttributePath: Swift.String?
+        /// The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        /// This member is required.
+        public var identityStoreAttributePath: Swift.String?
+        /// The URL that IAM Identity Center uses for OpenID Discovery. OpenID Discovery is used to obtain the information required to verify the tokens that the trusted token issuer generates.
+        /// This member is required.
+        public var issuerUrl: Swift.String?
+        /// The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT.
+        /// This member is required.
+        public var jwksRetrievalOption: SSOAdminClientTypes.JwksRetrievalOption?
+
+        public init(
+            claimAttributePath: Swift.String? = nil,
+            identityStoreAttributePath: Swift.String? = nil,
+            issuerUrl: Swift.String? = nil,
+            jwksRetrievalOption: SSOAdminClientTypes.JwksRetrievalOption? = nil
+        )
+        {
+            self.claimAttributePath = claimAttributePath
+            self.identityStoreAttributePath = identityStoreAttributePath
+            self.issuerUrl = issuerUrl
+            self.jwksRetrievalOption = jwksRetrievalOption
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.OidcJwtUpdateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case claimAttributePath = "ClaimAttributePath"
+        case identityStoreAttributePath = "IdentityStoreAttributePath"
+        case jwksRetrievalOption = "JwksRetrievalOption"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let claimAttributePath = self.claimAttributePath {
+            try encodeContainer.encode(claimAttributePath, forKey: .claimAttributePath)
+        }
+        if let identityStoreAttributePath = self.identityStoreAttributePath {
+            try encodeContainer.encode(identityStoreAttributePath, forKey: .identityStoreAttributePath)
+        }
+        if let jwksRetrievalOption = self.jwksRetrievalOption {
+            try encodeContainer.encode(jwksRetrievalOption.rawValue, forKey: .jwksRetrievalOption)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let claimAttributePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .claimAttributePath)
+        claimAttributePath = claimAttributePathDecoded
+        let identityStoreAttributePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityStoreAttributePath)
+        identityStoreAttributePath = identityStoreAttributePathDecoded
+        let jwksRetrievalOptionDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.JwksRetrievalOption.self, forKey: .jwksRetrievalOption)
+        jwksRetrievalOption = jwksRetrievalOptionDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes updated configuration settings for a trusted token issuer that supports OpenID Connect (OIDC) and JSON Web Tokens (JWTs).
+    public struct OidcJwtUpdateConfiguration: Swift.Equatable {
+        /// The path of the source attribute in the JWT from the trusted token issuer. The attribute mapped by this JMESPath expression is compared against the attribute mapped by IdentityStoreAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        public var claimAttributePath: Swift.String?
+        /// The path of the destination attribute in a JWT from IAM Identity Center. The attribute mapped by this JMESPath expression is compared against the attribute mapped by ClaimAttributePath when a trusted token issuer token is exchanged for an IAM Identity Center token.
+        public var identityStoreAttributePath: Swift.String?
+        /// The method that the trusted token issuer can use to retrieve the JSON Web Key Set used to verify a JWT.
+        public var jwksRetrievalOption: SSOAdminClientTypes.JwksRetrievalOption?
+
+        public init(
+            claimAttributePath: Swift.String? = nil,
+            identityStoreAttributePath: Swift.String? = nil,
+            jwksRetrievalOption: SSOAdminClientTypes.JwksRetrievalOption? = nil
+        )
+        {
+            self.claimAttributePath = claimAttributePath
+            self.identityStoreAttributePath = identityStoreAttributePath
+            self.jwksRetrievalOption = jwksRetrievalOption
+        }
+    }
+
+}
+
+>>>>>>> main
 extension SSOAdminClientTypes.OperationStatusFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
@@ -4626,7 +9763,7 @@ extension SSOAdminClientTypes.OperationStatusFilter: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// Filters he operation status list based on the passed attribute value.
+    /// Filters the operation status list based on the passed attribute value.
     public struct OperationStatusFilter: Swift.Equatable {
         /// Filters the list operations result based on the status attribute.
         public var status: SSOAdminClientTypes.StatusValues?
@@ -4911,6 +10048,51 @@ extension SSOAdminClientTypes {
 
 }
 
+extension SSOAdminClientTypes.PortalOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case signInOptions = "SignInOptions"
+        case visibility = "Visibility"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let signInOptions = self.signInOptions {
+            try encodeContainer.encode(signInOptions, forKey: .signInOptions)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let signInOptionsDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.SignInOptions.self, forKey: .signInOptions)
+        signInOptions = signInOptionsDecoded
+        let visibilityDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ApplicationVisibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes the options for the access portal associated with an application.
+    public struct PortalOptions: Swift.Equatable {
+        /// A structure that describes the sign-in options for the access portal.
+        public var signInOptions: SSOAdminClientTypes.SignInOptions?
+        /// Indicates whether this application is visible in the access portal.
+        public var visibility: SSOAdminClientTypes.ApplicationVisibility?
+
+        public init(
+            signInOptions: SSOAdminClientTypes.SignInOptions? = nil,
+            visibility: SSOAdminClientTypes.ApplicationVisibility? = nil
+        )
+        {
+            self.signInOptions = signInOptions
+            self.visibility = visibility
+        }
+    }
+
+}
+
 extension SSOAdminClientTypes {
     public enum PrincipalType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case group
@@ -5149,6 +10331,404 @@ extension SSOAdminClientTypes {
     }
 }
 
+extension PutApplicationAccessScopeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authorizedTargets = "AuthorizedTargets"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let authorizedTargets = authorizedTargets {
+            var authorizedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedTargets)
+            for scopetarget0 in authorizedTargets {
+                try authorizedTargetsContainer.encode(scopetarget0)
+            }
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
+        }
+    }
+}
+
+extension PutApplicationAccessScopeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutApplicationAccessScopeInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the access scope with the targets to add or update.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies an array list of ARNs that represent the authorized targets for this access scope.
+    public var authorizedTargets: [Swift.String]?
+    /// Specifies the name of the access scope to be associated with the specified targets.
+    /// This member is required.
+    public var scope: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        authorizedTargets: [Swift.String]? = nil,
+        scope: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.authorizedTargets = authorizedTargets
+        self.scope = scope
+    }
+}
+
+struct PutApplicationAccessScopeInputBody: Swift.Equatable {
+    let scope: Swift.String?
+    let authorizedTargets: [Swift.String]?
+    let applicationArn: Swift.String?
+}
+
+extension PutApplicationAccessScopeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authorizedTargets = "AuthorizedTargets"
+        case scope = "Scope"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
+        let authorizedTargetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedTargets)
+        var authorizedTargetsDecoded0:[Swift.String]? = nil
+        if let authorizedTargetsContainer = authorizedTargetsContainer {
+            authorizedTargetsDecoded0 = [Swift.String]()
+            for string0 in authorizedTargetsContainer {
+                if let string0 = string0 {
+                    authorizedTargetsDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedTargets = authorizedTargetsDecoded0
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+extension PutApplicationAccessScopeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutApplicationAccessScopeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutApplicationAccessScopeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutApplicationAssignmentConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case assignmentRequired = "AssignmentRequired"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let assignmentRequired = self.assignmentRequired {
+            try encodeContainer.encode(assignmentRequired, forKey: .assignmentRequired)
+        }
+    }
+}
+
+extension PutApplicationAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutApplicationAssignmentConfigurationInput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html). If false, all users have access to the application.
+    /// This member is required.
+    public var assignmentRequired: Swift.Bool?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        assignmentRequired: Swift.Bool? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.assignmentRequired = assignmentRequired
+    }
+}
+
+struct PutApplicationAssignmentConfigurationInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let assignmentRequired: Swift.Bool?
+}
+
+extension PutApplicationAssignmentConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case assignmentRequired = "AssignmentRequired"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let assignmentRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .assignmentRequired)
+        assignmentRequired = assignmentRequiredDecoded
+    }
+}
+
+extension PutApplicationAssignmentConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutApplicationAssignmentConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutApplicationAssignmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutApplicationAuthenticationMethodInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authenticationMethod = "AuthenticationMethod"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let authenticationMethod = self.authenticationMethod {
+            try encodeContainer.encode(authenticationMethod, forKey: .authenticationMethod)
+        }
+        if let authenticationMethodType = self.authenticationMethodType {
+            try encodeContainer.encode(authenticationMethodType.rawValue, forKey: .authenticationMethodType)
+        }
+    }
+}
+
+extension PutApplicationAuthenticationMethodInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutApplicationAuthenticationMethodInput: Swift.Equatable {
+    /// Specifies the ARN of the application with the authentication method to add or update.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies a structure that describes the authentication method to add or update. The structure type you provide is determined by the AuthenticationMethodType parameter.
+    /// This member is required.
+    public var authenticationMethod: SSOAdminClientTypes.AuthenticationMethod?
+    /// Specifies the type of the authentication method that you want to add or update.
+    /// This member is required.
+    public var authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        authenticationMethod: SSOAdminClientTypes.AuthenticationMethod? = nil,
+        authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.authenticationMethod = authenticationMethod
+        self.authenticationMethodType = authenticationMethodType
+    }
+}
+
+struct PutApplicationAuthenticationMethodInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let authenticationMethodType: SSOAdminClientTypes.AuthenticationMethodType?
+    let authenticationMethod: SSOAdminClientTypes.AuthenticationMethod?
+}
+
+extension PutApplicationAuthenticationMethodInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case authenticationMethod = "AuthenticationMethod"
+        case authenticationMethodType = "AuthenticationMethodType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let authenticationMethodTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethodType.self, forKey: .authenticationMethodType)
+        authenticationMethodType = authenticationMethodTypeDecoded
+        let authenticationMethodDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.AuthenticationMethod.self, forKey: .authenticationMethod)
+        authenticationMethod = authenticationMethodDecoded
+    }
+}
+
+extension PutApplicationAuthenticationMethodOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutApplicationAuthenticationMethodOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutApplicationAuthenticationMethodOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutApplicationGrantInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case grant = "Grant"
+        case grantType = "GrantType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let grant = self.grant {
+            try encodeContainer.encode(grant, forKey: .grant)
+        }
+        if let grantType = self.grantType {
+            try encodeContainer.encode(grantType.rawValue, forKey: .grantType)
+        }
+    }
+}
+
+extension PutApplicationGrantInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutApplicationGrantInput: Swift.Equatable {
+    /// Specifies the ARN of the application to update.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Specifies a structure that describes the grant to update.
+    /// This member is required.
+    public var grant: SSOAdminClientTypes.Grant?
+    /// Specifies the type of grant to update.
+    /// This member is required.
+    public var grantType: SSOAdminClientTypes.GrantType?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        grant: SSOAdminClientTypes.Grant? = nil,
+        grantType: SSOAdminClientTypes.GrantType? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.grant = grant
+        self.grantType = grantType
+    }
+}
+
+struct PutApplicationGrantInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let grantType: SSOAdminClientTypes.GrantType?
+    let grant: SSOAdminClientTypes.Grant?
+}
+
+extension PutApplicationGrantInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case grant = "Grant"
+        case grantType = "GrantType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let grantTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.GrantType.self, forKey: .grantType)
+        grantType = grantTypeDecoded
+        let grantDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.Grant.self, forKey: .grant)
+        grant = grantDecoded
+    }
+}
+
+extension PutApplicationGrantOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PutApplicationGrantOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PutApplicationGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension PutInlinePolicyToPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inlinePolicy = "InlinePolicy"
@@ -5350,6 +10930,29 @@ enum PutPermissionsBoundaryToPermissionSetOutputError: ClientRuntime.HttpRespons
     }
 }
 
+<<<<<<< HEAD
+=======
+extension SSOAdminClientTypes.RefreshTokenGrant: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Refresh Token Grant.
+    public struct RefreshTokenGrant: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
+>>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5405,6 +11008,156 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension SSOAdminClientTypes.ResourceServerConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scopes = "Scopes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scopes = scopes {
+            var scopesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .scopes)
+            for (dictKey0, resourceServerScopes0) in scopes {
+                try scopesContainer.encode(resourceServerScopes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopesContainer = try containerValues.decodeIfPresent([Swift.String: SSOAdminClientTypes.ResourceServerScopeDetails?].self, forKey: .scopes)
+        var scopesDecoded0: [Swift.String:SSOAdminClientTypes.ResourceServerScopeDetails]? = nil
+        if let scopesContainer = scopesContainer {
+            scopesDecoded0 = [Swift.String:SSOAdminClientTypes.ResourceServerScopeDetails]()
+            for (key0, resourceserverscopedetails0) in scopesContainer {
+                if let resourceserverscopedetails0 = resourceserverscopedetails0 {
+                    scopesDecoded0?[key0] = resourceserverscopedetails0
+                }
+            }
+        }
+        scopes = scopesDecoded0
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes the configuration of a resource server.
+    public struct ResourceServerConfig: Swift.Equatable {
+        /// A list of the IAM Identity Center access scopes that are associated with this resource server.
+        public var scopes: [Swift.String:SSOAdminClientTypes.ResourceServerScopeDetails]?
+
+        public init(
+            scopes: [Swift.String:SSOAdminClientTypes.ResourceServerScopeDetails]? = nil
+        )
+        {
+            self.scopes = scopes
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.ResourceServerScopeDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detailedTitle = "DetailedTitle"
+        case longDescription = "LongDescription"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let detailedTitle = self.detailedTitle {
+            try encodeContainer.encode(detailedTitle, forKey: .detailedTitle)
+        }
+        if let longDescription = self.longDescription {
+            try encodeContainer.encode(longDescription, forKey: .longDescription)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let longDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longDescription)
+        longDescription = longDescriptionDecoded
+        let detailedTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detailedTitle)
+        detailedTitle = detailedTitleDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes details for an IAM Identity Center access scope that is associated with a resource server.
+    public struct ResourceServerScopeDetails: Swift.Equatable {
+        /// The title of an access scope for a resource server.
+        public var detailedTitle: Swift.String?
+        /// The description of an access scope for a resource server.
+        public var longDescription: Swift.String?
+
+        public init(
+            detailedTitle: Swift.String? = nil,
+            longDescription: Swift.String? = nil
+        )
+        {
+            self.detailedTitle = detailedTitle
+            self.longDescription = longDescription
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes.ScopeDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTargets = "AuthorizedTargets"
+        case scope = "Scope"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedTargets = authorizedTargets {
+            var authorizedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedTargets)
+            for scopetarget0 in authorizedTargets {
+                try authorizedTargetsContainer.encode(scopetarget0)
+            }
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
+        let authorizedTargetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedTargets)
+        var authorizedTargetsDecoded0:[Swift.String]? = nil
+        if let authorizedTargetsContainer = authorizedTargetsContainer {
+            authorizedTargetsDecoded0 = [Swift.String]()
+            for string0 in authorizedTargetsContainer {
+                if let string0 = string0 {
+                    authorizedTargetsDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedTargets = authorizedTargetsDecoded0
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes an IAM Identity Center access scope and its authorized targets.
+    public struct ScopeDetails: Swift.Equatable {
+        /// An array list of ARNs of applications.
+        public var authorizedTargets: [Swift.String]?
+        /// The name of the access scope.
+        /// This member is required.
+        public var scope: Swift.String?
+
+        public init(
+            authorizedTargets: [Swift.String]? = nil,
+            scope: Swift.String? = nil
+        )
+        {
+            self.authorizedTargets = authorizedTargets
+            self.scope = scope
+        }
+    }
+
+}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5457,6 +11210,88 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension SSOAdminClientTypes.SignInOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationUrl = "ApplicationUrl"
+        case origin = "Origin"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationUrl = self.applicationUrl {
+            try encodeContainer.encode(applicationUrl, forKey: .applicationUrl)
+        }
+        if let origin = self.origin {
+            try encodeContainer.encode(origin.rawValue, forKey: .origin)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let originDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.SignInOrigin.self, forKey: .origin)
+        origin = originDecoded
+        let applicationUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationUrl)
+        applicationUrl = applicationUrlDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes the sign-in options for an application portal.
+    public struct SignInOptions: Swift.Equatable {
+        /// The URL that accepts authentication requests for an application. This is a required parameter if the Origin parameter is APPLICATION.
+        public var applicationUrl: Swift.String?
+        /// This determines how IAM Identity Center navigates the user to the target application. It can be one of the following values:
+        ///
+        /// * APPLICATION: IAM Identity Center redirects the customer to the configured ApplicationUrl.
+        ///
+        /// * IDENTITY_CENTER: IAM Identity Center uses SAML identity-provider initiated authentication to sign the customer directly into a SAML-based application.
+        /// This member is required.
+        public var origin: SSOAdminClientTypes.SignInOrigin?
+
+        public init(
+            applicationUrl: Swift.String? = nil,
+            origin: SSOAdminClientTypes.SignInOrigin? = nil
+        )
+        {
+            self.applicationUrl = applicationUrl
+            self.origin = origin
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes {
+    public enum SignInOrigin: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case application
+        case identityCenter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignInOrigin] {
+            return [
+                .application,
+                .identityCenter,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .application: return "APPLICATION"
+            case .identityCenter: return "IDENTITY_CENTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SignInOrigin(rawValue: rawValue) ?? SignInOrigin.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5574,7 +11409,6 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 
 public struct TagResourceInput: Swift.Equatable {
     /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
-    /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the resource with the tags to be listed.
     /// This member is required.
@@ -5739,6 +11573,184 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension SSOAdminClientTypes.TokenExchangeGrant: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Token Exchange Grant.
+    public struct TokenExchangeGrant: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
+extension SSOAdminClientTypes.TrustedTokenIssuerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oidcjwtconfiguration = "OidcJwtConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .oidcjwtconfiguration(oidcjwtconfiguration):
+                try container.encode(oidcjwtconfiguration, forKey: .oidcjwtconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let oidcjwtconfigurationDecoded = try values.decodeIfPresent(SSOAdminClientTypes.OidcJwtConfiguration.self, forKey: .oidcjwtconfiguration)
+        if let oidcjwtconfiguration = oidcjwtconfigurationDecoded {
+            self = .oidcjwtconfiguration(oidcjwtconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes the configuration of a trusted token issuer. The structure and available settings are determined by the type of the trusted token issuer.
+    public enum TrustedTokenIssuerConfiguration: Swift.Equatable {
+        /// A structure that describes the settings for a trusted token issuer that works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT).
+        case oidcjwtconfiguration(SSOAdminClientTypes.OidcJwtConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SSOAdminClientTypes.TrustedTokenIssuerMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        case trustedTokenIssuerType = "TrustedTokenIssuerType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let trustedTokenIssuerArn = self.trustedTokenIssuerArn {
+            try encodeContainer.encode(trustedTokenIssuerArn, forKey: .trustedTokenIssuerArn)
+        }
+        if let trustedTokenIssuerType = self.trustedTokenIssuerType {
+            try encodeContainer.encode(trustedTokenIssuerType.rawValue, forKey: .trustedTokenIssuerType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let trustedTokenIssuerTypeDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.TrustedTokenIssuerType.self, forKey: .trustedTokenIssuerType)
+        trustedTokenIssuerType = trustedTokenIssuerTypeDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes a trusted token issuer.
+    public struct TrustedTokenIssuerMetadata: Swift.Equatable {
+        /// The name of the trusted token issuer configuration in the instance of IAM Identity Center.
+        public var name: Swift.String?
+        /// The ARN of the trusted token issuer configuration in the instance of IAM Identity Center.
+        public var trustedTokenIssuerArn: Swift.String?
+        /// The type of trusted token issuer.
+        public var trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType?
+
+        public init(
+            name: Swift.String? = nil,
+            trustedTokenIssuerArn: Swift.String? = nil,
+            trustedTokenIssuerType: SSOAdminClientTypes.TrustedTokenIssuerType? = nil
+        )
+        {
+            self.name = name
+            self.trustedTokenIssuerArn = trustedTokenIssuerArn
+            self.trustedTokenIssuerType = trustedTokenIssuerType
+        }
+    }
+
+}
+
+extension SSOAdminClientTypes {
+    public enum TrustedTokenIssuerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oidcJwt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustedTokenIssuerType] {
+            return [
+                .oidcJwt,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .oidcJwt: return "OIDC_JWT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TrustedTokenIssuerType(rawValue: rawValue) ?? TrustedTokenIssuerType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oidcjwtconfiguration = "OidcJwtConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .oidcjwtconfiguration(oidcjwtconfiguration):
+                try container.encode(oidcjwtconfiguration, forKey: .oidcjwtconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let oidcjwtconfigurationDecoded = try values.decodeIfPresent(SSOAdminClientTypes.OidcJwtUpdateConfiguration.self, forKey: .oidcjwtconfiguration)
+        if let oidcjwtconfiguration = oidcjwtconfigurationDecoded {
+            self = .oidcjwtconfiguration(oidcjwtconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that contains details to be updated for a trusted token issuer configuration. The structure and settings that you can include depend on the type of the trusted token issuer being updated.
+    public enum TrustedTokenIssuerUpdateConfiguration: Swift.Equatable {
+        /// A structure that describes an updated configuration for a trusted token issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT).
+        case oidcjwtconfiguration(SSOAdminClientTypes.OidcJwtUpdateConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -5771,7 +11783,6 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 
 public struct UntagResourceInput: Swift.Equatable {
     /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
-    /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the resource with the tags to be listed.
     /// This member is required.
@@ -5851,6 +11862,166 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdateApplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case description = "Description"
+        case name = "Name"
+        case portalOptions = "PortalOptions"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let portalOptions = self.portalOptions {
+            try encodeContainer.encode(portalOptions, forKey: .portalOptions)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+}
+
+extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateApplicationInput: Swift.Equatable {
+    /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// The description of the .
+    public var description: Swift.String?
+    /// Specifies the updated name for the application.
+    public var name: Swift.String?
+    /// A structure that describes the options for the portal associated with an application.
+    public var portalOptions: SSOAdminClientTypes.UpdateApplicationPortalOptions?
+    /// Specifies whether the application is enabled or disabled.
+    public var status: SSOAdminClientTypes.ApplicationStatus?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        portalOptions: SSOAdminClientTypes.UpdateApplicationPortalOptions? = nil,
+        status: SSOAdminClientTypes.ApplicationStatus? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.description = description
+        self.name = name
+        self.portalOptions = portalOptions
+        self.status = status
+    }
+}
+
+struct UpdateApplicationInputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let status: SSOAdminClientTypes.ApplicationStatus?
+    let portalOptions: SSOAdminClientTypes.UpdateApplicationPortalOptions?
+}
+
+extension UpdateApplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case description = "Description"
+        case name = "Name"
+        case portalOptions = "PortalOptions"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.ApplicationStatus.self, forKey: .status)
+        status = statusDecoded
+        let portalOptionsDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.UpdateApplicationPortalOptions.self, forKey: .portalOptions)
+        portalOptions = portalOptionsDecoded
+    }
+}
+
+extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SSOAdminClientTypes.UpdateApplicationPortalOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case signInOptions = "SignInOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let signInOptions = self.signInOptions {
+            try encodeContainer.encode(signInOptions, forKey: .signInOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let signInOptionsDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.SignInOptions.self, forKey: .signInOptions)
+        signInOptions = signInOptionsDecoded
+    }
+}
+
+extension SSOAdminClientTypes {
+    /// A structure that describes the options for the access portal associated with an application that can be updated.
+    public struct UpdateApplicationPortalOptions: Swift.Equatable {
+        /// A structure that describes the sign-in options for an application portal.
+        public var signInOptions: SSOAdminClientTypes.SignInOptions?
+
+        public init(
+            signInOptions: SSOAdminClientTypes.SignInOptions? = nil
+        )
+        {
+            self.signInOptions = signInOptions
+        }
+    }
+
+}
+
+>>>>>>> main
 extension UpdateInstanceAccessControlAttributeConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
@@ -5938,6 +12109,95 @@ enum UpdateInstanceAccessControlAttributeConfigurationOutputError: ClientRuntime
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdateInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateInstanceInput: Swift.Equatable {
+    /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// Updates the instance name.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceArn = instanceArn
+        self.name = name
+    }
+}
+
+struct UpdateInstanceInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let instanceArn: Swift.String?
+}
+
+extension UpdateInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceArn = "InstanceArn"
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+    }
+}
+
+extension UpdateInstanceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateInstanceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension UpdatePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -6061,6 +12321,107 @@ enum UpdatePermissionSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdateTrustedTokenIssuerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let trustedTokenIssuerArn = self.trustedTokenIssuerArn {
+            try encodeContainer.encode(trustedTokenIssuerArn, forKey: .trustedTokenIssuerArn)
+        }
+        if let trustedTokenIssuerConfiguration = self.trustedTokenIssuerConfiguration {
+            try encodeContainer.encode(trustedTokenIssuerConfiguration, forKey: .trustedTokenIssuerConfiguration)
+        }
+    }
+}
+
+extension UpdateTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateTrustedTokenIssuerInput: Swift.Equatable {
+    /// Specifies the updated name to be applied to the trusted token issuer configuration.
+    public var name: Swift.String?
+    /// Specifies the ARN of the trusted token issuer configuration that you want to update.
+    /// This member is required.
+    public var trustedTokenIssuerArn: Swift.String?
+    /// Specifies a structure with settings to apply to the specified trusted token issuer. The settings that you can provide are determined by the type of the trusted token issuer that you are updating.
+    public var trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration?
+
+    public init(
+        name: Swift.String? = nil,
+        trustedTokenIssuerArn: Swift.String? = nil,
+        trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration? = nil
+    )
+    {
+        self.name = name
+        self.trustedTokenIssuerArn = trustedTokenIssuerArn
+        self.trustedTokenIssuerConfiguration = trustedTokenIssuerConfiguration
+    }
+}
+
+struct UpdateTrustedTokenIssuerInputBody: Swift.Equatable {
+    let trustedTokenIssuerArn: Swift.String?
+    let name: Swift.String?
+    let trustedTokenIssuerConfiguration: SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration?
+}
+
+extension UpdateTrustedTokenIssuerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
+        case trustedTokenIssuerConfiguration = "TrustedTokenIssuerConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trustedTokenIssuerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trustedTokenIssuerArn)
+        trustedTokenIssuerArn = trustedTokenIssuerArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let trustedTokenIssuerConfigurationDecoded = try containerValues.decodeIfPresent(SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration.self, forKey: .trustedTokenIssuerConfiguration)
+        trustedTokenIssuerConfiguration = trustedTokenIssuerConfigurationDecoded
+    }
+}
+
+extension UpdateTrustedTokenIssuerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateTrustedTokenIssuerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

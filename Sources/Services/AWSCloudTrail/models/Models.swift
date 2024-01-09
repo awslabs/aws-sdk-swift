@@ -2,6 +2,62 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You do not have sufficient access to perform this action.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAccessDenied" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension AccountHasOngoingImportException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -548,13 +604,15 @@ extension CloudTrailClientTypes {
         ///
         /// * readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.
         ///
-        /// * eventSource - For filtering management events only. This can be set only to NotEqualskms.amazonaws.com.
+        /// * eventSource - For filtering management events only. This can be set to NotEqualskms.amazonaws.com or NotEqualsrdsdata.amazonaws.com.
         ///
         /// * eventName - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.
         ///
         /// * eventCategory - This is required and must be set to Equals.
         ///
         /// * For CloudTrail event records, the value must be Management or Data.
+        ///
+        /// * For CloudTrail Insights event records, the value must be Insight.
         ///
         /// * For Config configuration items, the value must be ConfigurationItem.
         ///
@@ -575,6 +633,8 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::CloudTrail::Channel
         ///
+        /// * AWS::CodeWhisperer::Customization
+        ///
         /// * AWS::CodeWhisperer::Profile
         ///
         /// * AWS::Cognito::IdentityPool
@@ -593,15 +653,25 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::KendraRanking::ExecutionPlan
         ///
+        /// * AWS::KinesisVideo::Stream
+        ///
         /// * AWS::ManagedBlockchain::Network
         ///
         /// * AWS::ManagedBlockchain::Node
         ///
         /// * AWS::MedicalImaging::Datastore
         ///
+        /// * AWS::PCAConnectorAD::Connector
+        ///
+        /// * AWS::SageMaker::Endpoint
+        ///
         /// * AWS::SageMaker::ExperimentTrialComponent
         ///
         /// * AWS::SageMaker::FeatureGroup
+        ///
+        /// * AWS::SNS::PlatformEndpoint
+        ///
+        /// * AWS::SNS::Topic
         ///
         /// * AWS::S3::AccessPoint
         ///
@@ -610,6 +680,10 @@ extension CloudTrailClientTypes {
         /// * AWS::S3Outposts::Object
         ///
         /// * AWS::SSMMessages::ControlChannel
+        ///
+        /// * AWS::Timestream::Database
+        ///
+        /// * AWS::Timestream::Table
         ///
         /// * AWS::VerifiedPermissions::PolicyStore
         ///
@@ -636,6 +710,11 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::cloudtrail:::channel/
+        ///
+        ///
+        /// When resources.type equals AWS::CodeWhisperer::Customization, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::codewhisperer:::customization/
         ///
         ///
         /// When resources.type equals AWS::CodeWhisperer::Profile, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -683,6 +762,11 @@ extension CloudTrailClientTypes {
         /// * arn::kendra-ranking:::rescore-execution-plan/
         ///
         ///
+        /// When resources.type equals AWS::KinesisVideo::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::kinesisvideo:::stream/
+        ///
+        ///
         /// When resources.type equals AWS::ManagedBlockchain::Network, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::managedblockchain:::networks/
@@ -698,6 +782,16 @@ extension CloudTrailClientTypes {
         /// * arn::medical-imaging:::datastore/
         ///
         ///
+        /// When resources.type equals AWS::PCAConnectorAD::Connector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::pca-connector-ad:::connector/
+        ///
+        ///
+        /// When resources.type equals AWS::SageMaker::Endpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::sagemaker:::endpoint/
+        ///
+        ///
         /// When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sagemaker:::experiment-trial-component/
@@ -706,6 +800,16 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sagemaker:::feature-group/
+        ///
+        ///
+        /// When resources.type equals AWS::SNS::PlatformEndpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::sns:::endpoint///
+        ///
+        ///
+        /// When resources.type equals AWS::SNS::Topic, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::sns:::
         ///
         ///
         /// When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.
@@ -728,6 +832,16 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::SSMMessages::ControlChannel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::ssmmessages:::control-channel/
+        ///
+        ///
+        /// When resources.type equals AWS::Timestream::Database, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::timestream:::database/
+        ///
+        ///
+        /// When resources.type equals AWS::Timestream::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::timestream:::database//table/
         ///
         ///
         /// When resources.type equals AWS::VerifiedPermissions::PolicyStore, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -764,6 +878,38 @@ extension CloudTrailClientTypes {
         }
     }
 
+}
+
+extension CloudTrailClientTypes {
+    public enum BillingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case extendableRetentionPricing
+        case fixedRetentionPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingMode] {
+            return [
+                .extendableRetentionPricing,
+                .fixedRetentionPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .extendableRetentionPricing: return "EXTENDABLE_RETENTION_PRICING"
+            case .fixedRetentionPricing: return "FIXED_RETENTION_PRICING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BillingMode(rawValue: rawValue) ?? BillingMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CancelQueryInput: Swift.Encodable {
@@ -1295,7 +1441,7 @@ extension CloudTrailARNInvalidException {
     }
 }
 
-/// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail This exception is also thrown when you call AddTags or RemoveTags on a trail, event data store, or channel with a resource ARN that is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+/// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1493,6 +1639,62 @@ struct CloudWatchLogsDeliveryUnavailableExceptionBody: Swift.Equatable {
 }
 
 extension CloudWatchLogsDeliveryUnavailableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ConcurrentModificationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You are trying to update a resource when another request is in progress. Allow sufficient wait time for the previous request to complete, then retry your request.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModification" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConcurrentModificationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConcurrentModificationExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -1793,6 +1995,7 @@ enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension CreateEventDataStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case kmsKeyId = "KmsKeyId"
         case multiRegionEnabled = "MultiRegionEnabled"
         case name = "Name"
@@ -1810,6 +2013,9 @@ extension CreateEventDataStoreInput: Swift.Encodable {
             for advancedeventselector0 in advancedEventSelectors {
                 try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
+        }
+        if let billingMode = self.billingMode {
+            try encodeContainer.encode(billingMode.rawValue, forKey: .billingMode)
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
@@ -1850,6 +2056,15 @@ extension CreateEventDataStoreInput: ClientRuntime.URLPathProvider {
 public struct CreateEventDataStoreInput: Swift.Equatable {
     /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see [Create an event data store for Config configuration items](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-eds-config) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include non-Amazon Web Services events in your event data store, see [Create an integration to log events from outside Amazon Web Services](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-integration) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
+    /// The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:
+    ///
+    /// * EXTENDABLE_RETENTION_PRICING - This billing mode is generally recommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days.
+    ///
+    /// * FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days.
+    ///
+    ///
+    /// The default value is EXTENDABLE_RETENTION_PRICING. For more information about CloudTrail pricing, see [CloudTrail Pricing](http://aws.amazon.com/cloudtrail/pricing/) and [Managing CloudTrail Lake costs](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-manage-costs.html).
+    public var billingMode: CloudTrailClientTypes.BillingMode?
     /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Disabling or deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users from querying the data in the event data store that was encrypted with the key. After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///
     /// * alias/MyAliasName
@@ -1867,7 +2082,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     public var name: Swift.String?
     /// Specifies whether an event data store collects events logged for an organization in Organizations.
     public var organizationEnabled: Swift.Bool?
-    /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. If you plan to copy trail events to this event data store, we recommend that you consider both the age of the events that you want to copy as well as how long you want to keep the copied events in your event data store. For example, if you copy trail events that are 5 years old and specify a retention period of 7 years, the event data store will retain those events for two years.
+    /// The retention period of the event data store, in days. If BillingMode is set to EXTENDABLE_RETENTION_PRICING, you can set a retention period of up to 3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING, you can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. If you plan to copy trail events to this event data store, we recommend that you consider both the age of the events that you want to copy as well as how long you want to keep the copied events in your event data store. For example, if you copy trail events that are 5 years old and specify a retention period of 7 years, the event data store will retain those events for two years.
     public var retentionPeriod: Swift.Int?
     /// Specifies whether the event data store should start ingesting live events. The default is true.
     public var startIngestion: Swift.Bool?
@@ -1878,6 +2093,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
+        billingMode: CloudTrailClientTypes.BillingMode? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
@@ -1889,6 +2105,7 @@ public struct CreateEventDataStoreInput: Swift.Equatable {
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
+        self.billingMode = billingMode
         self.kmsKeyId = kmsKeyId
         self.multiRegionEnabled = multiRegionEnabled
         self.name = name
@@ -1910,11 +2127,13 @@ struct CreateEventDataStoreInputBody: Swift.Equatable {
     let tagsList: [CloudTrailClientTypes.Tag]?
     let kmsKeyId: Swift.String?
     let startIngestion: Swift.Bool?
+    let billingMode: CloudTrailClientTypes.BillingMode?
 }
 
 extension CreateEventDataStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case kmsKeyId = "KmsKeyId"
         case multiRegionEnabled = "MultiRegionEnabled"
         case name = "Name"
@@ -1963,6 +2182,8 @@ extension CreateEventDataStoreInputBody: Swift.Decodable {
         kmsKeyId = kmsKeyIdDecoded
         let startIngestionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startIngestion)
         startIngestion = startIngestionDecoded
+        let billingModeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
     }
 }
 
@@ -1972,6 +2193,7 @@ extension CreateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
+            self.billingMode = output.billingMode
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
             self.kmsKeyId = output.kmsKeyId
@@ -1985,6 +2207,7 @@ extension CreateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             self.updatedTimestamp = output.updatedTimestamp
         } else {
             self.advancedEventSelectors = nil
+            self.billingMode = nil
             self.createdTimestamp = nil
             self.eventDataStoreArn = nil
             self.kmsKeyId = nil
@@ -2003,6 +2226,8 @@ extension CreateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
 public struct CreateEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors that were used to select the events for the data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
+    /// The billing mode for the event data store.
+    public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp that shows when the event data store was created.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the event data store.
@@ -2028,6 +2253,7 @@ public struct CreateEventDataStoreOutput: Swift.Equatable {
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
+        billingMode: CloudTrailClientTypes.BillingMode? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -2042,6 +2268,7 @@ public struct CreateEventDataStoreOutput: Swift.Equatable {
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
+        self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
         self.eventDataStoreArn = eventDataStoreArn
         self.kmsKeyId = kmsKeyId
@@ -2069,11 +2296,13 @@ struct CreateEventDataStoreOutputBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
     let updatedTimestamp: ClientRuntime.Date?
     let kmsKeyId: Swift.String?
+    let billingMode: CloudTrailClientTypes.BillingMode?
 }
 
 extension CreateEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case createdTimestamp = "CreatedTimestamp"
         case eventDataStoreArn = "EventDataStoreArn"
         case kmsKeyId = "KmsKeyId"
@@ -2131,6 +2360,36 @@ extension CreateEventDataStoreOutputBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let billingModeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
+    }
+}
+
+enum CreateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTagParameter": return try await InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2230,7 +2489,7 @@ extension CreateTrailInput: ClientRuntime.URLPathProvider {
 
 /// Specifies the settings for each trail.
 public struct CreateTrailInput: Swift.Equatable {
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn. Only the management account can configure a CloudWatch Logs log group for an organization trail.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
     public var cloudWatchLogsRoleArn: Swift.String?
@@ -2648,6 +2907,8 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::CloudTrail::Channel
         ///
+        /// * AWS::CodeWhisperer::Customization
+        ///
         /// * AWS::CodeWhisperer::Profile
         ///
         /// * AWS::Cognito::IdentityPool
@@ -2666,15 +2927,25 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::KendraRanking::ExecutionPlan
         ///
+        /// * AWS::KinesisVideo::Stream
+        ///
         /// * AWS::ManagedBlockchain::Network
         ///
         /// * AWS::ManagedBlockchain::Node
         ///
         /// * AWS::MedicalImaging::Datastore
         ///
+        /// * AWS::PCAConnectorAD::Connector
+        ///
+        /// * AWS::SageMaker::Endpoint
+        ///
         /// * AWS::SageMaker::ExperimentTrialComponent
         ///
         /// * AWS::SageMaker::FeatureGroup
+        ///
+        /// * AWS::SNS::PlatformEndpoint
+        ///
+        /// * AWS::SNS::Topic
         ///
         /// * AWS::S3::AccessPoint
         ///
@@ -2683,6 +2954,10 @@ extension CloudTrailClientTypes {
         /// * AWS::S3Outposts::Object
         ///
         /// * AWS::SSMMessages::ControlChannel
+        ///
+        /// * AWS::Timestream::Database
+        ///
+        /// * AWS::Timestream::Table
         ///
         /// * AWS::VerifiedPermissions::PolicyStore
         public var type: Swift.String?
@@ -2905,7 +3180,9 @@ enum DeleteEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "ChannelExistsForEDS": return try await ChannelExistsForEDSException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreFederationEnabled": return try await EventDataStoreFederationEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EventDataStoreTerminationProtectedException": return try await EventDataStoreTerminationProtectedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3622,6 +3899,274 @@ extension CloudTrailClientTypes {
     }
 }
 
+extension DisableFederationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventDataStore = self.eventDataStore {
+            try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
+    }
+}
+
+extension DisableFederationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DisableFederationInput: Swift.Equatable {
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to disable Lake query federation.
+    /// This member is required.
+    public var eventDataStore: Swift.String?
+
+    public init(
+        eventDataStore: Swift.String? = nil
+    )
+    {
+        self.eventDataStore = eventDataStore
+    }
+}
+
+struct DisableFederationInputBody: Swift.Equatable {
+    let eventDataStore: Swift.String?
+}
+
+extension DisableFederationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
+        eventDataStore = eventDataStoreDecoded
+    }
+}
+
+extension DisableFederationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisableFederationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventDataStoreArn = output.eventDataStoreArn
+            self.federationStatus = output.federationStatus
+        } else {
+            self.eventDataStoreArn = nil
+            self.federationStatus = nil
+        }
+    }
+}
+
+public struct DisableFederationOutput: Swift.Equatable {
+    /// The ARN of the event data store for which you disabled Lake query federation.
+    public var eventDataStoreArn: Swift.String?
+    /// The federation status.
+    public var federationStatus: CloudTrailClientTypes.FederationStatus?
+
+    public init(
+        eventDataStoreArn: Swift.String? = nil,
+        federationStatus: CloudTrailClientTypes.FederationStatus? = nil
+    )
+    {
+        self.eventDataStoreArn = eventDataStoreArn
+        self.federationStatus = federationStatus
+    }
+}
+
+struct DisableFederationOutputBody: Swift.Equatable {
+    let eventDataStoreArn: Swift.String?
+    let federationStatus: CloudTrailClientTypes.FederationStatus?
+}
+
+extension DisableFederationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStoreArn = "EventDataStoreArn"
+        case federationStatus = "FederationStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
+        eventDataStoreArn = eventDataStoreArnDecoded
+        let federationStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.FederationStatus.self, forKey: .federationStatus)
+        federationStatus = federationStatusDecoded
+    }
+}
+
+enum DisableFederationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension EnableFederationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+        case federationRoleArn = "FederationRoleArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventDataStore = self.eventDataStore {
+            try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
+        if let federationRoleArn = self.federationRoleArn {
+            try encodeContainer.encode(federationRoleArn, forKey: .federationRoleArn)
+        }
+    }
+}
+
+extension EnableFederationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct EnableFederationInput: Swift.Equatable {
+    /// The ARN (or ID suffix of the ARN) of the event data store for which you want to enable Lake query federation.
+    /// This member is required.
+    public var eventDataStore: Swift.String?
+    /// The ARN of the federation role to use for the event data store. Amazon Web Services services like Lake Formation use this federation role to access data for the federated event data store. The federation role must exist in your account and provide the [required minimum permissions](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html#query-federation-permissions-role).
+    /// This member is required.
+    public var federationRoleArn: Swift.String?
+
+    public init(
+        eventDataStore: Swift.String? = nil,
+        federationRoleArn: Swift.String? = nil
+    )
+    {
+        self.eventDataStore = eventDataStore
+        self.federationRoleArn = federationRoleArn
+    }
+}
+
+struct EnableFederationInputBody: Swift.Equatable {
+    let eventDataStore: Swift.String?
+    let federationRoleArn: Swift.String?
+}
+
+extension EnableFederationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
+        case federationRoleArn = "FederationRoleArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
+        eventDataStore = eventDataStoreDecoded
+        let federationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .federationRoleArn)
+        federationRoleArn = federationRoleArnDecoded
+    }
+}
+
+extension EnableFederationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableFederationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventDataStoreArn = output.eventDataStoreArn
+            self.federationRoleArn = output.federationRoleArn
+            self.federationStatus = output.federationStatus
+        } else {
+            self.eventDataStoreArn = nil
+            self.federationRoleArn = nil
+            self.federationStatus = nil
+        }
+    }
+}
+
+public struct EnableFederationOutput: Swift.Equatable {
+    /// The ARN of the event data store for which you enabled Lake query federation.
+    public var eventDataStoreArn: Swift.String?
+    /// The ARN of the federation role.
+    public var federationRoleArn: Swift.String?
+    /// The federation status.
+    public var federationStatus: CloudTrailClientTypes.FederationStatus?
+
+    public init(
+        eventDataStoreArn: Swift.String? = nil,
+        federationRoleArn: Swift.String? = nil,
+        federationStatus: CloudTrailClientTypes.FederationStatus? = nil
+    )
+    {
+        self.eventDataStoreArn = eventDataStoreArn
+        self.federationRoleArn = federationRoleArn
+        self.federationStatus = federationStatus
+    }
+}
+
+struct EnableFederationOutputBody: Swift.Equatable {
+    let eventDataStoreArn: Swift.String?
+    let federationStatus: CloudTrailClientTypes.FederationStatus?
+    let federationRoleArn: Swift.String?
+}
+
+extension EnableFederationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStoreArn = "EventDataStoreArn"
+        case federationRoleArn = "FederationRoleArn"
+        case federationStatus = "FederationStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
+        eventDataStoreArn = eventDataStoreArnDecoded
+        let federationStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.FederationStatus.self, forKey: .federationStatus)
+        federationStatus = federationStatusDecoded
+        let federationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .federationRoleArn)
+        federationRoleArn = federationRoleArnDecoded
+    }
+}
+
+enum EnableFederationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceAccessDenied": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModification": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreFederationEnabled": return try await EventDataStoreFederationEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CloudTrailClientTypes.Event: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessKeyId = "AccessKeyId"
@@ -3864,7 +4409,7 @@ extension CloudTrailClientTypes.EventDataStore: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account from the last 90 to 2557 days (about three months to up to seven years). To select events for an event data store, use [advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced).
+    /// A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account. To select events for an event data store, use [advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced).
     public struct EventDataStore: Swift.Equatable {
         /// The advanced event selectors that were used to select events for the data store.
         @available(*, deprecated, message: "AdvancedEventSelectors is no longer returned by ListEventDataStores")
@@ -4024,6 +4569,62 @@ struct EventDataStoreAlreadyExistsExceptionBody: Swift.Equatable {
 }
 
 extension EventDataStoreAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension EventDataStoreFederationEnabledException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EventDataStoreFederationEnabledExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You cannot delete the event data store because Lake query federation is enabled. To delete the event data store, run the DisableFederation operation to disable Lake query federation on the event data store.
+public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreFederationEnabled" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct EventDataStoreFederationEnabledExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension EventDataStoreFederationEnabledExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -4392,6 +4993,44 @@ extension CloudTrailClientTypes {
 
 }
 
+extension CloudTrailClientTypes {
+    public enum FederationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FederationStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FederationStatus(rawValue: rawValue) ?? FederationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GetChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channel = "Channel"
@@ -4607,8 +5246,11 @@ extension GetEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
+            self.billingMode = output.billingMode
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
+            self.federationRoleArn = output.federationRoleArn
+            self.federationStatus = output.federationStatus
             self.kmsKeyId = output.kmsKeyId
             self.multiRegionEnabled = output.multiRegionEnabled
             self.name = output.name
@@ -4619,8 +5261,11 @@ extension GetEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             self.updatedTimestamp = output.updatedTimestamp
         } else {
             self.advancedEventSelectors = nil
+            self.billingMode = nil
             self.createdTimestamp = nil
             self.eventDataStoreArn = nil
+            self.federationRoleArn = nil
+            self.federationStatus = nil
             self.kmsKeyId = nil
             self.multiRegionEnabled = nil
             self.name = nil
@@ -4636,10 +5281,16 @@ extension GetEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
 public struct GetEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors used to select events for the data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
+    /// The billing mode for the event data store.
+    public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp of the event data store's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The event data store Amazon Resource Number (ARN).
     public var eventDataStoreArn: Swift.String?
+    /// If Lake query federation is enabled, provides the ARN of the federation role used to access the resources for the federated event data store.
+    public var federationRoleArn: Swift.String?
+    /// Indicates the [Lake query federation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html) status. The status is ENABLED if Lake query federation is enabled, or DISABLED if Lake query federation is disabled. You cannot delete an event data store if the FederationStatus is ENABLED.
+    public var federationStatus: CloudTrailClientTypes.FederationStatus?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
     /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
@@ -4659,8 +5310,11 @@ public struct GetEventDataStoreOutput: Swift.Equatable {
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
+        billingMode: CloudTrailClientTypes.BillingMode? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
+        federationRoleArn: Swift.String? = nil,
+        federationStatus: CloudTrailClientTypes.FederationStatus? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
@@ -4672,8 +5326,11 @@ public struct GetEventDataStoreOutput: Swift.Equatable {
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
+        self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
         self.eventDataStoreArn = eventDataStoreArn
+        self.federationRoleArn = federationRoleArn
+        self.federationStatus = federationStatus
         self.kmsKeyId = kmsKeyId
         self.multiRegionEnabled = multiRegionEnabled
         self.name = name
@@ -4697,13 +5354,19 @@ struct GetEventDataStoreOutputBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
     let updatedTimestamp: ClientRuntime.Date?
     let kmsKeyId: Swift.String?
+    let billingMode: CloudTrailClientTypes.BillingMode?
+    let federationStatus: CloudTrailClientTypes.FederationStatus?
+    let federationRoleArn: Swift.String?
 }
 
 extension GetEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case createdTimestamp = "CreatedTimestamp"
         case eventDataStoreArn = "EventDataStoreArn"
+        case federationRoleArn = "FederationRoleArn"
+        case federationStatus = "FederationStatus"
         case kmsKeyId = "KmsKeyId"
         case multiRegionEnabled = "MultiRegionEnabled"
         case name = "Name"
@@ -4747,6 +5410,28 @@ extension GetEventDataStoreOutputBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let billingModeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
+        let federationStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.FederationStatus.self, forKey: .federationStatus)
+        federationStatus = federationStatusDecoded
+        let federationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .federationRoleArn)
+        federationRoleArn = federationRoleArnDecoded
+    }
+}
+
+enum GetEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5114,11 +5799,15 @@ enum GetImportOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension GetInsightSelectorsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
         case trailName = "TrailName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventDataStore = self.eventDataStore {
+            try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
         if let trailName = self.trailName {
             try encodeContainer.encode(trailName, forKey: .trailName)
         }
@@ -5132,6 +5821,8 @@ extension GetInsightSelectorsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetInsightSelectorsInput: Swift.Equatable {
+    /// Specifies the ARN (or ID suffix of the ARN) of the event data store for which you want to get Insights selectors. You cannot use this parameter with the TrailName parameter.
+    public var eventDataStore: Swift.String?
     /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -5145,24 +5836,27 @@ public struct GetInsightSelectorsInput: Swift.Equatable {
     /// * Not be in IP address format (for example, 192.168.5.4)
     ///
     ///
-    /// If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
-    /// This member is required.
+    /// If you specify a trail ARN, it must be in the format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail You cannot use this parameter with the EventDataStore parameter.
     public var trailName: Swift.String?
 
     public init(
+        eventDataStore: Swift.String? = nil,
         trailName: Swift.String? = nil
     )
     {
+        self.eventDataStore = eventDataStore
         self.trailName = trailName
     }
 }
 
 struct GetInsightSelectorsInputBody: Swift.Equatable {
     let trailName: Swift.String?
+    let eventDataStore: Swift.String?
 }
 
 extension GetInsightSelectorsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
         case trailName = "TrailName"
     }
 
@@ -5170,6 +5864,8 @@ extension GetInsightSelectorsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let trailNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trailName)
         trailName = trailNameDecoded
+        let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
+        eventDataStore = eventDataStoreDecoded
     }
 }
 
@@ -5178,27 +5874,46 @@ extension GetInsightSelectorsOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetInsightSelectorsOutputBody = try responseDecoder.decode(responseBody: data)
+<<<<<<< HEAD
+=======
+            self.eventDataStoreArn = output.eventDataStoreArn
+>>>>>>> main
             self.insightSelectors = output.insightSelectors
+            self.insightsDestination = output.insightsDestination
             self.trailARN = output.trailARN
         } else {
+            self.eventDataStoreArn = nil
             self.insightSelectors = nil
+            self.insightsDestination = nil
             self.trailARN = nil
         }
     }
 }
 
 public struct GetInsightSelectorsOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// A JSON string that contains the insight types you want to log on a trail. In this release, ApiErrorRateInsight and ApiCallRateInsight are supported as insight types.
+=======
+    /// The ARN of the source event data store that enabled Insights events.
+    public var eventDataStoreArn: Swift.String?
+    /// A JSON string that contains the Insight types you want to log on a trail or event data store. ApiErrorRateInsight and ApiCallRateInsight are supported as Insights types.
+>>>>>>> main
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+    /// The ARN of the destination event data store that logs Insights events.
+    public var insightsDestination: Swift.String?
     /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
     public var trailARN: Swift.String?
 
     public init(
+        eventDataStoreArn: Swift.String? = nil,
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
+        insightsDestination: Swift.String? = nil,
         trailARN: Swift.String? = nil
     )
     {
+        self.eventDataStoreArn = eventDataStoreArn
         self.insightSelectors = insightSelectors
+        self.insightsDestination = insightsDestination
         self.trailARN = trailARN
     }
 }
@@ -5206,11 +5921,15 @@ public struct GetInsightSelectorsOutput: Swift.Equatable {
 struct GetInsightSelectorsOutputBody: Swift.Equatable {
     let trailARN: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+    let eventDataStoreArn: Swift.String?
+    let insightsDestination: Swift.String?
 }
 
 extension GetInsightSelectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStoreArn = "EventDataStoreArn"
         case insightSelectors = "InsightSelectors"
+        case insightsDestination = "InsightsDestination"
         case trailARN = "TrailARN"
     }
 
@@ -5229,6 +5948,30 @@ extension GetInsightSelectorsOutputBody: Swift.Decodable {
             }
         }
         insightSelectors = insightSelectorsDecoded0
+        let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
+        eventDataStoreArn = eventDataStoreArnDecoded
+        let insightsDestinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsDestination)
+        insightsDestination = insightsDestinationDecoded
+    }
+}
+
+enum GetInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsightNotEnabled": return try await InsightNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TrailNotFound": return try await TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -6552,7 +7295,7 @@ extension InsightNotEnabledException {
     }
 }
 
-/// If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
+/// If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
 public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -6613,9 +7356,9 @@ extension CloudTrailClientTypes.InsightSelector: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// A JSON string that contains a list of Insights types that are logged on a trail.
+    /// A JSON string that contains a list of Insights types that are logged on a trail or event data store.
     public struct InsightSelector: Swift.Equatable {
-        /// The type of Insights events to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+        /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public var insightType: CloudTrailClientTypes.InsightType?
 
         public init(
@@ -7411,7 +8154,7 @@ extension InvalidInsightSelectorsException {
     }
 }
 
-/// The formatting or syntax of the InsightSelectors JSON statement in your PutInsightSelectors or GetInsightSelectors request is not valid, or the specified insight type in the InsightSelectors statement is not a valid insight type.
+/// For PutInsightSelectors, this exception is thrown when the formatting or syntax of the InsightSelectors JSON statement is not valid, or the specified InsightType in the InsightSelectors statement is not valid. Valid values for InsightType are ApiCallRateInsight and ApiErrorRateInsight. To enable Insights on an event data store, the destination event data store specified by the InsightsDestination parameter must log Insights events and the source event data store specified by the EventDataStore parameter must log management events. For UpdateEventDataStore, this exception is thrown if Insights are enabled on the event data store and the updated advanced event selectors are not compatible with the configured InsightSelectors. If the InsightSelectors includes an InsightType of ApiCallRateInsight, the source event data store must log write management events. If the InsightSelectors includes an InsightType of ApiErrorRateInsight, the source event data store must log management events.
 public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10717,17 +11460,25 @@ enum PutEventSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension PutInsightSelectorsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
         case insightSelectors = "InsightSelectors"
+        case insightsDestination = "InsightsDestination"
         case trailName = "TrailName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventDataStore = self.eventDataStore {
+            try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
+        }
         if let insightSelectors = insightSelectors {
             var insightSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insightSelectors)
             for insightselector0 in insightSelectors {
                 try insightSelectorsContainer.encode(insightselector0)
             }
+        }
+        if let insightsDestination = self.insightsDestination {
+            try encodeContainer.encode(insightsDestination, forKey: .insightsDestination)
         }
         if let trailName = self.trailName {
             try encodeContainer.encode(trailName, forKey: .trailName)
@@ -10742,19 +11493,26 @@ extension PutInsightSelectorsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutInsightSelectorsInput: Swift.Equatable {
-    /// A JSON string that contains the insight types you want to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+    /// The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
+    public var eventDataStore: Swift.String?
+    /// A JSON string that contains the Insights types you want to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
     /// This member is required.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
-    /// The name of the CloudTrail trail for which you want to change or add Insights selectors.
-    /// This member is required.
+    /// The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
+    public var insightsDestination: Swift.String?
+    /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and InsightsDestination parameters.
     public var trailName: Swift.String?
 
     public init(
+        eventDataStore: Swift.String? = nil,
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
+        insightsDestination: Swift.String? = nil,
         trailName: Swift.String? = nil
     )
     {
+        self.eventDataStore = eventDataStore
         self.insightSelectors = insightSelectors
+        self.insightsDestination = insightsDestination
         self.trailName = trailName
     }
 }
@@ -10762,11 +11520,15 @@ public struct PutInsightSelectorsInput: Swift.Equatable {
 struct PutInsightSelectorsInputBody: Swift.Equatable {
     let trailName: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+    let eventDataStore: Swift.String?
+    let insightsDestination: Swift.String?
 }
 
 extension PutInsightSelectorsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventDataStore = "EventDataStore"
         case insightSelectors = "InsightSelectors"
+        case insightsDestination = "InsightsDestination"
         case trailName = "TrailName"
     }
 
@@ -10785,6 +11547,10 @@ extension PutInsightSelectorsInputBody: Swift.Decodable {
             }
         }
         insightSelectors = insightSelectorsDecoded0
+        let eventDataStoreDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStore)
+        eventDataStore = eventDataStoreDecoded
+        let insightsDestinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsDestination)
+        insightsDestination = insightsDestinationDecoded
     }
 }
 
@@ -10793,27 +11559,59 @@ extension PutInsightSelectorsOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: PutInsightSelectorsOutputBody = try responseDecoder.decode(responseBody: data)
+<<<<<<< HEAD
             self.insightSelectors = output.insightSelectors
             self.trailARN = output.trailARN
         } else {
             self.insightSelectors = nil
+=======
+            self.eventDataStoreArn = output.eventDataStoreArn
+            self.insightSelectors = output.insightSelectors
+            self.insightsDestination = output.insightsDestination
+            self.trailARN = output.trailARN
+        } else {
+            self.eventDataStoreArn = nil
+            self.insightSelectors = nil
+            self.insightsDestination = nil
+>>>>>>> main
             self.trailARN = nil
         }
     }
 }
 
 public struct PutInsightSelectorsOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// A JSON string that contains the Insights event types that you want to log on a trail. The valid Insights types in this release are ApiErrorRateInsight and ApiCallRateInsight.
     public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+=======
+    /// The Amazon Resource Name (ARN) of the source event data store for which you want to change or add Insights selectors.
+    public var eventDataStoreArn: Swift.String?
+    /// A JSON string that contains the Insights event types that you want to log on a trail or event data store. The valid Insights types are ApiErrorRateInsight and ApiCallRateInsight.
+    public var insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+    /// The ARN of the destination event data store that logs Insights events.
+    public var insightsDestination: Swift.String?
+>>>>>>> main
     /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
     public var trailARN: Swift.String?
 
     public init(
+<<<<<<< HEAD
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         trailARN: Swift.String? = nil
     )
     {
         self.insightSelectors = insightSelectors
+=======
+        eventDataStoreArn: Swift.String? = nil,
+        insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
+        insightsDestination: Swift.String? = nil,
+        trailARN: Swift.String? = nil
+    )
+    {
+        self.eventDataStoreArn = eventDataStoreArn
+        self.insightSelectors = insightSelectors
+        self.insightsDestination = insightsDestination
+>>>>>>> main
         self.trailARN = trailARN
     }
 }
@@ -10821,11 +11619,22 @@ public struct PutInsightSelectorsOutput: Swift.Equatable {
 struct PutInsightSelectorsOutputBody: Swift.Equatable {
     let trailARN: Swift.String?
     let insightSelectors: [CloudTrailClientTypes.InsightSelector]?
+<<<<<<< HEAD
+=======
+    let eventDataStoreArn: Swift.String?
+    let insightsDestination: Swift.String?
+>>>>>>> main
 }
 
 extension PutInsightSelectorsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+<<<<<<< HEAD
         case insightSelectors = "InsightSelectors"
+=======
+        case eventDataStoreArn = "EventDataStoreArn"
+        case insightSelectors = "InsightSelectors"
+        case insightsDestination = "InsightsDestination"
+>>>>>>> main
         case trailARN = "TrailARN"
     }
 
@@ -10844,6 +11653,13 @@ extension PutInsightSelectorsOutputBody: Swift.Decodable {
             }
         }
         insightSelectors = insightSelectorsDecoded0
+<<<<<<< HEAD
+=======
+        let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
+        eventDataStoreArn = eventDataStoreArnDecoded
+        let insightsDestinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .insightsDestination)
+        insightsDestination = insightsDestinationDecoded
+>>>>>>> main
     }
 }
 
@@ -10857,6 +11673,11 @@ enum PutInsightSelectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InsufficientS3BucketPolicy": return try await InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidHomeRegion": return try await InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInsightSelectors": return try await InvalidInsightSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -11958,6 +12779,7 @@ extension RestoreEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: RestoreEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
+            self.billingMode = output.billingMode
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
             self.kmsKeyId = output.kmsKeyId
@@ -11970,6 +12792,7 @@ extension RestoreEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             self.updatedTimestamp = output.updatedTimestamp
         } else {
             self.advancedEventSelectors = nil
+            self.billingMode = nil
             self.createdTimestamp = nil
             self.eventDataStoreArn = nil
             self.kmsKeyId = nil
@@ -11987,6 +12810,8 @@ extension RestoreEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
 public struct RestoreEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors that were used to select events.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
+    /// The billing mode for the event data store.
+    public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp of an event data store's creation.
     public var createdTimestamp: ClientRuntime.Date?
     /// The event data store ARN.
@@ -12010,6 +12835,7 @@ public struct RestoreEventDataStoreOutput: Swift.Equatable {
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
+        billingMode: CloudTrailClientTypes.BillingMode? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -12023,6 +12849,7 @@ public struct RestoreEventDataStoreOutput: Swift.Equatable {
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
+        self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
         self.eventDataStoreArn = eventDataStoreArn
         self.kmsKeyId = kmsKeyId
@@ -12048,11 +12875,13 @@ struct RestoreEventDataStoreOutputBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
     let updatedTimestamp: ClientRuntime.Date?
     let kmsKeyId: Swift.String?
+    let billingMode: CloudTrailClientTypes.BillingMode?
 }
 
 extension RestoreEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case createdTimestamp = "CreatedTimestamp"
         case eventDataStoreArn = "EventDataStoreArn"
         case kmsKeyId = "KmsKeyId"
@@ -12098,6 +12927,31 @@ extension RestoreEventDataStoreOutputBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let billingModeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
+    }
+}
+
+enum RestoreEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreMaxLimitExceeded": return try await EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventDataStoreStatus": return try await InvalidEventDataStoreStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14020,6 +14874,7 @@ enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateEventDataStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case eventDataStore = "EventDataStore"
         case kmsKeyId = "KmsKeyId"
         case multiRegionEnabled = "MultiRegionEnabled"
@@ -14036,6 +14891,9 @@ extension UpdateEventDataStoreInput: Swift.Encodable {
             for advancedeventselector0 in advancedEventSelectors {
                 try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
+        }
+        if let billingMode = self.billingMode {
+            try encodeContainer.encode(billingMode.rawValue, forKey: .billingMode)
         }
         if let eventDataStore = self.eventDataStore {
             try encodeContainer.encode(eventDataStore, forKey: .eventDataStore)
@@ -14070,6 +14928,15 @@ extension UpdateEventDataStoreInput: ClientRuntime.URLPathProvider {
 public struct UpdateEventDataStoreInput: Swift.Equatable {
     /// The advanced event selectors used to select events for the event data store. You can configure up to five advanced event selectors for each event data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
+    /// You can't change the billing mode from EXTENDABLE_RETENTION_PRICING to FIXED_RETENTION_PRICING. If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETENTION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RETENTION_PRICING. The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:
+    ///
+    /// * EXTENDABLE_RETENTION_PRICING - This billing mode is generally recommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days.
+    ///
+    /// * FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days.
+    ///
+    ///
+    /// For more information about CloudTrail pricing, see [CloudTrail Pricing](http://aws.amazon.com/cloudtrail/pricing/) and [Managing CloudTrail Lake costs](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-manage-costs.html).
+    public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -14087,15 +14954,16 @@ public struct UpdateEventDataStoreInput: Swift.Equatable {
     public var multiRegionEnabled: Swift.Bool?
     /// The event data store name.
     public var name: Swift.String?
-    /// Specifies whether an event data store collects events logged for an organization in Organizations.
+    /// Specifies whether an event data store collects events logged for an organization in Organizations. Only the management account for the organization can convert an organization event data store to a non-organization event data store, or convert a non-organization event data store to an organization event data store.
     public var organizationEnabled: Swift.Bool?
-    /// The retention period of the event data store, in days. You can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. If you decrease the retention period of an event data store, CloudTrail will remove any events with an eventTime older than the new retention period. For example, if the previous retention period was 365 days and you decrease it to 100 days, CloudTrail will remove events with an eventTime older than 100 days.
+    /// The retention period of the event data store, in days. If BillingMode is set to EXTENDABLE_RETENTION_PRICING, you can set a retention period of up to 3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING, you can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. If you decrease the retention period of an event data store, CloudTrail will remove any events with an eventTime older than the new retention period. For example, if the previous retention period was 365 days and you decrease it to 100 days, CloudTrail will remove events with an eventTime older than 100 days.
     public var retentionPeriod: Swift.Int?
     /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
     public var terminationProtectionEnabled: Swift.Bool?
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
+        billingMode: CloudTrailClientTypes.BillingMode? = nil,
         eventDataStore: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
@@ -14106,6 +14974,7 @@ public struct UpdateEventDataStoreInput: Swift.Equatable {
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
+        self.billingMode = billingMode
         self.eventDataStore = eventDataStore
         self.kmsKeyId = kmsKeyId
         self.multiRegionEnabled = multiRegionEnabled
@@ -14125,11 +14994,13 @@ struct UpdateEventDataStoreInputBody: Swift.Equatable {
     let retentionPeriod: Swift.Int?
     let terminationProtectionEnabled: Swift.Bool?
     let kmsKeyId: Swift.String?
+    let billingMode: CloudTrailClientTypes.BillingMode?
 }
 
 extension UpdateEventDataStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case eventDataStore = "EventDataStore"
         case kmsKeyId = "KmsKeyId"
         case multiRegionEnabled = "MultiRegionEnabled"
@@ -14166,6 +15037,8 @@ extension UpdateEventDataStoreInputBody: Swift.Decodable {
         terminationProtectionEnabled = terminationProtectionEnabledDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let billingModeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
     }
 }
 
@@ -14175,8 +15048,11 @@ extension UpdateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: UpdateEventDataStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.advancedEventSelectors = output.advancedEventSelectors
+            self.billingMode = output.billingMode
             self.createdTimestamp = output.createdTimestamp
             self.eventDataStoreArn = output.eventDataStoreArn
+            self.federationRoleArn = output.federationRoleArn
+            self.federationStatus = output.federationStatus
             self.kmsKeyId = output.kmsKeyId
             self.multiRegionEnabled = output.multiRegionEnabled
             self.name = output.name
@@ -14187,8 +15063,11 @@ extension UpdateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
             self.updatedTimestamp = output.updatedTimestamp
         } else {
             self.advancedEventSelectors = nil
+            self.billingMode = nil
             self.createdTimestamp = nil
             self.eventDataStoreArn = nil
+            self.federationRoleArn = nil
+            self.federationStatus = nil
             self.kmsKeyId = nil
             self.multiRegionEnabled = nil
             self.name = nil
@@ -14204,10 +15083,16 @@ extension UpdateEventDataStoreOutput: ClientRuntime.HttpResponseBinding {
 public struct UpdateEventDataStoreOutput: Swift.Equatable {
     /// The advanced event selectors that are applied to the event data store.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
+    /// The billing mode for the event data store.
+    public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp that shows when an event data store was first created.
     public var createdTimestamp: ClientRuntime.Date?
     /// The ARN of the event data store.
     public var eventDataStoreArn: Swift.String?
+    /// If Lake query federation is enabled, provides the ARN of the federation role used to access the resources for the federated event data store.
+    public var federationRoleArn: Swift.String?
+    /// Indicates the [Lake query federation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-federation.html) status. The status is ENABLED if Lake query federation is enabled, or DISABLED if Lake query federation is disabled. You cannot delete an event data store if the FederationStatus is ENABLED.
+    public var federationStatus: CloudTrailClientTypes.FederationStatus?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
     public var kmsKeyId: Swift.String?
     /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
@@ -14227,8 +15112,11 @@ public struct UpdateEventDataStoreOutput: Swift.Equatable {
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
+        billingMode: CloudTrailClientTypes.BillingMode? = nil,
         createdTimestamp: ClientRuntime.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
+        federationRoleArn: Swift.String? = nil,
+        federationStatus: CloudTrailClientTypes.FederationStatus? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
@@ -14240,8 +15128,11 @@ public struct UpdateEventDataStoreOutput: Swift.Equatable {
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
+        self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
         self.eventDataStoreArn = eventDataStoreArn
+        self.federationRoleArn = federationRoleArn
+        self.federationStatus = federationStatus
         self.kmsKeyId = kmsKeyId
         self.multiRegionEnabled = multiRegionEnabled
         self.name = name
@@ -14265,13 +15156,19 @@ struct UpdateEventDataStoreOutputBody: Swift.Equatable {
     let createdTimestamp: ClientRuntime.Date?
     let updatedTimestamp: ClientRuntime.Date?
     let kmsKeyId: Swift.String?
+    let billingMode: CloudTrailClientTypes.BillingMode?
+    let federationStatus: CloudTrailClientTypes.FederationStatus?
+    let federationRoleArn: Swift.String?
 }
 
 extension UpdateEventDataStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
+        case billingMode = "BillingMode"
         case createdTimestamp = "CreatedTimestamp"
         case eventDataStoreArn = "EventDataStoreArn"
+        case federationRoleArn = "FederationRoleArn"
+        case federationStatus = "FederationStatus"
         case kmsKeyId = "KmsKeyId"
         case multiRegionEnabled = "MultiRegionEnabled"
         case name = "Name"
@@ -14315,6 +15212,42 @@ extension UpdateEventDataStoreOutputBody: Swift.Decodable {
         updatedTimestamp = updatedTimestampDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let billingModeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.BillingMode.self, forKey: .billingMode)
+        billingMode = billingModeDecoded
+        let federationStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.FederationStatus.self, forKey: .federationStatus)
+        federationStatus = federationStatusDecoded
+        let federationRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .federationRoleArn)
+        federationRoleArn = federationRoleArnDecoded
+    }
+}
+
+enum UpdateEventDataStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CloudTrailAccessNotEnabled": return try await CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreAlreadyExists": return try await EventDataStoreAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreHasOngoingImport": return try await EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EventDataStoreNotFound": return try await EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InactiveEventDataStore": return try await InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientDependencyServiceAccessPermission": return try await InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientEncryptionPolicy": return try await InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEventSelectors": return try await InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInsightSelectors": return try await InvalidInsightSelectorsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsException": return try await KmsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KmsKeyNotFound": return try await KmsKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotOrganizationMasterAccount": return try await NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotInAllFeaturesMode": return try await OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationsNotInUse": return try await OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -14408,7 +15341,7 @@ extension UpdateTrailInput: ClientRuntime.URLPathProvider {
 
 /// Specifies settings to update for the trail.
 public struct UpdateTrailInput: Swift.Equatable {
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn. Only the management account can configure a CloudWatch Logs log group for an organization trail.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
     public var cloudWatchLogsRoleArn: Swift.String?
@@ -14418,7 +15351,7 @@ public struct UpdateTrailInput: Swift.Equatable {
     public var includeGlobalServiceEvents: Swift.Bool?
     /// Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (replications of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, consider using trails that log events in all Regions.
     public var isMultiRegionTrail: Swift.Bool?
-    /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.
+    /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization. Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to an organization trail.
     public var isOrganizationTrail: Swift.Bool?
     /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///

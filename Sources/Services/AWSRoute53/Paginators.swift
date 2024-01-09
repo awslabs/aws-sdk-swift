@@ -12,7 +12,11 @@ extension Route53Client {
     ///     - input: A `[ListCidrBlocksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCidrBlocksOutput`
     public func listCidrBlocksPaginated(input: ListCidrBlocksInput) -> ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutput>(input: input, inputKey: \ListCidrBlocksInput.nextToken, outputKey: \ListCidrBlocksOutput.nextToken, paginationFunction: self.listCidrBlocks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCidrBlocksInput, ListCidrBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCidrBlocks(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension ListCidrBlocksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCidrBlocksInput, Output == ListCidrBlocksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCidrBlocksInput, OperationStackOutput == ListCidrBlocksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCidrBlocksPaginated`
     /// to access the nested member `[Route53ClientTypes.CidrBlockSummary]`
     /// - Returns: `[Route53ClientTypes.CidrBlockSummary]`
@@ -44,7 +52,11 @@ extension Route53Client {
     ///     - input: A `[ListCidrCollectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCidrCollectionsOutput`
     public func listCidrCollectionsPaginated(input: ListCidrCollectionsInput) -> ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutput>(input: input, inputKey: \ListCidrCollectionsInput.nextToken, outputKey: \ListCidrCollectionsOutput.nextToken, paginationFunction: self.listCidrCollections(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCidrCollectionsInput, ListCidrCollectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCidrCollections(input:))
+>>>>>>> main
     }
 }
 
@@ -56,7 +68,11 @@ extension ListCidrCollectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCidrCollectionsInput, Output == ListCidrCollectionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCidrCollectionsInput, OperationStackOutput == ListCidrCollectionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCidrCollectionsPaginated`
     /// to access the nested member `[Route53ClientTypes.CollectionSummary]`
     /// - Returns: `[Route53ClientTypes.CollectionSummary]`
@@ -74,7 +90,11 @@ extension Route53Client {
     ///     - input: A `[ListCidrLocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCidrLocationsOutput`
     public func listCidrLocationsPaginated(input: ListCidrLocationsInput) -> ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutput>(input: input, inputKey: \ListCidrLocationsInput.nextToken, outputKey: \ListCidrLocationsOutput.nextToken, paginationFunction: self.listCidrLocations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCidrLocationsInput, ListCidrLocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCidrLocations(input:))
+>>>>>>> main
     }
 }
 
@@ -87,7 +107,11 @@ extension ListCidrLocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCidrLocationsInput, Output == ListCidrLocationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCidrLocationsInput, OperationStackOutput == ListCidrLocationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCidrLocationsPaginated`
     /// to access the nested member `[Route53ClientTypes.LocationSummary]`
     /// - Returns: `[Route53ClientTypes.LocationSummary]`
@@ -105,7 +129,11 @@ extension Route53Client {
     ///     - input: A `[ListHealthChecksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHealthChecksOutput`
     public func listHealthChecksPaginated(input: ListHealthChecksInput) -> ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutput>(input: input, inputKey: \ListHealthChecksInput.marker, outputKey: \ListHealthChecksOutput.nextMarker, paginationFunction: self.listHealthChecks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListHealthChecksInput, ListHealthChecksOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listHealthChecks(input:))
+>>>>>>> main
     }
 }
 
@@ -117,7 +145,11 @@ extension ListHealthChecksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListHealthChecksInput, Output == ListHealthChecksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListHealthChecksInput, OperationStackOutput == ListHealthChecksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listHealthChecksPaginated`
     /// to access the nested member `[Route53ClientTypes.HealthCheck]`
     /// - Returns: `[Route53ClientTypes.HealthCheck]`
@@ -135,7 +167,11 @@ extension Route53Client {
     ///     - input: A `[ListHostedZonesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHostedZonesOutput`
     public func listHostedZonesPaginated(input: ListHostedZonesInput) -> ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutput>(input: input, inputKey: \ListHostedZonesInput.marker, outputKey: \ListHostedZonesOutput.nextMarker, paginationFunction: self.listHostedZones(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListHostedZonesInput, ListHostedZonesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listHostedZones(input:))
+>>>>>>> main
     }
 }
 
@@ -149,7 +185,11 @@ extension ListHostedZonesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListHostedZonesInput, Output == ListHostedZonesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListHostedZonesInput, OperationStackOutput == ListHostedZonesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listHostedZonesPaginated`
     /// to access the nested member `[Route53ClientTypes.HostedZone]`
     /// - Returns: `[Route53ClientTypes.HostedZone]`
@@ -167,7 +207,11 @@ extension Route53Client {
     ///     - input: A `[ListQueryLoggingConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueryLoggingConfigsOutput`
     public func listQueryLoggingConfigsPaginated(input: ListQueryLoggingConfigsInput) -> ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(input: input, inputKey: \ListQueryLoggingConfigsInput.nextToken, outputKey: \ListQueryLoggingConfigsOutput.nextToken, paginationFunction: self.listQueryLoggingConfigs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueryLoggingConfigs(input:))
+>>>>>>> main
     }
 }
 
@@ -180,7 +224,11 @@ extension ListQueryLoggingConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListQueryLoggingConfigsInput, Output == ListQueryLoggingConfigsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListQueryLoggingConfigsInput, OperationStackOutput == ListQueryLoggingConfigsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listQueryLoggingConfigsPaginated`
     /// to access the nested member `[Route53ClientTypes.QueryLoggingConfig]`
     /// - Returns: `[Route53ClientTypes.QueryLoggingConfig]`

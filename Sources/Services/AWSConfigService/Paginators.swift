@@ -12,7 +12,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeAggregateComplianceByConfigRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregateComplianceByConfigRulesOutput`
     public func describeAggregateComplianceByConfigRulesPaginated(input: DescribeAggregateComplianceByConfigRulesInput) -> ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(input: input, inputKey: \DescribeAggregateComplianceByConfigRulesInput.nextToken, outputKey: \DescribeAggregateComplianceByConfigRulesOutput.nextToken, paginationFunction: self.describeAggregateComplianceByConfigRules(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAggregateComplianceByConfigRules(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeAggregateComplianceByConformancePacksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregateComplianceByConformancePacksOutput`
     public func describeAggregateComplianceByConformancePacksPaginated(input: DescribeAggregateComplianceByConformancePacksInput) -> ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(input: input, inputKey: \DescribeAggregateComplianceByConformancePacksInput.nextToken, outputKey: \DescribeAggregateComplianceByConformancePacksOutput.nextToken, paginationFunction: self.describeAggregateComplianceByConformancePacks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAggregateComplianceByConformancePacks(input:))
+>>>>>>> main
     }
 }
 
@@ -49,7 +57,11 @@ extension DescribeAggregateComplianceByConformancePacksInput: ClientRuntime.Pagi
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAggregateComplianceByConformancePacksInput, Output == DescribeAggregateComplianceByConformancePacksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAggregateComplianceByConformancePacksInput, OperationStackOutput == DescribeAggregateComplianceByConformancePacksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAggregateComplianceByConformancePacksPaginated`
     /// to access the nested member `[ConfigClientTypes.AggregateComplianceByConformancePack]`
     /// - Returns: `[ConfigClientTypes.AggregateComplianceByConformancePack]`
@@ -67,7 +79,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeAggregationAuthorizationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregationAuthorizationsOutput`
     public func describeAggregationAuthorizationsPaginated(input: DescribeAggregationAuthorizationsInput) -> ClientRuntime.PaginatorSequence<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(input: input, inputKey: \DescribeAggregationAuthorizationsInput.nextToken, outputKey: \DescribeAggregationAuthorizationsOutput.nextToken, paginationFunction: self.describeAggregationAuthorizations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAggregationAuthorizations(input:))
+>>>>>>> main
     }
 }
 
@@ -79,7 +95,11 @@ extension DescribeAggregationAuthorizationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAggregationAuthorizationsInput, Output == DescribeAggregationAuthorizationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAggregationAuthorizationsInput, OperationStackOutput == DescribeAggregationAuthorizationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAggregationAuthorizationsPaginated`
     /// to access the nested member `[ConfigClientTypes.AggregationAuthorization]`
     /// - Returns: `[ConfigClientTypes.AggregationAuthorization]`
@@ -97,7 +117,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeComplianceByConfigRuleInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeComplianceByConfigRuleOutput`
     public func describeComplianceByConfigRulePaginated(input: DescribeComplianceByConfigRuleInput) -> ClientRuntime.PaginatorSequence<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(input: input, inputKey: \DescribeComplianceByConfigRuleInput.nextToken, outputKey: \DescribeComplianceByConfigRuleOutput.nextToken, paginationFunction: self.describeComplianceByConfigRule(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeComplianceByConfigRule(input:))
+>>>>>>> main
     }
 }
 
@@ -110,7 +134,11 @@ extension DescribeComplianceByConfigRuleInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeComplianceByConfigRuleInput, Output == DescribeComplianceByConfigRuleOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeComplianceByConfigRuleInput, OperationStackOutput == DescribeComplianceByConfigRuleOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeComplianceByConfigRulePaginated`
     /// to access the nested member `[ConfigClientTypes.ComplianceByConfigRule]`
     /// - Returns: `[ConfigClientTypes.ComplianceByConfigRule]`
@@ -128,7 +156,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeComplianceByResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeComplianceByResourceOutput`
     public func describeComplianceByResourcePaginated(input: DescribeComplianceByResourceInput) -> ClientRuntime.PaginatorSequence<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(input: input, inputKey: \DescribeComplianceByResourceInput.nextToken, outputKey: \DescribeComplianceByResourceOutput.nextToken, paginationFunction: self.describeComplianceByResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeComplianceByResource(input:))
+>>>>>>> main
     }
 }
 
@@ -143,7 +175,11 @@ extension DescribeComplianceByResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeComplianceByResourceInput, Output == DescribeComplianceByResourceOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeComplianceByResourceInput, OperationStackOutput == DescribeComplianceByResourceOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeComplianceByResourcePaginated`
     /// to access the nested member `[ConfigClientTypes.ComplianceByResource]`
     /// - Returns: `[ConfigClientTypes.ComplianceByResource]`
@@ -161,7 +197,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConfigRuleEvaluationStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigRuleEvaluationStatusOutput`
     public func describeConfigRuleEvaluationStatusPaginated(input: DescribeConfigRuleEvaluationStatusInput) -> ClientRuntime.PaginatorSequence<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(input: input, inputKey: \DescribeConfigRuleEvaluationStatusInput.nextToken, outputKey: \DescribeConfigRuleEvaluationStatusOutput.nextToken, paginationFunction: self.describeConfigRuleEvaluationStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConfigRuleEvaluationStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -174,7 +214,11 @@ extension DescribeConfigRuleEvaluationStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeConfigRuleEvaluationStatusInput, Output == DescribeConfigRuleEvaluationStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeConfigRuleEvaluationStatusInput, OperationStackOutput == DescribeConfigRuleEvaluationStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeConfigRuleEvaluationStatusPaginated`
     /// to access the nested member `[ConfigClientTypes.ConfigRuleEvaluationStatus]`
     /// - Returns: `[ConfigClientTypes.ConfigRuleEvaluationStatus]`
@@ -192,7 +236,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConfigRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigRulesOutput`
     public func describeConfigRulesPaginated(input: DescribeConfigRulesInput) -> ClientRuntime.PaginatorSequence<DescribeConfigRulesInput, DescribeConfigRulesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConfigRulesInput, DescribeConfigRulesOutput>(input: input, inputKey: \DescribeConfigRulesInput.nextToken, outputKey: \DescribeConfigRulesOutput.nextToken, paginationFunction: self.describeConfigRules(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConfigRulesInput, DescribeConfigRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConfigRules(input:))
+>>>>>>> main
     }
 }
 
@@ -205,7 +253,11 @@ extension DescribeConfigRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeConfigRulesInput, Output == DescribeConfigRulesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeConfigRulesInput, OperationStackOutput == DescribeConfigRulesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeConfigRulesPaginated`
     /// to access the nested member `[ConfigClientTypes.ConfigRule]`
     /// - Returns: `[ConfigClientTypes.ConfigRule]`
@@ -223,7 +275,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConfigurationAggregatorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationAggregatorsOutput`
     public func describeConfigurationAggregatorsPaginated(input: DescribeConfigurationAggregatorsInput) -> ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(input: input, inputKey: \DescribeConfigurationAggregatorsInput.nextToken, outputKey: \DescribeConfigurationAggregatorsOutput.nextToken, paginationFunction: self.describeConfigurationAggregators(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConfigurationAggregators(input:))
+>>>>>>> main
     }
 }
 
@@ -236,7 +292,11 @@ extension DescribeConfigurationAggregatorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeConfigurationAggregatorsInput, Output == DescribeConfigurationAggregatorsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeConfigurationAggregatorsInput, OperationStackOutput == DescribeConfigurationAggregatorsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeConfigurationAggregatorsPaginated`
     /// to access the nested member `[ConfigClientTypes.ConfigurationAggregator]`
     /// - Returns: `[ConfigClientTypes.ConfigurationAggregator]`
@@ -254,7 +314,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConfigurationAggregatorSourcesStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationAggregatorSourcesStatusOutput`
     public func describeConfigurationAggregatorSourcesStatusPaginated(input: DescribeConfigurationAggregatorSourcesStatusInput) -> ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(input: input, inputKey: \DescribeConfigurationAggregatorSourcesStatusInput.nextToken, outputKey: \DescribeConfigurationAggregatorSourcesStatusOutput.nextToken, paginationFunction: self.describeConfigurationAggregatorSourcesStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConfigurationAggregatorSourcesStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -268,7 +332,11 @@ extension DescribeConfigurationAggregatorSourcesStatusInput: ClientRuntime.Pagin
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeConfigurationAggregatorSourcesStatusInput, Output == DescribeConfigurationAggregatorSourcesStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeConfigurationAggregatorSourcesStatusInput, OperationStackOutput == DescribeConfigurationAggregatorSourcesStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeConfigurationAggregatorSourcesStatusPaginated`
     /// to access the nested member `[ConfigClientTypes.AggregatedSourceStatus]`
     /// - Returns: `[ConfigClientTypes.AggregatedSourceStatus]`
@@ -286,7 +354,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConformancePackComplianceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePackComplianceOutput`
     public func describeConformancePackCompliancePaginated(input: DescribeConformancePackComplianceInput) -> ClientRuntime.PaginatorSequence<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(input: input, inputKey: \DescribeConformancePackComplianceInput.nextToken, outputKey: \DescribeConformancePackComplianceOutput.nextToken, paginationFunction: self.describeConformancePackCompliance(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConformancePackCompliance(input:))
+>>>>>>> main
     }
 }
 
@@ -309,7 +381,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConformancePacksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePacksOutput`
     public func describeConformancePacksPaginated(input: DescribeConformancePacksInput) -> ClientRuntime.PaginatorSequence<DescribeConformancePacksInput, DescribeConformancePacksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConformancePacksInput, DescribeConformancePacksOutput>(input: input, inputKey: \DescribeConformancePacksInput.nextToken, outputKey: \DescribeConformancePacksOutput.nextToken, paginationFunction: self.describeConformancePacks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConformancePacksInput, DescribeConformancePacksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConformancePacks(input:))
+>>>>>>> main
     }
 }
 
@@ -322,7 +398,11 @@ extension DescribeConformancePacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeConformancePacksInput, Output == DescribeConformancePacksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeConformancePacksInput, OperationStackOutput == DescribeConformancePacksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeConformancePacksPaginated`
     /// to access the nested member `[ConfigClientTypes.ConformancePackDetail]`
     /// - Returns: `[ConfigClientTypes.ConformancePackDetail]`
@@ -340,7 +420,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeConformancePackStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePackStatusOutput`
     public func describeConformancePackStatusPaginated(input: DescribeConformancePackStatusInput) -> ClientRuntime.PaginatorSequence<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(input: input, inputKey: \DescribeConformancePackStatusInput.nextToken, outputKey: \DescribeConformancePackStatusOutput.nextToken, paginationFunction: self.describeConformancePackStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeConformancePackStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -353,7 +437,11 @@ extension DescribeConformancePackStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeConformancePackStatusInput, Output == DescribeConformancePackStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeConformancePackStatusInput, OperationStackOutput == DescribeConformancePackStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeConformancePackStatusPaginated`
     /// to access the nested member `[ConfigClientTypes.ConformancePackStatusDetail]`
     /// - Returns: `[ConfigClientTypes.ConformancePackStatusDetail]`
@@ -371,7 +459,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeOrganizationConfigRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigRulesOutput`
     public func describeOrganizationConfigRulesPaginated(input: DescribeOrganizationConfigRulesInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(input: input, inputKey: \DescribeOrganizationConfigRulesInput.nextToken, outputKey: \DescribeOrganizationConfigRulesOutput.nextToken, paginationFunction: self.describeOrganizationConfigRules(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOrganizationConfigRules(input:))
+>>>>>>> main
     }
 }
 
@@ -384,7 +476,11 @@ extension DescribeOrganizationConfigRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeOrganizationConfigRulesInput, Output == DescribeOrganizationConfigRulesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeOrganizationConfigRulesInput, OperationStackOutput == DescribeOrganizationConfigRulesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConfigRulesPaginated`
     /// to access the nested member `[ConfigClientTypes.OrganizationConfigRule]`
     /// - Returns: `[ConfigClientTypes.OrganizationConfigRule]`
@@ -402,7 +498,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeOrganizationConfigRuleStatusesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigRuleStatusesOutput`
     public func describeOrganizationConfigRuleStatusesPaginated(input: DescribeOrganizationConfigRuleStatusesInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(input: input, inputKey: \DescribeOrganizationConfigRuleStatusesInput.nextToken, outputKey: \DescribeOrganizationConfigRuleStatusesOutput.nextToken, paginationFunction: self.describeOrganizationConfigRuleStatuses(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOrganizationConfigRuleStatuses(input:))
+>>>>>>> main
     }
 }
 
@@ -415,7 +515,11 @@ extension DescribeOrganizationConfigRuleStatusesInput: ClientRuntime.PaginateTok
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeOrganizationConfigRuleStatusesInput, Output == DescribeOrganizationConfigRuleStatusesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeOrganizationConfigRuleStatusesInput, OperationStackOutput == DescribeOrganizationConfigRuleStatusesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConfigRuleStatusesPaginated`
     /// to access the nested member `[ConfigClientTypes.OrganizationConfigRuleStatus]`
     /// - Returns: `[ConfigClientTypes.OrganizationConfigRuleStatus]`
@@ -433,7 +537,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeOrganizationConformancePacksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConformancePacksOutput`
     public func describeOrganizationConformancePacksPaginated(input: DescribeOrganizationConformancePacksInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(input: input, inputKey: \DescribeOrganizationConformancePacksInput.nextToken, outputKey: \DescribeOrganizationConformancePacksOutput.nextToken, paginationFunction: self.describeOrganizationConformancePacks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOrganizationConformancePacks(input:))
+>>>>>>> main
     }
 }
 
@@ -446,7 +554,11 @@ extension DescribeOrganizationConformancePacksInput: ClientRuntime.PaginateToken
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeOrganizationConformancePacksInput, Output == DescribeOrganizationConformancePacksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeOrganizationConformancePacksInput, OperationStackOutput == DescribeOrganizationConformancePacksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConformancePacksPaginated`
     /// to access the nested member `[ConfigClientTypes.OrganizationConformancePack]`
     /// - Returns: `[ConfigClientTypes.OrganizationConformancePack]`
@@ -464,7 +576,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeOrganizationConformancePackStatusesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConformancePackStatusesOutput`
     public func describeOrganizationConformancePackStatusesPaginated(input: DescribeOrganizationConformancePackStatusesInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(input: input, inputKey: \DescribeOrganizationConformancePackStatusesInput.nextToken, outputKey: \DescribeOrganizationConformancePackStatusesOutput.nextToken, paginationFunction: self.describeOrganizationConformancePackStatuses(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOrganizationConformancePackStatuses(input:))
+>>>>>>> main
     }
 }
 
@@ -477,7 +593,11 @@ extension DescribeOrganizationConformancePackStatusesInput: ClientRuntime.Pagina
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeOrganizationConformancePackStatusesInput, Output == DescribeOrganizationConformancePackStatusesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeOrganizationConformancePackStatusesInput, OperationStackOutput == DescribeOrganizationConformancePackStatusesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConformancePackStatusesPaginated`
     /// to access the nested member `[ConfigClientTypes.OrganizationConformancePackStatus]`
     /// - Returns: `[ConfigClientTypes.OrganizationConformancePackStatus]`
@@ -495,7 +615,11 @@ extension ConfigClient {
     ///     - input: A `[DescribePendingAggregationRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingAggregationRequestsOutput`
     public func describePendingAggregationRequestsPaginated(input: DescribePendingAggregationRequestsInput) -> ClientRuntime.PaginatorSequence<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(input: input, inputKey: \DescribePendingAggregationRequestsInput.nextToken, outputKey: \DescribePendingAggregationRequestsOutput.nextToken, paginationFunction: self.describePendingAggregationRequests(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePendingAggregationRequests(input:))
+>>>>>>> main
     }
 }
 
@@ -507,7 +631,11 @@ extension DescribePendingAggregationRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribePendingAggregationRequestsInput, Output == DescribePendingAggregationRequestsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribePendingAggregationRequestsInput, OperationStackOutput == DescribePendingAggregationRequestsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePendingAggregationRequestsPaginated`
     /// to access the nested member `[ConfigClientTypes.PendingAggregationRequest]`
     /// - Returns: `[ConfigClientTypes.PendingAggregationRequest]`
@@ -525,7 +653,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeRemediationExceptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRemediationExceptionsOutput`
     public func describeRemediationExceptionsPaginated(input: DescribeRemediationExceptionsInput) -> ClientRuntime.PaginatorSequence<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(input: input, inputKey: \DescribeRemediationExceptionsInput.nextToken, outputKey: \DescribeRemediationExceptionsOutput.nextToken, paginationFunction: self.describeRemediationExceptions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRemediationExceptions(input:))
+>>>>>>> main
     }
 }
 
@@ -548,7 +680,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeRemediationExecutionStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRemediationExecutionStatusOutput`
     public func describeRemediationExecutionStatusPaginated(input: DescribeRemediationExecutionStatusInput) -> ClientRuntime.PaginatorSequence<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(input: input, inputKey: \DescribeRemediationExecutionStatusInput.nextToken, outputKey: \DescribeRemediationExecutionStatusOutput.nextToken, paginationFunction: self.describeRemediationExecutionStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRemediationExecutionStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -562,7 +698,11 @@ extension DescribeRemediationExecutionStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeRemediationExecutionStatusInput, Output == DescribeRemediationExecutionStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeRemediationExecutionStatusInput, OperationStackOutput == DescribeRemediationExecutionStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeRemediationExecutionStatusPaginated`
     /// to access the nested member `[ConfigClientTypes.RemediationExecutionStatus]`
     /// - Returns: `[ConfigClientTypes.RemediationExecutionStatus]`
@@ -580,7 +720,11 @@ extension ConfigClient {
     ///     - input: A `[DescribeRetentionConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRetentionConfigurationsOutput`
     public func describeRetentionConfigurationsPaginated(input: DescribeRetentionConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(input: input, inputKey: \DescribeRetentionConfigurationsInput.nextToken, outputKey: \DescribeRetentionConfigurationsOutput.nextToken, paginationFunction: self.describeRetentionConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRetentionConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -592,7 +736,11 @@ extension DescribeRetentionConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeRetentionConfigurationsInput, Output == DescribeRetentionConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeRetentionConfigurationsInput, OperationStackOutput == DescribeRetentionConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeRetentionConfigurationsPaginated`
     /// to access the nested member `[ConfigClientTypes.RetentionConfiguration]`
     /// - Returns: `[ConfigClientTypes.RetentionConfiguration]`
@@ -610,7 +758,11 @@ extension ConfigClient {
     ///     - input: A `[GetAggregateComplianceDetailsByConfigRuleInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateComplianceDetailsByConfigRuleOutput`
     public func getAggregateComplianceDetailsByConfigRulePaginated(input: GetAggregateComplianceDetailsByConfigRuleInput) -> ClientRuntime.PaginatorSequence<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(input: input, inputKey: \GetAggregateComplianceDetailsByConfigRuleInput.nextToken, outputKey: \GetAggregateComplianceDetailsByConfigRuleOutput.nextToken, paginationFunction: self.getAggregateComplianceDetailsByConfigRule(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAggregateComplianceDetailsByConfigRule(input:))
+>>>>>>> main
     }
 }
 
@@ -627,7 +779,11 @@ extension GetAggregateComplianceDetailsByConfigRuleInput: ClientRuntime.Paginate
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetAggregateComplianceDetailsByConfigRuleInput, Output == GetAggregateComplianceDetailsByConfigRuleOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetAggregateComplianceDetailsByConfigRuleInput, OperationStackOutput == GetAggregateComplianceDetailsByConfigRuleOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getAggregateComplianceDetailsByConfigRulePaginated`
     /// to access the nested member `[ConfigClientTypes.AggregateEvaluationResult]`
     /// - Returns: `[ConfigClientTypes.AggregateEvaluationResult]`
@@ -645,7 +801,11 @@ extension ConfigClient {
     ///     - input: A `[GetAggregateConfigRuleComplianceSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateConfigRuleComplianceSummaryOutput`
     public func getAggregateConfigRuleComplianceSummaryPaginated(input: GetAggregateConfigRuleComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(input: input, inputKey: \GetAggregateConfigRuleComplianceSummaryInput.nextToken, outputKey: \GetAggregateConfigRuleComplianceSummaryOutput.nextToken, paginationFunction: self.getAggregateConfigRuleComplianceSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAggregateConfigRuleComplianceSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -669,7 +829,11 @@ extension ConfigClient {
     ///     - input: A `[GetAggregateConformancePackComplianceSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateConformancePackComplianceSummaryOutput`
     public func getAggregateConformancePackComplianceSummaryPaginated(input: GetAggregateConformancePackComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(input: input, inputKey: \GetAggregateConformancePackComplianceSummaryInput.nextToken, outputKey: \GetAggregateConformancePackComplianceSummaryOutput.nextToken, paginationFunction: self.getAggregateConformancePackComplianceSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAggregateConformancePackComplianceSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -693,7 +857,11 @@ extension ConfigClient {
     ///     - input: A `[GetAggregateDiscoveredResourceCountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateDiscoveredResourceCountsOutput`
     public func getAggregateDiscoveredResourceCountsPaginated(input: GetAggregateDiscoveredResourceCountsInput) -> ClientRuntime.PaginatorSequence<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(input: input, inputKey: \GetAggregateDiscoveredResourceCountsInput.nextToken, outputKey: \GetAggregateDiscoveredResourceCountsOutput.nextToken, paginationFunction: self.getAggregateDiscoveredResourceCounts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAggregateDiscoveredResourceCounts(input:))
+>>>>>>> main
     }
 }
 
@@ -717,7 +885,11 @@ extension ConfigClient {
     ///     - input: A `[GetComplianceDetailsByConfigRuleInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetComplianceDetailsByConfigRuleOutput`
     public func getComplianceDetailsByConfigRulePaginated(input: GetComplianceDetailsByConfigRuleInput) -> ClientRuntime.PaginatorSequence<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(input: input, inputKey: \GetComplianceDetailsByConfigRuleInput.nextToken, outputKey: \GetComplianceDetailsByConfigRuleOutput.nextToken, paginationFunction: self.getComplianceDetailsByConfigRule(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getComplianceDetailsByConfigRule(input:))
+>>>>>>> main
     }
 }
 
@@ -731,7 +903,11 @@ extension GetComplianceDetailsByConfigRuleInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetComplianceDetailsByConfigRuleInput, Output == GetComplianceDetailsByConfigRuleOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetComplianceDetailsByConfigRuleInput, OperationStackOutput == GetComplianceDetailsByConfigRuleOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getComplianceDetailsByConfigRulePaginated`
     /// to access the nested member `[ConfigClientTypes.EvaluationResult]`
     /// - Returns: `[ConfigClientTypes.EvaluationResult]`
@@ -749,7 +925,11 @@ extension ConfigClient {
     ///     - input: A `[GetComplianceDetailsByResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetComplianceDetailsByResourceOutput`
     public func getComplianceDetailsByResourcePaginated(input: GetComplianceDetailsByResourceInput) -> ClientRuntime.PaginatorSequence<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(input: input, inputKey: \GetComplianceDetailsByResourceInput.nextToken, outputKey: \GetComplianceDetailsByResourceOutput.nextToken, paginationFunction: self.getComplianceDetailsByResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getComplianceDetailsByResource(input:))
+>>>>>>> main
     }
 }
 
@@ -764,7 +944,11 @@ extension GetComplianceDetailsByResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetComplianceDetailsByResourceInput, Output == GetComplianceDetailsByResourceOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetComplianceDetailsByResourceInput, OperationStackOutput == GetComplianceDetailsByResourceOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getComplianceDetailsByResourcePaginated`
     /// to access the nested member `[ConfigClientTypes.EvaluationResult]`
     /// - Returns: `[ConfigClientTypes.EvaluationResult]`
@@ -782,7 +966,11 @@ extension ConfigClient {
     ///     - input: A `[GetConformancePackComplianceDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConformancePackComplianceDetailsOutput`
     public func getConformancePackComplianceDetailsPaginated(input: GetConformancePackComplianceDetailsInput) -> ClientRuntime.PaginatorSequence<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(input: input, inputKey: \GetConformancePackComplianceDetailsInput.nextToken, outputKey: \GetConformancePackComplianceDetailsOutput.nextToken, paginationFunction: self.getConformancePackComplianceDetails(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConformancePackComplianceDetails(input:))
+>>>>>>> main
     }
 }
 
@@ -805,7 +993,11 @@ extension ConfigClient {
     ///     - input: A `[GetConformancePackComplianceSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConformancePackComplianceSummaryOutput`
     public func getConformancePackComplianceSummaryPaginated(input: GetConformancePackComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(input: input, inputKey: \GetConformancePackComplianceSummaryInput.nextToken, outputKey: \GetConformancePackComplianceSummaryOutput.nextToken, paginationFunction: self.getConformancePackComplianceSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConformancePackComplianceSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -818,7 +1010,11 @@ extension GetConformancePackComplianceSummaryInput: ClientRuntime.PaginateToken 
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetConformancePackComplianceSummaryInput, Output == GetConformancePackComplianceSummaryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetConformancePackComplianceSummaryInput, OperationStackOutput == GetConformancePackComplianceSummaryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getConformancePackComplianceSummaryPaginated`
     /// to access the nested member `[ConfigClientTypes.ConformancePackComplianceSummary]`
     /// - Returns: `[ConfigClientTypes.ConformancePackComplianceSummary]`
@@ -836,7 +1032,11 @@ extension ConfigClient {
     ///     - input: A `[GetDiscoveredResourceCountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDiscoveredResourceCountsOutput`
     public func getDiscoveredResourceCountsPaginated(input: GetDiscoveredResourceCountsInput) -> ClientRuntime.PaginatorSequence<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(input: input, inputKey: \GetDiscoveredResourceCountsInput.nextToken, outputKey: \GetDiscoveredResourceCountsOutput.nextToken, paginationFunction: self.getDiscoveredResourceCounts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDiscoveredResourceCounts(input:))
+>>>>>>> main
     }
 }
 
@@ -858,7 +1058,11 @@ extension ConfigClient {
     ///     - input: A `[GetOrganizationConfigRuleDetailedStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetOrganizationConfigRuleDetailedStatusOutput`
     public func getOrganizationConfigRuleDetailedStatusPaginated(input: GetOrganizationConfigRuleDetailedStatusInput) -> ClientRuntime.PaginatorSequence<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(input: input, inputKey: \GetOrganizationConfigRuleDetailedStatusInput.nextToken, outputKey: \GetOrganizationConfigRuleDetailedStatusOutput.nextToken, paginationFunction: self.getOrganizationConfigRuleDetailedStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOrganizationConfigRuleDetailedStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -872,7 +1076,11 @@ extension GetOrganizationConfigRuleDetailedStatusInput: ClientRuntime.PaginateTo
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetOrganizationConfigRuleDetailedStatusInput, Output == GetOrganizationConfigRuleDetailedStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetOrganizationConfigRuleDetailedStatusInput, OperationStackOutput == GetOrganizationConfigRuleDetailedStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getOrganizationConfigRuleDetailedStatusPaginated`
     /// to access the nested member `[ConfigClientTypes.MemberAccountStatus]`
     /// - Returns: `[ConfigClientTypes.MemberAccountStatus]`
@@ -890,7 +1098,11 @@ extension ConfigClient {
     ///     - input: A `[GetOrganizationConformancePackDetailedStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetOrganizationConformancePackDetailedStatusOutput`
     public func getOrganizationConformancePackDetailedStatusPaginated(input: GetOrganizationConformancePackDetailedStatusInput) -> ClientRuntime.PaginatorSequence<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(input: input, inputKey: \GetOrganizationConformancePackDetailedStatusInput.nextToken, outputKey: \GetOrganizationConformancePackDetailedStatusOutput.nextToken, paginationFunction: self.getOrganizationConformancePackDetailedStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOrganizationConformancePackDetailedStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -904,7 +1116,11 @@ extension GetOrganizationConformancePackDetailedStatusInput: ClientRuntime.Pagin
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetOrganizationConformancePackDetailedStatusInput, Output == GetOrganizationConformancePackDetailedStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetOrganizationConformancePackDetailedStatusInput, OperationStackOutput == GetOrganizationConformancePackDetailedStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getOrganizationConformancePackDetailedStatusPaginated`
     /// to access the nested member `[ConfigClientTypes.OrganizationConformancePackDetailedStatus]`
     /// - Returns: `[ConfigClientTypes.OrganizationConformancePackDetailedStatus]`
@@ -922,7 +1138,11 @@ extension ConfigClient {
     ///     - input: A `[GetResourceConfigHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourceConfigHistoryOutput`
     public func getResourceConfigHistoryPaginated(input: GetResourceConfigHistoryInput) -> ClientRuntime.PaginatorSequence<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(input: input, inputKey: \GetResourceConfigHistoryInput.nextToken, outputKey: \GetResourceConfigHistoryOutput.nextToken, paginationFunction: self.getResourceConfigHistory(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceConfigHistory(input:))
+>>>>>>> main
     }
 }
 
@@ -939,7 +1159,11 @@ extension GetResourceConfigHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetResourceConfigHistoryInput, Output == GetResourceConfigHistoryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetResourceConfigHistoryInput, OperationStackOutput == GetResourceConfigHistoryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getResourceConfigHistoryPaginated`
     /// to access the nested member `[ConfigClientTypes.ConfigurationItem]`
     /// - Returns: `[ConfigClientTypes.ConfigurationItem]`
@@ -957,7 +1181,11 @@ extension ConfigClient {
     ///     - input: A `[ListAggregateDiscoveredResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAggregateDiscoveredResourcesOutput`
     public func listAggregateDiscoveredResourcesPaginated(input: ListAggregateDiscoveredResourcesInput) -> ClientRuntime.PaginatorSequence<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(input: input, inputKey: \ListAggregateDiscoveredResourcesInput.nextToken, outputKey: \ListAggregateDiscoveredResourcesOutput.nextToken, paginationFunction: self.listAggregateDiscoveredResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAggregateDiscoveredResources(input:))
+>>>>>>> main
     }
 }
 
@@ -972,7 +1200,11 @@ extension ListAggregateDiscoveredResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAggregateDiscoveredResourcesInput, Output == ListAggregateDiscoveredResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAggregateDiscoveredResourcesInput, OperationStackOutput == ListAggregateDiscoveredResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAggregateDiscoveredResourcesPaginated`
     /// to access the nested member `[ConfigClientTypes.AggregateResourceIdentifier]`
     /// - Returns: `[ConfigClientTypes.AggregateResourceIdentifier]`
@@ -990,7 +1222,11 @@ extension ConfigClient {
     ///     - input: A `[ListConformancePackComplianceScoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConformancePackComplianceScoresOutput`
     public func listConformancePackComplianceScoresPaginated(input: ListConformancePackComplianceScoresInput) -> ClientRuntime.PaginatorSequence<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(input: input, inputKey: \ListConformancePackComplianceScoresInput.nextToken, outputKey: \ListConformancePackComplianceScoresOutput.nextToken, paginationFunction: self.listConformancePackComplianceScores(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConformancePackComplianceScores(input:))
+>>>>>>> main
     }
 }
 
@@ -1014,7 +1250,11 @@ extension ConfigClient {
     ///     - input: A `[ListDiscoveredResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveredResourcesOutput`
     public func listDiscoveredResourcesPaginated(input: ListDiscoveredResourcesInput) -> ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(input: input, inputKey: \ListDiscoveredResourcesInput.nextToken, outputKey: \ListDiscoveredResourcesOutput.nextToken, paginationFunction: self.listDiscoveredResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDiscoveredResources(input:))
+>>>>>>> main
     }
 }
 
@@ -1030,7 +1270,11 @@ extension ListDiscoveredResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDiscoveredResourcesInput, Output == ListDiscoveredResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDiscoveredResourcesInput, OperationStackOutput == ListDiscoveredResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDiscoveredResourcesPaginated`
     /// to access the nested member `[ConfigClientTypes.ResourceIdentifier]`
     /// - Returns: `[ConfigClientTypes.ResourceIdentifier]`
@@ -1048,7 +1292,11 @@ extension ConfigClient {
     ///     - input: A `[ListResourceEvaluationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceEvaluationsOutput`
     public func listResourceEvaluationsPaginated(input: ListResourceEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(input: input, inputKey: \ListResourceEvaluationsInput.nextToken, outputKey: \ListResourceEvaluationsOutput.nextToken, paginationFunction: self.listResourceEvaluations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceEvaluations(input:))
+>>>>>>> main
     }
 }
 
@@ -1061,7 +1309,11 @@ extension ListResourceEvaluationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListResourceEvaluationsInput, Output == ListResourceEvaluationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListResourceEvaluationsInput, OperationStackOutput == ListResourceEvaluationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceEvaluationsPaginated`
     /// to access the nested member `[ConfigClientTypes.ResourceEvaluation]`
     /// - Returns: `[ConfigClientTypes.ResourceEvaluation]`
@@ -1079,7 +1331,11 @@ extension ConfigClient {
     ///     - input: A `[ListStoredQueriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStoredQueriesOutput`
     public func listStoredQueriesPaginated(input: ListStoredQueriesInput) -> ClientRuntime.PaginatorSequence<ListStoredQueriesInput, ListStoredQueriesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStoredQueriesInput, ListStoredQueriesOutput>(input: input, inputKey: \ListStoredQueriesInput.nextToken, outputKey: \ListStoredQueriesOutput.nextToken, paginationFunction: self.listStoredQueries(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStoredQueriesInput, ListStoredQueriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStoredQueries(input:))
+>>>>>>> main
     }
 }
 
@@ -1100,7 +1356,11 @@ extension ConfigClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+>>>>>>> main
     }
 }
 
@@ -1113,7 +1373,11 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[ConfigClientTypes.Tag]`
     /// - Returns: `[ConfigClientTypes.Tag]`
@@ -1131,7 +1395,11 @@ extension ConfigClient {
     ///     - input: A `[SelectAggregateResourceConfigInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SelectAggregateResourceConfigOutput`
     public func selectAggregateResourceConfigPaginated(input: SelectAggregateResourceConfigInput) -> ClientRuntime.PaginatorSequence<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(input: input, inputKey: \SelectAggregateResourceConfigInput.nextToken, outputKey: \SelectAggregateResourceConfigOutput.nextToken, paginationFunction: self.selectAggregateResourceConfig(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.selectAggregateResourceConfig(input:))
+>>>>>>> main
     }
 }
 
@@ -1146,7 +1414,11 @@ extension SelectAggregateResourceConfigInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SelectAggregateResourceConfigInput, Output == SelectAggregateResourceConfigOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SelectAggregateResourceConfigInput, OperationStackOutput == SelectAggregateResourceConfigOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `selectAggregateResourceConfigPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1164,7 +1436,11 @@ extension ConfigClient {
     ///     - input: A `[SelectResourceConfigInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SelectResourceConfigOutput`
     public func selectResourceConfigPaginated(input: SelectResourceConfigInput) -> ClientRuntime.PaginatorSequence<SelectResourceConfigInput, SelectResourceConfigOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SelectResourceConfigInput, SelectResourceConfigOutput>(input: input, inputKey: \SelectResourceConfigInput.nextToken, outputKey: \SelectResourceConfigOutput.nextToken, paginationFunction: self.selectResourceConfig(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SelectResourceConfigInput, SelectResourceConfigOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.selectResourceConfig(input:))
+>>>>>>> main
     }
 }
 
@@ -1177,7 +1453,11 @@ extension SelectResourceConfigInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SelectResourceConfigInput, Output == SelectResourceConfigOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SelectResourceConfigInput, OperationStackOutput == SelectResourceConfigOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `selectResourceConfigPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

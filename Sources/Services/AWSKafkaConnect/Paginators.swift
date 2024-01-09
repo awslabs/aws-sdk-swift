@@ -12,7 +12,11 @@ extension KafkaConnectClient {
     ///     - input: A `[ListConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutput`
     public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \ListConnectorsInput.nextToken, outputKey: \ListConnectorsOutput.nextToken, paginationFunction: self.listConnectors(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectors(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListConnectorsInput, Output == ListConnectorsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListConnectorsInput, OperationStackOutput == ListConnectorsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listConnectorsPaginated`
     /// to access the nested member `[KafkaConnectClientTypes.ConnectorSummary]`
     /// - Returns: `[KafkaConnectClientTypes.ConnectorSummary]`
@@ -43,7 +51,11 @@ extension KafkaConnectClient {
     ///     - input: A `[ListCustomPluginsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomPluginsOutput`
     public func listCustomPluginsPaginated(input: ListCustomPluginsInput) -> ClientRuntime.PaginatorSequence<ListCustomPluginsInput, ListCustomPluginsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCustomPluginsInput, ListCustomPluginsOutput>(input: input, inputKey: \ListCustomPluginsInput.nextToken, outputKey: \ListCustomPluginsOutput.nextToken, paginationFunction: self.listCustomPlugins(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCustomPluginsInput, ListCustomPluginsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomPlugins(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +67,11 @@ extension ListCustomPluginsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCustomPluginsInput, Output == ListCustomPluginsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCustomPluginsInput, OperationStackOutput == ListCustomPluginsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCustomPluginsPaginated`
     /// to access the nested member `[KafkaConnectClientTypes.CustomPluginSummary]`
     /// - Returns: `[KafkaConnectClientTypes.CustomPluginSummary]`
@@ -73,7 +89,11 @@ extension KafkaConnectClient {
     ///     - input: A `[ListWorkerConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkerConfigurationsOutput`
     public func listWorkerConfigurationsPaginated(input: ListWorkerConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutput>(input: input, inputKey: \ListWorkerConfigurationsInput.nextToken, outputKey: \ListWorkerConfigurationsOutput.nextToken, paginationFunction: self.listWorkerConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkerConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -85,7 +105,11 @@ extension ListWorkerConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListWorkerConfigurationsInput, Output == ListWorkerConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListWorkerConfigurationsInput, OperationStackOutput == ListWorkerConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorkerConfigurationsPaginated`
     /// to access the nested member `[KafkaConnectClientTypes.WorkerConfigurationSummary]`
     /// - Returns: `[KafkaConnectClientTypes.WorkerConfigurationSummary]`

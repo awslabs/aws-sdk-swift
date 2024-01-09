@@ -10,6 +10,8 @@ import ClientRuntime
 ///
 /// * Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this option. Refer to for details.
 public protocol TranscribeClientProtocol {
+    /// Performs the `CreateCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
     /// Creates a new Call Analytics category. All categories are automatically applied to your Call Analytics transcriptions. Note that in order to apply categories to your transcriptions, you must create them before submitting your transcription request, as categories cannot be applied retroactively. When creating a new category, you can use the InputType parameter to label the category as a POST_CALL or a REAL_TIME category. POST_CALL categories can only be applied to post-call transcriptions and REAL_TIME categories can only be applied to real-time transcriptions. If you do not include InputType, your category is created as a POST_CALL category by default. Call Analytics categories are composed of rules. For each category, you must create between 1 and 20 rules. Rules can include these parameters: , , , and . To update an existing category, see . To learn more about Call Analytics categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html).
     ///
     /// - Parameter CreateCallAnalyticsCategoryInput : [no documentation found]
@@ -24,6 +26,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func createCallAnalyticsCategory(input: CreateCallAnalyticsCategoryInput) async throws -> CreateCallAnalyticsCategoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateLanguageModel` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Creates a new custom language model. When creating a new custom language model, you must specify:
     ///
     /// * If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio sample rates under 16,000 Hz) base model
@@ -46,6 +53,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func createLanguageModel(input: CreateLanguageModelInput) async throws -> CreateLanguageModelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMedicalVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary, you must first upload a text file that contains your vocabulary table into an Amazon S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag; CreateMedicalVocabulary does not support the Phrases flag and only accepts vocabularies in table format. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
     /// - Parameter CreateMedicalVocabularyInput : [no documentation found]
@@ -60,6 +72,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func createMedicalVocabulary(input: CreateMedicalVocabularyInput) async throws -> CreateMedicalVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Creates a new custom vocabulary. When creating a new custom vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request. Or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
     /// - Parameter CreateVocabularyInput : [no documentation found]
@@ -74,6 +91,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func createVocabulary(input: CreateVocabularyInput) async throws -> CreateVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateVocabularyFilter` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask, delete, or flag specific words from your transcript. Custom vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Vocabulary filtering](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     ///
     /// - Parameter CreateVocabularyFilterInput : [no documentation found]
@@ -88,6 +110,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func createVocabularyFilter(input: CreateVocabularyFilterInput) async throws -> CreateVocabularyFilterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName. Category names are case sensitive.
     ///
     /// - Parameter DeleteCallAnalyticsCategoryInput : [no documentation found]
@@ -102,6 +129,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func deleteCallAnalyticsCategory(input: DeleteCallAnalyticsCategoryInput) async throws -> DeleteCallAnalyticsCategoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCallAnalyticsJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a Call Analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName. Job names are case sensitive.
     ///
     /// - Parameter DeleteCallAnalyticsJobInput : [no documentation found]
@@ -115,6 +147,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func deleteCallAnalyticsJob(input: DeleteCallAnalyticsJobInput) async throws -> DeleteCallAnalyticsJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteLanguageModel` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName. custom language model names are case sensitive.
     ///
     /// - Parameter DeleteLanguageModelInput : [no documentation found]
@@ -128,6 +165,26 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func deleteLanguageModel(input: DeleteLanguageModelInput) async throws -> DeleteLanguageModelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMedicalScribeJob` operation on the `Transcribe` service.
+    ///
+    /// Deletes a Medical Scribe job. To use this operation, specify the name of the job you want to delete using MedicalScribeJobName. Job names are case sensitive.
+    ///
+    /// - Parameter DeleteMedicalScribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMedicalScribeJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    func deleteMedicalScribeJob(input: DeleteMedicalScribeJobInput) async throws -> DeleteMedicalScribeJobOutput
+    /// Performs the `DeleteMedicalTranscriptionJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
     ///
     /// - Parameter DeleteMedicalTranscriptionJobInput : [no documentation found]
@@ -141,6 +198,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func deleteMedicalTranscriptionJob(input: DeleteMedicalTranscriptionJobInput) async throws -> DeleteMedicalTranscriptionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMedicalVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a custom medical vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
     /// - Parameter DeleteMedicalVocabularyInput : [no documentation found]
@@ -155,6 +217,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func deleteMedicalVocabulary(input: DeleteMedicalVocabularyInput) async throws -> DeleteMedicalVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteTranscriptionJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName. Job names are case sensitive.
     ///
     /// - Parameter DeleteTranscriptionJobInput : [no documentation found]
@@ -168,6 +235,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func deleteTranscriptionJob(input: DeleteTranscriptionJobInput) async throws -> DeleteTranscriptionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a custom vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
     /// - Parameter DeleteVocabularyInput : [no documentation found]
@@ -182,6 +254,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVocabularyFilter` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Deletes a custom vocabulary filter. To use this operation, specify the name of the custom vocabulary filter you want to delete using VocabularyFilterName. Custom vocabulary filter names are case sensitive.
     ///
     /// - Parameter DeleteVocabularyFilterInput : [no documentation found]
@@ -196,6 +273,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func deleteVocabularyFilter(input: DeleteVocabularyFilterInput) async throws -> DeleteVocabularyFilterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeLanguageModel` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified custom language model. This operation also shows if the base language model that you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use DescribeLanguageModel to help identify the reason for this failure.
     ///
     /// - Parameter DescribeLanguageModelInput : [no documentation found]
@@ -210,6 +292,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func describeLanguageModel(input: DescribeLanguageModelInput) async throws -> DescribeLanguageModelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified Call Analytics category. To get a list of your Call Analytics categories, use the operation.
     ///
     /// - Parameter GetCallAnalyticsCategoryInput : [no documentation found]
@@ -224,6 +311,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getCallAnalyticsCategory(input: GetCallAnalyticsCategoryInput) async throws -> GetCallAnalyticsCategoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCallAnalyticsJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus. If the status is COMPLETED, the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFileUri. If you chose to redact the audio in your media file, you can find your redacted media file at the location specified in RedactedMediaFileUri. To get a list of your Call Analytics jobs, use the operation.
     ///
     /// - Parameter GetCallAnalyticsJobInput : [no documentation found]
@@ -238,6 +330,27 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getCallAnalyticsJob(input: GetCallAnalyticsJobInput) async throws -> GetCallAnalyticsJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMedicalScribeJob` operation on the `Transcribe` service.
+    ///
+    /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in MedicalScribeOutput. If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation.
+    ///
+    /// - Parameter GetMedicalScribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetMedicalScribeJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
+    func getMedicalScribeJob(input: GetMedicalScribeJobInput) async throws -> GetMedicalScribeJobOutput
+    /// Performs the `GetMedicalTranscriptionJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. To get a list of your medical transcription jobs, use the operation.
     ///
     /// - Parameter GetMedicalTranscriptionJobInput : [no documentation found]
@@ -252,6 +365,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getMedicalTranscriptionJob(input: GetMedicalTranscriptionJobInput) async throws -> GetMedicalTranscriptionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMedicalVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified custom medical vocabulary. To view the status of the specified custom medical vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary failed. To get a list of your custom medical vocabularies, use the operation.
     ///
     /// - Parameter GetMedicalVocabularyInput : [no documentation found]
@@ -266,6 +384,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getMedicalVocabulary(input: GetMedicalVocabularyInput) async throws -> GetMedicalVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetTranscriptionJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri. To get a list of your transcription jobs, use the operation.
     ///
     /// - Parameter GetTranscriptionJobInput : [no documentation found]
@@ -280,6 +403,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getTranscriptionJob(input: GetTranscriptionJobInput) async throws -> GetTranscriptionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified custom vocabulary. To view the status of the specified custom vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your custom vocabulary failed. To get a list of your custom vocabularies, use the operation.
     ///
     /// - Parameter GetVocabularyInput : [no documentation found]
@@ -294,6 +422,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getVocabulary(input: GetVocabularyInput) async throws -> GetVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVocabularyFilter` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides information about the specified custom vocabulary filter. To get a list of your custom vocabulary filters, use the operation.
     ///
     /// - Parameter GetVocabularyFilterInput : [no documentation found]
@@ -308,6 +441,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func getVocabularyFilter(input: GetVocabularyFilterInput) async throws -> GetVocabularyFilterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCallAnalyticsCategories` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the operation.
     ///
     /// - Parameter ListCallAnalyticsCategoriesInput : [no documentation found]
@@ -321,6 +459,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listCallAnalyticsCategories(input: ListCallAnalyticsCategoriesInput) async throws -> ListCallAnalyticsCategoriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCallAnalyticsJobs` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the operation.
     ///
     /// - Parameter ListCallAnalyticsJobsInput : [no documentation found]
@@ -334,6 +477,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listCallAnalyticsJobs(input: ListCallAnalyticsJobsInput) async throws -> ListCallAnalyticsJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLanguageModels` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of custom language models that match the specified criteria. If no criteria are specified, all custom language models are returned. To get detailed information about a specific custom language model, use the operation.
     ///
     /// - Parameter ListLanguageModelsInput : [no documentation found]
@@ -347,6 +495,26 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listLanguageModels(input: ListLanguageModelsInput) async throws -> ListLanguageModelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMedicalScribeJobs` operation on the `Transcribe` service.
+    ///
+    /// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the operation.
+    ///
+    /// - Parameter ListMedicalScribeJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMedicalScribeJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    func listMedicalScribeJobs(input: ListMedicalScribeJobsInput) async throws -> ListMedicalScribeJobsOutput
+    /// Performs the `ListMedicalTranscriptionJobs` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the operation.
     ///
     /// - Parameter ListMedicalTranscriptionJobsInput : [no documentation found]
@@ -360,6 +528,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listMedicalTranscriptionJobs(input: ListMedicalTranscriptionJobsInput) async throws -> ListMedicalTranscriptionJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMedicalVocabularies` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the operation.
     ///
     /// - Parameter ListMedicalVocabulariesInput : [no documentation found]
@@ -373,6 +546,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listMedicalVocabularies(input: ListMedicalVocabulariesInput) async throws -> ListMedicalVocabulariesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -387,6 +565,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTranscriptionJobs` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the operation.
     ///
     /// - Parameter ListTranscriptionJobsInput : [no documentation found]
@@ -400,6 +583,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listTranscriptionJobs(input: ListTranscriptionJobsInput) async throws -> ListTranscriptionJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVocabularies` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the operation.
     ///
     /// - Parameter ListVocabulariesInput : [no documentation found]
@@ -413,6 +601,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listVocabularies(input: ListVocabulariesInput) async throws -> ListVocabulariesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVocabularyFilters` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the operation.
     ///
     /// - Parameter ListVocabularyFiltersInput : [no documentation found]
@@ -426,6 +619,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func listVocabularyFilters(input: ListVocabularyFiltersInput) async throws -> ListVocabularyFiltersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartCallAnalyticsJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Transcribes the audio from a customer service call and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Call Analytics provides you with call characteristics, call summarization, speaker sentiment, and optional redaction of your text transcript and your audio file. You can also apply custom categories to flag specified conditions. To learn more about these features and insights, refer to [Analyzing call center audio with Call Analytics](https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html). If you want to apply categories to your Call Analytics job, you must create them before submitting your job request. Categories cannot be retroactively applied to a job. To create a new category, use the operation. To learn more about Call Analytics categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html). To make a StartCallAnalyticsJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. Note that job queuing is enabled by default for Call Analytics jobs. You must include the following parameters in your StartCallAnalyticsJob request:
     ///
     /// * region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
@@ -451,7 +649,41 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func startCallAnalyticsJob(input: StartCallAnalyticsJobInput) async throws -> StartCallAnalyticsJobOutput
+<<<<<<< HEAD
     /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to [How Amazon Transcribe Medical works](https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works-med.html). To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:
+=======
+    /// Performs the `StartMedicalScribeJob` operation on the `Transcribe` service.
+    ///
+    /// Transcribes patient-clinician conversations and generates clinical notes. Amazon Web Services HealthScribe automatically provides rich conversation transcripts, identifies speaker roles, classifies dialogues, extracts medical terms, and generates preliminary clinical notes. To learn more about these features, refer to [Amazon Web Services HealthScribe](https://docs.aws.amazon.com/transcribe/latest/dg/health-scribe.html). To make a StartMedicalScribeJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:
+    ///
+    /// * DataAccessRoleArn: The ARN of an IAM role with the these minimum permissions: read permission on input file Amazon S3 bucket specified in Media, write permission on the Amazon S3 bucket specified in OutputBucketName, and full permissions on the KMS key specified in OutputEncryptionKMSKeyId (if set). The role should also allow transcribe.amazonaws.com to assume it.
+    ///
+    /// * Media (MediaFileUri): The Amazon S3 location of your media file.
+    ///
+    /// * MedicalScribeJobName: A custom name you create for your MedicalScribe job that is unique within your Amazon Web Services account.
+    ///
+    /// * OutputBucketName: The Amazon S3 bucket where you want your output files stored.
+    ///
+    /// * Settings: A MedicalScribeSettings obect that must set exactly one of ShowSpeakerLabels or ChannelIdentification to true. If ShowSpeakerLabels is true, MaxSpeakerLabels must also be set.
+    ///
+    /// * ChannelDefinitions: A MedicalScribeChannelDefinitions array should be set if and only if the ChannelIdentification value of Settings is set to true.
+    ///
+    /// - Parameter StartMedicalScribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartMedicalScribeJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Your request didn't pass one or more validation tests. This can occur when the entity you're trying to delete doesn't exist or if it's in a non-terminal state (such as IN PROGRESS). See the exception message field for more information.
+    /// - `ConflictException` : A resource already exists with this name. Resource names must be unique within an Amazon Web Services account.
+    /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
+    /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
+    func startMedicalScribeJob(input: StartMedicalScribeJobInput) async throws -> StartMedicalScribeJobOutput
+    /// Performs the `StartMedicalTranscriptionJob` operation on the `Transcribe` service.
+    ///
+    /// Transcribes the audio from a medical dictation or conversation and applies any additional Request Parameters you choose to include in your request. In addition to many standard transcription features, Amazon Transcribe Medical provides you with a robust medical vocabulary and, optionally, content identification, which adds flags to personal health information (PHI). To learn more about these features, refer to [How Amazon Transcribe Medical works](https://docs.aws.amazon.com/transcribe/latest/dg/how-it-works-med.html). To make a StartMedicalTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartMedicalTranscriptionJob request:
+>>>>>>> main
     ///
     /// * region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
     ///
@@ -479,6 +711,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func startMedicalTranscriptionJob(input: StartMedicalTranscriptionJobInput) async throws -> StartMedicalTranscriptionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartTranscriptionJob` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Transcribes the audio from a media file and applies any additional Request Parameters you choose to include in your request. To make a StartTranscriptionJob request, you must first upload your media file into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the Media parameter. You must include the following parameters in your StartTranscriptionJob request:
     ///
     /// * region: The Amazon Web Services Region where you are making your request. For a list of Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
@@ -487,7 +724,7 @@ public protocol TranscribeClientProtocol {
     ///
     /// * Media (MediaFileUri): The Amazon S3 location of your media file.
     ///
-    /// * One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you don't know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
+    /// * One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you do not know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
     ///
     /// - Parameter StartTranscriptionJobInput : [no documentation found]
     ///
@@ -501,6 +738,11 @@ public protocol TranscribeClientProtocol {
     /// - `InternalFailureException` : There was an internal error. Check the error message, correct the issue, and try your request again.
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     func startTranscriptionJob(input: StartTranscriptionJobInput) async throws -> StartTranscriptionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -516,6 +758,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -531,6 +778,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCallAnalyticsCategory` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Updates the specified Call Analytics category with new rules. Note that the UpdateCallAnalyticsCategory operation overwrites all existing rules contained in the specified category. You cannot append additional rules onto an existing category. To create a new category, see .
     ///
     /// - Parameter UpdateCallAnalyticsCategoryInput : [no documentation found]
@@ -546,6 +798,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func updateCallAnalyticsCategory(input: UpdateCallAnalyticsCategoryInput) async throws -> UpdateCallAnalyticsCategoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMedicalVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
     /// - Parameter UpdateMedicalVocabularyInput : [no documentation found]
@@ -561,6 +818,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func updateMedicalVocabulary(input: UpdateMedicalVocabularyInput) async throws -> UpdateMedicalVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVocabulary` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
     /// - Parameter UpdateVocabularyInput : [no documentation found]
@@ -576,6 +838,11 @@ public protocol TranscribeClientProtocol {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     func updateVocabulary(input: UpdateVocabularyInput) async throws -> UpdateVocabularyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateVocabularyFilter` operation on the `Transcribe` service.
+    ///
+>>>>>>> main
     /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter.
     ///
     /// - Parameter UpdateVocabularyFilterInput : [no documentation found]

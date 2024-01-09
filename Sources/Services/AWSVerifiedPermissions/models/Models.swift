@@ -89,7 +89,7 @@ extension VerifiedPermissionsClientTypes.ActionIdentifier: Swift.CustomDebugStri
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about an action for a request for which an authorization decision is made. This data type is used as an request parameter to the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: { "actionId": "<action name>", "actionType": "Action" }
+    /// Contains information about an action for a request for which an authorization decision is made. This data type is used as a request parameter to the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: { "actionId": "<action name>", "actionType": "Action" }
     public struct ActionIdentifier: Swift.Equatable {
         /// The ID of an action.
         /// This member is required.
@@ -202,8 +202,13 @@ extension VerifiedPermissionsClientTypes.AttributeValue: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
+<<<<<<< HEAD
     /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public enum AttributeValue: Swift.Equatable {
+=======
+    /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
+    public indirect enum AttributeValue: Swift.Equatable {
+>>>>>>> main
         /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
         case boolean(Swift.Bool)
         /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: "entityIdentifier": { "entityId": "<id>", "entityType": "<entity type>"}
@@ -217,6 +222,312 @@ extension VerifiedPermissionsClientTypes {
         /// An attribute value of [Record](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#record) type. Example: {"record": { "keyName": {} } }
         case record([Swift.String:VerifiedPermissionsClientTypes.AttributeValue])
         case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BatchIsAuthorizedInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entities
+        case policyStoreId
+        case requests
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entities = self.entities {
+            try encodeContainer.encode(entities, forKey: .entities)
+        }
+        if let policyStoreId = self.policyStoreId {
+            try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
+        }
+        if let requests = requests {
+            var requestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requests)
+            for batchisauthorizedinputitem0 in requests {
+                try requestsContainer.encode(batchisauthorizedinputitem0)
+            }
+        }
+    }
+}
+
+extension BatchIsAuthorizedInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchIsAuthorizedInput: Swift.Equatable {
+    /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
+    /// This member is required.
+    public var policyStoreId: Swift.String?
+    /// An array of up to 30 requests that you want Verified Permissions to evaluate.
+    /// This member is required.
+    public var requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]?
+
+    public init(
+        entities: VerifiedPermissionsClientTypes.EntitiesDefinition? = nil,
+        policyStoreId: Swift.String? = nil,
+        requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]? = nil
+    )
+    {
+        self.entities = entities
+        self.policyStoreId = policyStoreId
+        self.requests = requests
+    }
+}
+
+struct BatchIsAuthorizedInputBody: Swift.Equatable {
+    let policyStoreId: Swift.String?
+    let entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
+    let requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]?
+}
+
+extension BatchIsAuthorizedInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entities
+        case policyStoreId
+        case requests
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyStoreId)
+        policyStoreId = policyStoreIdDecoded
+        let entitiesDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntitiesDefinition.self, forKey: .entities)
+        entities = entitiesDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem?].self, forKey: .requests)
+        var requestsDecoded0:[VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case context
+        case principal
+        case resource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let context = self.context {
+            try encodeContainer.encode(context, forKey: .context)
+        }
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .principal)
+        principal = principalDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ActionIdentifier.self, forKey: .action)
+        action = actionDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .resource)
+        resource = resourceDecoded
+        let contextDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ContextDefinition.self, forKey: .context)
+        context = contextDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// An authorization request that you include in a BatchIsAuthorized API request.
+    public struct BatchIsAuthorizedInputItem: Swift.Equatable {
+        /// Specifies the requested action to be authorized. For example, is the principal authorized to perform this action on the resource?
+        public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
+        /// Specifies additional context that can be used to make more granular authorization decisions.
+        public var context: VerifiedPermissionsClientTypes.ContextDefinition?
+        /// Specifies the principal for which the authorization decision is to be made.
+        public var principal: VerifiedPermissionsClientTypes.EntityIdentifier?
+        /// Specifies the resource for which the authorization decision is to be made.
+        public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
+
+        public init(
+            action: VerifiedPermissionsClientTypes.ActionIdentifier? = nil,
+            context: VerifiedPermissionsClientTypes.ContextDefinition? = nil,
+            principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
+            resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
+        )
+        {
+            self.action = action
+            self.context = context
+            self.principal = principal
+            self.resource = resource
+        }
+    }
+
+}
+
+extension BatchIsAuthorizedOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchIsAuthorizedOutputBody = try responseDecoder.decode(responseBody: data)
+            self.results = output.results
+        } else {
+            self.results = nil
+        }
+    }
+}
+
+public struct BatchIsAuthorizedOutput: Swift.Equatable {
+    /// A series of Allow or Deny decisions for each request, and the policies that produced them.
+    /// This member is required.
+    public var results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]?
+
+    public init(
+        results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]? = nil
+    )
+    {
+        self.results = results
+    }
+}
+
+struct BatchIsAuthorizedOutputBody: Swift.Equatable {
+    let results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]?
+}
+
+extension BatchIsAuthorizedOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem?].self, forKey: .results)
+        var resultsDecoded0:[VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+    }
+}
+
+enum BatchIsAuthorizedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case decision
+        case determiningPolicies
+        case errors
+        case request
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let decision = self.decision {
+            try encodeContainer.encode(decision.rawValue, forKey: .decision)
+        }
+        if let determiningPolicies = determiningPolicies {
+            var determiningPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .determiningPolicies)
+            for determiningpolicyitem0 in determiningPolicies {
+                try determiningPoliciesContainer.encode(determiningpolicyitem0)
+            }
+        }
+        if let errors = errors {
+            var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
+            for evaluationerroritem0 in errors {
+                try errorsContainer.encode(evaluationerroritem0)
+            }
+        }
+        if let request = self.request {
+            try encodeContainer.encode(request, forKey: .request)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem.self, forKey: .request)
+        request = requestDecoded
+        let decisionDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.Decision.self, forKey: .decision)
+        decision = decisionDecoded
+        let determiningPoliciesContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.DeterminingPolicyItem?].self, forKey: .determiningPolicies)
+        var determiningPoliciesDecoded0:[VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil
+        if let determiningPoliciesContainer = determiningPoliciesContainer {
+            determiningPoliciesDecoded0 = [VerifiedPermissionsClientTypes.DeterminingPolicyItem]()
+            for structure0 in determiningPoliciesContainer {
+                if let structure0 = structure0 {
+                    determiningPoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        determiningPolicies = determiningPoliciesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.EvaluationErrorItem?].self, forKey: .errors)
+        var errorsDecoded0:[VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [VerifiedPermissionsClientTypes.EvaluationErrorItem]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The decision, based on policy evaluation, from an individual authorization request in a BatchIsAuthorized API request.
+    public struct BatchIsAuthorizedOutputItem: Swift.Equatable {
+        /// An authorization decision that indicates if the authorization request should be allowed or denied.
+        /// This member is required.
+        public var decision: VerifiedPermissionsClientTypes.Decision?
+        /// The list of determining policies used to make the authorization decision. For example, if there are two matching policies, where one is a forbid and the other is a permit, then the forbid policy will be the determining policy. In the case of multiple matching permit policies then there would be multiple determining policies. In the case that no policies match, and hence the response is DENY, there would be no determining policies.
+        /// This member is required.
+        public var determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
+        /// Errors that occurred while making an authorization decision, for example, a policy references an Entity or entity Attribute that does not exist in the slice.
+        /// This member is required.
+        public var errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
+        /// The authorization request that initiated the decision.
+        /// This member is required.
+        public var request: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem?
+
+        public init(
+            decision: VerifiedPermissionsClientTypes.Decision? = nil,
+            determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
+            errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
+            request: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem? = nil
+        )
+        {
+            self.decision = decision
+            self.determiningPolicies = determiningPolicies
+            self.errors = errors
+            self.request = request
+        }
     }
 
 }
@@ -432,9 +743,9 @@ extension VerifiedPermissionsClientTypes.ContextDefinition: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "context":{"Context":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
-    public enum ContextDefinition: Swift.Equatable {
-        /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "Context":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
+    /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "context":{"contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
+    public indirect enum ContextDefinition: Swift.Equatable {
+        /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
         case contextmap([Swift.String:VerifiedPermissionsClientTypes.AttributeValue])
         case sdkUnknown(Swift.String)
     }
@@ -813,9 +1124,18 @@ enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+}
+
+>>>>>>> main
 extension CreatePolicyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case description
         case validationSettings
     }
 
@@ -823,6 +1143,9 @@ extension CreatePolicyStoreInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
         }
         if let validationSettings = self.validationSettings {
             try encodeContainer.encode(validationSettings, forKey: .validationSettings)
@@ -839,16 +1162,20 @@ extension CreatePolicyStoreInput: ClientRuntime.URLPathProvider {
 public struct CreatePolicyStoreInput: Swift.Equatable {
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     public var clientToken: Swift.String?
+    /// Descriptive text that you can provide to help with identification of the current policy store.
+    public var description: Swift.String?
     /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode. We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore). Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore) again to turn validation back on.
     /// This member is required.
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
         clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     )
     {
         self.clientToken = clientToken
+        self.description = description
         self.validationSettings = validationSettings
     }
 }
@@ -856,11 +1183,13 @@ public struct CreatePolicyStoreInput: Swift.Equatable {
 struct CreatePolicyStoreInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
+    let description: Swift.String?
 }
 
 extension CreatePolicyStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case description
         case validationSettings
     }
 
@@ -870,6 +1199,8 @@ extension CreatePolicyStoreInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let validationSettingsDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ValidationSettings.self, forKey: .validationSettings)
         validationSettings = validationSettingsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
@@ -1517,7 +1848,7 @@ extension VerifiedPermissionsClientTypes.DeterminingPolicyItem: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about one of the policies that determined an authorization decision. This data type is used as an element in a response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]
+    /// Contains information about one of the policies that determined an authorization decision. This data type is used as an element in a response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]
     public struct DeterminingPolicyItem: Swift.Equatable {
         /// The Id of a policy that determined to an authorization decision. Example: "policyId":"SPEXAMPLEabcdefg111111"
         /// This member is required.
@@ -1574,7 +1905,7 @@ extension VerifiedPermissionsClientTypes.EntitiesDefinition: Swift.Codable {
 
 extension VerifiedPermissionsClientTypes {
     /// Contains the list of entities to be considered during an authorization request. This includes all principals, resources, and actions required to successfully evaluate the request. This data type is used as a field in the response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public enum EntitiesDefinition: Swift.Equatable {
+    public indirect enum EntitiesDefinition: Swift.Equatable {
         /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.
         case entitylist([VerifiedPermissionsClientTypes.EntityItem])
         case sdkUnknown(Swift.String)
@@ -1787,7 +2118,7 @@ extension VerifiedPermissionsClientTypes.EvaluationErrorItem: Swift.CustomDebugS
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains a description of an evaluation error. This data type is used as a request parameter in the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
+    /// Contains a description of an evaluation error. This data type is a response parameter of the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public struct EvaluationErrorItem: Swift.Equatable {
         /// The error description.
         /// This member is required.
@@ -2216,6 +2547,14 @@ extension GetPolicyStoreInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+}
+
+>>>>>>> main
 extension GetPolicyStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2223,12 +2562,14 @@ extension GetPolicyStoreOutput: ClientRuntime.HttpResponseBinding {
             let output: GetPolicyStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdDate = output.createdDate
+            self.description = output.description
             self.lastUpdatedDate = output.lastUpdatedDate
             self.policyStoreId = output.policyStoreId
             self.validationSettings = output.validationSettings
         } else {
             self.arn = nil
             self.createdDate = nil
+            self.description = nil
             self.lastUpdatedDate = nil
             self.policyStoreId = nil
             self.validationSettings = nil
@@ -2243,6 +2584,8 @@ public struct GetPolicyStoreOutput: Swift.Equatable {
     /// The date and time that the policy store was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
+    /// Descriptive text that you can provide to help with identification of the current policy store.
+    public var description: Swift.String?
     /// The date and time that the policy store was last updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
@@ -2256,6 +2599,7 @@ public struct GetPolicyStoreOutput: Swift.Equatable {
     public init(
         arn: Swift.String? = nil,
         createdDate: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
@@ -2263,6 +2607,7 @@ public struct GetPolicyStoreOutput: Swift.Equatable {
     {
         self.arn = arn
         self.createdDate = createdDate
+        self.description = description
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
@@ -2275,12 +2620,14 @@ struct GetPolicyStoreOutputBody: Swift.Equatable {
     let validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
+    let description: Swift.String?
 }
 
 extension GetPolicyStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdDate
+        case description
         case lastUpdatedDate
         case policyStoreId
         case validationSettings
@@ -2298,6 +2645,21 @@ extension GetPolicyStoreOutputBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+enum GetPolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2538,7 +2900,11 @@ extension GetSchemaInputBody: Swift.Decodable {
 
 extension GetSchemaOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
+<<<<<<< HEAD
         "GetSchemaOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), schema: \"CONTENT_REDACTED\")"}
+=======
+        "GetSchemaOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), namespaces: \(Swift.String(describing: namespaces)), policyStoreId: \(Swift.String(describing: policyStoreId)), schema: \"CONTENT_REDACTED\")"}
+>>>>>>> main
 }
 
 extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
@@ -2548,11 +2914,13 @@ extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
             let output: GetSchemaOutputBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.lastUpdatedDate = output.lastUpdatedDate
+            self.namespaces = output.namespaces
             self.policyStoreId = output.policyStoreId
             self.schema = output.schema
         } else {
             self.createdDate = nil
             self.lastUpdatedDate = nil
+            self.namespaces = nil
             self.policyStoreId = nil
             self.schema = nil
         }
@@ -2566,6 +2934,8 @@ public struct GetSchemaOutput: Swift.Equatable {
     /// The date and time that the schema was most recently updated.
     /// This member is required.
     public var lastUpdatedDate: ClientRuntime.Date?
+    /// The namespaces of the entities referenced by this schema.
+    public var namespaces: [Swift.String]?
     /// The ID of the policy store that contains the schema.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -2576,12 +2946,14 @@ public struct GetSchemaOutput: Swift.Equatable {
     public init(
         createdDate: ClientRuntime.Date? = nil,
         lastUpdatedDate: ClientRuntime.Date? = nil,
+        namespaces: [Swift.String]? = nil,
         policyStoreId: Swift.String? = nil,
         schema: Swift.String? = nil
     )
     {
         self.createdDate = createdDate
         self.lastUpdatedDate = lastUpdatedDate
+        self.namespaces = namespaces
         self.policyStoreId = policyStoreId
         self.schema = schema
     }
@@ -2592,12 +2964,14 @@ struct GetSchemaOutputBody: Swift.Equatable {
     let schema: Swift.String?
     let createdDate: ClientRuntime.Date?
     let lastUpdatedDate: ClientRuntime.Date?
+    let namespaces: [Swift.String]?
 }
 
 extension GetSchemaOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdDate
         case lastUpdatedDate
+        case namespaces
         case policyStoreId
         case schema
     }
@@ -2612,6 +2986,30 @@ extension GetSchemaOutputBody: Swift.Decodable {
         createdDate = createdDateDecoded
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
+        let namespacesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .namespaces)
+        var namespacesDecoded0:[Swift.String]? = nil
+        if let namespacesContainer = namespacesContainer {
+            namespacesDecoded0 = [Swift.String]()
+            for string0 in namespacesContainer {
+                if let string0 = string0 {
+                    namespacesDecoded0?.append(string0)
+                }
+            }
+        }
+        namespaces = namespacesDecoded0
+    }
+}
+
+enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4355,6 +4753,8 @@ extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case createdDate
+        case description
+        case lastUpdatedDate
         case policyStoreId
     }
 
@@ -4365,6 +4765,12 @@ extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.Codable {
         }
         if let createdDate = self.createdDate {
             try encodeContainer.encodeTimestamp(createdDate, format: .dateTime, forKey: .createdDate)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastUpdatedDate = self.lastUpdatedDate {
+            try encodeContainer.encodeTimestamp(lastUpdatedDate, format: .dateTime, forKey: .lastUpdatedDate)
         }
         if let policyStoreId = self.policyStoreId {
             try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
@@ -4379,7 +4785,16 @@ extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.Codable {
         arn = arnDecoded
         let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdDate)
         createdDate = createdDateDecoded
+        let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
+        lastUpdatedDate = lastUpdatedDateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.PolicyStoreItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PolicyStoreItem(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -4391,6 +4806,10 @@ extension VerifiedPermissionsClientTypes {
         /// The date and time the policy was created.
         /// This member is required.
         public var createdDate: ClientRuntime.Date?
+        /// Descriptive text that you can provide to help with identification of the current policy store.
+        public var description: Swift.String?
+        /// The date and time the policy store was most recently updated.
+        public var lastUpdatedDate: ClientRuntime.Date?
         /// The unique identifier of the policy store.
         /// This member is required.
         public var policyStoreId: Swift.String?
@@ -4398,11 +4817,15 @@ extension VerifiedPermissionsClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdDate: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastUpdatedDate: ClientRuntime.Date? = nil,
             policyStoreId: Swift.String? = nil
         )
         {
             self.arn = arn
             self.createdDate = createdDate
+            self.description = description
+            self.lastUpdatedDate = lastUpdatedDate
             self.policyStoreId = policyStoreId
         }
     }
@@ -5890,14 +6313,26 @@ enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdatePolicyStoreInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePolicyStoreInput(policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+}
+
+>>>>>>> main
 extension UpdatePolicyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
         case policyStoreId
         case validationSettings
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let policyStoreId = self.policyStoreId {
             try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
         }
@@ -5914,6 +6349,8 @@ extension UpdatePolicyStoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePolicyStoreInput: Swift.Equatable {
+    /// Descriptive text that you can provide to help with identification of the current policy store.
+    public var description: Swift.String?
     /// Specifies the ID of the policy store that you want to update
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -5922,10 +6359,12 @@ public struct UpdatePolicyStoreInput: Swift.Equatable {
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
+        description: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     )
     {
+        self.description = description
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
     }
@@ -5934,10 +6373,12 @@ public struct UpdatePolicyStoreInput: Swift.Equatable {
 struct UpdatePolicyStoreInputBody: Swift.Equatable {
     let policyStoreId: Swift.String?
     let validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
+    let description: Swift.String?
 }
 
 extension UpdatePolicyStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
         case policyStoreId
         case validationSettings
     }
@@ -5948,6 +6389,8 @@ extension UpdatePolicyStoreInputBody: Swift.Decodable {
         policyStoreId = policyStoreIdDecoded
         let validationSettingsDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ValidationSettings.self, forKey: .validationSettings)
         validationSettings = validationSettingsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 

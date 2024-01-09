@@ -3543,7 +3543,7 @@ extension GetPackageVersionAssetOutput: ClientRuntime.HttpResponseBinding {
             self.asset = .data(data)
         case .stream(let stream):
             self.asset = .stream(stream)
-        case .none:
+        case .noStream:
             self.asset = nil
         }
     }
@@ -6548,6 +6548,7 @@ extension CodeartifactClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct PublishPackageVersionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PublishPackageVersionInputBodyMiddleware"
 
@@ -6573,6 +6574,8 @@ public struct PublishPackageVersionInputBodyMiddleware: ClientRuntime.Middleware
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PublishPackageVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assetContent

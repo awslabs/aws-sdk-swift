@@ -67,6 +67,8 @@ public struct ApiGatewayManagementApiClientLogHandlerFactory: ClientRuntime.SDKL
 }
 
 extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
+    /// Performs the `DeleteConnection` operation on the `ApiGatewayManagementApi` service.
+    ///
     /// Delete the connection with the provided id.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
@@ -95,6 +97,7 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
                       .withSigningName(value: "execute-api")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteConnectionInput, DeleteConnectionOutput, DeleteConnectionOutputError>(id: "deleteConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectionInput, DeleteConnectionOutput, DeleteConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
@@ -106,10 +109,25 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectionOutput, DeleteConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput, DeleteConnectionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectionOutput, DeleteConnectionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteConnectionInput, DeleteConnectionOutput>(id: "deleteConnection")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConnectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteConnectionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteConnectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetConnection` operation on the `ApiGatewayManagementApi` service.
+    ///
     /// Get information about the connection with the provided id.
     ///
     /// - Parameter GetConnectionInput : [no documentation found]
@@ -138,6 +156,7 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
                       .withSigningName(value: "execute-api")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetConnectionInput, GetConnectionOutput, GetConnectionOutputError>(id: "getConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectionInput, GetConnectionOutput, GetConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectionInput, GetConnectionOutput>())
@@ -149,10 +168,25 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectionOutput, GetConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectionOutput, GetConnectionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectionOutput, GetConnectionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetConnectionInput, GetConnectionOutput>(id: "getConnection")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectionInput, GetConnectionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectionInput, GetConnectionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConnectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetConnectionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetConnectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PostToConnection` operation on the `ApiGatewayManagementApi` service.
+    ///
     /// Sends the provided data to the specified connection.
     ///
     /// - Parameter PostToConnectionInput : [no documentation found]
@@ -182,6 +216,7 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
                       .withSigningName(value: "execute-api")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PostToConnectionInput, PostToConnectionOutput, PostToConnectionOutputError>(id: "postToConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostToConnectionInput, PostToConnectionOutput, PostToConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostToConnectionInput, PostToConnectionOutput>())
@@ -196,6 +231,22 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostToConnectionOutput, PostToConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostToConnectionOutput, PostToConnectionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostToConnectionOutput, PostToConnectionOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PostToConnectionInput, PostToConnectionOutput>(id: "postToConnection")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostToConnectionInput, PostToConnectionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostToConnectionInput, PostToConnectionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostToConnectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostToConnectionInput, PostToConnectionOutput>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<PostToConnectionInput, PostToConnectionOutput>(keyPath: \.data))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PostToConnectionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostToConnectionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostToConnectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PostToConnectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostToConnectionOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

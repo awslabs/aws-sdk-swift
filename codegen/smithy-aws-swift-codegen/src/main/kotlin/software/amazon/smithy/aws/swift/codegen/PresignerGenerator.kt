@@ -43,10 +43,11 @@ class PresignerGenerator : SwiftIntegration {
             }
         presignOperations.forEach { presignableOperation ->
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
-            val inputType = op.input.get().name
+            val inputType = op.input.get().getName()
+            val outputType = op.output.get().getName()
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
-                val serviceConfig = AWSServiceConfig(writer, protoCtx)
-                renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
+                var serviceConfig = AWSServiceConfig(writer, protoCtx)
+                renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
             // Expose presign-request as a method for service client object
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
@@ -70,6 +71,7 @@ class PresignerGenerator : SwiftIntegration {
         delegator: SwiftDelegator,
         op: OperationShape,
         inputType: String,
+        outputType: String,
         serviceConfig: AWSServiceConfig
     ) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
@@ -102,12 +104,16 @@ class PresignerGenerator : SwiftIntegration {
                     operationMiddleware,
                     operationStackName
                 )
-                generator.render(op, PRESIGN_REQUEST) { writer, _ ->
+                generator.render(serviceShape, op, PRESIGN_REQUEST) { writer, _ ->
                     writer.write("return nil")
                 }
                 val requestBuilderName = "presignedRequestBuilder"
                 val builtRequestName = "builtRequest"
-                writer.write("let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, next: \$N())", NoopHandler)
+                writer.write(
+                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
+                    outputType,
+                    NoopHandler
+                )
                 writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
                     writer.write("return nil")
                 }

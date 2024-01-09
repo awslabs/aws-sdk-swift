@@ -4602,7 +4602,7 @@ extension DescribeJobLogItemsInput: Swift.Encodable {
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4624,14 +4624,14 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
     /// This member is required.
     public var jobID: Swift.String?
     /// Request to describe Job log item maximum results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Request to describe Job log next token.
     public var nextToken: Swift.String?
 
     public init(
         accountID: Swift.String? = nil,
         jobID: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4644,7 +4644,7 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
 
 struct DescribeJobLogItemsInputBody: Swift.Equatable {
     let jobID: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountID: Swift.String?
 }
@@ -4661,7 +4661,7 @@ extension DescribeJobLogItemsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let jobIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobID)
         jobID = jobIDDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4757,7 +4757,7 @@ extension DescribeJobsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4778,14 +4778,14 @@ public struct DescribeJobsInput: Swift.Equatable {
     /// Request to describe Job log filters.
     public var filters: MgnClientTypes.DescribeJobsRequestFilters?
     /// Request to describe job log items by max results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Request to describe job log items by next token.
     public var nextToken: Swift.String?
 
     public init(
         accountID: Swift.String? = nil,
         filters: MgnClientTypes.DescribeJobsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4798,7 +4798,7 @@ public struct DescribeJobsInput: Swift.Equatable {
 
 struct DescribeJobsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.DescribeJobsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountID: Swift.String?
 }
@@ -4815,7 +4815,7 @@ extension DescribeJobsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.DescribeJobsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4977,7 +4977,7 @@ extension DescribeLaunchConfigurationTemplatesInput: Swift.Encodable {
                 try launchConfigurationTemplateIDsContainer.encode(launchconfigurationtemplateid0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4996,13 +4996,13 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
     /// Request to filter Launch Configuration Templates list by Launch Configuration Template ID.
     public var launchConfigurationTemplateIDs: [Swift.String]?
     /// Maximum results to be returned in DescribeLaunchConfigurationTemplates.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Next pagination token returned from DescribeLaunchConfigurationTemplates.
     public var nextToken: Swift.String?
 
     public init(
         launchConfigurationTemplateIDs: [Swift.String]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5014,7 +5014,7 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
 
 struct DescribeLaunchConfigurationTemplatesInputBody: Swift.Equatable {
     let launchConfigurationTemplateIDs: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -5038,7 +5038,7 @@ extension DescribeLaunchConfigurationTemplatesInputBody: Swift.Decodable {
             }
         }
         launchConfigurationTemplateIDs = launchConfigurationTemplateIDsDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5126,7 +5126,7 @@ extension DescribeReplicationConfigurationTemplatesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -5149,14 +5149,14 @@ extension DescribeReplicationConfigurationTemplatesInput: ClientRuntime.URLPathP
 
 public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
     /// Request to describe Replication Configuration template by max results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Request to describe Replication Configuration template by next token.
     public var nextToken: Swift.String?
     /// Request to describe Replication Configuration template by template IDs.
     public var replicationConfigurationTemplateIDs: [Swift.String]?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicationConfigurationTemplateIDs: [Swift.String]? = nil
     )
@@ -5169,7 +5169,7 @@ public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
 
 struct DescribeReplicationConfigurationTemplatesInputBody: Swift.Equatable {
     let replicationConfigurationTemplateIDs: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -5193,7 +5193,7 @@ extension DescribeReplicationConfigurationTemplatesInputBody: Swift.Decodable {
             }
         }
         replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDsDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5288,7 +5288,7 @@ extension DescribeSourceServersInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -5309,14 +5309,14 @@ public struct DescribeSourceServersInput: Swift.Equatable {
     /// Request to filter Source Servers list.
     public var filters: MgnClientTypes.DescribeSourceServersRequestFilters?
     /// Request to filter Source Servers list by maximum results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Request to filter Source Servers list by next token.
     public var nextToken: Swift.String?
 
     public init(
         accountID: Swift.String? = nil,
         filters: MgnClientTypes.DescribeSourceServersRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5329,7 +5329,7 @@ public struct DescribeSourceServersInput: Swift.Equatable {
 
 struct DescribeSourceServersInputBody: Swift.Equatable {
     let filters: MgnClientTypes.DescribeSourceServersRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountID: Swift.String?
 }
@@ -5346,7 +5346,7 @@ extension DescribeSourceServersInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.DescribeSourceServersRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5553,7 +5553,7 @@ extension DescribeVcenterClientsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5574,12 +5574,12 @@ extension DescribeVcenterClientsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeVcenterClientsInput: Swift.Equatable {
     /// Maximum results to be returned in DescribeVcenterClients.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Next pagination token to be provided for DescribeVcenterClients.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -8852,10 +8852,10 @@ extension MgnClientTypes.LaunchTemplateDiskConf: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if iops != 0 {
+        if let iops = self.iops {
             try encodeContainer.encode(iops, forKey: .iops)
         }
-        if throughput != 0 {
+        if let throughput = self.throughput {
             try encodeContainer.encode(throughput, forKey: .throughput)
         }
         if let volumeType = self.volumeType {
@@ -8867,9 +8867,9 @@ extension MgnClientTypes.LaunchTemplateDiskConf: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let volumeTypeDecoded = try containerValues.decodeIfPresent(MgnClientTypes.VolumeType.self, forKey: .volumeType)
         volumeType = volumeTypeDecoded
-        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
-        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput) ?? 0
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput)
         throughput = throughputDecoded
     }
 }
@@ -8878,15 +8878,15 @@ extension MgnClientTypes {
     /// Launch template disk configuration.
     public struct LaunchTemplateDiskConf: Swift.Equatable {
         /// Launch template disk iops configuration.
-        public var iops: Swift.Int
+        public var iops: Swift.Int?
         /// Launch template disk throughput configuration.
-        public var throughput: Swift.Int
+        public var throughput: Swift.Int?
         /// Launch template disk volume type configuration.
         public var volumeType: MgnClientTypes.VolumeType?
 
         public init(
-            iops: Swift.Int = 0,
-            throughput: Swift.Int = 0,
+            iops: Swift.Int? = nil,
+            throughput: Swift.Int? = nil,
             volumeType: MgnClientTypes.VolumeType? = nil
         )
         {
@@ -9495,7 +9495,7 @@ extension ListApplicationsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -9516,14 +9516,14 @@ public struct ListApplicationsInput: Swift.Equatable {
     /// Applications list filters.
     public var filters: MgnClientTypes.ListApplicationsRequestFilters?
     /// Maximum results to return when listing applications.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Request next token.
     public var nextToken: Swift.String?
 
     public init(
         accountID: Swift.String? = nil,
         filters: MgnClientTypes.ListApplicationsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9536,7 +9536,7 @@ public struct ListApplicationsInput: Swift.Equatable {
 
 struct ListApplicationsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.ListApplicationsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountID: Swift.String?
 }
@@ -9553,7 +9553,7 @@ extension ListApplicationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ListApplicationsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -9912,7 +9912,7 @@ extension ListExportErrorsInput: Swift.Encodable {
         if let exportID = self.exportID {
             try encodeContainer.encode(exportID, forKey: .exportID)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -9933,13 +9933,13 @@ public struct ListExportErrorsInput: Swift.Equatable {
     /// This member is required.
     public var exportID: Swift.String?
     /// List export errors request max results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// List export errors request next token.
     public var nextToken: Swift.String?
 
     public init(
         exportID: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9951,7 +9951,7 @@ public struct ListExportErrorsInput: Swift.Equatable {
 
 struct ListExportErrorsInputBody: Swift.Equatable {
     let exportID: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -9966,7 +9966,7 @@ extension ListExportErrorsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportID)
         exportID = exportIDDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10057,7 +10057,7 @@ extension ListExportsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -10077,13 +10077,13 @@ public struct ListExportsInput: Swift.Equatable {
     /// List exports request filters.
     public var filters: MgnClientTypes.ListExportsRequestFilters?
     /// List export request max results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// List export request next token.
     public var nextToken: Swift.String?
 
     public init(
         filters: MgnClientTypes.ListExportsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10095,7 +10095,7 @@ public struct ListExportsInput: Swift.Equatable {
 
 struct ListExportsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.ListExportsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -10110,7 +10110,7 @@ extension ListExportsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ListExportsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10247,7 +10247,7 @@ extension ListImportErrorsInput: Swift.Encodable {
         if let importID = self.importID {
             try encodeContainer.encode(importID, forKey: .importID)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -10268,13 +10268,13 @@ public struct ListImportErrorsInput: Swift.Equatable {
     /// This member is required.
     public var importID: Swift.String?
     /// List import errors request max results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// List import errors request next token.
     public var nextToken: Swift.String?
 
     public init(
         importID: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10286,7 +10286,7 @@ public struct ListImportErrorsInput: Swift.Equatable {
 
 struct ListImportErrorsInputBody: Swift.Equatable {
     let importID: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -10301,7 +10301,7 @@ extension ListImportErrorsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let importIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importID)
         importID = importIDDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10392,7 +10392,7 @@ extension ListImportsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -10412,13 +10412,13 @@ public struct ListImportsInput: Swift.Equatable {
     /// List imports request filters.
     public var filters: MgnClientTypes.ListImportsRequestFilters?
     /// List imports request max results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// List imports request next token.
     public var nextToken: Swift.String?
 
     public init(
         filters: MgnClientTypes.ListImportsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10430,7 +10430,7 @@ public struct ListImportsInput: Swift.Equatable {
 
 struct ListImportsInputBody: Swift.Equatable {
     let filters: MgnClientTypes.ListImportsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -10445,7 +10445,7 @@ extension ListImportsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ListImportsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10721,7 +10721,7 @@ extension ListSourceServerActionsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -10745,7 +10745,7 @@ public struct ListSourceServerActionsInput: Swift.Equatable {
     /// Filters to apply when listing source server post migration custom actions.
     public var filters: MgnClientTypes.SourceServerActionsRequestFilters?
     /// Maximum amount of items to return when listing source server post migration custom actions.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Next token to use when listing source server post migration custom actions.
     public var nextToken: Swift.String?
     /// Source server ID.
@@ -10755,7 +10755,7 @@ public struct ListSourceServerActionsInput: Swift.Equatable {
     public init(
         accountID: Swift.String? = nil,
         filters: MgnClientTypes.SourceServerActionsRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
     )
@@ -10771,7 +10771,7 @@ public struct ListSourceServerActionsInput: Swift.Equatable {
 struct ListSourceServerActionsInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
     let filters: MgnClientTypes.SourceServerActionsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountID: Swift.String?
 }
@@ -10791,7 +10791,7 @@ extension ListSourceServerActionsInputBody: Swift.Decodable {
         sourceServerID = sourceServerIDDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.SourceServerActionsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10987,7 +10987,7 @@ extension ListTemplateActionsInput: Swift.Encodable {
         if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
             try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -11009,14 +11009,14 @@ public struct ListTemplateActionsInput: Swift.Equatable {
     /// This member is required.
     public var launchConfigurationTemplateID: Swift.String?
     /// Maximum amount of items to return when listing template post migration custom actions.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Next token to use when listing template post migration custom actions.
     public var nextToken: Swift.String?
 
     public init(
         filters: MgnClientTypes.TemplateActionsRequestFilters? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11030,7 +11030,7 @@ public struct ListTemplateActionsInput: Swift.Equatable {
 struct ListTemplateActionsInputBody: Swift.Equatable {
     let launchConfigurationTemplateID: Swift.String?
     let filters: MgnClientTypes.TemplateActionsRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -11048,7 +11048,7 @@ extension ListTemplateActionsInputBody: Swift.Decodable {
         launchConfigurationTemplateID = launchConfigurationTemplateIDDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.TemplateActionsRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -11142,7 +11142,7 @@ extension ListWavesInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -11163,14 +11163,14 @@ public struct ListWavesInput: Swift.Equatable {
     /// Waves list filters.
     public var filters: MgnClientTypes.ListWavesRequestFilters?
     /// Maximum results to return when listing waves.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Request next token.
     public var nextToken: Swift.String?
 
     public init(
         accountID: Swift.String? = nil,
         filters: MgnClientTypes.ListWavesRequestFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11183,7 +11183,7 @@ public struct ListWavesInput: Swift.Equatable {
 
 struct ListWavesInputBody: Swift.Equatable {
     let filters: MgnClientTypes.ListWavesRequestFilters?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountID: Swift.String?
 }
@@ -11200,7 +11200,7 @@ extension ListWavesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ListWavesRequestFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -12322,7 +12322,7 @@ extension PutSourceServerActionInput: Swift.Encodable {
         if let mustSucceedForCutover = self.mustSucceedForCutover {
             try encodeContainer.encode(mustSucceedForCutover, forKey: .mustSucceedForCutover)
         }
-        if order != 0 {
+        if let order = self.order {
             try encodeContainer.encode(order, forKey: .order)
         }
         if let parameters = parameters {
@@ -12337,7 +12337,7 @@ extension PutSourceServerActionInput: Swift.Encodable {
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
         }
-        if timeoutSeconds != 0 {
+        if let timeoutSeconds = self.timeoutSeconds {
             try encodeContainer.encode(timeoutSeconds, forKey: .timeoutSeconds)
         }
     }
@@ -12375,14 +12375,14 @@ public struct PutSourceServerActionInput: Swift.Equatable {
     public var mustSucceedForCutover: Swift.Bool?
     /// Source server post migration custom action order.
     /// This member is required.
-    public var order: Swift.Int
+    public var order: Swift.Int?
     /// Source server post migration custom action parameters.
     public var parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     /// Source server ID.
     /// This member is required.
     public var sourceServerID: Swift.String?
     /// Source server post migration custom action timeout in seconds.
-    public var timeoutSeconds: Swift.Int
+    public var timeoutSeconds: Swift.Int?
 
     public init(
         accountID: Swift.String? = nil,
@@ -12395,10 +12395,10 @@ public struct PutSourceServerActionInput: Swift.Equatable {
         documentVersion: Swift.String? = nil,
         externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
-        order: Swift.Int = 0,
+        order: Swift.Int? = nil,
         parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
         sourceServerID: Swift.String? = nil,
-        timeoutSeconds: Swift.Int = 0
+        timeoutSeconds: Swift.Int? = nil
     )
     {
         self.accountID = accountID
@@ -12422,11 +12422,11 @@ struct PutSourceServerActionInputBody: Swift.Equatable {
     let sourceServerID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
-    let order: Swift.Int
+    let order: Swift.Int?
     let actionID: Swift.String?
     let documentVersion: Swift.String?
     let active: Swift.Bool?
-    let timeoutSeconds: Swift.Int
+    let timeoutSeconds: Swift.Int?
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
@@ -12461,7 +12461,7 @@ extension PutSourceServerActionInputBody: Swift.Decodable {
         actionName = actionNameDecoded
         let documentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdentifier)
         documentIdentifier = documentIdentifierDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let actionIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionID)
         actionID = actionIDDecoded
@@ -12469,7 +12469,7 @@ extension PutSourceServerActionInputBody: Swift.Decodable {
         documentVersion = documentVersionDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
         mustSucceedForCutover = mustSucceedForCutoverDecoded
@@ -12538,9 +12538,9 @@ extension PutSourceServerActionOutput: ClientRuntime.HttpResponseBinding {
             self.documentVersion = nil
             self.externalParameters = nil
             self.mustSucceedForCutover = nil
-            self.order = 0
+            self.order = nil
             self.parameters = nil
-            self.timeoutSeconds = 0
+            self.timeoutSeconds = nil
         }
     }
 }
@@ -12565,11 +12565,11 @@ public struct PutSourceServerActionOutput: Swift.Equatable {
     /// Source server post migration custom action must succeed for cutover.
     public var mustSucceedForCutover: Swift.Bool?
     /// Source server post migration custom action order.
-    public var order: Swift.Int
+    public var order: Swift.Int?
     /// Source server post migration custom action parameters.
     public var parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     /// Source server post migration custom action timeout in seconds.
-    public var timeoutSeconds: Swift.Int
+    public var timeoutSeconds: Swift.Int?
 
     public init(
         actionID: Swift.String? = nil,
@@ -12581,9 +12581,9 @@ public struct PutSourceServerActionOutput: Swift.Equatable {
         documentVersion: Swift.String? = nil,
         externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
-        order: Swift.Int = 0,
+        order: Swift.Int? = nil,
         parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
-        timeoutSeconds: Swift.Int = 0
+        timeoutSeconds: Swift.Int? = nil
     )
     {
         self.actionID = actionID
@@ -12605,10 +12605,10 @@ struct PutSourceServerActionOutputBody: Swift.Equatable {
     let actionID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
-    let order: Swift.Int
+    let order: Swift.Int?
     let documentVersion: Swift.String?
     let active: Swift.Bool?
-    let timeoutSeconds: Swift.Int
+    let timeoutSeconds: Swift.Int?
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
@@ -12640,13 +12640,13 @@ extension PutSourceServerActionOutputBody: Swift.Decodable {
         actionName = actionNameDecoded
         let documentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdentifier)
         documentIdentifier = documentIdentifierDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let documentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentVersion)
         documentVersion = documentVersionDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
         mustSucceedForCutover = mustSucceedForCutoverDecoded
@@ -12756,7 +12756,7 @@ extension PutTemplateActionInput: Swift.Encodable {
         if let operatingSystem = self.operatingSystem {
             try encodeContainer.encode(operatingSystem, forKey: .operatingSystem)
         }
-        if order != 0 {
+        if let order = self.order {
             try encodeContainer.encode(order, forKey: .order)
         }
         if let parameters = parameters {
@@ -12768,7 +12768,7 @@ extension PutTemplateActionInput: Swift.Encodable {
                 }
             }
         }
-        if timeoutSeconds != 0 {
+        if let timeoutSeconds = self.timeoutSeconds {
             try encodeContainer.encode(timeoutSeconds, forKey: .timeoutSeconds)
         }
     }
@@ -12809,11 +12809,11 @@ public struct PutTemplateActionInput: Swift.Equatable {
     public var operatingSystem: Swift.String?
     /// Template post migration custom action order.
     /// This member is required.
-    public var order: Swift.Int
+    public var order: Swift.Int?
     /// Template post migration custom action parameters.
     public var parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     /// Template post migration custom action timeout in seconds.
-    public var timeoutSeconds: Swift.Int
+    public var timeoutSeconds: Swift.Int?
 
     public init(
         actionID: Swift.String? = nil,
@@ -12827,9 +12827,9 @@ public struct PutTemplateActionInput: Swift.Equatable {
         launchConfigurationTemplateID: Swift.String? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
         operatingSystem: Swift.String? = nil,
-        order: Swift.Int = 0,
+        order: Swift.Int? = nil,
         parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
-        timeoutSeconds: Swift.Int = 0
+        timeoutSeconds: Swift.Int? = nil
     )
     {
         self.actionID = actionID
@@ -12853,11 +12853,11 @@ struct PutTemplateActionInputBody: Swift.Equatable {
     let launchConfigurationTemplateID: Swift.String?
     let actionName: Swift.String?
     let documentIdentifier: Swift.String?
-    let order: Swift.Int
+    let order: Swift.Int?
     let actionID: Swift.String?
     let documentVersion: Swift.String?
     let active: Swift.Bool?
-    let timeoutSeconds: Swift.Int
+    let timeoutSeconds: Swift.Int?
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     let operatingSystem: Swift.String?
@@ -12892,7 +12892,7 @@ extension PutTemplateActionInputBody: Swift.Decodable {
         actionName = actionNameDecoded
         let documentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdentifier)
         documentIdentifier = documentIdentifierDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let actionIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionID)
         actionID = actionIDDecoded
@@ -12900,7 +12900,7 @@ extension PutTemplateActionInputBody: Swift.Decodable {
         documentVersion = documentVersionDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
         mustSucceedForCutover = mustSucceedForCutoverDecoded
@@ -12942,6 +12942,192 @@ extension PutTemplateActionInputBody: Swift.Decodable {
     }
 }
 
+extension PutTemplateActionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutTemplateActionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.actionID = output.actionID
+            self.actionName = output.actionName
+            self.active = output.active
+            self.category = output.category
+            self.description = output.description
+            self.documentIdentifier = output.documentIdentifier
+            self.documentVersion = output.documentVersion
+            self.externalParameters = output.externalParameters
+            self.mustSucceedForCutover = output.mustSucceedForCutover
+            self.operatingSystem = output.operatingSystem
+            self.order = output.order
+            self.parameters = output.parameters
+            self.timeoutSeconds = output.timeoutSeconds
+        } else {
+            self.actionID = nil
+            self.actionName = nil
+            self.active = nil
+            self.category = nil
+            self.description = nil
+            self.documentIdentifier = nil
+            self.documentVersion = nil
+            self.externalParameters = nil
+            self.mustSucceedForCutover = nil
+            self.operatingSystem = nil
+            self.order = nil
+            self.parameters = nil
+            self.timeoutSeconds = nil
+        }
+    }
+}
+
+public struct PutTemplateActionOutput: Swift.Equatable {
+    /// Template post migration custom action ID.
+    public var actionID: Swift.String?
+    /// Template post migration custom action name.
+    public var actionName: Swift.String?
+    /// Template post migration custom action active status.
+    public var active: Swift.Bool?
+    /// Template post migration custom action category.
+    public var category: MgnClientTypes.ActionCategory?
+    /// Template post migration custom action description.
+    public var description: Swift.String?
+    /// Template post migration custom action document identifier.
+    public var documentIdentifier: Swift.String?
+    /// Template post migration custom action document version.
+    public var documentVersion: Swift.String?
+    /// Template post migration custom action external parameters.
+    public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
+    /// Template post migration custom action must succeed for cutover.
+    public var mustSucceedForCutover: Swift.Bool?
+    /// Operating system eligible for this template post migration custom action.
+    public var operatingSystem: Swift.String?
+    /// Template post migration custom action order.
+    public var order: Swift.Int?
+    /// Template post migration custom action parameters.
+    public var parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
+    /// Template post migration custom action timeout in seconds.
+    public var timeoutSeconds: Swift.Int?
+
+    public init(
+        actionID: Swift.String? = nil,
+        actionName: Swift.String? = nil,
+        active: Swift.Bool? = nil,
+        category: MgnClientTypes.ActionCategory? = nil,
+        description: Swift.String? = nil,
+        documentIdentifier: Swift.String? = nil,
+        documentVersion: Swift.String? = nil,
+        externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
+        mustSucceedForCutover: Swift.Bool? = nil,
+        operatingSystem: Swift.String? = nil,
+        order: Swift.Int? = nil,
+        parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
+        timeoutSeconds: Swift.Int? = nil
+    )
+    {
+        self.actionID = actionID
+        self.actionName = actionName
+        self.active = active
+        self.category = category
+        self.description = description
+        self.documentIdentifier = documentIdentifier
+        self.documentVersion = documentVersion
+        self.externalParameters = externalParameters
+        self.mustSucceedForCutover = mustSucceedForCutover
+        self.operatingSystem = operatingSystem
+        self.order = order
+        self.parameters = parameters
+        self.timeoutSeconds = timeoutSeconds
+    }
+}
+
+struct PutTemplateActionOutputBody: Swift.Equatable {
+    let actionID: Swift.String?
+    let actionName: Swift.String?
+    let documentIdentifier: Swift.String?
+    let order: Swift.Int?
+    let documentVersion: Swift.String?
+    let active: Swift.Bool?
+    let timeoutSeconds: Swift.Int?
+    let mustSucceedForCutover: Swift.Bool?
+    let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
+    let operatingSystem: Swift.String?
+    let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
+    let description: Swift.String?
+    let category: MgnClientTypes.ActionCategory?
+}
+
+extension PutTemplateActionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionID
+        case actionName
+        case active
+        case category
+        case description
+        case documentIdentifier
+        case documentVersion
+        case externalParameters
+        case mustSucceedForCutover
+        case operatingSystem
+        case order
+        case parameters
+        case timeoutSeconds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionID)
+        actionID = actionIDDecoded
+        let actionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionName)
+        actionName = actionNameDecoded
+        let documentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdentifier)
+        documentIdentifier = documentIdentifierDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
+        order = orderDecoded
+        let documentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentVersion)
+        documentVersion = documentVersionDecoded
+        let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
+        active = activeDecoded
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
+        timeoutSeconds = timeoutSecondsDecoded
+        let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
+        mustSucceedForCutover = mustSucceedForCutoverDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: [MgnClientTypes.SsmParameterStoreParameter?]?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]()
+            for (key0, ssmparameterstoreparameters0) in parametersContainer {
+                var ssmparameterstoreparameters0Decoded0: [MgnClientTypes.SsmParameterStoreParameter]? = nil
+                if let ssmparameterstoreparameters0 = ssmparameterstoreparameters0 {
+                    ssmparameterstoreparameters0Decoded0 = [MgnClientTypes.SsmParameterStoreParameter]()
+                    for structure1 in ssmparameterstoreparameters0 {
+                        if let structure1 = structure1 {
+                            ssmparameterstoreparameters0Decoded0?.append(structure1)
+                        }
+                    }
+                }
+                parametersDecoded0?[key0] = ssmparameterstoreparameters0Decoded0
+            }
+        }
+        parameters = parametersDecoded0
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
+    }
+}
+
+<<<<<<< HEAD
 extension PutTemplateActionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13127,6 +13313,8 @@ extension PutTemplateActionOutputBody: Swift.Decodable {
     }
 }
 
+=======
+>>>>>>> main
 enum PutTemplateActionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -14476,7 +14664,7 @@ extension ServiceQuotaExceededException {
             self.properties.code = nil
             self.properties.message = nil
             self.properties.quotaCode = nil
-            self.properties.quotaValue = 0
+            self.properties.quotaValue = nil
             self.properties.resourceId = nil
             self.properties.resourceType = nil
             self.properties.serviceCode = nil
@@ -14496,7 +14684,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         /// Exceeded the service quota code.
         public internal(set) var quotaCode: Swift.String? = nil
         /// Exceeded the service quota value.
-        public internal(set) var quotaValue: Swift.Int = 0
+        public internal(set) var quotaValue: Swift.Int? = nil
         /// Exceeded the service quota resource ID.
         public internal(set) var resourceId: Swift.String? = nil
         /// Exceeded the service quota resource type.
@@ -14518,7 +14706,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
-        quotaValue: Swift.Int = 0,
+        quotaValue: Swift.Int? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
@@ -14541,7 +14729,7 @@ struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
     let resourceType: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
-    let quotaValue: Swift.Int
+    let quotaValue: Swift.Int?
 }
 
 extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
@@ -14569,7 +14757,7 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         serviceCode = serviceCodeDecoded
         let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
         quotaCode = quotaCodeDecoded
-        let quotaValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quotaValue) ?? 0
+        let quotaValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quotaValue)
         quotaValue = quotaValueDecoded
     }
 }
@@ -14944,7 +15132,7 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
         if let mustSucceedForCutover = self.mustSucceedForCutover {
             try encodeContainer.encode(mustSucceedForCutover, forKey: .mustSucceedForCutover)
         }
-        if order != 0 {
+        if let order = self.order {
             try encodeContainer.encode(order, forKey: .order)
         }
         if let parameters = parameters {
@@ -14956,7 +15144,7 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
                 }
             }
         }
-        if timeoutSeconds != 0 {
+        if let timeoutSeconds = self.timeoutSeconds {
             try encodeContainer.encode(timeoutSeconds, forKey: .timeoutSeconds)
         }
     }
@@ -14969,13 +15157,13 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
         actionName = actionNameDecoded
         let documentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdentifier)
         documentIdentifier = documentIdentifierDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let documentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentVersion)
         documentVersion = documentVersionDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
         mustSucceedForCutover = mustSucceedForCutoverDecoded
@@ -15036,11 +15224,11 @@ extension MgnClientTypes {
         /// Source server post migration custom action must succeed for cutover.
         public var mustSucceedForCutover: Swift.Bool?
         /// Source server post migration custom action order.
-        public var order: Swift.Int
+        public var order: Swift.Int?
         /// Source server post migration custom action parameters.
         public var parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
         /// Source server post migration custom action timeout in seconds.
-        public var timeoutSeconds: Swift.Int
+        public var timeoutSeconds: Swift.Int?
 
         public init(
             actionID: Swift.String? = nil,
@@ -15052,9 +15240,9 @@ extension MgnClientTypes {
             documentVersion: Swift.String? = nil,
             externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
             mustSucceedForCutover: Swift.Bool? = nil,
-            order: Swift.Int = 0,
+            order: Swift.Int? = nil,
             parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
-            timeoutSeconds: Swift.Int = 0
+            timeoutSeconds: Swift.Int? = nil
         )
         {
             self.actionID = actionID
@@ -15202,7 +15390,7 @@ extension MgnClientTypes.SsmDocument: Swift.Codable {
         if let ssmDocumentName = self.ssmDocumentName {
             try encodeContainer.encode(ssmDocumentName, forKey: .ssmDocumentName)
         }
-        if timeoutSeconds != 0 {
+        if let timeoutSeconds = self.timeoutSeconds {
             try encodeContainer.encode(timeoutSeconds, forKey: .timeoutSeconds)
         }
     }
@@ -15213,7 +15401,7 @@ extension MgnClientTypes.SsmDocument: Swift.Codable {
         actionName = actionNameDecoded
         let ssmDocumentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ssmDocumentName)
         ssmDocumentName = ssmDocumentNameDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
         mustSucceedForCutover = mustSucceedForCutoverDecoded
@@ -15265,7 +15453,7 @@ extension MgnClientTypes {
         /// This member is required.
         public var ssmDocumentName: Swift.String?
         /// AWS Systems Manager Document timeout seconds.
-        public var timeoutSeconds: Swift.Int
+        public var timeoutSeconds: Swift.Int?
 
         public init(
             actionName: Swift.String? = nil,
@@ -15273,7 +15461,7 @@ extension MgnClientTypes {
             mustSucceedForCutover: Swift.Bool? = nil,
             parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
             ssmDocumentName: Swift.String? = nil,
-            timeoutSeconds: Swift.Int = 0
+            timeoutSeconds: Swift.Int? = nil
         )
         {
             self.actionName = actionName
@@ -16685,7 +16873,7 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
         if let operatingSystem = self.operatingSystem {
             try encodeContainer.encode(operatingSystem, forKey: .operatingSystem)
         }
-        if order != 0 {
+        if let order = self.order {
             try encodeContainer.encode(order, forKey: .order)
         }
         if let parameters = parameters {
@@ -16697,7 +16885,7 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
                 }
             }
         }
-        if timeoutSeconds != 0 {
+        if let timeoutSeconds = self.timeoutSeconds {
             try encodeContainer.encode(timeoutSeconds, forKey: .timeoutSeconds)
         }
     }
@@ -16710,13 +16898,13 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
         actionName = actionNameDecoded
         let documentIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentIdentifier)
         documentIdentifier = documentIdentifierDecoded
-        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
         order = orderDecoded
         let documentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentVersion)
         documentVersion = documentVersionDecoded
         let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
         active = activeDecoded
-        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds) ?? 0
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
         timeoutSeconds = timeoutSecondsDecoded
         let mustSucceedForCutoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mustSucceedForCutover)
         mustSucceedForCutover = mustSucceedForCutoverDecoded
@@ -16781,11 +16969,11 @@ extension MgnClientTypes {
         /// Operating system eligible for this template post migration custom action.
         public var operatingSystem: Swift.String?
         /// Template post migration custom action order.
-        public var order: Swift.Int
+        public var order: Swift.Int?
         /// Template post migration custom action parameters.
         public var parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
         /// Template post migration custom action timeout in seconds.
-        public var timeoutSeconds: Swift.Int
+        public var timeoutSeconds: Swift.Int?
 
         public init(
             actionID: Swift.String? = nil,
@@ -16798,9 +16986,9 @@ extension MgnClientTypes {
             externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
             mustSucceedForCutover: Swift.Bool? = nil,
             operatingSystem: Swift.String? = nil,
-            order: Swift.Int = 0,
+            order: Swift.Int? = nil,
             parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
-            timeoutSeconds: Swift.Int = 0
+            timeoutSeconds: Swift.Int? = nil
         )
         {
             self.actionID = actionID

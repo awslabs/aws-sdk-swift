@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// IoT IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the Amazon Web Services cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. The service endpoints that expose this API are listed in [Amazon Web Services IoT Core Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/iot-core.html). You must use the endpoint for the region that has the resources you want to access. The service name used by [Amazon Web Services Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to sign the request is: execute-api. For more information about how IoT works, see the [Developer Guide](https://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html). For information about how to use the credentials provider for IoT, see [Authorizing Direct Calls to Amazon Web Services Services](https://docs.aws.amazon.com/iot/latest/developerguide/authorizing-direct-aws.html).
 public protocol IoTClientProtocol {
+    /// Performs the `AcceptCertificateTransfer` operation on the `AWSIotService` service.
+    ///
     /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. Requires permission to access the [AcceptCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter AcceptCertificateTransferInput : The input for the AcceptCertificateTransfer operation.
@@ -21,6 +23,11 @@ public protocol IoTClientProtocol {
     /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func acceptCertificateTransfer(input: AcceptCertificateTransferInput) async throws -> AcceptCertificateTransferOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AddThingToBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Adds a thing to a billing group. Requires permission to access the [AddThingToBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter AddThingToBillingGroupInput : [no documentation found]
@@ -35,6 +42,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func addThingToBillingGroup(input: AddThingToBillingGroupInput) async throws -> AddThingToBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AddThingToThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Adds a thing to a thing group. Requires permission to access the [AddThingToThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter AddThingToThingGroupInput : [no documentation found]
@@ -49,6 +61,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func addThingToThingGroup(input: AddThingToThingGroupInput) async throws -> AddThingToThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateTargetsWithJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Associates a group with a continuous job. The following criteria must be met:
     ///
     /// * The job must have been created with the targetSelection field set to "CONTINUOUS".
@@ -73,6 +90,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func associateTargetsWithJob(input: AssociateTargetsWithJobInput) async throws -> AssociateTargetsWithJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AttachPolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Attaches the specified policy to the specified principal (certificate or other credential). Requires permission to access the [AttachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter AttachPolicyInput : [no documentation found]
@@ -90,6 +112,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AttachPrincipalPolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Attaches the specified policy to the specified principal (certificate or other credential). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [AttachPolicy] instead. Requires permission to access the [AttachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
@@ -108,6 +135,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func attachPrincipalPolicy(input: AttachPrincipalPolicyInput) async throws -> AttachPrincipalPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AttachSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it. Requires permission to access the [AttachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter AttachSecurityProfileInput : [no documentation found]
@@ -124,6 +156,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func attachSecurityProfile(input: AttachSecurityProfileInput) async throws -> AttachSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AttachThingPrincipal` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the [AttachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter AttachThingPrincipalInput : The input for the AttachThingPrincipal operation.
@@ -140,6 +177,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func attachThingPrincipal(input: AttachThingPrincipalInput) async throws -> AttachThingPrincipalOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelAuditMitigationActionsTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the [CancelAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CancelAuditMitigationActionsTaskInput : [no documentation found]
@@ -154,6 +196,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelAuditMitigationActionsTask(input: CancelAuditMitigationActionsTaskInput) async throws -> CancelAuditMitigationActionsTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelAuditTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the [CancelAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CancelAuditTaskInput : [no documentation found]
@@ -168,6 +215,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelAuditTask(input: CancelAuditTaskInput) async throws -> CancelAuditTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelCertificateTransfer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use [RejectCertificateTransfer] instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE. Requires permission to access the [CancelCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CancelCertificateTransferInput : The input for the CancelCertificateTransfer operation.
@@ -185,6 +237,11 @@ public protocol IoTClientProtocol {
     /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func cancelCertificateTransfer(input: CancelCertificateTransferInput) async throws -> CancelCertificateTransferOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelDetectMitigationActionsTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels a Device Defender ML Detect mitigation action. Requires permission to access the [CancelDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CancelDetectMitigationActionsTaskInput : [no documentation found]
@@ -199,6 +256,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelDetectMitigationActionsTask(input: CancelDetectMitigationActionsTaskInput) async throws -> CancelDetectMitigationActionsTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels a job. Requires permission to access the [CancelJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CancelJobInput : [no documentation found]
@@ -214,6 +276,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelJobExecution` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels the execution of a job for a given thing. Requires permission to access the [CancelJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CancelJobExecutionInput : [no documentation found]
@@ -230,6 +297,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func cancelJobExecution(input: CancelJobExecutionInput) async throws -> CancelJobExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ClearDefaultAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Clears the default authorizer. Requires permission to access the [ClearDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ClearDefaultAuthorizerInput : [no documentation found]
@@ -246,6 +318,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func clearDefaultAuthorizer(input: ClearDefaultAuthorizerInput) async throws -> ClearDefaultAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ConfirmTopicRuleDestination` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint. Requires permission to access the [ConfirmTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ConfirmTopicRuleDestinationInput : [no documentation found]
@@ -261,6 +338,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func confirmTopicRuleDestination(input: ConfirmTopicRuleDestinationInput) async throws -> ConfirmTopicRuleDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAuditSuppression` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a Device Defender audit suppression. Requires permission to access the [CreateAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateAuditSuppressionInput : [no documentation found]
@@ -276,6 +358,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createAuditSuppression(input: CreateAuditSuppressionInput) async throws -> CreateAuditSuppressionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates an authorizer. Requires permission to access the [CreateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateAuthorizerInput : [no documentation found]
@@ -293,6 +380,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a billing group. Requires permission to access the [CreateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateBillingGroupInput : [no documentation found]
@@ -307,6 +399,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCertificateFromCsr` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the [CreateCertificateFromCsr](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms). Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR. You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}  On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     ///
     /// - Parameter CreateCertificateFromCsrInput : The input for the CreateCertificateFromCsr operation.
@@ -322,6 +419,30 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createCertificateFromCsr(input: CreateCertificateFromCsrInput) async throws -> CreateCertificateFromCsrOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For more information, see [Customizing certificate signing using Amazon Web Services IoT Core certificate provider](https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html) from Amazon Web Services IoT Core Developer Guide. Requires permission to access the [CreateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. After you create a certificate provider, the behavior of [CreateCertificateFromCsr] API for fleet provisioning(https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr) will change and all API calls to CreateCertificateFromCsr will invoke the certificate provider to create the certificates. It can take up to a few minutes for this behavior to change after a certificate provider is created.
+    ///
+    /// - Parameter CreateCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func createCertificateProvider(input: CreateCertificateProviderInput) async throws -> CreateCertificateProviderOutput
+    /// Performs the `CreateCustomMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Use this API to define a Custom Metric published by your devices to Device Defender. Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateCustomMetricInput : [no documentation found]
@@ -337,6 +458,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createCustomMetric(input: CreateCustomMetricInput) async throws -> CreateCustomMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDimension` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the [CreateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateDimensionInput : [no documentation found]
@@ -352,6 +478,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createDimension(input: CreateDimensionInput) async throws -> CreateDimensionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDomainConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a domain configuration. Requires permission to access the [CreateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateDomainConfigurationInput : [no documentation found]
@@ -370,6 +501,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createDomainConfiguration(input: CreateDomainConfigurationInput) async throws -> CreateDomainConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDynamicThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a dynamic thing group. Requires permission to access the [CreateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateDynamicThingGroupInput : [no documentation found]
@@ -387,6 +523,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createDynamicThingGroup(input: CreateDynamicThingGroupInput) async throws -> CreateDynamicThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFleetMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a fleet metric. Requires permission to access the [CreateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateFleetMetricInput : [no documentation found]
@@ -408,6 +549,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createFleetMetric(input: CreateFleetMetricInput) async throws -> CreateFleetMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a job. Requires permission to access the [CreateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateJobInput : [no documentation found]
@@ -424,6 +570,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateJobTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a job template. Requires permission to access the [CreateJobTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateJobTemplateInput : [no documentation found]
@@ -440,6 +591,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKeysAndCertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api). Note This is the only time IoT issues the private key for this certificate, so it is important to keep it in a secure location. Requires permission to access the [CreateKeysAndCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateKeysAndCertificateInput : The input for the CreateKeysAndCertificate operation. Requires permission to access the [CreateKeysAndCertificateRequest](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -455,6 +611,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createKeysAndCertificate(input: CreateKeysAndCertificateInput) async throws -> CreateKeysAndCertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMitigationAction` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see [Mitigation actions](https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-mitigation-actions.html). Each mitigation action can apply only one type of change. Requires permission to access the [CreateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateMitigationActionInput : [no documentation found]
@@ -470,6 +631,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createMitigationAction(input: CreateMitigationActionInput) async throws -> CreateMitigationActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateOTAUpdate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the [CreateOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateOTAUpdateInput : [no documentation found]
@@ -488,6 +654,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createOTAUpdate(input: CreateOTAUpdateInput) async throws -> CreateOTAUpdateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePackage` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates an IoT software package that can be deployed to your fleet. Requires permission to access the [CreatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
     /// - Parameter CreatePackageInput : [no documentation found]
@@ -503,6 +674,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePackageVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a new version for an existing IoT software package. Requires permission to access the [CreatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
     /// - Parameter CreatePackageVersionInput : [no documentation found]
@@ -518,6 +694,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func createPackageVersion(input: CreatePackageVersionInput) async throws -> CreatePackageVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the [CreatePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreatePolicyInput : The input for the CreatePolicy operation.
@@ -535,6 +716,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createPolicy(input: CreatePolicyInput) async throws -> CreatePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePolicyVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use [DeletePolicyVersion] to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permission to access the [CreatePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreatePolicyVersionInput : The input for the CreatePolicyVersion operation.
@@ -553,6 +739,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionsLimitExceededException` : The number of policy versions exceeds the limit.
     func createPolicyVersion(input: CreatePolicyVersionInput) async throws -> CreatePolicyVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProvisioningClaim` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a provisioning claim. Requires permission to access the [CreateProvisioningClaim](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateProvisioningClaimInput : [no documentation found]
@@ -569,6 +760,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createProvisioningClaim(input: CreateProvisioningClaimInput) async throws -> CreateProvisioningClaimOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProvisioningTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a provisioning template. Requires permission to access the [CreateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateProvisioningTemplateInput : [no documentation found]
@@ -585,6 +781,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createProvisioningTemplate(input: CreateProvisioningTemplateInput) async throws -> CreateProvisioningTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProvisioningTemplateVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a new version of a provisioning template. Requires permission to access the [CreateProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateProvisioningTemplateVersionInput : [no documentation found]
@@ -602,6 +803,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionsLimitExceededException` : The number of policy versions exceeds the limit.
     func createProvisioningTemplateVersion(input: CreateProvisioningTemplateVersionInput) async throws -> CreateProvisioningTemplateVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRoleAlias` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a role alias. Requires permission to access the [CreateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateRoleAliasInput : [no documentation found]
@@ -619,6 +825,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createRoleAlias(input: CreateRoleAliasInput) async throws -> CreateRoleAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateScheduledAudit` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a scheduled audit that is run at a specified time interval. Requires permission to access the [CreateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateScheduledAuditInput : [no documentation found]
@@ -634,6 +845,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createScheduledAudit(input: CreateScheduledAuditInput) async throws -> CreateScheduledAuditOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a Device Defender security profile. Requires permission to access the [CreateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateSecurityProfileInput : [no documentation found]
@@ -648,6 +864,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateStream` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the [CreateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateStreamInput : [no documentation found]
@@ -666,6 +887,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. Requires permission to access the [CreateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateThingInput : The input for the CreateThing operation.
@@ -683,7 +909,13 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createThing(input: CreateThingInput) async throws -> CreateThingOutput
+<<<<<<< HEAD
     /// Create a thing group. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+=======
+    /// Performs the `CreateThingGroup` operation on the `AWSIotService` service.
+    ///
+    /// Create a thing group. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. If the ThingGroup that you create has the exact same attributes as an existing ThingGroup, you will get a 200 success response. Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+>>>>>>> main
     ///
     /// - Parameter CreateThingGroupInput : [no documentation found]
     ///
@@ -697,6 +929,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createThingGroup(input: CreateThingGroupInput) async throws -> CreateThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateThingType` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a new thing type. Requires permission to access the [CreateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateThingTypeInput : The input for the CreateThingType operation.
@@ -713,6 +950,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createThingType(input: CreateThingTypeInput) async throws -> CreateThingTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateTopicRule` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [CreateTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateTopicRuleInput : The input for the CreateTopicRule operation.
@@ -729,6 +971,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `SqlParseException` : The Rule-SQL expression can't be parsed correctly.
     func createTopicRule(input: CreateTopicRuleInput) async throws -> CreateTopicRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateTopicRuleDestination` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a topic rule destination. The destination must be confirmed prior to use. Requires permission to access the [CreateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateTopicRuleDestinationInput : [no documentation found]
@@ -744,6 +991,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func createTopicRuleDestination(input: CreateTopicRuleDestinationInput) async throws -> CreateTopicRuleDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAccountAuditConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. Requires permission to access the [DeleteAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteAccountAuditConfigurationInput : [no documentation found]
@@ -758,6 +1010,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteAccountAuditConfiguration(input: DeleteAccountAuditConfigurationInput) async throws -> DeleteAccountAuditConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAuditSuppression` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a Device Defender audit suppression. Requires permission to access the [DeleteAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteAuditSuppressionInput : [no documentation found]
@@ -771,6 +1028,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteAuditSuppression(input: DeleteAuditSuppressionInput) async throws -> DeleteAuditSuppressionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes an authorizer. Requires permission to access the [DeleteAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteAuthorizerInput : [no documentation found]
@@ -788,6 +1050,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the billing group. Requires permission to access the [DeleteBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteBillingGroupInput : [no documentation found]
@@ -802,6 +1069,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCACertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a registered CA certificate. Requires permission to access the [DeleteCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteCACertificateInput : Input for the DeleteCACertificate operation.
@@ -819,6 +1091,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteCACertificate(input: DeleteCACertificateInput) async throws -> DeleteCACertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the [DetachPolicy] action to detach all policies. Next, use the [UpdateCertificate] action to set the certificate to the INACTIVE status. Requires permission to access the [DeleteCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteCertificateInput : The input for the DeleteCertificate operation.
@@ -837,6 +1114,30 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Deletes a certificate provider. Requires permission to access the [DeleteCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR).
+    ///
+    /// - Parameter DeleteCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func deleteCertificateProvider(input: DeleteCertificateProviderInput) async throws -> DeleteCertificateProviderOutput
+    /// Performs the `DeleteCustomMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a Device Defender detect custom metric. Requires permission to access the [DeleteCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html) API with metricName set to your custom metric name.
     ///
     /// - Parameter DeleteCustomMetricInput : [no documentation found]
@@ -850,6 +1151,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteCustomMetric(input: DeleteCustomMetricInput) async throws -> DeleteCustomMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDimension` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the [DeleteDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteDimensionInput : [no documentation found]
@@ -863,6 +1169,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteDimension(input: DeleteDimensionInput) async throws -> DeleteDimensionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDomainConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified domain configuration. Requires permission to access the [DeleteDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteDomainConfigurationInput : [no documentation found]
@@ -879,6 +1190,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteDomainConfiguration(input: DeleteDomainConfigurationInput) async throws -> DeleteDomainConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDynamicThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a dynamic thing group. Requires permission to access the [DeleteDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteDynamicThingGroupInput : [no documentation found]
@@ -893,6 +1209,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteDynamicThingGroup(input: DeleteDynamicThingGroupInput) async throws -> DeleteDynamicThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFleetMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified fleet metric. Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist. Requires permission to access the [DeleteFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteFleetMetricInput : [no documentation found]
@@ -909,6 +1230,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteFleetMetric(input: DeleteFleetMetricInput) async throws -> DeleteFleetMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the [DeleteJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteJobInput : [no documentation found]
@@ -925,6 +1251,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteJobExecution` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a job execution. Requires permission to access the [DeleteJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteJobExecutionInput : [no documentation found]
@@ -940,6 +1271,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteJobExecution(input: DeleteJobExecutionInput) async throws -> DeleteJobExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteJobTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified job template.
     ///
     /// - Parameter DeleteJobTemplateInput : [no documentation found]
@@ -954,6 +1290,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMitigationAction` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the [DeleteMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteMitigationActionInput : [no documentation found]
@@ -967,6 +1308,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteMitigationAction(input: DeleteMitigationActionInput) async throws -> DeleteMitigationActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteOTAUpdate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Delete an OTA update. Requires permission to access the [DeleteOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteOTAUpdateInput : [no documentation found]
@@ -984,6 +1330,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteOTAUpdate(input: DeleteOTAUpdateInput) async throws -> DeleteOTAUpdateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePackage` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the [DeletePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeletePackageInput : [no documentation found]
@@ -997,6 +1348,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePackageVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a specific version from a software package. Note: If a package version is designated as default, you must remove the designation from the software package using the [UpdatePackage] action.
     ///
     /// - Parameter DeletePackageVersionInput : [no documentation found]
@@ -1010,6 +1366,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func deletePackageVersion(input: DeletePackageVersionInput) async throws -> DeletePackageVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the [DeletePolicyVersion] action to delete all non-default versions of the policy; use the [DetachPolicy] action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeletePolicyInput : The input for the DeletePolicy operation.
@@ -1027,6 +1388,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePolicyVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use [DeletePolicy]. To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the [DeletePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeletePolicyVersionInput : The input for the DeletePolicyVersion operation.
@@ -1044,6 +1410,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deletePolicyVersion(input: DeletePolicyVersionInput) async throws -> DeletePolicyVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProvisioningTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a provisioning template. Requires permission to access the [DeleteProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteProvisioningTemplateInput : [no documentation found]
@@ -1061,6 +1432,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteProvisioningTemplate(input: DeleteProvisioningTemplateInput) async throws -> DeleteProvisioningTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProvisioningTemplateVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a provisioning template version. Requires permission to access the [DeleteProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteProvisioningTemplateVersionInput : [no documentation found]
@@ -1078,6 +1454,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteProvisioningTemplateVersion(input: DeleteProvisioningTemplateVersionInput) async throws -> DeleteProvisioningTemplateVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRegistrationCode` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a CA certificate registration code. Requires permission to access the [DeleteRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteRegistrationCodeInput : The input for the DeleteRegistrationCode operation.
@@ -1093,6 +1474,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteRegistrationCode(input: DeleteRegistrationCodeInput) async throws -> DeleteRegistrationCodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRoleAlias` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a role alias Requires permission to access the [DeleteRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteRoleAliasInput : [no documentation found]
@@ -1110,6 +1496,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteRoleAlias(input: DeleteRoleAliasInput) async throws -> DeleteRoleAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteScheduledAudit` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a scheduled audit. Requires permission to access the [DeleteScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteScheduledAuditInput : [no documentation found]
@@ -1124,6 +1515,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteScheduledAudit(input: DeleteScheduledAuditInput) async throws -> DeleteScheduledAuditOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a Device Defender security profile. Requires permission to access the [DeleteSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteSecurityProfileInput : [no documentation found]
@@ -1138,6 +1534,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteStream` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a stream. Requires permission to access the [DeleteStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteStreamInput : [no documentation found]
@@ -1155,6 +1556,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist. Requires permission to access the [DeleteThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteThingInput : The input for the DeleteThing operation.
@@ -1172,6 +1578,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteThing(input: DeleteThingInput) async throws -> DeleteThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a thing group. Requires permission to access the [DeleteThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteThingGroupInput : [no documentation found]
@@ -1186,6 +1597,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func deleteThingGroup(input: DeleteThingGroupInput) async throws -> DeleteThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteThingType` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling [DeprecateThingType], then remove any associated things by calling [UpdateThing] to change the thing type on any associated thing, and finally use [DeleteThingType] to delete the thing type. Requires permission to access the [DeleteThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteThingTypeInput : The input for the DeleteThingType operation.
@@ -1202,6 +1618,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteThingType(input: DeleteThingTypeInput) async throws -> DeleteThingTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteTopicRule` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes the rule. Requires permission to access the [DeleteTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteTopicRuleInput : The input for the DeleteTopicRule operation.
@@ -1217,6 +1638,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteTopicRule(input: DeleteTopicRuleInput) async throws -> DeleteTopicRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteTopicRuleDestination` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a topic rule destination. Requires permission to access the [DeleteTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteTopicRuleDestinationInput : [no documentation found]
@@ -1232,6 +1658,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteTopicRuleDestination(input: DeleteTopicRuleDestinationInput) async throws -> DeleteTopicRuleDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteV2LoggingLevel` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deletes a logging level. Requires permission to access the [DeleteV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteV2LoggingLevelInput : [no documentation found]
@@ -1245,6 +1676,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func deleteV2LoggingLevel(input: DeleteV2LoggingLevelInput) async throws -> DeleteV2LoggingLevelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeprecateThingType` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the [DeprecateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeprecateThingTypeInput : The input for the DeprecateThingType operation.
@@ -1261,6 +1697,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deprecateThingType(input: DeprecateThingTypeInput) async throws -> DeprecateThingTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAccountAuditConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [DescribeAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeAccountAuditConfigurationInput : [no documentation found]
@@ -1273,6 +1714,11 @@ public protocol IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAccountAuditConfiguration(input: DescribeAccountAuditConfigurationInput) async throws -> DescribeAccountAuditConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAuditFinding` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the [DescribeAuditFinding](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeAuditFindingInput : [no documentation found]
@@ -1287,6 +1733,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditFinding(input: DescribeAuditFindingInput) async throws -> DescribeAuditFindingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAuditMitigationActionsTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
     ///
     /// - Parameter DescribeAuditMitigationActionsTaskInput : [no documentation found]
@@ -1301,6 +1752,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditMitigationActionsTask(input: DescribeAuditMitigationActionsTaskInput) async throws -> DescribeAuditMitigationActionsTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAuditSuppression` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Defender audit suppression.
     ///
     /// - Parameter DescribeAuditSuppressionInput : [no documentation found]
@@ -1315,6 +1771,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditSuppression(input: DescribeAuditSuppressionInput) async throws -> DescribeAuditSuppressionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAuditTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Defender audit. Requires permission to access the [DescribeAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeAuditTaskInput : [no documentation found]
@@ -1329,6 +1790,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeAuditTask(input: DescribeAuditTaskInput) async throws -> DescribeAuditTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes an authorizer. Requires permission to access the [DescribeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeAuthorizerInput : [no documentation found]
@@ -1345,6 +1811,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeAuthorizer(input: DescribeAuthorizerInput) async throws -> DescribeAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns information about a billing group. Requires permission to access the [DescribeBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeBillingGroupInput : [no documentation found]
@@ -1359,6 +1830,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeBillingGroup(input: DescribeBillingGroupInput) async throws -> DescribeBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCACertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes a registered CA certificate. Requires permission to access the [DescribeCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeCACertificateInput : The input for the DescribeCACertificate operation.
@@ -1375,6 +1851,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeCACertificate(input: DescribeCACertificateInput) async throws -> DescribeCACertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified certificate. Requires permission to access the [DescribeCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeCertificateInput : The input for the DescribeCertificate operation.
@@ -1391,6 +1872,29 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Describes a certificate provider. Requires permission to access the [DescribeCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func describeCertificateProvider(input: DescribeCertificateProviderInput) async throws -> DescribeCertificateProviderOutput
+    /// Performs the `DescribeCustomMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Defender detect custom metric. Requires permission to access the [DescribeCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeCustomMetricInput : [no documentation found]
@@ -1405,6 +1909,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeCustomMetric(input: DescribeCustomMetricInput) async throws -> DescribeCustomMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDefaultAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes the default authorizer. Requires permission to access the [DescribeDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeDefaultAuthorizerInput : [no documentation found]
@@ -1421,6 +1930,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeDefaultAuthorizer(input: DescribeDefaultAuthorizerInput) async throws -> DescribeDefaultAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDetectMitigationActionsTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Defender ML Detect mitigation action. Requires permission to access the [DescribeDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeDetectMitigationActionsTaskInput : [no documentation found]
@@ -1435,6 +1949,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeDetectMitigationActionsTask(input: DescribeDetectMitigationActionsTaskInput) async throws -> DescribeDetectMitigationActionsTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDimension` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the [DescribeDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeDimensionInput : [no documentation found]
@@ -1449,6 +1968,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeDimension(input: DescribeDimensionInput) async throws -> DescribeDimensionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDomainConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets summary information about a domain configuration. Requires permission to access the [DescribeDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeDomainConfigurationInput : [no documentation found]
@@ -1465,6 +1989,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeDomainConfiguration(input: DescribeDomainConfigurationInput) async throws -> DescribeDomainConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEndpoint` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns a unique endpoint specific to the Amazon Web Services account making the call. Requires permission to access the [DescribeEndpoint](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeEndpointInput : The input for the DescribeEndpoint operation.
@@ -1479,6 +2008,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEventConfigurations` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes event configurations. Requires permission to access the [DescribeEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeEventConfigurationsInput : [no documentation found]
@@ -1491,6 +2025,11 @@ public protocol IoTClientProtocol {
     /// - `InternalFailureException` : An unexpected error has occurred.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeEventConfigurations(input: DescribeEventConfigurationsInput) async throws -> DescribeEventConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeFleetMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified fleet metric. Requires permission to access the [DescribeFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeFleetMetricInput : [no documentation found]
@@ -1507,6 +2046,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeFleetMetric(input: DescribeFleetMetricInput) async throws -> DescribeFleetMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeIndex` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes a search index. Requires permission to access the [DescribeIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeIndexInput : [no documentation found]
@@ -1523,6 +2067,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeIndex(input: DescribeIndexInput) async throws -> DescribeIndexOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes a job. Requires permission to access the [DescribeJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeJobInput : [no documentation found]
@@ -1537,6 +2086,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeJobExecution` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeJobExecutionInput : [no documentation found]
@@ -1551,6 +2105,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeJobTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns information about a job template.
     ///
     /// - Parameter DescribeJobTemplateInput : [no documentation found]
@@ -1565,6 +2124,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeManagedJobTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// View details of a managed job template.
     ///
     /// - Parameter DescribeManagedJobTemplateInput : [no documentation found]
@@ -1579,6 +2143,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeManagedJobTemplate(input: DescribeManagedJobTemplateInput) async throws -> DescribeManagedJobTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeMitigationAction` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a mitigation action. Requires permission to access the [DescribeMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeMitigationActionInput : [no documentation found]
@@ -1593,6 +2162,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeMitigationAction(input: DescribeMitigationActionInput) async throws -> DescribeMitigationActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeProvisioningTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns information about a provisioning template. Requires permission to access the [DescribeProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeProvisioningTemplateInput : [no documentation found]
@@ -1608,6 +2182,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeProvisioningTemplate(input: DescribeProvisioningTemplateInput) async throws -> DescribeProvisioningTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeProvisioningTemplateVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns information about a provisioning template version. Requires permission to access the [DescribeProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeProvisioningTemplateVersionInput : [no documentation found]
@@ -1623,6 +2202,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeProvisioningTemplateVersion(input: DescribeProvisioningTemplateVersionInput) async throws -> DescribeProvisioningTemplateVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeRoleAlias` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes a role alias. Requires permission to access the [DescribeRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeRoleAliasInput : [no documentation found]
@@ -1639,6 +2223,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeRoleAlias(input: DescribeRoleAliasInput) async throws -> DescribeRoleAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeScheduledAudit` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a scheduled audit. Requires permission to access the [DescribeScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeScheduledAuditInput : [no documentation found]
@@ -1653,6 +2242,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeScheduledAudit(input: DescribeScheduledAuditInput) async throws -> DescribeScheduledAuditOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Defender security profile. Requires permission to access the [DescribeSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeSecurityProfileInput : [no documentation found]
@@ -1667,6 +2261,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeStream` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a stream. Requires permission to access the [DescribeStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeStreamInput : [no documentation found]
@@ -1683,6 +2282,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified thing. Requires permission to access the [DescribeThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeThingInput : The input for the DescribeThing operation.
@@ -1699,6 +2303,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeThing(input: DescribeThingInput) async throws -> DescribeThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describe a thing group. Requires permission to access the [DescribeThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeThingGroupInput : [no documentation found]
@@ -1713,6 +2322,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeThingGroup(input: DescribeThingGroupInput) async throws -> DescribeThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeThingRegistrationTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Describes a bulk thing provisioning task. Requires permission to access the [DescribeThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeThingRegistrationTaskInput : [no documentation found]
@@ -1728,6 +2342,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeThingRegistrationTask(input: DescribeThingRegistrationTaskInput) async throws -> DescribeThingRegistrationTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeThingType` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified thing type. Requires permission to access the [DescribeThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeThingTypeInput : The input for the DescribeThingType operation.
@@ -1744,6 +2363,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeThingType(input: DescribeThingTypeInput) async throws -> DescribeThingTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetachPolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Detaches a policy from the specified target. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DetachPolicyInput : [no documentation found]
@@ -1760,6 +2384,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetachPrincipalPolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Removes the specified policy from the specified certificate. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [DetachPolicy] instead. Requires permission to access the [DetachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
@@ -1777,6 +2406,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func detachPrincipalPolicy(input: DetachPrincipalPolicyInput) async throws -> DetachPrincipalPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetachSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the [DetachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DetachSecurityProfileInput : [no documentation found]
@@ -1791,6 +2425,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func detachSecurityProfile(input: DetachSecurityProfileInput) async throws -> DetachSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetachThingPrincipal` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the [DetachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DetachThingPrincipalInput : The input for the DetachThingPrincipal operation.
@@ -1807,6 +2446,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func detachThingPrincipal(input: DetachThingPrincipalInput) async throws -> DetachThingPrincipalOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisableTopicRule` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Disables the rule. Requires permission to access the [DisableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DisableTopicRuleInput : The input for the DisableTopicRuleRequest operation.
@@ -1822,6 +2466,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func disableTopicRule(input: DisableTopicRuleInput) async throws -> DisableTopicRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `EnableTopicRule` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Enables the rule. Requires permission to access the [EnableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter EnableTopicRuleInput : The input for the EnableTopicRuleRequest operation.
@@ -1837,6 +2486,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func enableTopicRule(input: EnableTopicRuleInput) async throws -> EnableTopicRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBehaviorModelTrainingSummaries` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns a Device Defender's ML Detect Security Profile training model's status. Requires permission to access the [GetBehaviorModelTrainingSummaries](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetBehaviorModelTrainingSummariesInput : [no documentation found]
@@ -1851,6 +2505,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func getBehaviorModelTrainingSummaries(input: GetBehaviorModelTrainingSummariesInput) async throws -> GetBehaviorModelTrainingSummariesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBucketsAggregation` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Aggregates on indexed data with search queries pertaining to particular fields. Requires permission to access the [GetBucketsAggregation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetBucketsAggregationInput : [no documentation found]
@@ -1870,6 +2529,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getBucketsAggregation(input: GetBucketsAggregationInput) async throws -> GetBucketsAggregationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCardinality` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns the approximate count of unique values that match the query. Requires permission to access the [GetCardinality](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetCardinalityInput : [no documentation found]
@@ -1889,6 +2553,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getCardinality(input: GetCardinalityInput) async throws -> GetCardinalityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEffectivePolicies` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the IoT device gateway. Requires permission to access the [GetEffectivePolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetEffectivePoliciesInput : [no documentation found]
@@ -1906,6 +2575,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getEffectivePolicies(input: GetEffectivePoliciesInput) async throws -> GetEffectivePoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIndexingConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets the indexing configuration. Requires permission to access the [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetIndexingConfigurationInput : [no documentation found]
@@ -1921,6 +2595,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getIndexingConfiguration(input: GetIndexingConfigurationInput) async throws -> GetIndexingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetJobDocument` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets a job document. Requires permission to access the [GetJobDocument](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetJobDocumentInput : [no documentation found]
@@ -1935,6 +2614,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func getJobDocument(input: GetJobDocumentInput) async throws -> GetJobDocumentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLoggingOptions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the [GetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetLoggingOptionsInput : The input for the GetLoggingOptions operation.
@@ -1948,6 +2632,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOTAUpdate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets an OTA update. Requires permission to access the [GetOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetOTAUpdateInput : [no documentation found]
@@ -1964,6 +2653,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getOTAUpdate(input: GetOTAUpdateInput) async throws -> GetOTAUpdateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPackage` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified software package. Requires permission to access the [GetPackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPackageInput : [no documentation found]
@@ -1978,6 +2672,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func getPackage(input: GetPackageInput) async throws -> GetPackageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPackageConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified software package's configuration. Requires permission to access the [GetPackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPackageConfigurationInput : [no documentation found]
@@ -1990,6 +2689,11 @@ public protocol IoTClientProtocol {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func getPackageConfiguration(input: GetPackageConfigurationInput) async throws -> GetPackageConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPackageVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified package version. Requires permission to access the [GetPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPackageVersionInput : [no documentation found]
@@ -2004,6 +2708,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func getPackageVersion(input: GetPackageVersionInput) async throws -> GetPackageVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPercentiles` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values. Requires permission to access the [GetPercentiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPercentilesInput : [no documentation found]
@@ -2023,6 +2732,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getPercentiles(input: GetPercentilesInput) async throws -> GetPercentilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified policy with the policy document of the default version. Requires permission to access the [GetPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPolicyInput : The input for the GetPolicy operation.
@@ -2039,6 +2753,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPolicyVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the specified policy version. Requires permission to access the [GetPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPolicyVersionInput : The input for the GetPolicyVersion operation.
@@ -2055,6 +2774,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getPolicyVersion(input: GetPolicyVersionInput) async throws -> GetPolicyVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRegistrationCode` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets a registration code used to register a CA certificate with IoT. Requires permission to access the [GetRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetRegistrationCodeInput : The input to the GetRegistrationCode operation.
@@ -2070,6 +2794,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getRegistrationCode(input: GetRegistrationCodeInput) async throws -> GetRegistrationCodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetStatistics` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned. Requires permission to access the [GetStatistics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetStatisticsInput : [no documentation found]
@@ -2089,6 +2818,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getStatistics(input: GetStatisticsInput) async throws -> GetStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetTopicRule` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about the rule. Requires permission to access the [GetTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetTopicRuleInput : The input for the GetTopicRule operation.
@@ -2103,6 +2837,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getTopicRule(input: GetTopicRuleInput) async throws -> GetTopicRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetTopicRuleDestination` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets information about a topic rule destination. Requires permission to access the [GetTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetTopicRuleDestinationInput : [no documentation found]
@@ -2117,6 +2856,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getTopicRuleDestination(input: GetTopicRuleDestinationInput) async throws -> GetTopicRuleDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetV2LoggingOptions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets the fine grained logging options. Requires permission to access the [GetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetV2LoggingOptionsInput : [no documentation found]
@@ -2130,6 +2874,11 @@ public protocol IoTClientProtocol {
     /// - `NotConfiguredException` : The resource is not configured.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func getV2LoggingOptions(input: GetV2LoggingOptionsInput) async throws -> GetV2LoggingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListActiveViolations` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the active violations for a given Device Defender security profile. Requires permission to access the [ListActiveViolations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListActiveViolationsInput : [no documentation found]
@@ -2144,6 +2893,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listActiveViolations(input: ListActiveViolationsInput) async throws -> ListActiveViolationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAttachedPolicies` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the policies attached to the specified thing group. Requires permission to access the [ListAttachedPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAttachedPoliciesInput : [no documentation found]
@@ -2161,6 +2915,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listAttachedPolicies(input: ListAttachedPoliciesInput) async throws -> ListAttachedPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAuditFindings` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the [ListAuditFindings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAuditFindingsInput : [no documentation found]
@@ -2174,6 +2933,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditFindings(input: ListAuditFindingsInput) async throws -> ListAuditFindingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAuditMitigationActionsExecutions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the [ListAuditMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAuditMitigationActionsExecutionsInput : [no documentation found]
@@ -2187,6 +2951,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditMitigationActionsExecutions(input: ListAuditMitigationActionsExecutionsInput) async throws -> ListAuditMitigationActionsExecutionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAuditMitigationActionsTasks` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the [ListAuditMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAuditMitigationActionsTasksInput : [no documentation found]
@@ -2200,6 +2969,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditMitigationActionsTasks(input: ListAuditMitigationActionsTasksInput) async throws -> ListAuditMitigationActionsTasksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAuditSuppressions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists your Device Defender audit listings. Requires permission to access the [ListAuditSuppressions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAuditSuppressionsInput : [no documentation found]
@@ -2213,6 +2987,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditSuppressions(input: ListAuditSuppressionsInput) async throws -> ListAuditSuppressionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAuditTasks` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the [ListAuditTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAuditTasksInput : [no documentation found]
@@ -2226,6 +3005,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listAuditTasks(input: ListAuditTasksInput) async throws -> ListAuditTasksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAuthorizers` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the authorizers registered in your account. Requires permission to access the [ListAuthorizers](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListAuthorizersInput : [no documentation found]
@@ -2241,6 +3025,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listAuthorizers(input: ListAuthorizersInput) async throws -> ListAuthorizersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBillingGroups` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the billing groups you have created. Requires permission to access the [ListBillingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListBillingGroupsInput : [no documentation found]
@@ -2255,6 +3044,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCACertificates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCACertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListCACertificatesInput : Input for the ListCACertificates operation.
@@ -2270,6 +3064,28 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCACertificates(input: ListCACertificatesInput) async throws -> ListCACertificatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCertificateProviders` operation on the `AWSIotService` service.
+    ///
+    /// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the [ListCertificateProviders](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListCertificateProvidersInput : [no documentation found]
+    ///
+    /// - Returns: `ListCertificateProvidersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func listCertificateProviders(input: ListCertificateProvidersInput) async throws -> ListCertificateProvidersOutput
+    /// Performs the `ListCertificates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListCertificatesInput : The input for the ListCertificates operation.
@@ -2285,6 +3101,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCertificates(input: ListCertificatesInput) async throws -> ListCertificatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCertificatesByCA` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List the device certificates signed by the specified CA certificate. Requires permission to access the [ListCertificatesByCA](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListCertificatesByCAInput : The input to the ListCertificatesByCA operation.
@@ -2300,6 +3121,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCertificatesByCA(input: ListCertificatesByCAInput) async throws -> ListCertificatesByCAOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCustomMetrics` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists your Device Defender detect custom metrics. Requires permission to access the [ListCustomMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListCustomMetricsInput : [no documentation found]
@@ -2313,6 +3139,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listCustomMetrics(input: ListCustomMetricsInput) async throws -> ListCustomMetricsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDetectMitigationActionsExecutions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists mitigation actions executions for a Device Defender ML Detect Security Profile. Requires permission to access the [ListDetectMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListDetectMitigationActionsExecutionsInput : [no documentation found]
@@ -2326,6 +3157,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listDetectMitigationActionsExecutions(input: ListDetectMitigationActionsExecutionsInput) async throws -> ListDetectMitigationActionsExecutionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDetectMitigationActionsTasks` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List of Device Defender ML Detect mitigation actions tasks. Requires permission to access the [ListDetectMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListDetectMitigationActionsTasksInput : [no documentation found]
@@ -2339,6 +3175,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listDetectMitigationActionsTasks(input: ListDetectMitigationActionsTasksInput) async throws -> ListDetectMitigationActionsTasksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDimensions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the [ListDimensions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListDimensionsInput : [no documentation found]
@@ -2352,6 +3193,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listDimensions(input: ListDimensionsInput) async throws -> ListDimensionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDomainConfigurations` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the [ListDomainConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListDomainConfigurationsInput : [no documentation found]
@@ -2367,6 +3213,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listDomainConfigurations(input: ListDomainConfigurationsInput) async throws -> ListDomainConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFleetMetrics` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists all your fleet metrics. Requires permission to access the [ListFleetMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListFleetMetricsInput : [no documentation found]
@@ -2382,6 +3233,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listFleetMetrics(input: ListFleetMetricsInput) async throws -> ListFleetMetricsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListIndices` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the search indices. Requires permission to access the [ListIndices](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListIndicesInput : [no documentation found]
@@ -2397,6 +3253,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobExecutionsForJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the job executions for a job. Requires permission to access the [ListJobExecutionsForJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListJobExecutionsForJobInput : [no documentation found]
@@ -2411,6 +3272,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobExecutionsForJob(input: ListJobExecutionsForJobInput) async throws -> ListJobExecutionsForJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobExecutionsForThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the job executions for the specified thing. Requires permission to access the [ListJobExecutionsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListJobExecutionsForThingInput : [no documentation found]
@@ -2425,6 +3291,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobExecutionsForThing(input: ListJobExecutionsForThingInput) async throws -> ListJobExecutionsForThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobs` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists jobs. Requires permission to access the [ListJobs](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
@@ -2439,6 +3310,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobTemplates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns a list of job templates. Requires permission to access the [ListJobTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListJobTemplatesInput : [no documentation found]
@@ -2452,6 +3328,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListManagedJobTemplates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Returns a list of managed job templates.
     ///
     /// - Parameter ListManagedJobTemplatesInput : [no documentation found]
@@ -2466,6 +3347,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listManagedJobTemplates(input: ListManagedJobTemplatesInput) async throws -> ListManagedJobTemplatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMetricValues` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
     ///
     /// - Parameter ListMetricValuesInput : [no documentation found]
@@ -2480,6 +3366,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listMetricValues(input: ListMetricValuesInput) async throws -> ListMetricValuesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMitigationActions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the [ListMitigationActions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListMitigationActionsInput : [no documentation found]
@@ -2493,6 +3384,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listMitigationActions(input: ListMitigationActionsInput) async throws -> ListMitigationActionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListOTAUpdates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists OTA updates. Requires permission to access the [ListOTAUpdates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListOTAUpdatesInput : [no documentation found]
@@ -2508,6 +3404,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listOTAUpdates(input: ListOTAUpdatesInput) async throws -> ListOTAUpdatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListOutgoingCertificates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the [ListOutgoingCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListOutgoingCertificatesInput : The input to the ListOutgoingCertificates operation.
@@ -2523,6 +3424,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listOutgoingCertificates(input: ListOutgoingCertificatesInput) async throws -> ListOutgoingCertificatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPackages` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the software packages associated to the account. Requires permission to access the [ListPackages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListPackagesInput : [no documentation found]
@@ -2536,6 +3442,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPackageVersions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the software package versions associated to the account. Requires permission to access the [ListPackageVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListPackageVersionsInput : [no documentation found]
@@ -2549,6 +3460,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func listPackageVersions(input: ListPackageVersionsInput) async throws -> ListPackageVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPolicies` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists your policies. Requires permission to access the [ListPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListPoliciesInput : The input for the ListPolicies operation.
@@ -2564,6 +3480,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPolicyPrincipals` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the principals associated with the specified policy. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListTargetsForPolicy] instead. Requires permission to access the [ListPolicyPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
@@ -2581,6 +3502,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPolicyPrincipals(input: ListPolicyPrincipalsInput) async throws -> ListPolicyPrincipalsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPolicyVersions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the versions of the specified policy and identifies the default version. Requires permission to access the [ListPolicyVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListPolicyVersionsInput : The input for the ListPolicyVersions operation.
@@ -2597,6 +3523,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPolicyVersions(input: ListPolicyVersionsInput) async throws -> ListPolicyVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPrincipalPolicies` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in [AmazonCognito Identity format](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListAttachedPolicies] instead. Requires permission to access the [ListPrincipalPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
@@ -2614,6 +3545,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPrincipalPolicies(input: ListPrincipalPoliciesInput) async throws -> ListPrincipalPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPrincipalThings` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListPrincipalThingsInput : The input for the ListPrincipalThings operation.
@@ -2630,6 +3566,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listPrincipalThings(input: ListPrincipalThingsInput) async throws -> ListPrincipalThingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProvisioningTemplates` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the [ListProvisioningTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListProvisioningTemplatesInput : [no documentation found]
@@ -2644,6 +3585,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listProvisioningTemplates(input: ListProvisioningTemplatesInput) async throws -> ListProvisioningTemplatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProvisioningTemplateVersions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// A list of provisioning template versions. Requires permission to access the [ListProvisioningTemplateVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListProvisioningTemplateVersionsInput : [no documentation found]
@@ -2659,6 +3605,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listProvisioningTemplateVersions(input: ListProvisioningTemplateVersionsInput) async throws -> ListProvisioningTemplateVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRelatedResourcesForAuditFinding` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// The related resources of an Audit finding. The following resources can be returned from calling this API:
     ///
     /// * DEVICE_CERTIFICATE
@@ -2694,6 +3645,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listRelatedResourcesForAuditFinding(input: ListRelatedResourcesForAuditFindingInput) async throws -> ListRelatedResourcesForAuditFindingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRoleAliases` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the role aliases registered in your account. Requires permission to access the [ListRoleAliases](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListRoleAliasesInput : [no documentation found]
@@ -2709,6 +3665,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listRoleAliases(input: ListRoleAliasesInput) async throws -> ListRoleAliasesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListScheduledAudits` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists all of your scheduled audits. Requires permission to access the [ListScheduledAudits](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListScheduledAuditsInput : [no documentation found]
@@ -2722,6 +3683,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listScheduledAudits(input: ListScheduledAuditsInput) async throws -> ListScheduledAuditsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSecurityProfiles` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the [ListSecurityProfiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. dimensionName and metricName cannot be used in the same request.
     ///
     /// - Parameter ListSecurityProfilesInput : [no documentation found]
@@ -2736,6 +3702,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listSecurityProfiles(input: ListSecurityProfilesInput) async throws -> ListSecurityProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSecurityProfilesForTarget` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the [ListSecurityProfilesForTarget](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListSecurityProfilesForTargetInput : [no documentation found]
@@ -2750,6 +3721,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listSecurityProfilesForTarget(input: ListSecurityProfilesForTargetInput) async throws -> ListSecurityProfilesForTargetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListStreams` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the [ListStreams](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListStreamsInput : [no documentation found]
@@ -2765,6 +3741,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -2779,6 +3760,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTargetsForPolicy` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List targets for the specified policy. Requires permission to access the [ListTargetsForPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTargetsForPolicyInput : [no documentation found]
@@ -2796,6 +3782,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listTargetsForPolicy(input: ListTargetsForPolicyInput) async throws -> ListTargetsForPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTargetsForSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the [ListTargetsForSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTargetsForSecurityProfileInput : [no documentation found]
@@ -2810,6 +3801,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listTargetsForSecurityProfile(input: ListTargetsForSecurityProfileInput) async throws -> ListTargetsForSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingGroups` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List the thing groups in your account. Requires permission to access the [ListThingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingGroupsInput : [no documentation found]
@@ -2824,6 +3820,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingGroups(input: ListThingGroupsInput) async throws -> ListThingGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingGroupsForThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List the thing groups to which the specified thing belongs. Requires permission to access the [ListThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingGroupsForThingInput : [no documentation found]
@@ -2838,6 +3839,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingGroupsForThing(input: ListThingGroupsForThingInput) async throws -> ListThingGroupsForThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingPrincipals` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingPrincipalsInput : The input for the ListThingPrincipal operation.
@@ -2854,6 +3860,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingPrincipals(input: ListThingPrincipalsInput) async throws -> ListThingPrincipalsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingRegistrationTaskReports` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Information about the thing registration tasks.
     ///
     /// - Parameter ListThingRegistrationTaskReportsInput : [no documentation found]
@@ -2868,6 +3879,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingRegistrationTaskReports(input: ListThingRegistrationTaskReportsInput) async throws -> ListThingRegistrationTaskReportsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingRegistrationTasks` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// List bulk thing provisioning tasks. Requires permission to access the [ListThingRegistrationTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingRegistrationTasksInput : [no documentation found]
@@ -2882,6 +3898,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingRegistrationTasks(input: ListThingRegistrationTasksInput) async throws -> ListThingRegistrationTasksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThings` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. For more information, see [List Things](https://docs.aws.amazon.com/iot/latest/developerguide/thing-registry.html#list-things) from the Amazon Web Services IoT Core Developer Guide. Requires permission to access the [ListThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
     /// - Parameter ListThingsInput : The input for the ListThings operation.
@@ -2897,6 +3918,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThings(input: ListThingsInput) async throws -> ListThingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingsInBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the things you have added to the given billing group. Requires permission to access the [ListThingsInBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingsInBillingGroupInput : [no documentation found]
@@ -2911,6 +3937,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingsInBillingGroup(input: ListThingsInBillingGroupInput) async throws -> ListThingsInBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingsInThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the things in the specified group. Requires permission to access the [ListThingsInThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingsInThingGroupInput : [no documentation found]
@@ -2925,6 +3956,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listThingsInThingGroup(input: ListThingsInThingGroupInput) async throws -> ListThingsInThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThingTypes` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the existing thing types. Requires permission to access the [ListThingTypes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListThingTypesInput : The input for the ListThingTypes operation.
@@ -2940,6 +3976,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listThingTypes(input: ListThingTypesInput) async throws -> ListThingTypesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTopicRuleDestinations` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the [ListTopicRuleDestinations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTopicRuleDestinationsInput : [no documentation found]
@@ -2954,6 +3995,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listTopicRuleDestinations(input: ListTopicRuleDestinationsInput) async throws -> ListTopicRuleDestinationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTopicRules` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the rules for the specific topic. Requires permission to access the [ListTopicRules](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTopicRulesInput : The input for the ListTopicRules operation.
@@ -2967,6 +4013,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func listTopicRules(input: ListTopicRulesInput) async throws -> ListTopicRulesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListV2LoggingLevels` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists logging levels. Requires permission to access the [ListV2LoggingLevels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListV2LoggingLevelsInput : [no documentation found]
@@ -2981,6 +4032,11 @@ public protocol IoTClientProtocol {
     /// - `NotConfiguredException` : The resource is not configured.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func listV2LoggingLevels(input: ListV2LoggingLevelsInput) async throws -> ListV2LoggingLevelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListViolationEvents` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device). Requires permission to access the [ListViolationEvents](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListViolationEventsInput : [no documentation found]
@@ -2994,6 +4050,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listViolationEvents(input: ListViolationEventsInput) async throws -> ListViolationEventsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutVerificationStateOnViolation` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
     ///
     /// - Parameter PutVerificationStateOnViolationInput : [no documentation found]
@@ -3007,6 +4068,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func putVerificationStateOnViolation(input: PutVerificationStateOnViolationInput) async throws -> PutVerificationStateOnViolationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterCACertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the [RegisterCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter RegisterCACertificateInput : The input to the RegisterCACertificate operation.
@@ -3027,6 +4093,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerCACertificate(input: RegisterCACertificateInput) async throws -> RegisterCACertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterCertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Registers a device certificate with IoT in the same [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode) as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the [RegisterCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter RegisterCertificateInput : The input to the RegisterCertificate operation.
@@ -3046,6 +4117,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerCertificate(input: RegisterCertificateInput) async throws -> RegisterCertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterCertificateWithoutCA` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
     ///
     /// - Parameter RegisterCertificateWithoutCAInput : [no documentation found]
@@ -3064,6 +4140,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerCertificateWithoutCA(input: RegisterCertificateWithoutCAInput) async throws -> RegisterCertificateWithoutCAOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level [ IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot) and cause throttle errors. Please contact [Amazon Web Services Customer Support](https://console.aws.amazon.com/support/home) to raise your throttling limits if necessary. Requires permission to access the [RegisterThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter RegisterThingInput : [no documentation found]
@@ -3081,6 +4162,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func registerThing(input: RegisterThingInput) async throws -> RegisterThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RejectCertificateTransfer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the [RejectCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter RejectCertificateTransferInput : The input for the RejectCertificateTransfer operation.
@@ -3098,6 +4184,11 @@ public protocol IoTClientProtocol {
     /// - `TransferAlreadyCompletedException` : You can't revert the certificate transfer because the transfer is already complete.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func rejectCertificateTransfer(input: RejectCertificateTransferInput) async throws -> RejectCertificateTransferOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemoveThingFromBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Removes the given thing from the billing group. Requires permission to access the [RemoveThingFromBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. This call is asynchronous. It might take several seconds for the detachment to propagate.
     ///
     /// - Parameter RemoveThingFromBillingGroupInput : [no documentation found]
@@ -3112,6 +4203,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func removeThingFromBillingGroup(input: RemoveThingFromBillingGroupInput) async throws -> RemoveThingFromBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemoveThingFromThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. Requires permission to access the [RemoveThingFromThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter RemoveThingFromThingGroupInput : [no documentation found]
@@ -3126,6 +4222,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func removeThingFromThingGroup(input: RemoveThingFromThingGroupInput) async throws -> RemoveThingFromThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ReplaceTopicRule` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [ReplaceTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ReplaceTopicRuleInput : The input for the ReplaceTopicRule operation.
@@ -3142,6 +4243,11 @@ public protocol IoTClientProtocol {
     /// - `SqlParseException` : The Rule-SQL expression can't be parsed correctly.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func replaceTopicRule(input: ReplaceTopicRuleInput) async throws -> ReplaceTopicRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchIndex` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// The query search index. Requires permission to access the [SearchIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter SearchIndexInput : [no documentation found]
@@ -3160,6 +4266,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func searchIndex(input: SearchIndexInput) async throws -> SearchIndexOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetDefaultAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the [SetDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter SetDefaultAuthorizerInput : [no documentation found]
@@ -3177,6 +4288,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func setDefaultAuthorizer(input: SetDefaultAuthorizerInput) async throws -> SetDefaultAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetDefaultPolicyVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the [ListPrincipalPolicies] action. Requires permission to access the [SetDefaultPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter SetDefaultPolicyVersionInput : The input for the SetDefaultPolicyVersion operation.
@@ -3193,6 +4309,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func setDefaultPolicyVersion(input: SetDefaultPolicyVersionInput) async throws -> SetDefaultPolicyVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetLoggingOptions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead. Requires permission to access the [SetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter SetLoggingOptionsInput : The input for the SetLoggingOptions operation.
@@ -3206,6 +4327,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func setLoggingOptions(input: SetLoggingOptionsInput) async throws -> SetLoggingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetV2LoggingLevel` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Sets the logging level. Requires permission to access the [SetV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter SetV2LoggingLevelInput : [no documentation found]
@@ -3221,6 +4347,11 @@ public protocol IoTClientProtocol {
     /// - `NotConfiguredException` : The resource is not configured.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func setV2LoggingLevel(input: SetV2LoggingLevelInput) async throws -> SetV2LoggingLevelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetV2LoggingOptions` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Sets the logging options for the V2 logging service. Requires permission to access the [SetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter SetV2LoggingOptionsInput : [no documentation found]
@@ -3234,6 +4365,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     func setV2LoggingOptions(input: SetV2LoggingOptionsInput) async throws -> SetV2LoggingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartAuditMitigationActionsTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the [StartAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StartAuditMitigationActionsTaskInput : [no documentation found]
@@ -3249,6 +4385,11 @@ public protocol IoTClientProtocol {
     /// - `TaskAlreadyExistsException` : This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func startAuditMitigationActionsTask(input: StartAuditMitigationActionsTaskInput) async throws -> StartAuditMitigationActionsTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDetectMitigationActionsTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Starts a Device Defender ML Detect mitigation actions task. Requires permission to access the [StartDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StartDetectMitigationActionsTaskInput : [no documentation found]
@@ -3264,6 +4405,11 @@ public protocol IoTClientProtocol {
     /// - `TaskAlreadyExistsException` : This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func startDetectMitigationActionsTask(input: StartDetectMitigationActionsTaskInput) async throws -> StartDetectMitigationActionsTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartOnDemandAuditTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Starts an on-demand Device Defender audit. Requires permission to access the [StartOnDemandAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StartOnDemandAuditTaskInput : [no documentation found]
@@ -3278,6 +4424,11 @@ public protocol IoTClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func startOnDemandAuditTask(input: StartOnDemandAuditTaskInput) async throws -> StartOnDemandAuditTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartThingRegistrationTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Creates a bulk thing provisioning task. Requires permission to access the [StartThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StartThingRegistrationTaskInput : [no documentation found]
@@ -3292,6 +4443,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func startThingRegistrationTask(input: StartThingRegistrationTaskInput) async throws -> StartThingRegistrationTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopThingRegistrationTask` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Cancels a bulk thing provisioning task. Requires permission to access the [StopThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StopThingRegistrationTaskInput : [no documentation found]
@@ -3307,6 +4463,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func stopThingRegistrationTask(input: StopThingRegistrationTaskInput) async throws -> StopThingRegistrationTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -3322,6 +4483,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestAuthorization` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestAuthorization](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter TestAuthorizationInput : [no documentation found]
@@ -3339,6 +4505,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func testAuthorization(input: TestAuthorizationInput) async throws -> TestAuthorizationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestInvokeAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestInvokeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter TestInvokeAuthorizerInput : [no documentation found]
@@ -3356,6 +4527,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TransferCertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the [TransferCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the [UpdateCertificate] action to deactivate it. The certificate must not have any policies attached to it. You can use the [DetachPolicy] action to detach them.
     ///
     /// - Parameter TransferCertificateInput : The input for the TransferCertificate operation.
@@ -3374,6 +4550,11 @@ public protocol IoTClientProtocol {
     /// - `TransferConflictException` : You can't transfer the certificate because authorization policies are still attached.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func transferCertificate(input: TransferCertificateInput) async throws -> TransferCertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Removes the given tags (metadata) from the resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -3388,6 +4569,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAccountAuditConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [UpdateAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateAccountAuditConfigurationInput : [no documentation found]
@@ -3401,6 +4587,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateAccountAuditConfiguration(input: UpdateAccountAuditConfigurationInput) async throws -> UpdateAccountAuditConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAuditSuppression` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a Device Defender audit suppression.
     ///
     /// - Parameter UpdateAuditSuppressionInput : [no documentation found]
@@ -3415,6 +4606,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateAuditSuppression(input: UpdateAuditSuppressionInput) async throws -> UpdateAuditSuppressionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAuthorizer` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates an authorizer. Requires permission to access the [UpdateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateAuthorizerInput : [no documentation found]
@@ -3432,6 +4628,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBillingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates information about the billing group. Requires permission to access the [UpdateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateBillingGroupInput : [no documentation found]
@@ -3447,6 +4648,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCACertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a registered CA certificate. Requires permission to access the [UpdateCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateCACertificateInput : The input to the UpdateCACertificate operation.
@@ -3463,6 +4669,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateCACertificate(input: UpdateCACertificateInput) async throws -> UpdateCACertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCertificate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the [UpdateCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     ///
     /// - Parameter UpdateCertificateInput : The input for the UpdateCertificate operation.
@@ -3480,6 +4691,29 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Updates a certificate provider. Requires permission to access the [UpdateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func updateCertificateProvider(input: UpdateCertificateProviderInput) async throws -> UpdateCertificateProviderOutput
+    /// Performs the `UpdateCustomMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a Device Defender detect custom metric. Requires permission to access the [UpdateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateCustomMetricInput : [no documentation found]
@@ -3494,6 +4728,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateCustomMetric(input: UpdateCustomMetricInput) async throws -> UpdateCustomMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDimension` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the [UpdateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateDimensionInput : [no documentation found]
@@ -3508,6 +4747,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateDimension(input: UpdateDimensionInput) async throws -> UpdateDimensionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDomainConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the [UpdateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateDomainConfigurationInput : [no documentation found]
@@ -3525,6 +4769,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateDomainConfiguration(input: UpdateDomainConfigurationInput) async throws -> UpdateDomainConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDynamicThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a dynamic thing group. Requires permission to access the [UpdateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateDynamicThingGroupInput : [no documentation found]
@@ -3541,6 +4790,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateDynamicThingGroup(input: UpdateDynamicThingGroupInput) async throws -> UpdateDynamicThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEventConfigurations` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the event configurations. Requires permission to access the [UpdateEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateEventConfigurationsInput : [no documentation found]
@@ -3554,6 +4808,11 @@ public protocol IoTClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateEventConfigurations(input: UpdateEventConfigurationsInput) async throws -> UpdateEventConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFleetMetric` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the data for a fleet metric. Requires permission to access the [UpdateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateFleetMetricInput : [no documentation found]
@@ -3574,6 +4833,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateFleetMetric(input: UpdateFleetMetricInput) async throws -> UpdateFleetMetricOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateIndexingConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the search configuration. Requires permission to access the [UpdateIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateIndexingConfigurationInput : [no documentation found]
@@ -3589,6 +4853,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateIndexingConfiguration(input: UpdateIndexingConfigurationInput) async throws -> UpdateIndexingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateJob` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates supported fields of the specified job. Requires permission to access the [UpdateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateJobInput : [no documentation found]
@@ -3603,6 +4872,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMitigationAction` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the definition for the specified mitigation action. Requires permission to access the [UpdateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateMitigationActionInput : [no documentation found]
@@ -3617,6 +4891,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateMitigationAction(input: UpdateMitigationActionInput) async throws -> UpdateMitigationActionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePackage` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the supported fields for a specific software package. Requires permission to access the [UpdatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
     /// - Parameter UpdatePackageInput : [no documentation found]
@@ -3631,6 +4910,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePackageConfiguration` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the software package configuration. Requires permission to access the [UpdatePackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [iam:PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) actions.
     ///
     /// - Parameter UpdatePackageConfigurationInput : [no documentation found]
@@ -3644,6 +4928,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func updatePackageConfiguration(input: UpdatePackageConfigurationInput) async throws -> UpdatePackageConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePackageVersion` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the supported fields for a specific package version. Requires permission to access the [UpdatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
     /// - Parameter UpdatePackageVersionInput : [no documentation found]
@@ -3658,6 +4947,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : The request is not valid.
     func updatePackageVersion(input: UpdatePackageVersionInput) async throws -> UpdatePackageVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateProvisioningTemplate` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a provisioning template. Requires permission to access the [UpdateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateProvisioningTemplateInput : [no documentation found]
@@ -3673,6 +4967,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateProvisioningTemplate(input: UpdateProvisioningTemplateInput) async throws -> UpdateProvisioningTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRoleAlias` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a role alias. Requires permission to access the [UpdateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateRoleAliasInput : [no documentation found]
@@ -3689,6 +4988,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateRoleAlias(input: UpdateRoleAliasInput) async throws -> UpdateRoleAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateScheduledAudit` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a scheduled audit, including which checks are performed and how often the audit takes place. Requires permission to access the [UpdateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateScheduledAuditInput : [no documentation found]
@@ -3703,6 +5007,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateScheduledAudit(input: UpdateScheduledAuditInput) async throws -> UpdateScheduledAuditOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSecurityProfile` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a Device Defender security profile. Requires permission to access the [UpdateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateSecurityProfileInput : [no documentation found]
@@ -3718,6 +5027,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateStream` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the [UpdateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateStreamInput : [no documentation found]
@@ -3734,6 +5048,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateStream(input: UpdateStreamInput) async throws -> UpdateStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the data for a thing. Requires permission to access the [UpdateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateThingInput : The input for the UpdateThing operation.
@@ -3751,6 +5070,11 @@ public protocol IoTClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateThing(input: UpdateThingInput) async throws -> UpdateThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateThingGroup` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Update a thing group. Requires permission to access the [UpdateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateThingGroupInput : [no documentation found]
@@ -3766,6 +5090,11 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `VersionConflictException` : An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     func updateThingGroup(input: UpdateThingGroupInput) async throws -> UpdateThingGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateThingGroupsForThing` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates the groups to which the thing belongs. Requires permission to access the [UpdateThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateThingGroupsForThingInput : [no documentation found]
@@ -3780,6 +5109,11 @@ public protocol IoTClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func updateThingGroupsForThing(input: UpdateThingGroupsForThingInput) async throws -> UpdateThingGroupsForThingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateTopicRuleDestination` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the [UpdateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateTopicRuleDestinationInput : [no documentation found]
@@ -3795,6 +5129,11 @@ public protocol IoTClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateTopicRuleDestination(input: UpdateTopicRuleDestinationInput) async throws -> UpdateTopicRuleDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ValidateSecurityProfileBehaviors` operation on the `AWSIotService` service.
+    ///
+>>>>>>> main
     /// Validates a Device Defender security profile behaviors specification. Requires permission to access the [ValidateSecurityProfileBehaviors](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ValidateSecurityProfileBehaviorsInput : [no documentation found]

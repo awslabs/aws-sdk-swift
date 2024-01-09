@@ -1098,6 +1098,7 @@
                             "expiresIn": 1579729529,
                             "refreshToken": "aorvJYubGpU6i91YnH7Mfo-AT2fIVa1zCfA_Rvq9yjVKIP3onFmmykuQ7E93y2I-9Nyj-A_sVvMufaLNL0bqnDRtgAkc0:MGUCMFrRsktMRVlWaOR70XGMFGLL0SlcCw4DiYveIiOVx1uK9BbD0gvAddsW3UTLozXKMgIxAJ3qxUvjpnlLIOaaKOoa/FuNgqJVvr9GMwDtnAtlh9iZzAkEXAMPLEREFRESHTOKEN"
                         }
+<<<<<<< HEAD
                     },
                     {
                         "title": "Call OAuth/OIDC /token endpoint for Refresh Token grant with Secret authentication",
@@ -1117,6 +1118,8 @@
                             "expiresIn": 1579729529,
                             "refreshToken": "aorvJYubGpU6i91YnH7Mfo-AT2fIVa1zCfA_Rvq9yjVKIP3onFmmykuQ7E93y2I-9Nyj-A_sVvMufaLNL0bqnDRtgAkc0:MGUCMFrRsktMRVlWaOR70XGMFGLL0SlcCw4DiYveIiOVx1uK9BbD0gvAddsW3UTLozXKMgIxAJ3qxUvjpnlLIOaaKOoa/FuNgqJVvr9GMwDtnAtlh9iZzAkEXAMPLEREFRESHTOKEN"
                         }
+=======
+>>>>>>> main
                     }
                 ],
                 "smithy.api#http": {
@@ -1301,6 +1304,7 @@
                                 "sts:identity_context"
                             ]
                         }
+<<<<<<< HEAD
                     },
                     {
                         "title": "Call OAuth/OIDC /token endpoint for Refresh Token grant with IAM authentication",
@@ -1367,6 +1371,8 @@
                                 "sts:identity_context"
                             ]
                         }
+=======
+>>>>>>> main
                     }
                 ],
                 "smithy.api#http": {

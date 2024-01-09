@@ -1607,6 +1607,7 @@ extension NotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct PostContentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PostContentInputBodyMiddleware"
 
@@ -1632,6 +1633,8 @@ public struct PostContentInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PostContentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PostContentInput(accept: \(Swift.String(describing: accept)), botAlias: \(Swift.String(describing: botAlias)), botName: \(Swift.String(describing: botName)), contentType: \(Swift.String(describing: contentType)), inputStream: \(Swift.String(describing: inputStream)), userId: \(Swift.String(describing: userId)), activeContexts: \"CONTENT_REDACTED\", requestAttributes: \"CONTENT_REDACTED\", sessionAttributes: \"CONTENT_REDACTED\")"}
@@ -1909,7 +1912,7 @@ extension PostContentOutput: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
@@ -2788,7 +2791,7 @@ extension PutSessionOutput: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }

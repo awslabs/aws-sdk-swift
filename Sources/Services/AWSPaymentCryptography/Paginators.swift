@@ -3,6 +3,7 @@
 import ClientRuntime
 
 extension PaymentCryptographyClient {
+<<<<<<< HEAD
     /// Paginate over `[ListAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -64,6 +65,8 @@ extension PaginatorSequence where Input == ListKeysInput, Output == ListKeysOutp
     }
 }
 extension PaymentCryptographyClient {
+=======
+>>>>>>> main
     /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -73,7 +76,11 @@ extension PaymentCryptographyClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+>>>>>>> main
     }
 }
 
@@ -86,7 +93,11 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[PaymentCryptographyClientTypes.Tag]`
     /// - Returns: `[PaymentCryptographyClientTypes.Tag]`

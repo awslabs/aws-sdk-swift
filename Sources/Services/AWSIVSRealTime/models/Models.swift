@@ -58,6 +58,350 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension IVSRealTimeClientTypes.ChannelDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn
+        case encoderConfigurationArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelArn = self.channelArn {
+            try encodeContainer.encode(channelArn, forKey: .channelArn)
+        }
+        if let encoderConfigurationArn = self.encoderConfigurationArn {
+            try encodeContainer.encode(encoderConfigurationArn, forKey: .encoderConfigurationArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let encoderConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encoderConfigurationArn)
+        encoderConfigurationArn = encoderConfigurationArnDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Object specifying a channel as a destination.
+    public struct ChannelDestinationConfiguration: Swift.Equatable {
+        /// ARN of the channel to use for broadcasting. The channel and stage resources must be in the same AWS account and region. The channel must be offline (not broadcasting).
+        /// This member is required.
+        public var channelArn: Swift.String?
+        /// ARN of the [EncoderConfiguration] resource. The encoder configuration and stage resources must be in the same AWS account and region.
+        public var encoderConfigurationArn: Swift.String?
+
+        public init(
+            channelArn: Swift.String? = nil,
+            encoderConfigurationArn: Swift.String? = nil
+        )
+        {
+            self.channelArn = channelArn
+            self.encoderConfigurationArn = encoderConfigurationArn
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.Composition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case destinations
+        case endTime
+        case layout
+        case stageArn
+        case startTime
+        case state
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for destination0 in destinations {
+                try destinationsContainer.encode(destination0)
+            }
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let layout = self.layout {
+            try encodeContainer.encode(layout, forKey: .layout)
+        }
+        if let stageArn = self.stageArn {
+            try encodeContainer.encode(stageArn, forKey: .stageArn)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let stageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stageArn)
+        stageArn = stageArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.CompositionState.self, forKey: .state)
+        state = stateDecoded
+        let layoutDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.LayoutConfiguration.self, forKey: .layout)
+        layout = layoutDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.Destination?].self, forKey: .destinations)
+        var destinationsDecoded0:[IVSRealTimeClientTypes.Destination]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [IVSRealTimeClientTypes.Destination]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Object specifying a Composition resource.
+    public struct Composition: Swift.Equatable {
+        /// ARN of the Composition resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Array of Destination objects. A Composition can contain either one destination (channel or s3) or two (one channel and one s3).
+        /// This member is required.
+        public var destinations: [IVSRealTimeClientTypes.Destination]?
+        /// UTC time of the Composition end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var endTime: ClientRuntime.Date?
+        /// Layout object to configure composition parameters.
+        /// This member is required.
+        public var layout: IVSRealTimeClientTypes.LayoutConfiguration?
+        /// ARN of the stage used as input
+        /// This member is required.
+        public var stageArn: Swift.String?
+        /// UTC time of the Composition start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var startTime: ClientRuntime.Date?
+        /// State of the Composition.
+        /// This member is required.
+        public var state: IVSRealTimeClientTypes.CompositionState?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            destinations: [IVSRealTimeClientTypes.Destination]? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            layout: IVSRealTimeClientTypes.LayoutConfiguration? = nil,
+            stageArn: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: IVSRealTimeClientTypes.CompositionState? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.destinations = destinations
+            self.endTime = endTime
+            self.layout = layout
+            self.stageArn = stageArn
+            self.startTime = startTime
+            self.state = state
+            self.tags = tags
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes {
+    public enum CompositionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case failed
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompositionState] {
+            return [
+                .active,
+                .failed,
+                .starting,
+                .stopped,
+                .stopping,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CompositionState(rawValue: rawValue) ?? CompositionState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case destinations
+        case endTime
+        case stageArn
+        case startTime
+        case state
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for destinationsummary0 in destinations {
+                try destinationsContainer.encode(destinationsummary0)
+            }
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let stageArn = self.stageArn {
+            try encodeContainer.encode(stageArn, forKey: .stageArn)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let stageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stageArn)
+        stageArn = stageArnDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.DestinationSummary?].self, forKey: .destinations)
+        var destinationsDecoded0:[IVSRealTimeClientTypes.DestinationSummary]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [IVSRealTimeClientTypes.DestinationSummary]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let stateDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.CompositionState.self, forKey: .state)
+        state = stateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Summary information about a Composition.
+    public struct CompositionSummary: Swift.Equatable {
+        /// ARN of the Composition resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Array of Destination objects.
+        /// This member is required.
+        public var destinations: [IVSRealTimeClientTypes.DestinationSummary]?
+        /// UTC time of the Composition end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var endTime: ClientRuntime.Date?
+        /// ARN of the attached stage.
+        /// This member is required.
+        public var stageArn: Swift.String?
+        /// UTC time of the Composition start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var startTime: ClientRuntime.Date?
+        /// State of the Composition resource.
+        /// This member is required.
+        public var state: IVSRealTimeClientTypes.CompositionState?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            destinations: [IVSRealTimeClientTypes.DestinationSummary]? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            stageArn: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: IVSRealTimeClientTypes.CompositionState? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.destinations = destinations
+            self.endTime = endTime
+            self.stageArn = stageArn
+            self.startTime = startTime
+            self.state = state
+            self.tags = tags
+        }
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -114,6 +458,146 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateEncoderConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case tags
+        case video
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let video = self.video {
+            try encodeContainer.encode(video, forKey: .video)
+        }
+    }
+}
+
+extension CreateEncoderConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateEncoderConfiguration"
+    }
+}
+
+public struct CreateEncoderConfigurationInput: Swift.Equatable {
+    /// Optional name to identify the resource.
+    public var name: Swift.String?
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    public var tags: [Swift.String:Swift.String]?
+    /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps.
+    public var video: IVSRealTimeClientTypes.Video?
+
+    public init(
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        video: IVSRealTimeClientTypes.Video? = nil
+    )
+    {
+        self.name = name
+        self.tags = tags
+        self.video = video
+    }
+}
+
+struct CreateEncoderConfigurationInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let video: IVSRealTimeClientTypes.Video?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEncoderConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case tags
+        case video
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateEncoderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEncoderConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.encoderConfiguration = output.encoderConfiguration
+        } else {
+            self.encoderConfiguration = nil
+        }
+    }
+}
+
+public struct CreateEncoderConfigurationOutput: Swift.Equatable {
+    /// The EncoderConfiguration that was created.
+    public var encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration?
+
+    public init(
+        encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration? = nil
+    )
+    {
+        self.encoderConfiguration = encoderConfiguration
+    }
+}
+
+struct CreateEncoderConfigurationOutputBody: Swift.Equatable {
+    let encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration?
+}
+
+extension CreateEncoderConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoderConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encoderConfigurationDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.EncoderConfiguration.self, forKey: .encoderConfiguration)
+        encoderConfiguration = encoderConfigurationDecoded
+    }
+}
+
+enum CreateEncoderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateParticipantTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes
@@ -137,7 +621,7 @@ extension CreateParticipantTokenInput: Swift.Encodable {
                 try capabilitiesContainer.encode(participanttokencapability0.rawValue)
             }
         }
-        if duration != 0 {
+        if let duration = self.duration {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if let stageArn = self.stageArn {
@@ -161,7 +645,7 @@ public struct CreateParticipantTokenInput: Swift.Equatable {
     /// Set of capabilities that the user is allowed to perform in the stage. Default: PUBLISH, SUBSCRIBE.
     public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
     /// Duration (in minutes), after which the token expires. Default: 720 (12 hours).
-    public var duration: Swift.Int
+    public var duration: Swift.Int?
     /// ARN of the stage to which this token is scoped.
     /// This member is required.
     public var stageArn: Swift.String?
@@ -171,7 +655,7 @@ public struct CreateParticipantTokenInput: Swift.Equatable {
     public init(
         attributes: [Swift.String:Swift.String]? = nil,
         capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
-        duration: Swift.Int = 0,
+        duration: Swift.Int? = nil,
         stageArn: Swift.String? = nil,
         userId: Swift.String? = nil
     )
@@ -186,7 +670,7 @@ public struct CreateParticipantTokenInput: Swift.Equatable {
 
 struct CreateParticipantTokenInputBody: Swift.Equatable {
     let stageArn: Swift.String?
-    let duration: Swift.Int
+    let duration: Swift.Int?
     let userId: Swift.String?
     let attributes: [Swift.String:Swift.String]?
     let capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
@@ -205,7 +689,7 @@ extension CreateParticipantTokenInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let stageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stageArn)
         stageArn = stageArnDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
@@ -457,6 +941,224 @@ enum CreateStageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateStorageConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case s3
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateStorageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateStorageConfiguration"
+    }
+}
+
+public struct CreateStorageConfigurationInput: Swift.Equatable {
+    /// Storage configuration name. The value does not need to be unique.
+    public var name: Swift.String?
+    /// A complex type that contains a storage configuration for where recorded video will be stored.
+    /// This member is required.
+    public var s3: IVSRealTimeClientTypes.S3StorageConfiguration?
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        name: Swift.String? = nil,
+        s3: IVSRealTimeClientTypes.S3StorageConfiguration? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.name = name
+        self.s3 = s3
+        self.tags = tags
+    }
+}
+
+struct CreateStorageConfigurationInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let s3: IVSRealTimeClientTypes.S3StorageConfiguration?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateStorageConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case s3
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let s3Decoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.S3StorageConfiguration.self, forKey: .s3)
+        s3 = s3Decoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateStorageConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateStorageConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.storageConfiguration = output.storageConfiguration
+        } else {
+            self.storageConfiguration = nil
+        }
+    }
+}
+
+public struct CreateStorageConfigurationOutput: Swift.Equatable {
+    /// The StorageConfiguration that was created.
+    public var storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration?
+
+    public init(
+        storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration? = nil
+    )
+    {
+        self.storageConfiguration = storageConfiguration
+    }
+}
+
+struct CreateStorageConfigurationOutputBody: Swift.Equatable {
+    let storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration?
+}
+
+extension CreateStorageConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageConfigurationDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.StorageConfiguration.self, forKey: .storageConfiguration)
+        storageConfiguration = storageConfigurationDecoded
+    }
+}
+
+enum CreateStorageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteEncoderConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension DeleteEncoderConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteEncoderConfiguration"
+    }
+}
+
+public struct DeleteEncoderConfigurationInput: Swift.Equatable {
+    /// ARN of the EncoderConfiguration.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DeleteEncoderConfigurationInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension DeleteEncoderConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension DeleteEncoderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEncoderConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteEncoderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeleteStageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -530,6 +1232,372 @@ enum DeleteStageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteStorageConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension DeleteStorageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteStorageConfiguration"
+    }
+}
+
+public struct DeleteStorageConfigurationInput: Swift.Equatable {
+    /// ARN of the storage configuration to be deleted.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DeleteStorageConfigurationInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension DeleteStorageConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension DeleteStorageConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteStorageConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteStorageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes.Destination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+        case detail
+        case endTime
+        case id
+        case startTime
+        case state
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let detail = self.detail {
+            try encodeContainer.encode(detail, forKey: .detail)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.DestinationState.self, forKey: .state)
+        state = stateDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.DestinationConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+        let detailDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.DestinationDetail.self, forKey: .detail)
+        detail = detailDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Object specifying the status of a Destination.
+    public struct Destination: Swift.Equatable {
+        /// Configuration used to create this destination.
+        /// This member is required.
+        public var configuration: IVSRealTimeClientTypes.DestinationConfiguration?
+        /// Optional details regarding the status of the destination.
+        public var detail: IVSRealTimeClientTypes.DestinationDetail?
+        /// UTC time of the destination end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var endTime: ClientRuntime.Date?
+        /// Unique identifier for this destination, assigned by IVS.
+        /// This member is required.
+        public var id: Swift.String?
+        /// UTC time of the destination start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var startTime: ClientRuntime.Date?
+        /// State of the Composition Destination.
+        /// This member is required.
+        public var state: IVSRealTimeClientTypes.DestinationState?
+
+        public init(
+            configuration: IVSRealTimeClientTypes.DestinationConfiguration? = nil,
+            detail: IVSRealTimeClientTypes.DestinationDetail? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: IVSRealTimeClientTypes.DestinationState? = nil
+        )
+        {
+            self.configuration = configuration
+            self.detail = detail
+            self.endTime = endTime
+            self.id = id
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.DestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel
+        case name
+        case s3
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channel = self.channel {
+            try encodeContainer.encode(channel, forKey: .channel)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.ChannelDestinationConfiguration.self, forKey: .channel)
+        channel = channelDecoded
+        let s3Decoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.S3DestinationConfiguration.self, forKey: .s3)
+        s3 = s3Decoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Complex data type that defines destination-configuration objects.
+    public struct DestinationConfiguration: Swift.Equatable {
+        /// An IVS channel to be used for broadcasting, for server-side composition. Either a channel or an s3 must be specified.
+        public var channel: IVSRealTimeClientTypes.ChannelDestinationConfiguration?
+        /// Name that can be specified to help identify the destination.
+        public var name: Swift.String?
+        /// An S3 storage configuration to be used for recording video data. Either a channel or an s3 must be specified.
+        public var s3: IVSRealTimeClientTypes.S3DestinationConfiguration?
+
+        public init(
+            channel: IVSRealTimeClientTypes.ChannelDestinationConfiguration? = nil,
+            name: Swift.String? = nil,
+            s3: IVSRealTimeClientTypes.S3DestinationConfiguration? = nil
+        )
+        {
+            self.channel = channel
+            self.name = name
+            self.s3 = s3
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.DestinationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3Decoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.S3Detail.self, forKey: .s3)
+        s3 = s3Decoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Complex data type that defines destination-detail objects.
+    public struct DestinationDetail: Swift.Equatable {
+        /// An S3 detail object to return information about the S3 destination.
+        public var s3: IVSRealTimeClientTypes.S3Detail?
+
+        public init(
+            s3: IVSRealTimeClientTypes.S3Detail? = nil
+        )
+        {
+            self.s3 = s3
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes {
+    public enum DestinationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case failed
+        case reconnecting
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationState] {
+            return [
+                .active,
+                .failed,
+                .reconnecting,
+                .starting,
+                .stopped,
+                .stopping,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .reconnecting: return "RECONNECTING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DestinationState(rawValue: rawValue) ?? DestinationState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes.DestinationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case id
+        case startTime
+        case state
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.DestinationState.self, forKey: .state)
+        state = stateDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Summary information about a Destination.
+    public struct DestinationSummary: Swift.Equatable {
+        /// UTC time of the destination end. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var endTime: ClientRuntime.Date?
+        /// Unique identifier for this destination, assigned by IVS.
+        /// This member is required.
+        public var id: Swift.String?
+        /// UTC time of the destination start. This is an ISO 8601 timestamp; note that this is returned as a string.
+        public var startTime: ClientRuntime.Date?
+        /// State of the Composition Destination.
+        /// This member is required.
+        public var state: IVSRealTimeClientTypes.DestinationState?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: IVSRealTimeClientTypes.DestinationState? = nil
+        )
+        {
+            self.endTime = endTime
+            self.id = id
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
+}
+
+>>>>>>> main
 extension DisconnectParticipantInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case participantId
@@ -627,6 +1695,155 @@ enum DisconnectParticipantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension IVSRealTimeClientTypes.EncoderConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case name
+        case tags
+        case video
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let video = self.video {
+            try encodeContainer.encode(video, forKey: .video)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.Video.self, forKey: .video)
+        video = videoDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Settings for transcoding.
+    public struct EncoderConfiguration: Swift.Equatable {
+        /// ARN of the EncoderConfiguration resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Optional name to identify the resource.
+        public var name: Swift.String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+        /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps
+        public var video: IVSRealTimeClientTypes.Video?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            video: IVSRealTimeClientTypes.Video? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+            self.video = video
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.EncoderConfigurationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case name
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Summary information about an EncoderConfiguration.
+    public struct EncoderConfigurationSummary: Swift.Equatable {
+        /// ARN of the EncoderConfiguration resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Optional name to identify the resource.
+        public var name: Swift.String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+        }
+    }
+
+}
+
+>>>>>>> main
 extension IVSRealTimeClientTypes.Event: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode
@@ -786,6 +2003,214 @@ extension IVSRealTimeClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = EventName(rawValue: rawValue) ?? EventName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GetCompositionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension GetCompositionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetComposition"
+    }
+}
+
+public struct GetCompositionInput: Swift.Equatable {
+    /// ARN of the Composition resource.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct GetCompositionInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension GetCompositionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension GetCompositionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCompositionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.composition = output.composition
+        } else {
+            self.composition = nil
+        }
+    }
+}
+
+public struct GetCompositionOutput: Swift.Equatable {
+    /// The Composition that was returned.
+    public var composition: IVSRealTimeClientTypes.Composition?
+
+    public init(
+        composition: IVSRealTimeClientTypes.Composition? = nil
+    )
+    {
+        self.composition = composition
+    }
+}
+
+struct GetCompositionOutputBody: Swift.Equatable {
+    let composition: IVSRealTimeClientTypes.Composition?
+}
+
+extension GetCompositionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case composition
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let compositionDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.Composition.self, forKey: .composition)
+        composition = compositionDecoded
+    }
+}
+
+enum GetCompositionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEncoderConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension GetEncoderConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetEncoderConfiguration"
+    }
+}
+
+public struct GetEncoderConfigurationInput: Swift.Equatable {
+    /// ARN of the EncoderConfiguration resource.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct GetEncoderConfigurationInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension GetEncoderConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension GetEncoderConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEncoderConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.encoderConfiguration = output.encoderConfiguration
+        } else {
+            self.encoderConfiguration = nil
+        }
+    }
+}
+
+public struct GetEncoderConfigurationOutput: Swift.Equatable {
+    /// The EncoderConfiguration that was returned.
+    public var encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration?
+
+    public init(
+        encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration? = nil
+    )
+    {
+        self.encoderConfiguration = encoderConfiguration
+    }
+}
+
+struct GetEncoderConfigurationOutputBody: Swift.Equatable {
+    let encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration?
+}
+
+extension GetEncoderConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoderConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encoderConfigurationDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.EncoderConfiguration.self, forKey: .encoderConfiguration)
+        encoderConfiguration = encoderConfigurationDecoded
+    }
+}
+
+enum GetEncoderConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -1087,6 +2512,8 @@ extension GetStageSessionOutput: ClientRuntime.HttpResponseBinding {
             self.stageSession = output.stageSession
         } else {
             self.stageSession = nil
+<<<<<<< HEAD
+=======
         }
     }
 }
@@ -1132,6 +2559,177 @@ enum GetStageSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetStorageConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+>>>>>>> main
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct GetStageSessionOutput: Swift.Equatable {
+    /// The stage session that is returned.
+    public var stageSession: IVSRealTimeClientTypes.StageSession?
+
+    public init(
+        stageSession: IVSRealTimeClientTypes.StageSession? = nil
+    )
+    {
+        self.stageSession = stageSession
+    }
+}
+
+struct GetStageSessionOutputBody: Swift.Equatable {
+    let stageSession: IVSRealTimeClientTypes.StageSession?
+}
+
+extension GetStageSessionOutputBody: Swift.Decodable {
+=======
+extension GetStorageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetStorageConfiguration"
+    }
+}
+
+public struct GetStorageConfigurationInput: Swift.Equatable {
+    /// ARN of the storage configuration to be retrieved.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct GetStorageConfigurationInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension GetStorageConfigurationInputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+<<<<<<< HEAD
+enum GetStageSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+=======
+extension GetStorageConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetStorageConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.storageConfiguration = output.storageConfiguration
+        } else {
+            self.storageConfiguration = nil
+        }
+    }
+}
+
+public struct GetStorageConfigurationOutput: Swift.Equatable {
+    /// The StorageConfiguration that was returned.
+    public var storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration?
+
+    public init(
+        storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration? = nil
+    )
+    {
+        self.storageConfiguration = storageConfiguration
+    }
+}
+
+struct GetStorageConfigurationOutputBody: Swift.Equatable {
+    let storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration?
+}
+
+extension GetStorageConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case storageConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageConfigurationDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.StorageConfiguration.self, forKey: .storageConfiguration)
+        storageConfiguration = storageConfigurationDecoded
+    }
+}
+
+enum GetStorageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+>>>>>>> main
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+=======
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+<<<<<<< HEAD
+=======
+extension IVSRealTimeClientTypes.GridConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredParticipantAttribute
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let featuredParticipantAttribute = self.featuredParticipantAttribute {
+            try encodeContainer.encode(featuredParticipantAttribute, forKey: .featuredParticipantAttribute)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredParticipantAttributeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredParticipantAttribute)
+        featuredParticipantAttribute = featuredParticipantAttributeDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Configuration information specific to Grid layout, for server-side composition. See "Layouts" in [Server-Side Composition](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/server-side-composition.html).
+    public struct GridConfiguration: Swift.Equatable {
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot.
+        public var featuredParticipantAttribute: Swift.String?
+
+        public init(
+            featuredParticipantAttribute: Swift.String? = nil
+        )
+        {
+            self.featuredParticipantAttribute = featuredParticipantAttribute
+        }
+    }
+
+}
+
+>>>>>>> main
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1188,6 +2786,333 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension IVSRealTimeClientTypes.LayoutConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case grid
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let grid = self.grid {
+            try encodeContainer.encode(grid, forKey: .grid)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gridDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.GridConfiguration.self, forKey: .grid)
+        grid = gridDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Configuration information of supported layouts for server-side composition.
+    public struct LayoutConfiguration: Swift.Equatable {
+        /// Configuration related to grid layout. Default: Grid layout.
+        public var grid: IVSRealTimeClientTypes.GridConfiguration?
+
+        public init(
+            grid: IVSRealTimeClientTypes.GridConfiguration? = nil
+        )
+        {
+            self.grid = grid
+        }
+    }
+
+}
+
+extension ListCompositionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterByEncoderConfigurationArn
+        case filterByStageArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterByEncoderConfigurationArn = self.filterByEncoderConfigurationArn {
+            try encodeContainer.encode(filterByEncoderConfigurationArn, forKey: .filterByEncoderConfigurationArn)
+        }
+        if let filterByStageArn = self.filterByStageArn {
+            try encodeContainer.encode(filterByStageArn, forKey: .filterByStageArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListCompositionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListCompositions"
+    }
+}
+
+public struct ListCompositionsInput: Swift.Equatable {
+    /// Filters the Composition list to match the specified EncoderConfiguration attached to at least one of its output.
+    public var filterByEncoderConfigurationArn: Swift.String?
+    /// Filters the Composition list to match the specified Stage ARN.
+    public var filterByStageArn: Swift.String?
+    /// Maximum number of results to return. Default: 100.
+    public var maxResults: Swift.Int?
+    /// The first Composition to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init(
+        filterByEncoderConfigurationArn: Swift.String? = nil,
+        filterByStageArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filterByEncoderConfigurationArn = filterByEncoderConfigurationArn
+        self.filterByStageArn = filterByStageArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCompositionsInputBody: Swift.Equatable {
+    let filterByStageArn: Swift.String?
+    let filterByEncoderConfigurationArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCompositionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterByEncoderConfigurationArn
+        case filterByStageArn
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterByStageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterByStageArn)
+        filterByStageArn = filterByStageArnDecoded
+        let filterByEncoderConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterByEncoderConfigurationArn)
+        filterByEncoderConfigurationArn = filterByEncoderConfigurationArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCompositionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCompositionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.compositions = output.compositions
+            self.nextToken = output.nextToken
+        } else {
+            self.compositions = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCompositionsOutput: Swift.Equatable {
+    /// List of the matching Compositions (summary information only).
+    /// This member is required.
+    public var compositions: [IVSRealTimeClientTypes.CompositionSummary]?
+    /// If there are more compositions than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+
+    public init(
+        compositions: [IVSRealTimeClientTypes.CompositionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.compositions = compositions
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCompositionsOutputBody: Swift.Equatable {
+    let compositions: [IVSRealTimeClientTypes.CompositionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCompositionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case compositions
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let compositionsContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.CompositionSummary?].self, forKey: .compositions)
+        var compositionsDecoded0:[IVSRealTimeClientTypes.CompositionSummary]? = nil
+        if let compositionsContainer = compositionsContainer {
+            compositionsDecoded0 = [IVSRealTimeClientTypes.CompositionSummary]()
+            for structure0 in compositionsContainer {
+                if let structure0 = structure0 {
+                    compositionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        compositions = compositionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCompositionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEncoderConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListEncoderConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListEncoderConfigurations"
+    }
+}
+
+public struct ListEncoderConfigurationsInput: Swift.Equatable {
+    /// Maximum number of results to return. Default: 100.
+    public var maxResults: Swift.Int?
+    /// The first encoder configuration to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEncoderConfigurationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListEncoderConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListEncoderConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEncoderConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.encoderConfigurations = output.encoderConfigurations
+            self.nextToken = output.nextToken
+        } else {
+            self.encoderConfigurations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEncoderConfigurationsOutput: Swift.Equatable {
+    /// List of the matching EncoderConfigurations (summary information only).
+    /// This member is required.
+    public var encoderConfigurations: [IVSRealTimeClientTypes.EncoderConfigurationSummary]?
+    /// If there are more encoder configurations than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+
+    public init(
+        encoderConfigurations: [IVSRealTimeClientTypes.EncoderConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.encoderConfigurations = encoderConfigurations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEncoderConfigurationsOutputBody: Swift.Equatable {
+    let encoderConfigurations: [IVSRealTimeClientTypes.EncoderConfigurationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEncoderConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoderConfigurations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encoderConfigurationsContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.EncoderConfigurationSummary?].self, forKey: .encoderConfigurations)
+        var encoderConfigurationsDecoded0:[IVSRealTimeClientTypes.EncoderConfigurationSummary]? = nil
+        if let encoderConfigurationsContainer = encoderConfigurationsContainer {
+            encoderConfigurationsDecoded0 = [IVSRealTimeClientTypes.EncoderConfigurationSummary]()
+            for structure0 in encoderConfigurationsContainer {
+                if let structure0 = structure0 {
+                    encoderConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        encoderConfigurations = encoderConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEncoderConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListParticipantEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -1226,7 +3151,7 @@ extension ListParticipantEventsInput: ClientRuntime.URLPathProvider {
 public struct ListParticipantEventsInput: Swift.Equatable {
     /// Maximum number of results to return. Default: 50.
     public var maxResults: Swift.Int?
-    /// The first participant to retrieve. This is used for pagination; see the nextToken response field.
+    /// The first participant event to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
     /// Unique identifier for this participant. This is assigned by IVS and returned by [CreateParticipantToken].
     /// This member is required.
@@ -1304,7 +3229,7 @@ public struct ListParticipantEventsOutput: Swift.Equatable {
     /// List of the matching events.
     /// This member is required.
     public var events: [IVSRealTimeClientTypes.Event]?
-    /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+    /// If there are more events than maxResults, use nextToken in the request to get the next set.
     public var nextToken: Swift.String?
 
     public init(
@@ -1494,7 +3419,11 @@ extension ListParticipantsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListParticipantsOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+=======
+    /// If there are more participants than maxResults, use nextToken in the request to get the next set.
+>>>>>>> main
     public var nextToken: Swift.String?
     /// List of the matching participants (summary information only).
     /// This member is required.
@@ -1581,7 +3510,7 @@ extension ListStageSessionsInput: ClientRuntime.URLPathProvider {
 public struct ListStageSessionsInput: Swift.Equatable {
     /// Maximum number of results to return. Default: 50.
     public var maxResults: Swift.Int?
-    /// The first stage to retrieve. This is used for pagination; see the nextToken response field.
+    /// The first stage session to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
     /// Stage ARN.
     /// This member is required.
@@ -1638,7 +3567,11 @@ extension ListStageSessionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListStageSessionsOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+=======
+    /// If there are more stage sessions than maxResults, use nextToken in the request to get the next set.
+>>>>>>> main
     public var nextToken: Swift.String?
     /// List of matching stage sessions.
     /// This member is required.
@@ -1703,7 +3636,7 @@ extension ListStagesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -1720,12 +3653,12 @@ extension ListStagesInput: ClientRuntime.URLPathProvider {
 
 public struct ListStagesInput: Swift.Equatable {
     /// Maximum number of results to return. Default: 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The first stage to retrieve. This is used for pagination; see the nextToken response field.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1736,7 +3669,7 @@ public struct ListStagesInput: Swift.Equatable {
 
 struct ListStagesInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListStagesInputBody: Swift.Decodable {
@@ -1749,7 +3682,7 @@ extension ListStagesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -1769,7 +3702,11 @@ extension ListStagesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListStagesOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
+=======
+    /// If there are more stages than maxResults, use nextToken in the request to get the next set.
+>>>>>>> main
     public var nextToken: Swift.String?
     /// List of the matching stages (summary information only).
     /// This member is required.
@@ -1827,6 +3764,143 @@ enum ListStagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListStorageConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListStorageConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListStorageConfigurations"
+    }
+}
+
+public struct ListStorageConfigurationsInput: Swift.Equatable {
+    /// Maximum number of storage configurations to return. Default: your service quota or 100, whichever is smaller.
+    public var maxResults: Swift.Int?
+    /// The first storage configuration to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListStorageConfigurationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListStorageConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListStorageConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListStorageConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.storageConfigurations = output.storageConfigurations
+        } else {
+            self.nextToken = nil
+            self.storageConfigurations = nil
+        }
+    }
+}
+
+public struct ListStorageConfigurationsOutput: Swift.Equatable {
+    /// If there are more storage configurations than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+    /// List of the matching storage configurations.
+    /// This member is required.
+    public var storageConfigurations: [IVSRealTimeClientTypes.StorageConfigurationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        storageConfigurations: [IVSRealTimeClientTypes.StorageConfigurationSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.storageConfigurations = storageConfigurations
+    }
+}
+
+struct ListStorageConfigurationsOutputBody: Swift.Equatable {
+    let storageConfigurations: [IVSRealTimeClientTypes.StorageConfigurationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListStorageConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case storageConfigurations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageConfigurationsContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.StorageConfigurationSummary?].self, forKey: .storageConfigurations)
+        var storageConfigurationsDecoded0:[IVSRealTimeClientTypes.StorageConfigurationSummary]? = nil
+        if let storageConfigurationsContainer = storageConfigurationsContainer {
+            storageConfigurationsDecoded0 = [IVSRealTimeClientTypes.StorageConfigurationSummary]()
+            for structure0 in storageConfigurationsContainer {
+                if let structure0 = structure0 {
+                    storageConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        storageConfigurations = storageConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListStorageConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -2210,7 +4284,7 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.Codable {
                 try capabilitiesContainer.encode(participanttokencapability0.rawValue)
             }
         }
-        if duration != 0 {
+        if let duration = self.duration {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if let expirationTime = self.expirationTime {
@@ -2246,7 +4320,7 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.Codable {
             }
         }
         attributes = attributesDecoded0
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
         let capabilitiesContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.ParticipantTokenCapability?].self, forKey: .capabilities)
         var capabilitiesDecoded0:[IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil
@@ -2277,7 +4351,7 @@ extension IVSRealTimeClientTypes {
         /// Set of capabilities that the user is allowed to perform in the stage.
         public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
         /// Duration (in minutes), after which the participant token expires. Default: 720 (12 hours).
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// ISO 8601 timestamp (returned as a string) for when this token expires.
         public var expirationTime: ClientRuntime.Date?
         /// Unique identifier for this participant token, assigned by IVS.
@@ -2290,7 +4364,7 @@ extension IVSRealTimeClientTypes {
         public init(
             attributes: [Swift.String:Swift.String]? = nil,
             capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
-            duration: Swift.Int = 0,
+            duration: Swift.Int? = nil,
             expirationTime: ClientRuntime.Date? = nil,
             participantId: Swift.String? = nil,
             token: Swift.String? = nil,
@@ -2363,7 +4437,7 @@ extension IVSRealTimeClientTypes.ParticipantTokenConfiguration: Swift.Codable {
                 try capabilitiesContainer.encode(participanttokencapability0.rawValue)
             }
         }
-        if duration != 0 {
+        if let duration = self.duration {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if let userId = self.userId {
@@ -2373,7 +4447,7 @@ extension IVSRealTimeClientTypes.ParticipantTokenConfiguration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
@@ -2410,14 +4484,14 @@ extension IVSRealTimeClientTypes {
         /// Set of capabilities that the user is allowed to perform in the stage.
         public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
         /// Duration (in minutes), after which the corresponding participant token expires. Default: 720 (12 hours).
-        public var duration: Swift.Int
+        public var duration: Swift.Int?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public var userId: Swift.String?
 
         public init(
             attributes: [Swift.String:Swift.String]? = nil,
             capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
-            duration: Swift.Int = 0,
+            duration: Swift.Int? = nil,
             userId: Swift.String? = nil
         )
         {
@@ -2486,6 +4560,70 @@ extension PendingVerificationBody: Swift.Decodable {
     }
 }
 
+extension IVSRealTimeClientTypes.RecordingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case format
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.RecordingConfigurationFormat.self, forKey: .format)
+        format = formatDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// An object representing a configuration to record a stage stream.
+    public struct RecordingConfiguration: Swift.Equatable {
+        /// The recording format for storing a recording in Amazon S3.
+        public var format: IVSRealTimeClientTypes.RecordingConfigurationFormat?
+
+        public init(
+            format: IVSRealTimeClientTypes.RecordingConfigurationFormat? = nil
+        )
+        {
+            self.format = format
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes {
+    public enum RecordingConfigurationFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordingConfigurationFormat] {
+            return [
+                .hls,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hls: return "HLS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecordingConfigurationFormat(rawValue: rawValue) ?? RecordingConfigurationFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2540,6 +4678,147 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let exceptionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exceptionMessage)
         exceptionMessage = exceptionMessageDecoded
     }
+}
+
+extension IVSRealTimeClientTypes.S3DestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encoderConfigurationArns
+        case recordingConfiguration
+        case storageConfigurationArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encoderConfigurationArns = encoderConfigurationArns {
+            var encoderConfigurationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .encoderConfigurationArns)
+            for encoderconfigurationarn0 in encoderConfigurationArns {
+                try encoderConfigurationArnsContainer.encode(encoderconfigurationarn0)
+            }
+        }
+        if let recordingConfiguration = self.recordingConfiguration {
+            try encodeContainer.encode(recordingConfiguration, forKey: .recordingConfiguration)
+        }
+        if let storageConfigurationArn = self.storageConfigurationArn {
+            try encodeContainer.encode(storageConfigurationArn, forKey: .storageConfigurationArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storageConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageConfigurationArn)
+        storageConfigurationArn = storageConfigurationArnDecoded
+        let encoderConfigurationArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .encoderConfigurationArns)
+        var encoderConfigurationArnsDecoded0:[Swift.String]? = nil
+        if let encoderConfigurationArnsContainer = encoderConfigurationArnsContainer {
+            encoderConfigurationArnsDecoded0 = [Swift.String]()
+            for string0 in encoderConfigurationArnsContainer {
+                if let string0 = string0 {
+                    encoderConfigurationArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        encoderConfigurationArns = encoderConfigurationArnsDecoded0
+        let recordingConfigurationDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.RecordingConfiguration.self, forKey: .recordingConfiguration)
+        recordingConfiguration = recordingConfigurationDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// A complex type that describes an S3 location where recorded videos will be stored.
+    public struct S3DestinationConfiguration: Swift.Equatable {
+        /// ARNs of the [EncoderConfiguration] resource. The encoder configuration and stage resources must be in the same AWS account and region.
+        /// This member is required.
+        public var encoderConfigurationArns: [Swift.String]?
+        /// Array of maps, each of the form string:string (key:value). This is an optional customer specification, currently used only to specify the recording format for storing a recording in Amazon S3.
+        public var recordingConfiguration: IVSRealTimeClientTypes.RecordingConfiguration?
+        /// ARN of the [StorageConfiguration] where recorded videos will be stored.
+        /// This member is required.
+        public var storageConfigurationArn: Swift.String?
+
+        public init(
+            encoderConfigurationArns: [Swift.String]? = nil,
+            recordingConfiguration: IVSRealTimeClientTypes.RecordingConfiguration? = nil,
+            storageConfigurationArn: Swift.String? = nil
+        )
+        {
+            self.encoderConfigurationArns = encoderConfigurationArns
+            self.recordingConfiguration = recordingConfiguration
+            self.storageConfigurationArn = storageConfigurationArn
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.S3Detail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recordingPrefix
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recordingPrefix = self.recordingPrefix {
+            try encodeContainer.encode(recordingPrefix, forKey: .recordingPrefix)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recordingPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordingPrefix)
+        recordingPrefix = recordingPrefixDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Complex data type that defines S3Detail objects.
+    public struct S3Detail: Swift.Equatable {
+        /// The S3 bucket prefix under which the recording is stored.
+        /// This member is required.
+        public var recordingPrefix: Swift.String?
+
+        public init(
+            recordingPrefix: Swift.String? = nil
+        )
+        {
+            self.recordingPrefix = recordingPrefix
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.S3StorageConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// A complex type that describes an S3 location where recorded videos will be stored.
+    public struct S3StorageConfiguration: Swift.Equatable {
+        /// Location (S3 bucket name) where recorded videos will be stored. Note that the StorageConfiguration and S3 bucket must be in the same region as the Composition.
+        /// This member is required.
+        public var bucketName: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+        }
+    }
+
 }
 
 extension ServiceQuotaExceededException {
@@ -2858,6 +5137,414 @@ extension IVSRealTimeClientTypes {
             self.activeSessionId = activeSessionId
             self.arn = arn
             self.name = name
+            self.tags = tags
+        }
+    }
+
+}
+
+extension StartCompositionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinations
+        case idempotencyToken
+        case layout
+        case stageArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for destinationconfiguration0 in destinations {
+                try destinationsContainer.encode(destinationconfiguration0)
+            }
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let layout = self.layout {
+            try encodeContainer.encode(layout, forKey: .layout)
+        }
+        if let stageArn = self.stageArn {
+            try encodeContainer.encode(stageArn, forKey: .stageArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension StartCompositionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartComposition"
+    }
+}
+
+public struct StartCompositionInput: Swift.Equatable {
+    /// Array of destination configuration.
+    /// This member is required.
+    public var destinations: [IVSRealTimeClientTypes.DestinationConfiguration]?
+    /// Idempotency token.
+    public var idempotencyToken: Swift.String?
+    /// Layout object to configure composition parameters.
+    public var layout: IVSRealTimeClientTypes.LayoutConfiguration?
+    /// ARN of the stage to be used for compositing.
+    /// This member is required.
+    public var stageArn: Swift.String?
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        destinations: [IVSRealTimeClientTypes.DestinationConfiguration]? = nil,
+        idempotencyToken: Swift.String? = nil,
+        layout: IVSRealTimeClientTypes.LayoutConfiguration? = nil,
+        stageArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.destinations = destinations
+        self.idempotencyToken = idempotencyToken
+        self.layout = layout
+        self.stageArn = stageArn
+        self.tags = tags
+    }
+}
+
+struct StartCompositionInputBody: Swift.Equatable {
+    let stageArn: Swift.String?
+    let idempotencyToken: Swift.String?
+    let layout: IVSRealTimeClientTypes.LayoutConfiguration?
+    let destinations: [IVSRealTimeClientTypes.DestinationConfiguration]?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension StartCompositionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinations
+        case idempotencyToken
+        case layout
+        case stageArn
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stageArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stageArn)
+        stageArn = stageArnDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+        let layoutDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.LayoutConfiguration.self, forKey: .layout)
+        layout = layoutDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([IVSRealTimeClientTypes.DestinationConfiguration?].self, forKey: .destinations)
+        var destinationsDecoded0:[IVSRealTimeClientTypes.DestinationConfiguration]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [IVSRealTimeClientTypes.DestinationConfiguration]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension StartCompositionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartCompositionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.composition = output.composition
+        } else {
+            self.composition = nil
+        }
+    }
+}
+
+public struct StartCompositionOutput: Swift.Equatable {
+    /// The Composition that was created.
+    public var composition: IVSRealTimeClientTypes.Composition?
+
+    public init(
+        composition: IVSRealTimeClientTypes.Composition? = nil
+    )
+    {
+        self.composition = composition
+    }
+}
+
+struct StartCompositionOutputBody: Swift.Equatable {
+    let composition: IVSRealTimeClientTypes.Composition?
+}
+
+extension StartCompositionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case composition
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let compositionDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.Composition.self, forKey: .composition)
+        composition = compositionDecoded
+    }
+}
+
+enum StartCompositionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopCompositionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension StopCompositionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StopComposition"
+    }
+}
+
+public struct StopCompositionInput: Swift.Equatable {
+    /// ARN of the Composition.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct StopCompositionInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension StopCompositionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension StopCompositionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopCompositionOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopCompositionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes.StorageConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case name
+        case s3
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let s3Decoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.S3StorageConfiguration.self, forKey: .s3)
+        s3 = s3Decoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// A complex type that describes a location where recorded videos will be stored.
+    public struct StorageConfiguration: Swift.Equatable {
+        /// ARN of the storage configuration.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Name of the storage configuration.
+        public var name: Swift.String?
+        /// An S3 destination configuration where recorded videos will be stored.
+        public var s3: IVSRealTimeClientTypes.S3StorageConfiguration?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            s3: IVSRealTimeClientTypes.S3StorageConfiguration? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.s3 = s3
+            self.tags = tags
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes.StorageConfigurationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case name
+        case s3
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let s3Decoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.S3StorageConfiguration.self, forKey: .s3)
+        s3 = s3Decoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Summary information about a storage configuration.
+    public struct StorageConfigurationSummary: Swift.Equatable {
+        /// ARN of the storage configuration.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Name of the storage configuration.
+        public var name: Swift.String?
+        /// An S3 destination configuration where recorded videos will be stored.
+        public var s3: IVSRealTimeClientTypes.S3StorageConfiguration?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            s3: IVSRealTimeClientTypes.S3StorageConfiguration? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.s3 = s3
             self.tags = tags
         }
     }
@@ -3200,4 +5887,69 @@ extension ValidationExceptionBody: Swift.Decodable {
         let exceptionMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exceptionMessage)
         exceptionMessage = exceptionMessageDecoded
     }
+}
+
+extension IVSRealTimeClientTypes.Video: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bitrate
+        case framerate
+        case height
+        case width
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bitrate = self.bitrate {
+            try encodeContainer.encode(bitrate, forKey: .bitrate)
+        }
+        if let framerate = self.framerate {
+            try encodeContainer.encode(framerate, forKey: .framerate)
+        }
+        if let height = self.height {
+            try encodeContainer.encode(height, forKey: .height)
+        }
+        if let width = self.width {
+            try encodeContainer.encode(width, forKey: .width)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let widthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .width)
+        width = widthDecoded
+        let heightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .height)
+        height = heightDecoded
+        let framerateDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .framerate)
+        framerate = framerateDecoded
+        let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bitrate)
+        bitrate = bitrateDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Settings for video.
+    public struct Video: Swift.Equatable {
+        /// Bitrate for generated output, in bps. Default: 2500000.
+        public var bitrate: Swift.Int?
+        /// Video frame rate, in fps. Default: 30.
+        public var framerate: Swift.Float?
+        /// Video-resolution height. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 720.
+        public var height: Swift.Int?
+        /// Video-resolution width. Note that the maximum value is determined by width times height, such that the maximum total pixels is 2073600 (1920x1080 or 1080x1920). Default: 1280.
+        public var width: Swift.Int?
+
+        public init(
+            bitrate: Swift.Int? = nil,
+            framerate: Swift.Float? = nil,
+            height: Swift.Int? = nil,
+            width: Swift.Int? = nil
+        )
+        {
+            self.bitrate = bitrate
+            self.framerate = framerate
+            self.height = height
+            self.width = width
+        }
+    }
+
 }

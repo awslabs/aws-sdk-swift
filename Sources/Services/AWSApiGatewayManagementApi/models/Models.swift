@@ -321,6 +321,7 @@ extension PayloadTooLargeExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct PostToConnectionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PostToConnectionInputBodyMiddleware"
 
@@ -347,6 +348,8 @@ public struct PostToConnectionInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PostToConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case data = "Data"

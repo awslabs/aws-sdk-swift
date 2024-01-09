@@ -12,7 +12,11 @@ extension ResourceGroupsClient {
     ///     - input: A `[ListGroupResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupResourcesOutput`
     public func listGroupResourcesPaginated(input: ListGroupResourcesInput) -> ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutput>(input: input, inputKey: \ListGroupResourcesInput.nextToken, outputKey: \ListGroupResourcesOutput.nextToken, paginationFunction: self.listGroupResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupResources(input:))
+>>>>>>> main
     }
 }
 
@@ -27,7 +31,11 @@ extension ListGroupResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListGroupResourcesInput, Output == ListGroupResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListGroupResourcesInput, OperationStackOutput == ListGroupResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupResourcesPaginated`
     /// to access the nested member `[ResourceGroupsClientTypes.ResourceIdentifier]`
     /// - Returns: `[ResourceGroupsClientTypes.ResourceIdentifier]`
@@ -45,7 +53,11 @@ extension ResourceGroupsClient {
     ///     - input: A `[ListGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutput.nextToken, paginationFunction: self.listGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension ListGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListGroupsInput, OperationStackOutput == ListGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
     /// to access the nested member `[ResourceGroupsClientTypes.GroupIdentifier]`
     /// - Returns: `[ResourceGroupsClientTypes.GroupIdentifier]`
@@ -76,7 +92,11 @@ extension ResourceGroupsClient {
     ///     - input: A `[SearchResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutput`
     public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \SearchResourcesInput.nextToken, outputKey: \SearchResourcesOutput.nextToken, paginationFunction: self.searchResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchResources(input:))
+>>>>>>> main
     }
 }
 
@@ -89,7 +109,11 @@ extension SearchResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchResourcesInput, OperationStackOutput == SearchResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchResourcesPaginated`
     /// to access the nested member `[ResourceGroupsClientTypes.ResourceIdentifier]`
     /// - Returns: `[ResourceGroupsClientTypes.ResourceIdentifier]`

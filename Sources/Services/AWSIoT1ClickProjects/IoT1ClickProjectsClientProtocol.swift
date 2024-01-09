@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The AWS IoT 1-Click Projects API Reference
 public protocol IoT1ClickProjectsClientProtocol {
+    /// Performs the `AssociateDeviceWithPlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
     /// Associates a physical device with a placement.
     ///
     /// - Parameter AssociateDeviceWithPlacementInput : [no documentation found]
@@ -18,6 +20,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `ResourceConflictException` :
     /// - `ResourceNotFoundException` :
     func associateDeviceWithPlacement(input: AssociateDeviceWithPlacementInput) async throws -> AssociateDeviceWithPlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Creates an empty placement.
     ///
     /// - Parameter CreatePlacementInput : [no documentation found]
@@ -32,6 +39,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `ResourceConflictException` :
     /// - `ResourceNotFoundException` :
     func createPlacement(input: CreatePlacementInput) async throws -> CreatePlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProject` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
@@ -45,6 +57,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceConflictException` :
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Deletes a placement. To delete a placement, it must not have any devices associated with it. When you delete a placement, all associated data becomes irretrievable.
     ///
     /// - Parameter DeletePlacementInput : [no documentation found]
@@ -59,6 +76,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
     func deletePlacement(input: DeletePlacementInput) async throws -> DeletePlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProject` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Deletes a project. To delete a project, it must not have any placements associated with it. When you delete a project, all associated data becomes irretrievable.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
@@ -73,6 +95,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribePlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Describes a placement in a project.
     ///
     /// - Parameter DescribePlacementInput : [no documentation found]
@@ -86,6 +113,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func describePlacement(input: DescribePlacementInput) async throws -> DescribePlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeProject` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Returns an object describing a project.
     ///
     /// - Parameter DescribeProjectInput : [no documentation found]
@@ -99,6 +131,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateDeviceFromPlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Removes a physical device from a placement.
     ///
     /// - Parameter DisassociateDeviceFromPlacementInput : [no documentation found]
@@ -113,6 +150,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
     func disassociateDeviceFromPlacement(input: DisassociateDeviceFromPlacementInput) async throws -> DisassociateDeviceFromPlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDevicesInPlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Returns an object enumerating the devices in a placement.
     ///
     /// - Parameter GetDevicesInPlacementInput : [no documentation found]
@@ -126,6 +168,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func getDevicesInPlacement(input: GetDevicesInPlacementInput) async throws -> GetDevicesInPlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPlacements` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Lists the placement(s) of a project.
     ///
     /// - Parameter ListPlacementsInput : [no documentation found]
@@ -139,6 +186,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func listPlacements(input: ListPlacementsInput) async throws -> ListPlacementsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProjects` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
@@ -151,6 +203,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InternalFailureException` :
     /// - `InvalidRequestException` :
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Lists the tags (metadata key/value pairs) which you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -164,6 +221,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -177,6 +239,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Removes one or more tags (metadata key/value pairs) from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -190,6 +257,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `InvalidRequestException` :
     /// - `ResourceNotFoundException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePlacement` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
     ///
     /// - Parameter UpdatePlacementInput : [no documentation found]
@@ -204,6 +276,11 @@ public protocol IoT1ClickProjectsClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `TooManyRequestsException` :
     func updatePlacement(input: UpdatePlacementInput) async throws -> UpdatePlacementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateProject` operation on the `AWSIoT1ClickProjects` service.
+    ///
+>>>>>>> main
     /// Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]

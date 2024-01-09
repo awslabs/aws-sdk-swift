@@ -4,7 +4,10 @@ import ClientRuntime
 
 /// The FinSpace management service provides the APIs for managing FinSpace environments.
 public protocol FinspaceClientProtocol {
+    /// Performs the `CreateEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
     /// Create a new FinSpace environment.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
     ///
@@ -20,6 +23,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKxChangeset` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
     ///
     /// - Parameter CreateKxChangesetInput : [no documentation found]
@@ -37,6 +45,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxChangeset(input: CreateKxChangesetInput) async throws -> CreateKxChangesetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKxCluster` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a new kdb cluster.
     ///
     /// - Parameter CreateKxClusterInput : [no documentation found]
@@ -54,6 +67,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxCluster(input: CreateKxClusterInput) async throws -> CreateKxClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a new kdb database in the environment.
     ///
     /// - Parameter CreateKxDatabaseInput : [no documentation found]
@@ -72,6 +90,31 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxDatabase(input: CreateKxDatabaseInput) async throws -> CreateKxDatabaseOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKxDataview` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
+    ///
+    /// - Parameter CreateKxDataviewInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxDataviewOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceAlreadyExistsException` : The specified resource group already exists.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createKxDataview(input: CreateKxDataviewInput) async throws -> CreateKxDataviewOutput
+    /// Performs the `CreateKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a managed kdb environment for the account.
     ///
     /// - Parameter CreateKxEnvironmentInput : [no documentation found]
@@ -89,6 +132,30 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxEnvironment(input: CreateKxEnvironmentInput) async throws -> CreateKxEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKxScalingGroup` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Creates a new scaling group.
+    ///
+    /// - Parameter CreateKxScalingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxScalingGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createKxScalingGroup(input: CreateKxScalingGroupInput) async throws -> CreateKxScalingGroupOutput
+    /// Performs the `CreateKxUser` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
     ///
     /// - Parameter CreateKxUserInput : [no documentation found]
@@ -107,7 +174,33 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxUser(input: CreateKxUserInput) async throws -> CreateKxUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKxVolume` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Creates a new volume with a specific amount of throughput and storage capacity.
+    ///
+    /// - Parameter CreateKxVolumeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxVolumeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceAlreadyExistsException` : The specified resource group already exists.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createKxVolume(input: CreateKxVolumeInput) async throws -> CreateKxVolumeOutput
+    /// Performs the `DeleteEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Delete an FinSpace environment.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
@@ -122,6 +215,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKxCluster` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Deletes a kdb cluster.
     ///
     /// - Parameter DeleteKxClusterInput : [no documentation found]
@@ -139,6 +237,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxCluster(input: DeleteKxClusterInput) async throws -> DeleteKxClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
     ///
     /// - Parameter DeleteKxDatabaseInput : [no documentation found]
@@ -155,6 +258,29 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxDatabase(input: DeleteKxDatabaseInput) async throws -> DeleteKxDatabaseOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKxDataview` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
+    ///
+    /// - Parameter DeleteKxDataviewInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxDataviewOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func deleteKxDataview(input: DeleteKxDataviewInput) async throws -> DeleteKxDataviewOutput
+    /// Performs the `DeleteKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
     ///
     /// - Parameter DeleteKxEnvironmentInput : [no documentation found]
@@ -165,11 +291,36 @@ public protocol FinspaceClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxEnvironment(input: DeleteKxEnvironmentInput) async throws -> DeleteKxEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKxScalingGroup` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
+    ///
+    /// - Parameter DeleteKxScalingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxScalingGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func deleteKxScalingGroup(input: DeleteKxScalingGroupInput) async throws -> DeleteKxScalingGroupOutput
+    /// Performs the `DeleteKxUser` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Deletes a user in the specified kdb environment.
     ///
     /// - Parameter DeleteKxUserInput : [no documentation found]
@@ -180,12 +331,38 @@ public protocol FinspaceClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxUser(input: DeleteKxUserInput) async throws -> DeleteKxUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKxVolume` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
+    ///
+    /// - Parameter DeleteKxVolumeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxVolumeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func deleteKxVolume(input: DeleteKxVolumeInput) async throws -> DeleteKxVolumeOutput
+    /// Performs the `GetEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns the FinSpace environment object.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
     ///
@@ -199,6 +376,11 @@ public protocol FinspaceClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKxChangeset` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns information about a kdb changeset.
     ///
     /// - Parameter GetKxChangesetInput : [no documentation found]
@@ -214,6 +396,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxChangeset(input: GetKxChangesetInput) async throws -> GetKxChangesetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKxCluster` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a kdb cluster.
     ///
     /// - Parameter GetKxClusterInput : [no documentation found]
@@ -231,6 +418,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxCluster(input: GetKxClusterInput) async throws -> GetKxClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKxConnectionString` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
     ///
     /// - Parameter GetKxConnectionStringInput : [no documentation found]
@@ -246,6 +438,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxConnectionString(input: GetKxConnectionStringInput) async throws -> GetKxConnectionStringOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns database information for the specified environment ID.
     ///
     /// - Parameter GetKxDatabaseInput : [no documentation found]
@@ -261,6 +458,28 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxDatabase(input: GetKxDatabaseInput) async throws -> GetKxDatabaseOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKxDataview` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Retrieves details of the dataview.
+    ///
+    /// - Parameter GetKxDataviewInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxDataviewOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getKxDataview(input: GetKxDataviewInput) async throws -> GetKxDataviewOutput
+    /// Performs the `GetKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Retrieves all the information for the specified kdb environment.
     ///
     /// - Parameter GetKxEnvironmentInput : [no documentation found]
@@ -271,10 +490,35 @@ public protocol FinspaceClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxEnvironment(input: GetKxEnvironmentInput) async throws -> GetKxEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKxScalingGroup` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Retrieves details of a scaling group.
+    ///
+    /// - Parameter GetKxScalingGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxScalingGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getKxScalingGroup(input: GetKxScalingGroupInput) async throws -> GetKxScalingGroupOutput
+    /// Performs the `GetKxUser` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Retrieves information about the specified kdb user.
     ///
     /// - Parameter GetKxUserInput : [no documentation found]
@@ -290,7 +534,37 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxUser(input: GetKxUserInput) async throws -> GetKxUserOutput
+<<<<<<< HEAD
     /// A list of all of your FinSpace environments.
+=======
+    /// Performs the `GetKxVolume` operation on the `AWSHabaneroManagementService` service.
+>>>>>>> main
+    ///
+    /// Retrieves the information about the volume.
+    ///
+<<<<<<< HEAD
+    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+=======
+    /// - Parameter GetKxVolumeInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxVolumeOutput` : [no documentation found]
+>>>>>>> main
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getKxVolume(input: GetKxVolumeInput) async throws -> GetKxVolumeOutput
+    /// Performs the `ListEnvironments` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// A list of all of your FinSpace environments.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
     ///
@@ -299,9 +573,15 @@ public protocol FinspaceClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxChangesets` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns a list of all the changesets for a database.
     ///
     /// - Parameter ListKxChangesetsInput : [no documentation found]
@@ -317,6 +597,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxChangesets(input: ListKxChangesetsInput) async throws -> ListKxChangesetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxClusterNodes` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Lists all the nodes in a kdb cluster.
     ///
     /// - Parameter ListKxClusterNodesInput : [no documentation found]
@@ -333,6 +618,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxClusterNodes(input: ListKxClusterNodesInput) async throws -> ListKxClusterNodesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxClusters` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns a list of clusters.
     ///
     /// - Parameter ListKxClustersInput : [no documentation found]
@@ -350,6 +640,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxClusters(input: ListKxClustersInput) async throws -> ListKxClustersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxDatabases` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns a list of all the databases in the kdb environment.
     ///
     /// - Parameter ListKxDatabasesInput : [no documentation found]
@@ -365,6 +660,28 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxDatabases(input: ListKxDatabasesInput) async throws -> ListKxDatabasesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxDataviews` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Returns a list of all the dataviews in the database.
+    ///
+    /// - Parameter ListKxDataviewsInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxDataviewsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func listKxDataviews(input: ListKxDataviewsInput) async throws -> ListKxDataviewsOutput
+    /// Performs the `ListKxEnvironments` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Returns a list of kdb environments created in an account.
     ///
     /// - Parameter ListKxEnvironmentsInput : [no documentation found]
@@ -374,9 +691,34 @@ public protocol FinspaceClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxEnvironments(input: ListKxEnvironmentsInput) async throws -> ListKxEnvironmentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxScalingGroups` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Returns a list of scaling groups in a kdb environment.
+    ///
+    /// - Parameter ListKxScalingGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxScalingGroupsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func listKxScalingGroups(input: ListKxScalingGroupsInput) async throws -> ListKxScalingGroupsOutput
+    /// Performs the `ListKxUsers` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Lists all the users in a kdb environment.
     ///
     /// - Parameter ListKxUsersInput : [no documentation found]
@@ -392,6 +734,30 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxUsers(input: ListKxUsersInput) async throws -> ListKxUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKxVolumes` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Lists all the volumes in a kdb environment.
+    ///
+    /// - Parameter ListKxVolumesInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxVolumesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func listKxVolumes(input: ListKxVolumesInput) async throws -> ListKxVolumesOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// A list of all tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -405,6 +771,11 @@ public protocol FinspaceClientProtocol {
     /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Adds metadata tags to a FinSpace resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -418,6 +789,11 @@ public protocol FinspaceClientProtocol {
     /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Removes metadata tags from a FinSpace resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -431,7 +807,13 @@ public protocol FinspaceClientProtocol {
     /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Update your FinSpace environment.
+    @available(*, deprecated, message: "This method will be discontinued.")
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]
     ///
@@ -446,6 +828,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxClusterCodeConfiguration` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster. The configuration that you want to update will override any existing configurations on the cluster.
     ///
     /// - Parameter UpdateKxClusterCodeConfigurationInput : [no documentation found]
@@ -463,6 +850,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxClusterCodeConfiguration(input: UpdateKxClusterCodeConfigurationInput) async throws -> UpdateKxClusterCodeConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxClusterDatabases` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one. Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
     ///
     /// - Parameter UpdateKxClusterDatabasesInput : [no documentation found]
@@ -480,6 +872,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxClusterDatabases(input: UpdateKxClusterDatabasesInput) async throws -> UpdateKxClusterDatabasesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxDatabase` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Updates information for the given kdb database.
     ///
     /// - Parameter UpdateKxDatabaseInput : [no documentation found]
@@ -496,6 +893,30 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxDatabase(input: UpdateKxDatabaseInput) async throws -> UpdateKxDatabaseOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxDataview` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
+    ///
+    /// - Parameter UpdateKxDataviewInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxDataviewOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceAlreadyExistsException` : The specified resource group already exists.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func updateKxDataview(input: UpdateKxDataviewInput) async throws -> UpdateKxDataviewOutput
+    /// Performs the `UpdateKxEnvironment` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Updates information for the given kdb environment.
     ///
     /// - Parameter UpdateKxEnvironmentInput : [no documentation found]
@@ -512,6 +933,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxEnvironment(input: UpdateKxEnvironmentInput) async throws -> UpdateKxEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxEnvironmentNetwork` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
     ///
     /// - Parameter UpdateKxEnvironmentNetworkInput : [no documentation found]
@@ -528,6 +954,11 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxEnvironmentNetwork(input: UpdateKxEnvironmentNetworkInput) async throws -> UpdateKxEnvironmentNetworkOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxUser` operation on the `AWSHabaneroManagementService` service.
+    ///
+>>>>>>> main
     /// Updates the user details. You can only update the IAM role associated with a user.
     ///
     /// - Parameter UpdateKxUserInput : [no documentation found]
@@ -545,6 +976,28 @@ public protocol FinspaceClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxUser(input: UpdateKxUserInput) async throws -> UpdateKxUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKxVolume` operation on the `AWSHabaneroManagementService` service.
+    ///
+    /// Updates the throughput or capacity of a volume. During the update process, the filesystem might be unavailable for a few minutes. You can retry any operations after the update is complete.
+    ///
+    /// - Parameter UpdateKxVolumeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxVolumeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func updateKxVolume(input: UpdateKxVolumeInput) async throws -> UpdateKxVolumeOutput
+>>>>>>> main
 }
 
 public enum FinspaceClientTypes {}

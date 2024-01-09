@@ -12,7 +12,11 @@ extension SSMClient {
     ///     - input: A `[DescribeActivationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeActivationsOutput`
     public func describeActivationsPaginated(input: DescribeActivationsInput) -> ClientRuntime.PaginatorSequence<DescribeActivationsInput, DescribeActivationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeActivationsInput, DescribeActivationsOutput>(input: input, inputKey: \DescribeActivationsInput.nextToken, outputKey: \DescribeActivationsOutput.nextToken, paginationFunction: self.describeActivations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeActivationsInput, DescribeActivationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeActivations(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension DescribeActivationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeActivationsInput, Output == DescribeActivationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeActivationsInput, OperationStackOutput == DescribeActivationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeActivationsPaginated`
     /// to access the nested member `[SSMClientTypes.Activation]`
     /// - Returns: `[SSMClientTypes.Activation]`
@@ -43,7 +51,11 @@ extension SSMClient {
     ///     - input: A `[DescribeAssociationExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAssociationExecutionsOutput`
     public func describeAssociationExecutionsPaginated(input: DescribeAssociationExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>(input: input, inputKey: \DescribeAssociationExecutionsInput.nextToken, outputKey: \DescribeAssociationExecutionsOutput.nextToken, paginationFunction: self.describeAssociationExecutions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAssociationExecutions(input:))
+>>>>>>> main
     }
 }
 
@@ -57,7 +69,11 @@ extension DescribeAssociationExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAssociationExecutionsInput, Output == DescribeAssociationExecutionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAssociationExecutionsInput, OperationStackOutput == DescribeAssociationExecutionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAssociationExecutionsPaginated`
     /// to access the nested member `[SSMClientTypes.AssociationExecution]`
     /// - Returns: `[SSMClientTypes.AssociationExecution]`
@@ -75,7 +91,11 @@ extension SSMClient {
     ///     - input: A `[DescribeAssociationExecutionTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAssociationExecutionTargetsOutput`
     public func describeAssociationExecutionTargetsPaginated(input: DescribeAssociationExecutionTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>(input: input, inputKey: \DescribeAssociationExecutionTargetsInput.nextToken, outputKey: \DescribeAssociationExecutionTargetsOutput.nextToken, paginationFunction: self.describeAssociationExecutionTargets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAssociationExecutionTargets(input:))
+>>>>>>> main
     }
 }
 
@@ -90,7 +110,11 @@ extension DescribeAssociationExecutionTargetsInput: ClientRuntime.PaginateToken 
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAssociationExecutionTargetsInput, Output == DescribeAssociationExecutionTargetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAssociationExecutionTargetsInput, OperationStackOutput == DescribeAssociationExecutionTargetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAssociationExecutionTargetsPaginated`
     /// to access the nested member `[SSMClientTypes.AssociationExecutionTarget]`
     /// - Returns: `[SSMClientTypes.AssociationExecutionTarget]`
@@ -108,7 +132,11 @@ extension SSMClient {
     ///     - input: A `[DescribeAutomationExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutomationExecutionsOutput`
     public func describeAutomationExecutionsPaginated(input: DescribeAutomationExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>(input: input, inputKey: \DescribeAutomationExecutionsInput.nextToken, outputKey: \DescribeAutomationExecutionsOutput.nextToken, paginationFunction: self.describeAutomationExecutions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAutomationExecutions(input:))
+>>>>>>> main
     }
 }
 
@@ -121,7 +149,11 @@ extension DescribeAutomationExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAutomationExecutionsInput, Output == DescribeAutomationExecutionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAutomationExecutionsInput, OperationStackOutput == DescribeAutomationExecutionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAutomationExecutionsPaginated`
     /// to access the nested member `[SSMClientTypes.AutomationExecutionMetadata]`
     /// - Returns: `[SSMClientTypes.AutomationExecutionMetadata]`
@@ -139,7 +171,11 @@ extension SSMClient {
     ///     - input: A `[DescribeAutomationStepExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutomationStepExecutionsOutput`
     public func describeAutomationStepExecutionsPaginated(input: DescribeAutomationStepExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>(input: input, inputKey: \DescribeAutomationStepExecutionsInput.nextToken, outputKey: \DescribeAutomationStepExecutionsOutput.nextToken, paginationFunction: self.describeAutomationStepExecutions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAutomationStepExecutions(input:))
+>>>>>>> main
     }
 }
 
@@ -154,7 +190,11 @@ extension DescribeAutomationStepExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAutomationStepExecutionsInput, Output == DescribeAutomationStepExecutionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAutomationStepExecutionsInput, OperationStackOutput == DescribeAutomationStepExecutionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAutomationStepExecutionsPaginated`
     /// to access the nested member `[SSMClientTypes.StepExecution]`
     /// - Returns: `[SSMClientTypes.StepExecution]`
@@ -172,7 +212,11 @@ extension SSMClient {
     ///     - input: A `[DescribeAvailablePatchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAvailablePatchesOutput`
     public func describeAvailablePatchesPaginated(input: DescribeAvailablePatchesInput) -> ClientRuntime.PaginatorSequence<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>(input: input, inputKey: \DescribeAvailablePatchesInput.nextToken, outputKey: \DescribeAvailablePatchesOutput.nextToken, paginationFunction: self.describeAvailablePatches(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAvailablePatches(input:))
+>>>>>>> main
     }
 }
 
@@ -185,7 +229,11 @@ extension DescribeAvailablePatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAvailablePatchesInput, Output == DescribeAvailablePatchesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAvailablePatchesInput, OperationStackOutput == DescribeAvailablePatchesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAvailablePatchesPaginated`
     /// to access the nested member `[SSMClientTypes.Patch]`
     /// - Returns: `[SSMClientTypes.Patch]`
@@ -203,7 +251,11 @@ extension SSMClient {
     ///     - input: A `[DescribeEffectiveInstanceAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEffectiveInstanceAssociationsOutput`
     public func describeEffectiveInstanceAssociationsPaginated(input: DescribeEffectiveInstanceAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>(input: input, inputKey: \DescribeEffectiveInstanceAssociationsInput.nextToken, outputKey: \DescribeEffectiveInstanceAssociationsOutput.nextToken, paginationFunction: self.describeEffectiveInstanceAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEffectiveInstanceAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -216,7 +268,11 @@ extension DescribeEffectiveInstanceAssociationsInput: ClientRuntime.PaginateToke
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeEffectiveInstanceAssociationsInput, Output == DescribeEffectiveInstanceAssociationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeEffectiveInstanceAssociationsInput, OperationStackOutput == DescribeEffectiveInstanceAssociationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEffectiveInstanceAssociationsPaginated`
     /// to access the nested member `[SSMClientTypes.InstanceAssociation]`
     /// - Returns: `[SSMClientTypes.InstanceAssociation]`
@@ -234,7 +290,11 @@ extension SSMClient {
     ///     - input: A `[DescribeEffectivePatchesForPatchBaselineInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEffectivePatchesForPatchBaselineOutput`
     public func describeEffectivePatchesForPatchBaselinePaginated(input: DescribeEffectivePatchesForPatchBaselineInput) -> ClientRuntime.PaginatorSequence<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>(input: input, inputKey: \DescribeEffectivePatchesForPatchBaselineInput.nextToken, outputKey: \DescribeEffectivePatchesForPatchBaselineOutput.nextToken, paginationFunction: self.describeEffectivePatchesForPatchBaseline(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEffectivePatchesForPatchBaseline(input:))
+>>>>>>> main
     }
 }
 
@@ -247,7 +307,11 @@ extension DescribeEffectivePatchesForPatchBaselineInput: ClientRuntime.PaginateT
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeEffectivePatchesForPatchBaselineInput, Output == DescribeEffectivePatchesForPatchBaselineOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeEffectivePatchesForPatchBaselineInput, OperationStackOutput == DescribeEffectivePatchesForPatchBaselineOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEffectivePatchesForPatchBaselinePaginated`
     /// to access the nested member `[SSMClientTypes.EffectivePatch]`
     /// - Returns: `[SSMClientTypes.EffectivePatch]`
@@ -265,7 +329,11 @@ extension SSMClient {
     ///     - input: A `[DescribeInstanceAssociationsStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceAssociationsStatusOutput`
     public func describeInstanceAssociationsStatusPaginated(input: DescribeInstanceAssociationsStatusInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>(input: input, inputKey: \DescribeInstanceAssociationsStatusInput.nextToken, outputKey: \DescribeInstanceAssociationsStatusOutput.nextToken, paginationFunction: self.describeInstanceAssociationsStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceAssociationsStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -278,7 +346,11 @@ extension DescribeInstanceAssociationsStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeInstanceAssociationsStatusInput, Output == DescribeInstanceAssociationsStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeInstanceAssociationsStatusInput, OperationStackOutput == DescribeInstanceAssociationsStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceAssociationsStatusPaginated`
     /// to access the nested member `[SSMClientTypes.InstanceAssociationStatusInfo]`
     /// - Returns: `[SSMClientTypes.InstanceAssociationStatusInfo]`
@@ -296,7 +368,11 @@ extension SSMClient {
     ///     - input: A `[DescribeInstanceInformationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceInformationOutput`
     public func describeInstanceInformationPaginated(input: DescribeInstanceInformationInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceInformationInput, DescribeInstanceInformationOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>(input: input, inputKey: \DescribeInstanceInformationInput.nextToken, outputKey: \DescribeInstanceInformationOutput.nextToken, paginationFunction: self.describeInstanceInformation(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceInformation(input:))
+>>>>>>> main
     }
 }
 
@@ -310,7 +386,11 @@ extension DescribeInstanceInformationInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeInstanceInformationInput, Output == DescribeInstanceInformationOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeInstanceInformationInput, OperationStackOutput == DescribeInstanceInformationOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceInformationPaginated`
     /// to access the nested member `[SSMClientTypes.InstanceInformation]`
     /// - Returns: `[SSMClientTypes.InstanceInformation]`
@@ -328,7 +408,11 @@ extension SSMClient {
     ///     - input: A `[DescribeInstancePatchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchesOutput`
     public func describeInstancePatchesPaginated(input: DescribeInstancePatchesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePatchesInput, DescribeInstancePatchesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>(input: input, inputKey: \DescribeInstancePatchesInput.nextToken, outputKey: \DescribeInstancePatchesOutput.nextToken, paginationFunction: self.describeInstancePatches(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstancePatches(input:))
+>>>>>>> main
     }
 }
 
@@ -342,7 +426,11 @@ extension DescribeInstancePatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeInstancePatchesInput, Output == DescribeInstancePatchesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeInstancePatchesInput, OperationStackOutput == DescribeInstancePatchesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchesPaginated`
     /// to access the nested member `[SSMClientTypes.PatchComplianceData]`
     /// - Returns: `[SSMClientTypes.PatchComplianceData]`
@@ -360,7 +448,11 @@ extension SSMClient {
     ///     - input: A `[DescribeInstancePatchStatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchStatesOutput`
     public func describeInstancePatchStatesPaginated(input: DescribeInstancePatchStatesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>(input: input, inputKey: \DescribeInstancePatchStatesInput.nextToken, outputKey: \DescribeInstancePatchStatesOutput.nextToken, paginationFunction: self.describeInstancePatchStates(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstancePatchStates(input:))
+>>>>>>> main
     }
 }
 
@@ -373,7 +465,11 @@ extension DescribeInstancePatchStatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeInstancePatchStatesInput, Output == DescribeInstancePatchStatesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeInstancePatchStatesInput, OperationStackOutput == DescribeInstancePatchStatesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchStatesPaginated`
     /// to access the nested member `[SSMClientTypes.InstancePatchState]`
     /// - Returns: `[SSMClientTypes.InstancePatchState]`
@@ -391,7 +487,11 @@ extension SSMClient {
     ///     - input: A `[DescribeInstancePatchStatesForPatchGroupInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchStatesForPatchGroupOutput`
     public func describeInstancePatchStatesForPatchGroupPaginated(input: DescribeInstancePatchStatesForPatchGroupInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>(input: input, inputKey: \DescribeInstancePatchStatesForPatchGroupInput.nextToken, outputKey: \DescribeInstancePatchStatesForPatchGroupOutput.nextToken, paginationFunction: self.describeInstancePatchStatesForPatchGroup(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstancePatchStatesForPatchGroup(input:))
+>>>>>>> main
     }
 }
 
@@ -405,7 +505,11 @@ extension DescribeInstancePatchStatesForPatchGroupInput: ClientRuntime.PaginateT
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeInstancePatchStatesForPatchGroupInput, Output == DescribeInstancePatchStatesForPatchGroupOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeInstancePatchStatesForPatchGroupInput, OperationStackOutput == DescribeInstancePatchStatesForPatchGroupOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchStatesForPatchGroupPaginated`
     /// to access the nested member `[SSMClientTypes.InstancePatchState]`
     /// - Returns: `[SSMClientTypes.InstancePatchState]`
@@ -423,7 +527,11 @@ extension SSMClient {
     ///     - input: A `[DescribeInventoryDeletionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInventoryDeletionsOutput`
     public func describeInventoryDeletionsPaginated(input: DescribeInventoryDeletionsInput) -> ClientRuntime.PaginatorSequence<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>(input: input, inputKey: \DescribeInventoryDeletionsInput.nextToken, outputKey: \DescribeInventoryDeletionsOutput.nextToken, paginationFunction: self.describeInventoryDeletions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInventoryDeletions(input:))
+>>>>>>> main
     }
 }
 
@@ -436,7 +544,11 @@ extension DescribeInventoryDeletionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeInventoryDeletionsInput, Output == DescribeInventoryDeletionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeInventoryDeletionsInput, OperationStackOutput == DescribeInventoryDeletionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInventoryDeletionsPaginated`
     /// to access the nested member `[SSMClientTypes.InventoryDeletionStatusItem]`
     /// - Returns: `[SSMClientTypes.InventoryDeletionStatusItem]`
@@ -454,7 +566,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionsOutput`
     public func describeMaintenanceWindowExecutionsPaginated(input: DescribeMaintenanceWindowExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>(input: input, inputKey: \DescribeMaintenanceWindowExecutionsInput.nextToken, outputKey: \DescribeMaintenanceWindowExecutionsOutput.nextToken, paginationFunction: self.describeMaintenanceWindowExecutions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowExecutions(input:))
+>>>>>>> main
     }
 }
 
@@ -468,7 +584,11 @@ extension DescribeMaintenanceWindowExecutionsInput: ClientRuntime.PaginateToken 
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowExecutionsInput, Output == DescribeMaintenanceWindowExecutionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowExecutionsInput, OperationStackOutput == DescribeMaintenanceWindowExecutionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionsPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowExecution]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowExecution]`
@@ -486,7 +606,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowExecutionTaskInvocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionTaskInvocationsOutput`
     public func describeMaintenanceWindowExecutionTaskInvocationsPaginated(input: DescribeMaintenanceWindowExecutionTaskInvocationsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(input: input, inputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsInput.nextToken, outputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsOutput.nextToken, paginationFunction: self.describeMaintenanceWindowExecutionTaskInvocations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowExecutionTaskInvocations(input:))
+>>>>>>> main
     }
 }
 
@@ -501,7 +625,11 @@ extension DescribeMaintenanceWindowExecutionTaskInvocationsInput: ClientRuntime.
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowExecutionTaskInvocationsInput, Output == DescribeMaintenanceWindowExecutionTaskInvocationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowExecutionTaskInvocationsInput, OperationStackOutput == DescribeMaintenanceWindowExecutionTaskInvocationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionTaskInvocationsPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]`
@@ -519,7 +647,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowExecutionTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionTasksOutput`
     public func describeMaintenanceWindowExecutionTasksPaginated(input: DescribeMaintenanceWindowExecutionTasksInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>(input: input, inputKey: \DescribeMaintenanceWindowExecutionTasksInput.nextToken, outputKey: \DescribeMaintenanceWindowExecutionTasksOutput.nextToken, paginationFunction: self.describeMaintenanceWindowExecutionTasks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowExecutionTasks(input:))
+>>>>>>> main
     }
 }
 
@@ -533,7 +665,11 @@ extension DescribeMaintenanceWindowExecutionTasksInput: ClientRuntime.PaginateTo
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowExecutionTasksInput, Output == DescribeMaintenanceWindowExecutionTasksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowExecutionTasksInput, OperationStackOutput == DescribeMaintenanceWindowExecutionTasksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionTasksPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]`
@@ -551,7 +687,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowsOutput`
     public func describeMaintenanceWindowsPaginated(input: DescribeMaintenanceWindowsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>(input: input, inputKey: \DescribeMaintenanceWindowsInput.nextToken, outputKey: \DescribeMaintenanceWindowsOutput.nextToken, paginationFunction: self.describeMaintenanceWindows(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindows(input:))
+>>>>>>> main
     }
 }
 
@@ -564,7 +704,11 @@ extension DescribeMaintenanceWindowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowsInput, Output == DescribeMaintenanceWindowsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowsInput, OperationStackOutput == DescribeMaintenanceWindowsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowsPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowIdentity]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowIdentity]`
@@ -582,7 +726,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowScheduleInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowScheduleOutput`
     public func describeMaintenanceWindowSchedulePaginated(input: DescribeMaintenanceWindowScheduleInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>(input: input, inputKey: \DescribeMaintenanceWindowScheduleInput.nextToken, outputKey: \DescribeMaintenanceWindowScheduleOutput.nextToken, paginationFunction: self.describeMaintenanceWindowSchedule(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowSchedule(input:))
+>>>>>>> main
     }
 }
 
@@ -598,7 +746,11 @@ extension DescribeMaintenanceWindowScheduleInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowScheduleInput, Output == DescribeMaintenanceWindowScheduleOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowScheduleInput, OperationStackOutput == DescribeMaintenanceWindowScheduleOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowSchedulePaginated`
     /// to access the nested member `[SSMClientTypes.ScheduledWindowExecution]`
     /// - Returns: `[SSMClientTypes.ScheduledWindowExecution]`
@@ -616,7 +768,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowsForTargetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowsForTargetOutput`
     public func describeMaintenanceWindowsForTargetPaginated(input: DescribeMaintenanceWindowsForTargetInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>(input: input, inputKey: \DescribeMaintenanceWindowsForTargetInput.nextToken, outputKey: \DescribeMaintenanceWindowsForTargetOutput.nextToken, paginationFunction: self.describeMaintenanceWindowsForTarget(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowsForTarget(input:))
+>>>>>>> main
     }
 }
 
@@ -630,7 +786,11 @@ extension DescribeMaintenanceWindowsForTargetInput: ClientRuntime.PaginateToken 
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowsForTargetInput, Output == DescribeMaintenanceWindowsForTargetOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowsForTargetInput, OperationStackOutput == DescribeMaintenanceWindowsForTargetOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowsForTargetPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowIdentityForTarget]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowIdentityForTarget]`
@@ -648,7 +808,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowTargetsOutput`
     public func describeMaintenanceWindowTargetsPaginated(input: DescribeMaintenanceWindowTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>(input: input, inputKey: \DescribeMaintenanceWindowTargetsInput.nextToken, outputKey: \DescribeMaintenanceWindowTargetsOutput.nextToken, paginationFunction: self.describeMaintenanceWindowTargets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowTargets(input:))
+>>>>>>> main
     }
 }
 
@@ -662,7 +826,11 @@ extension DescribeMaintenanceWindowTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowTargetsInput, Output == DescribeMaintenanceWindowTargetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowTargetsInput, OperationStackOutput == DescribeMaintenanceWindowTargetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowTargetsPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowTarget]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowTarget]`
@@ -680,7 +848,11 @@ extension SSMClient {
     ///     - input: A `[DescribeMaintenanceWindowTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowTasksOutput`
     public func describeMaintenanceWindowTasksPaginated(input: DescribeMaintenanceWindowTasksInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>(input: input, inputKey: \DescribeMaintenanceWindowTasksInput.nextToken, outputKey: \DescribeMaintenanceWindowTasksOutput.nextToken, paginationFunction: self.describeMaintenanceWindowTasks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMaintenanceWindowTasks(input:))
+>>>>>>> main
     }
 }
 
@@ -694,7 +866,11 @@ extension DescribeMaintenanceWindowTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMaintenanceWindowTasksInput, Output == DescribeMaintenanceWindowTasksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMaintenanceWindowTasksInput, OperationStackOutput == DescribeMaintenanceWindowTasksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowTasksPaginated`
     /// to access the nested member `[SSMClientTypes.MaintenanceWindowTask]`
     /// - Returns: `[SSMClientTypes.MaintenanceWindowTask]`
@@ -712,7 +888,11 @@ extension SSMClient {
     ///     - input: A `[DescribeOpsItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOpsItemsOutput`
     public func describeOpsItemsPaginated(input: DescribeOpsItemsInput) -> ClientRuntime.PaginatorSequence<DescribeOpsItemsInput, DescribeOpsItemsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeOpsItemsInput, DescribeOpsItemsOutput>(input: input, inputKey: \DescribeOpsItemsInput.nextToken, outputKey: \DescribeOpsItemsOutput.nextToken, paginationFunction: self.describeOpsItems(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeOpsItemsInput, DescribeOpsItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOpsItems(input:))
+>>>>>>> main
     }
 }
 
@@ -725,7 +905,11 @@ extension DescribeOpsItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeOpsItemsInput, Output == DescribeOpsItemsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeOpsItemsInput, OperationStackOutput == DescribeOpsItemsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeOpsItemsPaginated`
     /// to access the nested member `[SSMClientTypes.OpsItemSummary]`
     /// - Returns: `[SSMClientTypes.OpsItemSummary]`
@@ -743,7 +927,11 @@ extension SSMClient {
     ///     - input: A `[DescribeParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeParametersOutput`
     public func describeParametersPaginated(input: DescribeParametersInput) -> ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput>(input: input, inputKey: \DescribeParametersInput.nextToken, outputKey: \DescribeParametersOutput.nextToken, paginationFunction: self.describeParameters(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeParameters(input:))
+>>>>>>> main
     }
 }
 
@@ -766,7 +954,11 @@ extension SSMClient {
     ///     - input: A `[DescribePatchBaselinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePatchBaselinesOutput`
     public func describePatchBaselinesPaginated(input: DescribePatchBaselinesInput) -> ClientRuntime.PaginatorSequence<DescribePatchBaselinesInput, DescribePatchBaselinesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>(input: input, inputKey: \DescribePatchBaselinesInput.nextToken, outputKey: \DescribePatchBaselinesOutput.nextToken, paginationFunction: self.describePatchBaselines(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePatchBaselines(input:))
+>>>>>>> main
     }
 }
 
@@ -779,7 +971,11 @@ extension DescribePatchBaselinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribePatchBaselinesInput, Output == DescribePatchBaselinesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribePatchBaselinesInput, OperationStackOutput == DescribePatchBaselinesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePatchBaselinesPaginated`
     /// to access the nested member `[SSMClientTypes.PatchBaselineIdentity]`
     /// - Returns: `[SSMClientTypes.PatchBaselineIdentity]`
@@ -797,7 +993,11 @@ extension SSMClient {
     ///     - input: A `[DescribePatchGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePatchGroupsOutput`
     public func describePatchGroupsPaginated(input: DescribePatchGroupsInput) -> ClientRuntime.PaginatorSequence<DescribePatchGroupsInput, DescribePatchGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePatchGroupsInput, DescribePatchGroupsOutput>(input: input, inputKey: \DescribePatchGroupsInput.nextToken, outputKey: \DescribePatchGroupsOutput.nextToken, paginationFunction: self.describePatchGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePatchGroupsInput, DescribePatchGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePatchGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -810,7 +1010,11 @@ extension DescribePatchGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribePatchGroupsInput, Output == DescribePatchGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribePatchGroupsInput, OperationStackOutput == DescribePatchGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePatchGroupsPaginated`
     /// to access the nested member `[SSMClientTypes.PatchGroupPatchBaselineMapping]`
     /// - Returns: `[SSMClientTypes.PatchGroupPatchBaselineMapping]`
@@ -828,7 +1032,11 @@ extension SSMClient {
     ///     - input: A `[DescribePatchPropertiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePatchPropertiesOutput`
     public func describePatchPropertiesPaginated(input: DescribePatchPropertiesInput) -> ClientRuntime.PaginatorSequence<DescribePatchPropertiesInput, DescribePatchPropertiesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>(input: input, inputKey: \DescribePatchPropertiesInput.nextToken, outputKey: \DescribePatchPropertiesOutput.nextToken, paginationFunction: self.describePatchProperties(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePatchProperties(input:))
+>>>>>>> main
     }
 }
 
@@ -843,7 +1051,11 @@ extension DescribePatchPropertiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribePatchPropertiesInput, Output == DescribePatchPropertiesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribePatchPropertiesInput, OperationStackOutput == DescribePatchPropertiesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePatchPropertiesPaginated`
     /// to access the nested member `[[Swift.String:Swift.String]]`
     /// - Returns: `[[Swift.String:Swift.String]]`
@@ -861,7 +1073,11 @@ extension SSMClient {
     ///     - input: A `[DescribeSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSessionsOutput`
     public func describeSessionsPaginated(input: DescribeSessionsInput) -> ClientRuntime.PaginatorSequence<DescribeSessionsInput, DescribeSessionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeSessionsInput, DescribeSessionsOutput>(input: input, inputKey: \DescribeSessionsInput.nextToken, outputKey: \DescribeSessionsOutput.nextToken, paginationFunction: self.describeSessions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeSessionsInput, DescribeSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSessions(input:))
+>>>>>>> main
     }
 }
 
@@ -875,7 +1091,11 @@ extension DescribeSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeSessionsInput, Output == DescribeSessionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeSessionsInput, OperationStackOutput == DescribeSessionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSessionsPaginated`
     /// to access the nested member `[SSMClientTypes.Session]`
     /// - Returns: `[SSMClientTypes.Session]`
@@ -893,7 +1113,11 @@ extension SSMClient {
     ///     - input: A `[GetInventoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInventoryOutput`
     public func getInventoryPaginated(input: GetInventoryInput) -> ClientRuntime.PaginatorSequence<GetInventoryInput, GetInventoryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetInventoryInput, GetInventoryOutput>(input: input, inputKey: \GetInventoryInput.nextToken, outputKey: \GetInventoryOutput.nextToken, paginationFunction: self.getInventory(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetInventoryInput, GetInventoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInventory(input:))
+>>>>>>> main
     }
 }
 
@@ -908,7 +1132,11 @@ extension GetInventoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetInventoryInput, Output == GetInventoryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetInventoryInput, OperationStackOutput == GetInventoryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getInventoryPaginated`
     /// to access the nested member `[SSMClientTypes.InventoryResultEntity]`
     /// - Returns: `[SSMClientTypes.InventoryResultEntity]`
@@ -926,7 +1154,11 @@ extension SSMClient {
     ///     - input: A `[GetInventorySchemaInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInventorySchemaOutput`
     public func getInventorySchemaPaginated(input: GetInventorySchemaInput) -> ClientRuntime.PaginatorSequence<GetInventorySchemaInput, GetInventorySchemaOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetInventorySchemaInput, GetInventorySchemaOutput>(input: input, inputKey: \GetInventorySchemaInput.nextToken, outputKey: \GetInventorySchemaOutput.nextToken, paginationFunction: self.getInventorySchema(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetInventorySchemaInput, GetInventorySchemaOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInventorySchema(input:))
+>>>>>>> main
     }
 }
 
@@ -941,7 +1173,11 @@ extension GetInventorySchemaInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetInventorySchemaInput, Output == GetInventorySchemaOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetInventorySchemaInput, OperationStackOutput == GetInventorySchemaOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getInventorySchemaPaginated`
     /// to access the nested member `[SSMClientTypes.InventoryItemSchema]`
     /// - Returns: `[SSMClientTypes.InventoryItemSchema]`
@@ -959,7 +1195,11 @@ extension SSMClient {
     ///     - input: A `[GetOpsSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetOpsSummaryOutput`
     public func getOpsSummaryPaginated(input: GetOpsSummaryInput) -> ClientRuntime.PaginatorSequence<GetOpsSummaryInput, GetOpsSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetOpsSummaryInput, GetOpsSummaryOutput>(input: input, inputKey: \GetOpsSummaryInput.nextToken, outputKey: \GetOpsSummaryOutput.nextToken, paginationFunction: self.getOpsSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetOpsSummaryInput, GetOpsSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOpsSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -975,7 +1215,11 @@ extension GetOpsSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetOpsSummaryInput, Output == GetOpsSummaryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetOpsSummaryInput, OperationStackOutput == GetOpsSummaryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getOpsSummaryPaginated`
     /// to access the nested member `[SSMClientTypes.OpsEntity]`
     /// - Returns: `[SSMClientTypes.OpsEntity]`
@@ -993,7 +1237,11 @@ extension SSMClient {
     ///     - input: A `[GetParameterHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetParameterHistoryOutput`
     public func getParameterHistoryPaginated(input: GetParameterHistoryInput) -> ClientRuntime.PaginatorSequence<GetParameterHistoryInput, GetParameterHistoryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetParameterHistoryInput, GetParameterHistoryOutput>(input: input, inputKey: \GetParameterHistoryInput.nextToken, outputKey: \GetParameterHistoryOutput.nextToken, paginationFunction: self.getParameterHistory(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetParameterHistoryInput, GetParameterHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getParameterHistory(input:))
+>>>>>>> main
     }
 }
 
@@ -1016,7 +1264,11 @@ extension SSMClient {
     ///     - input: A `[GetParametersByPathInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetParametersByPathOutput`
     public func getParametersByPathPaginated(input: GetParametersByPathInput) -> ClientRuntime.PaginatorSequence<GetParametersByPathInput, GetParametersByPathOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetParametersByPathInput, GetParametersByPathOutput>(input: input, inputKey: \GetParametersByPathInput.nextToken, outputKey: \GetParametersByPathOutput.nextToken, paginationFunction: self.getParametersByPath(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetParametersByPathInput, GetParametersByPathOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getParametersByPath(input:))
+>>>>>>> main
     }
 }
 
@@ -1041,7 +1293,11 @@ extension SSMClient {
     ///     - input: A `[GetResourcePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutput`
     public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutput.nextToken, paginationFunction: self.getResourcePolicies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourcePolicies(input:))
+>>>>>>> main
     }
 }
 
@@ -1054,7 +1310,11 @@ extension GetResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetResourcePoliciesInput, Output == GetResourcePoliciesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetResourcePoliciesInput, OperationStackOutput == GetResourcePoliciesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
     /// to access the nested member `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
     /// - Returns: `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
@@ -1072,7 +1332,11 @@ extension SSMClient {
     ///     - input: A `[ListAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociationsOutput`
     public func listAssociationsPaginated(input: ListAssociationsInput) -> ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutput>(input: input, inputKey: \ListAssociationsInput.nextToken, outputKey: \ListAssociationsOutput.nextToken, paginationFunction: self.listAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -1085,7 +1349,11 @@ extension ListAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAssociationsInput, Output == ListAssociationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAssociationsInput, OperationStackOutput == ListAssociationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssociationsPaginated`
     /// to access the nested member `[SSMClientTypes.Association]`
     /// - Returns: `[SSMClientTypes.Association]`
@@ -1103,7 +1371,11 @@ extension SSMClient {
     ///     - input: A `[ListAssociationVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociationVersionsOutput`
     public func listAssociationVersionsPaginated(input: ListAssociationVersionsInput) -> ClientRuntime.PaginatorSequence<ListAssociationVersionsInput, ListAssociationVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssociationVersionsInput, ListAssociationVersionsOutput>(input: input, inputKey: \ListAssociationVersionsInput.nextToken, outputKey: \ListAssociationVersionsOutput.nextToken, paginationFunction: self.listAssociationVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssociationVersionsInput, ListAssociationVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociationVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -1116,7 +1388,11 @@ extension ListAssociationVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAssociationVersionsInput, Output == ListAssociationVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAssociationVersionsInput, OperationStackOutput == ListAssociationVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssociationVersionsPaginated`
     /// to access the nested member `[SSMClientTypes.AssociationVersionInfo]`
     /// - Returns: `[SSMClientTypes.AssociationVersionInfo]`
@@ -1134,7 +1410,11 @@ extension SSMClient {
     ///     - input: A `[ListCommandInvocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCommandInvocationsOutput`
     public func listCommandInvocationsPaginated(input: ListCommandInvocationsInput) -> ClientRuntime.PaginatorSequence<ListCommandInvocationsInput, ListCommandInvocationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCommandInvocationsInput, ListCommandInvocationsOutput>(input: input, inputKey: \ListCommandInvocationsInput.nextToken, outputKey: \ListCommandInvocationsOutput.nextToken, paginationFunction: self.listCommandInvocations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCommandInvocationsInput, ListCommandInvocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCommandInvocations(input:))
+>>>>>>> main
     }
 }
 
@@ -1150,7 +1430,11 @@ extension ListCommandInvocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCommandInvocationsInput, Output == ListCommandInvocationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCommandInvocationsInput, OperationStackOutput == ListCommandInvocationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCommandInvocationsPaginated`
     /// to access the nested member `[SSMClientTypes.CommandInvocation]`
     /// - Returns: `[SSMClientTypes.CommandInvocation]`
@@ -1168,7 +1452,11 @@ extension SSMClient {
     ///     - input: A `[ListCommandsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCommandsOutput`
     public func listCommandsPaginated(input: ListCommandsInput) -> ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutput>(input: input, inputKey: \ListCommandsInput.nextToken, outputKey: \ListCommandsOutput.nextToken, paginationFunction: self.listCommands(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCommands(input:))
+>>>>>>> main
     }
 }
 
@@ -1183,7 +1471,11 @@ extension ListCommandsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCommandsInput, Output == ListCommandsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCommandsInput, OperationStackOutput == ListCommandsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCommandsPaginated`
     /// to access the nested member `[SSMClientTypes.Command]`
     /// - Returns: `[SSMClientTypes.Command]`
@@ -1201,7 +1493,11 @@ extension SSMClient {
     ///     - input: A `[ListComplianceItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComplianceItemsOutput`
     public func listComplianceItemsPaginated(input: ListComplianceItemsInput) -> ClientRuntime.PaginatorSequence<ListComplianceItemsInput, ListComplianceItemsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComplianceItemsInput, ListComplianceItemsOutput>(input: input, inputKey: \ListComplianceItemsInput.nextToken, outputKey: \ListComplianceItemsOutput.nextToken, paginationFunction: self.listComplianceItems(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComplianceItemsInput, ListComplianceItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComplianceItems(input:))
+>>>>>>> main
     }
 }
 
@@ -1216,7 +1512,11 @@ extension ListComplianceItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListComplianceItemsInput, Output == ListComplianceItemsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListComplianceItemsInput, OperationStackOutput == ListComplianceItemsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComplianceItemsPaginated`
     /// to access the nested member `[SSMClientTypes.ComplianceItem]`
     /// - Returns: `[SSMClientTypes.ComplianceItem]`
@@ -1234,7 +1534,11 @@ extension SSMClient {
     ///     - input: A `[ListComplianceSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComplianceSummariesOutput`
     public func listComplianceSummariesPaginated(input: ListComplianceSummariesInput) -> ClientRuntime.PaginatorSequence<ListComplianceSummariesInput, ListComplianceSummariesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComplianceSummariesInput, ListComplianceSummariesOutput>(input: input, inputKey: \ListComplianceSummariesInput.nextToken, outputKey: \ListComplianceSummariesOutput.nextToken, paginationFunction: self.listComplianceSummaries(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComplianceSummariesInput, ListComplianceSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComplianceSummaries(input:))
+>>>>>>> main
     }
 }
 
@@ -1247,7 +1551,11 @@ extension ListComplianceSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListComplianceSummariesInput, Output == ListComplianceSummariesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListComplianceSummariesInput, OperationStackOutput == ListComplianceSummariesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComplianceSummariesPaginated`
     /// to access the nested member `[SSMClientTypes.ComplianceSummaryItem]`
     /// - Returns: `[SSMClientTypes.ComplianceSummaryItem]`
@@ -1265,7 +1573,11 @@ extension SSMClient {
     ///     - input: A `[ListDocumentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentsOutput`
     public func listDocumentsPaginated(input: ListDocumentsInput) -> ClientRuntime.PaginatorSequence<ListDocumentsInput, ListDocumentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDocumentsInput, ListDocumentsOutput>(input: input, inputKey: \ListDocumentsInput.nextToken, outputKey: \ListDocumentsOutput.nextToken, paginationFunction: self.listDocuments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDocumentsInput, ListDocumentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDocuments(input:))
+>>>>>>> main
     }
 }
 
@@ -1279,7 +1591,11 @@ extension ListDocumentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDocumentsInput, Output == ListDocumentsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDocumentsInput, OperationStackOutput == ListDocumentsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDocumentsPaginated`
     /// to access the nested member `[SSMClientTypes.DocumentIdentifier]`
     /// - Returns: `[SSMClientTypes.DocumentIdentifier]`
@@ -1297,7 +1613,11 @@ extension SSMClient {
     ///     - input: A `[ListDocumentVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentVersionsOutput`
     public func listDocumentVersionsPaginated(input: ListDocumentVersionsInput) -> ClientRuntime.PaginatorSequence<ListDocumentVersionsInput, ListDocumentVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDocumentVersionsInput, ListDocumentVersionsOutput>(input: input, inputKey: \ListDocumentVersionsInput.nextToken, outputKey: \ListDocumentVersionsOutput.nextToken, paginationFunction: self.listDocumentVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDocumentVersionsInput, ListDocumentVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDocumentVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -1310,7 +1630,11 @@ extension ListDocumentVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDocumentVersionsInput, Output == ListDocumentVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDocumentVersionsInput, OperationStackOutput == ListDocumentVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDocumentVersionsPaginated`
     /// to access the nested member `[SSMClientTypes.DocumentVersionInfo]`
     /// - Returns: `[SSMClientTypes.DocumentVersionInfo]`
@@ -1328,7 +1652,11 @@ extension SSMClient {
     ///     - input: A `[ListOpsItemEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOpsItemEventsOutput`
     public func listOpsItemEventsPaginated(input: ListOpsItemEventsInput) -> ClientRuntime.PaginatorSequence<ListOpsItemEventsInput, ListOpsItemEventsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOpsItemEventsInput, ListOpsItemEventsOutput>(input: input, inputKey: \ListOpsItemEventsInput.nextToken, outputKey: \ListOpsItemEventsOutput.nextToken, paginationFunction: self.listOpsItemEvents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOpsItemEventsInput, ListOpsItemEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOpsItemEvents(input:))
+>>>>>>> main
     }
 }
 
@@ -1341,7 +1669,11 @@ extension ListOpsItemEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListOpsItemEventsInput, Output == ListOpsItemEventsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListOpsItemEventsInput, OperationStackOutput == ListOpsItemEventsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOpsItemEventsPaginated`
     /// to access the nested member `[SSMClientTypes.OpsItemEventSummary]`
     /// - Returns: `[SSMClientTypes.OpsItemEventSummary]`
@@ -1359,7 +1691,11 @@ extension SSMClient {
     ///     - input: A `[ListOpsItemRelatedItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOpsItemRelatedItemsOutput`
     public func listOpsItemRelatedItemsPaginated(input: ListOpsItemRelatedItemsInput) -> ClientRuntime.PaginatorSequence<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>(input: input, inputKey: \ListOpsItemRelatedItemsInput.nextToken, outputKey: \ListOpsItemRelatedItemsOutput.nextToken, paginationFunction: self.listOpsItemRelatedItems(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOpsItemRelatedItems(input:))
+>>>>>>> main
     }
 }
 
@@ -1373,7 +1709,11 @@ extension ListOpsItemRelatedItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListOpsItemRelatedItemsInput, Output == ListOpsItemRelatedItemsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListOpsItemRelatedItemsInput, OperationStackOutput == ListOpsItemRelatedItemsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOpsItemRelatedItemsPaginated`
     /// to access the nested member `[SSMClientTypes.OpsItemRelatedItemSummary]`
     /// - Returns: `[SSMClientTypes.OpsItemRelatedItemSummary]`
@@ -1391,7 +1731,11 @@ extension SSMClient {
     ///     - input: A `[ListOpsMetadataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOpsMetadataOutput`
     public func listOpsMetadataPaginated(input: ListOpsMetadataInput) -> ClientRuntime.PaginatorSequence<ListOpsMetadataInput, ListOpsMetadataOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOpsMetadataInput, ListOpsMetadataOutput>(input: input, inputKey: \ListOpsMetadataInput.nextToken, outputKey: \ListOpsMetadataOutput.nextToken, paginationFunction: self.listOpsMetadata(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOpsMetadataInput, ListOpsMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOpsMetadata(input:))
+>>>>>>> main
     }
 }
 
@@ -1404,7 +1748,11 @@ extension ListOpsMetadataInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListOpsMetadataInput, Output == ListOpsMetadataOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListOpsMetadataInput, OperationStackOutput == ListOpsMetadataOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOpsMetadataPaginated`
     /// to access the nested member `[SSMClientTypes.OpsMetadata]`
     /// - Returns: `[SSMClientTypes.OpsMetadata]`
@@ -1422,7 +1770,11 @@ extension SSMClient {
     ///     - input: A `[ListResourceComplianceSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceComplianceSummariesOutput`
     public func listResourceComplianceSummariesPaginated(input: ListResourceComplianceSummariesInput) -> ClientRuntime.PaginatorSequence<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>(input: input, inputKey: \ListResourceComplianceSummariesInput.nextToken, outputKey: \ListResourceComplianceSummariesOutput.nextToken, paginationFunction: self.listResourceComplianceSummaries(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceComplianceSummaries(input:))
+>>>>>>> main
     }
 }
 
@@ -1435,7 +1787,11 @@ extension ListResourceComplianceSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListResourceComplianceSummariesInput, Output == ListResourceComplianceSummariesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListResourceComplianceSummariesInput, OperationStackOutput == ListResourceComplianceSummariesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceComplianceSummariesPaginated`
     /// to access the nested member `[SSMClientTypes.ResourceComplianceSummaryItem]`
     /// - Returns: `[SSMClientTypes.ResourceComplianceSummaryItem]`
@@ -1453,7 +1809,11 @@ extension SSMClient {
     ///     - input: A `[ListResourceDataSyncInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceDataSyncOutput`
     public func listResourceDataSyncPaginated(input: ListResourceDataSyncInput) -> ClientRuntime.PaginatorSequence<ListResourceDataSyncInput, ListResourceDataSyncOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceDataSyncInput, ListResourceDataSyncOutput>(input: input, inputKey: \ListResourceDataSyncInput.nextToken, outputKey: \ListResourceDataSyncOutput.nextToken, paginationFunction: self.listResourceDataSync(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceDataSyncInput, ListResourceDataSyncOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceDataSync(input:))
+>>>>>>> main
     }
 }
 
@@ -1466,7 +1826,11 @@ extension ListResourceDataSyncInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListResourceDataSyncInput, Output == ListResourceDataSyncOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListResourceDataSyncInput, OperationStackOutput == ListResourceDataSyncOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceDataSyncPaginated`
     /// to access the nested member `[SSMClientTypes.ResourceDataSyncItem]`
     /// - Returns: `[SSMClientTypes.ResourceDataSyncItem]`

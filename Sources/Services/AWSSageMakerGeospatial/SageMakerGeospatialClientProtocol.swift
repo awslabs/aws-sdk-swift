@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Provides APIs for creating and managing SageMaker geospatial resources.
 public protocol SageMakerGeospatialClientProtocol {
+    /// Performs the `DeleteEarthObservationJob` operation on the `SageMakerGeospatial` service.
+    ///
     /// Use this operation to delete an Earth Observation job.
     ///
     /// - Parameter DeleteEarthObservationJobInput : [no documentation found]
@@ -20,6 +22,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteEarthObservationJob(input: DeleteEarthObservationJobInput) async throws -> DeleteEarthObservationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVectorEnrichmentJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to delete a Vector Enrichment job.
     ///
     /// - Parameter DeleteVectorEnrichmentJobInput : [no documentation found]
@@ -36,6 +43,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteVectorEnrichmentJob(input: DeleteVectorEnrichmentJobInput) async throws -> DeleteVectorEnrichmentJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportEarthObservationJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     ///
     /// - Parameter ExportEarthObservationJobInput : [no documentation found]
@@ -53,6 +65,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func exportEarthObservationJob(input: ExportEarthObservationJobInput) async throws -> ExportEarthObservationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportVectorEnrichmentJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     ///
     /// - Parameter ExportVectorEnrichmentJobInput : [no documentation found]
@@ -70,6 +87,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func exportVectorEnrichmentJob(input: ExportVectorEnrichmentJobInput) async throws -> ExportVectorEnrichmentJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEarthObservationJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Get the details for a previously initiated Earth Observation job.
     ///
     /// - Parameter GetEarthObservationJobInput : [no documentation found]
@@ -85,6 +107,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getEarthObservationJob(input: GetEarthObservationJobInput) async throws -> GetEarthObservationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRasterDataCollection` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to get details of a specific raster data collection.
     ///
     /// - Parameter GetRasterDataCollectionInput : [no documentation found]
@@ -100,6 +127,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getRasterDataCollection(input: GetRasterDataCollectionInput) async throws -> GetRasterDataCollectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetTile` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Gets a web mercator tile for the given Earth Observation job.
     ///
     /// - Parameter GetTileInput : [no documentation found]
@@ -115,6 +147,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getTile(input: GetTileInput) async throws -> GetTileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVectorEnrichmentJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
     ///
     /// - Parameter GetVectorEnrichmentJobInput : [no documentation found]
@@ -130,6 +167,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getVectorEnrichmentJob(input: GetVectorEnrichmentJobInput) async throws -> GetVectorEnrichmentJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEarthObservationJobs` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     ///
     /// - Parameter ListEarthObservationJobsInput : [no documentation found]
@@ -145,6 +187,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listEarthObservationJobs(input: ListEarthObservationJobsInput) async throws -> ListEarthObservationJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRasterDataCollections` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to get raster data collections.
     ///
     /// - Parameter ListRasterDataCollectionsInput : [no documentation found]
@@ -160,6 +207,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRasterDataCollections(input: ListRasterDataCollectionsInput) async throws -> ListRasterDataCollectionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Lists the tags attached to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -175,6 +227,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVectorEnrichmentJobs` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of vector enrichment jobs.
     ///
     /// - Parameter ListVectorEnrichmentJobsInput : [no documentation found]
@@ -190,6 +247,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listVectorEnrichmentJobs(input: ListVectorEnrichmentJobsInput) async throws -> ListVectorEnrichmentJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchRasterDataCollection` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     ///
     /// - Parameter SearchRasterDataCollectionInput : [no documentation found]
@@ -205,6 +267,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func searchRasterDataCollection(input: SearchRasterDataCollectionInput) async throws -> SearchRasterDataCollectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartEarthObservationJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to create an Earth observation job.
     ///
     /// - Parameter StartEarthObservationJobInput : [no documentation found]
@@ -222,6 +289,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startEarthObservationJob(input: StartEarthObservationJobInput) async throws -> StartEarthObservationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartVectorEnrichmentJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
     ///
     /// - Parameter StartVectorEnrichmentJobInput : [no documentation found]
@@ -239,6 +311,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startVectorEnrichmentJob(input: StartVectorEnrichmentJobInput) async throws -> StartVectorEnrichmentJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopEarthObservationJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Use this operation to stop an existing earth observation job.
     ///
     /// - Parameter StopEarthObservationJobInput : [no documentation found]
@@ -255,6 +332,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopEarthObservationJob(input: StopEarthObservationJobInput) async throws -> StopEarthObservationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopVectorEnrichmentJob` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// Stops the Vector Enrichment job for a given job ARN.
     ///
     /// - Parameter StopVectorEnrichmentJobInput : [no documentation found]
@@ -271,6 +353,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopVectorEnrichmentJob(input: StopVectorEnrichmentJobInput) async throws -> StopVectorEnrichmentJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// The resource you want to tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -286,6 +373,11 @@ public protocol SageMakerGeospatialClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `SageMakerGeospatial` service.
+    ///
+>>>>>>> main
     /// The resource you want to untag.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

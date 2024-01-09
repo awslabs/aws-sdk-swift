@@ -12,7 +12,11 @@ extension IotDeviceAdvisorClient {
     ///     - input: A `[ListSuiteDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSuiteDefinitionsOutput`
     public func listSuiteDefinitionsPaginated(input: ListSuiteDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutput>(input: input, inputKey: \ListSuiteDefinitionsInput.nextToken, outputKey: \ListSuiteDefinitionsOutput.nextToken, paginationFunction: self.listSuiteDefinitions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSuiteDefinitions(input:))
+>>>>>>> main
     }
 }
 
@@ -33,7 +37,11 @@ extension IotDeviceAdvisorClient {
     ///     - input: A `[ListSuiteRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSuiteRunsOutput`
     public func listSuiteRunsPaginated(input: ListSuiteRunsInput) -> ClientRuntime.PaginatorSequence<ListSuiteRunsInput, ListSuiteRunsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSuiteRunsInput, ListSuiteRunsOutput>(input: input, inputKey: \ListSuiteRunsInput.nextToken, outputKey: \ListSuiteRunsOutput.nextToken, paginationFunction: self.listSuiteRuns(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSuiteRunsInput, ListSuiteRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSuiteRuns(input:))
+>>>>>>> main
     }
 }
 

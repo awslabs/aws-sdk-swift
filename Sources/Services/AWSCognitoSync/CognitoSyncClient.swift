@@ -67,6 +67,8 @@ public struct CognitoSyncClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 }
 
 extension CognitoSyncClient: CognitoSyncClientProtocol {
+    /// Performs the `BulkPublish` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
     ///
     /// - Parameter BulkPublishInput : The input for the BulkPublish operation.
@@ -98,6 +100,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<BulkPublishInput, BulkPublishOutput, BulkPublishOutputError>(id: "bulkPublish")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BulkPublishInput, BulkPublishOutput, BulkPublishOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BulkPublishInput, BulkPublishOutput>())
@@ -109,10 +112,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BulkPublishOutput, BulkPublishOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BulkPublishOutput, BulkPublishOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BulkPublishOutput, BulkPublishOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<BulkPublishInput, BulkPublishOutput>(id: "bulkPublish")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BulkPublishInput, BulkPublishOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BulkPublishInput, BulkPublishOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BulkPublishOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BulkPublishOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BulkPublishOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BulkPublishOutput>(responseClosure(decoder: decoder), responseErrorClosure(BulkPublishOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BulkPublishOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteDataset` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Deletes the specific dataset. The dataset will be deleted permanently, and the action can't be undone. Datasets that this dataset was merged with will no longer report the merge. Any subsequent operation on this dataset will result in a ResourceNotFoundException. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
     ///
     /// - Parameter DeleteDatasetInput : A request to delete the specific dataset.
@@ -144,6 +162,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutput, DeleteDatasetOutputError>(id: "deleteDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput, DeleteDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
@@ -155,10 +174,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetOutput, DeleteDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput, DeleteDatasetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetOutput, DeleteDatasetOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutput>(id: "deleteDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatasetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDatasetOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteDatasetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeDataset` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
     ///
     /// - Parameter DescribeDatasetInput : A request for meta data about a dataset (creation date, number of records, size) by owner and dataset name.
@@ -189,6 +223,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutput, DescribeDatasetOutputError>(id: "describeDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput, DescribeDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
@@ -200,10 +235,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetOutput, DescribeDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput, DescribeDatasetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetOutput, DescribeDatasetOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutput>(id: "describeDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDatasetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDatasetOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeDatasetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeIdentityPoolUsage` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets usage details (for example, data storage) about a particular identity pool. This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity. DescribeIdentityPoolUsage The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: 8dc0e749-c8cd-48bd-8520-da6be00d528b X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.DescribeIdentityPoolUsage HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T205737Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature= { "Operation": "com.amazonaws.cognito.sync.model#DescribeIdentityPoolUsage", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "IDENTITY_POOL_ID" } } 1.1 200 OK x-amzn-requestid: 8dc0e749-c8cd-48bd-8520-da6be00d528b content-type: application/json content-length: 271 date: Tue, 11 Nov 2014 20:57:37 GMT { "Output": { "__type": "com.amazonaws.cognito.sync.model#DescribeIdentityPoolUsageResponse", "IdentityPoolUsage": { "DataStorage": 0, "IdentityPoolId": "IDENTITY_POOL_ID", "LastModifiedDate": 1.413231134115E9, "SyncSessionsCount": null } }, "Version": "1.0" }
     ///
     /// - Parameter DescribeIdentityPoolUsageInput : A request for usage information about the identity pool.
@@ -234,6 +284,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput, DescribeIdentityPoolUsageOutputError>(id: "describeIdentityPoolUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput, DescribeIdentityPoolUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput>())
@@ -245,10 +296,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityPoolUsageOutput, DescribeIdentityPoolUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityPoolUsageOutput, DescribeIdentityPoolUsageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityPoolUsageOutput, DescribeIdentityPoolUsageOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput>(id: "describeIdentityPoolUsage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityPoolUsageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityPoolUsageOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityPoolUsageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityPoolUsageOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeIdentityPoolUsageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityPoolUsageOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeIdentityUsage` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets usage information for an identity, including number of datasets and data usage. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. DescribeIdentityUsage The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: 33f9b4e4-a177-4aad-a3bb-6edb7980b283 X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.DescribeIdentityUsage HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T215129Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature= { "Operation": "com.amazonaws.cognito.sync.model#DescribeIdentityUsage", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "IDENTITY_POOL_ID", "IdentityId": "IDENTITY_ID" } } 1.1 200 OK x-amzn-requestid: 33f9b4e4-a177-4aad-a3bb-6edb7980b283 content-type: application/json content-length: 318 date: Tue, 11 Nov 2014 21:51:29 GMT { "Output": { "__type": "com.amazonaws.cognito.sync.model#DescribeIdentityUsageResponse", "IdentityUsage": { "DataStorage": 16, "DatasetCount": 1, "IdentityId": "IDENTITY_ID", "IdentityPoolId": "IDENTITY_POOL_ID", "LastModifiedDate": 1.412974081336E9 } }, "Version": "1.0" }
     ///
     /// - Parameter DescribeIdentityUsageInput : A request for information about the usage of an identity pool.
@@ -279,6 +345,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeIdentityUsageInput, DescribeIdentityUsageOutput, DescribeIdentityUsageOutputError>(id: "describeIdentityUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityUsageInput, DescribeIdentityUsageOutput, DescribeIdentityUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityUsageInput, DescribeIdentityUsageOutput>())
@@ -290,10 +357,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityUsageOutput, DescribeIdentityUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityUsageOutput, DescribeIdentityUsageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityUsageOutput, DescribeIdentityUsageOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeIdentityUsageInput, DescribeIdentityUsageOutput>(id: "describeIdentityUsage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityUsageInput, DescribeIdentityUsageOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityUsageInput, DescribeIdentityUsageOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityUsageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityUsageOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityUsageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityUsageOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeIdentityUsageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityUsageOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetBulkPublishDetails` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Get the status of the last BulkPublish operation for an identity pool.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
     ///
     /// - Parameter GetBulkPublishDetailsInput : The input for the GetBulkPublishDetails operation.
@@ -323,6 +405,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput, GetBulkPublishDetailsOutputError>(id: "getBulkPublishDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput, GetBulkPublishDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput>())
@@ -334,10 +417,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBulkPublishDetailsOutput, GetBulkPublishDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBulkPublishDetailsOutput, GetBulkPublishDetailsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBulkPublishDetailsOutput, GetBulkPublishDetailsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput>(id: "getBulkPublishDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBulkPublishDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBulkPublishDetailsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBulkPublishDetailsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBulkPublishDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBulkPublishDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBulkPublishDetailsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCognitoEvents` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets the events and the corresponding Lambda functions associated with an identity pool.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
     ///
     /// - Parameter GetCognitoEventsInput : A request for a list of the configured Cognito Events
@@ -368,6 +466,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetCognitoEventsInput, GetCognitoEventsOutput, GetCognitoEventsOutputError>(id: "getCognitoEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCognitoEventsInput, GetCognitoEventsOutput, GetCognitoEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCognitoEventsInput, GetCognitoEventsOutput>())
@@ -379,10 +478,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCognitoEventsOutput, GetCognitoEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCognitoEventsOutput, GetCognitoEventsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCognitoEventsOutput, GetCognitoEventsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetCognitoEventsInput, GetCognitoEventsOutput>(id: "getCognitoEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCognitoEventsInput, GetCognitoEventsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCognitoEventsInput, GetCognitoEventsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCognitoEventsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCognitoEventsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCognitoEventsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCognitoEventsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCognitoEventsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCognitoEventsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetIdentityPoolConfiguration` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets the configuration settings of an identity pool.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity. GetIdentityPoolConfiguration The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: b1cfdd4b-f620-4fe4-be0f-02024a1d33da X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.GetIdentityPoolConfiguration HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T195722Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature= { "Operation": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfiguration", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "ID_POOL_ID" } } 1.1 200 OK x-amzn-requestid: b1cfdd4b-f620-4fe4-be0f-02024a1d33da date: Sat, 04 Oct 2014 19:57:22 GMT content-type: application/json content-length: 332 { "Output": { "__type": "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse", "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } }, "Version": "1.0" }
     ///
     /// - Parameter GetIdentityPoolConfigurationInput : The input for the GetIdentityPoolConfiguration operation.
@@ -413,6 +527,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput, GetIdentityPoolConfigurationOutputError>(id: "getIdentityPoolConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput, GetIdentityPoolConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput>())
@@ -424,10 +539,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityPoolConfigurationOutput, GetIdentityPoolConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityPoolConfigurationOutput, GetIdentityPoolConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityPoolConfigurationOutput, GetIdentityPoolConfigurationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput>(id: "getIdentityPoolConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityPoolConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetIdentityPoolConfigurationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityPoolConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityPoolConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetIdentityPoolConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityPoolConfigurationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDatasets` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. ListDatasets can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use the Cognito Identity credentials to make this API call. ListDatasets The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: 15225768-209f-4078-aaed-7494ace9f2db X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListDatasets HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T215640Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature= { "Operation": "com.amazonaws.cognito.sync.model#ListDatasets", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "IDENTITY_POOL_ID", "IdentityId": "IDENTITY_ID", "MaxResults": "3" } } 1.1 200 OK x-amzn-requestid: 15225768-209f-4078-aaed-7494ace9f2db, 15225768-209f-4078-aaed-7494ace9f2db content-type: application/json content-length: 355 date: Tue, 11 Nov 2014 21:56:40 GMT { "Output": { "__type": "com.amazonaws.cognito.sync.model#ListDatasetsResponse", "Count": 1, "Datasets": [ { "CreationDate": 1.412974057151E9, "DataStorage": 16, "DatasetName": "my_list", "IdentityId": "IDENTITY_ID", "LastModifiedBy": "123456789012", "LastModifiedDate": 1.412974057244E9, "NumRecords": 1 }], "NextToken": null }, "Version": "1.0" }
     ///
     /// - Parameter ListDatasetsInput : Request for a list of datasets for an identity.
@@ -457,6 +587,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListDatasetsInput, ListDatasetsOutput, ListDatasetsOutputError>(id: "listDatasets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutput, ListDatasetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutput>())
@@ -469,10 +600,26 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetsOutput, ListDatasetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetsOutput, ListDatasetsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetsOutput, ListDatasetsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListDatasetsInput, ListDatasetsOutput>(id: "listDatasets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDatasetsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDatasetsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDatasetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListIdentityPoolUsage` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets a list of identity pools registered with Cognito. ListIdentityPoolUsage can only be called with developer credentials. You cannot make this API call with the temporary user credentials provided by Cognito Identity. ListIdentityPoolUsage The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3 X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListIdentityPoolUsage HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T211414Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature= { "Operation": "com.amazonaws.cognito.sync.model#ListIdentityPoolUsage", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "MaxResults": "2" } } 1.1 200 OK x-amzn-requestid: 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3 content-type: application/json content-length: 519 date: Tue, 11 Nov 2014 21:14:14 GMT { "Output": { "__type": "com.amazonaws.cognito.sync.model#ListIdentityPoolUsageResponse", "Count": 2, "IdentityPoolUsages": [ { "DataStorage": 0, "IdentityPoolId": "IDENTITY_POOL_ID", "LastModifiedDate": 1.413836234607E9, "SyncSessionsCount": null }, { "DataStorage": 0, "IdentityPoolId": "IDENTITY_POOL_ID", "LastModifiedDate": 1.410892165601E9, "SyncSessionsCount": null }], "MaxResults": 2, "NextToken": "dXMtZWFzdC0xOjBjMWJhMDUyLWUwOTgtNDFmYS1hNzZlLWVhYTJjMTI1Zjg2MQ==" }, "Version": "1.0" }
     ///
     /// - Parameter ListIdentityPoolUsageInput : A request for usage information on an identity pool.
@@ -502,6 +649,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput, ListIdentityPoolUsageOutputError>(id: "listIdentityPoolUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput, ListIdentityPoolUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>())
@@ -514,10 +662,26 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityPoolUsageOutput, ListIdentityPoolUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityPoolUsageOutput, ListIdentityPoolUsageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityPoolUsageOutput, ListIdentityPoolUsageOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>(id: "listIdentityPoolUsage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityPoolUsageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityPoolUsageOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityPoolUsageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityPoolUsageOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListIdentityPoolUsageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityPoolUsageOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRecords` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Gets paginated records, optionally changed after a particular sync count for a dataset and identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data. ListRecords can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call. ListRecords The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListRecords HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T183230Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid, Signature= { "Operation": "com.amazonaws.cognito.sync.model#ListRecords", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "IDENTITY_POOL_ID", "IdentityId": "IDENTITY_ID", "DatasetName": "newDataSet" } } 1.1 200 OK x-amzn-requestid: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d content-type: application/json content-length: 623 date: Tue, 11 Nov 2014 18:32:30 GMT { "Output": { "__type": "com.amazonaws.cognito.sync.model#ListRecordsResponse", "Count": 0, "DatasetDeletedAfterRequestedSyncCount": false, "DatasetExists": false, "DatasetSyncCount": 0, "LastModifiedBy": null, "MergedDatasetNames": null, "NextToken": null, "Records": [], "SyncSessionToken": "SYNC_SESSION_TOKEN" }, "Version": "1.0" }
     ///
     /// - Parameter ListRecordsInput : A request for a list of records.
@@ -547,6 +711,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListRecordsInput, ListRecordsOutput, ListRecordsOutputError>(id: "listRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecordsInput, ListRecordsOutput, ListRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecordsInput, ListRecordsOutput>())
@@ -559,10 +724,26 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecordsOutput, ListRecordsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecordsOutput, ListRecordsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecordsOutput, ListRecordsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListRecordsInput, ListRecordsOutput>(id: "listRecords")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecordsInput, ListRecordsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecordsInput, ListRecordsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecordsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListRecordsInput, ListRecordsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecordsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecordsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecordsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRecordsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecordsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RegisterDevice` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Registers a device to receive push sync notifications.This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials. RegisterDevice The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: 368f9200-3eca-449e-93b3-7b9c08d8e185 X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.RegisterDevice HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T194643Z X-AMZ-SECURITY-TOKEN: AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature= { "Operation": "com.amazonaws.cognito.sync.model#RegisterDevice", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "ID_POOL_ID", "IdentityId": "IDENTITY_ID", "Platform": "GCM", "Token": "PUSH_TOKEN" } } 1.1 200 OK x-amzn-requestid: 368f9200-3eca-449e-93b3-7b9c08d8e185 date: Sat, 04 Oct 2014 19:46:44 GMT content-type: application/json content-length: 145 { "Output": { "__type": "com.amazonaws.cognito.sync.model#RegisterDeviceResponse", "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014" }, "Version": "1.0" }
     ///
     /// - Parameter RegisterDeviceInput : A request to RegisterDevice.
@@ -594,6 +775,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<RegisterDeviceInput, RegisterDeviceOutput, RegisterDeviceOutputError>(id: "registerDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDeviceInput, RegisterDeviceOutput, RegisterDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDeviceInput, RegisterDeviceOutput>())
@@ -608,10 +790,28 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDeviceOutput, RegisterDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDeviceOutput, RegisterDeviceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDeviceOutput, RegisterDeviceOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<RegisterDeviceInput, RegisterDeviceOutput>(id: "registerDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDeviceInput, RegisterDeviceOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDeviceInput, RegisterDeviceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterDeviceInput, RegisterDeviceOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RegisterDeviceInput, RegisterDeviceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterDeviceOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegisterDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDeviceOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SetCognitoEvents` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
     ///
     /// - Parameter SetCognitoEventsInput : A request to configure Cognito Events""
@@ -642,6 +842,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<SetCognitoEventsInput, SetCognitoEventsOutput, SetCognitoEventsOutputError>(id: "setCognitoEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput, SetCognitoEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput>())
@@ -656,10 +857,28 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetCognitoEventsOutput, SetCognitoEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetCognitoEventsOutput, SetCognitoEventsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetCognitoEventsOutput, SetCognitoEventsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<SetCognitoEventsInput, SetCognitoEventsOutput>(id: "setCognitoEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetCognitoEventsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetCognitoEventsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetCognitoEventsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetCognitoEventsOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetCognitoEventsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetCognitoEventsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SetIdentityPoolConfiguration` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Sets the necessary configuration for push sync.This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity. SetIdentityPoolConfiguration The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: a46db021-f5dd-45d6-af5b-7069fa4a211b X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SetIdentityPoolConfiguration HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T200006Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature= { "Operation": "com.amazonaws.cognito.sync.model#SetIdentityPoolConfiguration", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } } } 1.1 200 OK x-amzn-requestid: a46db021-f5dd-45d6-af5b-7069fa4a211b date: Sat, 04 Oct 2014 20:00:06 GMT content-type: application/json content-length: 332 { "Output": { "__type": "com.amazonaws.cognito.sync.model#SetIdentityPoolConfigurationResponse", "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } }, "Version": "1.0" }
     ///
     /// - Parameter SetIdentityPoolConfigurationInput : The input for the SetIdentityPoolConfiguration operation.
@@ -691,6 +910,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput, SetIdentityPoolConfigurationOutputError>(id: "setIdentityPoolConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput, SetIdentityPoolConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>())
@@ -705,10 +925,28 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityPoolConfigurationOutput, SetIdentityPoolConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityPoolConfigurationOutput, SetIdentityPoolConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityPoolConfigurationOutput, SetIdentityPoolConfigurationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>(id: "setIdentityPoolConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetIdentityPoolConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetIdentityPoolConfigurationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityPoolConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityPoolConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetIdentityPoolConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityPoolConfigurationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SubscribeToDataset` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Subscribes to receive notifications when a dataset is modified by another device.This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials. SubscribeToDataset The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID: 8b9932b7-201d-4418-a960-0a470e11de9f X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SubscribeToDataset HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T195350Z X-AMZ-SECURITY-TOKEN: AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature= { "Operation": "com.amazonaws.cognito.sync.model#SubscribeToDataset", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "ID_POOL_ID", "IdentityId": "IDENTITY_ID", "DatasetName": "Rufus", "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014" } } 1.1 200 OK x-amzn-requestid: 8b9932b7-201d-4418-a960-0a470e11de9f date: Sat, 04 Oct 2014 19:53:50 GMT content-type: application/json content-length: 99 { "Output": { "__type": "com.amazonaws.cognito.sync.model#SubscribeToDatasetResponse" }, "Version": "1.0" }
     ///
     /// - Parameter SubscribeToDatasetInput : A request to SubscribeToDatasetRequest.
@@ -740,6 +978,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<SubscribeToDatasetInput, SubscribeToDatasetOutput, SubscribeToDatasetOutputError>(id: "subscribeToDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeToDatasetInput, SubscribeToDatasetOutput, SubscribeToDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeToDatasetInput, SubscribeToDatasetOutput>())
@@ -751,10 +990,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeToDatasetOutput, SubscribeToDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeToDatasetOutput, SubscribeToDatasetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeToDatasetOutput, SubscribeToDatasetOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<SubscribeToDatasetInput, SubscribeToDatasetOutput>(id: "subscribeToDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeToDatasetInput, SubscribeToDatasetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeToDatasetInput, SubscribeToDatasetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SubscribeToDatasetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SubscribeToDatasetOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeToDatasetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeToDatasetOutput>(responseClosure(decoder: decoder), responseErrorClosure(SubscribeToDatasetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeToDatasetOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UnsubscribeFromDataset` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Unsubscribes from receiving notifications when a dataset is modified by another device.This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials. UnsubscribeFromDataset The following examples have been edited for readability. POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZ-REQUESTSUPERTRACE: true X-AMZN-REQUESTID: 676896d6-14ca-45b1-8029-6d36b10a077e X-AMZ-TARGET: com.amazonaws.cognito.sync.model.AWSCognitoSyncService.UnsubscribeFromDataset HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T195446Z X-AMZ-SECURITY-TOKEN: AUTHORIZATION: AWS4-HMAC-SHA256 Credential=, SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target, Signature= { "Operation": "com.amazonaws.cognito.sync.model#UnsubscribeFromDataset", "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": { "IdentityPoolId": "ID_POOL_ID", "IdentityId": "IDENTITY_ID", "DatasetName": "Rufus", "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014" } } 1.1 200 OK x-amzn-requestid: 676896d6-14ca-45b1-8029-6d36b10a077e date: Sat, 04 Oct 2014 19:54:46 GMT content-type: application/json content-length: 103 { "Output": { "__type": "com.amazonaws.cognito.sync.model#UnsubscribeFromDatasetResponse" }, "Version": "1.0" }
     ///
     /// - Parameter UnsubscribeFromDatasetInput : A request to UnsubscribeFromDataset.
@@ -786,6 +1040,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput, UnsubscribeFromDatasetOutputError>(id: "unsubscribeFromDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput, UnsubscribeFromDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput>())
@@ -797,10 +1052,25 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeFromDatasetOutput, UnsubscribeFromDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeFromDatasetOutput, UnsubscribeFromDatasetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeFromDatasetOutput, UnsubscribeFromDatasetOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput>(id: "unsubscribeFromDataset")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnsubscribeFromDatasetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnsubscribeFromDatasetOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeFromDatasetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeFromDatasetOutput>(responseClosure(decoder: decoder), responseErrorClosure(UnsubscribeFromDatasetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeFromDatasetOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRecords` operation on the `AWSCognitoSyncService` service.
+    ///
     /// Posts updates to records and adds and deletes records for a dataset and user. The sync count in the record patch is your last known sync count for that record. The server will reject an UpdateRecords request with a ResourceConflictException if you try to patch a record with a new value but a stale sync count.For example, if the sync count on the server is 5 for a key called highScore and you try and submit a new highScore with sync count of 4, the request will be rejected. To obtain the current sync count for a record, call ListRecords. On a successful update of the record, the response returns the new sync count for that record. You should present that sync count the next time you try to update that same record. When the record does not exist, specify the sync count as 0. This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
     ///
     /// - Parameter UpdateRecordsInput : A request to post updates to records or add and delete records for a dataset and user.
@@ -835,6 +1105,7 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
                       .withSigningName(value: "cognito-sync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateRecordsInput, UpdateRecordsOutput, UpdateRecordsOutputError>(id: "updateRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRecordsInput, UpdateRecordsOutput, UpdateRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRecordsInput, UpdateRecordsOutput>())
@@ -850,6 +1121,23 @@ extension CognitoSyncClient: CognitoSyncClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRecordsOutput, UpdateRecordsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRecordsOutput, UpdateRecordsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRecordsOutput, UpdateRecordsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateRecordsInput, UpdateRecordsOutput>(id: "updateRecords")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRecordsInput, UpdateRecordsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRecordsInput, UpdateRecordsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRecordsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateRecordsInput, UpdateRecordsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRecordsInput, UpdateRecordsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRecordsInput, UpdateRecordsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRecordsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRecordsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRecordsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRecordsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRecordsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

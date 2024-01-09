@@ -12,7 +12,11 @@ extension KendraRankingClient {
     ///     - input: A `[ListRescoreExecutionPlansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRescoreExecutionPlansOutput`
     public func listRescoreExecutionPlansPaginated(input: ListRescoreExecutionPlansInput) -> ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(input: input, inputKey: \ListRescoreExecutionPlansInput.nextToken, outputKey: \ListRescoreExecutionPlansOutput.nextToken, paginationFunction: self.listRescoreExecutionPlans(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRescoreExecutionPlansInput, ListRescoreExecutionPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRescoreExecutionPlans(input:))
+>>>>>>> main
     }
 }
 

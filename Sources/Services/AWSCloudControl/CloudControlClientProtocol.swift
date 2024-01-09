@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// For more information about Amazon Web Services Cloud Control API, see the [Amazon Web Services Cloud Control API User Guide](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html).
 public protocol CloudControlClientProtocol {
+    /// Performs the `CancelResourceRequest` operation on the `CloudApiService` service.
+    ///
     /// Cancels the specified resource operation request. For more information, see [Canceling resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-cancel) in the Amazon Web Services Cloud Control API User Guide. Only resource operations requests with a status of PENDING or IN_PROGRESS can be canceled.
     ///
     /// - Parameter CancelResourceRequestInput : [no documentation found]
@@ -16,6 +18,11 @@ public protocol CloudControlClientProtocol {
     /// - `ConcurrentModificationException` : The resource is currently being modified by another operation.
     /// - `RequestTokenNotFoundException` : A resource operation with the specified request token can't be found.
     func cancelResourceRequest(input: CancelResourceRequestInput) async throws -> CancelResourceRequestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateResource` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Creates the specified resource. For more information, see [Creating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource creation request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent type returned by CreateResource.
     ///
     /// - Parameter CreateResourceInput : [no documentation found]
@@ -45,6 +52,11 @@ public protocol CloudControlClientProtocol {
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
     func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteResource` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified resource. For details, see [Deleting a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-delete.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource deletion request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by DeleteResource.
     ///
     /// - Parameter DeleteResourceInput : [no documentation found]
@@ -74,6 +86,11 @@ public protocol CloudControlClientProtocol {
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
     func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResource` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Returns information about the current state of the specified resource. For details, see [Reading a resource's current state](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-read.html). You can use this action to return information about an existing resource in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
     ///
     /// - Parameter GetResourceInput : [no documentation found]
@@ -101,6 +118,11 @@ public protocol CloudControlClientProtocol {
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
     func getResource(input: GetResourceInput) async throws -> GetResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResourceRequestStatus` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Returns the current status of a resource operation request. For more information, see [Tracking the progress of resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-track) in the Amazon Web Services Cloud Control API User Guide.
     ///
     /// - Parameter GetResourceRequestStatusInput : [no documentation found]
@@ -112,12 +134,22 @@ public protocol CloudControlClientProtocol {
     /// __Possible Exceptions:__
     /// - `RequestTokenNotFoundException` : A resource operation with the specified request token can't be found.
     func getResourceRequestStatus(input: GetResourceRequestStatusInput) async throws -> GetResourceRequestStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListResourceRequests` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Returns existing resource operation requests. This includes requests of all status types. For more information, see [Listing active resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-list) in the Amazon Web Services Cloud Control API User Guide. Resource operation requests expire after 7 days.
     ///
     /// - Parameter ListResourceRequestsInput : [no documentation found]
     ///
     /// - Returns: `ListResourceRequestsOutput` : [no documentation found]
     func listResourceRequests(input: ListResourceRequestsInput) async throws -> ListResourceRequestsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListResources` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Returns information about the specified resources. For more information, see [Discovering resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-list.html) in the Amazon Web Services Cloud Control API User Guide. You can use this action to return information about existing resources in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
@@ -145,6 +177,11 @@ public protocol CloudControlClientProtocol {
     /// - `TypeNotFoundException` : The specified extension doesn't exist in the CloudFormation registry.
     /// - `UnsupportedActionException` : The specified resource doesn't support this resource operation.
     func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateResource` operation on the `CloudApiService` service.
+    ///
+>>>>>>> main
     /// Updates the specified property values in the resource. You specify your resource property updates as a list of patch operations contained in a JSON patch document that adheres to the [ RFC 6902 - JavaScript Object Notation (JSON) Patch ](https://datatracker.ietf.org/doc/html/rfc6902) standard. For details on how Cloud Control API performs resource update operations, see [Updating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-update.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource update request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by UpdateResource. For more information about the properties of a specific resource, refer to the related topic for the resource in the [Resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation Users Guide.
     ///
     /// - Parameter UpdateResourceInput : [no documentation found]

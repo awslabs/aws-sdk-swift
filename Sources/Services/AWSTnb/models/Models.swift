@@ -1317,7 +1317,7 @@ extension GetSolFunctionPackageContentOutput: ClientRuntime.HttpResponseBinding 
             self.packageContent = data
         case .stream(let stream):
             self.packageContent = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.packageContent = nil
         }
     }
@@ -1428,7 +1428,7 @@ extension GetSolFunctionPackageDescriptorOutput: ClientRuntime.HttpResponseBindi
             self.vnfd = data
         case .stream(let stream):
             self.vnfd = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.vnfd = nil
         }
     }
@@ -2414,7 +2414,7 @@ extension GetSolNetworkPackageContentOutput: ClientRuntime.HttpResponseBinding {
             self.nsdContent = data
         case .stream(let stream):
             self.nsdContent = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.nsdContent = nil
         }
     }
@@ -2510,7 +2510,7 @@ extension GetSolNetworkPackageDescriptorOutput: ClientRuntime.HttpResponseBindin
             self.nsd = data
         case .stream(let stream):
             self.nsd = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.nsd = nil
         }
     }
@@ -5234,6 +5234,7 @@ extension TnbClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct PutSolFunctionPackageContentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutSolFunctionPackageContentInputBodyMiddleware"
 
@@ -5260,6 +5261,8 @@ public struct PutSolFunctionPackageContentInputBodyMiddleware: ClientRuntime.Mid
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PutSolFunctionPackageContentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case file
@@ -5472,6 +5475,7 @@ enum PutSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBin
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -5493,13 +5497,17 @@ public struct PutSolNetworkPackageContentInputBodyMiddleware: ClientRuntime.Midd
             let fileData = file
             let fileBody = ClientRuntime.HttpBody.data(fileData)
             input.builder.withBody(fileBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutSolNetworkPackageContentInput>
     public typealias MOutput = ClientRuntime.OperationOutput<PutSolNetworkPackageContentOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension PutSolNetworkPackageContentInput: Swift.Encodable {
@@ -6835,6 +6843,7 @@ extension TnbClientTypes {
     }
 }
 
+<<<<<<< HEAD
 public struct ValidateSolFunctionPackageContentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "ValidateSolFunctionPackageContentInputBodyMiddleware"
 
@@ -6861,6 +6870,8 @@ public struct ValidateSolFunctionPackageContentInputBodyMiddleware: ClientRuntim
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension ValidateSolFunctionPackageContentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case file
@@ -7073,6 +7084,7 @@ enum ValidateSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErr
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -7094,13 +7106,17 @@ public struct ValidateSolNetworkPackageContentInputBodyMiddleware: ClientRuntime
             let fileData = file
             let fileBody = ClientRuntime.HttpBody.data(fileData)
             input.builder.withBody(fileBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<ValidateSolNetworkPackageContentInput>
     public typealias MOutput = ClientRuntime.OperationOutput<ValidateSolNetworkPackageContentOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension ValidateSolNetworkPackageContentInput: Swift.Encodable {

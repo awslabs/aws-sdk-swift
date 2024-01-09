@@ -62,7 +62,11 @@ public struct DefaultEndpointResolver: EndpointResolver  {
     }
 }
 
+<<<<<<< HEAD
 public struct EndpointResolverMiddleware<OperationStackOutput: ClientRuntime.HttpResponseBinding, OperationStackError: ClientRuntime.HttpResponseErrorBinding>: ClientRuntime.Middleware {
+=======
+public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Middleware {
+>>>>>>> main
     public let id: Swift.String = "EndpointResolverMiddleware"
 
     let endpointResolver: EndpointResolver

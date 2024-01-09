@@ -67,6 +67,8 @@ public struct ComputeOptimizerClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 }
 
 extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
+    /// Performs the `DeleteRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    ///
     /// Deletes a recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter DeleteRecommendationPreferencesInput : [no documentation found]
@@ -100,6 +102,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput, DeleteRecommendationPreferencesOutputError>(id: "deleteRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput, DeleteRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>())
@@ -115,10 +118,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationPreferencesOutput, DeleteRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationPreferencesOutput, DeleteRecommendationPreferencesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationPreferencesOutput, DeleteRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(id: "deleteRecommendationPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRecommendationPreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(xAmzTarget: "ComputeOptimizerService.DeleteRecommendationPreferences"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRecommendationPreferencesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationPreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationPreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRecommendationPreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeRecommendationExportJobs` operation on the `ComputeOptimizerService` service.
+    ///
     /// Describes recommendation export jobs created in the last seven days. Use the [ExportAutoScalingGroupRecommendations] or [ExportEC2InstanceRecommendations] actions to request an export of your recommendations. Then use the [DescribeRecommendationExportJobs] action to view your export jobs.
     ///
     /// - Parameter DescribeRecommendationExportJobsInput : [no documentation found]
@@ -152,6 +174,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput, DescribeRecommendationExportJobsOutputError>(id: "describeRecommendationExportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput, DescribeRecommendationExportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>())
@@ -167,10 +190,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecommendationExportJobsOutput, DescribeRecommendationExportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecommendationExportJobsOutput, DescribeRecommendationExportJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRecommendationExportJobsOutput, DescribeRecommendationExportJobsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(id: "describeRecommendationExportJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRecommendationExportJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(xAmzTarget: "ComputeOptimizerService.DescribeRecommendationExportJobs"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRecommendationExportJobsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecommendationExportJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecommendationExportJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeRecommendationExportJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRecommendationExportJobsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ExportAutoScalingGroupRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter ExportAutoScalingGroupRecommendationsInput : [no documentation found]
@@ -204,6 +246,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput, ExportAutoScalingGroupRecommendationsOutputError>(id: "exportAutoScalingGroupRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput, ExportAutoScalingGroupRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>())
@@ -219,10 +262,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportAutoScalingGroupRecommendationsOutput, ExportAutoScalingGroupRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportAutoScalingGroupRecommendationsOutput, ExportAutoScalingGroupRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportAutoScalingGroupRecommendationsOutput, ExportAutoScalingGroupRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(id: "exportAutoScalingGroupRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportAutoScalingGroupRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportAutoScalingGroupRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportAutoScalingGroupRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportAutoScalingGroupRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportAutoScalingGroupRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExportAutoScalingGroupRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportAutoScalingGroupRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ExportEBSVolumeRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Exports optimization recommendations for Amazon EBS volumes. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter ExportEBSVolumeRecommendationsInput : [no documentation found]
@@ -256,6 +318,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput, ExportEBSVolumeRecommendationsOutputError>(id: "exportEBSVolumeRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput, ExportEBSVolumeRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>())
@@ -271,10 +334,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEBSVolumeRecommendationsOutput, ExportEBSVolumeRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEBSVolumeRecommendationsOutput, ExportEBSVolumeRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportEBSVolumeRecommendationsOutput, ExportEBSVolumeRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(id: "exportEBSVolumeRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportEBSVolumeRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportEBSVolumeRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportEBSVolumeRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEBSVolumeRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEBSVolumeRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExportEBSVolumeRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportEBSVolumeRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ExportEC2InstanceRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Exports optimization recommendations for Amazon EC2 instances. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter ExportEC2InstanceRecommendationsInput : [no documentation found]
@@ -308,6 +390,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput, ExportEC2InstanceRecommendationsOutputError>(id: "exportEC2InstanceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput, ExportEC2InstanceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>())
@@ -323,10 +406,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEC2InstanceRecommendationsOutput, ExportEC2InstanceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEC2InstanceRecommendationsOutput, ExportEC2InstanceRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportEC2InstanceRecommendationsOutput, ExportEC2InstanceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(id: "exportEC2InstanceRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportEC2InstanceRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportEC2InstanceRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportEC2InstanceRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEC2InstanceRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEC2InstanceRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExportEC2InstanceRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportEC2InstanceRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ExportECSServiceRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Exports optimization recommendations for Amazon ECS services on Fargate. Recommendations are exported in a CSV file, and its metadata in a JSON file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter ExportECSServiceRecommendationsInput : [no documentation found]
@@ -360,6 +462,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput, ExportECSServiceRecommendationsOutputError>(id: "exportECSServiceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput, ExportECSServiceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>())
@@ -375,10 +478,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportECSServiceRecommendationsOutput, ExportECSServiceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportECSServiceRecommendationsOutput, ExportECSServiceRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportECSServiceRecommendationsOutput, ExportECSServiceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(id: "exportECSServiceRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportECSServiceRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportECSServiceRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportECSServiceRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportECSServiceRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportECSServiceRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExportECSServiceRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportECSServiceRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ExportLambdaFunctionRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Exports optimization recommendations for Lambda functions. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Lambda function export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter ExportLambdaFunctionRecommendationsInput : [no documentation found]
@@ -412,6 +534,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput, ExportLambdaFunctionRecommendationsOutputError>(id: "exportLambdaFunctionRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput, ExportLambdaFunctionRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>())
@@ -427,10 +550,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportLambdaFunctionRecommendationsOutput, ExportLambdaFunctionRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportLambdaFunctionRecommendationsOutput, ExportLambdaFunctionRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportLambdaFunctionRecommendationsOutput, ExportLambdaFunctionRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(id: "exportLambdaFunctionRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportLambdaFunctionRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportLambdaFunctionRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportLambdaFunctionRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportLambdaFunctionRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportLambdaFunctionRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExportLambdaFunctionRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportLambdaFunctionRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ExportLicenseRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one license export job in progress per Amazon Web Services Region.
     ///
     /// - Parameter ExportLicenseRecommendationsInput : [no documentation found]
@@ -464,6 +606,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput, ExportLicenseRecommendationsOutputError>(id: "exportLicenseRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput, ExportLicenseRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>())
@@ -479,10 +622,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportLicenseRecommendationsOutput, ExportLicenseRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportLicenseRecommendationsOutput, ExportLicenseRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportLicenseRecommendationsOutput, ExportLicenseRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(id: "exportLicenseRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ExportLicenseRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportLicenseRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExportLicenseRecommendationsInput, ExportLicenseRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ExportLicenseRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportLicenseRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportLicenseRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ExportLicenseRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportLicenseRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAutoScalingGroupRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetAutoScalingGroupRecommendationsInput : [no documentation found]
@@ -516,6 +678,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput, GetAutoScalingGroupRecommendationsOutputError>(id: "getAutoScalingGroupRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput, GetAutoScalingGroupRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>())
@@ -531,10 +694,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutoScalingGroupRecommendationsOutput, GetAutoScalingGroupRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoScalingGroupRecommendationsOutput, GetAutoScalingGroupRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAutoScalingGroupRecommendationsOutput, GetAutoScalingGroupRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(id: "getAutoScalingGroupRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAutoScalingGroupRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetAutoScalingGroupRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAutoScalingGroupRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutoScalingGroupRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoScalingGroupRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAutoScalingGroupRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAutoScalingGroupRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEBSVolumeRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations. Compute Optimizer generates recommendations for Amazon EBS volumes that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetEBSVolumeRecommendationsInput : [no documentation found]
@@ -568,6 +750,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput, GetEBSVolumeRecommendationsOutputError>(id: "getEBSVolumeRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput, GetEBSVolumeRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>())
@@ -583,10 +766,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEBSVolumeRecommendationsOutput, GetEBSVolumeRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEBSVolumeRecommendationsOutput, GetEBSVolumeRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEBSVolumeRecommendationsOutput, GetEBSVolumeRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(id: "getEBSVolumeRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEBSVolumeRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetEBSVolumeRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEBSVolumeRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEBSVolumeRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEBSVolumeRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEBSVolumeRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEBSVolumeRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEC2InstanceRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns Amazon EC2 instance recommendations. Compute Optimizer generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetEC2InstanceRecommendationsInput : [no documentation found]
@@ -620,6 +822,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput, GetEC2InstanceRecommendationsOutputError>(id: "getEC2InstanceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput, GetEC2InstanceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>())
@@ -635,10 +838,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEC2InstanceRecommendationsOutput, GetEC2InstanceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEC2InstanceRecommendationsOutput, GetEC2InstanceRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEC2InstanceRecommendationsOutput, GetEC2InstanceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(id: "getEC2InstanceRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEC2InstanceRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetEC2InstanceRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEC2InstanceRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEC2InstanceRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEC2InstanceRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEC2InstanceRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEC2InstanceRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEC2RecommendationProjectedMetrics` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns the projected utilization metrics of Amazon EC2 instance recommendations. The Cpu and Memory metrics are the only projected utilization metrics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
     ///
     /// - Parameter GetEC2RecommendationProjectedMetricsInput : [no documentation found]
@@ -672,6 +894,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput, GetEC2RecommendationProjectedMetricsOutputError>(id: "getEC2RecommendationProjectedMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput, GetEC2RecommendationProjectedMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>())
@@ -687,10 +910,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEC2RecommendationProjectedMetricsOutput, GetEC2RecommendationProjectedMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEC2RecommendationProjectedMetricsOutput, GetEC2RecommendationProjectedMetricsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEC2RecommendationProjectedMetricsOutput, GetEC2RecommendationProjectedMetricsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(id: "getEC2RecommendationProjectedMetrics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEC2RecommendationProjectedMetricsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(xAmzTarget: "ComputeOptimizerService.GetEC2RecommendationProjectedMetrics"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEC2RecommendationProjectedMetricsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEC2RecommendationProjectedMetricsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEC2RecommendationProjectedMetricsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEC2RecommendationProjectedMetricsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEC2RecommendationProjectedMetricsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetECSServiceRecommendationProjectedMetrics` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns the projected metrics of Amazon ECS service recommendations.
     ///
     /// - Parameter GetECSServiceRecommendationProjectedMetricsInput : [no documentation found]
@@ -724,6 +966,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput, GetECSServiceRecommendationProjectedMetricsOutputError>(id: "getECSServiceRecommendationProjectedMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput, GetECSServiceRecommendationProjectedMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>())
@@ -739,10 +982,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetECSServiceRecommendationProjectedMetricsOutput, GetECSServiceRecommendationProjectedMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationProjectedMetricsOutput, GetECSServiceRecommendationProjectedMetricsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationProjectedMetricsOutput, GetECSServiceRecommendationProjectedMetricsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(id: "getECSServiceRecommendationProjectedMetrics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetECSServiceRecommendationProjectedMetricsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(xAmzTarget: "ComputeOptimizerService.GetECSServiceRecommendationProjectedMetrics"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetECSServiceRecommendationProjectedMetricsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetECSServiceRecommendationProjectedMetricsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationProjectedMetricsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetECSServiceRecommendationProjectedMetricsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationProjectedMetricsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetECSServiceRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns Amazon ECS service recommendations. Compute Optimizer generates recommendations for Amazon ECS services on Fargate that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetECSServiceRecommendationsInput : [no documentation found]
@@ -776,6 +1038,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput, GetECSServiceRecommendationsOutputError>(id: "getECSServiceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput, GetECSServiceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>())
@@ -791,10 +1054,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetECSServiceRecommendationsOutput, GetECSServiceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationsOutput, GetECSServiceRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationsOutput, GetECSServiceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(id: "getECSServiceRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetECSServiceRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetECSServiceRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetECSServiceRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetECSServiceRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetECSServiceRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEffectiveRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all applicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive. Use this action to view the recommendation preferences that are in effect, or Active.
     ///
     /// - Parameter GetEffectiveRecommendationPreferencesInput : [no documentation found]
@@ -828,6 +1110,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput, GetEffectiveRecommendationPreferencesOutputError>(id: "getEffectiveRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput, GetEffectiveRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>())
@@ -843,10 +1126,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEffectiveRecommendationPreferencesOutput, GetEffectiveRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEffectiveRecommendationPreferencesOutput, GetEffectiveRecommendationPreferencesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEffectiveRecommendationPreferencesOutput, GetEffectiveRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(id: "getEffectiveRecommendationPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEffectiveRecommendationPreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(xAmzTarget: "ComputeOptimizerService.GetEffectiveRecommendationPreferences"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEffectiveRecommendationPreferencesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEffectiveRecommendationPreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEffectiveRecommendationPreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEffectiveRecommendationPreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEffectiveRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEnrollmentStatus` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns the enrollment (opt in) status of an account to the Compute Optimizer service. If the account is the management account of an organization, this action also confirms the enrollment status of member accounts of the organization. Use the [GetEnrollmentStatusesForOrganization] action to get detailed information about the enrollment status of member accounts of an organization.
     ///
     /// - Parameter GetEnrollmentStatusInput : [no documentation found]
@@ -878,6 +1180,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetEnrollmentStatusInput, GetEnrollmentStatusOutput, GetEnrollmentStatusOutputError>(id: "getEnrollmentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput, GetEnrollmentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>())
@@ -893,10 +1196,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnrollmentStatusOutput, GetEnrollmentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusOutput, GetEnrollmentStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnrollmentStatusOutput, GetEnrollmentStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(id: "getEnrollmentStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEnrollmentStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(xAmzTarget: "ComputeOptimizerService.GetEnrollmentStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEnrollmentStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnrollmentStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEnrollmentStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnrollmentStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEnrollmentStatusesForOrganization` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns the Compute Optimizer enrollment (opt-in) status of organization member accounts, if your account is an organization management account. To get the enrollment status of standalone accounts, use the [GetEnrollmentStatus] action.
     ///
     /// - Parameter GetEnrollmentStatusesForOrganizationInput : [no documentation found]
@@ -928,6 +1250,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput, GetEnrollmentStatusesForOrganizationOutputError>(id: "getEnrollmentStatusesForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput, GetEnrollmentStatusesForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>())
@@ -943,10 +1266,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnrollmentStatusesForOrganizationOutput, GetEnrollmentStatusesForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusesForOrganizationOutput, GetEnrollmentStatusesForOrganizationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnrollmentStatusesForOrganizationOutput, GetEnrollmentStatusesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(id: "getEnrollmentStatusesForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEnrollmentStatusesForOrganizationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(xAmzTarget: "ComputeOptimizerService.GetEnrollmentStatusesForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEnrollmentStatusesForOrganizationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnrollmentStatusesForOrganizationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusesForOrganizationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEnrollmentStatusesForOrganizationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnrollmentStatusesForOrganizationOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLambdaFunctionRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns Lambda function recommendations. Compute Optimizer generates recommendations for functions that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetLambdaFunctionRecommendationsInput : [no documentation found]
@@ -980,6 +1322,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput, GetLambdaFunctionRecommendationsOutputError>(id: "getLambdaFunctionRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput, GetLambdaFunctionRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>())
@@ -995,10 +1338,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLambdaFunctionRecommendationsOutput, GetLambdaFunctionRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLambdaFunctionRecommendationsOutput, GetLambdaFunctionRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLambdaFunctionRecommendationsOutput, GetLambdaFunctionRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(id: "getLambdaFunctionRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLambdaFunctionRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetLambdaFunctionRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLambdaFunctionRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLambdaFunctionRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLambdaFunctionRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLambdaFunctionRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLambdaFunctionRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLicenseRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns license recommendations for Amazon EC2 instances that run on a specific license. Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetLicenseRecommendationsInput : [no documentation found]
@@ -1032,6 +1394,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput, GetLicenseRecommendationsOutputError>(id: "getLicenseRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput, GetLicenseRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>())
@@ -1047,10 +1410,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLicenseRecommendationsOutput, GetLicenseRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLicenseRecommendationsOutput, GetLicenseRecommendationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLicenseRecommendationsOutput, GetLicenseRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(id: "getLicenseRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLicenseRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetLicenseRecommendations"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLicenseRecommendationsInput, GetLicenseRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLicenseRecommendationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLicenseRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLicenseRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLicenseRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLicenseRecommendationsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetRecommendationPreferencesInput : [no documentation found]
@@ -1084,6 +1466,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput, GetRecommendationPreferencesOutputError>(id: "getRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput, GetRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>())
@@ -1099,10 +1482,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationPreferencesOutput, GetRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationPreferencesOutput, GetRecommendationPreferencesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationPreferencesOutput, GetRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(id: "getRecommendationPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecommendationPreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(xAmzTarget: "ComputeOptimizerService.GetRecommendationPreferences"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecommendationPreferencesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationPreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationPreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRecommendationPreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRecommendationSummaries` operation on the `ComputeOptimizerService` service.
+    ///
     /// Returns the optimization findings for an account. It returns the number of:
     ///
     /// * Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.
@@ -1145,6 +1547,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetRecommendationSummariesInput, GetRecommendationSummariesOutput, GetRecommendationSummariesOutputError>(id: "getRecommendationSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput, GetRecommendationSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>())
@@ -1160,10 +1563,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationSummariesOutput, GetRecommendationSummariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationSummariesOutput, GetRecommendationSummariesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationSummariesOutput, GetRecommendationSummariesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(id: "getRecommendationSummaries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecommendationSummariesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(xAmzTarget: "ComputeOptimizerService.GetRecommendationSummaries"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecommendationSummariesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationSummariesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationSummariesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRecommendationSummariesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationSummariesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutRecommendationPreferences` operation on the `ComputeOptimizerService` service.
+    ///
     /// Creates a new recommendation preference or updates an existing recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter PutRecommendationPreferencesInput : [no documentation found]
@@ -1197,6 +1619,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput, PutRecommendationPreferencesOutputError>(id: "putRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput, PutRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>())
@@ -1212,10 +1635,29 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecommendationPreferencesOutput, PutRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecommendationPreferencesOutput, PutRecommendationPreferencesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecommendationPreferencesOutput, PutRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(id: "putRecommendationPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRecommendationPreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(xAmzTarget: "ComputeOptimizerService.PutRecommendationPreferences"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRecommendationPreferencesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecommendationPreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecommendationPreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRecommendationPreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecommendationPreferencesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateEnrollmentStatus` operation on the `ComputeOptimizerService` service.
+    ///
     /// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to opt out. For more information, see [Controlling access with Amazon Web Services Identity and Access Management](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html) in the Compute Optimizer User Guide. When you opt in, Compute Optimizer automatically creates a service-linked role in your account to access its data. For more information, see [Using Service-Linked Roles for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/using-service-linked-roles.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter UpdateEnrollmentStatusInput : [no documentation found]
@@ -1247,6 +1689,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput, UpdateEnrollmentStatusOutputError>(id: "updateEnrollmentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput, UpdateEnrollmentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
@@ -1262,6 +1705,23 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnrollmentStatusOutput, UpdateEnrollmentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnrollmentStatusOutput, UpdateEnrollmentStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnrollmentStatusOutput, UpdateEnrollmentStatusOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(id: "updateEnrollmentStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEnrollmentStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(xAmzTarget: "ComputeOptimizerService.UpdateEnrollmentStatus"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEnrollmentStatusOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnrollmentStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnrollmentStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEnrollmentStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnrollmentStatusOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Amplify UI Builder API provides a programmatic interface for creating and configuring user interface (UI) component libraries and themes for use in your Amplify applications. You can then connect these UI components to an application's backend Amazon Web Services resources. You can also use the Amplify Studio visual designer to create UI components and model data for an app. For more information, see [Introduction](https://docs.amplify.aws/console/adminui/intro) in the Amplify Docs. The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the [Amplify Framework](https://docs.amplify.aws/). For more information about deploying an Amplify application to Amazon Web Services, see the [Amplify User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html).
 public protocol AmplifyUIBuilderClientProtocol {
+    /// Performs the `CreateComponent` operation on the `AmplifyUIBuilder` service.
+    ///
     /// Creates a new component for an Amplify app.
     ///
     /// - Parameter CreateComponentInput : [no documentation found]
@@ -18,6 +20,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateForm` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Creates a new form for an Amplify app.
     ///
     /// - Parameter CreateFormInput : [no documentation found]
@@ -32,6 +39,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     func createForm(input: CreateFormInput) async throws -> CreateFormOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateTheme` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Creates a theme to apply to the components in an Amplify app.
     ///
     /// - Parameter CreateThemeInput : [no documentation found]
@@ -46,6 +58,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteComponent` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Deletes a component from an Amplify app.
     ///
     /// - Parameter DeleteComponentInput : [no documentation found]
@@ -59,6 +76,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteForm` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Deletes a form from an Amplify app.
     ///
     /// - Parameter DeleteFormInput : [no documentation found]
@@ -72,6 +94,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func deleteForm(input: DeleteFormInput) async throws -> DeleteFormOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteTheme` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Deletes a theme from an Amplify app.
     ///
     /// - Parameter DeleteThemeInput : [no documentation found]
@@ -85,6 +112,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExchangeCodeForToken` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// This is for internal use. Amplify uses this action to exchange an access code for a token.
     ///
     /// - Parameter ExchangeCodeForTokenInput : [no documentation found]
@@ -96,6 +128,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func exchangeCodeForToken(input: ExchangeCodeForTokenInput) async throws -> ExchangeCodeForTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportComponents` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Exports component configurations to code that is ready to integrate into an Amplify app.
     ///
     /// - Parameter ExportComponentsInput : [no documentation found]
@@ -108,6 +145,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func exportComponents(input: ExportComponentsInput) async throws -> ExportComponentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportForms` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Exports form configurations to code that is ready to integrate into an Amplify app.
     ///
     /// - Parameter ExportFormsInput : [no documentation found]
@@ -120,6 +162,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func exportForms(input: ExportFormsInput) async throws -> ExportFormsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportThemes` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Exports theme configurations to code that is ready to integrate into an Amplify app.
     ///
     /// - Parameter ExportThemesInput : [no documentation found]
@@ -132,6 +179,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func exportThemes(input: ExportThemesInput) async throws -> ExportThemesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCodegenJob` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Returns an existing code generation job.
     ///
     /// - Parameter GetCodegenJobInput : [no documentation found]
@@ -146,6 +198,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getCodegenJob(input: GetCodegenJobInput) async throws -> GetCodegenJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetComponent` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Returns an existing component for an Amplify app.
     ///
     /// - Parameter GetComponentInput : [no documentation found]
@@ -159,6 +216,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func getComponent(input: GetComponentInput) async throws -> GetComponentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetForm` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Returns an existing form for an Amplify app.
     ///
     /// - Parameter GetFormInput : [no documentation found]
@@ -172,6 +234,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func getForm(input: GetFormInput) async throws -> GetFormOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMetadata` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Returns existing metadata for an Amplify app.
     ///
     /// - Parameter GetMetadataInput : [no documentation found]
@@ -184,6 +251,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `UnauthorizedException` : You don't have permission to perform this operation.
     func getMetadata(input: GetMetadataInput) async throws -> GetMetadataOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetTheme` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Returns an existing theme for an Amplify app.
     ///
     /// - Parameter GetThemeInput : [no documentation found]
@@ -197,6 +269,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func getTheme(input: GetThemeInput) async throws -> GetThemeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCodegenJobs` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
     ///
     /// - Parameter ListCodegenJobsInput : [no documentation found]
@@ -210,6 +287,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listCodegenJobs(input: ListCodegenJobsInput) async throws -> ListCodegenJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListComponents` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of components for a specified Amplify app and backend environment.
     ///
     /// - Parameter ListComponentsInput : [no documentation found]
@@ -222,6 +304,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListForms` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of forms for a specified Amplify app and backend environment.
     ///
     /// - Parameter ListFormsInput : [no documentation found]
@@ -234,6 +321,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func listForms(input: ListFormsInput) async throws -> ListFormsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListThemes` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of themes for a specified Amplify app and backend environment.
     ///
     /// - Parameter ListThemesInput : [no documentation found]
@@ -246,6 +338,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Please retry your request.
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func listThemes(input: ListThemesInput) async throws -> ListThemesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutMetadataFlag` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Stores the metadata information about a feature on a form.
     ///
     /// - Parameter PutMetadataFlagInput : [no documentation found]
@@ -258,6 +355,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `UnauthorizedException` : You don't have permission to perform this operation.
     func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RefreshToken` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// This is for internal use. Amplify uses this action to refresh a previously issued access token that might have expired.
     ///
     /// - Parameter RefreshTokenInput : [no documentation found]
@@ -269,6 +371,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     func refreshToken(input: RefreshTokenInput) async throws -> RefreshTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartCodegenJob` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Starts a code generation job for a specified Amplify app and backend environment.
     ///
     /// - Parameter StartCodegenJobInput : [no documentation found]
@@ -282,6 +389,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func startCodegenJob(input: StartCodegenJobInput) async throws -> StartCodegenJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateComponent` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Updates an existing component.
     ///
     /// - Parameter UpdateComponentInput : [no documentation found]
@@ -295,6 +407,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func updateComponent(input: UpdateComponentInput) async throws -> UpdateComponentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateForm` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Updates an existing form.
     ///
     /// - Parameter UpdateFormInput : [no documentation found]
@@ -308,6 +425,11 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func updateForm(input: UpdateFormInput) async throws -> UpdateFormOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateTheme` operation on the `AmplifyUIBuilder` service.
+    ///
+>>>>>>> main
     /// Updates an existing theme.
     ///
     /// - Parameter UpdateThemeInput : [no documentation found]

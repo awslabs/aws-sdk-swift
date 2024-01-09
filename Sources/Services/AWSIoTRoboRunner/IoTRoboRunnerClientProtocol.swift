@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// An example service, deployed with the Octane Service creator, which will echo the string
 public protocol IoTRoboRunnerClientProtocol {
+    /// Performs the `CreateDestination` operation on the `IoTRoboRunner` service.
+    ///
     /// Grants permission to create a destination
     ///
     /// - Parameter CreateDestinationInput : [no documentation found]
@@ -21,6 +23,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSite` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to create a site
     ///
     /// - Parameter CreateSiteInput : [no documentation found]
@@ -37,6 +44,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createSite(input: CreateSiteInput) async throws -> CreateSiteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateWorker` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to create a worker
     ///
     /// - Parameter CreateWorkerInput : [no documentation found]
@@ -54,6 +66,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to create a worker fleet
     ///
     /// - Parameter CreateWorkerFleetInput : [no documentation found]
@@ -71,6 +88,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDestination` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to delete a destination
     ///
     /// - Parameter DeleteDestinationInput : [no documentation found]
@@ -87,6 +109,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSite` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to delete a site
     ///
     /// - Parameter DeleteSiteInput : [no documentation found]
@@ -103,6 +130,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteWorker` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to delete a worker
     ///
     /// - Parameter DeleteWorkerInput : [no documentation found]
@@ -119,6 +151,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to delete a worker fleet
     ///
     /// - Parameter DeleteWorkerFleetInput : [no documentation found]
@@ -135,6 +172,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDestination` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to get a destination
     ///
     /// - Parameter GetDestinationInput : [no documentation found]
@@ -150,6 +192,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSite` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to get a site
     ///
     /// - Parameter GetSiteInput : [no documentation found]
@@ -165,6 +212,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getSite(input: GetSiteInput) async throws -> GetSiteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWorker` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to get a worker
     ///
     /// - Parameter GetWorkerInput : [no documentation found]
@@ -180,6 +232,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to get a worker fleet
     ///
     /// - Parameter GetWorkerFleetInput : [no documentation found]
@@ -195,6 +252,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDestinations` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to list destinations
     ///
     /// - Parameter ListDestinationsInput : [no documentation found]
@@ -210,6 +272,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSites` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to list sites
     ///
     /// - Parameter ListSitesInput : [no documentation found]
@@ -224,6 +291,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listSites(input: ListSitesInput) async throws -> ListSitesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWorkerFleets` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to list worker fleets
     ///
     /// - Parameter ListWorkerFleetsInput : [no documentation found]
@@ -239,6 +311,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWorkers` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to list workers
     ///
     /// - Parameter ListWorkersInput : [no documentation found]
@@ -254,6 +331,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDestination` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to update a destination
     ///
     /// - Parameter UpdateDestinationInput : [no documentation found]
@@ -269,6 +351,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSite` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to update a site
     ///
     /// - Parameter UpdateSiteInput : [no documentation found]
@@ -284,6 +371,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateWorker` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to update a worker
     ///
     /// - Parameter UpdateWorkerInput : [no documentation found]
@@ -299,6 +391,11 @@ public protocol IoTRoboRunnerClientProtocol {
     /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
     /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateWorkerFleet` operation on the `IoTRoboRunner` service.
+    ///
+>>>>>>> main
     /// Grants permission to update a worker fleet
     ///
     /// - Parameter UpdateWorkerFleetInput : [no documentation found]

@@ -3088,7 +3088,7 @@ public struct CreateClassificationJobInput: Swift.Equatable {
     /// * RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property.
     ///
     ///
-    /// If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
+    /// If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you don't specify a value for this property or you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
     public var managedDataIdentifierSelector: Macie2ClientTypes.ManagedDataIdentifierSelector?
     /// A custom name for the job. The name can contain as many as 500 characters.
     /// This member is required.
@@ -5891,7 +5891,7 @@ extension Macie2ClientTypes.DetectedDataDetails: Swift.Codable {
 extension Macie2ClientTypes {
     /// Specifies 1-10 occurrences of a specific type of sensitive data reported by a finding.
     public struct DetectedDataDetails: Swift.Equatable {
-        /// An occurrence of the specified type of sensitive data. Each occurrence can contain 1-128 characters.
+        /// An occurrence of the specified type of sensitive data. Each occurrence contains 1-128 characters.
         /// This member is required.
         public var value: Swift.String?
 
@@ -9063,7 +9063,7 @@ public struct GetMacieSessionOutput: Swift.Equatable {
     public var serviceRole: Swift.String?
     /// The current status of the Amazon Macie account. Possible values are: PAUSED, the account is enabled but all Macie activities are suspended (paused) for the account; and, ENABLED, the account is enabled and all Macie activities are enabled for the account.
     public var status: Macie2ClientTypes.MacieStatus?
-    /// The date and time, in UTC and extended ISO 8601 format, of the most recent change to the status of the Amazon Macie account.
+    /// The date and time, in UTC and extended ISO 8601 format, of the most recent change to the status or configuration settings for the Amazon Macie account.
     public var updatedAt: ClientRuntime.Date?
 
     public init(
@@ -9540,13 +9540,21 @@ extension GetRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetRevealConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
+<<<<<<< HEAD
         } else {
             self.configuration = nil
+=======
+            self.retrievalConfiguration = output.retrievalConfiguration
+        } else {
+            self.configuration = nil
+            self.retrievalConfiguration = nil
+>>>>>>> main
         }
     }
 }
 
 public struct GetRevealConfigurationOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// The current configuration settings and the status of the configuration for the account.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
 
@@ -9555,22 +9563,49 @@ public struct GetRevealConfigurationOutput: Swift.Equatable {
     )
     {
         self.configuration = configuration
+=======
+    /// The KMS key that's used to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
+    public var configuration: Macie2ClientTypes.RevealConfiguration?
+    /// The access method and settings that are used to retrieve the sensitive data.
+    public var retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
+
+    public init(
+        configuration: Macie2ClientTypes.RevealConfiguration? = nil,
+        retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration? = nil
+    )
+    {
+        self.configuration = configuration
+        self.retrievalConfiguration = retrievalConfiguration
+>>>>>>> main
     }
 }
 
 struct GetRevealConfigurationOutputBody: Swift.Equatable {
     let configuration: Macie2ClientTypes.RevealConfiguration?
+<<<<<<< HEAD
+=======
+    let retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
+>>>>>>> main
 }
 
 extension GetRevealConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "configuration"
+<<<<<<< HEAD
+=======
+        case retrievalConfiguration = "retrievalConfiguration"
+>>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RevealConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+<<<<<<< HEAD
+=======
+        let retrievalConfigurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RetrievalConfiguration.self, forKey: .retrievalConfiguration)
+        retrievalConfiguration = retrievalConfigurationDecoded
+>>>>>>> main
     }
 }
 
@@ -9638,11 +9673,23 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
     public var code: Macie2ClientTypes.AvailabilityCode?
     /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are:
     ///
-    /// * INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the classificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format.
+    /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
     ///
-    /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data.
+    /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
     ///
-    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object might have been renamed, moved, or deleted. Or the object was changed after Macie created the finding.
+    /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
+    ///
+    /// * MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data.
+    ///
+    /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
+    ///
+    /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
+    ///
+    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
+    ///
+    /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
+    ///
+    /// * ROLE_TOO_PERMISSIVE - Your account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Macie can’t assume the role to retrieve the sensitive data.
     ///
     /// * UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data finding.
     ///
@@ -9890,7 +9937,7 @@ public struct GetSensitivityInspectionTemplateOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The managed data identifiers that are explicitly excluded (not used) when analyzing data.
     public var excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
-    /// The allow lists, custom data identifiers, and managed data identifiers that are included (used) when analyzing data.
+    /// The allow lists, custom data identifiers, and managed data identifiers that are explicitly included (used) when analyzing data.
     public var includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
     /// The name of the template: automated-sensitive-data-discovery.
     public var name: Swift.String?
@@ -14727,7 +14774,7 @@ extension Macie2ClientTypes.Record: Swift.Codable {
 extension Macie2ClientTypes {
     /// Specifies the location of an occurrence of sensitive data in an Apache Avro object container, Apache Parquet file, JSON file, or JSON Lines file.
     public struct Record: Swift.Equatable {
-        /// The path, as a JSONPath expression, to the sensitive data. For an Avro object container or Parquet file, this is the path to the field in the record (recordIndex) that contains the data. For a JSON or JSON Lines file, this is the path to the field or array that contains the data. If the data is a value in an array, the path also indicates which value contains the data. If Amazon Macie detects sensitive data in the name of any element in the path, Macie omits this field. If the name of an element exceeds 20 characters, Macie truncates the name by removing characters from the beginning of the name. If the resulting full path exceeds 250 characters, Macie also truncates the path, starting with the first element in the path, until the path contains 250 or fewer characters.
+        /// The path, as a JSONPath expression, to the sensitive data. For an Avro object container or Parquet file, this is the path to the field in the record (recordIndex) that contains the data. For a JSON or JSON Lines file, this is the path to the field or array that contains the data. If the data is a value in an array, the path also indicates which value contains the data. If Amazon Macie detects sensitive data in the name of any element in the path, Macie omits this field. If the name of an element exceeds 240 characters, Macie truncates the name by removing characters from the beginning of the name. If the resulting full path exceeds 250 characters, Macie also truncates the path, starting with the first element in the path, until the path contains 250 or fewer characters.
         public var jsonPath: Swift.String?
         /// For an Avro object container or Parquet file, the record index, starting from 0, for the record that contains the sensitive data. For a JSON Lines file, the line index, starting from 0, for the line that contains the sensitive data. This value is always 0 for JSON files.
         public var recordIndex: Swift.Int?
@@ -15067,7 +15114,7 @@ extension Macie2ClientTypes {
         public var totalItemsClassified: Swift.Int?
         /// The total number of the bucket's objects that Amazon Macie has found sensitive data in.
         public var totalItemsSensitive: Swift.Int?
-        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to an object-level issue or error. For example, the object is a malformed file. This value includes objects that Macie wasn't able to analyze for reasons reported by other statistics in the ResourceStatistics object.
+        /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket due to an object-level issue or error. For example, an object is a malformed file. This value includes objects that Macie wasn't able to analyze for reasons reported by other statistics in the ResourceStatistics object.
         public var totalItemsSkipped: Swift.Int?
         /// The total number of objects that Amazon Macie wasn't able to analyze in the bucket because the objects are encrypted with a key that Macie can't access. The objects use server-side encryption with customer-provided keys (SSE-C).
         public var totalItemsSkippedInvalidEncryption: Swift.Int?
@@ -15147,6 +15194,95 @@ extension Macie2ClientTypes {
 
 }
 
+extension Macie2ClientTypes.RetrievalConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case externalId = "externalId"
+        case retrievalMode = "retrievalMode"
+        case roleName = "roleName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let externalId = self.externalId {
+            try encodeContainer.encode(externalId, forKey: .externalId)
+        }
+        if let retrievalMode = self.retrievalMode {
+            try encodeContainer.encode(retrievalMode.rawValue, forKey: .retrievalMode)
+        }
+        if let roleName = self.roleName {
+            try encodeContainer.encode(roleName, forKey: .roleName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
+        externalId = externalIdDecoded
+        let retrievalModeDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RetrievalMode.self, forKey: .retrievalMode)
+        retrievalMode = retrievalModeDecoded
+        let roleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleName)
+        roleName = roleNameDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about the access method and settings that are used to retrieve occurrences of sensitive data reported by findings.
+    public struct RetrievalConfiguration: Swift.Equatable {
+        /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). The trust policy must include an sts:ExternalId condition that requires this ID. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume a role. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
+        public var externalId: Swift.String?
+        /// The access method that's used when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
+        /// This member is required.
+        public var retrievalMode: Macie2ClientTypes.RetrievalMode?
+        /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
+        public var roleName: Swift.String?
+
+        public init(
+            externalId: Swift.String? = nil,
+            retrievalMode: Macie2ClientTypes.RetrievalMode? = nil,
+            roleName: Swift.String? = nil
+        )
+        {
+            self.externalId = externalId
+            self.retrievalMode = retrievalMode
+            self.roleName = roleName
+        }
+    }
+
+}
+
+extension Macie2ClientTypes {
+    /// The access method to use when retrieving occurrences of sensitive data reported by findings. Valid values are:
+    public enum RetrievalMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case assumeRole
+        case callerCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalMode] {
+            return [
+                .assumeRole,
+                .callerCredentials,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .assumeRole: return "ASSUME_ROLE"
+            case .callerCredentials: return "CALLER_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RetrievalMode(rawValue: rawValue) ?? RetrievalMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension Macie2ClientTypes.RevealConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId = "kmsKeyId"
@@ -15173,9 +15309,9 @@ extension Macie2ClientTypes.RevealConfiguration: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies the configuration settings for retrieving occurrences of sensitive data reported by findings, and the status of the configuration for an Amazon Macie account. When you enable the configuration for the first time, your request must specify an Key Management Service (KMS) key. Otherwise, an error occurs. Macie uses the specified key to encrypt the sensitive data that you retrieve.
+    /// Specifies the status of the Amazon Macie configuration for retrieving occurrences of sensitive data reported by findings, and the Key Management Service (KMS) key to use to encrypt sensitive data that's retrieved. When you enable the configuration for the first time, your request must specify an KMS key. Otherwise, an error occurs.
     public struct RevealConfiguration: Swift.Equatable {
-        /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
+        /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
         public var kmsKeyId: Swift.String?
         /// The status of the configuration for the Amazon Macie account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account.
         /// This member is required.
@@ -15761,7 +15897,7 @@ extension Macie2ClientTypes {
         public var bucketName: Swift.String?
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
         public var keyPrefix: Swift.String?
-        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's in the same Amazon Web Services Region as the bucket.
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's enabled in the same Amazon Web Services Region as the bucket.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
 
@@ -17823,9 +17959,9 @@ extension Macie2ClientTypes {
         ///
         /// * OBJECT_KEY - STARTS_WITH
         ///
-        /// * OBJECT_LAST_MODIFIED_DATE - Any operator except CONTAINS
+        /// * OBJECT_LAST_MODIFIED_DATE - EQ (equals), GT (greater than), GTE (greater than or equals), LT (less than), LTE (less than or equals), or NE (not equals)
         ///
-        /// * OBJECT_SIZE - Any operator except CONTAINS
+        /// * OBJECT_SIZE - EQ (equals), GT (greater than), GTE (greater than or equals), LT (less than), LTE (less than or equals), or NE (not equals)
         public var comparator: Macie2ClientTypes.JobComparator?
         /// The object property to use in the condition.
         public var key: Macie2ClientTypes.ScopeFilterKey?
@@ -17835,7 +17971,7 @@ extension Macie2ClientTypes {
         ///
         /// * OBJECT_KEY - A string that represents the key prefix (folder name or path) of an object. For example: logs or awslogs/eventlogs. This value applies a condition to objects whose keys (names) begin with the specified value.
         ///
-        /// * OBJECT_LAST_MODIFIED_DATE - The date and time (in UTC and extended ISO 8601 format) when an object was created or last changed, whichever is latest. For example: 2020-09-28T14:31:13Z
+        /// * OBJECT_LAST_MODIFIED_DATE - The date and time (in UTC and extended ISO 8601 format) when an object was created or last changed, whichever is latest. For example: 2023-09-24T14:31:13Z
         ///
         /// * OBJECT_SIZE - An integer that represents the storage size (in bytes) of an object.
         ///
@@ -18693,18 +18829,30 @@ extension Macie2ClientTypes {
 extension Macie2ClientTypes {
     /// Specifies why occurrences of sensitive data can't be retrieved for a finding. Possible values are:
     public enum UnavailabilityReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountNotInOrganization
         case invalidClassificationResult
+        case invalidResultSignature
+        case memberRoleTooPermissive
+        case missingGetMemberPermission
         case objectExceedsSizeQuota
         case objectUnavailable
+        case resultNotSigned
+        case roleTooPermissive
         case unsupportedFindingType
         case unsupportedObjectType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UnavailabilityReasonCode] {
             return [
+                .accountNotInOrganization,
                 .invalidClassificationResult,
+                .invalidResultSignature,
+                .memberRoleTooPermissive,
+                .missingGetMemberPermission,
                 .objectExceedsSizeQuota,
                 .objectUnavailable,
+                .resultNotSigned,
+                .roleTooPermissive,
                 .unsupportedFindingType,
                 .unsupportedObjectType,
                 .sdkUnknown("")
@@ -18716,9 +18864,15 @@ extension Macie2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .accountNotInOrganization: return "ACCOUNT_NOT_IN_ORGANIZATION"
             case .invalidClassificationResult: return "INVALID_CLASSIFICATION_RESULT"
+            case .invalidResultSignature: return "INVALID_RESULT_SIGNATURE"
+            case .memberRoleTooPermissive: return "MEMBER_ROLE_TOO_PERMISSIVE"
+            case .missingGetMemberPermission: return "MISSING_GET_MEMBER_PERMISSION"
             case .objectExceedsSizeQuota: return "OBJECT_EXCEEDS_SIZE_QUOTA"
             case .objectUnavailable: return "OBJECT_UNAVAILABLE"
+            case .resultNotSigned: return "RESULT_NOT_SIGNED"
+            case .roleTooPermissive: return "ROLE_TOO_PERMISSIVE"
             case .unsupportedFindingType: return "UNSUPPORTED_FINDING_TYPE"
             case .unsupportedObjectType: return "UNSUPPORTED_OBJECT_TYPE"
             case let .sdkUnknown(s): return s
@@ -18782,11 +18936,23 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     public struct Properties {
         /// The type of error that occurred and prevented Amazon Macie from retrieving occurrences of sensitive data reported by the finding. Possible values are:
         ///
-        /// * INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of the sensitive data to retrieve. There isn't a corresponding sensitive data discovery result for the finding. Or the sensitive data discovery result specified by the classificationDetails.detailedResultsLocation field of the finding isn't available, is malformed or corrupted, or uses an unsupported storage format.
+        /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
         ///
-        /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data.
+        /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
         ///
-        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object might have been renamed, moved, or deleted. Or the object was changed after Macie created the finding.
+        /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
+        ///
+        /// * MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data.
+        ///
+        /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
+        ///
+        /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
+        ///
+        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
+        ///
+        /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
+        ///
+        /// * ROLE_TOO_PERMISSIVE - Your account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Macie can’t assume the role to retrieve the sensitive data.
         ///
         /// * UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data finding.
         ///
@@ -19967,15 +20133,68 @@ enum UpdateResourceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension Macie2ClientTypes.UpdateRetrievalConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case retrievalMode = "retrievalMode"
+        case roleName = "roleName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let retrievalMode = self.retrievalMode {
+            try encodeContainer.encode(retrievalMode.rawValue, forKey: .retrievalMode)
+        }
+        if let roleName = self.roleName {
+            try encodeContainer.encode(roleName, forKey: .roleName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let retrievalModeDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RetrievalMode.self, forKey: .retrievalMode)
+        retrievalMode = retrievalModeDecoded
+        let roleNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleName)
+        roleName = roleNameDecoded
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume when retrieving the sensitive data, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Retrieving sensitive data samples with findings](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd.html) in the Amazon Macie User Guide.
+    public struct UpdateRetrievalConfiguration: Swift.Equatable {
+        /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
+        /// This member is required.
+        public var retrievalMode: Macie2ClientTypes.RetrievalMode?
+        /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. The trust and permissions policies for the role must meet all requirements for Macie to assume the role.
+        public var roleName: Swift.String?
+
+        public init(
+            retrievalMode: Macie2ClientTypes.RetrievalMode? = nil,
+            roleName: Swift.String? = nil
+        )
+        {
+            self.retrievalMode = retrievalMode
+            self.roleName = roleName
+        }
+    }
+
+}
+
+>>>>>>> main
 extension UpdateRevealConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "configuration"
+        case retrievalConfiguration = "retrievalConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let retrievalConfiguration = self.retrievalConfiguration {
+            try encodeContainer.encode(retrievalConfiguration, forKey: .retrievalConfiguration)
         }
     }
 }
@@ -19987,34 +20206,93 @@ extension UpdateRevealConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateRevealConfigurationInput: Swift.Equatable {
-    /// The new configuration settings and the status of the configuration for the account.
+    /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     /// This member is required.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
+    /// The access method and settings to use to retrieve the sensitive data.
+    public var retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration?
 
     public init(
-        configuration: Macie2ClientTypes.RevealConfiguration? = nil
+        configuration: Macie2ClientTypes.RevealConfiguration? = nil,
+        retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration? = nil
     )
     {
         self.configuration = configuration
+        self.retrievalConfiguration = retrievalConfiguration
     }
 }
 
 struct UpdateRevealConfigurationInputBody: Swift.Equatable {
     let configuration: Macie2ClientTypes.RevealConfiguration?
+    let retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration?
 }
 
 extension UpdateRevealConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "configuration"
+        case retrievalConfiguration = "retrievalConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RevealConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+        let retrievalConfigurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.UpdateRetrievalConfiguration.self, forKey: .retrievalConfiguration)
+        retrievalConfiguration = retrievalConfigurationDecoded
     }
 }
 
+extension UpdateRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRevealConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuration = output.configuration
+            self.retrievalConfiguration = output.retrievalConfiguration
+        } else {
+            self.configuration = nil
+            self.retrievalConfiguration = nil
+        }
+    }
+}
+
+public struct UpdateRevealConfigurationOutput: Swift.Equatable {
+    /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
+    public var configuration: Macie2ClientTypes.RevealConfiguration?
+    /// The access method and settings to use to retrieve the sensitive data.
+    public var retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
+
+    public init(
+        configuration: Macie2ClientTypes.RevealConfiguration? = nil,
+        retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration? = nil
+    )
+    {
+        self.configuration = configuration
+        self.retrievalConfiguration = retrievalConfiguration
+    }
+}
+
+struct UpdateRevealConfigurationOutputBody: Swift.Equatable {
+    let configuration: Macie2ClientTypes.RevealConfiguration?
+    let retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
+}
+
+extension UpdateRevealConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration = "configuration"
+        case retrievalConfiguration = "retrievalConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RevealConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+        let retrievalConfigurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RetrievalConfiguration.self, forKey: .retrievalConfiguration)
+        retrievalConfiguration = retrievalConfigurationDecoded
+    }
+}
+
+<<<<<<< HEAD
 extension UpdateRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -20055,6 +20333,8 @@ extension UpdateRevealConfigurationOutputBody: Swift.Decodable {
     }
 }
 
+=======
+>>>>>>> main
 enum UpdateRevealConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -20107,7 +20387,7 @@ public struct UpdateSensitivityInspectionTemplateInput: Swift.Equatable {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
-    /// The allow lists, custom data identifiers, and managed data identifiers to include (use) when analyzing data.
+    /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when analyzing data.
     public var includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
 
     public init(

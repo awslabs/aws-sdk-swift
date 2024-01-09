@@ -12,7 +12,11 @@ extension WorkMailClient {
     ///     - input: A `[ListAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutput.nextToken, paginationFunction: self.listAliases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAliases(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension WorkMailClient {
     ///     - input: A `[ListAvailabilityConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAvailabilityConfigurationsOutput`
     public func listAvailabilityConfigurationsPaginated(input: ListAvailabilityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAvailabilityConfigurationsInput, ListAvailabilityConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAvailabilityConfigurationsInput, ListAvailabilityConfigurationsOutput>(input: input, inputKey: \ListAvailabilityConfigurationsInput.nextToken, outputKey: \ListAvailabilityConfigurationsOutput.nextToken, paginationFunction: self.listAvailabilityConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAvailabilityConfigurationsInput, ListAvailabilityConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAvailabilityConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -48,7 +56,11 @@ extension ListAvailabilityConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAvailabilityConfigurationsInput, Output == ListAvailabilityConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAvailabilityConfigurationsInput, OperationStackOutput == ListAvailabilityConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAvailabilityConfigurationsPaginated`
     /// to access the nested member `[WorkMailClientTypes.AvailabilityConfiguration]`
     /// - Returns: `[WorkMailClientTypes.AvailabilityConfiguration]`
@@ -66,7 +78,11 @@ extension WorkMailClient {
     ///     - input: A `[ListGroupMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembersOutput`
     public func listGroupMembersPaginated(input: ListGroupMembersInput) -> ClientRuntime.PaginatorSequence<ListGroupMembersInput, ListGroupMembersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupMembersInput, ListGroupMembersOutput>(input: input, inputKey: \ListGroupMembersInput.nextToken, outputKey: \ListGroupMembersOutput.nextToken, paginationFunction: self.listGroupMembers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupMembersInput, ListGroupMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupMembers(input:))
+>>>>>>> main
     }
 }
 
@@ -89,7 +105,11 @@ extension WorkMailClient {
     ///     - input: A `[ListGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutput.nextToken, paginationFunction: self.listGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -112,7 +132,11 @@ extension WorkMailClient {
     ///     - input: A `[ListGroupsForEntityInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsForEntityOutput`
     public func listGroupsForEntityPaginated(input: ListGroupsForEntityInput) -> ClientRuntime.PaginatorSequence<ListGroupsForEntityInput, ListGroupsForEntityOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupsForEntityInput, ListGroupsForEntityOutput>(input: input, inputKey: \ListGroupsForEntityInput.nextToken, outputKey: \ListGroupsForEntityOutput.nextToken, paginationFunction: self.listGroupsForEntity(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupsForEntityInput, ListGroupsForEntityOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupsForEntity(input:))
+>>>>>>> main
     }
 }
 
@@ -136,7 +160,11 @@ extension WorkMailClient {
     ///     - input: A `[ListImpersonationRolesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImpersonationRolesOutput`
     public func listImpersonationRolesPaginated(input: ListImpersonationRolesInput) -> ClientRuntime.PaginatorSequence<ListImpersonationRolesInput, ListImpersonationRolesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImpersonationRolesInput, ListImpersonationRolesOutput>(input: input, inputKey: \ListImpersonationRolesInput.nextToken, outputKey: \ListImpersonationRolesOutput.nextToken, paginationFunction: self.listImpersonationRoles(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImpersonationRolesInput, ListImpersonationRolesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImpersonationRoles(input:))
+>>>>>>> main
     }
 }
 
@@ -158,7 +186,11 @@ extension WorkMailClient {
     ///     - input: A `[ListMailboxExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMailboxExportJobsOutput`
     public func listMailboxExportJobsPaginated(input: ListMailboxExportJobsInput) -> ClientRuntime.PaginatorSequence<ListMailboxExportJobsInput, ListMailboxExportJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListMailboxExportJobsInput, ListMailboxExportJobsOutput>(input: input, inputKey: \ListMailboxExportJobsInput.nextToken, outputKey: \ListMailboxExportJobsOutput.nextToken, paginationFunction: self.listMailboxExportJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListMailboxExportJobsInput, ListMailboxExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMailboxExportJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -180,7 +212,11 @@ extension WorkMailClient {
     ///     - input: A `[ListMailboxPermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMailboxPermissionsOutput`
     public func listMailboxPermissionsPaginated(input: ListMailboxPermissionsInput) -> ClientRuntime.PaginatorSequence<ListMailboxPermissionsInput, ListMailboxPermissionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListMailboxPermissionsInput, ListMailboxPermissionsOutput>(input: input, inputKey: \ListMailboxPermissionsInput.nextToken, outputKey: \ListMailboxPermissionsOutput.nextToken, paginationFunction: self.listMailboxPermissions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListMailboxPermissionsInput, ListMailboxPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMailboxPermissions(input:))
+>>>>>>> main
     }
 }
 
@@ -203,7 +239,11 @@ extension WorkMailClient {
     ///     - input: A `[ListMailDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMailDomainsOutput`
     public func listMailDomainsPaginated(input: ListMailDomainsInput) -> ClientRuntime.PaginatorSequence<ListMailDomainsInput, ListMailDomainsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListMailDomainsInput, ListMailDomainsOutput>(input: input, inputKey: \ListMailDomainsInput.nextToken, outputKey: \ListMailDomainsOutput.nextToken, paginationFunction: self.listMailDomains(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListMailDomainsInput, ListMailDomainsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMailDomains(input:))
+>>>>>>> main
     }
 }
 
@@ -225,7 +265,11 @@ extension WorkMailClient {
     ///     - input: A `[ListMobileDeviceAccessOverridesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMobileDeviceAccessOverridesOutput`
     public func listMobileDeviceAccessOverridesPaginated(input: ListMobileDeviceAccessOverridesInput) -> ClientRuntime.PaginatorSequence<ListMobileDeviceAccessOverridesInput, ListMobileDeviceAccessOverridesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListMobileDeviceAccessOverridesInput, ListMobileDeviceAccessOverridesOutput>(input: input, inputKey: \ListMobileDeviceAccessOverridesInput.nextToken, outputKey: \ListMobileDeviceAccessOverridesOutput.nextToken, paginationFunction: self.listMobileDeviceAccessOverrides(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListMobileDeviceAccessOverridesInput, ListMobileDeviceAccessOverridesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMobileDeviceAccessOverrides(input:))
+>>>>>>> main
     }
 }
 
@@ -249,7 +293,11 @@ extension WorkMailClient {
     ///     - input: A `[ListOrganizationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationsOutput`
     public func listOrganizationsPaginated(input: ListOrganizationsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationsInput, ListOrganizationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOrganizationsInput, ListOrganizationsOutput>(input: input, inputKey: \ListOrganizationsInput.nextToken, outputKey: \ListOrganizationsOutput.nextToken, paginationFunction: self.listOrganizations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOrganizationsInput, ListOrganizationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizations(input:))
+>>>>>>> main
     }
 }
 
@@ -270,7 +318,11 @@ extension WorkMailClient {
     ///     - input: A `[ListResourceDelegatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceDelegatesOutput`
     public func listResourceDelegatesPaginated(input: ListResourceDelegatesInput) -> ClientRuntime.PaginatorSequence<ListResourceDelegatesInput, ListResourceDelegatesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceDelegatesInput, ListResourceDelegatesOutput>(input: input, inputKey: \ListResourceDelegatesInput.nextToken, outputKey: \ListResourceDelegatesOutput.nextToken, paginationFunction: self.listResourceDelegates(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceDelegatesInput, ListResourceDelegatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceDelegates(input:))
+>>>>>>> main
     }
 }
 
@@ -293,7 +345,11 @@ extension WorkMailClient {
     ///     - input: A `[ListResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
     public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutput.nextToken, paginationFunction: self.listResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResources(input:))
+>>>>>>> main
     }
 }
 
@@ -316,7 +372,11 @@ extension WorkMailClient {
     ///     - input: A `[ListUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUsers(input:))
+>>>>>>> main
     }
 }
 

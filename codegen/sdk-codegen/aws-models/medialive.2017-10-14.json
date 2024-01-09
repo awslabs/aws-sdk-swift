@@ -8598,6 +8598,13 @@
                         "smithy.api#jsonName": "captionDescriptions"
                     }
                 },
+                "ColorCorrectionSettings": {
+                    "target": "com.amazonaws.medialive#ColorCorrectionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Color correction settings",
+                        "smithy.api#jsonName": "colorCorrectionSettings"
+                    }
+                },
                 "FeatureActivations": {
                     "target": "com.amazonaws.medialive#FeatureActivations",
                     "traits": {

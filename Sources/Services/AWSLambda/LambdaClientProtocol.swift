@@ -24,6 +24,8 @@ import ClientRuntime
 ///
 /// Root certificates from the first two authorities are available from [Amazon trust services](https://www.amazontrust.com/repository/), but keeping your computer up-to-date is the more straightforward solution. To learn more about ACM-provided certificates, see [Amazon Web Services Certificate Manager FAQs.](http://aws.amazon.com/certificate-manager/faqs/#certificates)
 public protocol LambdaClientProtocol {
+    /// Performs the `AddLayerVersionPermission` operation on the `AWSGirApiService` service.
+    ///
     /// Adds permissions to the resource-based policy of a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call [RemoveLayerVersionPermission] with the statement ID that you specified when you added it.
     ///
     /// - Parameter AddLayerVersionPermissionInput : [no documentation found]
@@ -41,6 +43,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func addLayerVersionPermission(input: AddLayerVersionPermissionInput) async throws -> AddLayerVersionPermissionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AddPermission` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Grants an Amazon Web Service, Amazon Web Services account, or Amazon Web Services organization permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
     ///
     /// - Parameter AddPermissionInput : [no documentation found]
@@ -58,6 +65,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAlias` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates an [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a different version. You can also map an alias to split invocation requests between two versions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives.
     ///
     /// - Parameter CreateAliasInput : [no documentation found]
@@ -73,6 +85,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates a code signing configuration. A [code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html) defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
     ///
     /// - Parameter CreateCodeSigningConfigInput : [no documentation found]
@@ -85,6 +102,11 @@ public protocol LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func createCodeSigningConfig(input: CreateCodeSigningConfigInput) async throws -> CreateCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEventSourceMapping` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.
     ///
     /// * [Amazon DynamoDB Streams](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-dynamodb-eventsourcemapping)
@@ -144,6 +166,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func createEventSourceMapping(input: CreateEventSourceMappingInput) async throws -> CreateEventSourceMappingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFunction` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates a Lambda function. To create a function, you need a [deployment package](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html) and an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role). The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html), then you set the package type to Image. For a container image, the code property must include the URI of a container image in the Amazon ECR registry. You do not need to specify the handler and runtime properties. If the deployment package is a [.zip file archive](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip), then you set the package type to Zip. For a .zip file archive, the code property specifies the location of the .zip file. You must also specify the handler and runtime properties. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). If you do not specify the architecture, then the default value is x86-64. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from [GetFunctionConfiguration] indicate when the function is ready to invoke. For more information, see [Lambda function states](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html). A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with [UpdateFunctionConfiguration]. Function-level settings apply to both the unpublished and published versions of the function, and include tags ([TagResource]) and per-function concurrency limits ([PutFunctionConcurrency]). You can use code signing if your deployment package is a .zip file archive. To enable code signing for this function, specify the ARN of a code-signing configuration. When a user attempts to deploy a code package with [UpdateFunctionCode], Lambda checks that the code package has a valid signature from a trusted publisher. The code-signing configuration includes set of signing profiles, which define the trusted publishers for this function. If another Amazon Web Services account or an Amazon Web Service invokes your function, use [AddPermission] to grant permission by creating a resource-based Identity and Access Management (IAM) policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use [Invoke]. To invoke your function in response to events in other Amazon Web Services, create an event source mapping ([CreateEventSourceMapping]), or configure a function trigger in the other service. For more information, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html).
     ///
     /// - Parameter CreateFunctionInput : [no documentation found]
@@ -163,6 +190,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
     ///
     /// - Parameter CreateFunctionUrlConfigInput : [no documentation found]
@@ -178,6 +210,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func createFunctionUrlConfig(input: CreateFunctionUrlConfigInput) async throws -> CreateFunctionUrlConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAlias` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
     /// - Parameter DeleteAliasInput : [no documentation found]
@@ -192,6 +229,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
     ///
     /// - Parameter DeleteCodeSigningConfigInput : [no documentation found]
@@ -206,6 +248,11 @@ public protocol LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func deleteCodeSigningConfig(input: DeleteCodeSigningConfigInput) async throws -> DeleteCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEventSourceMapping` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes an [event source mapping](https://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html). You can get the identifier of a mapping from the output of [ListEventSourceMappings]. When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds.
     ///
     /// - Parameter DeleteEventSourceMappingInput : [no documentation found]
@@ -222,6 +269,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteEventSourceMapping(input: DeleteEventSourceMappingInput) async throws -> DeleteEventSourceMappingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunction` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for [DeleteAlias]. To delete Lambda event source mappings that invoke a function, use [DeleteEventSourceMapping]. For Amazon Web Services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     ///
     /// - Parameter DeleteFunctionInput : [no documentation found]
@@ -237,6 +289,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunctionCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Removes the code signing configuration from the function.
     ///
     /// - Parameter DeleteFunctionCodeSigningConfigInput : [no documentation found]
@@ -253,6 +310,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteFunctionCodeSigningConfig(input: DeleteFunctionCodeSigningConfigInput) async throws -> DeleteFunctionCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunctionConcurrency` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Removes a concurrent execution limit from a function.
     ///
     /// - Parameter DeleteFunctionConcurrencyInput : [no documentation found]
@@ -268,6 +330,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteFunctionConcurrency(input: DeleteFunctionConcurrencyInput) async throws -> DeleteFunctionConcurrencyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
     /// - Parameter DeleteFunctionEventInvokeConfigInput : [no documentation found]
@@ -283,6 +350,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteFunctionEventInvokeConfig(input: DeleteFunctionEventInvokeConfigInput) async throws -> DeleteFunctionEventInvokeConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
     ///
     /// - Parameter DeleteFunctionUrlConfigInput : [no documentation found]
@@ -297,6 +369,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteFunctionUrlConfig(input: DeleteFunctionUrlConfigInput) async throws -> DeleteFunctionUrlConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteLayerVersion` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
     ///
     /// - Parameter DeleteLayerVersionInput : [no documentation found]
@@ -309,6 +386,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteLayerVersion(input: DeleteLayerVersionInput) async throws -> DeleteLayerVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Deletes the provisioned concurrency configuration for a function.
     ///
     /// - Parameter DeleteProvisionedConcurrencyConfigInput : [no documentation found]
@@ -324,6 +406,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func deleteProvisionedConcurrencyConfig(input: DeleteProvisionedConcurrencyConfigInput) async throws -> DeleteProvisionedConcurrencyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAccountSettings` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Retrieves details about your account's [limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html) and usage in an Amazon Web Services Region.
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
@@ -336,6 +423,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAlias` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns details about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
     /// - Parameter GetAliasInput : [no documentation found]
@@ -350,6 +442,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getAlias(input: GetAliasInput) async throws -> GetAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns information about the specified code signing configuration.
     ///
     /// - Parameter GetCodeSigningConfigInput : [no documentation found]
@@ -363,6 +460,11 @@ public protocol LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func getCodeSigningConfig(input: GetCodeSigningConfigInput) async throws -> GetCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEventSourceMapping` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of [ListEventSourceMappings].
     ///
     /// - Parameter GetEventSourceMappingInput : [no documentation found]
@@ -377,6 +479,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getEventSourceMapping(input: GetEventSourceMappingInput) async throws -> GetEventSourceMappingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunction` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
     ///
     /// - Parameter GetFunctionInput : [no documentation found]
@@ -391,6 +498,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns the code signing configuration for the specified function.
     ///
     /// - Parameter GetFunctionCodeSigningConfigInput : [no documentation found]
@@ -405,6 +517,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getFunctionCodeSigningConfig(input: GetFunctionCodeSigningConfigInput) async throws -> GetFunctionCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionConcurrency` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use [PutFunctionConcurrency].
     ///
     /// - Parameter GetFunctionConcurrencyInput : [no documentation found]
@@ -419,6 +536,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getFunctionConcurrency(input: GetFunctionConcurrencyInput) async throws -> GetFunctionConcurrencyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionConfiguration` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use [UpdateFunctionConfiguration]. To get all of a function's details, including function-level settings, use [GetFunction].
     ///
     /// - Parameter GetFunctionConfigurationInput : [no documentation found]
@@ -433,6 +555,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getFunctionConfiguration(input: GetFunctionConfigurationInput) async throws -> GetFunctionConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Retrieves the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
     /// - Parameter GetFunctionEventInvokeConfigInput : [no documentation found]
@@ -447,6 +574,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getFunctionEventInvokeConfig(input: GetFunctionEventInvokeConfigInput) async throws -> GetFunctionEventInvokeConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns details about a Lambda function URL.
     ///
     /// - Parameter GetFunctionUrlConfigInput : [no documentation found]
@@ -461,6 +593,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getFunctionUrlConfig(input: GetFunctionUrlConfigInput) async throws -> GetFunctionUrlConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLayerVersion` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns information about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html), with a link to download the layer archive that's valid for 10 minutes.
     ///
     /// - Parameter GetLayerVersionInput : [no documentation found]
@@ -475,6 +612,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getLayerVersion(input: GetLayerVersionInput) async throws -> GetLayerVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLayerVersionByArn` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns information about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html), with a link to download the layer archive that's valid for 10 minutes.
     ///
     /// - Parameter GetLayerVersionByArnInput : [no documentation found]
@@ -489,6 +631,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getLayerVersionByArn(input: GetLayerVersionByArnInput) async throws -> GetLayerVersionByArnOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLayerVersionPolicy` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns the permission policy for a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). For more information, see [AddLayerVersionPermission].
     ///
     /// - Parameter GetLayerVersionPolicyInput : [no documentation found]
@@ -503,6 +650,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getLayerVersionPolicy(input: GetLayerVersionPolicyInput) async throws -> GetLayerVersionPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPolicy` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns the [resource-based IAM policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) for a function, version, or alias.
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
@@ -517,6 +669,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Retrieves the provisioned concurrency configuration for a function's alias or version.
     ///
     /// - Parameter GetProvisionedConcurrencyConfigInput : [no documentation found]
@@ -532,6 +689,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getProvisionedConcurrencyConfig(input: GetProvisionedConcurrencyConfigInput) async throws -> GetProvisionedConcurrencyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRuntimeManagementConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update, this includes the runtime update mode and null is returned for the ARN. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
     ///
     /// - Parameter GetRuntimeManagementConfigInput : [no documentation found]
@@ -546,7 +708,13 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func getRuntimeManagementConfig(input: GetRuntimeManagementConfigInput) async throws -> GetRuntimeManagementConfigOutput
+<<<<<<< HEAD
     /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. To invoke a function asynchronously, set InvocationType to Event. For [synchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html), details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the [execution log](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html) and [trace](https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html). When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see [Error handling and automatic retries in Lambda](https://docs.aws.amazon.com/lambda/latest/dg/invocation-retries.html). For [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html), Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq). The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, [quota](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
+=======
+    /// Performs the `Invoke` operation on the `AWSGirApiService` service.
+    ///
+    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For [synchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html), details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the [execution log](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html) and [trace](https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html). When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see [Error handling and automatic retries in Lambda](https://docs.aws.amazon.com/lambda/latest/dg/invocation-retries.html). For [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html), Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq). The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, [quota](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
+>>>>>>> main
     ///
     /// - Parameter InvokeInput : [no documentation found]
     ///
@@ -586,6 +754,11 @@ public protocol LambdaClientProtocol {
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     /// - `UnsupportedMediaTypeException` : The content type of the Invoke request body is not JSON.
     func invoke(input: InvokeInput) async throws -> InvokeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InvokeAsync` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// For asynchronous function invocation, use [Invoke]. Invokes a function asynchronously.
     @available(*, deprecated)
     ///
@@ -602,6 +775,11 @@ public protocol LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func invokeAsync(input: InvokeAsyncInput) async throws -> InvokeAsyncOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InvokeWithResponseStream` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Configure your Lambda functions to stream response payloads back to clients. For more information, see [Configuring a Lambda function to stream responses](https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html). This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
     ///
     /// - Parameter InvokeWithResponseStreamInput : [no documentation found]
@@ -642,6 +820,11 @@ public protocol LambdaClientProtocol {
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     /// - `UnsupportedMediaTypeException` : The content type of the Invoke request body is not JSON.
     func invokeWithResponseStream(input: InvokeWithResponseStreamInput) async throws -> InvokeWithResponseStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAliases` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns a list of [aliases](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function.
     ///
     /// - Parameter ListAliasesInput : [no documentation found]
@@ -656,6 +839,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCodeSigningConfigs` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns a list of [code signing configurations](https://docs.aws.amazon.com/lambda/latest/dg/configuring-codesigning.html). A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
     ///
     /// - Parameter ListCodeSigningConfigsInput : [no documentation found]
@@ -668,6 +856,11 @@ public protocol LambdaClientProtocol {
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func listCodeSigningConfigs(input: ListCodeSigningConfigsInput) async throws -> ListCodeSigningConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEventSourceMappings` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Lists event source mappings. Specify an EventSourceArn to show only event source mappings for a single event source.
     ///
     /// - Parameter ListEventSourceMappingsInput : [no documentation found]
@@ -682,6 +875,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listEventSourceMappings(input: ListEventSourceMappingsInput) async throws -> ListEventSourceMappingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctionEventInvokeConfigs` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
     /// - Parameter ListFunctionEventInvokeConfigsInput : [no documentation found]
@@ -696,6 +894,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listFunctionEventInvokeConfigs(input: ListFunctionEventInvokeConfigsInput) async throws -> ListFunctionEventInvokeConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctions` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. The ListFunctions operation returns a subset of the [FunctionConfiguration] fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use [GetFunction].
     ///
     /// - Parameter ListFunctionsInput : [no documentation found]
@@ -709,6 +912,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctionsByCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
     ///
     /// - Parameter ListFunctionsByCodeSigningConfigInput : [no documentation found]
@@ -722,6 +930,11 @@ public protocol LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func listFunctionsByCodeSigningConfig(input: ListFunctionsByCodeSigningConfigInput) async throws -> ListFunctionsByCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctionUrlConfigs` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns a list of Lambda function URLs for the specified function.
     ///
     /// - Parameter ListFunctionUrlConfigsInput : [no documentation found]
@@ -736,6 +949,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listFunctionUrlConfigs(input: ListFunctionUrlConfigsInput) async throws -> ListFunctionUrlConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLayers` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Lists [Lambda layers](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html) and shows information about the latest version of each. Specify a [runtime identifier](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     ///
     /// - Parameter ListLayersInput : [no documentation found]
@@ -749,6 +967,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listLayers(input: ListLayersInput) async throws -> ListLayersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLayerVersions` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Lists the versions of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Versions that have been deleted aren't listed. Specify a [runtime identifier](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     ///
     /// - Parameter ListLayerVersionsInput : [no documentation found]
@@ -763,6 +986,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listLayerVersions(input: ListLayerVersionsInput) async throws -> ListLayerVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProvisionedConcurrencyConfigs` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of provisioned concurrency configurations for a function.
     ///
     /// - Parameter ListProvisionedConcurrencyConfigsInput : [no documentation found]
@@ -777,6 +1005,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listProvisionedConcurrencyConfigs(input: ListProvisionedConcurrencyConfigsInput) async throws -> ListProvisionedConcurrencyConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTags` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns a function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You can also view tags with [GetFunction].
     ///
     /// - Parameter ListTagsInput : [no documentation found]
@@ -791,6 +1024,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listTags(input: ListTagsInput) async throws -> ListTagsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVersionsByFunction` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html), with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     ///
     /// - Parameter ListVersionsByFunctionInput : [no documentation found]
@@ -805,6 +1043,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func listVersionsByFunction(input: ListVersionsByFunctionInput) async throws -> ListVersionsByFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PublishLayerVersion` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with [CreateFunction] or [UpdateFunctionConfiguration].
     ///
     /// - Parameter PublishLayerVersionInput : [no documentation found]
@@ -820,6 +1063,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func publishLayerVersion(input: PublishLayerVersionInput) async throws -> PublishLayerVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PublishVersion` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
     ///
     /// - Parameter PublishVersionInput : [no documentation found]
@@ -837,6 +1085,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func publishVersion(input: PublishVersionInput) async throws -> PublishVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutFunctionCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     ///
     /// - Parameter PutFunctionCodeSigningConfigInput : [no documentation found]
@@ -853,6 +1106,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func putFunctionCodeSigningConfig(input: PutFunctionCodeSigningConfigInput) async throws -> PutFunctionCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutFunctionConcurrency` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
     ///
     /// - Parameter PutFunctionConcurrencyInput : [no documentation found]
@@ -868,6 +1126,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func putFunctionConcurrency(input: PutFunctionConcurrencyInput) async throws -> PutFunctionConcurrencyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Configures options for [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html) on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use [UpdateFunctionEventInvokeConfig]. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with [UpdateFunctionConfiguration]. To send an invocation record to a queue, topic, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations). You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue.
     ///
     /// - Parameter PutFunctionEventInvokeConfigInput : [no documentation found]
@@ -883,6 +1146,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func putFunctionEventInvokeConfig(input: PutFunctionEventInvokeConfigInput) async throws -> PutFunctionEventInvokeConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutProvisionedConcurrencyConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Adds a provisioned concurrency configuration to a function's alias or version.
     ///
     /// - Parameter PutProvisionedConcurrencyConfigInput : [no documentation found]
@@ -898,6 +1166,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func putProvisionedConcurrencyConfig(input: PutProvisionedConcurrencyConfigInput) async throws -> PutProvisionedConcurrencyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutRuntimeManagementConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Sets the runtime management configuration for a function's version. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
     ///
     /// - Parameter PutRuntimeManagementConfigInput : [no documentation found]
@@ -913,6 +1186,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func putRuntimeManagementConfig(input: PutRuntimeManagementConfigInput) async throws -> PutRuntimeManagementConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemoveLayerVersionPermission` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Removes a statement from the permissions policy for a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). For more information, see [AddLayerVersionPermission].
     ///
     /// - Parameter RemoveLayerVersionPermissionInput : [no documentation found]
@@ -928,6 +1206,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func removeLayerVersionPermission(input: RemoveLayerVersionPermissionInput) async throws -> RemoveLayerVersionPermissionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemovePermission` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Revokes function-use permission from an Amazon Web Service or another Amazon Web Services account. You can get the ID of the statement from the output of [GetPolicy].
     ///
     /// - Parameter RemovePermissionInput : [no documentation found]
@@ -943,6 +1226,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -958,6 +1246,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -973,6 +1266,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAlias` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Updates the configuration of a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
     /// - Parameter UpdateAliasInput : [no documentation found]
@@ -989,6 +1287,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCodeSigningConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     ///
     /// - Parameter UpdateCodeSigningConfigInput : [no documentation found]
@@ -1002,6 +1305,11 @@ public protocol LambdaClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     func updateCodeSigningConfig(input: UpdateCodeSigningConfigInput) async throws -> UpdateCodeSigningConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEventSourceMapping` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.
     ///
     /// * [Amazon DynamoDB Streams](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-dynamodb-eventsourcemapping)
@@ -1062,6 +1370,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func updateEventSourceMapping(input: UpdateEventSourceMappingInput) async throws -> UpdateEventSourceMappingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFunctionCode` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see [Configuring code signing for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html). If the function's package type is Image, then you must specify the code package in ImageUri as the URI of a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html) in the Amazon ECR registry. If the function's package type is Zip, then you must specify the deployment package as a [.zip file archive](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip). Enter the Amazon S3 bucket and key of the code .zip file location. You can also provide the function code inline using the ZipFile field. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version. For a function defined as a container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you update the image tag to a new image, Lambda does not automatically update the function.
     ///
     /// - Parameter UpdateFunctionCodeInput : [no documentation found]
@@ -1082,6 +1395,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func updateFunctionCode(input: UpdateFunctionCodeInput) async throws -> UpdateFunctionCodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFunctionConfiguration` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus, LastUpdateStatusReason, and LastUpdateStatusReasonCode fields in the response from [GetFunctionConfiguration] indicate when the update is complete and the function is processing events with the new configuration. For more information, see [Lambda function states](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html). These settings can vary between versions of a function and are locked when you publish a version. You can't modify the configuration of a published version, only the unpublished version. To configure function concurrency, use [PutFunctionConcurrency]. To grant invoke permissions to an Amazon Web Services account or Amazon Web Service, use [AddPermission].
     ///
     /// - Parameter UpdateFunctionConfigurationInput : [no documentation found]
@@ -1101,6 +1419,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func updateFunctionConfiguration(input: UpdateFunctionConfigurationInput) async throws -> UpdateFunctionConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
     /// - Parameter UpdateFunctionEventInvokeConfigInput : [no documentation found]
@@ -1116,6 +1439,11 @@ public protocol LambdaClientProtocol {
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     func updateFunctionEventInvokeConfig(input: UpdateFunctionEventInvokeConfigInput) async throws -> UpdateFunctionEventInvokeConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFunctionUrlConfig` operation on the `AWSGirApiService` service.
+    ///
+>>>>>>> main
     /// Updates the configuration for a Lambda function URL.
     ///
     /// - Parameter UpdateFunctionUrlConfigInput : [no documentation found]

@@ -52,6 +52,8 @@ import ClientRuntime
 ///
 /// * [UntagResource](https://docs.aws.amazon.com/healthimaging/latest/APIReference/API_UntagResource.html) – See [Tagging a data store](https://docs.aws.amazon.com/healthimaging/latest/devguide/tag-list-untag-data-store.html) and [Tagging an image set](https://docs.aws.amazon.com/healthimaging/latest/devguide/tag-list-untag-image-set.html).
 public protocol MedicalImagingClientProtocol {
+    /// Performs the `CopyImageSet` operation on the `AHIGatewayService` service.
+    ///
     /// Copy an image set.
     ///
     /// - Parameter CopyImageSetInput : [no documentation found]
@@ -69,6 +71,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDatastore` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Create a data store.
     ///
     /// - Parameter CreateDatastoreInput : [no documentation found]
@@ -85,6 +92,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDatastore` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Delete a data store. Before a data store can be deleted, you must first delete all image sets within it.
     ///
     /// - Parameter DeleteDatastoreInput : [no documentation found]
@@ -101,6 +113,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteImageSet` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Delete an image set.
     ///
     /// - Parameter DeleteImageSetInput : [no documentation found]
@@ -117,6 +134,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDatastore` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Get data store properties.
     ///
     /// - Parameter GetDatastoreInput : [no documentation found]
@@ -132,6 +154,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDICOMImportJob` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Get the import job properties to learn more about the job or job progress.
     ///
     /// - Parameter GetDICOMImportJobInput : [no documentation found]
@@ -148,6 +175,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetImageFrame` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Get an image frame (pixel data) for an image set.
     ///
     /// - Parameter GetImageFrameInput : [no documentation found]
@@ -164,6 +196,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetImageSet` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Get image set properties.
     ///
     /// - Parameter GetImageSetInput : [no documentation found]
@@ -180,6 +217,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetImageSetMetadata` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Get metadata attributes for an image set.
     ///
     /// - Parameter GetImageSetMetadataInput : [no documentation found]
@@ -196,6 +238,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDatastores` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// List data stores.
     ///
     /// - Parameter ListDatastoresInput : [no documentation found]
@@ -210,6 +257,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDICOMImportJobs` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// List import jobs created for a specific data store.
     ///
     /// - Parameter ListDICOMImportJobsInput : [no documentation found]
@@ -226,6 +278,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListImageSetVersions` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// List image set versions.
     ///
     /// - Parameter ListImageSetVersionsInput : [no documentation found]
@@ -242,6 +299,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Lists all tags associated with a medical imaging resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -257,6 +319,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchImageSets` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Search image sets based on defined input attributes. SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All range queries must be input as (lowerBound, upperBound). SearchImageSets uses the updatedAt field for sorting in decreasing order from latest to oldest.
     ///
     /// - Parameter SearchImageSetsInput : [no documentation found]
@@ -273,6 +340,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDICOMImportJob` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
     /// - Parameter StartDICOMImportJobInput : [no documentation found]
@@ -290,6 +362,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Adds a user-specifed key and value tag to a medical imaging resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -305,6 +382,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Removes tags from a medical imaging resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -320,6 +402,11 @@ public protocol MedicalImagingClientProtocol {
     /// - `ThrottlingException` : The request was denied due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateImageSetMetadata` operation on the `AHIGatewayService` service.
+    ///
+>>>>>>> main
     /// Update image set metadata attributes.
     ///
     /// - Parameter UpdateImageSetMetadataInput : [no documentation found]

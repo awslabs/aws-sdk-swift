@@ -12,7 +12,11 @@ extension DataExchangeClient {
     ///     - input: A `[ListDataSetRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetRevisionsOutput`
     public func listDataSetRevisionsPaginated(input: ListDataSetRevisionsInput) -> ClientRuntime.PaginatorSequence<ListDataSetRevisionsInput, ListDataSetRevisionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDataSetRevisionsInput, ListDataSetRevisionsOutput>(input: input, inputKey: \ListDataSetRevisionsInput.nextToken, outputKey: \ListDataSetRevisionsOutput.nextToken, paginationFunction: self.listDataSetRevisions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDataSetRevisionsInput, ListDataSetRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSetRevisions(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListDataSetRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDataSetRevisionsInput, Output == ListDataSetRevisionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDataSetRevisionsInput, OperationStackOutput == ListDataSetRevisionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataSetRevisionsPaginated`
     /// to access the nested member `[DataExchangeClientTypes.RevisionEntry]`
     /// - Returns: `[DataExchangeClientTypes.RevisionEntry]`
@@ -43,7 +51,11 @@ extension DataExchangeClient {
     ///     - input: A `[ListDataSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetsOutput`
     public func listDataSetsPaginated(input: ListDataSetsInput) -> ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput>(input: input, inputKey: \ListDataSetsInput.nextToken, outputKey: \ListDataSetsOutput.nextToken, paginationFunction: self.listDataSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSets(input:))
+>>>>>>> main
     }
 }
 
@@ -56,7 +68,11 @@ extension ListDataSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDataSetsInput, Output == ListDataSetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDataSetsInput, OperationStackOutput == ListDataSetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataSetsPaginated`
     /// to access the nested member `[DataExchangeClientTypes.DataSetEntry]`
     /// - Returns: `[DataExchangeClientTypes.DataSetEntry]`
@@ -74,7 +90,11 @@ extension DataExchangeClient {
     ///     - input: A `[ListEventActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventActionsOutput`
     public func listEventActionsPaginated(input: ListEventActionsInput) -> ClientRuntime.PaginatorSequence<ListEventActionsInput, ListEventActionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEventActionsInput, ListEventActionsOutput>(input: input, inputKey: \ListEventActionsInput.nextToken, outputKey: \ListEventActionsOutput.nextToken, paginationFunction: self.listEventActions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEventActionsInput, ListEventActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventActions(input:))
+>>>>>>> main
     }
 }
 
@@ -87,7 +107,11 @@ extension ListEventActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListEventActionsInput, Output == ListEventActionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListEventActionsInput, OperationStackOutput == ListEventActionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEventActionsPaginated`
     /// to access the nested member `[DataExchangeClientTypes.EventActionEntry]`
     /// - Returns: `[DataExchangeClientTypes.EventActionEntry]`
@@ -105,7 +129,11 @@ extension DataExchangeClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -119,7 +147,11 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[DataExchangeClientTypes.JobEntry]`
     /// - Returns: `[DataExchangeClientTypes.JobEntry]`
@@ -137,7 +169,11 @@ extension DataExchangeClient {
     ///     - input: A `[ListRevisionAssetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRevisionAssetsOutput`
     public func listRevisionAssetsPaginated(input: ListRevisionAssetsInput) -> ClientRuntime.PaginatorSequence<ListRevisionAssetsInput, ListRevisionAssetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRevisionAssetsInput, ListRevisionAssetsOutput>(input: input, inputKey: \ListRevisionAssetsInput.nextToken, outputKey: \ListRevisionAssetsOutput.nextToken, paginationFunction: self.listRevisionAssets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRevisionAssetsInput, ListRevisionAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRevisionAssets(input:))
+>>>>>>> main
     }
 }
 
@@ -151,7 +187,11 @@ extension ListRevisionAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListRevisionAssetsInput, Output == ListRevisionAssetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListRevisionAssetsInput, OperationStackOutput == ListRevisionAssetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRevisionAssetsPaginated`
     /// to access the nested member `[DataExchangeClientTypes.AssetEntry]`
     /// - Returns: `[DataExchangeClientTypes.AssetEntry]`

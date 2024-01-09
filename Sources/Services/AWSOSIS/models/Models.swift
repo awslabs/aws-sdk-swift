@@ -57,6 +57,42 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension OSISClientTypes.BufferOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case persistentBufferEnabled = "PersistentBufferEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let persistentBufferEnabled = self.persistentBufferEnabled {
+            try encodeContainer.encode(persistentBufferEnabled, forKey: .persistentBufferEnabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let persistentBufferEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .persistentBufferEnabled)
+        persistentBufferEnabled = persistentBufferEnabledDecoded
+    }
+}
+
+extension OSISClientTypes {
+    /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
+    public struct BufferOptions: Swift.Equatable {
+        /// Whether persistent buffering should be enabled.
+        /// This member is required.
+        public var persistentBufferEnabled: Swift.Bool?
+
+        public init(
+            persistentBufferEnabled: Swift.Bool? = nil
+        )
+        {
+            self.persistentBufferEnabled = persistentBufferEnabled
+        }
+    }
+
+}
+
 extension OSISClientTypes.ChangeProgressStage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -368,6 +404,8 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension CreatePipelineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -379,6 +417,12 @@ extension CreatePipelineInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferOptions = self.bufferOptions {
+            try encodeContainer.encode(bufferOptions, forKey: .bufferOptions)
+        }
+        if let encryptionAtRestOptions = self.encryptionAtRestOptions {
+            try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+        }
         if let logPublishingOptions = self.logPublishingOptions {
             try encodeContainer.encode(logPublishingOptions, forKey: .logPublishingOptions)
         }
@@ -413,6 +457,10 @@ extension CreatePipelineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePipelineInput: Swift.Equatable {
+    /// Key-value pairs to configure persistent buffering for the pipeline.
+    public var bufferOptions: OSISClientTypes.BufferOptions?
+    /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
+    public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
     /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: OSISClientTypes.LogPublishingOptions?
     /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -433,6 +481,8 @@ public struct CreatePipelineInput: Swift.Equatable {
     public var vpcOptions: OSISClientTypes.VpcOptions?
 
     public init(
+        bufferOptions: OSISClientTypes.BufferOptions? = nil,
+        encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
         logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
         maxUnits: Swift.Int? = nil,
         minUnits: Swift.Int? = nil,
@@ -442,6 +492,8 @@ public struct CreatePipelineInput: Swift.Equatable {
         vpcOptions: OSISClientTypes.VpcOptions? = nil
     )
     {
+        self.bufferOptions = bufferOptions
+        self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
         self.maxUnits = maxUnits
         self.minUnits = minUnits
@@ -459,11 +511,15 @@ struct CreatePipelineInputBody: Swift.Equatable {
     let pipelineConfigurationBody: Swift.String?
     let logPublishingOptions: OSISClientTypes.LogPublishingOptions?
     let vpcOptions: OSISClientTypes.VpcOptions?
+    let bufferOptions: OSISClientTypes.BufferOptions?
+    let encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
     let tags: [OSISClientTypes.Tag]?
 }
 
 extension CreatePipelineInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -487,6 +543,10 @@ extension CreatePipelineInputBody: Swift.Decodable {
         logPublishingOptions = logPublishingOptionsDecoded
         let vpcOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.VpcOptions.self, forKey: .vpcOptions)
         vpcOptions = vpcOptionsDecoded
+        let bufferOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.BufferOptions.self, forKey: .bufferOptions)
+        bufferOptions = bufferOptionsDecoded
+        let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
+        encryptionAtRestOptions = encryptionAtRestOptionsDecoded
         let tagsContainer = try containerValues.decodeIfPresent([OSISClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[OSISClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -550,6 +610,10 @@ enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -612,6 +676,45 @@ enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension OSISClientTypes.EncryptionAtRestOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyArn = "KmsKeyArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+    }
+}
+
+extension OSISClientTypes {
+    /// Options to control how OpenSearch encrypts all data-at-rest.
+    public struct EncryptionAtRestOptions: Swift.Equatable {
+        /// The ARN of the KMS key used to encrypt data-at-rest in OpenSearch Ingestion. By default, data is encrypted using an AWS owned key.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        )
+        {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+
+}
+
+>>>>>>> main
 extension GetPipelineBlueprintInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let blueprintName = blueprintName else {
@@ -1398,7 +1501,9 @@ extension OSISClientTypes {
 
 extension OSISClientTypes.Pipeline: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
         case createdAt = "CreatedAt"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case ingestEndpointUrls = "IngestEndpointUrls"
         case lastUpdatedAt = "LastUpdatedAt"
         case logPublishingOptions = "LogPublishingOptions"
@@ -1407,15 +1512,23 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
         case pipelineArn = "PipelineArn"
         case pipelineConfigurationBody = "PipelineConfigurationBody"
         case pipelineName = "PipelineName"
+        case serviceVpcEndpoints = "ServiceVpcEndpoints"
         case status = "Status"
         case statusReason = "StatusReason"
+        case tags = "Tags"
         case vpcEndpoints = "VpcEndpoints"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferOptions = self.bufferOptions {
+            try encodeContainer.encode(bufferOptions, forKey: .bufferOptions)
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let encryptionAtRestOptions = self.encryptionAtRestOptions {
+            try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
         }
         if let ingestEndpointUrls = ingestEndpointUrls {
             var ingestEndpointUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ingestEndpointUrls)
@@ -1444,11 +1557,23 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
         if let pipelineName = self.pipelineName {
             try encodeContainer.encode(pipelineName, forKey: .pipelineName)
         }
+        if let serviceVpcEndpoints = serviceVpcEndpoints {
+            var serviceVpcEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceVpcEndpoints)
+            for servicevpcendpoint0 in serviceVpcEndpoints {
+                try serviceVpcEndpointsContainer.encode(servicevpcendpoint0)
+            }
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
         if let statusReason = self.statusReason {
             try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let vpcEndpoints = vpcEndpoints {
             var vpcEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcEndpoints)
@@ -1502,14 +1627,44 @@ extension OSISClientTypes.Pipeline: Swift.Codable {
             }
         }
         vpcEndpoints = vpcEndpointsDecoded0
+        let bufferOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.BufferOptions.self, forKey: .bufferOptions)
+        bufferOptions = bufferOptionsDecoded
+        let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
+        encryptionAtRestOptions = encryptionAtRestOptionsDecoded
+        let serviceVpcEndpointsContainer = try containerValues.decodeIfPresent([OSISClientTypes.ServiceVpcEndpoint?].self, forKey: .serviceVpcEndpoints)
+        var serviceVpcEndpointsDecoded0:[OSISClientTypes.ServiceVpcEndpoint]? = nil
+        if let serviceVpcEndpointsContainer = serviceVpcEndpointsContainer {
+            serviceVpcEndpointsDecoded0 = [OSISClientTypes.ServiceVpcEndpoint]()
+            for structure0 in serviceVpcEndpointsContainer {
+                if let structure0 = structure0 {
+                    serviceVpcEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        serviceVpcEndpoints = serviceVpcEndpointsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([OSISClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[OSISClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [OSISClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
 extension OSISClientTypes {
     /// Information about an existing OpenSearch Ingestion pipeline.
     public struct Pipeline: Swift.Equatable {
+        /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions.
+        public var bufferOptions: OSISClientTypes.BufferOptions?
         /// The date and time when the pipeline was created.
         public var createdAt: ClientRuntime.Date?
+        /// Options to control how OpenSearch encrypts all data-at-rest.
+        public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
         /// The ingestion endpoints for the pipeline, which you can send data to.
         public var ingestEndpointUrls: [Swift.String]?
         /// The date and time when the pipeline was last updated.
@@ -1526,15 +1681,21 @@ extension OSISClientTypes {
         public var pipelineConfigurationBody: Swift.String?
         /// The name of the pipeline.
         public var pipelineName: Swift.String?
+        /// A list of VPC endpoints that OpenSearch Ingestion has created to other AWS services.
+        public var serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]?
         /// The current status of the pipeline.
         public var status: OSISClientTypes.PipelineStatus?
         /// The reason for the current status of the pipeline.
         public var statusReason: OSISClientTypes.PipelineStatusReason?
+        /// A list of tags associated with the given pipeline.
+        public var tags: [OSISClientTypes.Tag]?
         /// The VPC interface endpoints that have access to the pipeline.
         public var vpcEndpoints: [OSISClientTypes.VpcEndpoint]?
 
         public init(
+            bufferOptions: OSISClientTypes.BufferOptions? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
             ingestEndpointUrls: [Swift.String]? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
@@ -1543,12 +1704,16 @@ extension OSISClientTypes {
             pipelineArn: Swift.String? = nil,
             pipelineConfigurationBody: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
+            serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]? = nil,
             status: OSISClientTypes.PipelineStatus? = nil,
             statusReason: OSISClientTypes.PipelineStatusReason? = nil,
+            tags: [OSISClientTypes.Tag]? = nil,
             vpcEndpoints: [OSISClientTypes.VpcEndpoint]? = nil
         )
         {
+            self.bufferOptions = bufferOptions
             self.createdAt = createdAt
+            self.encryptionAtRestOptions = encryptionAtRestOptions
             self.ingestEndpointUrls = ingestEndpointUrls
             self.lastUpdatedAt = lastUpdatedAt
             self.logPublishingOptions = logPublishingOptions
@@ -1557,8 +1722,10 @@ extension OSISClientTypes {
             self.pipelineArn = pipelineArn
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.serviceVpcEndpoints = serviceVpcEndpoints
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
             self.vpcEndpoints = vpcEndpoints
         }
     }
@@ -1746,6 +1913,7 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
         case pipelineName = "PipelineName"
         case status = "Status"
         case statusReason = "StatusReason"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1774,6 +1942,12 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
         if let statusReason = self.statusReason {
             try encodeContainer.encode(statusReason, forKey: .statusReason)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1794,6 +1968,17 @@ extension OSISClientTypes.PipelineSummary: Swift.Codable {
         createdAt = createdAtDecoded
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([OSISClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[OSISClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [OSISClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1816,6 +2001,8 @@ extension OSISClientTypes {
         public var status: OSISClientTypes.PipelineStatus?
         /// Information about a pipeline's current status.
         public var statusReason: OSISClientTypes.PipelineStatusReason?
+        /// A list of tags associated with the given pipeline.
+        public var tags: [OSISClientTypes.Tag]?
 
         public init(
             createdAt: ClientRuntime.Date? = nil,
@@ -1825,7 +2012,8 @@ extension OSISClientTypes {
             pipelineArn: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             status: OSISClientTypes.PipelineStatus? = nil,
-            statusReason: OSISClientTypes.PipelineStatusReason? = nil
+            statusReason: OSISClientTypes.PipelineStatusReason? = nil,
+            tags: [OSISClientTypes.Tag]? = nil
         )
         {
             self.createdAt = createdAt
@@ -1836,6 +2024,7 @@ extension OSISClientTypes {
             self.pipelineName = pipelineName
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
         }
     }
 
@@ -1949,6 +2138,51 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension OSISClientTypes.ServiceVpcEndpoint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName = "ServiceName"
+        case vpcEndpointId = "VpcEndpointId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName.rawValue, forKey: .serviceName)
+        }
+        if let vpcEndpointId = self.vpcEndpointId {
+            try encodeContainer.encode(vpcEndpointId, forKey: .vpcEndpointId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(OSISClientTypes.VpcEndpointServiceName.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let vpcEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointId)
+        vpcEndpointId = vpcEndpointIdDecoded
+    }
+}
+
+extension OSISClientTypes {
+    /// A container for information about VPC endpoints that were created to other services
+    public struct ServiceVpcEndpoint: Swift.Equatable {
+        /// The name of the service for which a VPC endpoint was created.
+        public var serviceName: OSISClientTypes.VpcEndpointServiceName?
+        /// The ID of the VPC endpoint that was created.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            serviceName: OSISClientTypes.VpcEndpointServiceName? = nil,
+            vpcEndpointId: Swift.String? = nil
+        )
+        {
+            self.serviceName = serviceName
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+
 }
 
 extension StartPipelineInput: ClientRuntime.URLPathProvider {
@@ -2381,6 +2615,8 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdatePipelineInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -2389,6 +2625,12 @@ extension UpdatePipelineInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferOptions = self.bufferOptions {
+            try encodeContainer.encode(bufferOptions, forKey: .bufferOptions)
+        }
+        if let encryptionAtRestOptions = self.encryptionAtRestOptions {
+            try encodeContainer.encode(encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+        }
         if let logPublishingOptions = self.logPublishingOptions {
             try encodeContainer.encode(logPublishingOptions, forKey: .logPublishingOptions)
         }
@@ -2414,6 +2656,10 @@ extension UpdatePipelineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePipelineInput: Swift.Equatable {
+    /// Key-value pairs to configure persistent buffering for the pipeline.
+    public var bufferOptions: OSISClientTypes.BufferOptions?
+    /// Key-value pairs to configure encryption for data that is written to a persistent buffer.
+    public var encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
     /// Key-value pairs to configure log publishing.
     public var logPublishingOptions: OSISClientTypes.LogPublishingOptions?
     /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
@@ -2427,6 +2673,8 @@ public struct UpdatePipelineInput: Swift.Equatable {
     public var pipelineName: Swift.String?
 
     public init(
+        bufferOptions: OSISClientTypes.BufferOptions? = nil,
+        encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
         logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
         maxUnits: Swift.Int? = nil,
         minUnits: Swift.Int? = nil,
@@ -2434,6 +2682,8 @@ public struct UpdatePipelineInput: Swift.Equatable {
         pipelineName: Swift.String? = nil
     )
     {
+        self.bufferOptions = bufferOptions
+        self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
         self.maxUnits = maxUnits
         self.minUnits = minUnits
@@ -2447,10 +2697,14 @@ struct UpdatePipelineInputBody: Swift.Equatable {
     let maxUnits: Swift.Int?
     let pipelineConfigurationBody: Swift.String?
     let logPublishingOptions: OSISClientTypes.LogPublishingOptions?
+    let bufferOptions: OSISClientTypes.BufferOptions?
+    let encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions?
 }
 
 extension UpdatePipelineInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferOptions = "BufferOptions"
+        case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case maxUnits = "MaxUnits"
         case minUnits = "MinUnits"
@@ -2467,6 +2721,50 @@ extension UpdatePipelineInputBody: Swift.Decodable {
         pipelineConfigurationBody = pipelineConfigurationBodyDecoded
         let logPublishingOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.LogPublishingOptions.self, forKey: .logPublishingOptions)
         logPublishingOptions = logPublishingOptionsDecoded
+        let bufferOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.BufferOptions.self, forKey: .bufferOptions)
+        bufferOptions = bufferOptionsDecoded
+        let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
+        encryptionAtRestOptions = encryptionAtRestOptionsDecoded
+    }
+}
+
+extension UpdatePipelineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePipelineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.pipeline = output.pipeline
+        } else {
+            self.pipeline = nil
+        }
+    }
+}
+
+public struct UpdatePipelineOutput: Swift.Equatable {
+    /// Container for information about the updated pipeline.
+    public var pipeline: OSISClientTypes.Pipeline?
+
+    public init(
+        pipeline: OSISClientTypes.Pipeline? = nil
+    )
+    {
+        self.pipeline = pipeline
+    }
+}
+
+struct UpdatePipelineOutputBody: Swift.Equatable {
+    let pipeline: OSISClientTypes.Pipeline?
+}
+
+extension UpdatePipelineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipeline = "Pipeline"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
+        pipeline = pipelineDecoded
     }
 }
 
@@ -2788,6 +3086,35 @@ extension OSISClientTypes {
         }
     }
 
+}
+
+extension OSISClientTypes {
+    public enum VpcEndpointServiceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case opensearchServerless
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcEndpointServiceName] {
+            return [
+                .opensearchServerless,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VpcEndpointServiceName(rawValue: rawValue) ?? VpcEndpointServiceName.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension OSISClientTypes.VpcOptions: Swift.Codable {

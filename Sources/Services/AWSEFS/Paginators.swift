@@ -12,7 +12,11 @@ extension EFSClient {
     ///     - input: A `[DescribeAccessPointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccessPointsOutput`
     public func describeAccessPointsPaginated(input: DescribeAccessPointsInput) -> ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput>(input: input, inputKey: \DescribeAccessPointsInput.nextToken, outputKey: \DescribeAccessPointsOutput.nextToken, paginationFunction: self.describeAccessPoints(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccessPoints(input:))
+>>>>>>> main
     }
 }
 
@@ -25,6 +29,15 @@ extension DescribeAccessPointsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeAccessPointsInput, OperationStackOutput == DescribeAccessPointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAccessPointsPaginated`
+    /// to access the nested member `[EFSClientTypes.AccessPointDescription]`
+    /// - Returns: `[EFSClientTypes.AccessPointDescription]`
+    public func accessPoints() async throws -> [EFSClientTypes.AccessPointDescription] {
+        return try await self.asyncCompactMap { item in item.accessPoints }
+    }
+}
 extension EFSClient {
     /// Paginate over `[DescribeFileSystemsOutput]` results.
     ///
@@ -35,7 +48,11 @@ extension EFSClient {
     ///     - input: A `[DescribeFileSystemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemsOutput`
     public func describeFileSystemsPaginated(input: DescribeFileSystemsInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \DescribeFileSystemsInput.marker, outputKey: \DescribeFileSystemsOutput.nextMarker, paginationFunction: self.describeFileSystems(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeFileSystems(input:))
+>>>>>>> main
     }
 }
 
@@ -48,7 +65,83 @@ extension DescribeFileSystemsInput: ClientRuntime.PaginateToken {
             maxItems: self.maxItems
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeFileSystemsInput, OperationStackOutput == DescribeFileSystemsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeFileSystemsPaginated`
+    /// to access the nested member `[EFSClientTypes.FileSystemDescription]`
+    /// - Returns: `[EFSClientTypes.FileSystemDescription]`
+    public func fileSystems() async throws -> [EFSClientTypes.FileSystemDescription] {
+        return try await self.asyncCompactMap { item in item.fileSystems }
+    }
+}
 extension EFSClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[DescribeMountTargetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMountTargetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMountTargetsOutput`
+    public func describeMountTargetsPaginated(input: DescribeMountTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeMountTargetsInput, DescribeMountTargetsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMountTargetsInput, DescribeMountTargetsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeMountTargets(input:))
+    }
+}
+
+extension DescribeMountTargetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMountTargetsInput {
+        return DescribeMountTargetsInput(
+            accessPointId: self.accessPointId,
+            fileSystemId: self.fileSystemId,
+            marker: token,
+            maxItems: self.maxItems,
+            mountTargetId: self.mountTargetId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMountTargetsInput, OperationStackOutput == DescribeMountTargetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMountTargetsPaginated`
+    /// to access the nested member `[EFSClientTypes.MountTargetDescription]`
+    /// - Returns: `[EFSClientTypes.MountTargetDescription]`
+    public func mountTargets() async throws -> [EFSClientTypes.MountTargetDescription] {
+        return try await self.asyncCompactMap { item in item.mountTargets }
+    }
+}
+extension EFSClient {
+    /// Paginate over `[DescribeReplicationConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeReplicationConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationConfigurationsOutput`
+    public func describeReplicationConfigurationsPaginated(input: DescribeReplicationConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReplicationConfigurations(input:))
+    }
+}
+
+extension DescribeReplicationConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeReplicationConfigurationsInput {
+        return DescribeReplicationConfigurationsInput(
+            fileSystemId: self.fileSystemId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeReplicationConfigurationsInput, OperationStackOutput == DescribeReplicationConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeReplicationConfigurationsPaginated`
+    /// to access the nested member `[EFSClientTypes.ReplicationConfigurationDescription]`
+    /// - Returns: `[EFSClientTypes.ReplicationConfigurationDescription]`
+    public func replications() async throws -> [EFSClientTypes.ReplicationConfigurationDescription] {
+        return try await self.asyncCompactMap { item in item.replications }
+    }
+}
+extension EFSClient {
+>>>>>>> main
     /// Paginate over `[DescribeTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -58,7 +151,11 @@ extension EFSClient {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.marker, outputKey: \DescribeTagsOutput.nextMarker, paginationFunction: self.describeTags(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeTags(input:))
+>>>>>>> main
     }
 }
 
@@ -70,6 +167,15 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
             maxItems: self.maxItems
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeTagsInput, OperationStackOutput == DescribeTagsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
+    /// to access the nested member `[EFSClientTypes.Tag]`
+    /// - Returns: `[EFSClientTypes.Tag]`
+    public func tags() async throws -> [EFSClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}
 extension EFSClient {
     /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
@@ -80,7 +186,11 @@ extension EFSClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+>>>>>>> main
     }
 }
 

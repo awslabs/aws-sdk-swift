@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Amazon Chime SDK Identity APIs in this section allow software developers to create and manage unique instances of their messaging applications. These APIs provide the overarching framework for creating and sending messages. For more information about the identity APIs, refer to [Amazon Chime SDK identity](https://docs.aws.amazon.com/chime/latest/APIReference/API_Operations_Amazon_Chime_SDK_Identity.html).
 public protocol ChimeSDKIdentityClientProtocol {
+    /// Performs the `CreateAppInstance` operation on the `ChimeIdentityService` service.
+    ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
     ///
     /// - Parameter CreateAppInstanceInput : [no documentation found]
@@ -22,6 +24,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstance(input: CreateAppInstanceInput) async throws -> CreateAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppInstanceAdmin` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin. The promoted entity can perform the following actions.
     ///
     /// * ChannelModerator actions across all channels in the AppInstance.
@@ -47,6 +54,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstanceAdmin(input: CreateAppInstanceAdminInput) async throws -> CreateAppInstanceAdminOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppInstanceBot` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Creates a bot under an Amazon Chime AppInstance. The request consists of a unique Configuration and Name for that bot.
     ///
     /// - Parameter CreateAppInstanceBotInput : [no documentation found]
@@ -65,6 +77,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstanceBot(input: CreateAppInstanceBotInput) async throws -> CreateAppInstanceBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppInstanceUser` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
     ///
     /// - Parameter CreateAppInstanceUserInput : [no documentation found]
@@ -83,6 +100,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createAppInstanceUser(input: CreateAppInstanceUserInput) async throws -> CreateAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstance` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Deletes an AppInstance and all associated data asynchronously.
     ///
     /// - Parameter DeleteAppInstanceInput : [no documentation found]
@@ -100,6 +122,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstance(input: DeleteAppInstanceInput) async throws -> DeleteAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstanceAdmin` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot. This action does not delete the user.
     ///
     /// - Parameter DeleteAppInstanceAdminInput : [no documentation found]
@@ -118,6 +145,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstanceAdmin(input: DeleteAppInstanceAdminInput) async throws -> DeleteAppInstanceAdminOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstanceBot` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Deletes an AppInstanceBot.
     ///
     /// - Parameter DeleteAppInstanceBotInput : [no documentation found]
@@ -136,6 +168,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstanceBot(input: DeleteAppInstanceBotInput) async throws -> DeleteAppInstanceBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppInstanceUser` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Deletes an AppInstanceUser.
     ///
     /// - Parameter DeleteAppInstanceUserInput : [no documentation found]
@@ -154,6 +191,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteAppInstanceUser(input: DeleteAppInstanceUserInput) async throws -> DeleteAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeregisterAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Deregisters an AppInstanceUserEndpoint.
     ///
     /// - Parameter DeregisterAppInstanceUserEndpointInput : [no documentation found]
@@ -170,6 +212,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deregisterAppInstanceUserEndpoint(input: DeregisterAppInstanceUserEndpointInput) async throws -> DeregisterAppInstanceUserEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstance` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstance.
     ///
     /// - Parameter DescribeAppInstanceInput : [no documentation found]
@@ -186,6 +233,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstance(input: DescribeAppInstanceInput) async throws -> DescribeAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstanceAdmin` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstanceAdmin.
     ///
     /// - Parameter DescribeAppInstanceAdminInput : [no documentation found]
@@ -202,6 +254,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstanceAdmin(input: DescribeAppInstanceAdminInput) async throws -> DescribeAppInstanceAdminOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstanceBot` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// The AppInstanceBot's information.
     ///
     /// - Parameter DescribeAppInstanceBotInput : [no documentation found]
@@ -219,6 +276,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstanceBot(input: DescribeAppInstanceBotInput) async throws -> DescribeAppInstanceBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstanceUser` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstanceUser.
     ///
     /// - Parameter DescribeAppInstanceUserInput : [no documentation found]
@@ -235,6 +297,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstanceUser(input: DescribeAppInstanceUserInput) async throws -> DescribeAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Returns the full details of an AppInstanceUserEndpoint.
     ///
     /// - Parameter DescribeAppInstanceUserEndpointInput : [no documentation found]
@@ -251,6 +318,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func describeAppInstanceUserEndpoint(input: DescribeAppInstanceUserEndpointInput) async throws -> DescribeAppInstanceUserEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppInstanceRetentionSettings` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Gets the retention settings for an AppInstance.
     ///
     /// - Parameter GetAppInstanceRetentionSettingsInput : [no documentation found]
@@ -267,6 +339,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getAppInstanceRetentionSettings(input: GetAppInstanceRetentionSettingsInput) async throws -> GetAppInstanceRetentionSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstanceAdmins` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Returns a list of the administrators in the AppInstance.
     ///
     /// - Parameter ListAppInstanceAdminsInput : [no documentation found]
@@ -284,6 +361,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstanceAdmins(input: ListAppInstanceAdminsInput) async throws -> ListAppInstanceAdminsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstanceBots` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Lists all AppInstanceBots created under a single AppInstance.
     ///
     /// - Parameter ListAppInstanceBotsInput : [no documentation found]
@@ -301,6 +383,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstanceBots(input: ListAppInstanceBotsInput) async throws -> ListAppInstanceBotsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstances` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Lists all Amazon Chime AppInstances created under a single AWS account.
     ///
     /// - Parameter ListAppInstancesInput : [no documentation found]
@@ -317,6 +404,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstances(input: ListAppInstancesInput) async throws -> ListAppInstancesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstanceUserEndpoints` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
     ///
     /// - Parameter ListAppInstanceUserEndpointsInput : [no documentation found]
@@ -333,6 +425,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstanceUserEndpoints(input: ListAppInstanceUserEndpointsInput) async throws -> ListAppInstanceUserEndpointsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAppInstanceUsers` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// List all AppInstanceUsers created under a single AppInstance.
     ///
     /// - Parameter ListAppInstanceUsersInput : [no documentation found]
@@ -349,6 +446,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listAppInstanceUsers(input: ListAppInstanceUsersInput) async throws -> ListAppInstanceUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Lists the tags applied to an Amazon Chime SDK identity resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -365,6 +467,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppInstanceRetentionSettings` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Sets the amount of time in days that a given AppInstance retains data.
     ///
     /// - Parameter PutAppInstanceRetentionSettingsInput : [no documentation found]
@@ -381,6 +488,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putAppInstanceRetentionSettings(input: PutAppInstanceRetentionSettingsInput) async throws -> PutAppInstanceRetentionSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppInstanceUserExpirationSettings` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Sets the number of days before the AppInstanceUser is automatically deleted. A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings.
     ///
     /// - Parameter PutAppInstanceUserExpirationSettingsInput : [no documentation found]
@@ -398,6 +510,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func putAppInstanceUserExpirationSettings(input: PutAppInstanceUserExpirationSettingsInput) async throws -> PutAppInstanceUserExpirationSettingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
     ///
     /// - Parameter RegisterAppInstanceUserEndpointInput : [no documentation found]
@@ -416,6 +533,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func registerAppInstanceUserEndpoint(input: RegisterAppInstanceUserEndpointInput) async throws -> RegisterAppInstanceUserEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -433,6 +555,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -449,6 +576,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppInstance` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Updates AppInstance metadata.
     ///
     /// - Parameter UpdateAppInstanceInput : [no documentation found]
@@ -466,6 +598,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAppInstance(input: UpdateAppInstanceInput) async throws -> UpdateAppInstanceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppInstanceBot` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Updates the name and metadata of an AppInstanceBot.
     ///
     /// - Parameter UpdateAppInstanceBotInput : [no documentation found]
@@ -484,6 +621,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAppInstanceBot(input: UpdateAppInstanceBotInput) async throws -> UpdateAppInstanceBotOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppInstanceUser` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
     ///
     /// - Parameter UpdateAppInstanceUserInput : [no documentation found]
@@ -502,6 +644,11 @@ public protocol ChimeSDKIdentityClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateAppInstanceUser(input: UpdateAppInstanceUserInput) async throws -> UpdateAppInstanceUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppInstanceUserEndpoint` operation on the `ChimeIdentityService` service.
+    ///
+>>>>>>> main
     /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
     ///
     /// - Parameter UpdateAppInstanceUserEndpointInput : [no documentation found]

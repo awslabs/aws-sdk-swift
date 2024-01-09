@@ -12,7 +12,11 @@ extension IoTSecureTunnelingClient {
     ///     - input: A `[ListTunnelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTunnelsOutput`
     public func listTunnelsPaginated(input: ListTunnelsInput) -> ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutput>(input: input, inputKey: \ListTunnelsInput.nextToken, outputKey: \ListTunnelsOutput.nextToken, paginationFunction: self.listTunnels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTunnelsInput, ListTunnelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTunnels(input:))
+>>>>>>> main
     }
 }
 

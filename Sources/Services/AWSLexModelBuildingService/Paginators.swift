@@ -12,7 +12,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetBotAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBotAliasesOutput`
     public func getBotAliasesPaginated(input: GetBotAliasesInput) -> ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutput>(input: input, inputKey: \GetBotAliasesInput.nextToken, outputKey: \GetBotAliasesOutput.nextToken, paginationFunction: self.getBotAliases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBotAliasesInput, GetBotAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBotAliases(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetBotChannelAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBotChannelAssociationsOutput`
     public func getBotChannelAssociationsPaginated(input: GetBotChannelAssociationsInput) -> ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput>(input: input, inputKey: \GetBotChannelAssociationsInput.nextToken, outputKey: \GetBotChannelAssociationsOutput.nextToken, paginationFunction: self.getBotChannelAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBotChannelAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -59,7 +67,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetBotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBotsOutput`
     public func getBotsPaginated(input: GetBotsInput) -> ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutput>(input: input, inputKey: \GetBotsInput.nextToken, outputKey: \GetBotsOutput.nextToken, paginationFunction: self.getBots(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBotsInput, GetBotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBots(input:))
+>>>>>>> main
     }
 }
 
@@ -81,7 +93,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetBotVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBotVersionsOutput`
     public func getBotVersionsPaginated(input: GetBotVersionsInput) -> ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutput>(input: input, inputKey: \GetBotVersionsInput.nextToken, outputKey: \GetBotVersionsOutput.nextToken, paginationFunction: self.getBotVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBotVersionsInput, GetBotVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBotVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -103,7 +119,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetBuiltinIntentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBuiltinIntentsOutput`
     public func getBuiltinIntentsPaginated(input: GetBuiltinIntentsInput) -> ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutput>(input: input, inputKey: \GetBuiltinIntentsInput.nextToken, outputKey: \GetBuiltinIntentsOutput.nextToken, paginationFunction: self.getBuiltinIntents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBuiltinIntentsInput, GetBuiltinIntentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBuiltinIntents(input:))
+>>>>>>> main
     }
 }
 
@@ -126,7 +146,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetBuiltinSlotTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBuiltinSlotTypesOutput`
     public func getBuiltinSlotTypesPaginated(input: GetBuiltinSlotTypesInput) -> ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput>(input: input, inputKey: \GetBuiltinSlotTypesInput.nextToken, outputKey: \GetBuiltinSlotTypesOutput.nextToken, paginationFunction: self.getBuiltinSlotTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBuiltinSlotTypes(input:))
+>>>>>>> main
     }
 }
 
@@ -149,7 +173,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetIntentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIntentsOutput`
     public func getIntentsPaginated(input: GetIntentsInput) -> ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutput>(input: input, inputKey: \GetIntentsInput.nextToken, outputKey: \GetIntentsOutput.nextToken, paginationFunction: self.getIntents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetIntentsInput, GetIntentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIntents(input:))
+>>>>>>> main
     }
 }
 
@@ -171,7 +199,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetIntentVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIntentVersionsOutput`
     public func getIntentVersionsPaginated(input: GetIntentVersionsInput) -> ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutput>(input: input, inputKey: \GetIntentVersionsInput.nextToken, outputKey: \GetIntentVersionsOutput.nextToken, paginationFunction: self.getIntentVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetIntentVersionsInput, GetIntentVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIntentVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -193,7 +225,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetMigrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMigrationsOutput`
     public func getMigrationsPaginated(input: GetMigrationsInput) -> ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutput>(input: input, inputKey: \GetMigrationsInput.nextToken, outputKey: \GetMigrationsOutput.nextToken, paginationFunction: self.getMigrations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetMigrationsInput, GetMigrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMigrations(input:))
+>>>>>>> main
     }
 }
 
@@ -218,7 +254,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetSlotTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSlotTypesOutput`
     public func getSlotTypesPaginated(input: GetSlotTypesInput) -> ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutput>(input: input, inputKey: \GetSlotTypesInput.nextToken, outputKey: \GetSlotTypesOutput.nextToken, paginationFunction: self.getSlotTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetSlotTypesInput, GetSlotTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSlotTypes(input:))
+>>>>>>> main
     }
 }
 
@@ -240,7 +280,11 @@ extension LexModelBuildingClient {
     ///     - input: A `[GetSlotTypeVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSlotTypeVersionsOutput`
     public func getSlotTypeVersionsPaginated(input: GetSlotTypeVersionsInput) -> ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput>(input: input, inputKey: \GetSlotTypeVersionsInput.nextToken, outputKey: \GetSlotTypeVersionsOutput.nextToken, paginationFunction: self.getSlotTypeVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSlotTypeVersions(input:))
+>>>>>>> main
     }
 }
 

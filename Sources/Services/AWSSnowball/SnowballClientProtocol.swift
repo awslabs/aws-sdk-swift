@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Amazon Web Services Snow Family provides a petabyte-scale data transport solution that uses secure devices to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The Snow Family commands described here provide access to the same functionality that is available in the Amazon Web Services Snow Family Management Console, which enables you to create and manage jobs for a Snow Family device. To transfer data locally with a Snow Family device, you'll need to use the Snowball Edge client or the Amazon S3 API Interface for Snowball or OpsHub for Snow Family. For more information, see the [User Guide](https://docs.aws.amazon.com/AWSImportExport/latest/ug/api-reference.html).
 public protocol SnowballClientProtocol {
+    /// Performs the `CancelCluster` operation on the `AWSIESnowballJobManagementService` service.
+    ///
     /// Cancels a cluster job. You can only cancel a cluster job while it's in the AwaitingQuorum status. You'll have at least an hour after creating a cluster job to cancel it.
     ///
     /// - Parameter CancelClusterInput : [no documentation found]
@@ -17,6 +19,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     func cancelCluster(input: CancelClusterInput) async throws -> CancelClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelJob` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Cancels the specified job. You can only cancel a job before its JobState value changes to PreparingAppliance. Requesting the ListJobs or DescribeJob action returns a job's JobState as part of the response element data returned.
     ///
     /// - Parameter CancelJobInput : [no documentation found]
@@ -30,6 +37,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAddress` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Creates an address for a Snow device to be shipped to. In most regions, addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
     ///
     /// - Parameter CreateAddressInput : [no documentation found]
@@ -42,6 +54,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidAddressException` : The address provided was invalid. Check the address with your region's carrier, and try again.
     /// - `UnsupportedAddressException` : The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
     func createAddress(input: CreateAddressInput) async throws -> CreateAddressOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCluster` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Creates an empty cluster. Each cluster supports five nodes. You use the [CreateJob] action separately to create the jobs for each of these nodes. The cluster does not ship until these five node jobs have been created.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
@@ -56,6 +73,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateJob` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a job to import or export data between Amazon S3 and your on-premises data center. Your Amazon Web Services account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. Only the Snowball; Edge device type is supported when ordering clustered jobs. The device capacity is optional. Availability of device types differ by Amazon Web Services Region. For more information about Region availability, see [Amazon Web Services Regional Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&loc=4). Snow Family devices and their capacities.
     ///
     /// * Device type: SNC1_SSD
@@ -158,6 +180,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateLongTermPricing` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
     ///
     /// - Parameter CreateLongTermPricingInput : [no documentation found]
@@ -169,6 +196,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func createLongTermPricing(input: CreateLongTermPricingInput) async throws -> CreateLongTermPricingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateReturnShippingLabel` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
     ///
     /// - Parameter CreateReturnShippingLabelInput : [no documentation found]
@@ -184,6 +216,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `ReturnShippingLabelAlreadyExistsException` : You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the URL.
     func createReturnShippingLabel(input: CreateReturnShippingLabelInput) async throws -> CreateReturnShippingLabelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAddress` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Takes an AddressId and returns specific details about that address in the form of an Address object.
     ///
     /// - Parameter DescribeAddressInput : [no documentation found]
@@ -195,6 +232,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func describeAddress(input: DescribeAddressInput) async throws -> DescribeAddressOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAddresses` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns a specified number of ADDRESS objects. Calling this API in one of the US regions will return addresses from the list of all addresses associated with this account in all US regions.
     ///
     /// - Parameter DescribeAddressesInput : [no documentation found]
@@ -207,6 +249,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCluster` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns information about a specific cluster including shipping information, cluster status, and other important metadata.
     ///
     /// - Parameter DescribeClusterInput : [no documentation found]
@@ -218,6 +265,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeJob` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns information about a specific job including shipping information, job status, and other important metadata.
     ///
     /// - Parameter DescribeJobInput : [no documentation found]
@@ -229,6 +281,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeReturnShippingLabel` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
     ///
     /// - Parameter DescribeReturnShippingLabelInput : [no documentation found]
@@ -242,6 +299,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func describeReturnShippingLabel(input: DescribeReturnShippingLabelInput) async throws -> DescribeReturnShippingLabelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetJobManifest` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns a link to an Amazon S3 presigned URL for the manifest file associated with the specified JobId value. You can access the manifest file for up to 60 minutes after this request has been made. To access the manifest file after 60 minutes have passed, you'll have to make another call to the GetJobManifest action. The manifest is an encrypted file that you can download after your job enters the WithCustomer status. This is the only valid status for calling this API as the manifest and UnlockCode code value are used for securing your device and should only be used when you have the device. The manifest is decrypted by using the UnlockCode code value, when you pass both values to the Snow device through the Snowball client when the client is started for the first time. As a best practice, we recommend that you don't save a copy of an UnlockCode value in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snow device associated with that job. The credentials of a given job, including its manifest file and unlock code, expire 360 days after the job is created.
     ///
     /// - Parameter GetJobManifestInput : [no documentation found]
@@ -254,6 +316,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func getJobManifest(input: GetJobManifestInput) async throws -> GetJobManifestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetJobUnlockCode` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns the UnlockCode code value for the specified job. A particular UnlockCode value can be accessed for up to 360 days after the associated job has been created. The UnlockCode value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is used to decrypt the manifest file when it is passed along with the manifest to the Snow device through the Snowball client when the client is started for the first time. The only valid status for calling this API is WithCustomer as the manifest and Unlock code values are used for securing your device and should only be used when you have the device. As a best practice, we recommend that you don't save a copy of the UnlockCode in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snow device associated with that job.
     ///
     /// - Parameter GetJobUnlockCodeInput : [no documentation found]
@@ -266,12 +333,22 @@ public protocol SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func getJobUnlockCode(input: GetJobUnlockCodeInput) async throws -> GetJobUnlockCodeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSnowballUsage` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns information about the Snow Family service limit for your account, and also the number of Snow devices your account has in use. The default service limit for the number of Snow devices that you can have at one time is 1. If you want to increase your service limit, contact Amazon Web Services Support.
     ///
     /// - Parameter GetSnowballUsageInput : [no documentation found]
     ///
     /// - Returns: `GetSnowballUsageOutput` : [no documentation found]
     func getSnowballUsage(input: GetSnowballUsageInput) async throws -> GetSnowballUsageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSoftwareUpdates` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns an Amazon S3 presigned URL for an update file associated with a specified JobId.
     ///
     /// - Parameter GetSoftwareUpdatesInput : [no documentation found]
@@ -284,6 +361,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func getSoftwareUpdates(input: GetSoftwareUpdatesInput) async throws -> GetSoftwareUpdatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListClusterJobs` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns an array of JobListEntry objects of the specified length. Each JobListEntry object is for a job in the specified cluster and contains a job's state, a job's ID, and other information.
     ///
     /// - Parameter ListClusterJobsInput : [no documentation found]
@@ -296,6 +378,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func listClusterJobs(input: ListClusterJobsInput) async throws -> ListClusterJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListClusters` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
@@ -307,6 +394,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     func listClusters(input: ListClustersInput) async throws -> ListClustersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCompatibleImages` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// This action returns a list of the different Amazon EC2-compatible Amazon Machine Images (AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
     ///
     /// - Parameter ListCompatibleImagesInput : [no documentation found]
@@ -319,6 +411,11 @@ public protocol SnowballClientProtocol {
     /// - `Ec2RequestFailedException` : Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     func listCompatibleImages(input: ListCompatibleImagesInput) async throws -> ListCompatibleImagesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobs` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Returns an array of JobListEntry objects of the specified length. Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. Calling this API action in one of the US regions will return jobs from the list of all jobs associated with this account in all US regions.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
@@ -330,6 +427,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLongTermPricing` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Lists all long-term pricing types.
     ///
     /// - Parameter ListLongTermPricingInput : [no documentation found]
@@ -342,6 +444,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func listLongTermPricing(input: ListLongTermPricingInput) async throws -> ListLongTermPricingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPickupLocations` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// A list of locations from which the customer can choose to pickup a device.
     ///
     /// - Parameter ListPickupLocationsInput : [no documentation found]
@@ -353,6 +460,11 @@ public protocol SnowballClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func listPickupLocations(input: ListPickupLocationsInput) async throws -> ListPickupLocationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListServiceVersions` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Lists all supported versions for Snow on-device services. Returns an array of ServiceVersion object containing the supported versions for a particular service.
     ///
     /// - Parameter ListServiceVersionsInput : [no documentation found]
@@ -365,6 +477,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidNextTokenException` : The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func listServiceVersions(input: ListServiceVersionsInput) async throws -> ListServiceVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCluster` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
@@ -380,6 +497,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateJob` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// While a job's JobState value is New, you can update some of the information associated with a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.
     ///
     /// - Parameter UpdateJobInput : [no documentation found]
@@ -396,6 +518,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     /// - `KMSRequestFailedException` : The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
     func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateJobShipmentState` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Updates the state when a shipment state changes to a different state.
     ///
     /// - Parameter UpdateJobShipmentStateInput : [no documentation found]
@@ -408,6 +535,11 @@ public protocol SnowballClientProtocol {
     /// - `InvalidJobStateException` : The action can't be performed because the job's current state doesn't allow that action to be performed.
     /// - `InvalidResourceException` : The specified resource can't be found. Check the information you provided in your last request, and try again.
     func updateJobShipmentState(input: UpdateJobShipmentStateInput) async throws -> UpdateJobShipmentStateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateLongTermPricing` operation on the `AWSIESnowballJobManagementService` service.
+    ///
+>>>>>>> main
     /// Updates the long-term pricing type.
     ///
     /// - Parameter UpdateLongTermPricingInput : [no documentation found]

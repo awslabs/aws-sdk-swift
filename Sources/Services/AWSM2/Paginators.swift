@@ -12,7 +12,11 @@ extension M2Client {
     ///     - input: A `[ListEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEngineVersionsOutput`
     public func listEngineVersionsPaginated(input: ListEngineVersionsInput) -> ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput>(input: input, inputKey: \ListEngineVersionsInput.nextToken, outputKey: \ListEngineVersionsOutput.nextToken, paginationFunction: self.listEngineVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEngineVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListEngineVersionsInput, Output == ListEngineVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListEngineVersionsInput, OperationStackOutput == ListEngineVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEngineVersionsPaginated`
     /// to access the nested member `[M2ClientTypes.EngineVersionsSummary]`
     /// - Returns: `[M2ClientTypes.EngineVersionsSummary]`

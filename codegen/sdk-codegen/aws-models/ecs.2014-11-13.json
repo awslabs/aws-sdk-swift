@@ -2100,10 +2100,14 @@
                     }
                 },
                 "message": {
+<<<<<<< HEAD
                     "target": "com.amazonaws.ecs#String",
                     "traits": {
                         "smithy.api#documentation": "<p> Message that describes the cause of the exception.</p>"
                     }
+=======
+                    "target": "com.amazonaws.ecs#String"
+>>>>>>> main
                 }
             },
             "traits": {
@@ -3146,6 +3150,7 @@
                                 "serviceName": "ecs-simple-service",
                                 "status": "ACTIVE",
                                 "taskDefinition": "arn:aws:ecs:us-east-1:012345678910:task-definition/default/hello_world:6"
+<<<<<<< HEAD
                             }
                         }
                     },
@@ -3201,6 +3206,8 @@
                                 "serviceName": "ecs-simple-service-elb",
                                 "status": "ACTIVE",
                                 "taskDefinition": "arn:aws:ecs:us-east-1:012345678910:task-definition/default/console-sample-app-static:6"
+=======
+>>>>>>> main
                             }
                         }
                     }
@@ -7493,6 +7500,7 @@
                             "taskArns": [
                                 "arn:aws:ecs:us-east-1:012345678910:task/default/0cc43cdb-3bee-4407-9c26-c0e6ea5bee84",
                                 "arn:aws:ecs:us-east-1:012345678910:task/default/6b809ef6-c67e-4467-921f-ee261c15a0a1"
+<<<<<<< HEAD
                             ]
                         }
                     },
@@ -7506,6 +7514,8 @@
                         "output": {
                             "taskArns": [
                                 "arn:aws:ecs:us-east-1:012345678910:task/default/0cc43cdb-3bee-4407-9c26-c0e6ea5bee84"
+=======
+>>>>>>> main
                             ]
                         }
                     }

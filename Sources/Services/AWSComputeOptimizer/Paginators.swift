@@ -12,7 +12,11 @@ extension ComputeOptimizerClient {
     ///     - input: A `[DescribeRecommendationExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRecommendationExportJobsOutput`
     public func describeRecommendationExportJobsPaginated(input: DescribeRecommendationExportJobsInput) -> ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(input: input, inputKey: \DescribeRecommendationExportJobsInput.nextToken, outputKey: \DescribeRecommendationExportJobsOutput.nextToken, paginationFunction: self.describeRecommendationExportJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRecommendationExportJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension DescribeRecommendationExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeRecommendationExportJobsInput, Output == DescribeRecommendationExportJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeRecommendationExportJobsInput, OperationStackOutput == DescribeRecommendationExportJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeRecommendationExportJobsPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.RecommendationExportJob]`
     /// - Returns: `[ComputeOptimizerClientTypes.RecommendationExportJob]`
@@ -44,7 +52,11 @@ extension ComputeOptimizerClient {
     ///     - input: A `[GetEnrollmentStatusesForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEnrollmentStatusesForOrganizationOutput`
     public func getEnrollmentStatusesForOrganizationPaginated(input: GetEnrollmentStatusesForOrganizationInput) -> ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(input: input, inputKey: \GetEnrollmentStatusesForOrganizationInput.nextToken, outputKey: \GetEnrollmentStatusesForOrganizationOutput.nextToken, paginationFunction: self.getEnrollmentStatusesForOrganization(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEnrollmentStatusesForOrganization(input:))
+>>>>>>> main
     }
 }
 
@@ -57,7 +69,11 @@ extension GetEnrollmentStatusesForOrganizationInput: ClientRuntime.PaginateToken
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetEnrollmentStatusesForOrganizationInput, Output == GetEnrollmentStatusesForOrganizationOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetEnrollmentStatusesForOrganizationInput, OperationStackOutput == GetEnrollmentStatusesForOrganizationOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getEnrollmentStatusesForOrganizationPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.AccountEnrollmentStatus]`
     /// - Returns: `[ComputeOptimizerClientTypes.AccountEnrollmentStatus]`
@@ -75,7 +91,11 @@ extension ComputeOptimizerClient {
     ///     - input: A `[GetLambdaFunctionRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetLambdaFunctionRecommendationsOutput`
     public func getLambdaFunctionRecommendationsPaginated(input: GetLambdaFunctionRecommendationsInput) -> ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(input: input, inputKey: \GetLambdaFunctionRecommendationsInput.nextToken, outputKey: \GetLambdaFunctionRecommendationsOutput.nextToken, paginationFunction: self.getLambdaFunctionRecommendations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getLambdaFunctionRecommendations(input:))
+>>>>>>> main
     }
 }
 
@@ -90,7 +110,11 @@ extension GetLambdaFunctionRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetLambdaFunctionRecommendationsInput, Output == GetLambdaFunctionRecommendationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetLambdaFunctionRecommendationsInput, OperationStackOutput == GetLambdaFunctionRecommendationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getLambdaFunctionRecommendationsPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.LambdaFunctionRecommendation]`
     /// - Returns: `[ComputeOptimizerClientTypes.LambdaFunctionRecommendation]`
@@ -108,7 +132,11 @@ extension ComputeOptimizerClient {
     ///     - input: A `[GetRecommendationPreferencesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendationPreferencesOutput`
     public func getRecommendationPreferencesPaginated(input: GetRecommendationPreferencesInput) -> ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(input: input, inputKey: \GetRecommendationPreferencesInput.nextToken, outputKey: \GetRecommendationPreferencesOutput.nextToken, paginationFunction: self.getRecommendationPreferences(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getRecommendationPreferences(input:))
+>>>>>>> main
     }
 }
 
@@ -122,7 +150,11 @@ extension GetRecommendationPreferencesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetRecommendationPreferencesInput, Output == GetRecommendationPreferencesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetRecommendationPreferencesInput, OperationStackOutput == GetRecommendationPreferencesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getRecommendationPreferencesPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.RecommendationPreferencesDetail]`
     /// - Returns: `[ComputeOptimizerClientTypes.RecommendationPreferencesDetail]`
@@ -140,7 +172,11 @@ extension ComputeOptimizerClient {
     ///     - input: A `[GetRecommendationSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetRecommendationSummariesOutput`
     public func getRecommendationSummariesPaginated(input: GetRecommendationSummariesInput) -> ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(input: input, inputKey: \GetRecommendationSummariesInput.nextToken, outputKey: \GetRecommendationSummariesOutput.nextToken, paginationFunction: self.getRecommendationSummaries(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetRecommendationSummariesInput, GetRecommendationSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getRecommendationSummaries(input:))
+>>>>>>> main
     }
 }
 
@@ -153,7 +189,11 @@ extension GetRecommendationSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetRecommendationSummariesInput, Output == GetRecommendationSummariesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetRecommendationSummariesInput, OperationStackOutput == GetRecommendationSummariesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getRecommendationSummariesPaginated`
     /// to access the nested member `[ComputeOptimizerClientTypes.RecommendationSummary]`
     /// - Returns: `[ComputeOptimizerClientTypes.RecommendationSummary]`

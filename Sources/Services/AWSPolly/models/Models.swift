@@ -88,7 +88,7 @@ extension DescribeVoicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeVoicesInput: Swift.Equatable {
-    /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
+    /// Specifies the engine (standard, neural or long-form) used by Amazon Polly when processing input text for speech synthesis.
     public var engine: PollyClientTypes.Engine?
     /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
     public var includeAdditionalLanguageCodes: Swift.Bool?
@@ -193,12 +193,14 @@ enum DescribeVoicesOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension PollyClientTypes {
     public enum Engine: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case longForm
         case neural
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Engine] {
             return [
+                .longForm,
                 .neural,
                 .standard,
                 .sdkUnknown("")
@@ -210,6 +212,7 @@ extension PollyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .longForm: return "long-form"
             case .neural: return "neural"
             case .standard: return "standard"
             case let .sdkUnknown(s): return s
@@ -2162,7 +2165,7 @@ extension StartSpeechSynthesisTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartSpeechSynthesisTaskInput: Swift.Equatable {
-    /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+    /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
     public var engine: PollyClientTypes.Engine?
     /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
     public var languageCode: PollyClientTypes.LanguageCode?
@@ -2176,7 +2179,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Equatable {
     public var outputS3BucketName: Swift.String?
     /// The Amazon S3 key prefix for the output speech file.
     public var outputS3KeyPrefix: Swift.String?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
     public var sampleRate: Swift.String?
     /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
     public var snsTopicArn: Swift.String?
@@ -2493,7 +2496,7 @@ extension PollyClientTypes {
     public struct SynthesisTask: Swift.Equatable {
         /// Timestamp for the time the synthesis task was started.
         public var creationTime: ClientRuntime.Date?
-        /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public var engine: PollyClientTypes.Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public var languageCode: PollyClientTypes.LanguageCode?
@@ -2505,7 +2508,7 @@ extension PollyClientTypes {
         public var outputUri: Swift.String?
         /// Number of billable characters synthesized.
         public var requestCharacters: Swift.Int
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public var sampleRate: Swift.String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public var snsTopicArn: Swift.String?
@@ -2690,6 +2693,7 @@ extension SynthesizeSpeechInput {
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
@@ -2702,6 +2706,20 @@ extension SynthesizeSpeechInput {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput, SynthesizeSpeechOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+=======
+        var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput>(id: "synthesizeSpeech")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.serializeStep.intercept(position: .after, middleware: SynthesizeSpeechInputGETQueryItemMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(responseClosure(decoder: decoder), responseErrorClosure(SynthesizeSpeechOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: SynthesizeSpeechOutput(), next: ClientRuntime.NoopHandler())
+>>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -2733,6 +2751,7 @@ extension SynthesizeSpeechInput {
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
@@ -2748,6 +2767,23 @@ extension SynthesizeSpeechInput {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput, SynthesizeSpeechOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+=======
+        var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput>(id: "synthesizeSpeech")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SynthesizeSpeechOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutput>(responseClosure(decoder: decoder), responseErrorClosure(SynthesizeSpeechOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutput>(clientLogMode: config.clientLogMode))
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: SynthesizeSpeechOutput(), next: ClientRuntime.NoopHandler())
+>>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -2823,7 +2859,7 @@ extension SynthesizeSpeechInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SynthesizeSpeechInput: Swift.Equatable {
-    /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available in standard-only, NTTS-only, and both standard and NTTS formats, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html). NTTS-only voices When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error. Type: String Valid Values: standard | neural Required: Yes Standard voices For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
+    /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html). NTTS-only voices When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error. long-form-only voices When using long-form-only voices such as Danielle (en-US), this parameter is required and must be set to long-form. If the engine is not specified, or is set to standard or neural, this will result in an error. Type: String Valid Values: standard | neural | long-form Required: Yes Standard voices For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
     public var engine: PollyClientTypes.Engine?
     /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
     public var languageCode: PollyClientTypes.LanguageCode?
@@ -2832,7 +2868,7 @@ public struct SynthesizeSpeechInput: Swift.Equatable {
     /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
     /// This member is required.
     public var outputFormat: PollyClientTypes.OutputFormat?
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
     public var sampleRate: Swift.String?
     /// The type of speech marks returned for the input text.
     public var speechMarkTypes: [PollyClientTypes.SpeechMarkType]?
@@ -2952,7 +2988,7 @@ extension SynthesizeSpeechOutput: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
@@ -3350,7 +3386,7 @@ extension PollyClientTypes {
         public var languageName: Swift.String?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
         public var name: Swift.String?
-        /// Specifies which engines (standard or neural) that are supported by a given voice.
+        /// Specifies which engines (standard, neural or long-form) are supported by a given voice.
         public var supportedEngines: [PollyClientTypes.Engine]?
 
         public init(

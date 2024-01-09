@@ -12,7 +12,11 @@ extension InspectorClient {
     ///     - input: A `[GetExclusionsPreviewInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetExclusionsPreviewOutput`
     public func getExclusionsPreviewPaginated(input: GetExclusionsPreviewInput) -> ClientRuntime.PaginatorSequence<GetExclusionsPreviewInput, GetExclusionsPreviewOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetExclusionsPreviewInput, GetExclusionsPreviewOutput>(input: input, inputKey: \GetExclusionsPreviewInput.nextToken, outputKey: \GetExclusionsPreviewOutput.nextToken, paginationFunction: self.getExclusionsPreview(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetExclusionsPreviewInput, GetExclusionsPreviewOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getExclusionsPreview(input:))
+>>>>>>> main
     }
 }
 
@@ -36,7 +40,11 @@ extension InspectorClient {
     ///     - input: A `[ListAssessmentRunAgentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentRunAgentsOutput`
     public func listAssessmentRunAgentsPaginated(input: ListAssessmentRunAgentsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentRunAgentsInput, ListAssessmentRunAgentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssessmentRunAgentsInput, ListAssessmentRunAgentsOutput>(input: input, inputKey: \ListAssessmentRunAgentsInput.nextToken, outputKey: \ListAssessmentRunAgentsOutput.nextToken, paginationFunction: self.listAssessmentRunAgents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssessmentRunAgentsInput, ListAssessmentRunAgentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentRunAgents(input:))
+>>>>>>> main
     }
 }
 
@@ -59,7 +67,11 @@ extension InspectorClient {
     ///     - input: A `[ListAssessmentRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentRunsOutput`
     public func listAssessmentRunsPaginated(input: ListAssessmentRunsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentRunsInput, ListAssessmentRunsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssessmentRunsInput, ListAssessmentRunsOutput>(input: input, inputKey: \ListAssessmentRunsInput.nextToken, outputKey: \ListAssessmentRunsOutput.nextToken, paginationFunction: self.listAssessmentRuns(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssessmentRunsInput, ListAssessmentRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentRuns(input:))
+>>>>>>> main
     }
 }
 
@@ -82,7 +94,11 @@ extension InspectorClient {
     ///     - input: A `[ListAssessmentTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentTargetsOutput`
     public func listAssessmentTargetsPaginated(input: ListAssessmentTargetsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentTargetsInput, ListAssessmentTargetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssessmentTargetsInput, ListAssessmentTargetsOutput>(input: input, inputKey: \ListAssessmentTargetsInput.nextToken, outputKey: \ListAssessmentTargetsOutput.nextToken, paginationFunction: self.listAssessmentTargets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssessmentTargetsInput, ListAssessmentTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentTargets(input:))
+>>>>>>> main
     }
 }
 
@@ -104,7 +120,11 @@ extension InspectorClient {
     ///     - input: A `[ListAssessmentTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentTemplatesOutput`
     public func listAssessmentTemplatesPaginated(input: ListAssessmentTemplatesInput) -> ClientRuntime.PaginatorSequence<ListAssessmentTemplatesInput, ListAssessmentTemplatesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssessmentTemplatesInput, ListAssessmentTemplatesOutput>(input: input, inputKey: \ListAssessmentTemplatesInput.nextToken, outputKey: \ListAssessmentTemplatesOutput.nextToken, paginationFunction: self.listAssessmentTemplates(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssessmentTemplatesInput, ListAssessmentTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentTemplates(input:))
+>>>>>>> main
     }
 }
 
@@ -127,7 +147,11 @@ extension InspectorClient {
     ///     - input: A `[ListEventSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventSubscriptionsOutput`
     public func listEventSubscriptionsPaginated(input: ListEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListEventSubscriptionsInput, ListEventSubscriptionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEventSubscriptionsInput, ListEventSubscriptionsOutput>(input: input, inputKey: \ListEventSubscriptionsInput.nextToken, outputKey: \ListEventSubscriptionsOutput.nextToken, paginationFunction: self.listEventSubscriptions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEventSubscriptionsInput, ListEventSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventSubscriptions(input:))
+>>>>>>> main
     }
 }
 
@@ -149,7 +173,11 @@ extension InspectorClient {
     ///     - input: A `[ListExclusionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExclusionsOutput`
     public func listExclusionsPaginated(input: ListExclusionsInput) -> ClientRuntime.PaginatorSequence<ListExclusionsInput, ListExclusionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListExclusionsInput, ListExclusionsOutput>(input: input, inputKey: \ListExclusionsInput.nextToken, outputKey: \ListExclusionsOutput.nextToken, paginationFunction: self.listExclusions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListExclusionsInput, ListExclusionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExclusions(input:))
+>>>>>>> main
     }
 }
 
@@ -171,7 +199,11 @@ extension InspectorClient {
     ///     - input: A `[ListFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsOutput`
     public func listFindingsPaginated(input: ListFindingsInput) -> ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \ListFindingsInput.nextToken, outputKey: \ListFindingsOutput.nextToken, paginationFunction: self.listFindings(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindings(input:))
+>>>>>>> main
     }
 }
 
@@ -194,7 +226,11 @@ extension InspectorClient {
     ///     - input: A `[ListRulesPackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRulesPackagesOutput`
     public func listRulesPackagesPaginated(input: ListRulesPackagesInput) -> ClientRuntime.PaginatorSequence<ListRulesPackagesInput, ListRulesPackagesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRulesPackagesInput, ListRulesPackagesOutput>(input: input, inputKey: \ListRulesPackagesInput.nextToken, outputKey: \ListRulesPackagesOutput.nextToken, paginationFunction: self.listRulesPackages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRulesPackagesInput, ListRulesPackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRulesPackages(input:))
+>>>>>>> main
     }
 }
 
@@ -215,7 +251,11 @@ extension InspectorClient {
     ///     - input: A `[PreviewAgentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `PreviewAgentsOutput`
     public func previewAgentsPaginated(input: PreviewAgentsInput) -> ClientRuntime.PaginatorSequence<PreviewAgentsInput, PreviewAgentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<PreviewAgentsInput, PreviewAgentsOutput>(input: input, inputKey: \PreviewAgentsInput.nextToken, outputKey: \PreviewAgentsOutput.nextToken, paginationFunction: self.previewAgents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<PreviewAgentsInput, PreviewAgentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.previewAgents(input:))
+>>>>>>> main
     }
 }
 

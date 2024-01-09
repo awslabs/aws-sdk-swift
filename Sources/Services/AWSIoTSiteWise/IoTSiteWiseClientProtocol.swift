@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Welcome to the IoT SiteWise API Reference. IoT SiteWise is an Amazon Web Services service that connects [Industrial Internet of Things (IIoT)](https://en.wikipedia.org/wiki/Internet_of_things#Industrial_applications) devices to the power of the Amazon Web Services Cloud. For more information, see the [IoT SiteWise User Guide](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/). For information about IoT SiteWise quotas, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
 public protocol IoTSiteWiseClientProtocol {
+    /// Performs the `AssociateAssets` operation on the `AWSIoTSiteWise` service.
+    ///
     /// Associates a child asset with the given parent asset through a hierarchy defined in the parent asset's model. For more information, see [Associating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter AssociateAssetsInput : [no documentation found]
@@ -21,6 +23,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func associateAssets(input: AssociateAssetsInput) async throws -> AssociateAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateTimeSeriesToAssetProperty` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Associates a time series (data stream) with an asset property.
     ///
     /// - Parameter AssociateTimeSeriesToAssetPropertyInput : [no documentation found]
@@ -36,6 +43,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func associateTimeSeriesToAssetProperty(input: AssociateTimeSeriesToAssetPropertyInput) async throws -> AssociateTimeSeriesToAssetPropertyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchAssociateProjectAssets` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
     ///
     /// - Parameter BatchAssociateProjectAssetsInput : [no documentation found]
@@ -51,6 +63,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func batchAssociateProjectAssets(input: BatchAssociateProjectAssetsInput) async throws -> BatchAssociateProjectAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchDisassociateProjectAssets` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
     ///
     /// - Parameter BatchDisassociateProjectAssetsInput : [no documentation found]
@@ -65,6 +82,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func batchDisassociateProjectAssets(input: BatchDisassociateProjectAssetsInput) async throws -> BatchDisassociateProjectAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchGetAssetPropertyAggregates` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates) in the IoT SiteWise User Guide.
     ///
     /// - Parameter BatchGetAssetPropertyAggregatesInput : [no documentation found]
@@ -79,6 +101,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func batchGetAssetPropertyAggregates(input: BatchGetAssetPropertyAggregatesInput) async throws -> BatchGetAssetPropertyAggregatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchGetAssetPropertyValue` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Gets the current value for one or more asset properties. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values) in the IoT SiteWise User Guide.
     ///
     /// - Parameter BatchGetAssetPropertyValueInput : [no documentation found]
@@ -93,6 +120,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func batchGetAssetPropertyValue(input: BatchGetAssetPropertyValueInput) async throws -> BatchGetAssetPropertyValueOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchGetAssetPropertyValueHistory` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Gets the historical values for one or more asset properties. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values) in the IoT SiteWise User Guide.
     ///
     /// - Parameter BatchGetAssetPropertyValueHistoryInput : [no documentation found]
@@ -107,6 +139,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func batchGetAssetPropertyValueHistory(input: BatchGetAssetPropertyValueHistoryInput) async throws -> BatchGetAssetPropertyValueHistoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchPutAssetPropertyValue` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see [Ingesting data using the API](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ingest-api.html) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
     /// * The assetId and propertyId of an asset property.
@@ -131,6 +168,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func batchPutAssetPropertyValue(input: BatchPutAssetPropertyValueInput) async throws -> BatchPutAssetPropertyValueOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
     ///
     /// - Parameter CreateAccessPolicyInput : [no documentation found]
@@ -146,6 +188,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createAccessPolicy(input: CreateAccessPolicyInput) async throws -> CreateAccessPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAsset` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Creates an asset from an existing asset model. For more information, see [Creating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter CreateAssetInput : [no documentation found]
@@ -163,7 +210,17 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput
+<<<<<<< HEAD
     /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see [Defining asset models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html) in the IoT SiteWise User Guide.
+=======
+    /// Performs the `CreateAssetModel` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Creates an asset model from specified property and hierarchy definitions. You create assets from asset models. With asset models, you can easily create assets of the same type that have standardized definitions. Each asset created from a model inherits the asset model's property and hierarchy definitions. For more information, see [Defining asset models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html) in the IoT SiteWise User Guide. You can create two types of asset models, ASSET_MODEL or COMPONENT_MODEL.
+    ///
+    /// * ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.
+    ///
+    /// * COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+>>>>>>> main
     ///
     /// - Parameter CreateAssetModelInput : [no documentation found]
     ///
@@ -180,7 +237,32 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createAssetModel(input: CreateAssetModelInput) async throws -> CreateAssetModelOutput
+<<<<<<< HEAD
     /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see [Create a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/CreateBulkImportJob.html) in the Amazon Simple Storage Service User Guide. You must enable IoT SiteWise to export data to Amazon S3 before you create a bulk import job. For more information about how to configure storage settings, see [PutStorageConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html).
+=======
+    /// Performs the `CreateAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based. Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model provides its associated properties to any created assets. For more information, see [Custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html) in the IoT SiteWise User Guide. Use inline custom composite models to organize the properties of an asset model. The properties of inline custom composite models are local to the asset model where they are included and can't be used to create multiple assets. To create a component-model-based model, specify the composedAssetModelId of an existing asset model with assetModelType of COMPONENT_MODEL. To create an inline model, specify the assetModelCompositeModelProperties and don't include an composedAssetModelId.
+    ///
+    /// - Parameter CreateAssetModelCompositeModelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAssetModelCompositeModelOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func createAssetModelCompositeModel(input: CreateAssetModelCompositeModelInput) async throws -> CreateAssetModelCompositeModelOutput
+    /// Performs the `CreateBulkImportJob` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see [Create a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/CreateBulkImportJob.html) in the Amazon Simple Storage Service User Guide. Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see [PutStorageConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html). Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on IoT SiteWise warm or cold tier storage.
+>>>>>>> main
     ///
     /// - Parameter CreateBulkImportJobInput : [no documentation found]
     ///
@@ -197,6 +279,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createBulkImportJob(input: CreateBulkImportJobInput) async throws -> CreateBulkImportJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDashboard` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Creates a dashboard in an IoT SiteWise Monitor project.
     ///
     /// - Parameter CreateDashboardInput : [no documentation found]
@@ -212,6 +299,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGateway` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter CreateGatewayInput : [no documentation found]
@@ -227,6 +319,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceAlreadyExistsException` : The resource already exists.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePortal` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions. Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see [Adding or removing portal administrators](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins) in the IoT SiteWise User Guide.
     ///
     /// - Parameter CreatePortalInput : [no documentation found]
@@ -242,6 +339,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProject` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Creates a project in the specified portal. Make sure that the project name and description don't contain confidential information.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
@@ -257,6 +359,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes an access policy that grants the specified identity access to the specified IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor resource.
     ///
     /// - Parameter DeleteAccessPolicyInput : [no documentation found]
@@ -271,6 +378,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteAccessPolicy(input: DeleteAccessPolicyInput) async throws -> DeleteAccessPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAsset` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes an asset. This action can't be undone. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide. You can't delete an asset that's associated to another asset. For more information, see [DisassociateAssets](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html).
     ///
     /// - Parameter DeleteAssetInput : [no documentation found]
@@ -286,6 +398,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAssetModel` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter DeleteAssetModelInput : [no documentation found]
@@ -301,6 +418,28 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteAssetModel(input: DeleteAssetModelInput) async throws -> DeleteAssetModelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Deletes a composite model. This action can't be undone. You must delete all assets created from a composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
+    ///
+    /// - Parameter DeleteAssetModelCompositeModelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssetModelCompositeModelOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func deleteAssetModelCompositeModel(input: DeleteAssetModelCompositeModelInput) async throws -> DeleteAssetModelCompositeModelOutput
+    /// Performs the `DeleteDashboard` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes a dashboard from IoT SiteWise Monitor.
     ///
     /// - Parameter DeleteDashboardInput : [no documentation found]
@@ -315,6 +454,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGateway` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.
     ///
     /// - Parameter DeleteGatewayInput : [no documentation found]
@@ -329,6 +473,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePortal` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes a portal from IoT SiteWise Monitor.
     ///
     /// - Parameter DeletePortalInput : [no documentation found]
@@ -344,6 +493,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProject` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes a project from IoT SiteWise Monitor.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
@@ -358,6 +512,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteTimeSeries` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:
     ///
     /// * If the time series isn't associated with an asset property, specify the alias of the time series.
@@ -381,6 +540,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func deleteTimeSeries(input: DeleteTimeSeriesInput) async throws -> DeleteTimeSeriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project.
     ///
     /// - Parameter DescribeAccessPolicyInput : [no documentation found]
@@ -395,6 +559,27 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeAccessPolicy(input: DescribeAccessPolicyInput) async throws -> DescribeAccessPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAction` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Retrieves information about an action.
+    ///
+    /// - Parameter DescribeActionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func describeAction(input: DescribeActionInput) async throws -> DescribeActionOutput
+    /// Performs the `DescribeAsset` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about an asset.
     ///
     /// - Parameter DescribeAssetInput : [no documentation found]
@@ -409,6 +594,27 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeAsset(input: DescribeAssetInput) async throws -> DescribeAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAssetCompositeModel` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetModelCompositeModel. If you want to see information about the model this is based on, call [DescribeAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModelCompositeModel.html).
+    ///
+    /// - Parameter DescribeAssetCompositeModelInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAssetCompositeModelOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func describeAssetCompositeModel(input: DescribeAssetCompositeModelInput) async throws -> DescribeAssetCompositeModelOutput
+    /// Performs the `DescribeAssetModel` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about an asset model.
     ///
     /// - Parameter DescribeAssetModelInput : [no documentation found]
@@ -423,6 +629,27 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeAssetModel(input: DescribeAssetModelInput) async throws -> DescribeAssetModelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see [Custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html) in the IoT SiteWise User Guide.
+    ///
+    /// - Parameter DescribeAssetModelCompositeModelInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAssetModelCompositeModelOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func describeAssetModelCompositeModel(input: DescribeAssetModelCompositeModelInput) async throws -> DescribeAssetModelCompositeModelOutput
+    /// Performs the `DescribeAssetProperty` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about an asset property. When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use [GetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html).
     ///
     /// - Parameter DescribeAssetPropertyInput : [no documentation found]
@@ -437,6 +664,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeAssetProperty(input: DescribeAssetPropertyInput) async throws -> DescribeAssetPropertyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeBulkImportJob` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a bulk import job request. For more information, see [Describe a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/DescribeBulkImportJob.html) in the Amazon Simple Storage Service User Guide.
     ///
     /// - Parameter DescribeBulkImportJobInput : [no documentation found]
@@ -451,6 +683,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeBulkImportJob(input: DescribeBulkImportJobInput) async throws -> DescribeBulkImportJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDashboard` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a dashboard.
     ///
     /// - Parameter DescribeDashboardInput : [no documentation found]
@@ -465,6 +702,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDefaultEncryptionConfiguration` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter DescribeDefaultEncryptionConfigurationInput : [no documentation found]
@@ -478,6 +720,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeDefaultEncryptionConfiguration(input: DescribeDefaultEncryptionConfigurationInput) async throws -> DescribeDefaultEncryptionConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeGateway` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a gateway.
     ///
     /// - Parameter DescribeGatewayInput : [no documentation found]
@@ -492,6 +739,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeGateway(input: DescribeGatewayInput) async throws -> DescribeGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeGatewayCapabilityConfiguration` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a gateway capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use [DescribeGateway](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html).
     ///
     /// - Parameter DescribeGatewayCapabilityConfigurationInput : [no documentation found]
@@ -506,6 +758,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeGatewayCapabilityConfiguration(input: DescribeGatewayCapabilityConfigurationInput) async throws -> DescribeGatewayCapabilityConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeLoggingOptions` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves the current IoT SiteWise logging options.
     ///
     /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
@@ -520,6 +777,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribePortal` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a portal.
     ///
     /// - Parameter DescribePortalInput : [no documentation found]
@@ -534,6 +796,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describePortal(input: DescribePortalInput) async throws -> DescribePortalOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeProject` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a project.
     ///
     /// - Parameter DescribeProjectInput : [no documentation found]
@@ -548,6 +815,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeStorageConfiguration` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about the storage configuration for IoT SiteWise.
     ///
     /// - Parameter DescribeStorageConfigurationInput : [no documentation found]
@@ -564,6 +836,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeStorageConfiguration(input: DescribeStorageConfigurationInput) async throws -> DescribeStorageConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeTimeSeries` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a time series (data stream). To identify a time series, do one of the following:
     ///
     /// * If the time series isn't associated with an asset property, specify the alias of the time series.
@@ -586,6 +863,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func describeTimeSeries(input: DescribeTimeSeriesInput) async throws -> DescribeTimeSeriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateAssets` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.
     ///
     /// - Parameter DisassociateAssetsInput : [no documentation found]
@@ -601,6 +883,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func disassociateAssets(input: DisassociateAssetsInput) async throws -> DisassociateAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateTimeSeriesFromAssetProperty` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Disassociates a time series (data stream) from an asset property.
     ///
     /// - Parameter DisassociateTimeSeriesFromAssetPropertyInput : [no documentation found]
@@ -616,6 +903,48 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func disassociateTimeSeriesFromAssetProperty(input: DisassociateTimeSeriesFromAssetPropertyInput) async throws -> DisassociateTimeSeriesFromAssetPropertyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteAction` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Executes an action on a target resource.
+    ///
+    /// - Parameter ExecuteActionInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func executeAction(input: ExecuteActionInput) async throws -> ExecuteActionOutput
+    /// Performs the `ExecuteQuery` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates.
+    ///
+    /// - Parameter ExecuteQueryInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `QueryTimeoutException` : The query timed out.
+    /// - `ServiceUnavailableException` : The requested service is unavailable.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `ValidationException` : The validation failed for this query.
+    func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutput
+    /// Performs the `GetAssetPropertyAggregates` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Gets aggregated values for an asset property. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
     /// * The assetId and propertyId of an asset property.
@@ -635,6 +964,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func getAssetPropertyAggregates(input: GetAssetPropertyAggregatesInput) async throws -> GetAssetPropertyAggregatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAssetPropertyValue` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Gets an asset property's current value. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
     /// * The assetId and propertyId of an asset property.
@@ -654,6 +988,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func getAssetPropertyValue(input: GetAssetPropertyValueInput) async throws -> GetAssetPropertyValueOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAssetPropertyValueHistory` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Gets the history of an asset property's values. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values) in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:
     ///
     /// * The assetId and propertyId of an asset property.
@@ -673,6 +1012,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func getAssetPropertyValueHistory(input: GetAssetPropertyValueHistoryInput) async throws -> GetAssetPropertyValueHistoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetInterpolatedAssetPropertyValues` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:
     ///
     /// * The assetId and propertyId of an asset property.
@@ -692,6 +1036,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ServiceUnavailableException` : The requested service is unavailable.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func getInterpolatedAssetPropertyValues(input: GetInterpolatedAssetPropertyValuesInput) async throws -> GetInterpolatedAssetPropertyValuesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAccessPolicies` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     ///
     /// - Parameter ListAccessPoliciesInput : [no documentation found]
@@ -705,6 +1054,43 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAccessPolicies(input: ListAccessPoliciesInput) async throws -> ListAccessPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListActions` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Retrieves a paginated list of actions for a specific target resource.
+    ///
+    /// - Parameter ListActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListActionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func listActions(input: ListActionsInput) async throws -> ListActionsOutput
+    /// Performs the `ListAssetModelCompositeModels` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Retrieves a paginated list of composite models associated with the asset model
+    ///
+    /// - Parameter ListAssetModelCompositeModelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssetModelCompositeModelsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func listAssetModelCompositeModels(input: ListAssetModelCompositeModelsInput) async throws -> ListAssetModelCompositeModelsOutput
+    /// Performs the `ListAssetModelProperties` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     ///
     /// - Parameter ListAssetModelPropertiesInput : [no documentation found]
@@ -719,6 +1105,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAssetModelProperties(input: ListAssetModelPropertiesInput) async throws -> ListAssetModelPropertiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssetModels` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of summaries of all asset models.
     ///
     /// - Parameter ListAssetModelsInput : [no documentation found]
@@ -732,6 +1123,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAssetModels(input: ListAssetModelsInput) async throws -> ListAssetModelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssetProperties` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     ///
     /// - Parameter ListAssetPropertiesInput : [no documentation found]
@@ -746,6 +1142,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAssetProperties(input: ListAssetPropertiesInput) async throws -> ListAssetPropertiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssetRelationships` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.
     ///
     /// - Parameter ListAssetRelationshipsInput : [no documentation found]
@@ -760,6 +1161,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAssetRelationships(input: ListAssetRelationshipsInput) async throws -> ListAssetRelationshipsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssets` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of asset summaries. You can use this operation to do the following:
     ///
     /// * List assets based on a specific asset model.
@@ -781,6 +1187,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAssets(input: ListAssetsInput) async throws -> ListAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssociatedAssets` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of associated assets. You can use this operation to do the following:
     ///
     /// * List child assets associated to a parent asset by a hierarchy that you specify.
@@ -799,6 +1210,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listAssociatedAssets(input: ListAssociatedAssetsInput) async throws -> ListAssociatedAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBulkImportJobs` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of bulk import job requests. For more information, see [List bulk import jobs (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ListBulkImportJobs.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter ListBulkImportJobsInput : [no documentation found]
@@ -813,6 +1229,27 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listBulkImportJobs(input: ListBulkImportJobsInput) async throws -> ListBulkImportJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCompositionRelationships` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL.
+    ///
+    /// - Parameter ListCompositionRelationshipsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCompositionRelationshipsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func listCompositionRelationships(input: ListCompositionRelationshipsInput) async throws -> ListCompositionRelationshipsOutput
+    /// Performs the `ListDashboards` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
     ///
     /// - Parameter ListDashboardsInput : [no documentation found]
@@ -826,6 +1263,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGateways` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of gateways.
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
@@ -839,6 +1281,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPortals` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of IoT SiteWise Monitor portals.
     ///
     /// - Parameter ListPortalsInput : [no documentation found]
@@ -852,6 +1299,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProjectAssets` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
     ///
     /// - Parameter ListProjectAssetsInput : [no documentation found]
@@ -865,6 +1317,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listProjectAssets(input: ListProjectAssetsInput) async throws -> ListProjectAssetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProjects` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
@@ -878,6 +1335,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves the list of tags for an IoT SiteWise resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -895,6 +1357,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     /// - `UnauthorizedException` : You are not authorized.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTimeSeries` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Retrieves a paginated list of time series (data streams).
     ///
     /// - Parameter ListTimeSeriesInput : [no documentation found]
@@ -909,6 +1376,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func listTimeSeries(input: ListTimeSeriesInput) async throws -> ListTimeSeriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutDefaultEncryptionConfiguration` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter PutDefaultEncryptionConfigurationInput : [no documentation found]
@@ -924,6 +1396,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func putDefaultEncryptionConfiguration(input: PutDefaultEncryptionConfigurationInput) async throws -> PutDefaultEncryptionConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutLoggingOptions` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Sets logging options for IoT SiteWise.
     ///
     /// - Parameter PutLoggingOptionsInput : [no documentation found]
@@ -939,6 +1416,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutStorageConfiguration` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Configures storage settings for IoT SiteWise.
     ///
     /// - Parameter PutStorageConfigurationInput : [no documentation found]
@@ -956,6 +1438,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func putStorageConfiguration(input: PutStorageConfigurationInput) async throws -> PutStorageConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -974,6 +1461,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `TooManyTagsException` : You've reached the limit for the number of tags allowed for a resource. For more information, see [Tag naming limits and requirements](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions) in the Amazon Web Services General Reference.
     /// - `UnauthorizedException` : You are not authorized.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Removes a tag from an IoT SiteWise resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -991,6 +1483,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     /// - `UnauthorizedException` : You are not authorized.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAccessPolicy` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
     ///
     /// - Parameter UpdateAccessPolicyInput : [no documentation found]
@@ -1005,6 +1502,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateAccessPolicy(input: UpdateAccessPolicyInput) async throws -> UpdateAccessPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAsset` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an asset's name. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
     /// - Parameter UpdateAssetInput : [no documentation found]
@@ -1021,6 +1523,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAssetModel` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see [DescribeAssetModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html). If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property.
     ///
     /// - Parameter UpdateAssetModelInput : [no documentation found]
@@ -1038,6 +1545,34 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateAssetModel(input: UpdateAssetModelInput) async throws -> UpdateAssetModelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAssetModelCompositeModel` operation on the `AWSIoTSiteWise` service.
+    ///
+    /// Updates a composite model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide. If you remove a property from a composite asset model, IoT SiteWise deletes all previous data for that property. You can’t change the type or data type of an existing property. To replace an existing composite asset model property with a new one with the same name, do the following:
+    ///
+    /// * Submit an UpdateAssetModelCompositeModel request with the entire existing property removed.
+    ///
+    /// * Submit a second UpdateAssetModelCompositeModel request that includes the new property. The new asset property will have the same name as the previous one and IoT SiteWise will generate a new unique id.
+    ///
+    /// - Parameter UpdateAssetModelCompositeModelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssetModelCompositeModelOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingOperationException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalFailureException` : IoT SiteWise can't process your request right now. Try again later.
+    /// - `InvalidRequestException` : The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
+    /// - `LimitExceededException` : You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
+    func updateAssetModelCompositeModel(input: UpdateAssetModelCompositeModelInput) async throws -> UpdateAssetModelCompositeModelOutput
+    /// Performs the `UpdateAssetProperty` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an asset property's alias and notification state. This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see [DescribeAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html).
     ///
     /// - Parameter UpdateAssetPropertyInput : [no documentation found]
@@ -1053,6 +1588,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateAssetProperty(input: UpdateAssetPropertyInput) async throws -> UpdateAssetPropertyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDashboard` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an IoT SiteWise Monitor dashboard.
     ///
     /// - Parameter UpdateDashboardInput : [no documentation found]
@@ -1067,6 +1607,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGateway` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates a gateway's name.
     ///
     /// - Parameter UpdateGatewayInput : [no documentation found]
@@ -1082,6 +1627,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateGateway(input: UpdateGatewayInput) async throws -> UpdateGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGatewayCapabilityConfiguration` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates a gateway capability configuration or defines a new capability configuration. Each gateway capability defines data sources for a gateway. A capability configuration can contain multiple data source configurations. If you define OPC-UA sources for a gateway in the IoT SiteWise console, all of your OPC-UA sources are stored in one capability configuration. To list all capability configurations for a gateway, use [DescribeGateway](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html).
     ///
     /// - Parameter UpdateGatewayCapabilityConfigurationInput : [no documentation found]
@@ -1098,6 +1648,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updateGatewayCapabilityConfiguration(input: UpdateGatewayCapabilityConfigurationInput) async throws -> UpdateGatewayCapabilityConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePortal` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an IoT SiteWise Monitor portal.
     ///
     /// - Parameter UpdatePortalInput : [no documentation found]
@@ -1113,6 +1668,11 @@ public protocol IoTSiteWiseClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource can't be found.
     /// - `ThrottlingException` : Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
     func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateProject` operation on the `AWSIoTSiteWise` service.
+    ///
+>>>>>>> main
     /// Updates an IoT SiteWise Monitor project.
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]

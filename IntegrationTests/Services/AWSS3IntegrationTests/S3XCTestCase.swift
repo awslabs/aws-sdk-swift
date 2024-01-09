@@ -90,6 +90,8 @@ class S3XCTestCase: XCTestCase {
             return String(data: data, encoding: .utf8)
         case .stream(let stream):
             return String(data: try await stream.readToEndAsync()!, encoding: .utf8)
+        case .noStream:
+            return nil
         }
     }
 

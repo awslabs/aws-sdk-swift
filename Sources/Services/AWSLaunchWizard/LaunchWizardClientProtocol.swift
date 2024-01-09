@@ -4,6 +4,11 @@ import ClientRuntime
 
 /// Launch Wizard offers a guided way of sizing, configuring, and deploying Amazon Web Services resources for third party applications, such as Microsoft SQL Server Always On and HANA based SAP systems, without the need to manually identify and provision individual Amazon Web Services resources.
 public protocol LaunchWizardClientProtocol {
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDeployment` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the Clone deployment action on.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
@@ -18,6 +23,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDeployment` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Deletes a deployment.
     ///
     /// - Parameter DeleteDeploymentInput : [no documentation found]
@@ -31,6 +41,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeployment` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Returns information about the deployment.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
@@ -44,6 +59,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWorkload` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Returns information about a workload.
     ///
     /// - Parameter GetWorkloadInput : [no documentation found]
@@ -57,6 +77,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeploymentEvents` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Lists the events of a deployment.
     ///
     /// - Parameter ListDeploymentEventsInput : [no documentation found]
@@ -70,6 +95,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listDeploymentEvents(input: ListDeploymentEventsInput) async throws -> ListDeploymentEventsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeployments` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Lists the deployments that have been created.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
@@ -82,6 +112,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `InternalServerException` : An internal error has occurred. Retry your request, but if the problem persists, contact us with details by posting a question on [re:Post](https://repost.aws/).
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWorkloadDeploymentPatterns` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Lists the workload deployment patterns.
     ///
     /// - Parameter ListWorkloadDeploymentPatternsInput : [no documentation found]
@@ -95,6 +130,11 @@ public protocol LaunchWizardClientProtocol {
     /// - `ResourceNotFoundException` : The specified workload or deployment resource can't be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listWorkloadDeploymentPatterns(input: ListWorkloadDeploymentPatternsInput) async throws -> ListWorkloadDeploymentPatternsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWorkloads` operation on the `LaunchWizard` service.
+    ///
+>>>>>>> main
     /// Lists the workloads.
     ///
     /// - Parameter ListWorkloadsInput : [no documentation found]

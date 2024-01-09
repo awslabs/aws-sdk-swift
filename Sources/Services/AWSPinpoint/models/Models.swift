@@ -4035,7 +4035,7 @@ extension PinpointClientTypes {
         public var daily: Swift.Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
         public var maximumDuration: Swift.Int?
-        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 50. The maximum value is 20,000.
+        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 1. The maximum value is 20,000.
         public var messagesPerSecond: Swift.Int?
         /// The maximum total number of messages that the campaign can send per user session.
         public var session: Swift.Int?
@@ -5231,6 +5231,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateAppInputBodyMiddleware"
 
@@ -5269,6 +5270,8 @@ public struct CreateAppInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateAppInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createApplicationRequest = "CreateApplicationRequest"
@@ -5432,6 +5435,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateCampaignInputBodyMiddleware"
 
@@ -5470,6 +5474,8 @@ public struct CreateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateCampaignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeCampaignRequest = "WriteCampaignRequest"
@@ -5583,6 +5589,7 @@ enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateEmailTemplateInputBodyMiddleware"
 
@@ -5621,6 +5628,8 @@ public struct CreateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateEmailTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailTemplateRequest = "EmailTemplateRequest"
@@ -5732,6 +5741,7 @@ enum CreateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateExportJobInputBodyMiddleware"
 
@@ -5770,6 +5780,8 @@ public struct CreateExportJobInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateExportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportJobRequest = "ExportJobRequest"
@@ -5883,6 +5895,7 @@ enum CreateExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateImportJobInputBodyMiddleware"
 
@@ -5921,6 +5934,8 @@ public struct CreateImportJobInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importJobRequest = "ImportJobRequest"
@@ -6034,6 +6049,7 @@ enum CreateImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateInAppTemplateInputBodyMiddleware"
 
@@ -6072,6 +6088,8 @@ public struct CreateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateInAppTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inAppTemplateRequest = "InAppTemplateRequest"
@@ -6183,6 +6201,7 @@ enum CreateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateJourneyInputBodyMiddleware"
 
@@ -6221,6 +6240,8 @@ public struct CreateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateJourneyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeJourneyRequest = "WriteJourneyRequest"
@@ -6334,6 +6355,7 @@ enum CreateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreatePushTemplateInputBodyMiddleware"
 
@@ -6372,6 +6394,8 @@ public struct CreatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreatePushTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
@@ -6483,6 +6507,7 @@ enum CreatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateRecommenderConfigurationInputBodyMiddleware"
 
@@ -6521,6 +6546,8 @@ public struct CreateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateRecommenderConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createRecommenderConfiguration = "CreateRecommenderConfiguration"
@@ -6766,6 +6793,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateSegmentInputBodyMiddleware"
 
@@ -6804,6 +6832,8 @@ public struct CreateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateSegmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeSegmentRequest = "WriteSegmentRequest"
@@ -6917,6 +6947,7 @@ enum CreateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateSmsTemplateInputBodyMiddleware"
 
@@ -6955,6 +6986,8 @@ public struct CreateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateSmsTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case smsTemplateRequest = "SMSTemplateRequest"
@@ -7121,6 +7154,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateVoiceTemplateInputBodyMiddleware"
 
@@ -7159,6 +7193,8 @@ public struct CreateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateVoiceTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case voiceTemplateRequest = "VoiceTemplateRequest"
@@ -24214,6 +24250,7 @@ extension PayloadTooLargeExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PhoneNumberValidateInputBodyMiddleware"
 
@@ -24252,6 +24289,8 @@ public struct PhoneNumberValidateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PhoneNumberValidateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case numberValidateRequest = "NumberValidateRequest"
@@ -24909,6 +24948,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutEventStreamInputBodyMiddleware"
 
@@ -24947,6 +24987,8 @@ public struct PutEventStreamInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PutEventStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeEventStream = "WriteEventStream"
@@ -25060,6 +25102,7 @@ enum PutEventStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutEventsInputBodyMiddleware"
 
@@ -25098,6 +25141,8 @@ public struct PutEventsInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PutEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventsRequest = "EventsRequest"
@@ -25628,6 +25673,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "RemoveAttributesInputBodyMiddleware"
 
@@ -25666,6 +25712,8 @@ public struct RemoveAttributesInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension RemoveAttributesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updateAttributesRequest = "UpdateAttributesRequest"
@@ -27560,6 +27608,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SendMessagesInputBodyMiddleware"
 
@@ -27598,6 +27647,8 @@ public struct SendMessagesInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SendMessagesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case messageRequest = "MessageRequest"
@@ -27711,6 +27762,7 @@ enum SendMessagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SendOTPMessageInputBodyMiddleware"
 
@@ -27749,6 +27801,8 @@ public struct SendOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SendOTPMessageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sendOTPMessageRequestParameters = "SendOTPMessageRequestParameters"
@@ -28181,6 +28235,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SendUsersMessagesInputBodyMiddleware"
 
@@ -28219,6 +28274,8 @@ public struct SendUsersMessagesInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SendUsersMessagesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sendUsersMessageRequest = "SendUsersMessageRequest"
@@ -28746,6 +28803,7 @@ extension PinpointClientTypes {
     }
 }
 
+<<<<<<< HEAD
 public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "TagResourceInputBodyMiddleware"
 
@@ -28784,6 +28842,8 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagsModel = "TagsModel"
@@ -29816,6 +29876,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateAdmChannelInputBodyMiddleware"
 
@@ -29854,6 +29915,8 @@ public struct UpdateAdmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateAdmChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case admChannelRequest = "ADMChannelRequest"
@@ -29967,6 +30030,7 @@ enum UpdateAdmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsChannelInputBodyMiddleware"
 
@@ -30005,6 +30069,8 @@ public struct UpdateApnsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateApnsChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apnsChannelRequest = "APNSChannelRequest"
@@ -30118,6 +30184,7 @@ enum UpdateApnsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsSandboxChannelInputBodyMiddleware"
 
@@ -30156,6 +30223,8 @@ public struct UpdateApnsSandboxChannelInputBodyMiddleware: ClientRuntime.Middlew
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateApnsSandboxChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apnsSandboxChannelRequest = "APNSSandboxChannelRequest"
@@ -30269,6 +30338,7 @@ enum UpdateApnsSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsVoipChannelInputBodyMiddleware"
 
@@ -30307,6 +30377,8 @@ public struct UpdateApnsVoipChannelInputBodyMiddleware: ClientRuntime.Middleware
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateApnsVoipChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apnsVoipChannelRequest = "APNSVoipChannelRequest"
@@ -30420,6 +30492,7 @@ enum UpdateApnsVoipChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApnsVoipSandboxChannelInputBodyMiddleware"
 
@@ -30458,6 +30531,8 @@ public struct UpdateApnsVoipSandboxChannelInputBodyMiddleware: ClientRuntime.Mid
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateApnsVoipSandboxChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apnsVoipSandboxChannelRequest = "APNSVoipSandboxChannelRequest"
@@ -30571,6 +30646,7 @@ enum UpdateApnsVoipSandboxChannelOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateApplicationSettingsInputBodyMiddleware"
 
@@ -30609,6 +30685,8 @@ public struct UpdateApplicationSettingsInputBodyMiddleware: ClientRuntime.Middle
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateApplicationSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeApplicationSettingsRequest = "WriteApplicationSettingsRequest"
@@ -30769,6 +30847,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateBaiduChannelInputBodyMiddleware"
 
@@ -30807,6 +30886,8 @@ public struct UpdateBaiduChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateBaiduChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baiduChannelRequest = "BaiduChannelRequest"
@@ -30920,6 +31001,7 @@ enum UpdateBaiduChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateCampaignInputBodyMiddleware"
 
@@ -30958,6 +31040,8 @@ public struct UpdateCampaignInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateCampaignInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeCampaignRequest = "WriteCampaignRequest"
@@ -31079,6 +31163,7 @@ enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEmailChannelInputBodyMiddleware"
 
@@ -31117,6 +31202,8 @@ public struct UpdateEmailChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateEmailChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailChannelRequest = "EmailChannelRequest"
@@ -31230,6 +31317,7 @@ enum UpdateEmailChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEmailTemplateInputBodyMiddleware"
 
@@ -31268,6 +31356,8 @@ public struct UpdateEmailTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateEmailTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailTemplateRequest = "EmailTemplateRequest"
@@ -31412,6 +31502,7 @@ enum UpdateEmailTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEndpointInputBodyMiddleware"
 
@@ -31450,6 +31541,8 @@ public struct UpdateEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointRequest = "EndpointRequest"
@@ -31571,6 +31664,7 @@ enum UpdateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateEndpointsBatchInputBodyMiddleware"
 
@@ -31609,6 +31703,8 @@ public struct UpdateEndpointsBatchInputBodyMiddleware: ClientRuntime.Middleware 
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateEndpointsBatchInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointBatchRequest = "EndpointBatchRequest"
@@ -31722,6 +31818,7 @@ enum UpdateEndpointsBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateGcmChannelInputBodyMiddleware"
 
@@ -31760,6 +31857,8 @@ public struct UpdateGcmChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateGcmChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gcmChannelRequest = "GCMChannelRequest"
@@ -31873,6 +31972,7 @@ enum UpdateGcmChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateInAppTemplateInputBodyMiddleware"
 
@@ -31911,6 +32011,8 @@ public struct UpdateInAppTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateInAppTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inAppTemplateRequest = "InAppTemplateRequest"
@@ -32055,6 +32157,7 @@ enum UpdateInAppTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateJourneyInputBodyMiddleware"
 
@@ -32093,6 +32196,8 @@ public struct UpdateJourneyInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateJourneyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeJourneyRequest = "WriteJourneyRequest"
@@ -32215,6 +32320,7 @@ enum UpdateJourneyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateJourneyStateInputBodyMiddleware"
 
@@ -32253,6 +32359,8 @@ public struct UpdateJourneyStateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateJourneyStateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case journeyStateRequest = "JourneyStateRequest"
@@ -32374,6 +32482,7 @@ enum UpdateJourneyStateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdatePushTemplateInputBodyMiddleware"
 
@@ -32412,6 +32521,8 @@ public struct UpdatePushTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdatePushTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
@@ -32556,6 +32667,7 @@ enum UpdatePushTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateRecommenderConfigurationInputBodyMiddleware"
 
@@ -32594,6 +32706,8 @@ public struct UpdateRecommenderConfigurationInputBodyMiddleware: ClientRuntime.M
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateRecommenderConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updateRecommenderConfiguration = "UpdateRecommenderConfiguration"
@@ -32847,6 +32961,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateSegmentInputBodyMiddleware"
 
@@ -32885,6 +33000,8 @@ public struct UpdateSegmentInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateSegmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case writeSegmentRequest = "WriteSegmentRequest"
@@ -33006,6 +33123,7 @@ enum UpdateSegmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateSmsChannelInputBodyMiddleware"
 
@@ -33044,6 +33162,8 @@ public struct UpdateSmsChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateSmsChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case smsChannelRequest = "SMSChannelRequest"
@@ -33157,6 +33277,7 @@ enum UpdateSmsChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateSmsTemplateInputBodyMiddleware"
 
@@ -33195,6 +33316,8 @@ public struct UpdateSmsTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateSmsTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case smsTemplateRequest = "SMSTemplateRequest"
@@ -33339,6 +33462,7 @@ enum UpdateSmsTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateTemplateActiveVersionInputBodyMiddleware"
 
@@ -33377,6 +33501,8 @@ public struct UpdateTemplateActiveVersionInputBodyMiddleware: ClientRuntime.Midd
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateTemplateActiveVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateActiveVersionRequest = "TemplateActiveVersionRequest"
@@ -33498,6 +33624,7 @@ enum UpdateTemplateActiveVersionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateVoiceChannelInputBodyMiddleware"
 
@@ -33536,6 +33663,8 @@ public struct UpdateVoiceChannelInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateVoiceChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case voiceChannelRequest = "VoiceChannelRequest"
@@ -33649,6 +33778,7 @@ enum UpdateVoiceChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateVoiceTemplateInputBodyMiddleware"
 
@@ -33687,6 +33817,8 @@ public struct UpdateVoiceTemplateInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateVoiceTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case voiceTemplateRequest = "VoiceTemplateRequest"
@@ -33866,6 +33998,7 @@ extension PinpointClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "VerifyOTPMessageInputBodyMiddleware"
 
@@ -33904,6 +34037,8 @@ public struct VerifyOTPMessageInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension VerifyOTPMessageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case verifyOTPMessageRequestParameters = "VerifyOTPMessageRequestParameters"

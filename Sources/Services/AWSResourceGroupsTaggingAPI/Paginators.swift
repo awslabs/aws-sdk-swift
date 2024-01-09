@@ -12,7 +12,11 @@ extension ResourceGroupsTaggingAPIClient {
     ///     - input: A `[GetComplianceSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetComplianceSummaryOutput`
     public func getComplianceSummaryPaginated(input: GetComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetComplianceSummaryInput, GetComplianceSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetComplianceSummaryInput, GetComplianceSummaryOutput>(input: input, inputKey: \GetComplianceSummaryInput.paginationToken, outputKey: \GetComplianceSummaryOutput.paginationToken, paginationFunction: self.getComplianceSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetComplianceSummaryInput, GetComplianceSummaryOutput>(input: input, inputKey: \.paginationToken, outputKey: \.paginationToken, paginationFunction: self.getComplianceSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -29,7 +33,11 @@ extension GetComplianceSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetComplianceSummaryInput, Output == GetComplianceSummaryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetComplianceSummaryInput, OperationStackOutput == GetComplianceSummaryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getComplianceSummaryPaginated`
     /// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.Summary]`
     /// - Returns: `[ResourceGroupsTaggingAPIClientTypes.Summary]`
@@ -47,7 +55,11 @@ extension ResourceGroupsTaggingAPIClient {
     ///     - input: A `[GetResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesOutput`
     public func getResourcesPaginated(input: GetResourcesInput) -> ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput>(input: input, inputKey: \GetResourcesInput.paginationToken, outputKey: \GetResourcesOutput.paginationToken, paginationFunction: self.getResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutput>(input: input, inputKey: \.paginationToken, outputKey: \.paginationToken, paginationFunction: self.getResources(input:))
+>>>>>>> main
     }
 }
 
@@ -65,7 +77,11 @@ extension GetResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetResourcesInput, Output == GetResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetResourcesInput, OperationStackOutput == GetResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getResourcesPaginated`
     /// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]`
     /// - Returns: `[ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]`
@@ -83,7 +99,11 @@ extension ResourceGroupsTaggingAPIClient {
     ///     - input: A `[GetTagKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTagKeysOutput`
     public func getTagKeysPaginated(input: GetTagKeysInput) -> ClientRuntime.PaginatorSequence<GetTagKeysInput, GetTagKeysOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetTagKeysInput, GetTagKeysOutput>(input: input, inputKey: \GetTagKeysInput.paginationToken, outputKey: \GetTagKeysOutput.paginationToken, paginationFunction: self.getTagKeys(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetTagKeysInput, GetTagKeysOutput>(input: input, inputKey: \.paginationToken, outputKey: \.paginationToken, paginationFunction: self.getTagKeys(input:))
+>>>>>>> main
     }
 }
 
@@ -94,7 +114,11 @@ extension GetTagKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetTagKeysInput, Output == GetTagKeysOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetTagKeysInput, OperationStackOutput == GetTagKeysOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTagKeysPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -112,7 +136,11 @@ extension ResourceGroupsTaggingAPIClient {
     ///     - input: A `[GetTagValuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTagValuesOutput`
     public func getTagValuesPaginated(input: GetTagValuesInput) -> ClientRuntime.PaginatorSequence<GetTagValuesInput, GetTagValuesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetTagValuesInput, GetTagValuesOutput>(input: input, inputKey: \GetTagValuesInput.paginationToken, outputKey: \GetTagValuesOutput.paginationToken, paginationFunction: self.getTagValues(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetTagValuesInput, GetTagValuesOutput>(input: input, inputKey: \.paginationToken, outputKey: \.paginationToken, paginationFunction: self.getTagValues(input:))
+>>>>>>> main
     }
 }
 
@@ -124,7 +152,11 @@ extension GetTagValuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetTagValuesInput, Output == GetTagValuesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetTagValuesInput, OperationStackOutput == GetTagValuesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTagValuesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

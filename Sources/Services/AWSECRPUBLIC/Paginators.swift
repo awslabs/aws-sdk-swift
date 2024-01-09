@@ -12,7 +12,11 @@ extension ECRPUBLICClient {
     ///     - input: A `[DescribeImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutput`
     public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutput.nextToken, paginationFunction: self.describeImages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImages(input:))
+>>>>>>> main
     }
 }
 
@@ -27,7 +31,11 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeImagesInput, OperationStackOutput == DescribeImagesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.ImageDetail]`
     /// - Returns: `[ECRPUBLICClientTypes.ImageDetail]`
@@ -45,7 +53,11 @@ extension ECRPUBLICClient {
     ///     - input: A `[DescribeImageTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageTagsOutput`
     public func describeImageTagsPaginated(input: DescribeImageTagsInput) -> ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutput>(input: input, inputKey: \DescribeImageTagsInput.nextToken, outputKey: \DescribeImageTagsOutput.nextToken, paginationFunction: self.describeImageTags(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageTags(input:))
+>>>>>>> main
     }
 }
 
@@ -59,7 +71,11 @@ extension DescribeImageTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeImageTagsInput, Output == DescribeImageTagsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeImageTagsInput, OperationStackOutput == DescribeImageTagsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeImageTagsPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.ImageTagDetail]`
     /// - Returns: `[ECRPUBLICClientTypes.ImageTagDetail]`
@@ -77,7 +93,11 @@ extension ECRPUBLICClient {
     ///     - input: A `[DescribeRegistriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistriesOutput`
     public func describeRegistriesPaginated(input: DescribeRegistriesInput) -> ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutput>(input: input, inputKey: \DescribeRegistriesInput.nextToken, outputKey: \DescribeRegistriesOutput.nextToken, paginationFunction: self.describeRegistries(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRegistries(input:))
+>>>>>>> main
     }
 }
 
@@ -89,7 +109,11 @@ extension DescribeRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeRegistriesInput, Output == DescribeRegistriesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeRegistriesInput, OperationStackOutput == DescribeRegistriesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeRegistriesPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.Registry]`
     /// - Returns: `[ECRPUBLICClientTypes.Registry]`
@@ -107,7 +131,11 @@ extension ECRPUBLICClient {
     ///     - input: A `[DescribeRepositoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoriesOutput`
     public func describeRepositoriesPaginated(input: DescribeRepositoriesInput) -> ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput>(input: input, inputKey: \DescribeRepositoriesInput.nextToken, outputKey: \DescribeRepositoriesOutput.nextToken, paginationFunction: self.describeRepositories(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRepositories(input:))
+>>>>>>> main
     }
 }
 
@@ -121,7 +149,11 @@ extension DescribeRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeRepositoriesInput, Output == DescribeRepositoriesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeRepositoriesInput, OperationStackOutput == DescribeRepositoriesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeRepositoriesPaginated`
     /// to access the nested member `[ECRPUBLICClientTypes.Repository]`
     /// - Returns: `[ECRPUBLICClientTypes.Repository]`

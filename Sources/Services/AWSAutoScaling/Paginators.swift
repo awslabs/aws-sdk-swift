@@ -12,7 +12,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeAutoScalingGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutoScalingGroupsOutput`
     public func describeAutoScalingGroupsPaginated(input: DescribeAutoScalingGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>(input: input, inputKey: \DescribeAutoScalingGroupsInput.nextToken, outputKey: \DescribeAutoScalingGroupsOutput.nextToken, paginationFunction: self.describeAutoScalingGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAutoScalingGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension DescribeAutoScalingGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAutoScalingGroupsInput, Output == DescribeAutoScalingGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAutoScalingGroupsInput, OperationStackOutput == DescribeAutoScalingGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAutoScalingGroupsPaginated`
     /// to access the nested member `[AutoScalingClientTypes.AutoScalingGroup]`
     /// - Returns: `[AutoScalingClientTypes.AutoScalingGroup]`
@@ -44,7 +52,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeAutoScalingInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutoScalingInstancesOutput`
     public func describeAutoScalingInstancesPaginated(input: DescribeAutoScalingInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeAutoScalingInstancesInput, DescribeAutoScalingInstancesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAutoScalingInstancesInput, DescribeAutoScalingInstancesOutput>(input: input, inputKey: \DescribeAutoScalingInstancesInput.nextToken, outputKey: \DescribeAutoScalingInstancesOutput.nextToken, paginationFunction: self.describeAutoScalingInstances(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAutoScalingInstancesInput, DescribeAutoScalingInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAutoScalingInstances(input:))
+>>>>>>> main
     }
 }
 
@@ -57,7 +69,11 @@ extension DescribeAutoScalingInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAutoScalingInstancesInput, Output == DescribeAutoScalingInstancesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAutoScalingInstancesInput, OperationStackOutput == DescribeAutoScalingInstancesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAutoScalingInstancesPaginated`
     /// to access the nested member `[AutoScalingClientTypes.AutoScalingInstanceDetails]`
     /// - Returns: `[AutoScalingClientTypes.AutoScalingInstanceDetails]`
@@ -75,7 +91,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeInstanceRefreshesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceRefreshesOutput`
     public func describeInstanceRefreshesPaginated(input: DescribeInstanceRefreshesInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceRefreshesInput, DescribeInstanceRefreshesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeInstanceRefreshesInput, DescribeInstanceRefreshesOutput>(input: input, inputKey: \DescribeInstanceRefreshesInput.nextToken, outputKey: \DescribeInstanceRefreshesOutput.nextToken, paginationFunction: self.describeInstanceRefreshes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeInstanceRefreshesInput, DescribeInstanceRefreshesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceRefreshes(input:))
+>>>>>>> main
     }
 }
 
@@ -98,7 +118,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeLaunchConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLaunchConfigurationsOutput`
     public func describeLaunchConfigurationsPaginated(input: DescribeLaunchConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeLaunchConfigurationsInput, DescribeLaunchConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeLaunchConfigurationsInput, DescribeLaunchConfigurationsOutput>(input: input, inputKey: \DescribeLaunchConfigurationsInput.nextToken, outputKey: \DescribeLaunchConfigurationsOutput.nextToken, paginationFunction: self.describeLaunchConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeLaunchConfigurationsInput, DescribeLaunchConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLaunchConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -111,7 +135,11 @@ extension DescribeLaunchConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeLaunchConfigurationsInput, Output == DescribeLaunchConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeLaunchConfigurationsInput, OperationStackOutput == DescribeLaunchConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLaunchConfigurationsPaginated`
     /// to access the nested member `[AutoScalingClientTypes.LaunchConfiguration]`
     /// - Returns: `[AutoScalingClientTypes.LaunchConfiguration]`
@@ -129,7 +157,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeLoadBalancersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutput`
     public func describeLoadBalancersPaginated(input: DescribeLoadBalancersInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(input: input, inputKey: \DescribeLoadBalancersInput.nextToken, outputKey: \DescribeLoadBalancersOutput.nextToken, paginationFunction: self.describeLoadBalancers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLoadBalancers(input:))
+>>>>>>> main
     }
 }
 
@@ -151,7 +183,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeLoadBalancerTargetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancerTargetGroupsOutput`
     public func describeLoadBalancerTargetGroupsPaginated(input: DescribeLoadBalancerTargetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancerTargetGroupsInput, DescribeLoadBalancerTargetGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeLoadBalancerTargetGroupsInput, DescribeLoadBalancerTargetGroupsOutput>(input: input, inputKey: \DescribeLoadBalancerTargetGroupsInput.nextToken, outputKey: \DescribeLoadBalancerTargetGroupsOutput.nextToken, paginationFunction: self.describeLoadBalancerTargetGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeLoadBalancerTargetGroupsInput, DescribeLoadBalancerTargetGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLoadBalancerTargetGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -173,7 +209,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeNotificationConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationConfigurationsOutput`
     public func describeNotificationConfigurationsPaginated(input: DescribeNotificationConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeNotificationConfigurationsInput, DescribeNotificationConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeNotificationConfigurationsInput, DescribeNotificationConfigurationsOutput>(input: input, inputKey: \DescribeNotificationConfigurationsInput.nextToken, outputKey: \DescribeNotificationConfigurationsOutput.nextToken, paginationFunction: self.describeNotificationConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeNotificationConfigurationsInput, DescribeNotificationConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNotificationConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -186,7 +226,11 @@ extension DescribeNotificationConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeNotificationConfigurationsInput, Output == DescribeNotificationConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeNotificationConfigurationsInput, OperationStackOutput == DescribeNotificationConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNotificationConfigurationsPaginated`
     /// to access the nested member `[AutoScalingClientTypes.NotificationConfiguration]`
     /// - Returns: `[AutoScalingClientTypes.NotificationConfiguration]`
@@ -204,7 +248,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePoliciesOutput`
     public func describePoliciesPaginated(input: DescribePoliciesInput) -> ClientRuntime.PaginatorSequence<DescribePoliciesInput, DescribePoliciesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePoliciesInput, DescribePoliciesOutput>(input: input, inputKey: \DescribePoliciesInput.nextToken, outputKey: \DescribePoliciesOutput.nextToken, paginationFunction: self.describePolicies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePoliciesInput, DescribePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePolicies(input:))
+>>>>>>> main
     }
 }
 
@@ -219,7 +267,11 @@ extension DescribePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribePoliciesInput, Output == DescribePoliciesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribePoliciesInput, OperationStackOutput == DescribePoliciesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePoliciesPaginated`
     /// to access the nested member `[AutoScalingClientTypes.ScalingPolicy]`
     /// - Returns: `[AutoScalingClientTypes.ScalingPolicy]`
@@ -237,7 +289,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeScalingActivitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingActivitiesOutput`
     public func describeScalingActivitiesPaginated(input: DescribeScalingActivitiesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(input: input, inputKey: \DescribeScalingActivitiesInput.nextToken, outputKey: \DescribeScalingActivitiesOutput.nextToken, paginationFunction: self.describeScalingActivities(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeScalingActivities(input:))
+>>>>>>> main
     }
 }
 
@@ -252,7 +308,11 @@ extension DescribeScalingActivitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeScalingActivitiesInput, Output == DescribeScalingActivitiesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeScalingActivitiesInput, OperationStackOutput == DescribeScalingActivitiesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeScalingActivitiesPaginated`
     /// to access the nested member `[AutoScalingClientTypes.Activity]`
     /// - Returns: `[AutoScalingClientTypes.Activity]`
@@ -270,7 +330,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeScheduledActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutput`
     public func describeScheduledActionsPaginated(input: DescribeScheduledActionsInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(input: input, inputKey: \DescribeScheduledActionsInput.nextToken, outputKey: \DescribeScheduledActionsOutput.nextToken, paginationFunction: self.describeScheduledActions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeScheduledActions(input:))
+>>>>>>> main
     }
 }
 
@@ -286,7 +350,11 @@ extension DescribeScheduledActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeScheduledActionsInput, Output == DescribeScheduledActionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeScheduledActionsInput, OperationStackOutput == DescribeScheduledActionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
     /// to access the nested member `[AutoScalingClientTypes.ScheduledUpdateGroupAction]`
     /// - Returns: `[AutoScalingClientTypes.ScheduledUpdateGroupAction]`
@@ -304,7 +372,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.nextToken, outputKey: \DescribeTagsOutput.nextToken, paginationFunction: self.describeTags(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTags(input:))
+>>>>>>> main
     }
 }
 
@@ -317,7 +389,11 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeTagsInput, Output == DescribeTagsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeTagsInput, OperationStackOutput == DescribeTagsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
     /// to access the nested member `[AutoScalingClientTypes.TagDescription]`
     /// - Returns: `[AutoScalingClientTypes.TagDescription]`
@@ -335,7 +411,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeTrafficSourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrafficSourcesOutput`
     public func describeTrafficSourcesPaginated(input: DescribeTrafficSourcesInput) -> ClientRuntime.PaginatorSequence<DescribeTrafficSourcesInput, DescribeTrafficSourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeTrafficSourcesInput, DescribeTrafficSourcesOutput>(input: input, inputKey: \DescribeTrafficSourcesInput.nextToken, outputKey: \DescribeTrafficSourcesOutput.nextToken, paginationFunction: self.describeTrafficSources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeTrafficSourcesInput, DescribeTrafficSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTrafficSources(input:))
+>>>>>>> main
     }
 }
 
@@ -358,7 +438,11 @@ extension AutoScalingClient {
     ///     - input: A `[DescribeWarmPoolInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeWarmPoolOutput`
     public func describeWarmPoolPaginated(input: DescribeWarmPoolInput) -> ClientRuntime.PaginatorSequence<DescribeWarmPoolInput, DescribeWarmPoolOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeWarmPoolInput, DescribeWarmPoolOutput>(input: input, inputKey: \DescribeWarmPoolInput.nextToken, outputKey: \DescribeWarmPoolOutput.nextToken, paginationFunction: self.describeWarmPool(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeWarmPoolInput, DescribeWarmPoolOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeWarmPool(input:))
+>>>>>>> main
     }
 }
 
@@ -371,7 +455,11 @@ extension DescribeWarmPoolInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeWarmPoolInput, Output == DescribeWarmPoolOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeWarmPoolInput, OperationStackOutput == DescribeWarmPoolOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeWarmPoolPaginated`
     /// to access the nested member `[AutoScalingClientTypes.Instance]`
     /// - Returns: `[AutoScalingClientTypes.Instance]`

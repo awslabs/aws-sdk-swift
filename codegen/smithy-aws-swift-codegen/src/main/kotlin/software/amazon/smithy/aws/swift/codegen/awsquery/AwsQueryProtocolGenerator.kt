@@ -30,11 +30,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    // TODO: Rename defaultContentType to differentiate between request & response
-    // Requests are:
-    //  application/x-www-form-urlencoded
-    // Responses are:
-    //  text/xml
     override val codingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
     override val defaultContentType = "application/x-www-form-urlencoded"
     override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
@@ -44,7 +39,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory(),
     )
 
     override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
@@ -56,8 +51,9 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val shouldRenderEncodableConformance = true
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_awsQuery",
-        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery"
+        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery",
     )
+    override val tagsToIgnore = setOf("defaults")
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
@@ -65,7 +61,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?
+        path: String?,
     ) {
         val customizations = AwsQueryFormURLEncodeCustomizations()
         val encoder = StructEncodeFormURLGenerator(ctx, customizations, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
@@ -78,7 +74,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
+        path: String,
     ) {
         val decoder = AwsQueryStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()

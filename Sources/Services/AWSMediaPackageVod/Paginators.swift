@@ -12,7 +12,11 @@ extension MediaPackageVodClient {
     ///     - input: A `[ListAssetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutput`
     public func listAssetsPaginated(input: ListAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput>(input: input, inputKey: \ListAssetsInput.nextToken, outputKey: \ListAssetsOutput.nextToken, paginationFunction: self.listAssets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssets(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAssetsInput, Output == ListAssetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAssetsInput, OperationStackOutput == ListAssetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
     /// to access the nested member `[MediaPackageVodClientTypes.AssetShallow]`
     /// - Returns: `[MediaPackageVodClientTypes.AssetShallow]`
@@ -43,7 +51,11 @@ extension MediaPackageVodClient {
     ///     - input: A `[ListPackagingConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackagingConfigurationsOutput`
     public func listPackagingConfigurationsPaginated(input: ListPackagingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutput>(input: input, inputKey: \ListPackagingConfigurationsInput.nextToken, outputKey: \ListPackagingConfigurationsOutput.nextToken, paginationFunction: self.listPackagingConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackagingConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -56,7 +68,11 @@ extension ListPackagingConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPackagingConfigurationsInput, Output == ListPackagingConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPackagingConfigurationsInput, OperationStackOutput == ListPackagingConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPackagingConfigurationsPaginated`
     /// to access the nested member `[MediaPackageVodClientTypes.PackagingConfiguration]`
     /// - Returns: `[MediaPackageVodClientTypes.PackagingConfiguration]`
@@ -74,7 +90,11 @@ extension MediaPackageVodClient {
     ///     - input: A `[ListPackagingGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackagingGroupsOutput`
     public func listPackagingGroupsPaginated(input: ListPackagingGroupsInput) -> ClientRuntime.PaginatorSequence<ListPackagingGroupsInput, ListPackagingGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPackagingGroupsInput, ListPackagingGroupsOutput>(input: input, inputKey: \ListPackagingGroupsInput.nextToken, outputKey: \ListPackagingGroupsOutput.nextToken, paginationFunction: self.listPackagingGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPackagingGroupsInput, ListPackagingGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackagingGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -86,7 +106,11 @@ extension ListPackagingGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPackagingGroupsInput, Output == ListPackagingGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPackagingGroupsInput, OperationStackOutput == ListPackagingGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPackagingGroupsPaginated`
     /// to access the nested member `[MediaPackageVodClientTypes.PackagingGroup]`
     /// - Returns: `[MediaPackageVodClientTypes.PackagingGroup]`

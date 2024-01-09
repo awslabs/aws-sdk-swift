@@ -3553,6 +3553,7 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The details of the DB instance's server certificate.</p>"
                     }
+<<<<<<< HEAD
                 },
                 "PerformanceInsightsEnabled": {
                     "target": "com.amazonaws.docdb#BooleanOptional",
@@ -3565,6 +3566,8 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.</p>"
                     }
+=======
+>>>>>>> main
                 }
             },
             "traits": {

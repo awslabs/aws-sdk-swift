@@ -12,7 +12,11 @@ extension ConnectContactLensClient {
     ///     - input: A `[ListRealtimeContactAnalysisSegmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRealtimeContactAnalysisSegmentsOutput`
     public func listRealtimeContactAnalysisSegmentsPaginated(input: ListRealtimeContactAnalysisSegmentsInput) -> ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(input: input, inputKey: \ListRealtimeContactAnalysisSegmentsInput.nextToken, outputKey: \ListRealtimeContactAnalysisSegmentsOutput.nextToken, paginationFunction: self.listRealtimeContactAnalysisSegments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRealtimeContactAnalysisSegmentsInput, ListRealtimeContactAnalysisSegmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRealtimeContactAnalysisSegments(input:))
+>>>>>>> main
     }
 }
 

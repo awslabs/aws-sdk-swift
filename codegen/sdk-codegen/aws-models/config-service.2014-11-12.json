@@ -1821,7 +1821,11 @@
                 "recordingMode": {
                     "target": "com.amazonaws.configservice#RecordingMode",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Specifies the default recording frequency that Config uses to record configuration changes.\n\t\t\t\n\t\t\tConfig supports <i>Continuous recording</i> and <i>Daily recording</i>.</p>\n         <ul>\n            <li>\n               <p>Continuous recording allows you to record configuration changes continuously whenever a change occurs.</p>\n            </li>\n            <li>\n               <p>Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.\n\t\t\t</p>\n            </li>\n         </ul>\n         <note>\n            <p>Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,\n\t\t\tit is recommended that you set the recording frequency to Continuous.</p>\n         </note>\n         <p>You can also override the recording frequency for specific resource types.</p>"
+=======
+                        "smithy.api#documentation": "<p>Specifies the default recording frequency that Config uses to record configuration changes.\n\t\t\t\n\t\t\tConfig supports <i>Continuous recording</i> and <i>Daily recording</i>.</p>\n         <ul>\n            <li>\n               <p>Continuous recording allows you to record configuration changes continuously whenever a change occurs.</p>\n            </li>\n            <li>\n               <p>Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,\n\t\t\tit is recommended that you set the recording frequency to Continuous.</p>\n         </note>\n         <p>You can also override the recording frequency for specific resource types.</p>"
+>>>>>>> main
                     }
                 }
             },
@@ -10732,7 +10736,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Specifies the default recording frequency that Config uses to record configuration changes.\n\t\t\t\n\t\t\tConfig supports <i>Continuous recording</i> and <i>Daily recording</i>.</p>\n         <ul>\n            <li>\n               <p>Continuous recording allows you to record configuration changes continuously whenever a change occurs.</p>\n            </li>\n            <li>\n               <p>Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.\n\t\t\t</p>\n            </li>\n         </ul>\n         <note>\n            <p>Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,\n\t\t\tit is recommended that you set the recording frequency to Continuous.</p>\n         </note>\n         <p>You can also override the recording frequency for specific resource types.</p>"
+=======
+                "smithy.api#documentation": "<p>Specifies the default recording frequency that Config uses to record configuration changes.\n\t\t\t\n\t\t\tConfig supports <i>Continuous recording</i> and <i>Daily recording</i>.</p>\n         <ul>\n            <li>\n               <p>Continuous recording allows you to record configuration changes continuously whenever a change occurs.</p>\n            </li>\n            <li>\n               <p>Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,\n\t\t\tit is recommended that you set the recording frequency to Continuous.</p>\n         </note>\n         <p>You can also override the recording frequency for specific resource types.</p>"
+>>>>>>> main
             }
         },
         "com.amazonaws.configservice#RecordingModeOverride": {
@@ -10754,7 +10762,11 @@
                 "recordingFrequency": {
                     "target": "com.amazonaws.configservice#RecordingFrequency",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The recording frequency that will be applied to all the resource types specified in the override.</p>\n         <ul>\n            <li>\n               <p>Continuous recording allows you to record configuration changes continuously whenever a change occurs.</p>\n            </li>\n            <li>\n               <p>Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.\n\t\t\t</p>\n            </li>\n         </ul>\n         <note>\n            <p>Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,\n\t\t\tit is recommended that you set the recording frequency to Continuous.</p>\n         </note>",
+=======
+                        "smithy.api#documentation": "<p>The recording frequency that will be applied to all the resource types specified in the override.</p>\n         <ul>\n            <li>\n               <p>Continuous recording allows you to record configuration changes continuously whenever a change occurs.</p>\n            </li>\n            <li>\n               <p>Daily recording allows you record configuration data once every 24 hours, only if a change has occurred.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager,\n\t\t\tit is recommended that you set the recording frequency to Continuous.</p>\n         </note>",
+>>>>>>> main
                         "smithy.api#required": {}
                     }
                 }
@@ -14013,6 +14025,7 @@
                     "traits": {
                         "smithy.api#enumValue": "AWS::ResourceExplorer2::Index"
                     }
+<<<<<<< HEAD
                 },
                 "AppStreamFleet": {
                     "target": "smithy.api#Unit",
@@ -14121,6 +14134,8 @@
                     "traits": {
                         "smithy.api#enumValue": "AWS::SSM::Document"
                     }
+=======
+>>>>>>> main
                 }
             }
         },

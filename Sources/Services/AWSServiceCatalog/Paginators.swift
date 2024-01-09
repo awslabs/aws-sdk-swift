@@ -12,7 +12,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[DescribePortfolioSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePortfolioSharesOutput`
     public func describePortfolioSharesPaginated(input: DescribePortfolioSharesInput) -> ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(input: input, inputKey: \DescribePortfolioSharesInput.pageToken, outputKey: \DescribePortfolioSharesOutput.nextPageToken, paginationFunction: self.describePortfolioShares(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribePortfolioSharesInput, DescribePortfolioSharesOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.describePortfolioShares(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[GetProvisionedProductOutputsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetProvisionedProductOutputsOutput`
     public func getProvisionedProductOutputsPaginated(input: GetProvisionedProductOutputsInput) -> ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(input: input, inputKey: \GetProvisionedProductOutputsInput.pageToken, outputKey: \GetProvisionedProductOutputsOutput.nextPageToken, paginationFunction: self.getProvisionedProductOutputs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetProvisionedProductOutputsInput, GetProvisionedProductOutputsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.getProvisionedProductOutputs(input:))
+>>>>>>> main
     }
 }
 
@@ -60,7 +68,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListAcceptedPortfolioSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAcceptedPortfolioSharesOutput`
     public func listAcceptedPortfolioSharesPaginated(input: ListAcceptedPortfolioSharesInput) -> ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(input: input, inputKey: \ListAcceptedPortfolioSharesInput.pageToken, outputKey: \ListAcceptedPortfolioSharesOutput.nextPageToken, paginationFunction: self.listAcceptedPortfolioShares(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAcceptedPortfolioSharesInput, ListAcceptedPortfolioSharesOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listAcceptedPortfolioShares(input:))
+>>>>>>> main
     }
 }
 
@@ -83,7 +95,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListBudgetsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBudgetsForResourceOutput`
     public func listBudgetsForResourcePaginated(input: ListBudgetsForResourceInput) -> ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(input: input, inputKey: \ListBudgetsForResourceInput.pageToken, outputKey: \ListBudgetsForResourceOutput.nextPageToken, paginationFunction: self.listBudgetsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListBudgetsForResourceInput, ListBudgetsForResourceOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listBudgetsForResource(input:))
+>>>>>>> main
     }
 }
 
@@ -106,7 +122,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListConstraintsForPortfolioInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConstraintsForPortfolioOutput`
     public func listConstraintsForPortfolioPaginated(input: ListConstraintsForPortfolioInput) -> ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(input: input, inputKey: \ListConstraintsForPortfolioInput.pageToken, outputKey: \ListConstraintsForPortfolioOutput.nextPageToken, paginationFunction: self.listConstraintsForPortfolio(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListConstraintsForPortfolioInput, ListConstraintsForPortfolioOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listConstraintsForPortfolio(input:))
+>>>>>>> main
     }
 }
 
@@ -130,7 +150,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListLaunchPathsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLaunchPathsOutput`
     public func listLaunchPathsPaginated(input: ListLaunchPathsInput) -> ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutput>(input: input, inputKey: \ListLaunchPathsInput.pageToken, outputKey: \ListLaunchPathsOutput.nextPageToken, paginationFunction: self.listLaunchPaths(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListLaunchPathsInput, ListLaunchPathsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listLaunchPaths(input:))
+>>>>>>> main
     }
 }
 
@@ -153,7 +177,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListOrganizationPortfolioAccessInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationPortfolioAccessOutput`
     public func listOrganizationPortfolioAccessPaginated(input: ListOrganizationPortfolioAccessInput) -> ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(input: input, inputKey: \ListOrganizationPortfolioAccessInput.pageToken, outputKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, paginationFunction: self.listOrganizationPortfolioAccess(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOrganizationPortfolioAccessInput, ListOrganizationPortfolioAccessOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listOrganizationPortfolioAccess(input:))
+>>>>>>> main
     }
 }
 
@@ -177,7 +205,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListPortfolioAccessInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPortfolioAccessOutput`
     public func listPortfolioAccessPaginated(input: ListPortfolioAccessInput) -> ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutput>(input: input, inputKey: \ListPortfolioAccessInput.pageToken, outputKey: \ListPortfolioAccessOutput.nextPageToken, paginationFunction: self.listPortfolioAccess(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPortfolioAccessInput, ListPortfolioAccessOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listPortfolioAccess(input:))
+>>>>>>> main
     }
 }
 
@@ -201,7 +233,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListPortfoliosInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPortfoliosOutput`
     public func listPortfoliosPaginated(input: ListPortfoliosInput) -> ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutput>(input: input, inputKey: \ListPortfoliosInput.pageToken, outputKey: \ListPortfoliosOutput.nextPageToken, paginationFunction: self.listPortfolios(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPortfoliosInput, ListPortfoliosOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listPortfolios(input:))
+>>>>>>> main
     }
 }
 
@@ -223,7 +259,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListPortfoliosForProductInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPortfoliosForProductOutput`
     public func listPortfoliosForProductPaginated(input: ListPortfoliosForProductInput) -> ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(input: input, inputKey: \ListPortfoliosForProductInput.pageToken, outputKey: \ListPortfoliosForProductOutput.nextPageToken, paginationFunction: self.listPortfoliosForProduct(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPortfoliosForProductInput, ListPortfoliosForProductOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listPortfoliosForProduct(input:))
+>>>>>>> main
     }
 }
 
@@ -246,7 +286,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListPrincipalsForPortfolioInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalsForPortfolioOutput`
     public func listPrincipalsForPortfolioPaginated(input: ListPrincipalsForPortfolioInput) -> ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(input: input, inputKey: \ListPrincipalsForPortfolioInput.pageToken, outputKey: \ListPrincipalsForPortfolioOutput.nextPageToken, paginationFunction: self.listPrincipalsForPortfolio(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPrincipalsForPortfolioInput, ListPrincipalsForPortfolioOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listPrincipalsForPortfolio(input:))
+>>>>>>> main
     }
 }
 
@@ -269,7 +313,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListProvisioningArtifactsForServiceActionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProvisioningArtifactsForServiceActionOutput`
     public func listProvisioningArtifactsForServiceActionPaginated(input: ListProvisioningArtifactsForServiceActionInput) -> ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(input: input, inputKey: \ListProvisioningArtifactsForServiceActionInput.pageToken, outputKey: \ListProvisioningArtifactsForServiceActionOutput.nextPageToken, paginationFunction: self.listProvisioningArtifactsForServiceAction(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProvisioningArtifactsForServiceActionInput, ListProvisioningArtifactsForServiceActionOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listProvisioningArtifactsForServiceAction(input:))
+>>>>>>> main
     }
 }
 
@@ -292,7 +340,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListResourcesForTagOptionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesForTagOptionOutput`
     public func listResourcesForTagOptionPaginated(input: ListResourcesForTagOptionInput) -> ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(input: input, inputKey: \ListResourcesForTagOptionInput.pageToken, outputKey: \ListResourcesForTagOptionOutput.pageToken, paginationFunction: self.listResourcesForTagOption(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourcesForTagOptionInput, ListResourcesForTagOptionOutput>(input: input, inputKey: \.pageToken, outputKey: \.pageToken, paginationFunction: self.listResourcesForTagOption(input:))
+>>>>>>> main
     }
 }
 
@@ -315,7 +367,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListServiceActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServiceActionsOutput`
     public func listServiceActionsPaginated(input: ListServiceActionsInput) -> ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutput>(input: input, inputKey: \ListServiceActionsInput.pageToken, outputKey: \ListServiceActionsOutput.nextPageToken, paginationFunction: self.listServiceActions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListServiceActionsInput, ListServiceActionsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listServiceActions(input:))
+>>>>>>> main
     }
 }
 
@@ -337,7 +393,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListServiceActionsForProvisioningArtifactInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServiceActionsForProvisioningArtifactOutput`
     public func listServiceActionsForProvisioningArtifactPaginated(input: ListServiceActionsForProvisioningArtifactInput) -> ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(input: input, inputKey: \ListServiceActionsForProvisioningArtifactInput.pageToken, outputKey: \ListServiceActionsForProvisioningArtifactOutput.nextPageToken, paginationFunction: self.listServiceActionsForProvisioningArtifact(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListServiceActionsForProvisioningArtifactInput, ListServiceActionsForProvisioningArtifactOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.listServiceActionsForProvisioningArtifact(input:))
+>>>>>>> main
     }
 }
 
@@ -361,7 +421,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[ListTagOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagOptionsOutput`
     public func listTagOptionsPaginated(input: ListTagOptionsInput) -> ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutput>(input: input, inputKey: \ListTagOptionsInput.pageToken, outputKey: \ListTagOptionsOutput.pageToken, paginationFunction: self.listTagOptions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagOptionsInput, ListTagOptionsOutput>(input: input, inputKey: \.pageToken, outputKey: \.pageToken, paginationFunction: self.listTagOptions(input:))
+>>>>>>> main
     }
 }
 
@@ -383,7 +447,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[SearchProductsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchProductsOutput`
     public func searchProductsPaginated(input: SearchProductsInput) -> ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutput>(input: input, inputKey: \SearchProductsInput.pageToken, outputKey: \SearchProductsOutput.nextPageToken, paginationFunction: self.searchProducts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchProductsInput, SearchProductsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.searchProducts(input:))
+>>>>>>> main
     }
 }
 
@@ -408,7 +476,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[SearchProductsAsAdminInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchProductsAsAdminOutput`
     public func searchProductsAsAdminPaginated(input: SearchProductsAsAdminInput) -> ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(input: input, inputKey: \SearchProductsAsAdminInput.pageToken, outputKey: \SearchProductsAsAdminOutput.nextPageToken, paginationFunction: self.searchProductsAsAdmin(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchProductsAsAdminInput, SearchProductsAsAdminOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.searchProductsAsAdmin(input:))
+>>>>>>> main
     }
 }
 
@@ -435,7 +507,11 @@ extension ServiceCatalogClient {
     ///     - input: A `[SearchProvisionedProductsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchProvisionedProductsOutput`
     public func searchProvisionedProductsPaginated(input: SearchProvisionedProductsInput) -> ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(input: input, inputKey: \SearchProvisionedProductsInput.pageToken, outputKey: \SearchProvisionedProductsOutput.nextPageToken, paginationFunction: self.searchProvisionedProducts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchProvisionedProductsInput, SearchProvisionedProductsOutput>(input: input, inputKey: \.pageToken, outputKey: \.nextPageToken, paginationFunction: self.searchProvisionedProducts(input:))
+>>>>>>> main
     }
 }
 

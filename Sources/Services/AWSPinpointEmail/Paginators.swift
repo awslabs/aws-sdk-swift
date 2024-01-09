@@ -12,7 +12,11 @@ extension PinpointEmailClient {
     ///     - input: A `[GetDedicatedIpsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDedicatedIpsOutput`
     public func getDedicatedIpsPaginated(input: GetDedicatedIpsInput) -> ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput>(input: input, inputKey: \GetDedicatedIpsInput.nextToken, outputKey: \GetDedicatedIpsOutput.nextToken, paginationFunction: self.getDedicatedIps(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDedicatedIps(input:))
+>>>>>>> main
     }
 }
 
@@ -34,7 +38,11 @@ extension PinpointEmailClient {
     ///     - input: A `[ListConfigurationSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationSetsOutput`
     public func listConfigurationSetsPaginated(input: ListConfigurationSetsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput>(input: input, inputKey: \ListConfigurationSetsInput.nextToken, outputKey: \ListConfigurationSetsOutput.nextToken, paginationFunction: self.listConfigurationSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationSets(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +63,11 @@ extension PinpointEmailClient {
     ///     - input: A `[ListDedicatedIpPoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDedicatedIpPoolsOutput`
     public func listDedicatedIpPoolsPaginated(input: ListDedicatedIpPoolsInput) -> ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput>(input: input, inputKey: \ListDedicatedIpPoolsInput.nextToken, outputKey: \ListDedicatedIpPoolsOutput.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
+>>>>>>> main
     }
 }
 
@@ -76,7 +88,11 @@ extension PinpointEmailClient {
     ///     - input: A `[ListDeliverabilityTestReportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeliverabilityTestReportsOutput`
     public func listDeliverabilityTestReportsPaginated(input: ListDeliverabilityTestReportsInput) -> ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput>(input: input, inputKey: \ListDeliverabilityTestReportsInput.nextToken, outputKey: \ListDeliverabilityTestReportsOutput.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
+>>>>>>> main
     }
 }
 
@@ -97,7 +113,11 @@ extension PinpointEmailClient {
     ///     - input: A `[ListDomainDeliverabilityCampaignsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainDeliverabilityCampaignsOutput`
     public func listDomainDeliverabilityCampaignsPaginated(input: ListDomainDeliverabilityCampaignsInput) -> ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput>(input: input, inputKey: \ListDomainDeliverabilityCampaignsInput.nextToken, outputKey: \ListDomainDeliverabilityCampaignsOutput.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
+>>>>>>> main
     }
 }
 
@@ -121,7 +141,11 @@ extension PinpointEmailClient {
     ///     - input: A `[ListEmailIdentitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentitiesOutput`
     public func listEmailIdentitiesPaginated(input: ListEmailIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(input: input, inputKey: \ListEmailIdentitiesInput.nextToken, outputKey: \ListEmailIdentitiesOutput.nextToken, paginationFunction: self.listEmailIdentities(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEmailIdentities(input:))
+>>>>>>> main
     }
 }
 

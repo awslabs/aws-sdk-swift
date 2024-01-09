@@ -3028,6 +3028,7 @@ extension SSMClientTypes.AutomationExecution: Swift.Codable {
         case targetParameterName = "TargetParameterName"
         case targets = "Targets"
         case triggeredAlarms = "TriggeredAlarms"
+        case variables = "Variables"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3165,6 +3166,15 @@ extension SSMClientTypes.AutomationExecution: Swift.Codable {
             var triggeredAlarmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggeredAlarms)
             for alarmstateinformation0 in triggeredAlarms {
                 try triggeredAlarmsContainer.encode(alarmstateinformation0)
+            }
+        }
+        if let variables = variables {
+            var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
+            for (dictKey0, automationParameterMap0) in variables {
+                var automationParameterMap0Container = variablesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for automationparametervalue1 in automationParameterMap0 {
+                    try automationParameterMap0Container.encode(automationparametervalue1)
+                }
             }
         }
     }
@@ -3339,6 +3349,24 @@ extension SSMClientTypes.AutomationExecution: Swift.Codable {
         associationId = associationIdDecoded
         let changeRequestNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeRequestName)
         changeRequestName = changeRequestNameDecoded
+        let variablesContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .variables)
+        var variablesDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let variablesContainer = variablesContainer {
+            variablesDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, automationparametervaluelist0) in variablesContainer {
+                var automationparametervaluelist0Decoded0: [Swift.String]? = nil
+                if let automationparametervaluelist0 = automationparametervaluelist0 {
+                    automationparametervaluelist0Decoded0 = [Swift.String]()
+                    for string1 in automationparametervaluelist0 {
+                        if let string1 = string1 {
+                            automationparametervaluelist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                variablesDecoded0?[key0] = automationparametervaluelist0Decoded0
+            }
+        }
+        variables = variablesDecoded0
     }
 }
 
@@ -3411,6 +3439,8 @@ extension SSMClientTypes {
         public var targets: [SSMClientTypes.Target]?
         /// The CloudWatch alarm that was invoked by the automation.
         public var triggeredAlarms: [SSMClientTypes.AlarmStateInformation]?
+        /// Variables defined for the automation.
+        public var variables: [Swift.String:[Swift.String]]?
 
         public init(
             alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
@@ -3445,7 +3475,8 @@ extension SSMClientTypes {
             targetMaps: [[Swift.String:[Swift.String]]]? = nil,
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil,
-            triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
+            triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
+            variables: [Swift.String:[Swift.String]]? = nil
         )
         {
             self.alarmConfiguration = alarmConfiguration
@@ -3481,6 +3512,7 @@ extension SSMClientTypes {
             self.targetParameterName = targetParameterName
             self.targets = targets
             self.triggeredAlarms = triggeredAlarms
+            self.variables = variables
         }
     }
 
@@ -4143,6 +4175,7 @@ extension SSMClientTypes {
         case changeCalendarOverrideRejected
         case completedWithFailure
         case completedWithSuccess
+        case exited
         case failed
         case inprogress
         case pending
@@ -4165,6 +4198,7 @@ extension SSMClientTypes {
                 .changeCalendarOverrideRejected,
                 .completedWithFailure,
                 .completedWithSuccess,
+                .exited,
                 .failed,
                 .inprogress,
                 .pending,
@@ -4192,6 +4226,7 @@ extension SSMClientTypes {
             case .changeCalendarOverrideRejected: return "ChangeCalendarOverrideRejected"
             case .completedWithFailure: return "CompletedWithFailure"
             case .completedWithSuccess: return "CompletedWithSuccess"
+            case .exited: return "Exited"
             case .failed: return "Failed"
             case .inprogress: return "InProgress"
             case .pending: return "Pending"
@@ -13272,7 +13307,7 @@ public struct DescribeInstancePatchesInput: Swift.Equatable {
     ///
     /// * Severity Sample values: Important | Medium | Low
     ///
-    /// * State Sample values: Installed | InstalledOther | InstalledPendingReboot
+    /// * State Sample values: Installed | InstalledOther | InstalledPendingReboot For lists of all State values, see [Understanding patch compliance state values](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html) in the Amazon Web Services Systems Manager User Guide.
     public var filters: [SSMClientTypes.PatchOrchestratorFilter]?
     /// The ID of the managed node whose patch state information should be retrieved.
     /// This member is required.
@@ -37302,6 +37337,81 @@ extension SSMClientTypes {
     }
 }
 
+extension SSMClientTypes.ParentStepDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case iteration = "Iteration"
+        case iteratorValue = "IteratorValue"
+        case stepExecutionId = "StepExecutionId"
+        case stepName = "StepName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let iteration = self.iteration {
+            try encodeContainer.encode(iteration, forKey: .iteration)
+        }
+        if let iteratorValue = self.iteratorValue {
+            try encodeContainer.encode(iteratorValue, forKey: .iteratorValue)
+        }
+        if let stepExecutionId = self.stepExecutionId {
+            try encodeContainer.encode(stepExecutionId, forKey: .stepExecutionId)
+        }
+        if let stepName = self.stepName {
+            try encodeContainer.encode(stepName, forKey: .stepName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepExecutionId)
+        stepExecutionId = stepExecutionIdDecoded
+        let stepNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepName)
+        stepName = stepNameDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let iterationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iteration)
+        iteration = iterationDecoded
+        let iteratorValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iteratorValue)
+        iteratorValue = iteratorValueDecoded
+    }
+}
+
+extension SSMClientTypes {
+    /// A detailed status of the parent step.
+    public struct ParentStepDetails: Swift.Equatable {
+        /// The name of the automation action.
+        public var action: Swift.String?
+        /// The current repetition of the loop represented by an integer.
+        public var iteration: Swift.Int?
+        /// The current value of the specified iterator in the loop.
+        public var iteratorValue: Swift.String?
+        /// The unique ID of a step execution.
+        public var stepExecutionId: Swift.String?
+        /// The name of the step.
+        public var stepName: Swift.String?
+
+        public init(
+            action: Swift.String? = nil,
+            iteration: Swift.Int? = nil,
+            iteratorValue: Swift.String? = nil,
+            stepExecutionId: Swift.String? = nil,
+            stepName: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.iteration = iteration
+            self.iteratorValue = iteratorValue
+            self.stepExecutionId = stepExecutionId
+            self.stepName = stepName
+        }
+    }
+
+}
+
 extension SSMClientTypes.Patch: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advisoryIds = "AdvisoryIds"
@@ -44732,6 +44842,7 @@ extension SSMClientTypes.StepExecution: Swift.Codable {
         case onFailure = "OnFailure"
         case outputs = "Outputs"
         case overriddenParameters = "OverriddenParameters"
+        case parentStepDetails = "ParentStepDetails"
         case response = "Response"
         case responseCode = "ResponseCode"
         case stepExecutionId = "StepExecutionId"
@@ -44799,6 +44910,9 @@ extension SSMClientTypes.StepExecution: Swift.Codable {
                     try automationParameterMap0Container.encode(automationparametervalue1)
                 }
             }
+        }
+        if let parentStepDetails = self.parentStepDetails {
+            try encodeContainer.encode(parentStepDetails, forKey: .parentStepDetails)
         }
         if let response = self.response {
             try encodeContainer.encode(response, forKey: .response)
@@ -44957,6 +45071,8 @@ extension SSMClientTypes.StepExecution: Swift.Codable {
             }
         }
         triggeredAlarms = triggeredAlarmsDecoded0
+        let parentStepDetailsDecoded = try containerValues.decodeIfPresent(SSMClientTypes.ParentStepDetails.self, forKey: .parentStepDetails)
+        parentStepDetails = parentStepDetailsDecoded
     }
 }
 
@@ -44989,6 +45105,8 @@ extension SSMClientTypes {
         public var outputs: [Swift.String:[Swift.String]]?
         /// A user-specified list of parameters to override when running a step.
         public var overriddenParameters: [Swift.String:[Swift.String]]?
+        /// Information about the parent step.
+        public var parentStepDetails: SSMClientTypes.ParentStepDetails?
         /// A message associated with the response code for an execution.
         public var response: Swift.String?
         /// The response code returned by the execution of the step.
@@ -45024,6 +45142,7 @@ extension SSMClientTypes {
             onFailure: Swift.String? = nil,
             outputs: [Swift.String:[Swift.String]]? = nil,
             overriddenParameters: [Swift.String:[Swift.String]]? = nil,
+            parentStepDetails: SSMClientTypes.ParentStepDetails? = nil,
             response: Swift.String? = nil,
             responseCode: Swift.String? = nil,
             stepExecutionId: Swift.String? = nil,
@@ -45049,6 +45168,7 @@ extension SSMClientTypes {
             self.onFailure = onFailure
             self.outputs = outputs
             self.overriddenParameters = overriddenParameters
+            self.parentStepDetails = parentStepDetails
             self.response = response
             self.responseCode = responseCode
             self.stepExecutionId = stepExecutionId
@@ -45104,7 +45224,7 @@ extension SSMClientTypes.StepExecutionFilter: Swift.Codable {
 extension SSMClientTypes {
     /// A filter to limit the amount of step execution information returned by the call.
     public struct StepExecutionFilter: Swift.Equatable {
-        /// One or more keys to limit the results. Valid filter keys include the following: StepName, Action, StepExecutionId, StepExecutionStatus, StartTimeBefore, StartTimeAfter.
+        /// One or more keys to limit the results.
         /// This member is required.
         public var key: SSMClientTypes.StepExecutionFilterKey?
         /// The values of the filter key.
@@ -45126,6 +45246,9 @@ extension SSMClientTypes {
 extension SSMClientTypes {
     public enum StepExecutionFilterKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case action
+        case parentStepExecutionId
+        case parentStepIteration
+        case parentStepIteratorValue
         case startTimeAfter
         case startTimeBefore
         case stepExecutionId
@@ -45136,6 +45259,9 @@ extension SSMClientTypes {
         public static var allCases: [StepExecutionFilterKey] {
             return [
                 .action,
+                .parentStepExecutionId,
+                .parentStepIteration,
+                .parentStepIteratorValue,
                 .startTimeAfter,
                 .startTimeBefore,
                 .stepExecutionId,
@@ -45151,6 +45277,9 @@ extension SSMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .action: return "Action"
+            case .parentStepExecutionId: return "ParentStepExecutionId"
+            case .parentStepIteration: return "ParentStepIteration"
+            case .parentStepIteratorValue: return "ParentStepIteratorValue"
             case .startTimeAfter: return "StartTimeAfter"
             case .startTimeBefore: return "StartTimeBefore"
             case .stepExecutionId: return "StepExecutionId"
@@ -49686,21 +49815,21 @@ public struct UpdateServiceSettingInput: Swift.Equatable {
     public var settingId: Swift.String?
     /// The new value to specify for the service setting. The following list specifies the available values for each setting.
     ///
-    /// * /ssm/managed-instance/default-ec2-instance-management-role: The name of an IAM role
+    /// * For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.
     ///
-    /// * /ssm/automation/customer-script-log-destination: CloudWatch
+    /// * For /ssm/automation/customer-script-log-destination, enter CloudWatch.
     ///
-    /// * /ssm/automation/customer-script-log-group-name: The name of an Amazon CloudWatch Logs log group
+    /// * For /ssm/automation/customer-script-log-group-name, enter the name of an Amazon CloudWatch Logs log group.
     ///
-    /// * /ssm/documents/console/public-sharing-permission: Enable or Disable
+    /// * For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.
     ///
-    /// * /ssm/managed-instance/activation-tier: standard or advanced
+    /// * For /ssm/managed-instance/activation-tier, enter standard or advanced.
     ///
-    /// * /ssm/opsinsights/opscenter: Enabled or Disabled
+    /// * For /ssm/opsinsights/opscenter, enter Enabled or Disabled.
     ///
-    /// * /ssm/parameter-store/default-parameter-tier: Standard, Advanced, Intelligent-Tiering
+    /// * For /ssm/parameter-store/default-parameter-tier, enter Standard, Advanced, or Intelligent-Tiering
     ///
-    /// * /ssm/parameter-store/high-throughput-enabled: true or false
+    /// * For /ssm/parameter-store/high-throughput-enabled, enter true or false.
     /// This member is required.
     public var settingValue: Swift.String?
 

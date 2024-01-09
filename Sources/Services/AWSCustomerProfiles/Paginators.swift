@@ -12,7 +12,11 @@ extension CustomerProfilesClient {
     ///     - input: A `[ListEventStreamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventStreamsOutput`
     public func listEventStreamsPaginated(input: ListEventStreamsInput) -> ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutput>(input: input, inputKey: \ListEventStreamsInput.nextToken, outputKey: \ListEventStreamsOutput.nextToken, paginationFunction: self.listEventStreams(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEventStreamsInput, ListEventStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventStreams(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListEventStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListEventStreamsInput, Output == ListEventStreamsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListEventStreamsInput, OperationStackOutput == ListEventStreamsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEventStreamsPaginated`
     /// to access the nested member `[CustomerProfilesClientTypes.EventStreamSummary]`
     /// - Returns: `[CustomerProfilesClientTypes.EventStreamSummary]`

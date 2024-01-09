@@ -158,11 +158,13 @@ extension GlueClientTypes {
 extension GlueClientTypes {
     public enum AdditionalOptionKeys: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cacheoption
+        case observationsoption
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AdditionalOptionKeys] {
             return [
                 .cacheoption,
+                .observationsoption,
                 .sdkUnknown("")
             ]
         }
@@ -173,6 +175,7 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cacheoption: return "performanceTuning.caching"
+            case .observationsoption: return "observations.scope"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3270,6 +3273,288 @@ enum BatchGetPartitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GlueClientTypes.BatchGetTableOptimizerEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId
+        case databaseName
+        case tableName
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Represents a table optimizer to retrieve in the BatchGetTableOptimizer operation.
+    public struct BatchGetTableOptimizerEntry: Swift.Equatable {
+        /// The Catalog ID of the table.
+        public var catalogId: Swift.String?
+        /// The name of the database in the catalog in which the table resides.
+        public var databaseName: Swift.String?
+        /// The name of the table.
+        public var tableName: Swift.String?
+        /// The type of table optimizer.
+        public var type: GlueClientTypes.TableOptimizerType?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            type: GlueClientTypes.TableOptimizerType? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+            self.type = type
+        }
+    }
+
+}
+
+extension GlueClientTypes.BatchGetTableOptimizerError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId
+        case databaseName
+        case error
+        case tableName
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ErrorDetail.self, forKey: .error)
+        error = errorDecoded
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Contains details on one of the errors in the error list returned by the BatchGetTableOptimizer operation.
+    public struct BatchGetTableOptimizerError: Swift.Equatable {
+        /// The Catalog ID of the table.
+        public var catalogId: Swift.String?
+        /// The name of the database in the catalog in which the table resides.
+        public var databaseName: Swift.String?
+        /// An ErrorDetail object containing code and message details about the error.
+        public var error: GlueClientTypes.ErrorDetail?
+        /// The name of the table.
+        public var tableName: Swift.String?
+        /// The type of table optimizer.
+        public var type: GlueClientTypes.TableOptimizerType?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            error: GlueClientTypes.ErrorDetail? = nil,
+            tableName: Swift.String? = nil,
+            type: GlueClientTypes.TableOptimizerType? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.error = error
+            self.tableName = tableName
+            self.type = type
+        }
+    }
+
+}
+
+extension BatchGetTableOptimizerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entries = "Entries"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entries = entries {
+            var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
+            for batchgettableoptimizerentry0 in entries {
+                try entriesContainer.encode(batchgettableoptimizerentry0)
+            }
+        }
+    }
+}
+
+extension BatchGetTableOptimizerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchGetTableOptimizerInput: Swift.Equatable {
+    /// A list of BatchGetTableOptimizerEntry objects specifying the table optimizers to retrieve.
+    /// This member is required.
+    public var entries: [GlueClientTypes.BatchGetTableOptimizerEntry]?
+
+    public init(
+        entries: [GlueClientTypes.BatchGetTableOptimizerEntry]? = nil
+    )
+    {
+        self.entries = entries
+    }
+}
+
+struct BatchGetTableOptimizerInputBody: Swift.Equatable {
+    let entries: [GlueClientTypes.BatchGetTableOptimizerEntry]?
+}
+
+extension BatchGetTableOptimizerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entries = "Entries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entriesContainer = try containerValues.decodeIfPresent([GlueClientTypes.BatchGetTableOptimizerEntry?].self, forKey: .entries)
+        var entriesDecoded0:[GlueClientTypes.BatchGetTableOptimizerEntry]? = nil
+        if let entriesContainer = entriesContainer {
+            entriesDecoded0 = [GlueClientTypes.BatchGetTableOptimizerEntry]()
+            for structure0 in entriesContainer {
+                if let structure0 = structure0 {
+                    entriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        entries = entriesDecoded0
+    }
+}
+
+extension BatchGetTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetTableOptimizerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.failures = output.failures
+            self.tableOptimizers = output.tableOptimizers
+        } else {
+            self.failures = nil
+            self.tableOptimizers = nil
+        }
+    }
+}
+
+public struct BatchGetTableOptimizerOutput: Swift.Equatable {
+    /// A list of errors from the operation.
+    public var failures: [GlueClientTypes.BatchGetTableOptimizerError]?
+    /// A list of BatchTableOptimizer objects.
+    public var tableOptimizers: [GlueClientTypes.BatchTableOptimizer]?
+
+    public init(
+        failures: [GlueClientTypes.BatchGetTableOptimizerError]? = nil,
+        tableOptimizers: [GlueClientTypes.BatchTableOptimizer]? = nil
+    )
+    {
+        self.failures = failures
+        self.tableOptimizers = tableOptimizers
+    }
+}
+
+struct BatchGetTableOptimizerOutputBody: Swift.Equatable {
+    let tableOptimizers: [GlueClientTypes.BatchTableOptimizer]?
+    let failures: [GlueClientTypes.BatchGetTableOptimizerError]?
+}
+
+extension BatchGetTableOptimizerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failures = "Failures"
+        case tableOptimizers = "TableOptimizers"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableOptimizersContainer = try containerValues.decodeIfPresent([GlueClientTypes.BatchTableOptimizer?].self, forKey: .tableOptimizers)
+        var tableOptimizersDecoded0:[GlueClientTypes.BatchTableOptimizer]? = nil
+        if let tableOptimizersContainer = tableOptimizersContainer {
+            tableOptimizersDecoded0 = [GlueClientTypes.BatchTableOptimizer]()
+            for structure0 in tableOptimizersContainer {
+                if let structure0 = structure0 {
+                    tableOptimizersDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableOptimizers = tableOptimizersDecoded0
+        let failuresContainer = try containerValues.decodeIfPresent([GlueClientTypes.BatchGetTableOptimizerError?].self, forKey: .failures)
+        var failuresDecoded0:[GlueClientTypes.BatchGetTableOptimizerError]? = nil
+        if let failuresContainer = failuresContainer {
+            failuresDecoded0 = [GlueClientTypes.BatchGetTableOptimizerError]()
+            for structure0 in failuresContainer {
+                if let structure0 = structure0 {
+                    failuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        failures = failuresDecoded0
+    }
+}
+
+enum BatchGetTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension BatchGetTriggersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case triggerNames = "TriggerNames"
@@ -3813,6 +4098,71 @@ extension GlueClientTypes {
         {
             self.jobName = jobName
             self.jobRunId = jobRunId
+        }
+    }
+
+}
+
+extension GlueClientTypes.BatchTableOptimizer: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId
+        case databaseName
+        case tableName
+        case tableOptimizer
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let tableOptimizer = self.tableOptimizer {
+            try encodeContainer.encode(tableOptimizer, forKey: .tableOptimizer)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let tableOptimizerDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizer.self, forKey: .tableOptimizer)
+        tableOptimizer = tableOptimizerDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Contains details for one of the table optimizers returned by the BatchGetTableOptimizer operation.
+    public struct BatchTableOptimizer: Swift.Equatable {
+        /// The Catalog ID of the table.
+        public var catalogId: Swift.String?
+        /// The name of the database in the catalog in which the table resides.
+        public var databaseName: Swift.String?
+        /// The name of the table.
+        public var tableName: Swift.String?
+        /// A TableOptimizer object that contains details on the configuration and last run of a table optimzer.
+        public var tableOptimizer: GlueClientTypes.TableOptimizer?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableOptimizer: GlueClientTypes.TableOptimizer? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+            self.tableOptimizer = tableOptimizer
         }
     }
 
@@ -7332,6 +7682,432 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+    public enum ColumnStatisticsState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case running
+        case starting
+        case stopped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColumnStatisticsState] {
+            return [
+                .failed,
+                .running,
+                .starting,
+                .stopped,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ColumnStatisticsState(rawValue: rawValue) ?? ColumnStatisticsState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ColumnStatisticsTaskNotRunningException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ColumnStatisticsTaskNotRunningExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// An exception thrown when you try to stop a task run when there is no task running.
+public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ColumnStatisticsTaskNotRunningException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ColumnStatisticsTaskNotRunningExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ColumnStatisticsTaskNotRunningExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension GlueClientTypes.ColumnStatisticsTaskRun: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogID = "CatalogID"
+        case columnNameList = "ColumnNameList"
+        case columnStatisticsTaskRunId = "ColumnStatisticsTaskRunId"
+        case creationTime = "CreationTime"
+        case customerId = "CustomerId"
+        case dpuSeconds = "DPUSeconds"
+        case databaseName = "DatabaseName"
+        case endTime = "EndTime"
+        case errorMessage = "ErrorMessage"
+        case lastUpdated = "LastUpdated"
+        case numberOfWorkers = "NumberOfWorkers"
+        case role = "Role"
+        case sampleSize = "SampleSize"
+        case securityConfiguration = "SecurityConfiguration"
+        case startTime = "StartTime"
+        case status = "Status"
+        case tableName = "TableName"
+        case workerType = "WorkerType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogID = self.catalogID {
+            try encodeContainer.encode(catalogID, forKey: .catalogID)
+        }
+        if let columnNameList = columnNameList {
+            var columnNameListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNameList)
+            for namestring0 in columnNameList {
+                try columnNameListContainer.encode(namestring0)
+            }
+        }
+        if let columnStatisticsTaskRunId = self.columnStatisticsTaskRunId {
+            try encodeContainer.encode(columnStatisticsTaskRunId, forKey: .columnStatisticsTaskRunId)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let customerId = self.customerId {
+            try encodeContainer.encode(customerId, forKey: .customerId)
+        }
+        if dpuSeconds != 0.0 {
+            try encodeContainer.encode(dpuSeconds, forKey: .dpuSeconds)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let lastUpdated = self.lastUpdated {
+            try encodeContainer.encodeTimestamp(lastUpdated, format: .epochSeconds, forKey: .lastUpdated)
+        }
+        if numberOfWorkers != 0 {
+            try encodeContainer.encode(numberOfWorkers, forKey: .numberOfWorkers)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+        if sampleSize != 0.0 {
+            try encodeContainer.encode(sampleSize, forKey: .sampleSize)
+        }
+        if let securityConfiguration = self.securityConfiguration {
+            try encodeContainer.encode(securityConfiguration, forKey: .securityConfiguration)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let workerType = self.workerType {
+            try encodeContainer.encode(workerType, forKey: .workerType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerId)
+        customerId = customerIdDecoded
+        let columnStatisticsTaskRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnStatisticsTaskRunId)
+        columnStatisticsTaskRunId = columnStatisticsTaskRunIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let columnNameListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .columnNameList)
+        var columnNameListDecoded0:[Swift.String]? = nil
+        if let columnNameListContainer = columnNameListContainer {
+            columnNameListDecoded0 = [Swift.String]()
+            for string0 in columnNameListContainer {
+                if let string0 = string0 {
+                    columnNameListDecoded0?.append(string0)
+                }
+            }
+        }
+        columnNameList = columnNameListDecoded0
+        let catalogIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogID)
+        catalogID = catalogIDDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let sampleSizeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .sampleSize) ?? 0.0
+        sampleSize = sampleSizeDecoded
+        let securityConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityConfiguration)
+        securityConfiguration = securityConfigurationDecoded
+        let numberOfWorkersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfWorkers) ?? 0
+        numberOfWorkers = numberOfWorkersDecoded
+        let workerTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workerType)
+        workerType = workerTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ColumnStatisticsState.self, forKey: .status)
+        status = statusDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdated)
+        lastUpdated = lastUpdatedDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let dpuSecondsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .dpuSeconds) ?? 0.0
+        dpuSeconds = dpuSecondsDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// The object that shows the details of the column stats run.
+    public struct ColumnStatisticsTaskRun: Swift.Equatable {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public var catalogID: Swift.String?
+        /// A list of the column names. If none is supplied, all column names for the table will be used by default.
+        public var columnNameList: [Swift.String]?
+        /// The identifier for the particular column statistics task run.
+        public var columnStatisticsTaskRunId: Swift.String?
+        /// The time that this task was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The Amazon Web Services account ID.
+        public var customerId: Swift.String?
+        /// The database where the table resides.
+        public var databaseName: Swift.String?
+        /// The calculated DPU usage in seconds for all autoscaled workers.
+        public var dpuSeconds: Swift.Double
+        /// The end time of the task.
+        public var endTime: ClientRuntime.Date?
+        /// The error message for the job.
+        public var errorMessage: Swift.String?
+        /// The last point in time when this task was modified.
+        public var lastUpdated: ClientRuntime.Date?
+        /// The number of workers used to generate column statistics. The job is preconfigured to autoscale up to 25 instances.
+        public var numberOfWorkers: Swift.Int
+        /// The IAM role that the service assumes to generate statistics.
+        public var role: Swift.String?
+        /// The percentage of rows used to generate statistics. If none is supplied, the entire table will be used to generate stats.
+        public var sampleSize: Swift.Double
+        /// Name of the security configuration that is used to encrypt CloudWatch logs for the column stats task run.
+        public var securityConfiguration: Swift.String?
+        /// The start time of the task.
+        public var startTime: ClientRuntime.Date?
+        /// The status of the task run.
+        public var status: GlueClientTypes.ColumnStatisticsState?
+        /// The name of the table for which column statistics is generated.
+        public var tableName: Swift.String?
+        /// The type of workers being used for generating stats. The default is g.1x.
+        public var workerType: Swift.String?
+
+        public init(
+            catalogID: Swift.String? = nil,
+            columnNameList: [Swift.String]? = nil,
+            columnStatisticsTaskRunId: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            customerId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            dpuSeconds: Swift.Double = 0.0,
+            endTime: ClientRuntime.Date? = nil,
+            errorMessage: Swift.String? = nil,
+            lastUpdated: ClientRuntime.Date? = nil,
+            numberOfWorkers: Swift.Int = 0,
+            role: Swift.String? = nil,
+            sampleSize: Swift.Double = 0.0,
+            securityConfiguration: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: GlueClientTypes.ColumnStatisticsState? = nil,
+            tableName: Swift.String? = nil,
+            workerType: Swift.String? = nil
+        )
+        {
+            self.catalogID = catalogID
+            self.columnNameList = columnNameList
+            self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+            self.creationTime = creationTime
+            self.customerId = customerId
+            self.databaseName = databaseName
+            self.dpuSeconds = dpuSeconds
+            self.endTime = endTime
+            self.errorMessage = errorMessage
+            self.lastUpdated = lastUpdated
+            self.numberOfWorkers = numberOfWorkers
+            self.role = role
+            self.sampleSize = sampleSize
+            self.securityConfiguration = securityConfiguration
+            self.startTime = startTime
+            self.status = status
+            self.tableName = tableName
+            self.workerType = workerType
+        }
+    }
+
+}
+
+extension ColumnStatisticsTaskRunningException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ColumnStatisticsTaskRunningExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// An exception thrown when you try to start another job while running a column stats generation job.
+public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ColumnStatisticsTaskRunningException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ColumnStatisticsTaskRunningExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ColumnStatisticsTaskRunningExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ColumnStatisticsTaskStoppingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ColumnStatisticsTaskStoppingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// An exception thrown when you try to stop a task run.
+public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ColumnStatisticsTaskStoppingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ColumnStatisticsTaskStoppingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ColumnStatisticsTaskStoppingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension GlueClientTypes {
     public enum ColumnStatisticsType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case binary
         case boolean
@@ -8596,7 +9372,23 @@ extension GlueClientTypes {
     public struct ConnectorDataSource: Swift.Equatable {
         /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
         ///
+<<<<<<< HEAD
         /// * bigquery
+=======
+        /// * opensearch
+        ///
+        /// * azuresql
+        ///
+        /// * azurecosmos
+        ///
+        /// * bigquery
+        ///
+        /// * saphana
+        ///
+        /// * teradata
+        ///
+        /// * vertica
+>>>>>>> main
         /// This member is required.
         public var connectionType: Swift.String?
         /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
@@ -8690,7 +9482,23 @@ extension GlueClientTypes {
     public struct ConnectorDataTarget: Swift.Equatable {
         /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
         ///
+<<<<<<< HEAD
         /// * bigquery
+=======
+        /// * opensearch
+        ///
+        /// * azuresql
+        ///
+        /// * azurecosmos
+        ///
+        /// * bigquery
+        ///
+        /// * saphana
+        ///
+        /// * teradata
+        ///
+        /// * vertica
+>>>>>>> main
         /// This member is required.
         public var connectionType: Swift.String?
         /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
@@ -14000,6 +14808,134 @@ extension CreateTableInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateTableOptimizerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case tableOptimizerConfiguration = "TableOptimizerConfiguration"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let tableOptimizerConfiguration = self.tableOptimizerConfiguration {
+            try encodeContainer.encode(tableOptimizerConfiguration, forKey: .tableOptimizerConfiguration)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension CreateTableOptimizerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateTableOptimizerInput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A TableOptimizerConfiguration object representing the configuration of a table optimizer.
+    /// This member is required.
+    public var tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
+    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// This member is required.
+    public var type: GlueClientTypes.TableOptimizerType?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration? = nil,
+        type: GlueClientTypes.TableOptimizerType? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.tableName = tableName
+        self.tableOptimizerConfiguration = tableOptimizerConfiguration
+        self.type = type
+    }
+}
+
+struct CreateTableOptimizerInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let type: GlueClientTypes.TableOptimizerType?
+    let tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
+}
+
+extension CreateTableOptimizerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case tableOptimizerConfiguration = "TableOptimizerConfiguration"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+        let tableOptimizerConfigurationDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerConfiguration.self, forKey: .tableOptimizerConfiguration)
+        tableOptimizerConfiguration = tableOptimizerConfigurationDecoded
+    }
+}
+
+extension CreateTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateTableOptimizerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreateTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
@@ -15303,6 +16239,83 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.DataQualityAnalyzerResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case evaluatedMetrics = "EvaluatedMetrics"
+        case evaluationMessage = "EvaluationMessage"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluatedMetrics = evaluatedMetrics {
+            var evaluatedMetricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .evaluatedMetrics)
+            for (dictKey0, evaluatedMetricsMap0) in evaluatedMetrics {
+                try evaluatedMetricsContainer.encode(evaluatedMetricsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let evaluationMessage = self.evaluationMessage {
+            try encodeContainer.encode(evaluationMessage, forKey: .evaluationMessage)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationMessage)
+        evaluationMessage = evaluationMessageDecoded
+        let evaluatedMetricsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Double?].self, forKey: .evaluatedMetrics)
+        var evaluatedMetricsDecoded0: [Swift.String:Swift.Double]? = nil
+        if let evaluatedMetricsContainer = evaluatedMetricsContainer {
+            evaluatedMetricsDecoded0 = [Swift.String:Swift.Double]()
+            for (key0, nullabledouble0) in evaluatedMetricsContainer {
+                if let nullabledouble0 = nullabledouble0 {
+                    evaluatedMetricsDecoded0?[key0] = nullabledouble0
+                }
+            }
+        }
+        evaluatedMetrics = evaluatedMetricsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the result of the evaluation of a data quality analyzer.
+    public struct DataQualityAnalyzerResult: Swift.Equatable {
+        /// A description of the data quality analyzer.
+        public var description: Swift.String?
+        /// A map of metrics associated with the evaluation of the analyzer.
+        public var evaluatedMetrics: [Swift.String:Swift.Double]?
+        /// An evaluation message.
+        public var evaluationMessage: Swift.String?
+        /// The name of the data quality analyzer.
+        public var name: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            evaluatedMetrics: [Swift.String:Swift.Double]? = nil,
+            evaluationMessage: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.evaluatedMetrics = evaluatedMetrics
+            self.evaluationMessage = evaluationMessage
+            self.name = name
+        }
+    }
+
+}
+
 extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
@@ -15348,13 +16361,125 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.DataQualityMetricValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actualValue = "ActualValue"
+        case expectedValue = "ExpectedValue"
+        case lowerLimit = "LowerLimit"
+        case upperLimit = "UpperLimit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actualValue = self.actualValue {
+            try encodeContainer.encode(actualValue, forKey: .actualValue)
+        }
+        if let expectedValue = self.expectedValue {
+            try encodeContainer.encode(expectedValue, forKey: .expectedValue)
+        }
+        if let lowerLimit = self.lowerLimit {
+            try encodeContainer.encode(lowerLimit, forKey: .lowerLimit)
+        }
+        if let upperLimit = self.upperLimit {
+            try encodeContainer.encode(upperLimit, forKey: .upperLimit)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actualValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .actualValue)
+        actualValue = actualValueDecoded
+        let expectedValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .expectedValue)
+        expectedValue = expectedValueDecoded
+        let lowerLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lowerLimit)
+        lowerLimit = lowerLimitDecoded
+        let upperLimitDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .upperLimit)
+        upperLimit = upperLimitDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the data quality metric value according to the analysis of historical data.
+    public struct DataQualityMetricValues: Swift.Equatable {
+        /// The actual value of the data quality metric.
+        public var actualValue: Swift.Double?
+        /// The expected value of the data quality metric according to the analysis of historical data.
+        public var expectedValue: Swift.Double?
+        /// The lower limit of the data quality metric value according to the analysis of historical data.
+        public var lowerLimit: Swift.Double?
+        /// The upper limit of the data quality metric value according to the analysis of historical data.
+        public var upperLimit: Swift.Double?
+
+        public init(
+            actualValue: Swift.Double? = nil,
+            expectedValue: Swift.Double? = nil,
+            lowerLimit: Swift.Double? = nil,
+            upperLimit: Swift.Double? = nil
+        )
+        {
+            self.actualValue = actualValue
+            self.expectedValue = expectedValue
+            self.lowerLimit = lowerLimit
+            self.upperLimit = upperLimit
+        }
+    }
+
+}
+
+extension GlueClientTypes.DataQualityObservation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case metricBasedObservation = "MetricBasedObservation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let metricBasedObservation = self.metricBasedObservation {
+            try encodeContainer.encode(metricBasedObservation, forKey: .metricBasedObservation)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let metricBasedObservationDecoded = try containerValues.decodeIfPresent(GlueClientTypes.MetricBasedObservation.self, forKey: .metricBasedObservation)
+        metricBasedObservation = metricBasedObservationDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the observation generated after evaluating the rules and analyzers.
+    public struct DataQualityObservation: Swift.Equatable {
+        /// A description of the data quality observation.
+        public var description: Swift.String?
+        /// An object of type MetricBasedObservation representing the observation that is based on evaluated data quality metrics.
+        public var metricBasedObservation: GlueClientTypes.MetricBasedObservation?
+
+        public init(
+            description: Swift.String? = nil,
+            metricBasedObservation: GlueClientTypes.MetricBasedObservation? = nil
+        )
+        {
+            self.description = description
+            self.metricBasedObservation = metricBasedObservation
+        }
+    }
+
+}
+
 extension GlueClientTypes.DataQualityResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzerResults = "AnalyzerResults"
         case completedOn = "CompletedOn"
         case dataSource = "DataSource"
         case evaluationContext = "EvaluationContext"
         case jobName = "JobName"
         case jobRunId = "JobRunId"
+        case observations = "Observations"
         case resultId = "ResultId"
         case ruleResults = "RuleResults"
         case rulesetEvaluationRunId = "RulesetEvaluationRunId"
@@ -15365,6 +16490,12 @@ extension GlueClientTypes.DataQualityResult: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyzerResults = analyzerResults {
+            var analyzerResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analyzerResults)
+            for dataqualityanalyzerresult0 in analyzerResults {
+                try analyzerResultsContainer.encode(dataqualityanalyzerresult0)
+            }
+        }
         if let completedOn = self.completedOn {
             try encodeContainer.encodeTimestamp(completedOn, format: .epochSeconds, forKey: .completedOn)
         }
@@ -15379,6 +16510,12 @@ extension GlueClientTypes.DataQualityResult: Swift.Codable {
         }
         if let jobRunId = self.jobRunId {
             try encodeContainer.encode(jobRunId, forKey: .jobRunId)
+        }
+        if let observations = observations {
+            var observationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .observations)
+            for dataqualityobservation0 in observations {
+                try observationsContainer.encode(dataqualityobservation0)
+            }
         }
         if let resultId = self.resultId {
             try encodeContainer.encode(resultId, forKey: .resultId)
@@ -15436,12 +16573,36 @@ extension GlueClientTypes.DataQualityResult: Swift.Codable {
             }
         }
         ruleResults = ruleResultsDecoded0
+        let analyzerResultsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityAnalyzerResult?].self, forKey: .analyzerResults)
+        var analyzerResultsDecoded0:[GlueClientTypes.DataQualityAnalyzerResult]? = nil
+        if let analyzerResultsContainer = analyzerResultsContainer {
+            analyzerResultsDecoded0 = [GlueClientTypes.DataQualityAnalyzerResult]()
+            for structure0 in analyzerResultsContainer {
+                if let structure0 = structure0 {
+                    analyzerResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyzerResults = analyzerResultsDecoded0
+        let observationsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityObservation?].self, forKey: .observations)
+        var observationsDecoded0:[GlueClientTypes.DataQualityObservation]? = nil
+        if let observationsContainer = observationsContainer {
+            observationsDecoded0 = [GlueClientTypes.DataQualityObservation]()
+            for structure0 in observationsContainer {
+                if let structure0 = structure0 {
+                    observationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        observations = observationsDecoded0
     }
 }
 
 extension GlueClientTypes {
     /// Describes a data quality result.
     public struct DataQualityResult: Swift.Equatable {
+        /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
+        public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
         /// The date and time when this data quality run completed.
         public var completedOn: ClientRuntime.Date?
         /// The table associated with the data quality result, if any.
@@ -15452,6 +16613,8 @@ extension GlueClientTypes {
         public var jobName: Swift.String?
         /// The job run ID associated with the data quality result, if any.
         public var jobRunId: Swift.String?
+        /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
+        public var observations: [GlueClientTypes.DataQualityObservation]?
         /// A unique result ID for the data quality result.
         public var resultId: Swift.String?
         /// A list of DataQualityRuleResult objects representing the results for each rule.
@@ -15466,11 +16629,13 @@ extension GlueClientTypes {
         public var startedOn: ClientRuntime.Date?
 
         public init(
+            analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
             completedOn: ClientRuntime.Date? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             evaluationContext: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
+            observations: [GlueClientTypes.DataQualityObservation]? = nil,
             resultId: Swift.String? = nil,
             ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
             rulesetEvaluationRunId: Swift.String? = nil,
@@ -15479,11 +16644,13 @@ extension GlueClientTypes {
             startedOn: ClientRuntime.Date? = nil
         )
         {
+            self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
             self.evaluationContext = evaluationContext
             self.jobName = jobName
             self.jobRunId = jobRunId
+            self.observations = observations
             self.resultId = resultId
             self.ruleResults = ruleResults
             self.rulesetEvaluationRunId = rulesetEvaluationRunId
@@ -18940,6 +20107,120 @@ extension DeleteTableInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteTableOptimizerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension DeleteTableOptimizerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteTableOptimizerInput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// The type of table optimizer.
+    /// This member is required.
+    public var type: GlueClientTypes.TableOptimizerType?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        type: GlueClientTypes.TableOptimizerType? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.tableName = tableName
+        self.type = type
+    }
+}
+
+struct DeleteTableOptimizerInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let type: GlueClientTypes.TableOptimizerType?
+}
+
+extension DeleteTableOptimizerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension DeleteTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTableOptimizerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeleteTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
@@ -23717,6 +24998,265 @@ enum GetColumnStatisticsForTableOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetColumnStatisticsTaskRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnStatisticsTaskRunId = "ColumnStatisticsTaskRunId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let columnStatisticsTaskRunId = self.columnStatisticsTaskRunId {
+            try encodeContainer.encode(columnStatisticsTaskRunId, forKey: .columnStatisticsTaskRunId)
+        }
+    }
+}
+
+extension GetColumnStatisticsTaskRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetColumnStatisticsTaskRunInput: Swift.Equatable {
+    /// The identifier for the particular column statistics task run.
+    /// This member is required.
+    public var columnStatisticsTaskRunId: Swift.String?
+
+    public init(
+        columnStatisticsTaskRunId: Swift.String? = nil
+    )
+    {
+        self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+    }
+}
+
+struct GetColumnStatisticsTaskRunInputBody: Swift.Equatable {
+    let columnStatisticsTaskRunId: Swift.String?
+}
+
+extension GetColumnStatisticsTaskRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnStatisticsTaskRunId = "ColumnStatisticsTaskRunId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnStatisticsTaskRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnStatisticsTaskRunId)
+        columnStatisticsTaskRunId = columnStatisticsTaskRunIdDecoded
+    }
+}
+
+extension GetColumnStatisticsTaskRunOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetColumnStatisticsTaskRunOutputBody = try responseDecoder.decode(responseBody: data)
+            self.columnStatisticsTaskRun = output.columnStatisticsTaskRun
+        } else {
+            self.columnStatisticsTaskRun = nil
+        }
+    }
+}
+
+public struct GetColumnStatisticsTaskRunOutput: Swift.Equatable {
+    /// A ColumnStatisticsTaskRun object representing the details of the column stats run.
+    public var columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun?
+
+    public init(
+        columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun? = nil
+    )
+    {
+        self.columnStatisticsTaskRun = columnStatisticsTaskRun
+    }
+}
+
+struct GetColumnStatisticsTaskRunOutputBody: Swift.Equatable {
+    let columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun?
+}
+
+extension GetColumnStatisticsTaskRunOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnStatisticsTaskRun = "ColumnStatisticsTaskRun"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnStatisticsTaskRunDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ColumnStatisticsTaskRun.self, forKey: .columnStatisticsTaskRun)
+        columnStatisticsTaskRun = columnStatisticsTaskRunDecoded
+    }
+}
+
+enum GetColumnStatisticsTaskRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetColumnStatisticsTaskRunsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension GetColumnStatisticsTaskRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetColumnStatisticsTaskRunsInput: Swift.Equatable {
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The maximum size of the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.tableName = tableName
+    }
+}
+
+struct GetColumnStatisticsTaskRunsInputBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension GetColumnStatisticsTaskRunsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension GetColumnStatisticsTaskRunsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetColumnStatisticsTaskRunsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.columnStatisticsTaskRuns = output.columnStatisticsTaskRuns
+            self.nextToken = output.nextToken
+        } else {
+            self.columnStatisticsTaskRuns = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetColumnStatisticsTaskRunsOutput: Swift.Equatable {
+    /// A list of column statistics task runs.
+    public var columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]?
+    /// A continuation token, if not all task runs have yet been returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.columnStatisticsTaskRuns = columnStatisticsTaskRuns
+        self.nextToken = nextToken
+    }
+}
+
+struct GetColumnStatisticsTaskRunsOutputBody: Swift.Equatable {
+    let columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]?
+    let nextToken: Swift.String?
+}
+
+extension GetColumnStatisticsTaskRunsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnStatisticsTaskRuns = "ColumnStatisticsTaskRuns"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnStatisticsTaskRunsContainer = try containerValues.decodeIfPresent([GlueClientTypes.ColumnStatisticsTaskRun?].self, forKey: .columnStatisticsTaskRuns)
+        var columnStatisticsTaskRunsDecoded0:[GlueClientTypes.ColumnStatisticsTaskRun]? = nil
+        if let columnStatisticsTaskRunsContainer = columnStatisticsTaskRunsContainer {
+            columnStatisticsTaskRunsDecoded0 = [GlueClientTypes.ColumnStatisticsTaskRun]()
+            for structure0 in columnStatisticsTaskRunsContainer {
+                if let structure0 = structure0 {
+                    columnStatisticsTaskRunsDecoded0?.append(structure0)
+                }
+            }
+        }
+        columnStatisticsTaskRuns = columnStatisticsTaskRunsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum GetColumnStatisticsTaskRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension GetConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -24735,11 +26275,16 @@ extension GetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDataQualityResultOutputBody = try responseDecoder.decode(responseBody: data)
+<<<<<<< HEAD
+=======
+            self.analyzerResults = output.analyzerResults
+>>>>>>> main
             self.completedOn = output.completedOn
             self.dataSource = output.dataSource
             self.evaluationContext = output.evaluationContext
             self.jobName = output.jobName
             self.jobRunId = output.jobRunId
+            self.observations = output.observations
             self.resultId = output.resultId
             self.ruleResults = output.ruleResults
             self.rulesetEvaluationRunId = output.rulesetEvaluationRunId
@@ -24747,11 +26292,13 @@ extension GetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
             self.score = output.score
             self.startedOn = output.startedOn
         } else {
+            self.analyzerResults = nil
             self.completedOn = nil
             self.dataSource = nil
             self.evaluationContext = nil
             self.jobName = nil
             self.jobRunId = nil
+            self.observations = nil
             self.resultId = nil
             self.ruleResults = nil
             self.rulesetEvaluationRunId = nil
@@ -24763,6 +26310,11 @@ extension GetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetDataQualityResultOutput: Swift.Equatable {
+<<<<<<< HEAD
+=======
+    /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
+    public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+>>>>>>> main
     /// The date and time when the run for this data quality result was completed.
     public var completedOn: ClientRuntime.Date?
     /// The table associated with the data quality result, if any.
@@ -24773,6 +26325,8 @@ public struct GetDataQualityResultOutput: Swift.Equatable {
     public var jobName: Swift.String?
     /// The job run ID associated with the data quality result, if any.
     public var jobRunId: Swift.String?
+    /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
+    public var observations: [GlueClientTypes.DataQualityObservation]?
     /// A unique result ID for the data quality result.
     public var resultId: Swift.String?
     /// A list of DataQualityRuleResult objects representing the results for each rule.
@@ -24787,11 +26341,13 @@ public struct GetDataQualityResultOutput: Swift.Equatable {
     public var startedOn: ClientRuntime.Date?
 
     public init(
+        analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
         completedOn: ClientRuntime.Date? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         evaluationContext: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobRunId: Swift.String? = nil,
+        observations: [GlueClientTypes.DataQualityObservation]? = nil,
         resultId: Swift.String? = nil,
         ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
         rulesetEvaluationRunId: Swift.String? = nil,
@@ -24800,11 +26356,13 @@ public struct GetDataQualityResultOutput: Swift.Equatable {
         startedOn: ClientRuntime.Date? = nil
     )
     {
+        self.analyzerResults = analyzerResults
         self.completedOn = completedOn
         self.dataSource = dataSource
         self.evaluationContext = evaluationContext
         self.jobName = jobName
         self.jobRunId = jobRunId
+        self.observations = observations
         self.resultId = resultId
         self.ruleResults = ruleResults
         self.rulesetEvaluationRunId = rulesetEvaluationRunId
@@ -24826,15 +26384,19 @@ struct GetDataQualityResultOutputBody: Swift.Equatable {
     let jobRunId: Swift.String?
     let rulesetEvaluationRunId: Swift.String?
     let ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+    let analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+    let observations: [GlueClientTypes.DataQualityObservation]?
 }
 
 extension GetDataQualityResultOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyzerResults = "AnalyzerResults"
         case completedOn = "CompletedOn"
         case dataSource = "DataSource"
         case evaluationContext = "EvaluationContext"
         case jobName = "JobName"
         case jobRunId = "JobRunId"
+        case observations = "Observations"
         case resultId = "ResultId"
         case ruleResults = "RuleResults"
         case rulesetEvaluationRunId = "RulesetEvaluationRunId"
@@ -24876,6 +26438,42 @@ extension GetDataQualityResultOutputBody: Swift.Decodable {
             }
         }
         ruleResults = ruleResultsDecoded0
+        let analyzerResultsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityAnalyzerResult?].self, forKey: .analyzerResults)
+        var analyzerResultsDecoded0:[GlueClientTypes.DataQualityAnalyzerResult]? = nil
+        if let analyzerResultsContainer = analyzerResultsContainer {
+            analyzerResultsDecoded0 = [GlueClientTypes.DataQualityAnalyzerResult]()
+            for structure0 in analyzerResultsContainer {
+                if let structure0 = structure0 {
+                    analyzerResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyzerResults = analyzerResultsDecoded0
+        let observationsContainer = try containerValues.decodeIfPresent([GlueClientTypes.DataQualityObservation?].self, forKey: .observations)
+        var observationsDecoded0:[GlueClientTypes.DataQualityObservation]? = nil
+        if let observationsContainer = observationsContainer {
+            observationsDecoded0 = [GlueClientTypes.DataQualityObservation]()
+            for structure0 in observationsContainer {
+                if let structure0 = structure0 {
+                    observationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        observations = observationsDecoded0
+    }
+}
+
+enum GetDataQualityResultOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -30282,6 +31880,180 @@ extension GetTableInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetTableOptimizerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension GetTableOptimizerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetTableOptimizerInput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// The type of table optimizer.
+    /// This member is required.
+    public var type: GlueClientTypes.TableOptimizerType?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        type: GlueClientTypes.TableOptimizerType? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.tableName = tableName
+        self.type = type
+    }
+}
+
+struct GetTableOptimizerInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let type: GlueClientTypes.TableOptimizerType?
+}
+
+extension GetTableOptimizerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension GetTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTableOptimizerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.catalogId = output.catalogId
+            self.databaseName = output.databaseName
+            self.tableName = output.tableName
+            self.tableOptimizer = output.tableOptimizer
+        } else {
+            self.catalogId = nil
+            self.databaseName = nil
+            self.tableName = nil
+            self.tableOptimizer = nil
+        }
+    }
+}
+
+public struct GetTableOptimizerOutput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    public var databaseName: Swift.String?
+    /// The name of the table.
+    public var tableName: Swift.String?
+    /// The optimizer associated with the specified table.
+    public var tableOptimizer: GlueClientTypes.TableOptimizer?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        tableOptimizer: GlueClientTypes.TableOptimizer? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.tableName = tableName
+        self.tableOptimizer = tableOptimizer
+    }
+}
+
+struct GetTableOptimizerOutputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let tableOptimizer: GlueClientTypes.TableOptimizer?
+}
+
+extension GetTableOptimizerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case tableOptimizer = "TableOptimizer"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let tableOptimizerDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizer.self, forKey: .tableOptimizer)
+        tableOptimizer = tableOptimizerDecoded
+    }
+}
+
+enum GetTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension GetTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -37387,6 +39159,138 @@ enum ListBlueprintsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListColumnStatisticsTaskRunsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListColumnStatisticsTaskRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListColumnStatisticsTaskRunsInput: Swift.Equatable {
+    /// The maximum size of the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListColumnStatisticsTaskRunsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListColumnStatisticsTaskRunsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListColumnStatisticsTaskRunsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListColumnStatisticsTaskRunsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.columnStatisticsTaskRunIds = output.columnStatisticsTaskRunIds
+            self.nextToken = output.nextToken
+        } else {
+            self.columnStatisticsTaskRunIds = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListColumnStatisticsTaskRunsOutput: Swift.Equatable {
+    /// A list of column statistics task run IDs.
+    public var columnStatisticsTaskRunIds: [Swift.String]?
+    /// A continuation token, if not all task run IDs have yet been returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        columnStatisticsTaskRunIds: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.columnStatisticsTaskRunIds = columnStatisticsTaskRunIds
+        self.nextToken = nextToken
+    }
+}
+
+struct ListColumnStatisticsTaskRunsOutputBody: Swift.Equatable {
+    let columnStatisticsTaskRunIds: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension ListColumnStatisticsTaskRunsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnStatisticsTaskRunIds = "ColumnStatisticsTaskRunIds"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnStatisticsTaskRunIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .columnStatisticsTaskRunIds)
+        var columnStatisticsTaskRunIdsDecoded0:[Swift.String]? = nil
+        if let columnStatisticsTaskRunIdsContainer = columnStatisticsTaskRunIdsContainer {
+            columnStatisticsTaskRunIdsDecoded0 = [Swift.String]()
+            for string0 in columnStatisticsTaskRunIdsContainer {
+                if let string0 = string0 {
+                    columnStatisticsTaskRunIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        columnStatisticsTaskRunIds = columnStatisticsTaskRunIdsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListColumnStatisticsTaskRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListCrawlersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -39712,6 +41616,223 @@ enum ListStatementsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListTableOptimizerRunsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tableName = "TableName"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension ListTableOptimizerRunsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTableOptimizerRunsInput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The maximum number of optimizer runs to return on each call.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// This member is required.
+    public var type: GlueClientTypes.TableOptimizerType?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        type: GlueClientTypes.TableOptimizerType? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.tableName = tableName
+        self.type = type
+    }
+}
+
+struct ListTableOptimizerRunsInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let type: GlueClientTypes.TableOptimizerType?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListTableOptimizerRunsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case tableName = "TableName"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListTableOptimizerRunsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTableOptimizerRunsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.catalogId = output.catalogId
+            self.databaseName = output.databaseName
+            self.nextToken = output.nextToken
+            self.tableName = output.tableName
+            self.tableOptimizerRuns = output.tableOptimizerRuns
+        } else {
+            self.catalogId = nil
+            self.databaseName = nil
+            self.nextToken = nil
+            self.tableName = nil
+            self.tableOptimizerRuns = nil
+        }
+    }
+}
+
+public struct ListTableOptimizerRunsOutput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    public var databaseName: Swift.String?
+    /// A continuation token for paginating the returned list of optimizer runs, returned if the current segment of the list is not the last.
+    public var nextToken: Swift.String?
+    /// The name of the table.
+    public var tableName: Swift.String?
+    /// A list of the optimizer runs associated with a table.
+    public var tableOptimizerRuns: [GlueClientTypes.TableOptimizerRun]?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        tableOptimizerRuns: [GlueClientTypes.TableOptimizerRun]? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.nextToken = nextToken
+        self.tableName = tableName
+        self.tableOptimizerRuns = tableOptimizerRuns
+    }
+}
+
+struct ListTableOptimizerRunsOutputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let nextToken: Swift.String?
+    let tableOptimizerRuns: [GlueClientTypes.TableOptimizerRun]?
+}
+
+extension ListTableOptimizerRunsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case nextToken = "NextToken"
+        case tableName = "TableName"
+        case tableOptimizerRuns = "TableOptimizerRuns"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let tableOptimizerRunsContainer = try containerValues.decodeIfPresent([GlueClientTypes.TableOptimizerRun?].self, forKey: .tableOptimizerRuns)
+        var tableOptimizerRunsDecoded0:[GlueClientTypes.TableOptimizerRun]? = nil
+        if let tableOptimizerRunsContainer = tableOptimizerRunsContainer {
+            tableOptimizerRunsDecoded0 = [GlueClientTypes.TableOptimizerRun]()
+            for structure0 in tableOptimizerRunsContainer {
+                if let structure0 = structure0 {
+                    tableOptimizerRunsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableOptimizerRuns = tableOptimizerRunsDecoded0
+    }
+}
+
+enum ListTableOptimizerRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListTriggersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dependentJobName = "DependentJobName"
@@ -41077,6 +43198,73 @@ extension GlueClientTypes {
             self = MetadataOperation(rawValue: rawValue) ?? MetadataOperation.sdkUnknown(rawValue)
         }
     }
+}
+
+extension GlueClientTypes.MetricBasedObservation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricName = "MetricName"
+        case metricValues = "MetricValues"
+        case newRules = "NewRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if let metricValues = self.metricValues {
+            try encodeContainer.encode(metricValues, forKey: .metricValues)
+        }
+        if let newRules = newRules {
+            var newRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .newRules)
+            for namestring0 in newRules {
+                try newRulesContainer.encode(namestring0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let metricValuesDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DataQualityMetricValues.self, forKey: .metricValues)
+        metricValues = metricValuesDecoded
+        let newRulesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .newRules)
+        var newRulesDecoded0:[Swift.String]? = nil
+        if let newRulesContainer = newRulesContainer {
+            newRulesDecoded0 = [Swift.String]()
+            for string0 in newRulesContainer {
+                if let string0 = string0 {
+                    newRulesDecoded0?.append(string0)
+                }
+            }
+        }
+        newRules = newRulesDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes the metric based observation generated based on evaluated data quality metrics.
+    public struct MetricBasedObservation: Swift.Equatable {
+        /// The name of the data quality metric used for generating the observation.
+        public var metricName: Swift.String?
+        /// An object of type DataQualityMetricValues representing the analysis of the data quality metric value.
+        public var metricValues: GlueClientTypes.DataQualityMetricValues?
+        /// A list of new data quality rules generated as part of the observation based on the data quality metric value.
+        public var newRules: [Swift.String]?
+
+        public init(
+            metricName: Swift.String? = nil,
+            metricValues: GlueClientTypes.DataQualityMetricValues? = nil,
+            newRules: [Swift.String]? = nil
+        )
+        {
+            self.metricName = metricName
+            self.metricValues = metricValues
+            self.newRules = newRules
+        }
+    }
+
 }
 
 extension GlueClientTypes.MicrosoftSQLServerCatalogSource: Swift.Codable {
@@ -45856,6 +48044,74 @@ enum ResumeWorkflowRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GlueClientTypes.RunMetrics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobDurationInHour = "JobDurationInHour"
+        case numberOfBytesCompacted = "NumberOfBytesCompacted"
+        case numberOfDpus = "NumberOfDpus"
+        case numberOfFilesCompacted = "NumberOfFilesCompacted"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobDurationInHour = self.jobDurationInHour {
+            try encodeContainer.encode(jobDurationInHour, forKey: .jobDurationInHour)
+        }
+        if let numberOfBytesCompacted = self.numberOfBytesCompacted {
+            try encodeContainer.encode(numberOfBytesCompacted, forKey: .numberOfBytesCompacted)
+        }
+        if let numberOfDpus = self.numberOfDpus {
+            try encodeContainer.encode(numberOfDpus, forKey: .numberOfDpus)
+        }
+        if let numberOfFilesCompacted = self.numberOfFilesCompacted {
+            try encodeContainer.encode(numberOfFilesCompacted, forKey: .numberOfFilesCompacted)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let numberOfBytesCompactedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .numberOfBytesCompacted)
+        numberOfBytesCompacted = numberOfBytesCompactedDecoded
+        let numberOfFilesCompactedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .numberOfFilesCompacted)
+        numberOfFilesCompacted = numberOfFilesCompactedDecoded
+        let numberOfDpusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .numberOfDpus)
+        numberOfDpus = numberOfDpusDecoded
+        let jobDurationInHourDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobDurationInHour)
+        jobDurationInHour = jobDurationInHourDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Metrics for the optimizer run.
+    public struct RunMetrics: Swift.Equatable {
+        /// The duration of the job in hours.
+        public var jobDurationInHour: Swift.String?
+        /// The number of bytes removed by the compaction job run.
+        public var numberOfBytesCompacted: Swift.String?
+        /// The number of DPU hours consumed by the job.
+        public var numberOfDpus: Swift.String?
+        /// The number of files removed by the compaction job run.
+        public var numberOfFilesCompacted: Swift.String?
+
+        public init(
+            jobDurationInHour: Swift.String? = nil,
+            numberOfBytesCompacted: Swift.String? = nil,
+            numberOfDpus: Swift.String? = nil,
+            numberOfFilesCompacted: Swift.String? = nil
+        )
+        {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfBytesCompacted = numberOfBytesCompacted
+            self.numberOfDpus = numberOfDpus
+            self.numberOfFilesCompacted = numberOfFilesCompacted
+        }
+    }
+
+}
+
+>>>>>>> main
 extension RunStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
@@ -51626,6 +53882,199 @@ enum StartBlueprintRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension StartColumnStatisticsTaskRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogID = "CatalogID"
+        case columnNameList = "ColumnNameList"
+        case databaseName = "DatabaseName"
+        case role = "Role"
+        case sampleSize = "SampleSize"
+        case securityConfiguration = "SecurityConfiguration"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogID = self.catalogID {
+            try encodeContainer.encode(catalogID, forKey: .catalogID)
+        }
+        if let columnNameList = columnNameList {
+            var columnNameListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNameList)
+            for namestring0 in columnNameList {
+                try columnNameListContainer.encode(namestring0)
+            }
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+        if let sampleSize = self.sampleSize {
+            try encodeContainer.encode(sampleSize, forKey: .sampleSize)
+        }
+        if let securityConfiguration = self.securityConfiguration {
+            try encodeContainer.encode(securityConfiguration, forKey: .securityConfiguration)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension StartColumnStatisticsTaskRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartColumnStatisticsTaskRunInput: Swift.Equatable {
+    /// The ID of the Data Catalog where the table reside. If none is supplied, the Amazon Web Services account ID is used by default.
+    public var catalogID: Swift.String?
+    /// A list of the column names to generate statistics. If none is supplied, all column names for the table will be used by default.
+    public var columnNameList: [Swift.String]?
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The IAM role that the service assumes to generate statistics.
+    /// This member is required.
+    public var role: Swift.String?
+    /// The percentage of rows used to generate statistics. If none is supplied, the entire table will be used to generate stats.
+    public var sampleSize: Swift.Double?
+    /// Name of the security configuration that is used to encrypt CloudWatch logs for the column stats task run.
+    public var securityConfiguration: Swift.String?
+    /// The name of the table to generate statistics.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        catalogID: Swift.String? = nil,
+        columnNameList: [Swift.String]? = nil,
+        databaseName: Swift.String? = nil,
+        role: Swift.String? = nil,
+        sampleSize: Swift.Double? = nil,
+        securityConfiguration: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.catalogID = catalogID
+        self.columnNameList = columnNameList
+        self.databaseName = databaseName
+        self.role = role
+        self.sampleSize = sampleSize
+        self.securityConfiguration = securityConfiguration
+        self.tableName = tableName
+    }
+}
+
+struct StartColumnStatisticsTaskRunInputBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let columnNameList: [Swift.String]?
+    let role: Swift.String?
+    let sampleSize: Swift.Double?
+    let catalogID: Swift.String?
+    let securityConfiguration: Swift.String?
+}
+
+extension StartColumnStatisticsTaskRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogID = "CatalogID"
+        case columnNameList = "ColumnNameList"
+        case databaseName = "DatabaseName"
+        case role = "Role"
+        case sampleSize = "SampleSize"
+        case securityConfiguration = "SecurityConfiguration"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let columnNameListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .columnNameList)
+        var columnNameListDecoded0:[Swift.String]? = nil
+        if let columnNameListContainer = columnNameListContainer {
+            columnNameListDecoded0 = [Swift.String]()
+            for string0 in columnNameListContainer {
+                if let string0 = string0 {
+                    columnNameListDecoded0?.append(string0)
+                }
+            }
+        }
+        columnNameList = columnNameListDecoded0
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+        let sampleSizeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .sampleSize)
+        sampleSize = sampleSizeDecoded
+        let catalogIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogID)
+        catalogID = catalogIDDecoded
+        let securityConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityConfiguration)
+        securityConfiguration = securityConfigurationDecoded
+    }
+}
+
+extension StartColumnStatisticsTaskRunOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartColumnStatisticsTaskRunOutputBody = try responseDecoder.decode(responseBody: data)
+            self.columnStatisticsTaskRunId = output.columnStatisticsTaskRunId
+        } else {
+            self.columnStatisticsTaskRunId = nil
+        }
+    }
+}
+
+public struct StartColumnStatisticsTaskRunOutput: Swift.Equatable {
+    /// The identifier for the column statistics task run.
+    public var columnStatisticsTaskRunId: Swift.String?
+
+    public init(
+        columnStatisticsTaskRunId: Swift.String? = nil
+    )
+    {
+        self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+    }
+}
+
+struct StartColumnStatisticsTaskRunOutputBody: Swift.Equatable {
+    let columnStatisticsTaskRunId: Swift.String?
+}
+
+extension StartColumnStatisticsTaskRunOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnStatisticsTaskRunId = "ColumnStatisticsTaskRunId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnStatisticsTaskRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnStatisticsTaskRunId)
+        columnStatisticsTaskRunId = columnStatisticsTaskRunIdDecoded
+    }
+}
+
+enum StartColumnStatisticsTaskRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ColumnStatisticsTaskRunningException": return try await ColumnStatisticsTaskRunningException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNumberLimitExceededException": return try await ResourceNumberLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension StartCrawlerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -53448,6 +55897,91 @@ extension GlueClientTypes {
     }
 }
 
+extension StopColumnStatisticsTaskRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+}
+
+extension StopColumnStatisticsTaskRunInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StopColumnStatisticsTaskRunInput: Swift.Equatable {
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.tableName = tableName
+    }
+}
+
+struct StopColumnStatisticsTaskRunInputBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+}
+
+extension StopColumnStatisticsTaskRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+    }
+}
+
+extension StopColumnStatisticsTaskRunOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct StopColumnStatisticsTaskRunOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum StopColumnStatisticsTaskRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ColumnStatisticsTaskNotRunningException": return try await ColumnStatisticsTaskNotRunningException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ColumnStatisticsTaskStoppingException": return try await ColumnStatisticsTaskStoppingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension StopCrawlerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -54784,6 +57318,248 @@ extension GlueClientTypes {
         }
     }
 
+}
+
+extension GlueClientTypes.TableOptimizer: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+        case lastRun
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let lastRun = self.lastRun {
+            try encodeContainer.encode(lastRun, forKey: .lastRun)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerConfiguration.self, forKey: .configuration)
+        configuration = configurationDecoded
+        let lastRunDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerRun.self, forKey: .lastRun)
+        lastRun = lastRunDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Contains details about an optimizer associated with a table.
+    public struct TableOptimizer: Swift.Equatable {
+        /// A TableOptimizerConfiguration object that was specified when creating or updating a table optimizer.
+        public var configuration: GlueClientTypes.TableOptimizerConfiguration?
+        /// A TableOptimizerRun object representing the last run of the table optimizer.
+        public var lastRun: GlueClientTypes.TableOptimizerRun?
+        /// The type of table optimizer. Currently, the only valid value is compaction.
+        public var type: GlueClientTypes.TableOptimizerType?
+
+        public init(
+            configuration: GlueClientTypes.TableOptimizerConfiguration? = nil,
+            lastRun: GlueClientTypes.TableOptimizerRun? = nil,
+            type: GlueClientTypes.TableOptimizerType? = nil
+        )
+        {
+            self.configuration = configuration
+            self.lastRun = lastRun
+            self.type = type
+        }
+    }
+
+}
+
+extension GlueClientTypes.TableOptimizerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Contains details on the configuration of a table optimizer. You pass this configuration when creating or updating a table optimizer.
+    public struct TableOptimizerConfiguration: Swift.Equatable {
+        /// Whether table optimization is enabled.
+        public var enabled: Swift.Bool?
+        /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
+        public var roleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    public enum TableOptimizerEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case starting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableOptimizerEventType] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .starting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "completed"
+            case .failed: return "failed"
+            case .inProgress: return "in_progress"
+            case .starting: return "starting"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TableOptimizerEventType(rawValue: rawValue) ?? TableOptimizerEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GlueClientTypes.TableOptimizerRun: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTimestamp
+        case error
+        case eventType
+        case metrics
+        case startTimestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTimestamp = self.endTimestamp {
+            try encodeContainer.encodeTimestamp(endTimestamp, format: .epochSeconds, forKey: .endTimestamp)
+        }
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+        if let metrics = self.metrics {
+            try encodeContainer.encode(metrics, forKey: .metrics)
+        }
+        if let startTimestamp = self.startTimestamp {
+            try encodeContainer.encodeTimestamp(startTimestamp, format: .epochSeconds, forKey: .startTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventTypeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let startTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTimestamp)
+        startTimestamp = startTimestampDecoded
+        let endTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTimestamp)
+        endTimestamp = endTimestampDecoded
+        let metricsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.RunMetrics.self, forKey: .metrics)
+        metrics = metricsDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Contains details for a table optimizer run.
+    public struct TableOptimizerRun: Swift.Equatable {
+        /// Represents the epoch timestamp at which the compaction job ended.
+        public var endTimestamp: ClientRuntime.Date?
+        /// An error that occured during the optimizer run.
+        public var error: Swift.String?
+        /// An event type representing the status of the table optimizer run.
+        public var eventType: GlueClientTypes.TableOptimizerEventType?
+        /// A RunMetrics object containing metrics for the optimizer run.
+        public var metrics: GlueClientTypes.RunMetrics?
+        /// Represents the epoch timestamp at which the compaction job was started within Lake Formation.
+        public var startTimestamp: ClientRuntime.Date?
+
+        public init(
+            endTimestamp: ClientRuntime.Date? = nil,
+            error: Swift.String? = nil,
+            eventType: GlueClientTypes.TableOptimizerEventType? = nil,
+            metrics: GlueClientTypes.RunMetrics? = nil,
+            startTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTimestamp = endTimestamp
+            self.error = error
+            self.eventType = eventType
+            self.metrics = metrics
+            self.startTimestamp = startTimestamp
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    public enum TableOptimizerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case compaction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableOptimizerType] {
+            return [
+                .compaction,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .compaction: return "compaction"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TableOptimizerType(rawValue: rawValue) ?? TableOptimizerType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GlueClientTypes.TableVersion: Swift.Codable {
@@ -59638,6 +62414,133 @@ extension UpdateTableInputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdateTableOptimizerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case tableOptimizerConfiguration = "TableOptimizerConfiguration"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let tableOptimizerConfiguration = self.tableOptimizerConfiguration {
+            try encodeContainer.encode(tableOptimizerConfiguration, forKey: .tableOptimizerConfiguration)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension UpdateTableOptimizerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateTableOptimizerInput: Swift.Equatable {
+    /// The Catalog ID of the table.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// The name of the database in the catalog in which the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A TableOptimizerConfiguration object representing the configuration of a table optimizer.
+    /// This member is required.
+    public var tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
+    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// This member is required.
+    public var type: GlueClientTypes.TableOptimizerType?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration? = nil,
+        type: GlueClientTypes.TableOptimizerType? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.databaseName = databaseName
+        self.tableName = tableName
+        self.tableOptimizerConfiguration = tableOptimizerConfiguration
+        self.type = type
+    }
+}
+
+struct UpdateTableOptimizerInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let databaseName: Swift.String?
+    let tableName: Swift.String?
+    let type: GlueClientTypes.TableOptimizerType?
+    let tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
+}
+
+extension UpdateTableOptimizerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case databaseName = "DatabaseName"
+        case tableName = "TableName"
+        case tableOptimizerConfiguration = "TableOptimizerConfiguration"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerType.self, forKey: .type)
+        type = typeDecoded
+        let tableOptimizerConfigurationDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TableOptimizerConfiguration.self, forKey: .tableOptimizerConfiguration)
+        tableOptimizerConfiguration = tableOptimizerConfigurationDecoded
+    }
+}
+
+extension UpdateTableOptimizerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateTableOptimizerOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }

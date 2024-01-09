@@ -6762,7 +6762,6 @@ extension DataExchangeClientTypes {
     /// Details about the origin of the data set.
     public struct OriginDetails: Swift.Equatable {
         /// The product ID of the origin of the data set.
-        /// This member is required.
         public var productId: Swift.String?
 
         public init(
@@ -8330,6 +8329,7 @@ extension DataExchangeClientTypes {
             self.redshiftDataShares = redshiftDataShares
             self.s3DataAccesses = s3DataAccesses
         }
+<<<<<<< HEAD
     }
 
 }
@@ -8358,6 +8358,10 @@ public struct SendApiAssetInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias MInput = ClientRuntime.SerializeStepInput<SendApiAssetInput>
     public typealias MOutput = ClientRuntime.OperationOutput<SendApiAssetOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+    }
+
+>>>>>>> main
 }
 
 extension SendApiAssetInput: Swift.Encodable {

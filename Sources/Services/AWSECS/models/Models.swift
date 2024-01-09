@@ -978,7 +978,7 @@ extension ClientException {
     }
 }
 
-/// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource,. Or, it might be specifying an identifier that isn't valid.
+/// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
 public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1778,6 +1778,84 @@ extension ECSClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = Compatibility(rawValue: rawValue) ?? Compatibility.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+            self.properties.resourceIds = output.resourceIds
+        } else {
+            self.properties.message = nil
+            self.properties.resourceIds = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
+///
+/// * Run RunTask with a unique clientToken.
+///
+/// * Run RunTask with the clientToken and the original set of parameters
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The existing task ARNs which are already associated with the clientToken.
+        public internal(set) var resourceIds: [Swift.String]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceIds = resourceIds
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let resourceIds: [Swift.String]?
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case resourceIds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceIds)
+        var resourceIdsDecoded0:[Swift.String]? = nil
+        if let resourceIdsContainer = resourceIdsContainer {
+            resourceIdsDecoded0 = [Swift.String]()
+            for string0 in resourceIdsContainer {
+                if let string0 = string0 {
+                    resourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceIds = resourceIdsDecoded0
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -4042,7 +4120,7 @@ extension CreateServiceInput: ClientRuntime.URLPathProvider {
 public struct CreateServiceInput: Swift.Equatable {
     /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 32 ASCII characters are allowed.
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     public var clientToken: Swift.String?
     /// The short name or full Amazon Resource Name (ARN) of the cluster that you run your service on. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
@@ -4457,7 +4535,7 @@ extension CreateTaskSetInput: ClientRuntime.URLPathProvider {
 public struct CreateTaskSetInput: Swift.Equatable {
     /// The capacity provider strategy to use for the task set. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders] API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProvider] API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutClusterCapacityProviders] API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-    /// The identifier that you provide to ensure the idempotency of the request. It's case sensitive and must be unique. It can be up to 32 ASCII characters are allowed.
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     public var clientToken: Swift.String?
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.
     /// This member is required.
@@ -13001,7 +13079,7 @@ extension ECSClientTypes.PortMapping: Swift.Codable {
 extension ECSClientTypes {
     /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Most fields of this parameter (containerPort, hostPort, protocol) maps to PortBindings in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --publish option to [docker run](https://docs.docker.com/engine/reference/commandline/run/). If the network mode of a task definition is set to host, host ports must either be undefined or match the container port in the port mapping. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks] API responses.
     public struct PortMapping: Swift.Equatable {
-        /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. appProtocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         public var appProtocol: ECSClientTypes.ApplicationProtocol?
         /// The port number on the container that's bound to the user-specified or automatically assigned host port. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
         public var containerPort: Swift.Int?
@@ -13050,7 +13128,7 @@ extension ECSClientTypes {
         public var hostPort: Swift.Int?
         /// The name that's used for the port mapping. This parameter only applies to Service Connect. This parameter is the name that you use in the serviceConnectConfiguration of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         public var name: Swift.String?
-        /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
+        /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp. protocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment.
         public var `protocol`: ECSClientTypes.TransportProtocol?
 
         public init(
@@ -13298,7 +13376,7 @@ extension PutAccountSettingDefaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountSettingDefaultInput: Swift.Equatable {
-    /// The resource name for which to modify the account setting. If you specify serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat, the ARN and resource ID for your Amazon ECS container instances is affected. If you specify awsvpcTrunking, the ENI limit for your Amazon ECS container instances is affected. If you specify containerInsights, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If you specify tagResourceAuthorization, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod, the default wait time to retire a Fargate task due to required maintenance is affected. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide. When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to set the wait time to retire a Fargate task to the default. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    /// The resource name for which to modify the account setting. If you specify serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat, the ARN and resource ID for your Amazon ECS container instances is affected. If you specify awsvpcTrunking, the ENI limit for your Amazon ECS container instances is affected. If you specify containerInsights, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If you specify tagResourceAuthorization, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod, the default wait time to retire a Fargate task due to required maintenance is affected. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide. When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to set the wait time to retire a Fargate task to the default. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide. The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, on, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
@@ -13422,7 +13500,7 @@ extension PutAccountSettingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountSettingInput: Swift.Equatable {
-    /// The Amazon ECS resource name for which to modify the account setting. If you specify serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat, the ARN and resource ID for your Amazon ECS container instances is affected. If you specify awsvpcTrunking, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If you specify containerInsights, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected. If you specify tagResourceAuthorization, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod, the wait time to retire a Fargate task is affected.
+    /// The Amazon ECS resource name for which to modify the account setting. If you specify serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat, the ARN and resource ID for your Amazon ECS container instances is affected. If you specify awsvpcTrunking, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If you specify containerInsights, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected. If you specify tagResourceAuthorization, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod, the wait time to retire a Fargate task is affected. The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
@@ -14836,6 +14914,7 @@ extension ECSClientTypes {
 extension RunTaskInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacityProviderStrategy
+        case clientToken
         case cluster
         case count
         case enableECSManagedTags
@@ -14861,6 +14940,9 @@ extension RunTaskInput: Swift.Encodable {
             for capacityproviderstrategyitem0 in capacityProviderStrategy {
                 try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
         if let cluster = self.cluster {
             try encodeContainer.encode(cluster, forKey: .cluster)
@@ -14931,6 +15013,8 @@ extension RunTaskInput: ClientRuntime.URLPathProvider {
 public struct RunTaskInput: Swift.Equatable {
     /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType. A capacity provider strategy may contain a maximum of 6 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
+    public var clientToken: Swift.String?
     /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
     /// The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks for each call.
@@ -14957,7 +15041,7 @@ public struct RunTaskInput: Swift.Equatable {
     public var propagateTags: ECSClientTypes.PropagateTags?
     /// The reference ID to use for the task. The reference ID can have a maximum length of 1024 characters.
     public var referenceId: Swift.String?
-    /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a [ListTasks] call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens (-), and underscores (_) are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
+    /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a [ListTasks] call with the startedBy value. Up to 128 letters (uppercase and lowercase), numbers, hyphens (-), and underscores (_) are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
     public var startedBy: Swift.String?
     /// The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:
     ///
@@ -14981,6 +15065,7 @@ public struct RunTaskInput: Swift.Equatable {
 
     public init(
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+        clientToken: Swift.String? = nil,
         cluster: Swift.String? = nil,
         count: Swift.Int? = nil,
         enableECSManagedTags: Swift.Bool? = nil,
@@ -15000,6 +15085,7 @@ public struct RunTaskInput: Swift.Equatable {
     )
     {
         self.capacityProviderStrategy = capacityProviderStrategy
+        self.clientToken = clientToken
         self.cluster = cluster
         self.count = count
         self.enableECSManagedTags = enableECSManagedTags
@@ -15037,11 +15123,13 @@ struct RunTaskInputBody: Swift.Equatable {
     let startedBy: Swift.String?
     let tags: [ECSClientTypes.Tag]?
     let taskDefinition: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension RunTaskInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capacityProviderStrategy
+        case clientToken
         case cluster
         case count
         case enableECSManagedTags
@@ -15132,6 +15220,8 @@ extension RunTaskInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let taskDefinitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskDefinition)
         taskDefinition = taskDefinitionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -15212,6 +15302,10 @@ enum RunTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "BlockedException": return try await BlockedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ClusterNotFoundException": return try await ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PlatformTaskDefinitionIncompatibilityException": return try await PlatformTaskDefinitionIncompatibilityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PlatformUnknownException": return try await PlatformUnknownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -16553,6 +16647,7 @@ extension ECSClientTypes.Setting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
         case principalArn
+        case type
         case value
     }
 
@@ -16563,6 +16658,9 @@ extension ECSClientTypes.Setting: Swift.Codable {
         }
         if let principalArn = self.principalArn {
             try encodeContainer.encode(principalArn, forKey: .principalArn)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
         }
         if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
@@ -16577,6 +16675,8 @@ extension ECSClientTypes.Setting: Swift.Codable {
         value = valueDecoded
         let principalArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalArn)
         principalArn = principalArnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ECSClientTypes.SettingType.self, forKey: .type)
+        type = typeDecoded
     }
 }
 
@@ -16587,17 +16687,21 @@ extension ECSClientTypes {
         public var name: ECSClientTypes.SettingName?
         /// The ARN of the principal. It can be a user, role, or the root user. If this field is omitted, the authenticated user is assumed.
         public var principalArn: Swift.String?
+        /// Indicates whether Amazon Web Services manages the account setting, or if the user manages it. aws_managed account settings are read-only, as Amazon Web Services manages such on the customer's behalf. Currently, the guardDutyActivate account setting is the only one Amazon Web Services manages.
+        public var type: ECSClientTypes.SettingType?
         /// Determines whether the account setting is on or off for the specified resource.
         public var value: Swift.String?
 
         public init(
             name: ECSClientTypes.SettingName? = nil,
             principalArn: Swift.String? = nil,
+            type: ECSClientTypes.SettingType? = nil,
             value: Swift.String? = nil
         )
         {
             self.name = name
             self.principalArn = principalArn
+            self.type = type
             self.value = value
         }
     }
@@ -16611,6 +16715,7 @@ extension ECSClientTypes {
         case containerInstanceLongArnFormat
         case fargateFipsMode
         case fargateTaskRetirementWaitPeriod
+        case guardDutyActivate
         case serviceLongArnFormat
         case tagResourceAuthorization
         case taskLongArnFormat
@@ -16623,6 +16728,7 @@ extension ECSClientTypes {
                 .containerInstanceLongArnFormat,
                 .fargateFipsMode,
                 .fargateTaskRetirementWaitPeriod,
+                .guardDutyActivate,
                 .serviceLongArnFormat,
                 .tagResourceAuthorization,
                 .taskLongArnFormat,
@@ -16640,6 +16746,7 @@ extension ECSClientTypes {
             case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
             case .fargateFipsMode: return "fargateFIPSMode"
             case .fargateTaskRetirementWaitPeriod: return "fargateTaskRetirementWaitPeriod"
+            case .guardDutyActivate: return "guardDutyActivate"
             case .serviceLongArnFormat: return "serviceLongArnFormat"
             case .tagResourceAuthorization: return "tagResourceAuthorization"
             case .taskLongArnFormat: return "taskLongArnFormat"
@@ -16650,6 +16757,38 @@ extension ECSClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = SettingName(rawValue: rawValue) ?? SettingName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ECSClientTypes {
+    public enum SettingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsManaged
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettingType] {
+            return [
+                .awsManaged,
+                .user,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "aws_managed"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SettingType(rawValue: rawValue) ?? SettingType.sdkUnknown(rawValue)
         }
     }
 }

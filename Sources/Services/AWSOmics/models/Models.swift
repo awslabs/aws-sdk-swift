@@ -2141,7 +2141,6 @@ public struct CreateMultipartReadSetUploadInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
     /// The ARN of the reference.
-    /// This member is required.
     public var referenceArn: Swift.String?
     /// The source's sample ID.
     /// This member is required.
@@ -4995,6 +4994,7 @@ extension OmicsClientTypes {
         case bam
         case cram
         case fastq
+        case ubam
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FileType] {
@@ -5002,6 +5002,7 @@ extension OmicsClientTypes {
                 .bam,
                 .cram,
                 .fastq,
+                .ubam,
                 .sdkUnknown("")
             ]
         }
@@ -5014,6 +5015,7 @@ extension OmicsClientTypes {
             case .bam: return "BAM"
             case .cram: return "CRAM"
             case .fastq: return "FASTQ"
+            case .ubam: return "UBAM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6756,7 +6758,11 @@ extension GetReadSetOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.payload = nil
         }
     }
@@ -7267,7 +7273,11 @@ extension GetReferenceOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.payload = nil
         }
     }
@@ -7709,6 +7719,7 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.roleArn = output.roleArn
             self.runGroupId = output.runGroupId
             self.runId = output.runId
+            self.runOutputUri = output.runOutputUri
             self.startTime = output.startTime
             self.startedBy = output.startedBy
             self.status = output.status
@@ -7716,6 +7727,7 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.stopTime = output.stopTime
             self.storageCapacity = output.storageCapacity
             self.tags = output.tags
+            self.uuid = output.uuid
             self.workflowId = output.workflowId
             self.workflowType = output.workflowType
         } else {
@@ -7737,6 +7749,7 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.roleArn = nil
             self.runGroupId = nil
             self.runId = nil
+            self.runOutputUri = nil
             self.startTime = nil
             self.startedBy = nil
             self.status = nil
@@ -7744,6 +7757,7 @@ extension GetRunOutput: ClientRuntime.HttpResponseBinding {
             self.stopTime = nil
             self.storageCapacity = nil
             self.tags = nil
+            self.uuid = nil
             self.workflowId = nil
             self.workflowType = nil
         }
@@ -7787,6 +7801,8 @@ public struct GetRunOutput: Swift.Equatable {
     public var runGroupId: Swift.String?
     /// The run's ID.
     public var runId: Swift.String?
+    /// The destination for workflow outputs.
+    public var runOutputUri: Swift.String?
     /// When the run started.
     public var startTime: ClientRuntime.Date?
     /// Who started the run.
@@ -7801,6 +7817,8 @@ public struct GetRunOutput: Swift.Equatable {
     public var storageCapacity: Swift.Int?
     /// The run's tags.
     public var tags: [Swift.String:Swift.String]?
+    /// The universally unique identifier for a run.
+    public var uuid: Swift.String?
     /// The run's workflow ID.
     public var workflowId: Swift.String?
     /// The run's workflow type.
@@ -7825,6 +7843,7 @@ public struct GetRunOutput: Swift.Equatable {
         roleArn: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
+        runOutputUri: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
         startedBy: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil,
@@ -7832,6 +7851,7 @@ public struct GetRunOutput: Swift.Equatable {
         stopTime: ClientRuntime.Date? = nil,
         storageCapacity: Swift.Int? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        uuid: Swift.String? = nil,
         workflowId: Swift.String? = nil,
         workflowType: OmicsClientTypes.WorkflowType? = nil
     )
@@ -7854,6 +7874,7 @@ public struct GetRunOutput: Swift.Equatable {
         self.roleArn = roleArn
         self.runGroupId = runGroupId
         self.runId = runId
+        self.runOutputUri = runOutputUri
         self.startTime = startTime
         self.startedBy = startedBy
         self.status = status
@@ -7861,6 +7882,7 @@ public struct GetRunOutput: Swift.Equatable {
         self.stopTime = stopTime
         self.storageCapacity = storageCapacity
         self.tags = tags
+        self.uuid = uuid
         self.workflowId = workflowId
         self.workflowType = workflowType
     }
@@ -7894,6 +7916,11 @@ struct GetRunOutputBody: Swift.Equatable {
     let retentionMode: OmicsClientTypes.RunRetentionMode?
     let failureReason: Swift.String?
     let logLocation: OmicsClientTypes.RunLogLocation?
+<<<<<<< HEAD
+=======
+    let uuid: Swift.String?
+    let runOutputUri: Swift.String?
+>>>>>>> main
 }
 
 extension GetRunOutputBody: Swift.Decodable {
@@ -7916,6 +7943,7 @@ extension GetRunOutputBody: Swift.Decodable {
         case roleArn
         case runGroupId
         case runId
+        case runOutputUri
         case startTime
         case startedBy
         case status
@@ -7923,6 +7951,7 @@ extension GetRunOutputBody: Swift.Decodable {
         case stopTime
         case storageCapacity
         case tags
+        case uuid
         case workflowId
         case workflowType
     }
@@ -8001,6 +8030,13 @@ extension GetRunOutputBody: Swift.Decodable {
         failureReason = failureReasonDecoded
         let logLocationDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunLogLocation.self, forKey: .logLocation)
         logLocation = logLocationDecoded
+<<<<<<< HEAD
+=======
+        let uuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uuid)
+        uuid = uuidDecoded
+        let runOutputUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runOutputUri)
+        runOutputUri = runOutputUriDecoded
+>>>>>>> main
     }
 }
 
@@ -17157,7 +17193,6 @@ extension OmicsClientTypes {
         /// The source's name.
         public var name: Swift.String?
         /// The source's reference ARN.
-        /// This member is required.
         public var referenceArn: Swift.String?
         /// The source's sample ID.
         /// This member is required.
@@ -17698,13 +17733,17 @@ extension StartRunOutput: ClientRuntime.HttpResponseBinding {
             let output: StartRunOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
+            self.runOutputUri = output.runOutputUri
             self.status = output.status
             self.tags = output.tags
+            self.uuid = output.uuid
         } else {
             self.arn = nil
             self.id = nil
+            self.runOutputUri = nil
             self.status = nil
             self.tags = nil
+            self.uuid = nil
         }
     }
 }
@@ -17714,22 +17753,30 @@ public struct StartRunOutput: Swift.Equatable {
     public var arn: Swift.String?
     /// The run's ID.
     public var id: Swift.String?
+    /// The destination for workflow outputs.
+    public var runOutputUri: Swift.String?
     /// The run's status.
     public var status: OmicsClientTypes.RunStatus?
     /// The run's tags.
     public var tags: [Swift.String:Swift.String]?
+    /// The universally unique identifier for a run.
+    public var uuid: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
+        runOutputUri: Swift.String? = nil,
         status: OmicsClientTypes.RunStatus? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        uuid: Swift.String? = nil
     )
     {
         self.arn = arn
         self.id = id
+        self.runOutputUri = runOutputUri
         self.status = status
         self.tags = tags
+        self.uuid = uuid
     }
 }
 
@@ -17738,14 +17785,18 @@ struct StartRunOutputBody: Swift.Equatable {
     let id: Swift.String?
     let status: OmicsClientTypes.RunStatus?
     let tags: [Swift.String:Swift.String]?
+    let uuid: Swift.String?
+    let runOutputUri: Swift.String?
 }
 
 extension StartRunOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case id
+        case runOutputUri
         case status
         case tags
+        case uuid
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -17767,6 +17818,28 @@ extension StartRunOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let uuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uuid)
+        uuid = uuidDecoded
+        let runOutputUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runOutputUri)
+        runOutputUri = runOutputUriDecoded
+    }
+}
+
+enum StartRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -19506,6 +19579,7 @@ enum UpdateWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UploadReadSetPartInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UploadReadSetPartInputBodyMiddleware"
 
@@ -19531,6 +19605,8 @@ public struct UploadReadSetPartInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UploadReadSetPartInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload

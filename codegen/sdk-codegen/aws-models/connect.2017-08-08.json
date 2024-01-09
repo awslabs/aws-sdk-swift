@@ -402,6 +402,14 @@
                 }
             }
         },
+        "com.amazonaws.connect#AgentPauseDurationInSeconds": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0
+                }
+            }
+        },
         "com.amazonaws.connect#AgentResourceId": {
             "type": "string",
             "traits": {
@@ -773,9 +781,12 @@
                     "target": "com.amazonaws.connect#AssociateTrafficDistributionGroupUser"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.connect#AssociateUserProficiencies"
                 },
                 {
+=======
+>>>>>>> main
                     "target": "com.amazonaws.connect#BatchAssociateAnalyticsDataSet"
                 },
                 {
@@ -818,9 +829,12 @@
                     "target": "com.amazonaws.connect#CreatePersistentContactAssociation"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.connect#CreatePredefinedAttribute"
                 },
                 {
+=======
+>>>>>>> main
                     "target": "com.amazonaws.connect#CreatePrompt"
                 },
                 {
@@ -1376,9 +1390,12 @@
                     "target": "com.amazonaws.connect#UpdatePhoneNumberMetadata"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.connect#UpdatePredefinedAttribute"
                 },
                 {
+=======
+>>>>>>> main
                     "target": "com.amazonaws.connect#UpdatePrompt"
                 },
                 {
@@ -4411,7 +4428,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Operation cannot be performed at this time as there is a conflict with another operation or\n   contact state.</p>",
+=======
+                "smithy.api#documentation": "<p>Operation cannot be performed at this time as there is a  conflict with another operation or contact state.</p>",
+>>>>>>> main
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 409
             }
@@ -4559,6 +4580,7 @@
                         "smithy.api#documentation": "<p>Information about Amazon Connect Wisdom.</p>"
                     }
                 },
+<<<<<<< HEAD
                 "QueueTimeAdjustmentSeconds": {
                     "target": "com.amazonaws.connect#QueueTimeAdjustmentSeconds",
                     "traits": {
@@ -4575,6 +4597,12 @@
                     "target": "com.amazonaws.connect#ContactTagMap",
                     "traits": {
                         "smithy.api#documentation": "<p>Tags associated with the contact. This contains both Amazon Web Services generated and\n   user-defined tags.</p>"
+=======
+                "Tags": {
+                    "target": "com.amazonaws.connect#ContactTagMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.</p>"
+>>>>>>> main
                     }
                 }
             },
@@ -4582,6 +4610,7 @@
                 "smithy.api#documentation": "<p>Contains information about a contact.</p>"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.connect#ContactAnalysis": {
             "type": "structure",
             "members": {
@@ -4596,6 +4625,8 @@
                 "smithy.api#documentation": "<p>A structure that defines search criteria for contacts using analysis outputs from Amazon\n   Connect Contact Lens.</p>"
             }
         },
+=======
+>>>>>>> main
         "com.amazonaws.connect#ContactDataRequest": {
             "type": "structure",
             "members": {
@@ -5384,12 +5415,15 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.connect#Contacts": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.connect#ContactSearchSummary"
             }
         },
+=======
+>>>>>>> main
         "com.amazonaws.connect#Content": {
             "type": "string",
             "traits": {
@@ -6412,6 +6446,7 @@
                 "smithy.api#output": {}
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.connect#CreatePredefinedAttribute": {
             "type": "operation",
             "input": {
@@ -6482,6 +6517,8 @@
                 "smithy.api#input": {}
             }
         },
+=======
+>>>>>>> main
         "com.amazonaws.connect#CreatePrompt": {
             "type": "operation",
             "input": {
@@ -12490,6 +12527,7 @@
                 "smithy.api#output": {}
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.connect#DisassociateUserProficiencies": {
             "type": "operation",
             "input": {
@@ -12555,6 +12593,8 @@
                 "smithy.api#input": {}
             }
         },
+=======
+>>>>>>> main
         "com.amazonaws.connect#DisconnectReason": {
             "type": "structure",
             "members": {
@@ -19612,7 +19652,11 @@
                 "InstanceId": {
                     "target": "com.amazonaws.connect#InstanceId",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance that phone numbers are claimed to. You\n   can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the\n    instance ID</a> in the Amazon Resource Name (ARN) of the instance. If both <code>TargetArn</code> and <code>InstanceId</code> are not\n   provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in\n   the same AWS Region as the request.</p>"
+=======
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance that phone numbers are claimed to. You\n   can <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html\">find the\n    instance ID</a> in the Amazon Resource Name (ARN) of the instance. If both <code>TargetArn</code> and <code>InstanceId</code> are not\n   provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your\n   account in the same AWS Region as the request.</p>"
+>>>>>>> main
                     }
                 },
                 "MaxResults": {
@@ -22965,6 +23009,84 @@
             "traits": {
                 "smithy.api#pattern": "^/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\S]{8,64}$/$",
                 "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.connect#PauseContact": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.connect#PauseContactRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.connect#PauseContactResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.connect#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidParameterException"
+                },
+                {
+                    "target": "com.amazonaws.connect#InvalidRequestException"
+                },
+                {
+                    "target": "com.amazonaws.connect#LimitExceededException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.connect#ThrottlingException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Allows pausing an ongoing task contact.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/contact/pause",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.connect#PauseContactRequest": {
+            "type": "structure",
+            "members": {
+                "ContactId": {
+                    "target": "com.amazonaws.connect#ContactId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the contact.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "InstanceId": {
+                    "target": "com.amazonaws.connect#InstanceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the Amazon Connect instance. You can find the <code>instanceId</code> in the ARN of\n   the instance.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContactFlowId": {
+                    "target": "com.amazonaws.connect#ContactFlowId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the flow.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.connect#PauseContactResponse": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.connect#PauseContact": {
@@ -27270,6 +27392,7 @@
                 "smithy.api#output": {}
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.connect#RoutingExpression": {
             "type": "string",
             "traits": {
@@ -27291,6 +27414,8 @@
                 }
             }
         },
+=======
+>>>>>>> main
         "com.amazonaws.connect#RoutingProfile": {
             "type": "structure",
             "members": {
@@ -30649,13 +30774,21 @@
                 "References": {
                     "target": "com.amazonaws.connect#ContactReferences",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can\n   have the following reference types at the time of creation: <code>URL</code> |\n    <code>NUMBER</code> | <code>STRING</code> | <code>DATE</code> | <code>EMAIL</code>.\n    <code>ATTACHMENT</code> is not a supported reference type during voice contact creation.</p>"
+=======
+                        "smithy.api#documentation": "<p>A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can\n   have the following reference types at the time of creation: <code>URL</code> | <code>NUMBER</code> | <code>STRING</code> | <code>DATE</code> | <code>EMAIL</code>.\n   <code>ATTACHMENT</code> is not a supported reference type during voice contact creation.</p>"
+>>>>>>> main
                     }
                 },
                 "RelatedContactId": {
                     "target": "com.amazonaws.connect#ContactId",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The <code>contactId</code> that is related to this contact. Linking voice, task, or chat by\n   using <code>RelatedContactID</code> copies over contact attributes from the related contact to\n   the new contact. All updates to user-defined attributes in the new contact are limited to the\n   individual contact ID. There are no limits to the number of contacts that can be linked by using\n    <code>RelatedContactId</code>. </p>"
+=======
+                        "smithy.api#documentation": "<p>The <code>contactId</code> that is related to this contact. Linking voice, task, or chat by using\n   <code>RelatedContactID</code> copies over contact attributes from the related contact to the new contact. All\n   updates to user-defined attributes in the new contact are limited to the individual contact ID.\n   There are no limits to the number of contacts that can be linked by using <code>RelatedContactId</code>.\n  </p>"
+>>>>>>> main
                     }
                 },
                 "DestinationPhoneNumber": {
@@ -31606,7 +31739,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Adds the specified tags to the contact resource. For more information about this API is\n   used, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html\">Set\n    up granular billing for a detailed view of your Amazon Connect usage</a>. </p>",
+=======
+                "smithy.api#documentation": "<p>Adds the specified tags to the contact resource. For more information about this API is used, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html\">Set up granular billing for a detailed\n    view of your Amazon Connect usage</a>.\n  </p>",
+>>>>>>> main
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/contact/tags",
@@ -31635,7 +31772,11 @@
                 "Tags": {
                     "target": "com.amazonaws.connect#ContactTagMap",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The tags to be assigned to the contact resource. For example, { \"Tags\": {\"key1\":\"value1\",\n   \"key2\":\"value2\"} }.</p>\n         <note>\n            <p>Authorization is not supported by this tag.</p>\n         </note>",
+=======
+                        "smithy.api#documentation": "<p>The tags to be assigned to the contact resource. For example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.</p>\n         <note>\n            <p>Authorization is not supported by this tag.</p>\n         </note>",
+>>>>>>> main
                         "smithy.api#required": {}
                     }
                 }
@@ -32382,9 +32523,12 @@
                 "smithy.api#httpError": 429
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.connect#TotalCount": {
             "type": "long"
         },
+=======
+>>>>>>> main
         "com.amazonaws.connect#TotalPauseCount": {
             "type": "integer",
             "traits": {
@@ -32846,7 +32990,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Removes the specified tags from the contact resource. For more information about this API is\n   used, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html\">Set\n    up granular billing for a detailed view of your Amazon Connect usage</a>.</p>",
+=======
+                "smithy.api#documentation": "<p>Removes the specified tags from the contact resource. For more information about this API is used, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html\">Set up granular billing for a detailed\n   view of your Amazon Connect usage</a>.</p>",
+>>>>>>> main
                 "smithy.api#http": {
                     "method": "DELETE",
                     "uri": "/contact/tags/{InstanceId}/{ContactId}",
@@ -32877,7 +33025,11 @@
                 "TagKeys": {
                     "target": "com.amazonaws.connect#ContactTagKeys",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A list of tag keys. Existing tags on the contact whose keys are members of this list will be\n   removed.</p>",
+=======
+                        "smithy.api#documentation": "<p>A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed.</p>",
+>>>>>>> main
                         "smithy.api#httpQuery": "TagKeys",
                         "smithy.api#required": {}
                     }

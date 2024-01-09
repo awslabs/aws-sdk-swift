@@ -67,6 +67,8 @@ public struct LicenseManagerLinuxSubscriptionsClientLogHandlerFactory: ClientRun
 }
 
 extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptionsClientProtocol {
+    /// Performs the `GetServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the Linux subscriptions service settings.
     ///
     /// - Parameter GetServiceSettingsInput : [no documentation found]
@@ -95,6 +97,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
                       .withSigningName(value: "license-manager-linux-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<GetServiceSettingsInput, GetServiceSettingsOutput, GetServiceSettingsOutputError>(id: "getServiceSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput, GetServiceSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
@@ -106,10 +109,25 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceSettingsOutput, GetServiceSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceSettingsOutput, GetServiceSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceSettingsOutput, GetServiceSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<GetServiceSettingsInput, GetServiceSettingsOutput>(id: "getServiceSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListLinuxSubscriptionInstances` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     ///
     /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
@@ -138,6 +156,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
                       .withSigningName(value: "license-manager-linux-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput, ListLinuxSubscriptionInstancesOutputError>(id: "listLinuxSubscriptionInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput, ListLinuxSubscriptionInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>())
@@ -152,10 +171,28 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLinuxSubscriptionInstancesOutput, ListLinuxSubscriptionInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLinuxSubscriptionInstancesOutput, ListLinuxSubscriptionInstancesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLinuxSubscriptionInstancesOutput, ListLinuxSubscriptionInstancesOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>(id: "listLinuxSubscriptionInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLinuxSubscriptionInstancesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLinuxSubscriptionInstancesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLinuxSubscriptionInstancesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLinuxSubscriptionInstancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLinuxSubscriptionInstancesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLinuxSubscriptionInstancesOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListLinuxSubscriptions` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     ///
     /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
@@ -184,6 +221,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
                       .withSigningName(value: "license-manager-linux-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput, ListLinuxSubscriptionsOutputError>(id: "listLinuxSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput, ListLinuxSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>())
@@ -198,10 +236,28 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLinuxSubscriptionsOutput, ListLinuxSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLinuxSubscriptionsOutput, ListLinuxSubscriptionsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLinuxSubscriptionsOutput, ListLinuxSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>(id: "listLinuxSubscriptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLinuxSubscriptionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLinuxSubscriptionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLinuxSubscriptionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLinuxSubscriptionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLinuxSubscriptionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLinuxSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateServiceSettings` operation on the `LicenseManagerLinuxSubscriptions` service.
+    ///
     /// Updates the service settings for Linux subscriptions.
     ///
     /// - Parameter UpdateServiceSettingsInput : [no documentation found]
@@ -230,6 +286,7 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
                       .withSigningName(value: "license-manager-linux-subscriptions")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
+<<<<<<< HEAD
         var operation = ClientRuntime.OperationStack<UpdateServiceSettingsInput, UpdateServiceSettingsOutput, UpdateServiceSettingsOutputError>(id: "updateServiceSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput, UpdateServiceSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
@@ -244,6 +301,22 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSettingsOutput, UpdateServiceSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSettingsOutput, UpdateServiceSettingsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSettingsOutput, UpdateServiceSettingsOutputError>(clientLogMode: config.clientLogMode))
+=======
+        var operation = ClientRuntime.OperationStack<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(id: "updateServiceSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateServiceSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSettingsOutput>(clientLogMode: config.clientLogMode))
+>>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
