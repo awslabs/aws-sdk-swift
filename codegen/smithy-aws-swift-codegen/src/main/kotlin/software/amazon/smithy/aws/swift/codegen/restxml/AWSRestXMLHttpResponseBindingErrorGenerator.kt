@@ -7,16 +7,19 @@ package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
+import software.amazon.smithy.aws.traits.protocols.AwsQueryErrorTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.declareSection
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionId
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
+import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
@@ -34,11 +37,9 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
 
                 openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
                     openBlock(
-                        "static func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {",
-                        "}",
+                        "static func responseServiceErrorBinding(httpResponse: \$N, reader: \$N) async throws -> \$N? {", "}",
                         ClientRuntimeTypes.Http.HttpResponse,
-                        ClientRuntimeTypes.Serde.ResponseDecoder,
-                        AWSClientRuntimeTypes.RestXML.RestXMLError,
+                        SmithyXMLTypes.Reader,
                         SwiftTypes.Error
                     ) {
                         openBlock("switch error.errorCode {", "}") {
@@ -78,17 +79,16 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
             with(writer) {
                 addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
-
+                addImport(SwiftDependency.SMITHY_XML.target)
                 openBlock(
-                    "enum \$L: \$N {",
+                    "enum \$L {",
                     "}",
-                    operationErrorName,
-                    ClientRuntimeTypes.Http.HttpResponseErrorBinding
+                    operationErrorName
                 ) {
                     openBlock(
-                        "static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
+                        "static func responseErrorBinding(httpResponse: \$N, reader: \$N) async throws -> \$N {", "}",
                         ClientRuntimeTypes.Http.HttpResponse,
-                        ClientRuntimeTypes.Serde.ResponseDecoder,
+                        SmithyXMLTypes.Reader,
                         SwiftTypes.Error
                     ) {
                         val errorShapes = op.errors
@@ -101,28 +101,27 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                             "unknownServiceErrorSymbol" to unknownServiceErrorSymbol,
                             "errorShapes" to errorShapes
                         )
-
                         declareSection(RestXMLResponseBindingSectionId, context) {
-                            write(
-                                "let restXMLError = try await \$N(httpResponse: httpResponse)",
-                                AWSClientRuntimeTypes.RestXML.RestXMLError
-                            )
+                            write("let errorBodyReader = reader[\"Error\"]")
 
                             if (ctx.service.errors.isNotEmpty()) {
-                                write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restXMLError)")
+                                write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.responseErrorServiceBinding(httpResponse, errorBodyReader)")
                                 write("if let error = serviceError { return error }")
                             }
-                            openBlock("switch restXMLError.errorCode {", "}") {
+                            writer.write("let errorCode: String? = try errorBodyReader[\"Code\"].readIfPresent()")
+                            writer.write("let message: String? = try errorBodyReader[\"Message\"].readIfPresent()")
+                            writer.write("let requestID: String? = try errorBodyReader[\"RequestId\"].readIfPresent() ?? reader[\"RequestId\"].readIfPresent()")
+                            openBlock("switch errorCode {", "}") {
                                 errorShapes.forEach { errorShape ->
-                                    var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                                    var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                                    val errorShapeName = errorShape.id.name
+                                    val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                                     write(
-                                        "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)",
+                                        "case \$S: return try await \$L.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: message, requestID: requestID)",
                                         errorShapeName,
                                         errorShapeType
                                     )
                                 }
-                                write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)")
+                                write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: errorCode)")
                             }
                         }
                     }

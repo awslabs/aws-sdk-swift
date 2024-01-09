@@ -18,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysCustomizable
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
@@ -32,7 +33,8 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
-        AWSJsonHttpResponseBindingErrorGenerator(),
+        HttpResponseBindingOutputGenerator(),
+        AWSJsonHttpResponseBindingErrorGenerator()
     )
     override val serdeContext = serdeContextJSON
     override val shouldRenderEncodableConformance: Boolean = true

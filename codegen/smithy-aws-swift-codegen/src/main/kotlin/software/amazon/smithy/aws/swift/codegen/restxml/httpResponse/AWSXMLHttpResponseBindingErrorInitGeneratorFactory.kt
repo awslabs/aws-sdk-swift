@@ -16,6 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
+import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitPayload
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitPayloadFactory
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitWithoutHttpPayloadFactory
@@ -27,7 +28,7 @@ class AWSXMLHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBindingEr
         httpBindingResolver: HttpBindingResolver,
         defaultTimestampFormat: TimestampFormatTrait.Format,
     ): HttpResponseBindingRenderable {
-        return HttpResponseBindingErrorInitGenerator(
+        return XMLHttpResponseBindingErrorInitGenerator(
             ctx,
             structureShape,
             httpBindingResolver,

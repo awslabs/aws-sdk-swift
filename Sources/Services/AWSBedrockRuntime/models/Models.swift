@@ -380,7 +380,7 @@ extension InvokeModelWithResponseStreamOutput: ClientRuntime.HttpResponseBinding
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<BedrockRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<BedrockRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.body = decoderStream.toAsyncStream()
         } else {
             self.body = nil

@@ -12,12 +12,14 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.DocumentReadingClosureUtils
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.ReadingClosureUtils
 import software.amazon.smithy.swift.codegen.model.eventStreamErrors
 import software.amazon.smithy.swift.codegen.model.eventStreamEvents
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContext) {
+class XMLMessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContext) {
     fun render(
         streamingMember: MemberShape
     ) {
@@ -37,14 +39,11 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
 
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-            writer.openBlock(
-                "extension ${streamSymbol.fullName}: \$N {", "}",
-                ClientRuntimeTypes.Serde.MessageUnmarshallable
-            ) {
+            writer.openBlock("extension \$L {", "}", streamSymbol.fullName) {
                 writer.openBlock(
-                    "public init(message: \$N, decoder: \$N) throws {", "}",
+                    "static func unmarshal(message: \$N) throws -> \$N {", "}",
                     ClientRuntimeTypes.EventStream.Message,
-                    ClientRuntimeTypes.Serde.ResponseDecoder
+                    streamSymbol,
                 ) {
                     writer.write("switch try message.type() {")
                     writer.write("case .event(let params):")
@@ -58,7 +57,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                         }
                         writer.write("default:")
                         writer.indent {
-                            writer.write("self = .sdkUnknown(\"error processing event stream, unrecognized event: \\(params.eventType)\")")
+                            writer.write("return .sdkUnknown(\"error processing event stream, unrecognized event: \\(params.eventType)\")")
                         }
                         writer.write("}")
                     }
@@ -117,39 +116,6 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
         }
     }
 
-    fun renderNotImplemented(
-        streamingMember: MemberShape
-    ) {
-        val symbol: Symbol = ctx.symbolProvider.toSymbol(ctx.model.expectShape(streamingMember.target))
-        val rootNamespace = ctx.settings.moduleName
-        val streamMember = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${symbol.name}+MessageUnmarshallable.swift")
-            .name(symbol.name)
-            .build()
-
-        val streamShape = ctx.model.expectShape<UnionShape>(streamingMember.target)
-        val streamSymbol = ctx.symbolProvider.toSymbol(streamShape)
-
-        ctx.delegator.useShapeWriter(streamMember) { writer ->
-
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-            writer.openBlock(
-                "extension ${streamSymbol.fullName}: \$N {", "}",
-                ClientRuntimeTypes.Serde.MessageUnmarshallable
-            ) {
-                writer.write("")
-                writer.openBlock(
-                    "public init(message: \$N, decoder: \$N) throws {", "}",
-                    ClientRuntimeTypes.EventStream.Message,
-                    ClientRuntimeTypes.Serde.ResponseDecoder
-                ) {
-                    writer.write("fatalError(\"Not implemented\")")
-                }
-            }
-        }
-    }
-
     private fun renderDeserializeEventVariant(ctx: ProtocolGenerator.GenerationContext, unionSymbol: Symbol, member: MemberShape, writer: SwiftWriter) {
         val variant = ctx.model.expectShape(member.target)
 
@@ -159,7 +125,9 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
         val memberName = ctx.symbolProvider.toMemberName(member)
 
         if (eventHeaderBindings.isEmpty() && eventPayloadBinding == null) {
-            writer.write("self = .\$L(try decoder.decode(responseBody: message.payload))", memberName)
+            val documentReadingClosure = DocumentReadingClosureUtils(ctx, writer).closure(member)
+            val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(member)
+            writer.write("return .\$L(try \$L(message.payload, \$L))", memberName, documentReadingClosure, readingClosure)
         } else {
             val variantSymbol = ctx.symbolProvider.toSymbol(variant)
             writer.write("var event = \$N()", variantSymbol)
@@ -179,7 +147,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     else -> throw CodegenException("unsupported eventHeader shape: member=$hdrBinding; targetShape=$target")
                 }
 
-                writer.openBlock("if case let .\$L(value) = message.headers.value(name: \$S) {", "}", conversionFn, hdrBinding.memberName) {
+                writer.openBlock("if case .\$L(let value) = message.headers.value(name: \$S) {", "}", conversionFn, hdrBinding.memberName) {
                     val memberName = ctx.symbolProvider.toMemberName(hdrBinding)
                     when (target.type) {
                         ShapeType.INTEGER, ShapeType.LONG -> {
@@ -202,11 +170,13 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     // and then assign each deserialized payload member to the current builder instance
                     unbound.forEach {
                         val memberName = ctx.symbolProvider.toMemberName(it)
-                        writer.write("event.\$L = try decoder.decode(responseBody: message.payload)", memberName)
+                        val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(it)
+                        val documentReadingClosure = DocumentReadingClosureUtils(ctx, writer).closure(it)
+                        writer.write("event.\$L = try \$L(message.payload, \$L)", memberName, documentReadingClosure, readingClosure)
                     }
                 }
             }
-            writer.write("self = .\$L(event)", memberName)
+            writer.write("return .\$L(event)", memberName)
         }
     }
 
@@ -221,7 +191,10 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
             ShapeType.BLOB -> writer.write("event.\$L = message.payload", memberName)
             ShapeType.STRING -> writer.write("event.\$L = String(data: message.payload, encoding: .utf8)", memberName)
             ShapeType.STRUCTURE, ShapeType.UNION -> {
-                writer.write("event.\$L = .init(try decoder.decode(responseBody: message.payload))", memberName)
+                val memberName = ctx.symbolProvider.toMemberName(member)
+                val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(member)
+                val documentReadingClosure = DocumentReadingClosureUtils(ctx, writer).closure(member)
+                writer.write("event.\$L = try \$L(message.payload, \$L)", memberName, documentReadingClosure, readingClosure)
             }
             else -> throw CodegenException("unsupported shape type `${target.type}` for target: $target; expected blob, string, structure, or union for eventPayload member: $member")
         }

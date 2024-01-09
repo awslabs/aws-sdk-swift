@@ -39,12 +39,12 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
             .toMutableSet()
 
         if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writer.write("if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {")
+            writer.write("// if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {")
             writer.indent()
             renderWithoutErrorResponseContainer(outputShape, bodyMembersWithoutQueryTrait)
 
             writer.dedent()
-            writer.write("} else {")
+            writer.write("// } else {")
             writer.indent()
             val path = "properties.".takeIf { outputShape.hasTrait<ErrorTrait>() } ?: ""
             bodyMembers.sortedBy { it.memberName }.forEach {
@@ -58,19 +58,19 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
                         else -> "nil"
                     }
                 }
-                writer.write("self.$path$memberName = $value")
+                writer.write("// self.$path$memberName = $value")
             }
             writer.dedent()
-            writer.write("}")
+            writer.write("// }")
         }
     }
 
     fun renderWithoutErrorResponseContainer(outputShape: Shape, bodyMembersWithoutQueryTrait: Set<String>) {
         val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
         writer.addImport(AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
-        writer.write("let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
+        writer.write("// let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
         bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("self.properties.$it = output.errors.error.$it")
+            writer.write("// self.properties.$it = output.errors.error.$it")
         }
     }
 }

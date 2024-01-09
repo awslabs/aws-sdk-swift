@@ -10,4 +10,4 @@ import software.amazon.smithy.swift.codegen.integration.HttpResponseDecoder
 
 class AWSHttpResponseXMLDecoder(
     responseDecoderOptions: MutableMap<String, String> = mutableMapOf()
-) : HttpResponseDecoder(ClientRuntimeTypes.Serde.XMLDecoder, responseDecoderOptions)
+) : HttpResponseDecoder(ClientRuntimeTypes.Serde.JSONDecoder, responseDecoderOptions)

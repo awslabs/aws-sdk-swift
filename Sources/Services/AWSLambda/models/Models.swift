@@ -10852,7 +10852,7 @@ extension InvokeWithResponseStreamOutput: ClientRuntime.HttpResponseBinding {
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LambdaClientTypes.InvokeWithResponseStreamResponseEvent>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LambdaClientTypes.InvokeWithResponseStreamResponseEvent>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.eventStream = decoderStream.toAsyncStream()
         } else {
             self.eventStream = nil

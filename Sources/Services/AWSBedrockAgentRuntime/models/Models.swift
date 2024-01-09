@@ -1126,7 +1126,7 @@ extension InvokeAgentOutput: ClientRuntime.HttpResponseBinding {
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<BedrockAgentRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<BedrockAgentRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.completion = decoderStream.toAsyncStream()
         } else {
             self.completion = nil

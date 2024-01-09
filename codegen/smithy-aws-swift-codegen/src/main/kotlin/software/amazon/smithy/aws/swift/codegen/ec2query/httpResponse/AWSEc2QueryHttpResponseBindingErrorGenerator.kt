@@ -7,14 +7,17 @@ package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
+import software.amazon.smithy.aws.traits.protocols.AwsQueryErrorTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorGeneratable
+import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
@@ -74,26 +77,22 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                 addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
-                openBlock(
-                    "enum \$L: \$N {",
-                    "}",
-                    operationErrorName,
-                    ClientRuntimeTypes.Http.HttpResponseErrorBinding
-                ) {
+                openBlock("enum \$L {", "}", operationErrorName) {
+                    writer.addImport(SwiftDependency.SMITHY_XML.target)
                     openBlock(
-                        "static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
+                        "static func responseErrorBinding(httpResponse: \$N, reader: \$N) async throws -> \$N {", "}",
                         ClientRuntimeTypes.Http.HttpResponse,
-                        ClientRuntimeTypes.Serde.ResponseDecoder,
+                        SmithyXMLTypes.Reader,
                         SwiftTypes.Error
                     ) {
                         write("let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)")
 
                         if (ctx.service.errors.isNotEmpty()) {
-                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
-                            write("if let error = serviceError { return error }")
+                            write("// let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
+                            write("// if let error = serviceError { return error }")
                         }
 
-                        openBlock("switch ec2QueryError.errorCode {", "}") {
+                        openBlock("// switch ec2QueryError.errorCode {", "// }") {
                             val errorShapes = op.errors
                                 .map { ctx.model.expectShape(it) as StructureShape }
                                 .toSet()
@@ -102,13 +101,13 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                                 write(
-                                    "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)",
+                                    "// case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)",
                                     errorShapeName,
                                     errorShapeType
                                 )
                             }
                             write(
-                                "default: return try await \$N.makeError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId, typeName: ec2QueryError.errorCode)",
+                                "return try await \$N.makeError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId, typeName: ec2QueryError.errorCode)",
                                 unknownServiceErrorSymbol
                             )
                         }

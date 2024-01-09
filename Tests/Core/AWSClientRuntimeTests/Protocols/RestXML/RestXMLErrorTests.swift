@@ -38,7 +38,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 return
             }
 
-            let decoder = XMLDecoder()
+            let decoder = JSONDecoder()
             let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
             if let actual = greetingWithErrorsOutputError as? InvalidGreeting {
@@ -86,7 +86,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 return
             }
 
-            let decoder = XMLDecoder()
+            let decoder = JSONDecoder()
             let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
             if let actual = greetingWithErrorsOutputError as? ComplexXMLError {
@@ -138,7 +138,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 return
             }
 
-            let decoder = XMLDecoder()
+            let decoder = JSONDecoder()
             let greetingWithErrorsOutputError = try await GreetingWithErrorsNoErrorWrappingOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
 
             if let actual = greetingWithErrorsOutputError as? ComplexXMLErrorNoErrorWrapping {
@@ -187,7 +187,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 return
             }
 
-            let decoder = XMLDecoder()
+            let decoder = JSONDecoder()
             let greetingWithErrorsOutputError = try await GreetingWithErrorsOutputError.makeError(httpResponse: httpResponse, decoder: decoder)
             if let actual = greetingWithErrorsOutputError as? UnknownAWSHTTPServiceError {
                 XCTAssertEqual("Access Denied", actual.message)
