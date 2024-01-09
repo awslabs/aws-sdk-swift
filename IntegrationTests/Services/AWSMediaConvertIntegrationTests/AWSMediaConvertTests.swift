@@ -88,7 +88,8 @@ class AWSMediaConvertTests: XCTestCase {
         let input2 = GetJobTemplateInput(name: name)
         let output2 = try await client.getJobTemplate(input: input2)
 
-        // Verify the name of the retrieved template is the same as the 
-        XCTAssertEqual(output2.jobTemplate?.name, name)
+        // Verify the name of the created & retrieved templates is the same as the original
+        XCTAssertEqual(output1.jobTemplate?.name, name)
+        XCTAssertEqual(output1.jobTemplate?.name, output2.jobTemplate?.name)
     }
 }

@@ -35,11 +35,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    // TODO: Rename defaultContentType to differentiate between request & response
-    // Requests are:
-    //  application/x-www-form-urlencoded
-    // Responses are:
-    //  text/xml
     override val codingKeysGenerator = DefaultCodingKeysGenerator(CodingKeysCustomizationXmlName())
     override val defaultContentType = "application/x-www-form-urlencoded"
     override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME

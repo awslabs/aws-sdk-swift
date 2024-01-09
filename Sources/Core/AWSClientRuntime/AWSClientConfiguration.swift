@@ -30,10 +30,12 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// If no decoder is provided, one will be provided by the SDK.
     public var decoder: ResponseDecoder?
 
-    /// The HTTP client engine to be used for HTTP requests.
+    /// The HTTP client to be used for SDK HTTP requests.
     ///
-    /// If none is provided, AWS provides its own HTTP engine for use.
-    public var httpClientEngine: HttpClientEngine
+    /// If none is provided, AWS SDK for Swift selects its own HTTP client for use:
+    /// - On Mac and Linux, a AWS-provided HTTP client is used for the best stability and performance with heavy AWS workloads.
+    /// - On iOS, tvOS, watchOS, and visionOS, a `URLSession`-based client is used for maximum compatibility and performance on Apple devices.
+    public var httpClientEngine: HTTPClient
 
     /// Configuration for the HTTP client.
     public var httpClientConfiguration: HttpClientConfiguration
@@ -102,11 +104,6 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// This structure is custom code-generated for each AWS service.
     public var serviceSpecific: ServiceSpecificConfiguration
 
-    /// The timeout for a request in milliseconds
-    ///
-    /// If none is provided the client will use default values based on the platform.
-    public var connectTimeoutMs: UInt32?
-
     /// Internal designated init
     /// All convenience inits should call this.
     private init(
@@ -121,7 +118,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         _ retryStrategyOptions: RetryStrategyOptions?,
         _ appID: String?,
         _ awsRetryMode: AWSRetryMode,
-        _ connectTimeoutMs: UInt32? = nil
+        _ httpClientConfiguration: HttpClientConfiguration?
     ) throws {
         typealias RuntimeConfigType =
             DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
@@ -134,13 +131,8 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         self.useDualStack = useDualStack
         self.useFIPS = useFIPS
         self.clientLogMode = RuntimeConfigType.defaultClientLogMode
-        self.connectTimeoutMs = connectTimeoutMs
-        self.httpClientConfiguration = RuntimeConfigType.defaultHttpClientConfiguration
-        if let connectTimeoutMs = self.connectTimeoutMs {
-            self.httpClientEngine = RuntimeConfigType.httpClientEngineWithTimeout(timeoutMs: connectTimeoutMs)
-        } else {
-            self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
-        }
+        self.httpClientConfiguration = httpClientConfiguration ?? RuntimeConfigType.defaultHttpClientConfiguration
+        self.httpClientEngine = RuntimeConfigType.makeClient(httpClientConfiguration: self.httpClientConfiguration)
         self.idempotencyTokenGenerator = RuntimeConfigType.defaultIdempotencyTokenGenerator
         self.logger = RuntimeConfigType.defaultLogger(clientName: self.serviceSpecific.clientName)
         self.retryStrategyOptions = retryStrategyOptions ?? RuntimeConfigType.defaultRetryStrategyOptions
@@ -174,7 +166,7 @@ extension AWSClientConfiguration {
         retryMode: AWSRetryMode? = nil,
         maxAttempts: Int? = nil,
         appID: String? = nil,
-        connectTimeoutMs: UInt32? = nil
+        httpClientConfiguration: HttpClientConfiguration? = nil
     ) async throws {
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
         let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
@@ -213,7 +205,7 @@ extension AWSClientConfiguration {
             retryStrategyOptions,
             resolvedAppID,
             resolvedAWSRetryMode,
-            connectTimeoutMs
+            httpClientConfiguration
         )
     }
 
@@ -228,7 +220,7 @@ extension AWSClientConfiguration {
         retryMode: AWSRetryMode? = nil,
         maxAttempts: Int? = nil,
         appID: String? = nil,
-        connectTimeoutMs: UInt32? = nil
+        httpClientConfiguration: HttpClientConfiguration? = nil
     ) throws {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
         let resolvedCredentialsProvider: CredentialsProviding
@@ -260,7 +252,7 @@ extension AWSClientConfiguration {
             retryStrategyOptions,
             resolvedAppID,
             resolvedAWSRetryMode,
-            connectTimeoutMs
+            httpClientConfiguration
         )
     }
 

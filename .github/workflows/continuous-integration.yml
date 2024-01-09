@@ -21,29 +21,29 @@ jobs:
           - macos-13
         xcode:
           - Xcode_14.0.1
-          - Xcode_15.0
+          - Xcode_15.1
         destination:
-          - 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
-          - 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=16.0,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
           - 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
-          - 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-12
-            xcode: Xcode_15.0
+            xcode: Xcode_15.1
           # Don't run new macOS with old Xcode
           - runner: macos-13
             xcode: Xcode_14.0.1
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
-            xcode: Xcode_15.0
-          - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
-            xcode: Xcode_15.0
+            xcode: Xcode_15.1
+          - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 14'
+            xcode: Xcode_15.1
           # Don't run new simulators with old Xcode
-          - destination: 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_14.0.1
-          - destination: 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
+          - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
             xcode: Xcode_14.0.1
     steps:
       - name: Checkout aws-sdk-swift

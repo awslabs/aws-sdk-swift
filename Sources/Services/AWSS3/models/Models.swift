@@ -17138,6 +17138,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.responseOutputBinding(httpResponse:reader:), responseDocumentBinding()), responseErrorClosure(PutObjectOutputError.responseErrorBinding(httpResponse:reader:), responseDocumentBinding())))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
@@ -17182,6 +17183,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(PutObjectOutput.responseOutputBinding(httpResponse:reader:), responseDocumentBinding()), responseErrorClosure(PutObjectOutputError.responseErrorBinding(httpResponse:reader:), responseDocumentBinding())))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
@@ -21078,6 +21080,7 @@ extension UploadPartInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(UploadPartOutput.responseOutputBinding(httpResponse:reader:), responseDocumentBinding()), responseErrorClosure(UploadPartOutputError.responseErrorBinding(httpResponse:reader:), responseDocumentBinding())))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: UploadPartOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
