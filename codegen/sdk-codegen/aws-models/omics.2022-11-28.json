@@ -1620,8 +1620,7 @@
                 "referenceArn": {
                     "target": "com.amazonaws.omics#ReferenceArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      The ARN of the reference.\n    </p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>\n      The ARN of the reference.\n    </p>"
                     }
                 },
                 "name": {
@@ -2460,7 +2459,7 @@
                 "storageCapacity": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p>A storage capacity for the workflow in gigabytes.</p>",
+                        "smithy.api#documentation": "<p>A storage capacity for the workflow in gibibytes.</p>",
                         "smithy.api#range": {
                             "min": 0,
                             "max": 100000
@@ -3565,6 +3564,10 @@
                     {
                         "value": "CRAM",
                         "name": "CRAM"
+                    },
+                    {
+                        "value": "UBAM",
+                        "name": "UBAM"
                     }
                 ]
             }
@@ -6340,6 +6343,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n      The location of the run log. \n    </p>"
                     }
+                },
+                "uuid": {
+                    "target": "com.amazonaws.omics#RunUuid",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The universally unique identifier for a run. \n    </p>"
+                    }
+                },
+                "runOutputUri": {
+                    "target": "com.amazonaws.omics#RunOutputUri",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The destination for workflow outputs.\n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -8308,7 +8323,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to list multipart read set uploads",
-                "smithy.api#documentation": "<p>\n      Lists all multipart read set uploads and their statuses. \n    </p>",
+                "smithy.api#documentation": "<p>\n      Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.\n    </p>",
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
                 },
@@ -11442,7 +11457,7 @@
                     }
                 },
                 "referenceArn": {
-                    "target": "com.amazonaws.omics#ReferenceArn",
+                    "target": "com.amazonaws.omics#ReferenceArnFilter",
                     "traits": {
                         "smithy.api#documentation": "<p>A genome reference ARN to filter on.</p>"
                     }
@@ -11898,6 +11913,16 @@
                     "max": 127
                 },
                 "smithy.api#pattern": "^arn:.+$"
+            }
+        },
+        "com.amazonaws.omics#ReferenceArnFilter": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 127
+                },
+                "smithy.api#pattern": "^$|^arn:.+$"
             }
         },
         "com.amazonaws.omics#ReferenceDescription": {
@@ -13038,6 +13063,16 @@
                 "smithy.api#timestampFormat": "date-time"
             }
         },
+        "com.amazonaws.omics#RunUuid": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
+            }
+        },
         "com.amazonaws.omics#S3Destination": {
             "type": "string",
             "traits": {
@@ -14123,8 +14158,7 @@
                 "referenceArn": {
                     "target": "com.amazonaws.omics#ReferenceArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The source's reference ARN.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The source's reference ARN.</p>"
                     }
                 },
                 "name": {
@@ -14497,6 +14531,18 @@
                     "target": "com.amazonaws.omics#TagMap",
                     "traits": {
                         "smithy.api#documentation": "<p>The run's tags.</p>"
+                    }
+                },
+                "uuid": {
+                    "target": "com.amazonaws.omics#RunUuid",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The universally unique identifier for a run. \n    </p>"
+                    }
+                },
+                "runOutputUri": {
+                    "target": "com.amazonaws.omics#RunOutputUri",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      The destination for workflow outputs.\n    </p>"
                     }
                 }
             },

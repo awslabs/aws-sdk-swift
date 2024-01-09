@@ -86,6 +86,9 @@
                 "aws.api#arn": {
                     "template": "api-key/{KeyName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "APIKey"
+                },
                 "aws.iam#disableConditionKeyInference": {}
             }
         },
@@ -106,7 +109,7 @@
                 "AllowResources": {
                     "target": "com.amazonaws.location#GeoArnList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of allowed resource ARNs that a API key bearer can perform actions on.</p>\n         <ul>\n            <li>\n               <p>The ARN must be the correct ARN for a map, place, or route ARN. You may \n                    include wildcards in the resource-id to match multiple resources of the \n                    same type.</p>\n            </li>\n            <li>\n               <p>The resources must be in the same <code>partition</code>, \n                    <code>region</code>, and <code>account-id</code> as the key that is being \n                    created.</p>\n            </li>\n            <li>\n               <p>Other than wildcards, you must include the full ARN, including the \n                    <code>arn</code>, <code>partition</code>, <code>service</code>,\n                    <code>region</code>, <code>account-id</code> and <code>resource-id</code>,\n                    delimited by colons (:).</p>\n            </li>\n            <li>\n               <p>No spaces allowed, even with wildcards. For example,\n                    <code>arn:aws:geo:region:<i>account-id</i>:map/ExampleMap*</code>.</p>\n            </li>\n         </ul>\n         <p>For more information about ARN format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names\n            (ARNs)</a>.</p>",
+                        "smithy.api#documentation": "<p>A list of allowed resource ARNs that a API key bearer can perform actions on.</p>\n         <ul>\n            <li>\n               <p>The ARN must be the correct ARN for a map, place, or route ARN. You may \n                    include wildcards in the resource-id to match multiple resources of the \n                    same type.</p>\n            </li>\n            <li>\n               <p>The resources must be in the same <code>partition</code>, \n                    <code>region</code>, and <code>account-id</code> as the key that is being \n                    created.</p>\n            </li>\n            <li>\n               <p>Other than wildcards, you must include the full ARN, including the \n                    <code>arn</code>, <code>partition</code>, <code>service</code>,\n                    <code>region</code>, <code>account-id</code> and <code>resource-id</code>\n                    delimited by colons (:).</p>\n            </li>\n            <li>\n               <p>No spaces allowed, even with wildcards. For example,\n                    <code>arn:aws:geo:region:<i>account-id</i>:map/ExampleMap*</code>.</p>\n            </li>\n         </ul>\n         <p>For more information about ARN format, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names\n            (ARNs)</a>.</p>",
                         "smithy.api#length": {
                             "min": 1,
                             "max": 5
@@ -1279,7 +1282,7 @@
                 "DepartureTime": {
                     "target": "com.amazonaws.location#Timestamp",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the desired time of departure. Uses the given time to calculate the route.\n            Otherwise, the best time of day to travel with the best traffic conditions is used to\n            calculate the route.</p>\n         <note>\n            <p>Setting a departure time in the past returns a <code>400\n                    ValidationException</code> error.</p>\n         </note>\n         <ul>\n            <li>\n               <p>In <a href=\"https://www.iso.org/iso-8601-date-and-time-format.html\">ISO\n                        8601</a> format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>. For example,\n                        <code>2020–07-2T12:15:20.000Z+01:00</code>\n               </p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Specifies the desired time of departure. Uses the given time to calculate the route.\n            Otherwise, the best time of day to travel with the best traffic conditions is used to\n            calculate the route.</p>\n         <ul>\n            <li>\n               <p>In <a href=\"https://www.iso.org/iso-8601-date-and-time-format.html\">ISO\n                        8601</a> format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>. For example,\n                        <code>2020–07-2T12:15:20.000Z+01:00</code>\n               </p>\n            </li>\n         </ul>"
                     }
                 },
                 "DepartNow": {
@@ -1310,6 +1313,18 @@
                     "target": "com.amazonaws.location#CalculateRouteTruckModeOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies route preferences when traveling by <code>Truck</code>, such as avoiding\n            routes that use ferries or tolls, and truck specifications to consider when choosing an\n            optimal road.</p>\n         <p>Requirements: <code>TravelMode</code> must be specified as <code>Truck</code>.</p>"
+                    }
+                },
+                "ArrivalTime": {
+                    "target": "com.amazonaws.location#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the desired time of arrival. Uses the given time to calculate the route. \n            Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.</p>\n         <note>\n            <p>ArrivalTime is not supported Esri.</p>\n         </note>"
+                    }
+                },
+                "OptimizeFor": {
+                    "target": "com.amazonaws.location#OptimizationMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the distance to optimize for when calculating a route.</p>"
                     }
                 },
                 "Key": {
@@ -1587,6 +1602,7 @@
                 "KmsKeyId": {
                     "target": "com.amazonaws.location#KmsKeyId",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>A key identifier for an \n            <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html\">Amazon Web Services \n                KMS customer managed key</a>. Enter a key ID, key ARN, alias name, or alias ARN.\n\t</p>"
                     }
                 }
@@ -1780,6 +1796,7 @@
                 "MapName": {
                     "target": "com.amazonaws.location#ResourceName",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>The name for the map resource.</p>\n         <p>Requirements:</p>\n         <ul>\n            <li>\n               <p>Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_). </p>\n            </li>\n            <li>\n               <p>Must be a unique map resource name. </p>\n            </li>\n            <li>\n               <p>No spaces allowed. For example, <code>ExampleMap</code>.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
@@ -1787,6 +1804,7 @@
                 "Configuration": {
                     "target": "com.amazonaws.location#MapConfiguration",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>Specifies the <code>MapConfiguration</code>, including the map style, for the \n            map resource that you create. The map style defines the look of maps and the data \n            provider for your map resource.</p>",
                         "smithy.api#required": {}
                     }
@@ -1894,6 +1912,7 @@
                 "DataSource": {
                     "target": "smithy.api#String",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>Specifies the geospatial data provider for the new place index.</p>\n         <note>\n            <p>This field is case-sensitive. Enter the valid values as shown. For example,\n                entering <code>HERE</code> returns an error.</p>\n         </note>\n         <p>Valid values include:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Esri</code> – For additional information about <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/esri.html\">Esri</a>'s coverage in your region of interest, see <a href=\"https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm\">Esri details on geocoding coverage</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Grab</code> – Grab provides place index functionality for Southeast \n                    Asia. For additional information about <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html\">GrabMaps</a>' coverage, see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area\">GrabMaps countries and areas covered</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Here</code> – For additional information about <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/HERE.html\">HERE\n                        Technologies</a>' coverage in your region of interest, see <a href=\"https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html\">HERE details on goecoding coverage</a>.</p>\n               <important>\n                  <p>If you specify HERE Technologies (<code>Here</code>) as the data provider,\n                        you may not <a href=\"https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html\">store results</a> for locations in Japan. For more information, see\n                        the <a href=\"http://aws.amazon.com/service-terms/\">Amazon Web Services Service\n                            Terms</a> for Amazon Location Service.</p>\n               </important>\n            </li>\n         </ul>\n         <p>For additional information , see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html\">Data\n                providers</a> on the <i>Amazon Location Service Developer Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
@@ -2007,6 +2026,7 @@
                 "DataSource": {
                     "target": "smithy.api#String",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>Specifies the data provider of traffic and road network data.</p>\n         <note>\n            <p>This field is case-sensitive. Enter the valid values as shown. For example,\n                entering <code>HERE</code> returns an error.</p>\n         </note>\n         <p>Valid values include:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Esri</code> – For additional information about <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/esri.html\">Esri</a>'s coverage in your region of interest, see <a href=\"https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm\">Esri details on street networks and traffic coverage</a>.</p>\n               <p>Route calculators that use Esri as a\n                    data source only calculate routes that are shorter than 400 km.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Grab</code> – Grab provides routing functionality for Southeast Asia.\n                    For additional information about <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html\">GrabMaps</a>' coverage,\n                    see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area\">GrabMaps\n                        countries and areas covered</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Here</code> – For additional information about <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/HERE.html\">HERE\n                        Technologies</a>' coverage in your region of interest, see <a href=\"https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html\">HERE car routing coverage</a> and <a href=\"https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html\">HERE truck routing coverage</a>.</p>\n            </li>\n         </ul>\n         <p>For additional information , see <a href=\"https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html\">Data\n                providers</a> on the <i>Amazon Location Service Developer Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
@@ -2124,6 +2144,7 @@
                 "KmsKeyId": {
                     "target": "com.amazonaws.location#KmsKeyId",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>A key identifier for an \n           <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html\">Amazon Web Services \n               KMS customer managed key</a>. Enter a key ID, key ARN, alias name, or alias ARN.</p>"
                     }
                 },
@@ -2309,6 +2330,13 @@
                         "smithy.api#documentation": "<p>The name of the API key to delete.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "ForceDelete": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>ForceDelete bypasses an API key's expiry conditions and deletes the key. Set the parameter <code>true</code> to delete the key or to <code>false</code> to not preemptively delete the API key.</p>\n         <p>Valid values: <code>true</code>, or <code>false</code>.</p>\n         <p>Required: No</p>\n         <note>\n            <p>This action is irreversible. Only use ForceDelete if you are certain the key is no longer in use.</p>\n         </note>",
+                        "smithy.api#httpQuery": "forceDelete"
                     }
                 }
             }
@@ -2659,6 +2687,7 @@
                 "GeofenceCount": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The number of geofences in the geofence collection.</p>",
                         "smithy.api#range": {
                             "min": 0
@@ -2723,6 +2752,7 @@
                 "Key": {
                     "target": "com.amazonaws.location#ApiKey",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The key value/string of an API key.</p>",
                         "smithy.api#required": {}
                     }
@@ -2862,6 +2892,7 @@
                 "DataSource": {
                     "target": "smithy.api#String",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>Specifies the data provider for the associated map tiles.</p>",
                         "smithy.api#required": {}
                     }
@@ -3232,6 +3263,7 @@
                 "Tags": {
                     "target": "com.amazonaws.location#TagMap",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>The tags associated with the tracker resource.</p>"
                     }
                 },
@@ -3565,6 +3597,9 @@
                 "aws.api#arn": {
                     "template": "geofence-collection/{CollectionName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "GeofenceCollection"
+                },
                 "aws.iam#disableConditionKeyInference": {}
             }
         },
@@ -3708,6 +3743,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of device positions returned in a single call.</p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -4616,6 +4652,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of entries returned in a single call.</p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -4632,7 +4669,7 @@
                 "FilterGeometry": {
                     "target": "com.amazonaws.location#TrackingFilterGeometry",
                     "traits": {
-                        "smithy.api#documentation": "<p>The geomerty used to filter device positions.</p>"
+                        "smithy.api#documentation": "<p>The geometry used to filter device positions.</p>"
                     }
                 }
             }
@@ -4748,6 +4785,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of resources returned in a single call. </p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -4961,6 +4999,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of geofences returned in a single call. </p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -5034,6 +5073,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of resources returned in a single call. </p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -5173,6 +5213,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of resources returned in a single call. </p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -5311,6 +5352,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the maximum number of results returned in a single call.</p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -5449,6 +5491,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional maximum number of results returned in a single call.</p>\n         <p>Default Value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -5659,6 +5702,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of resources returned in a single call. </p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -5738,6 +5782,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional limit for the number of resources returned in a single call. </p>\n         <p>Default value: <code>100</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -6575,6 +6620,9 @@
                 "aws.api#arn": {
                     "template": "map/{MapName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "Map"
+                },
                 "aws.iam#disableConditionKeyInference": {}
             }
         },
@@ -6586,6 +6634,19 @@
                     "max": 100
                 },
                 "smithy.api#pattern": "^[-._\\w]+$"
+            }
+        },
+        "com.amazonaws.location#OptimizationMode": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "FastestRoute"
+                    },
+                    {
+                        "value": "ShortestRoute"
+                    }
+                ]
             }
         },
         "com.amazonaws.location#Place": {
@@ -6686,6 +6747,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Categories from the data provider that describe the Place that are not mapped\n            to any Amazon Location categories.</p>"
                     }
+                },
+                "SubMunicipality": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An area that's part of a larger municipality. For example, <code>Blissville </code> \n            is a submunicipality in the Queen County in New York.</p>\n         <note>\n            <p>This property supported by Esri and OpenData. The Esri property is <code>district</code>, and the OpenData property is <code>borough</code>.</p>\n         </note>"
+                    }
                 }
             },
             "traits": {
@@ -6769,13 +6836,15 @@
                 "aws.api#arn": {
                     "template": "place-index/{IndexName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "PlaceIndex"
+                },
                 "aws.iam#disableConditionKeyInference": {}
             }
         },
         "com.amazonaws.location#PlaceIndexSearchResultLimit": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 50
@@ -7093,6 +7162,9 @@
                 "aws.api#arn": {
                     "template": "route-calculator/{CalculatorName}"
                 },
+                "aws.cloudformation#cfnResource": {
+                    "name": "RouteCalculator"
+                },
                 "aws.iam#disableConditionKeyInference": {}
             }
         },
@@ -7366,7 +7438,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.location#PlaceIndexSearchResultLimit",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>An optional parameter. The maximum number of results returned per request.</p>\n         <p>Default value: <code>50</code>\n         </p>"
                     }
                 },
@@ -7417,7 +7488,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.location#PlaceIndexSearchResultLimit",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Contains the optional result count limit that is specified in the request.</p>\n         <p>Default value: <code>50</code>\n         </p>"
                     }
                 },
@@ -7519,6 +7589,7 @@
                 "MaxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>An optional parameter. The maximum number of results returned per request. </p>\n         <p>The default: <code>5</code>\n         </p>",
                         "smithy.api#range": {
                             "min": 1,
@@ -7704,7 +7775,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.location#PlaceIndexSearchResultLimit",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>An optional parameter. The maximum number of results returned per request. </p>\n         <p>The default: <code>50</code>\n         </p>"
                     }
                 },
@@ -7779,7 +7849,6 @@
                 "MaxResults": {
                     "target": "com.amazonaws.location#PlaceIndexSearchResultLimit",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Contains the optional result count limit specified in the request.</p>"
                     }
                 },
@@ -8437,6 +8506,7 @@
                 "KeyName": {
                     "target": "com.amazonaws.location#ResourceName",
                     "traits": {
+                        "aws.cloudformation#cfnMutability": "create-and-read",
                         "smithy.api#documentation": "<p>The name of the API key resource to update.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
@@ -8567,6 +8637,7 @@
                 "ConfigurationUpdate": {
                     "target": "com.amazonaws.location#MapConfigurationUpdate",
                     "traits": {
+                        "aws.cloudformation#cfnExcludeProperty": {},
                         "smithy.api#documentation": "<p>Updates the parts of the map configuration that can be updated, including the\n            political view.</p>"
                     }
                 }

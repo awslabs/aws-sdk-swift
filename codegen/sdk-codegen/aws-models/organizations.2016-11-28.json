@@ -1674,6 +1674,14 @@
                             "TargetId": "ou-examplerootid111-exampleouid111",
                             "PolicyId": "p-examplepolicyid111"
                         }
+                    },
+                    {
+                        "title": "To attach a policy to an account",
+                        "documentation": "The following example shows how to attach a service control policy (SCP) to an account:\n",
+                        "input": {
+                            "TargetId": "333333333333",
+                            "PolicyId": "p-examplepolicyid111"
+                        }
                     }
                 ]
             }
@@ -2627,6 +2635,24 @@
                                 "MasterAccountArn": "arn:aws:organizations::111111111111:account/o-exampleorgid/111111111111",
                                 "MasterAccountEmail": "bill@example.com",
                                 "FeatureSet": "ALL",
+                                "Id": "o-exampleorgid",
+                                "Arn": "arn:aws:organizations::111111111111:organization/o-exampleorgid"
+                            }
+                        }
+                    },
+                    {
+                        "title": "To create a new organization with consolidated billing features only",
+                        "documentation": "In the following example, Bill creates an organization using credentials from account 111111111111, and configures the organization to support only the consolidated billing feature set:\n\n",
+                        "input": {
+                            "FeatureSet": "CONSOLIDATED_BILLING"
+                        },
+                        "output": {
+                            "Organization": {
+                                "AvailablePolicyTypes": [],
+                                "MasterAccountId": "111111111111",
+                                "MasterAccountArn": "arn:aws:organizations::111111111111:account/o-exampleorgid/111111111111",
+                                "MasterAccountEmail": "bill@example.com",
+                                "FeatureSet": "CONSOLIDATED_BILLING",
                                 "Id": "o-exampleorgid",
                                 "Arn": "arn:aws:organizations::111111111111:organization/o-exampleorgid"
                             }
@@ -5926,6 +5952,25 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "title": "To get a list of all account creation requests made in the organization",
+                        "documentation": "The following example shows a user requesting a list of only the in-progress account creation requests made for the current organization:",
+                        "input": {
+                            "States": [
+                                "IN_PROGRESS"
+                            ]
+                        },
+                        "output": {
+                            "CreateAccountStatuses": [
+                                {
+                                    "State": "IN_PROGRESS",
+                                    "Id": "car-exampleaccountcreationrequestid2",
+                                    "RequestedTimestamp": "2017-01-15T13:45:23.01Z",
+                                    "AccountName": "Production Account"
+                                }
+                            ]
+                        }
                     }
                 ],
                 "smithy.api#paginated": {
@@ -8727,6 +8772,27 @@
                         "output": {
                             "Policy": {
                                 "Content": "{ \"Version\": \"2012-10-17\", \"Statement\": { \"Effect\": \"Allow\", \"Action\": \"ec2:*\", \"Resource\": \"*\" } }",
+                                "PolicySummary": {
+                                    "Id": "p-examplepolicyid111",
+                                    "AwsManaged": false,
+                                    "Arn": "arn:aws:organizations::111111111111:policy/o-exampleorgid/service_control_policy/p-examplepolicyid111",
+                                    "Description": "This description replaces the original.",
+                                    "Name": "Renamed-Policy",
+                                    "Type": "SERVICE_CONTROL_POLICY"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "title": "To update the content of a policy",
+                        "documentation": "The following example shows how to replace the JSON text of the SCP from the preceding example with a new JSON policy text string that allows S3 actions instead of EC2 actions:/n/n",
+                        "input": {
+                            "PolicyId": "p-examplepolicyid111",
+                            "Content": "{ \\\"Version\\\": \\\"2012-10-17\\\", \\\"Statement\\\": {\\\"Effect\\\": \\\"Allow\\\", \\\"Action\\\": \\\"s3:*\\\", \\\"Resource\\\": \\\"*\\\" } }"
+                        },
+                        "output": {
+                            "Policy": {
+                                "Content": "{ \\\"Version\\\": \\\"2012-10-17\\\", \\\"Statement\\\": { \\\"Effect\\\": \\\"Allow\\\", \\\"Action\\\": \\\"s3:*\\\", \\\"Resource\\\": \\\"*\\\" } }",
                                 "PolicySummary": {
                                     "Id": "p-examplepolicyid111",
                                     "AwsManaged": false,

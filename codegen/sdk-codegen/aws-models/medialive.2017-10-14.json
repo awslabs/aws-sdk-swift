@@ -3347,6 +3347,90 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.medialive#ColorCorrection": {
+            "type": "structure",
+            "members": {
+                "InputColorSpace": {
+                    "target": "com.amazonaws.medialive#ColorSpace",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The color space of the input.",
+                        "smithy.api#jsonName": "inputColorSpace",
+                        "smithy.api#required": {}
+                    }
+                },
+                "OutputColorSpace": {
+                    "target": "com.amazonaws.medialive#ColorSpace",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The color space of the output.",
+                        "smithy.api#jsonName": "outputColorSpace",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Uri": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The URI of the 3D LUT file. The protocol must be 's3:' or 's3ssl:':.",
+                        "smithy.api#jsonName": "uri",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of ColorCorrectionSettings. Used for custom color space conversion. The object identifies one 3D LUT file and specifies the input/output color space combination that the file will be used for."
+            }
+        },
+        "com.amazonaws.medialive#ColorCorrectionSettings": {
+            "type": "structure",
+            "members": {
+                "GlobalColorCorrections": {
+                    "target": "com.amazonaws.medialive#__listOfColorCorrection",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "An array of colorCorrections that applies when you are using 3D LUT files to perform color conversion on video. Each colorCorrection contains one 3D LUT file (that defines the color mapping for converting an input color space to an output color space), and the input/output combination that this 3D LUT file applies to. MediaLive reads the color space in the input metadata, determines the color space that you have specified for the output, and finds and uses the LUT file that applies to this combination.",
+                        "smithy.api#jsonName": "globalColorCorrections",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of encoderSettings. Controls color conversion when you are using 3D LUT files to perform color conversion on video."
+            }
+        },
+        "com.amazonaws.medialive#ColorSpace": {
+            "type": "enum",
+            "members": {
+                "HDR10": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HDR10"
+                    }
+                },
+                "HLG_2020": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HLG_2020"
+                    }
+                },
+                "REC_601": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "REC_601"
+                    }
+                },
+                "REC_709": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "REC_709"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of colorCorrections. When you are using 3D LUT files to perform color conversion on video, these are the supported color spaces."
+            }
+        },
         "com.amazonaws.medialive#ColorSpacePassthroughSettings": {
             "type": "structure",
             "members": {},
@@ -5043,7 +5127,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "Get account configuration",
+                "smithy.api#documentation": "Describe account configuration",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/prod/accountConfiguration",
@@ -8573,6 +8657,13 @@
                         "smithy.api#documentation": "Thumbnail configuration settings.",
                         "smithy.api#jsonName": "thumbnailConfiguration"
                     }
+                },
+                "ColorCorrectionSettings": {
+                    "target": "com.amazonaws.medialive#ColorCorrectionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Color Correction Settings",
+                        "smithy.api#jsonName": "colorCorrectionSettings"
+                    }
                 }
             },
             "traits": {
@@ -8708,6 +8799,13 @@
                         "smithy.api#documentation": "Enables the Input Prepare feature. You can create Input Prepare actions in the schedule only if this feature is enabled.\nIf you disable the feature on an existing schedule, make sure that you first delete all input prepare actions from the schedule.",
                         "smithy.api#jsonName": "inputPrepareScheduleActions"
                     }
+                },
+                "OutputStaticImageOverlayScheduleActions": {
+                    "target": "com.amazonaws.medialive#FeatureActivationsOutputStaticImageOverlayScheduleActions",
+                    "traits": {
+                        "smithy.api#documentation": "Enables the output static image overlay feature. Enabling this feature allows you to send channel schedule updates\nto display/clear/modify image overlays on an output-by-output bases.",
+                        "smithy.api#jsonName": "outputStaticImageOverlayScheduleActions"
+                    }
                 }
             },
             "traits": {
@@ -8732,6 +8830,26 @@
             },
             "traits": {
                 "smithy.api#documentation": "Feature Activations Input Prepare Schedule Actions"
+            }
+        },
+        "com.amazonaws.medialive#FeatureActivationsOutputStaticImageOverlayScheduleActions": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Feature Activations Output Static Image Overlay Schedule Actions"
             }
         },
         "com.amazonaws.medialive#FecOutputIncludeFec": {
@@ -12598,6 +12716,84 @@
                 "smithy.api#documentation": "The codec to use on the video that the device produces."
             }
         },
+        "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairConfig": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.medialive#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "The ID for one audio pair configuration, a value from 1 to 8.",
+                        "smithy.api#jsonName": "id"
+                    }
+                },
+                "Profile": {
+                    "target": "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairProfile",
+                    "traits": {
+                        "smithy.api#documentation": "The profile to set for one audio pair configuration. Choose an enumeration value. Each value describes one audio configuration using the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or choose DISABLED, in which case the device won't produce audio for this pair.",
+                        "smithy.api#jsonName": "profile"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "One audio configuration that specifies the format for one audio pair that the device produces as output."
+            }
+        },
+        "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairProfile": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "VBR_AAC_HHE_16000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HHE-16000"
+                    }
+                },
+                "VBR_AAC_HE_64000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HE-64000"
+                    }
+                },
+                "VBR_AAC_LC_128000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_LC-128000"
+                    }
+                },
+                "CBR_AAC_HQ_192000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-192000"
+                    }
+                },
+                "CBR_AAC_HQ_256000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-256000"
+                    }
+                },
+                "CBR_AAC_HQ_384000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-384000"
+                    }
+                },
+                "CBR_AAC_HQ_512000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-512000"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of InputDeviceConfigurableAudioChannelPairConfig, which configures one audio channel that the device produces."
+            }
+        },
         "com.amazonaws.medialive#InputDeviceConfigurableSettings": {
             "type": "structure",
             "members": {
@@ -12634,6 +12830,13 @@
                     "traits": {
                         "smithy.api#documentation": "To attach this device to a MediaConnect flow, specify these parameters. To detach an existing flow, enter {} for the value of mediaconnectSettings. Only UHD devices can specify this parameter.",
                         "smithy.api#jsonName": "mediaconnectSettings"
+                    }
+                },
+                "AudioChannelPairs": {
+                    "target": "com.amazonaws.medialive#__listOfInputDeviceConfigurableAudioChannelPairConfig",
+                    "traits": {
+                        "smithy.api#documentation": "An array of eight audio configurations, one for each audio pair in the source. Set up each audio configuration either to exclude the pair, or to format it and include it in the output from the device. This parameter applies only to UHD devices, and only when the device is configured as the source for a MediaConnect flow. For an HD device, you configure the audio by setting up audio selectors in the channel configuration.",
+                        "smithy.api#jsonName": "audioChannelPairs"
                     }
                 }
             },
@@ -13156,6 +13359,84 @@
                 "smithy.api#documentation": "The type of the input device. For an AWS Elemental Link device that outputs resolutions up to 1080, choose \"HD\"."
             }
         },
+        "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairConfig": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.medialive#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "The ID for one audio pair configuration, a value from 1 to 8.",
+                        "smithy.api#jsonName": "id"
+                    }
+                },
+                "Profile": {
+                    "target": "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairProfile",
+                    "traits": {
+                        "smithy.api#documentation": "The profile for one audio pair configuration. This property describes one audio configuration in the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or DISABLED, in which case the device won't produce audio for this pair.",
+                        "smithy.api#jsonName": "profile"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "One audio configuration that specifies the format for one audio pair that the device produces as output."
+            }
+        },
+        "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairProfile": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "VBR_AAC_HHE_16000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HHE-16000"
+                    }
+                },
+                "VBR_AAC_HE_64000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HE-64000"
+                    }
+                },
+                "VBR_AAC_LC_128000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_LC-128000"
+                    }
+                },
+                "CBR_AAC_HQ_192000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-192000"
+                    }
+                },
+                "CBR_AAC_HQ_256000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-256000"
+                    }
+                },
+                "CBR_AAC_HQ_384000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-384000"
+                    }
+                },
+                "CBR_AAC_HQ_512000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-512000"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of InputDeviceUhdAudioChannelPairConfig, which describes one audio channel that the device is configured to produce."
+            }
+        },
         "com.amazonaws.medialive#InputDeviceUhdSettings": {
             "type": "structure",
             "members": {
@@ -13234,6 +13515,13 @@
                     "traits": {
                         "smithy.api#documentation": "Information about the MediaConnect flow attached to the device. Returned only if the outputType is MEDIACONNECT_FLOW.",
                         "smithy.api#jsonName": "mediaconnectSettings"
+                    }
+                },
+                "AudioChannelPairs": {
+                    "target": "com.amazonaws.medialive#__listOfInputDeviceUhdAudioChannelPairConfig",
+                    "traits": {
+                        "smithy.api#documentation": "An array of eight audio configurations, one for each audio pair in the source. Each audio configuration specifies either to exclude the pair, or to format it and include it in the output from the UHD device. Applies only when the device is configured as the source for a MediaConnect flow.",
+                        "smithy.api#jsonName": "audioChannelPairs"
                     }
                 }
             },
@@ -20701,6 +20989,20 @@
                         "smithy.api#documentation": "Action to deactivate a static image overlay",
                         "smithy.api#jsonName": "staticImageDeactivateSettings"
                     }
+                },
+                "StaticImageOutputActivateSettings": {
+                    "target": "com.amazonaws.medialive#StaticImageOutputActivateScheduleActionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Action to activate a static image overlay in one or more specified outputs",
+                        "smithy.api#jsonName": "staticImageOutputActivateSettings"
+                    }
+                },
+                "StaticImageOutputDeactivateSettings": {
+                    "target": "com.amazonaws.medialive#StaticImageOutputDeactivateScheduleActionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Action to deactivate a static image overlay in one or more specified outputs",
+                        "smithy.api#jsonName": "staticImageOutputDeactivateSettings"
+                    }
                 }
             },
             "traits": {
@@ -21909,7 +22211,7 @@
                 "InputDeviceId": {
                     "target": "com.amazonaws.medialive#__string",
                     "traits": {
-                        "smithy.api#documentation": "The unique ID of the input device to reboot. For example, hd-123456789abcdef.",
+                        "smithy.api#documentation": "The unique ID of the input device to start. For example, hd-123456789abcdef.",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -22184,6 +22486,126 @@
                 "smithy.api#documentation": "Settings for the action to deactivate the image in a specific layer."
             }
         },
+        "com.amazonaws.medialive#StaticImageOutputActivateScheduleActionSettings": {
+            "type": "structure",
+            "members": {
+                "Duration": {
+                    "target": "com.amazonaws.medialive#__integerMin0",
+                    "traits": {
+                        "smithy.api#documentation": "The duration in milliseconds for the image to remain on the video. If omitted or set to 0 the duration is unlimited and the image will remain until it is explicitly deactivated.",
+                        "smithy.api#jsonName": "duration"
+                    }
+                },
+                "FadeIn": {
+                    "target": "com.amazonaws.medialive#__integerMin0",
+                    "traits": {
+                        "smithy.api#documentation": "The time in milliseconds for the image to fade in. The fade-in starts at the start time of the overlay. Default is 0 (no fade-in).",
+                        "smithy.api#jsonName": "fadeIn"
+                    }
+                },
+                "FadeOut": {
+                    "target": "com.amazonaws.medialive#__integerMin0",
+                    "traits": {
+                        "smithy.api#documentation": "Applies only if a duration is specified. The time in milliseconds for the image to fade out. The fade-out starts when the duration time is hit, so it effectively extends the duration. Default is 0 (no fade-out).",
+                        "smithy.api#jsonName": "fadeOut"
+                    }
+                },
+                "Height": {
+                    "target": "com.amazonaws.medialive#__integerMin1",
+                    "traits": {
+                        "smithy.api#documentation": "The height of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified height. Leave blank to use the native height of the overlay.",
+                        "smithy.api#jsonName": "height"
+                    }
+                },
+                "Image": {
+                    "target": "com.amazonaws.medialive#InputLocation",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The location and filename of the image file to overlay on the video. The file must be a 32-bit BMP, PNG, or TGA file, and must not be larger (in pixels) than the input video.",
+                        "smithy.api#jsonName": "image",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ImageX": {
+                    "target": "com.amazonaws.medialive#__integerMin0",
+                    "traits": {
+                        "smithy.api#documentation": "Placement of the left edge of the overlay relative to the left edge of the video frame, in pixels. 0 (the default) is the left edge of the frame. If the placement causes the overlay to extend beyond the right edge of the underlying video, then the overlay is cropped on the right.",
+                        "smithy.api#jsonName": "imageX"
+                    }
+                },
+                "ImageY": {
+                    "target": "com.amazonaws.medialive#__integerMin0",
+                    "traits": {
+                        "smithy.api#documentation": "Placement of the top edge of the overlay relative to the top edge of the video frame, in pixels. 0 (the default) is the top edge of the frame. If the placement causes the overlay to extend beyond the bottom edge of the underlying video, then the overlay is cropped on the bottom.",
+                        "smithy.api#jsonName": "imageY"
+                    }
+                },
+                "Layer": {
+                    "target": "com.amazonaws.medialive#__integerMin0Max7",
+                    "traits": {
+                        "smithy.api#documentation": "The number of the layer, 0 to 7. There are 8 layers that can be overlaid on the video, each layer with a different image. The layers are in Z order, which means that overlays with higher values of layer are inserted on top of overlays with lower values of layer. Default is 0.",
+                        "smithy.api#jsonName": "layer"
+                    }
+                },
+                "Opacity": {
+                    "target": "com.amazonaws.medialive#__integerMin0Max100",
+                    "traits": {
+                        "smithy.api#documentation": "Opacity of image where 0 is transparent and 100 is fully opaque. Default is 100.",
+                        "smithy.api#jsonName": "opacity"
+                    }
+                },
+                "OutputNames": {
+                    "target": "com.amazonaws.medialive#__listOf__string",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The name(s) of the output(s) the activation should apply to.",
+                        "smithy.api#jsonName": "outputNames",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Width": {
+                    "target": "com.amazonaws.medialive#__integerMin1",
+                    "traits": {
+                        "smithy.api#documentation": "The width of the image when inserted into the video, in pixels. The overlay will be scaled up or down to the specified width. Leave blank to use the native width of the overlay.",
+                        "smithy.api#jsonName": "width"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Settings for the action to activate a static image."
+            }
+        },
+        "com.amazonaws.medialive#StaticImageOutputDeactivateScheduleActionSettings": {
+            "type": "structure",
+            "members": {
+                "FadeOut": {
+                    "target": "com.amazonaws.medialive#__integerMin0",
+                    "traits": {
+                        "smithy.api#documentation": "The time in milliseconds for the image to fade out. Default is 0 (no fade-out).",
+                        "smithy.api#jsonName": "fadeOut"
+                    }
+                },
+                "Layer": {
+                    "target": "com.amazonaws.medialive#__integerMin0Max7",
+                    "traits": {
+                        "smithy.api#documentation": "The image overlay layer to deactivate, 0 to 7. Default is 0.",
+                        "smithy.api#jsonName": "layer"
+                    }
+                },
+                "OutputNames": {
+                    "target": "com.amazonaws.medialive#__listOf__string",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The name(s) of the output(s) the deactivation should apply to.",
+                        "smithy.api#jsonName": "outputNames",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Settings for the action to deactivate the image in a specific layer."
+            }
+        },
         "com.amazonaws.medialive#StaticKeySettings": {
             "type": "structure",
             "members": {
@@ -22450,7 +22872,7 @@
                 "InputDeviceId": {
                     "target": "com.amazonaws.medialive#__string",
                     "traits": {
-                        "smithy.api#documentation": "The unique ID of the input device to reboot. For example, hd-123456789abcdef.",
+                        "smithy.api#documentation": "The unique ID of the input device to stop. For example, hd-123456789abcdef.",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -22872,7 +23294,7 @@
                     "target": "com.amazonaws.medialive#ThumbnailState",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "Whether Thumbnail is enabled.",
+                        "smithy.api#documentation": "Enables the thumbnail feature. The feature generates thumbnails of the incoming video in each pipeline in the channel. AUTO turns the feature on, DISABLE turns the feature off.",
                         "smithy.api#jsonName": "state",
                         "smithy.api#required": {}
                     }
@@ -25575,6 +25997,15 @@
                 "smithy.api#documentation": "Placeholder documentation for __listOfChannelSummary"
             }
         },
+        "com.amazonaws.medialive#__listOfColorCorrection": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#ColorCorrection"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfColorCorrection"
+            }
+        },
         "com.amazonaws.medialive#__listOfFailoverCondition": {
             "type": "list",
             "member": {
@@ -25638,6 +26069,15 @@
                 "smithy.api#documentation": "Placeholder documentation for __listOfInputDestinationRequest"
             }
         },
+        "com.amazonaws.medialive#__listOfInputDeviceConfigurableAudioChannelPairConfig": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairConfig"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfInputDeviceConfigurableAudioChannelPairConfig"
+            }
+        },
         "com.amazonaws.medialive#__listOfInputDeviceRequest": {
             "type": "list",
             "member": {
@@ -25663,6 +26103,15 @@
             },
             "traits": {
                 "smithy.api#documentation": "Placeholder documentation for __listOfInputDeviceSummary"
+            }
+        },
+        "com.amazonaws.medialive#__listOfInputDeviceUhdAudioChannelPairConfig": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairConfig"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfInputDeviceUhdAudioChannelPairConfig"
             }
         },
         "com.amazonaws.medialive#__listOfInputSecurityGroup": {
