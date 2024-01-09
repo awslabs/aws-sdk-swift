@@ -30,7 +30,7 @@ class EndpointResolverGenerator() {
 
         ctx.delegator.useFileWriter("./$rootNamespace/EndpointResolver.swift") {
             val endpointParamsGenerator = EndpointParamsGenerator(ruleSet)
-            endpointParamsGenerator.render(it)
+            endpointParamsGenerator.render(it, ctx)
         }
 
         ctx.delegator.useFileWriter("./$rootNamespace/EndpointResolver.swift") {

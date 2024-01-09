@@ -90,7 +90,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
     }
 
     override fun serviceConfigProperties(): List<ConfigField> {
-        var configs = mutableListOf<ConfigField>()
+        val configs = mutableListOf<ConfigField>()
 
         // service specific EndpointResolver
         configs.add(ConfigField(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "\$N", "Endpoint resolver"))

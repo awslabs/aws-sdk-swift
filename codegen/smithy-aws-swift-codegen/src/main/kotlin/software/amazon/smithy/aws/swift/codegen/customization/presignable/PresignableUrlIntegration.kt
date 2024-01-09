@@ -2,9 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
-import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
-import software.amazon.smithy.aws.swift.codegen.SigningAlgorithm
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.customization.PutObjectPresignedURLMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
@@ -28,6 +26,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_URL
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
@@ -131,7 +130,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     operationStackName,
                     ::overrideHttpMethod
                 )
-                generator.render(op) { writer, _ ->
+                generator.render(op, PRESIGN_URL) { writer, _ ->
                     writer.write("return nil")
                 }
 
@@ -195,21 +194,6 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputQueryItemMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        val opID = op.id.toString()
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(context.model, context.service, op)) {
-            val params = AWSSigningParams(
-                context.service,
-                op,
-                true,
-                // The S3 presigned URLs require an unsigned body setting of true while Polly requires the opposite.
-                // If more presigned URL types are added, this logic should be refactored to scale with more presigned URLs.
-                listOf("com.amazonaws.s3#PutObject", "com.amazonaws.s3#GetObject").contains(opID),
-                true,
-                signingAlgorithm = SigningAlgorithm.SigV4
-            )
-            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
-        }
         when (op.id.toString()) {
             "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
                 operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")

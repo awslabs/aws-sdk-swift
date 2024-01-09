@@ -80,7 +80,7 @@ class Sigv4SigningTests: XCTestCase {
 
         let messagePayload = try! encoder.encode(message: message)
 
-        let result = try! await AWSSigV4Signer.signEvent(payload: messagePayload,
+        let result = try! await AWSSigV4Signer().signEvent(payload: messagePayload,
                                                          previousSignature: prevSignature,
                                                          signingConfig: signingConfig)
         XCTAssertEqual(":date", result.output.headers[0].name)

@@ -40,6 +40,8 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .build()
         
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            return AWSSigV4Signer()
+        } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
             return context.getRequestSignature()
@@ -68,6 +70,8 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .build()
         
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            return AWSSigV4Signer()
+        } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
             return context.getRequestSignature()

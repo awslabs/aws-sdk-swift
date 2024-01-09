@@ -18,6 +18,7 @@ import software.amazon.smithy.rulesengine.traits.ContextParamTrait
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.StaticContextParamDefinition
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
@@ -70,6 +71,10 @@ class OperationEndpointResolverMiddleware(
                 }
         }
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
+        // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
+        if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
+            writer.write("context.attributes.set(key: AttributeKey<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)")
+        }
         val middlewareParamsString = "endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams"
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
     }
