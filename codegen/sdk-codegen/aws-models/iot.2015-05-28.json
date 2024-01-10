@@ -4643,9 +4643,6 @@
             }
         },
         "com.amazonaws.iot#Boolean": {
-            "type": "boolean"
-        },
-        "com.amazonaws.iot#Boolean2": {
             "type": "boolean",
             "traits": {
                 "smithy.api#default": false
@@ -8552,8 +8549,9 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled2",
+                    "target": "com.amazonaws.iot#Enabled",
                     "traits": {
+                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True to enable the provisioning template, otherwise false.</p>"
                     }
                 },
@@ -14056,8 +14054,9 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled2",
+                    "target": "com.amazonaws.iot#Enabled",
                     "traits": {
+                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True if the provisioning template is enabled, otherwise false.</p>"
                     }
                 },
@@ -16179,9 +16178,6 @@
             "traits": {
                 "smithy.api#default": false
             }
-        },
-        "com.amazonaws.iot#Enabled2": {
-            "type": "boolean"
         },
         "com.amazonaws.iot#EnabledBoolean": {
             "type": "boolean"
@@ -27633,8 +27629,9 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled2",
+                    "target": "com.amazonaws.iot#Enabled",
                     "traits": {
+                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True if the fleet provision template is enabled, otherwise false.</p>"
                     }
                 },
@@ -31853,6 +31850,7 @@
                 "connected": {
                     "target": "com.amazonaws.iot#Boolean",
                     "traits": {
+                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not\n      connected.</p>"
                     }
                 },
@@ -32300,7 +32298,7 @@
             "type": "structure",
             "members": {
                 "deprecated": {
-                    "target": "com.amazonaws.iot#Boolean2",
+                    "target": "com.amazonaws.iot#Boolean",
                     "traits": {
                         "smithy.api#default": false,
                         "smithy.api#documentation": "<p>Whether the thing type is deprecated. If <b>true</b>, no new things could be\n\t\t\tassociated with this type.</p>"
@@ -34821,8 +34819,9 @@
                     }
                 },
                 "enabled": {
-                    "target": "com.amazonaws.iot#Enabled2",
+                    "target": "com.amazonaws.iot#Enabled",
                     "traits": {
+                        "smithy.api#default": false,
                         "smithy.api#documentation": "<p>True to enable the provisioning template, otherwise false.</p>"
                     }
                 },

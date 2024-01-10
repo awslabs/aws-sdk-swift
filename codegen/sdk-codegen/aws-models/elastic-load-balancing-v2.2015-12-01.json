@@ -971,49 +971,6 @@
                                 }
                             ]
                         }
-                    },
-                    {
-                        "title": "To create an HTTPS listener",
-                        "documentation": "This example creates an HTTPS listener for the specified load balancer that forwards requests to the specified target group. Note that you must specify an SSL certificate for an HTTPS listener. You can create and manage certificates using AWS Certificate Manager (ACM). Alternatively, you can create a certificate using SSL/TLS tools, get the certificate signed by a certificate authority (CA), and upload the certificate to AWS Identity and Access Management (IAM).",
-                        "input": {
-                            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188",
-                            "Protocol": "HTTPS",
-                            "Port": 443,
-                            "SslPolicy": "ELBSecurityPolicy-2015-05",
-                            "Certificates": [
-                                {
-                                    "CertificateArn": "arn:aws:iam::123456789012:server-certificate/my-server-cert"
-                                }
-                            ],
-                            "DefaultActions": [
-                                {
-                                    "Type": "forward",
-                                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"
-                                }
-                            ]
-                        },
-                        "output": {
-                            "Listeners": [
-                                {
-                                    "Protocol": "HTTPS",
-                                    "DefaultActions": [
-                                        {
-                                            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067",
-                                            "Type": "forward"
-                                        }
-                                    ],
-                                    "SslPolicy": "ELBSecurityPolicy-2015-05",
-                                    "Certificates": [
-                                        {
-                                            "CertificateArn": "arn:aws:iam::123456789012:server-certificate/my-server-cert"
-                                        }
-                                    ],
-                                    "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188",
-                                    "Port": 443,
-                                    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2"
-                                }
-                            ]
-                        }
                     }
                 ]
             }
@@ -1175,49 +1132,6 @@
                                     "LoadBalancerName": "my-load-balancer",
                                     "CreatedTime": "2016-03-25T21:26:12.920Z",
                                     "Scheme": "internet-facing",
-                                    "Type": "application",
-                                    "CanonicalHostedZoneId": "Z2P70J7EXAMPLE",
-                                    "AvailabilityZones": [
-                                        {
-                                            "SubnetId": "subnet-8360a9e7",
-                                            "ZoneName": "us-west-2a"
-                                        },
-                                        {
-                                            "SubnetId": "subnet-b7d581c0",
-                                            "ZoneName": "us-west-2b"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "title": "To create an internal load balancer",
-                        "documentation": "This example creates an internal load balancer and enables the Availability Zones for the specified subnets.",
-                        "input": {
-                            "Name": "my-internal-load-balancer",
-                            "Subnets": [
-                                "subnet-b7d581c0",
-                                "subnet-8360a9e7"
-                            ],
-                            "SecurityGroups": [],
-                            "Scheme": "internal"
-                        },
-                        "output": {
-                            "LoadBalancers": [
-                                {
-                                    "VpcId": "vpc-3ac0fb5f",
-                                    "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-internal-load-balancer/5b49b8d4303115c2",
-                                    "State": {
-                                        "Code": "provisioning"
-                                    },
-                                    "DNSName": "internal-my-internal-load-balancer-1529930873.us-west-2.elb.amazonaws.com",
-                                    "SecurityGroups": [
-                                        "sg-5943793c"
-                                    ],
-                                    "LoadBalancerName": "my-internal-load-balancer",
-                                    "CreatedTime": "2016-03-25T21:29:48.850Z",
-                                    "Scheme": "internal",
                                     "Type": "application",
                                     "CanonicalHostedZoneId": "Z2P70J7EXAMPLE",
                                     "AvailabilityZones": [
@@ -3185,33 +3099,6 @@
                                         "Description": "Given target group is not configured to receive traffic from ELB"
                                     }
                                 },
-                                {
-                                    "HealthCheckPort": "80",
-                                    "Target": {
-                                        "Id": "i-0f76fade",
-                                        "Port": 80
-                                    },
-                                    "TargetHealth": {
-                                        "State": "healthy"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "title": "To describe the health of a target",
-                        "documentation": "This example describes the health of the specified target. This target is healthy.",
-                        "input": {
-                            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067",
-                            "Targets": [
-                                {
-                                    "Id": "i-0f76fade",
-                                    "Port": 80
-                                }
-                            ]
-                        },
-                        "output": {
-                            "TargetHealthDescriptions": [
                                 {
                                     "HealthCheckPort": "80",
                                     "Target": {
@@ -5936,40 +5823,6 @@
                                 }
                             ]
                         }
-                    },
-                    {
-                        "title": "To change the server certificate",
-                        "documentation": "This example changes the server certificate for the specified HTTPS listener.",
-                        "input": {
-                            "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/0467ef3c8400ae65",
-                            "Certificates": [
-                                {
-                                    "CertificateArn": "arn:aws:iam::123456789012:server-certificate/my-new-server-cert"
-                                }
-                            ]
-                        },
-                        "output": {
-                            "Listeners": [
-                                {
-                                    "Protocol": "HTTPS",
-                                    "DefaultActions": [
-                                        {
-                                            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067",
-                                            "Type": "forward"
-                                        }
-                                    ],
-                                    "SslPolicy": "ELBSecurityPolicy-2015-05",
-                                    "Certificates": [
-                                        {
-                                            "CertificateArn": "arn:aws:iam::123456789012:server-certificate/my-new-server-cert"
-                                        }
-                                    ],
-                                    "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188",
-                                    "Port": 443,
-                                    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:listener/app/my-load-balancer/50dc6c495c0c9188/0467ef3c8400ae65"
-                                }
-                            ]
-                        }
                     }
                 ]
             }
@@ -6098,88 +5951,6 @@
                                 {
                                     "Value": "",
                                     "Key": "access_logs.s3.bucket"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "title": "To change the idle timeout",
-                        "documentation": "This example changes the idle timeout value for the specified load balancer.",
-                        "input": {
-                            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188",
-                            "Attributes": [
-                                {
-                                    "Key": "idle_timeout.timeout_seconds",
-                                    "Value": "30"
-                                }
-                            ]
-                        },
-                        "output": {
-                            "Attributes": [
-                                {
-                                    "Value": "30",
-                                    "Key": "idle_timeout.timeout_seconds"
-                                },
-                                {
-                                    "Value": "false",
-                                    "Key": "access_logs.s3.enabled"
-                                },
-                                {
-                                    "Value": "",
-                                    "Key": "access_logs.s3.prefix"
-                                },
-                                {
-                                    "Value": "true",
-                                    "Key": "deletion_protection.enabled"
-                                },
-                                {
-                                    "Value": "",
-                                    "Key": "access_logs.s3.bucket"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "title": "To enable access logs",
-                        "documentation": "This example enables access logs for the specified load balancer. Note that the S3 bucket must exist in the same region as the load balancer and must have a policy attached that grants access to the Elastic Load Balancing service.",
-                        "input": {
-                            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188",
-                            "Attributes": [
-                                {
-                                    "Key": "access_logs.s3.enabled",
-                                    "Value": "true"
-                                },
-                                {
-                                    "Key": "access_logs.s3.bucket",
-                                    "Value": "my-loadbalancer-logs"
-                                },
-                                {
-                                    "Key": "access_logs.s3.prefix",
-                                    "Value": "myapp"
-                                }
-                            ]
-                        },
-                        "output": {
-                            "Attributes": [
-                                {
-                                    "Value": "true",
-                                    "Key": "access_logs.s3.enabled"
-                                },
-                                {
-                                    "Value": "my-load-balancer-logs",
-                                    "Key": "access_logs.s3.bucket"
-                                },
-                                {
-                                    "Value": "myapp",
-                                    "Key": "access_logs.s3.prefix"
-                                },
-                                {
-                                    "Value": "60",
-                                    "Key": "idle_timeout.timeout_seconds"
-                                },
-                                {
-                                    "Value": "false",
-                                    "Key": "deletion_protection.enabled"
                                 }
                             ]
                         }
@@ -7001,23 +6772,6 @@
                                 },
                                 {
                                     "Id": "i-ceddcd4d"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "title": "To register targets with a target group using port overrides",
-                        "documentation": "This example registers the specified instance with the specified target group using multiple ports. This enables you to register ECS containers on the same instance as targets in the target group.",
-                        "input": {
-                            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-new-targets/3bb63f11dfb0faf9",
-                            "Targets": [
-                                {
-                                    "Id": "i-80c8dd94",
-                                    "Port": 80
-                                },
-                                {
-                                    "Id": "i-80c8dd94",
-                                    "Port": 766
                                 }
                             ]
                         }

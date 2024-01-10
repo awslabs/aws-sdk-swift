@@ -1488,8 +1488,6 @@
                             "expect": {
                                 "error": "Invalid Configuration: Missing Region"
                             }
-<<<<<<< HEAD
-=======
                         },
                         {
                             "documentation": "Partition doesn't support DualStack",
@@ -1501,7 +1499,6 @@
                                 "UseFIPS": false,
                                 "UseDualStack": true
                             }
->>>>>>> main
                         }
                     ],
                     "version": "1.0"

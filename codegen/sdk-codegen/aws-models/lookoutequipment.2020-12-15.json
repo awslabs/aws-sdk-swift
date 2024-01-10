@@ -1657,22 +1657,6 @@
                             "ModelArn": "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111",
                             "Status": "PENDING"
                         }
-                    },
-                    {
-                        "title": "Creates a retraining scheduler with a specific start date",
-                        "documentation": "",
-                        "input": {
-                            "ModelName": "sample-model",
-                            "RetrainingStartDate": "2024-01-01T00:00:00Z",
-                            "RetrainingFrequency": "P1M",
-                            "LookbackWindow": "P360D",
-                            "ClientToken": "sample-client-token"
-                        },
-                        "output": {
-                            "ModelName": "sample-model",
-                            "ModelArn": "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111",
-                            "Status": "PENDING"
-                        }
                     }
                 ]
             }

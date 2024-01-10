@@ -19087,19 +19087,6 @@
                         "output": {
                             "Location": "http://examplebucket.<Region>.s3.amazonaws.com/"
                         }
-                    },
-                    {
-                        "title": "To create a bucket in a specific region",
-                        "documentation": "The following example creates a bucket. The request specifies an AWS region where to create the bucket.",
-                        "input": {
-                            "Bucket": "examplebucket",
-                            "CreateBucketConfiguration": {
-                                "LocationConstraint": "eu-west-1"
-                            }
-                        },
-                        "output": {
-                            "Location": "http://examplebucket.<Region>.s3.amazonaws.com/"
-                        }
                     }
                 ],
                 "smithy.api#http": {
@@ -20546,17 +20533,6 @@
                         "title": "To delete an object",
                         "documentation": "The following example deletes an object from an S3 bucket.",
                         "input": {
-<<<<<<< HEAD
-                            "Bucket": "ExampleBucket",
-                            "Key": "HappyFace.jpg"
-                        }
-                    },
-                    {
-                        "title": "To delete an object",
-                        "documentation": "The following example deletes an object from an S3 bucket.",
-                        "input": {
-=======
->>>>>>> main
                             "Bucket": "examplebucket",
                             "Key": "objectkey.jpg"
                         },
@@ -20683,17 +20659,6 @@
                         },
                         "output": {
                             "VersionId": "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI"
-                        }
-                    },
-                    {
-                        "title": "To remove tag set from an object",
-                        "documentation": "The following example removes tag set associated with the specified object. If the bucket is versioning enabled, the operation removes tag set from the latest object version.",
-                        "input": {
-                            "Bucket": "examplebucket",
-                            "Key": "HappyFace.jpg"
-                        },
-                        "output": {
-                            "VersionId": "null"
                         }
                     }
                 ],
@@ -24092,24 +24057,6 @@
                                 }
                             ]
                         }
-                    },
-                    {
-                        "title": "To retrieve tag set of a specific object version",
-                        "documentation": "The following example retrieves tag set of an object. The request specifies object version.",
-                        "input": {
-                            "Bucket": "examplebucket",
-                            "Key": "exampleobject",
-                            "VersionId": "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI"
-                        },
-                        "output": {
-                            "VersionId": "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
-                            "TagSet": [
-                                {
-                                    "Value": "Value1",
-                                    "Key": "Key1"
-                                }
-                            ]
-                        }
                     }
                 ],
                 "smithy.api#http": {
@@ -26325,50 +26272,6 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>This operation lists in-progress multipart uploads in a bucket. An in-progress multipart upload is a\n         multipart upload that has been initiated by the <code>CreateMultipartUpload</code> request, but\n         has not yet been completed or aborted.</p>\n         <note>\n            <p>\n               <b>Directory buckets</b> - \n            If multipart uploads in a directory bucket are in progress, you can't delete the bucket until all the in-progress multipart uploads are aborted or completed.\n            </p>\n         </note>\n         <p>The <code>ListMultipartUploads</code> operation returns a maximum of 1,000 multipart uploads in the response. The limit of 1,000 multipart\n         uploads is also the default\n         value. You can further limit the number of uploads in a response by specifying the\n         <code>max-uploads</code> request parameter. If there are more than 1,000 multipart uploads that \n         satisfy your <code>ListMultipartUploads</code> request, the response returns an <code>IsTruncated</code> element\n         with the value of <code>true</code>, a <code>NextKeyMarker</code> element, and a <code>NextUploadIdMarker</code> element. \n         To list the remaining multipart uploads, you need to make subsequent <code>ListMultipartUploads</code> requests. \n         In these requests, include two query parameters: <code>key-marker</code> and <code>upload-id-marker</code>. \n         Set the value of <code>key-marker</code> to the <code>NextKeyMarker</code> value from the previous response. \n         Similarly, set the value of <code>upload-id-marker</code> to the <code>NextUploadIdMarker</code> value from the previous response.</p>\n         <note>\n            <p>\n               <b>Directory buckets</b> - The <code>upload-id-marker</code> element and \n         the <code>NextUploadIdMarker</code> element aren't supported by directory buckets. \n         To list the additional multipart uploads, you only need to set the value of <code>key-marker</code> to the <code>NextKeyMarker</code> value from the previous response. </p>\n         </note>\n         <p>For more information about multipart uploads, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html\">Uploading Objects Using Multipart\n         Upload</a> in the <i>Amazon S3\n            User Guide</i>.</p>\n         <note>\n            <p>\n               <b>Directory buckets</b> -  For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format <code>https://<i>bucket_name</i>.s3express-<i>az_id</i>.<i>region</i>.amazonaws.com/<i>key-name</i>\n               </code>. Path-style requests are not supported. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html\">Regional and Zonal endpoints</a> in the\n    <i>Amazon S3 User Guide</i>.</p>\n         </note>\n         <dl>\n            <dt>Permissions</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <b>General purpose bucket permissions</b> - For information about permissions required to use the multipart upload API, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html\">Multipart Upload\n                        and Permissions</a> in the <i>Amazon S3\n                           User Guide</i>.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <b>Directory bucket permissions</b> - To grant access to this API operation on a directory bucket, we recommend that you use the <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html\">\n                           <code>CreateSession</code>\n                        </a> API operation for session-based authorization. Specifically, you grant the <code>s3express:CreateSession</code> permission to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the <code>CreateSession</code> API call on the bucket to obtain a session token. With the session token in your request header, you can make API requests to this operation. After the session token expires, you make another <code>CreateSession</code> API call to generate a new session token for use. \nAmazon Web Services CLI or SDKs create session and refresh the session token automatically to avoid service interruptions when a session expires. For more information about authorization, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html\">\n                           <code>CreateSession</code>\n                        </a>.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Sorting of multipart uploads in response</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>\n                        <b>General purpose bucket</b> - In the <code>ListMultipartUploads</code> response, the multipart uploads are sorted based on two criteria:</p>\n                     <ul>\n                        <li>\n                           <p>Key-based sorting - Multipart uploads are initially sorted in ascending order based on their object keys.</p>\n                        </li>\n                        <li>\n                           <p>Time-based sorting - For uploads that share the same object key, \n                              they are further sorted in ascending order based on the upload initiation time. Among uploads with the same key, the one that was initiated first will appear before the ones that were initiated later.</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>\n                        <b>Directory bucket</b> - In the <code>ListMultipartUploads</code> response, the multipart uploads aren't sorted lexicographically based on the object keys. \n                        \n                        </p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>HTTP Host header syntax</dt>\n            <dd>\n               <p>\n                  <b>Directory buckets </b> - The HTTP Host header syntax is <code>\n                     <i>Bucket_name</i>.s3express-<i>az_id</i>.<i>region</i>.amazonaws.com</code>.</p>\n            </dd>\n         </dl>\n         <p>The following operations are related to <code>ListMultipartUploads</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html\">CreateMultipartUpload</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html\">UploadPart</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html\">CompleteMultipartUpload</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html\">ListParts</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html\">AbortMultipartUpload</a>\n               </p>\n            </li>\n         </ul>",
-<<<<<<< HEAD
-                "smithy.api#examples": [
-                    {
-                        "title": "To list in-progress multipart uploads on a bucket",
-                        "documentation": "The following example lists in-progress multipart uploads on a specific bucket.",
-                        "input": {
-                            "Bucket": "examplebucket"
-                        },
-                        "output": {
-                            "Uploads": [
-                                {
-                                    "Initiator": {
-                                        "DisplayName": "display-name",
-                                        "ID": "examplee7a2f25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc"
-                                    },
-                                    "Initiated": "2014-05-01T05:40:58.000Z",
-                                    "UploadId": "examplelUa.CInXklLQtSMJITdUnoZ1Y5GACB5UckOtspm5zbDMCkPF_qkfZzMiFZ6dksmcnqxJyIBvQMG9X9Q--",
-                                    "StorageClass": "STANDARD",
-                                    "Key": "JavaFile",
-                                    "Owner": {
-                                        "DisplayName": "display-name",
-                                        "ID": "examplee7a2f25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc"
-                                    }
-                                },
-                                {
-                                    "Initiator": {
-                                        "DisplayName": "display-name",
-                                        "ID": "examplee7a2f25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc"
-                                    },
-                                    "Initiated": "2014-05-01T05:41:27.000Z",
-                                    "UploadId": "examplelo91lv1iwvWpvCiJWugw2xXLPAD7Z8cJyX9.WiIRgNrdG6Ldsn.9FtS63TCl1Uf5faTB.1U5Ckcbmdw--",
-                                    "StorageClass": "STANDARD",
-                                    "Key": "JavaFile",
-                                    "Owner": {
-                                        "DisplayName": "display-name",
-                                        "ID": "examplee7a2f25102679df27bb0ae12b3f85be6f290b936c4393484be31bebcc"
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ],
-=======
->>>>>>> main
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/{Bucket}?uploads",
@@ -30484,93 +30387,6 @@
                         },
                         "output": {
                             "VersionId": "Bvq0EDKxOcXLJXNo_Lkz37eM3R4pfzyQ",
-                            "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\""
-                        }
-                    },
-                    {
-                        "title": "To create an object.",
-                        "documentation": "The following example creates an object. If the bucket is versioning enabled, S3 returns version ID in response.",
-                        "input": {
-                            "Body": "filetoupload",
-                            "Bucket": "examplebucket",
-                            "Key": "objectkey"
-                        },
-                        "output": {
-                            "VersionId": "Bvq0EDKxOcXLJXNo_Lkz37eM3R4pfzyQ",
-                            "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\""
-                        }
-                    },
-                    {
-                        "title": "To upload an object (specify optional headers)",
-                        "documentation": "The following example uploads an object. The request specifies optional request headers to directs S3 to use specific storage class and use server-side encryption.",
-                        "input": {
-                            "Body": "HappyFace.jpg",
-                            "Bucket": "examplebucket",
-                            "Key": "HappyFace.jpg",
-                            "ServerSideEncryption": "AES256",
-                            "StorageClass": "STANDARD_IA"
-                        },
-                        "output": {
-                            "VersionId": "CG612hodqujkf8FaaNfp8U..FIhLROcp",
-                            "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\"",
-                            "ServerSideEncryption": "AES256"
-                        }
-                    },
-                    {
-                        "title": "To upload an object and specify optional tags",
-                        "documentation": "The following example uploads an object. The request specifies optional object tags. The bucket is versioned, therefore S3 returns version ID of the newly created object.",
-                        "input": {
-                            "Body": "c:\\HappyFace.jpg",
-                            "Bucket": "examplebucket",
-                            "Key": "HappyFace.jpg",
-                            "Tagging": "key1=value1&key2=value2"
-                        },
-                        "output": {
-                            "VersionId": "psM2sYY4.o1501dSx8wMvnkOzSBB.V4a",
-                            "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\""
-                        }
-                    },
-                    {
-                        "title": "To upload object and specify user-defined metadata",
-                        "documentation": "The following example creates an object. The request also specifies optional metadata. If the bucket is versioning enabled, S3 returns version ID in response.",
-                        "input": {
-                            "Body": "filetoupload",
-                            "Bucket": "examplebucket",
-                            "Key": "exampleobject",
-                            "Metadata": {
-                                "metadata1": "value1",
-                                "metadata2": "value2"
-                            }
-                        },
-                        "output": {
-                            "VersionId": "pSKidl4pHBiNwukdbcPXAIs.sshFFOc0",
-                            "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\""
-                        }
-                    },
-                    {
-                        "title": "To upload an object and specify canned ACL.",
-                        "documentation": "The following example uploads and object. The request specifies optional canned ACL (access control list) to all READ access to authenticated users. If the bucket is versioning enabled, S3 returns version ID in response.",
-                        "input": {
-                            "ACL": "authenticated-read",
-                            "Body": "filetoupload",
-                            "Bucket": "examplebucket",
-                            "Key": "exampleobject"
-                        },
-                        "output": {
-                            "VersionId": "Kirh.unyZwjQ69YxcQLA8z4F5j3kJJKr",
-                            "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\""
-                        }
-                    },
-                    {
-                        "title": "To upload an object",
-                        "documentation": "The following example uploads an object to a versioning-enabled bucket. The source file is specified using Windows file syntax. S3 returns VersionId of the newly created object.",
-                        "input": {
-                            "Body": "HappyFace.jpg",
-                            "Bucket": "examplebucket",
-                            "Key": "HappyFace.jpg"
-                        },
-                        "output": {
-                            "VersionId": "tpf3zF08nBplQK1XLOefGskR7mGDwcDk",
                             "ETag": "\"6805f2cfc46c0f04559748bb039d69ae\""
                         }
                     }

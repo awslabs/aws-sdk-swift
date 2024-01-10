@@ -4521,22 +4521,6 @@
                             "UploadBufferUsedInBytes": 161061273600,
                             "UploadBufferAllocatedInBytes": 0
                         }
-                    },
-                    {
-                        "title": "To describe upload buffer of a gateway",
-                        "documentation": "Returns information about the upload buffer of a gateway including disk IDs and the amount of upload buffer space allocated and used.",
-                        "input": {
-                            "GatewayARN": "arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B"
-                        },
-                        "output": {
-                            "GatewayARN": "arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B",
-                            "DiskIds": [
-                                "pci-0000:03:00.0-scsi-0:0:0:0",
-                                "pci-0000:04:00.0-scsi-0:1:0:0"
-                            ],
-                            "UploadBufferUsedInBytes": 0,
-                            "UploadBufferAllocatedInBytes": 161061273600
-                        }
                     }
                 ]
             }
