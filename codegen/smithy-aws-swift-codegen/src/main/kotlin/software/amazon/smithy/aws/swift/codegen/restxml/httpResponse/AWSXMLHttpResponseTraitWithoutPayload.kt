@@ -5,18 +5,10 @@
 
 package software.amazon.smithy.aws.swift.codegen.restxml.httpResponse
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.RestXML.ErrorResponseContainer
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.knowledge.HttpBinding
-import software.amazon.smithy.model.shapes.BooleanShape
-import software.amazon.smithy.model.shapes.ByteShape
-import software.amazon.smithy.model.shapes.DoubleShape
-import software.amazon.smithy.model.shapes.FloatShape
-import software.amazon.smithy.model.shapes.IntegerShape
-import software.amazon.smithy.model.shapes.LongShape
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
-import software.amazon.smithy.model.shapes.ShortShape
 import software.amazon.smithy.model.traits.HttpQueryTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
@@ -24,7 +16,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
 import software.amazon.smithy.swift.codegen.integration.serde.xml.MemberShapeDecodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.model.isBoxed
 
 class AWSXMLHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
