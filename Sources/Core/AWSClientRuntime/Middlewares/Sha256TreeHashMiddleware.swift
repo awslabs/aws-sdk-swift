@@ -29,7 +29,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
                       return try await next.handle(context: context, input: input)
                   }
                   if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
-                      let sha256 = try data.sha256().encodeToHexString()
+                      let sha256 = try data.computeSHA256().encodeToHexString()
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
                   }
               case .stream(let stream):
@@ -66,8 +66,8 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
     private func computeHashes(data: Data) throws -> (String?, String?) {
         let ONE_MB = 1024 * 1024
-        let hashes: [[UInt8]] = try data.chunked(size: ONE_MB).map { try $0.sha256().bytes() }
-        return try (data.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
+        let hashes: [[UInt8]] = try data.chunked(size: ONE_MB).map { try $0.computeSHA256().bytes() }
+        return try (data.computeSHA256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
 
     /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes
@@ -87,7 +87,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
                     concatenatedLevelHash.append(contentsOf: previousLevelHashes[index])
                     concatenatedLevelHash.append(contentsOf: previousLevelHashes[index + 1])
                     let data = Data(concatenatedLevelHash)
-                    currentLevelHashes.append(try data.sha256().bytes())
+                    currentLevelHashes.append(try data.computeSHA256().bytes())
 
                 } else {
                     currentLevelHashes.append(previousLevelHashes[index])
