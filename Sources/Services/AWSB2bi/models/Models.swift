@@ -86,7 +86,7 @@ extension B2biClientTypes.CapabilityConfiguration: Swift.Codable {
 }
 
 extension B2biClientTypes {
-    /// A capability object. Currently, only EDI (electronic data interchange) capabilities are supported. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// A capability object. Currently, only EDI (electronic data interchange) capabilities are supported. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     public enum CapabilityConfiguration: Swift.Equatable {
         /// An EDI (electronic data interchange) configuration object.
         case edi(B2biClientTypes.EdiConfiguration)
@@ -139,7 +139,7 @@ extension B2biClientTypes.CapabilitySummary: Swift.Codable {
 }
 
 extension B2biClientTypes {
-    /// Returns the capability summary details. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// Returns the capability summary details. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     public struct CapabilitySummary: Swift.Equatable {
         /// Returns a system-assigned unique identifier for the capability.
         /// This member is required.
@@ -3419,7 +3419,7 @@ extension B2biClientTypes.PartnershipSummary: Swift.Codable {
 }
 
 extension B2biClientTypes {
-    /// A structure that contains the details for a partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+    /// A structure that contains the details for a partnership. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
     public struct PartnershipSummary: Swift.Equatable {
         /// Returns one or more capabilities associated with this partnership.
         public var capabilities: [Swift.String]?
@@ -3517,7 +3517,7 @@ extension B2biClientTypes.ProfileSummary: Swift.Codable {
 }
 
 extension B2biClientTypes {
-    /// Contains the details for a profile. A profile is the mechanism used to create the concept of a private network.
+    /// Contains the details for a profile. Profiles contain basic information about you and your business.
     public struct ProfileSummary: Swift.Equatable {
         /// Returns the name for the business associated with this profile.
         /// This member is required.
@@ -4069,7 +4069,7 @@ public struct TestMappingInput: Swift.Equatable {
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
-    /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform.
+    /// Specify the EDI (electronic data interchange) file that is used as input for the transform.
     /// This member is required.
     public var inputFileContent: Swift.String?
     /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
@@ -4498,7 +4498,7 @@ extension B2biClientTypes.TransformerSummary: Swift.Codable {
 }
 
 extension B2biClientTypes {
-    /// Contains the details for a transformer object. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Contains the details for a transformer object. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
     public struct TransformerSummary: Swift.Equatable {
         /// Returns a timestamp indicating when the transformer was created. For example, 2023-07-20T19:58:44.624Z.
         /// This member is required.
@@ -5696,7 +5696,7 @@ extension B2biClientTypes.X12Details: Swift.Codable {
 }
 
 extension B2biClientTypes {
-    /// A structure that contains the X12 transaction set and version. The X12 structure is used when the system transforms an EDI (electronic data interchange) file. If an EDI input file contains more than one transaction, each transaction must have the same transaction set and version, for example 214/4010. If not, the transformer cannot parse the file.
+    /// A structure that contains the X12 transaction set and version. The X12 structure is used when the system transforms an EDI (electronic data interchange) file.
     public struct X12Details: Swift.Equatable {
         /// Returns an enumerated type where each value identifies an X12 transaction set. Transaction sets are maintained by the X12 Accredited Standards Committee.
         public var transactionSet: B2biClientTypes.X12TransactionSet?

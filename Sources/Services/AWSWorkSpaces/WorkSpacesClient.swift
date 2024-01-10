@@ -757,8 +757,6 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
     ///
     /// * You don't need to specify the PCOIP protocol for Linux bundles because WSP is the default protocol for those bundles.
     ///
-    /// * Ensure you review your running mode to ensure you are using a running mode that is optimal for your needs and budget. For more information on switching running modes, see [ Can I switch between hourly and monthly billing?](https://aws.amazon.com/workspaces/faqs/#:~:text=Q%3A%20Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%3F)
-    ///
     /// - Parameter CreateWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `CreateWorkspacesOutput` : [no documentation found]

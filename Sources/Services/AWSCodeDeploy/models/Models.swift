@@ -818,7 +818,6 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hook
         case name
-        case terminationHook
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -829,9 +828,6 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if let terminationHook = self.terminationHook {
-            try encodeContainer.encode(terminationHook, forKey: .terminationHook)
-        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -840,30 +836,24 @@ extension CodeDeployClientTypes.AutoScalingGroup: Swift.Codable {
         name = nameDecoded
         let hookDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hook)
         hook = hookDecoded
-        let terminationHookDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .terminationHook)
-        terminationHook = terminationHookDecoded
     }
 }
 
 extension CodeDeployClientTypes {
     /// Information about an Auto Scaling group.
     public struct AutoScalingGroup: Swift.Equatable {
-        /// The name of the launch hook that CodeDeploy installed into the Auto Scaling group. For more information about the launch hook, see [How Amazon EC2 Auto Scaling works with CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors) in the CodeDeploy User Guide.
+        /// An Auto Scaling lifecycle event hook name.
         public var hook: Swift.String?
         /// The Auto Scaling group name.
         public var name: Swift.String?
-        /// The name of the termination hook that CodeDeploy installed into the Auto Scaling group. For more information about the termination hook, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable) in the CodeDeploy User Guide.
-        public var terminationHook: Swift.String?
 
         public init(
             hook: Swift.String? = nil,
-            name: Swift.String? = nil,
-            terminationHook: Swift.String? = nil
+            name: Swift.String? = nil
         )
         {
             self.hook = hook
             self.name = name
-            self.terminationHook = terminationHook
         }
     }
 
@@ -1484,7 +1474,6 @@ extension BatchGetDeploymentTargetsInput: ClientRuntime.URLPathProvider {
 
 public struct BatchGetDeploymentTargetsInput: Swift.Equatable {
     /// The unique ID of a deployment.
-    /// This member is required.
     public var deploymentId: Swift.String?
     /// The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.
     ///
@@ -1495,7 +1484,6 @@ public struct BatchGetDeploymentTargetsInput: Swift.Equatable {
     /// * For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format :. Their target type is ecsTarget.
     ///
     /// * For deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.
-    /// This member is required.
     public var targetIds: [Swift.String]?
 
     public init(
@@ -2495,7 +2483,6 @@ extension CreateDeploymentConfigInput: Swift.Encodable {
         case deploymentConfigName
         case minimumHealthyHosts
         case trafficRoutingConfig
-        case zonalConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2511,9 +2498,6 @@ extension CreateDeploymentConfigInput: Swift.Encodable {
         }
         if let trafficRoutingConfig = self.trafficRoutingConfig {
             try encodeContainer.encode(trafficRoutingConfig, forKey: .trafficRoutingConfig)
-        }
-        if let zonalConfig = self.zonalConfig {
-            try encodeContainer.encode(zonalConfig, forKey: .zonalConfig)
         }
     }
 }
@@ -2542,22 +2526,18 @@ public struct CreateDeploymentConfigInput: Swift.Equatable {
     public var minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts?
     /// The configuration that specifies how the deployment traffic is routed.
     public var trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
-    /// Configure the ZonalConfig object if you want CodeDeploy to deploy your application to one [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) at a time, within an Amazon Web Services Region. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
-    public var zonalConfig: CodeDeployClientTypes.ZonalConfig?
 
     public init(
         computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
         deploymentConfigName: Swift.String? = nil,
         minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts? = nil,
-        trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil,
-        zonalConfig: CodeDeployClientTypes.ZonalConfig? = nil
+        trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil
     )
     {
         self.computePlatform = computePlatform
         self.deploymentConfigName = deploymentConfigName
         self.minimumHealthyHosts = minimumHealthyHosts
         self.trafficRoutingConfig = trafficRoutingConfig
-        self.zonalConfig = zonalConfig
     }
 }
 
@@ -2566,7 +2546,6 @@ struct CreateDeploymentConfigInputBody: Swift.Equatable {
     let minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts?
     let trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
     let computePlatform: CodeDeployClientTypes.ComputePlatform?
-    let zonalConfig: CodeDeployClientTypes.ZonalConfig?
 }
 
 extension CreateDeploymentConfigInputBody: Swift.Decodable {
@@ -2575,7 +2554,6 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
         case deploymentConfigName
         case minimumHealthyHosts
         case trafficRoutingConfig
-        case zonalConfig
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2588,8 +2566,6 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
         trafficRoutingConfig = trafficRoutingConfigDecoded
         let computePlatformDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ComputePlatform.self, forKey: .computePlatform)
         computePlatform = computePlatformDecoded
-        let zonalConfigDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ZonalConfig.self, forKey: .zonalConfig)
-        zonalConfig = zonalConfigDecoded
     }
 }
 
@@ -2646,7 +2622,6 @@ enum CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidDeploymentConfigNameException": return try await InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidMinimumHealthyHostValueException": return try await InvalidMinimumHealthyHostValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidTrafficRoutingConfigurationException": return try await InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidZonalDeploymentConfigurationException": return try await InvalidZonalDeploymentConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2671,7 +2646,6 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         case outdatedInstancesStrategy
         case serviceRoleArn
         case tags
-        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -2743,9 +2717,6 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
-        if let terminationHookEnabled = self.terminationHookEnabled {
-            try encodeContainer.encode(terminationHookEnabled, forKey: .terminationHookEnabled)
-        }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
             for triggerconfig0 in triggerConfigurations {
@@ -2800,8 +2771,6 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
     public var serviceRoleArn: Swift.String?
     /// The metadata that you apply to CodeDeploy deployment groups to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [CodeDeployClientTypes.Tag]?
-    /// This parameter only applies if you are using CodeDeploy with Amazon EC2 Auto Scaling. For more information, see [Integrating CodeDeploy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html) in the CodeDeploy User Guide. Set terminationHookEnabled to true to have CodeDeploy install a termination hook into your Auto Scaling group when you create a deployment group. When this hook is installed, CodeDeploy will perform termination deployments. For information about termination deployments, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable) in the CodeDeploy User Guide. For more information about Auto Scaling scale-in events, see the [Scale in](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in) topic in the Amazon EC2 Auto Scaling User Guide.
-    public var terminationHookEnabled: Swift.Bool?
     /// Information about triggers to create when the deployment group is created. For examples, see [Create a Trigger for an CodeDeploy Event](https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html) in the CodeDeploy User Guide.
     public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
@@ -2823,7 +2792,6 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
         outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy? = nil,
         serviceRoleArn: Swift.String? = nil,
         tags: [CodeDeployClientTypes.Tag]? = nil,
-        terminationHookEnabled: Swift.Bool? = nil,
         triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]? = nil
     )
     {
@@ -2844,7 +2812,6 @@ public struct CreateDeploymentGroupInput: Swift.Equatable {
         self.outdatedInstancesStrategy = outdatedInstancesStrategy
         self.serviceRoleArn = serviceRoleArn
         self.tags = tags
-        self.terminationHookEnabled = terminationHookEnabled
         self.triggerConfigurations = triggerConfigurations
     }
 }
@@ -2868,7 +2835,6 @@ struct CreateDeploymentGroupInputBody: Swift.Equatable {
     let ecsServices: [CodeDeployClientTypes.ECSService]?
     let onPremisesTagSet: CodeDeployClientTypes.OnPremisesTagSet?
     let tags: [CodeDeployClientTypes.Tag]?
-    let terminationHookEnabled: Swift.Bool?
 }
 
 extension CreateDeploymentGroupInputBody: Swift.Decodable {
@@ -2890,7 +2856,6 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
         case outdatedInstancesStrategy
         case serviceRoleArn
         case tags
-        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -2986,8 +2951,6 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled)
-        terminationHookEnabled = terminationHookEnabledDecoded
     }
 }
 
@@ -4002,7 +3965,6 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         case deploymentConfigName
         case minimumHealthyHosts
         case trafficRoutingConfig
-        case zonalConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4025,9 +3987,6 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         if let trafficRoutingConfig = self.trafficRoutingConfig {
             try encodeContainer.encode(trafficRoutingConfig, forKey: .trafficRoutingConfig)
         }
-        if let zonalConfig = self.zonalConfig {
-            try encodeContainer.encode(zonalConfig, forKey: .zonalConfig)
-        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4044,8 +4003,6 @@ extension CodeDeployClientTypes.DeploymentConfigInfo: Swift.Codable {
         computePlatform = computePlatformDecoded
         let trafficRoutingConfigDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.TrafficRoutingConfig.self, forKey: .trafficRoutingConfig)
         trafficRoutingConfig = trafficRoutingConfigDecoded
-        let zonalConfigDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.ZonalConfig.self, forKey: .zonalConfig)
-        zonalConfig = zonalConfigDecoded
     }
 }
 
@@ -4060,12 +4017,10 @@ extension CodeDeployClientTypes {
         public var deploymentConfigId: Swift.String?
         /// The deployment configuration name.
         public var deploymentConfigName: Swift.String?
-        /// Information about the number or percentage of minimum healthy instances.
+        /// Information about the number or percentage of minimum healthy instance.
         public var minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts?
         /// The configuration that specifies how the deployment traffic is routed. Used for deployments with a Lambda or Amazon ECS compute platform only.
         public var trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig?
-        /// Information about a zonal configuration.
-        public var zonalConfig: CodeDeployClientTypes.ZonalConfig?
 
         public init(
             computePlatform: CodeDeployClientTypes.ComputePlatform? = nil,
@@ -4073,8 +4028,7 @@ extension CodeDeployClientTypes {
             deploymentConfigId: Swift.String? = nil,
             deploymentConfigName: Swift.String? = nil,
             minimumHealthyHosts: CodeDeployClientTypes.MinimumHealthyHosts? = nil,
-            trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil,
-            zonalConfig: CodeDeployClientTypes.ZonalConfig? = nil
+            trafficRoutingConfig: CodeDeployClientTypes.TrafficRoutingConfig? = nil
         )
         {
             self.computePlatform = computePlatform
@@ -4083,7 +4037,6 @@ extension CodeDeployClientTypes {
             self.deploymentConfigName = deploymentConfigName
             self.minimumHealthyHosts = minimumHealthyHosts
             self.trafficRoutingConfig = trafficRoutingConfig
-            self.zonalConfig = zonalConfig
         }
     }
 
@@ -4204,7 +4157,6 @@ extension DeploymentConfigNameRequiredExceptionBody: Swift.Decodable {
 extension CodeDeployClientTypes {
     public enum DeploymentCreator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case autoscaling
-        case autoscalingtermination
         case cloudformation
         case cloudformationrollback
         case codedeploy
@@ -4216,7 +4168,6 @@ extension CodeDeployClientTypes {
         public static var allCases: [DeploymentCreator] {
             return [
                 .autoscaling,
-                .autoscalingtermination,
                 .cloudformation,
                 .cloudformationrollback,
                 .codedeploy,
@@ -4233,7 +4184,6 @@ extension CodeDeployClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoscaling: return "autoscaling"
-            case .autoscalingtermination: return "autoscalingTermination"
             case .cloudformation: return "CloudFormation"
             case .cloudformationrollback: return "CloudFormationRollback"
             case .codedeploy: return "CodeDeploy"
@@ -4442,7 +4392,6 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         case outdatedInstancesStrategy
         case serviceRoleArn
         case targetRevision
-        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -4522,9 +4471,6 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let targetRevision = self.targetRevision {
             try encodeContainer.encode(targetRevision, forKey: .targetRevision)
-        }
-        if terminationHookEnabled != false {
-            try encodeContainer.encode(terminationHookEnabled, forKey: .terminationHookEnabled)
         }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
@@ -4625,8 +4571,6 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
             }
         }
         ecsServices = ecsServicesDecoded0
-        let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled) ?? false
-        terminationHookEnabled = terminationHookEnabledDecoded
     }
 }
 
@@ -4675,8 +4619,6 @@ extension CodeDeployClientTypes {
         public var serviceRoleArn: Swift.String?
         /// Information about the deployment group's target revision, including type and location.
         public var targetRevision: CodeDeployClientTypes.RevisionLocation?
-        /// Indicates whether the deployment group was configured to have CodeDeploy install a termination hook into an Auto Scaling group. For more information about the termination hook, see [How Amazon EC2 Auto Scaling works with CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors) in the CodeDeploy User Guide.
-        public var terminationHookEnabled: Swift.Bool
         /// Information about triggers associated with the deployment group.
         public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
@@ -4702,7 +4644,6 @@ extension CodeDeployClientTypes {
             outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy? = nil,
             serviceRoleArn: Swift.String? = nil,
             targetRevision: CodeDeployClientTypes.RevisionLocation? = nil,
-            terminationHookEnabled: Swift.Bool = false,
             triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]? = nil
         )
         {
@@ -4727,7 +4668,6 @@ extension CodeDeployClientTypes {
             self.outdatedInstancesStrategy = outdatedInstancesStrategy
             self.serviceRoleArn = serviceRoleArn
             self.targetRevision = targetRevision
-            self.terminationHookEnabled = terminationHookEnabled
             self.triggerConfigurations = triggerConfigurations
         }
     }
@@ -7821,10 +7761,8 @@ extension GetDeploymentTargetInput: ClientRuntime.URLPathProvider {
 
 public struct GetDeploymentTargetInput: Swift.Equatable {
     /// The unique ID of a deployment.
-    /// This member is required.
     public var deploymentId: Swift.String?
     /// The unique ID of a deployment target.
-    /// This member is required.
     public var targetId: Swift.String?
 
     public init(
@@ -12291,62 +12229,6 @@ extension InvalidUpdateOutdatedInstancesOnlyValueExceptionBody: Swift.Decodable 
     }
 }
 
-extension InvalidZonalDeploymentConfigurationException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: InvalidZonalDeploymentConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// The ZonalConfig object is not valid.
-public struct InvalidZonalDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The message that corresponds to the exception thrown by CodeDeploy.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidZonalDeploymentConfigurationException" }
-    public static var fault: ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-struct InvalidZonalDeploymentConfigurationExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension InvalidZonalDeploymentConfigurationExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
 extension CodeDeployClientTypes.LambdaFunctionInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentVersion
@@ -13723,7 +13605,6 @@ extension ListDeploymentTargetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListDeploymentTargetsInput: Swift.Equatable {
     /// The unique ID of a deployment.
-    /// This member is required.
     public var deploymentId: Swift.String?
     /// A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list.
     public var nextToken: Swift.String?
@@ -13858,7 +13739,6 @@ enum ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidTargetFilterNameException": return try await InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -14643,7 +14523,7 @@ extension CodeDeployClientTypes.MinimumHealthyHosts: Swift.Codable {
 }
 
 extension CodeDeployClientTypes {
-    /// Information about the minimum number of healthy instances.
+    /// Information about minimum healthy instance.
     public struct MinimumHealthyHosts: Swift.Equatable {
         /// The minimum healthy instance type:
         ///
@@ -14667,83 +14547,6 @@ extension CodeDeployClientTypes {
         }
     }
 
-}
-
-extension CodeDeployClientTypes.MinimumHealthyHostsPerZone: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case type
-        case value
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let type = self.type {
-            try encodeContainer.encode(type.rawValue, forKey: .type)
-        }
-        if value != 0 {
-            try encodeContainer.encode(value, forKey: .value)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let typeDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.MinimumHealthyHostsPerZoneType.self, forKey: .type)
-        type = typeDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
-        value = valueDecoded
-    }
-}
-
-extension CodeDeployClientTypes {
-    /// Information about the minimum number of healthy instances per Availability Zone.
-    public struct MinimumHealthyHostsPerZone: Swift.Equatable {
-        /// The type associated with the MinimumHealthyHostsPerZone option.
-        public var type: CodeDeployClientTypes.MinimumHealthyHostsPerZoneType?
-        /// The value associated with the MinimumHealthyHostsPerZone option.
-        public var value: Swift.Int
-
-        public init(
-            type: CodeDeployClientTypes.MinimumHealthyHostsPerZoneType? = nil,
-            value: Swift.Int = 0
-        )
-        {
-            self.type = type
-            self.value = value
-        }
-    }
-
-}
-
-extension CodeDeployClientTypes {
-    public enum MinimumHealthyHostsPerZoneType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case fleetPercent
-        case hostCount
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MinimumHealthyHostsPerZoneType] {
-            return [
-                .fleetPercent,
-                .hostCount,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .fleetPercent: return "FLEET_PERCENT"
-            case .hostCount: return "HOST_COUNT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = MinimumHealthyHostsPerZoneType(rawValue: rawValue) ?? MinimumHealthyHostsPerZoneType.sdkUnknown(rawValue)
-        }
-    }
 }
 
 extension CodeDeployClientTypes {
@@ -17885,7 +17688,6 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         case onPremisesTagSet
         case outdatedInstancesStrategy
         case serviceRoleArn
-        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -17954,9 +17756,6 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         if let serviceRoleArn = self.serviceRoleArn {
             try encodeContainer.encode(serviceRoleArn, forKey: .serviceRoleArn)
         }
-        if let terminationHookEnabled = self.terminationHookEnabled {
-            try encodeContainer.encode(terminationHookEnabled, forKey: .terminationHookEnabled)
-        }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
             for triggerconfig0 in triggerConfigurations {
@@ -18014,8 +17813,6 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
     public var outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy?
     /// A replacement ARN for the service role, if you want to change it.
     public var serviceRoleArn: Swift.String?
-    /// This parameter only applies if you are using CodeDeploy with Amazon EC2 Auto Scaling. For more information, see [Integrating CodeDeploy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html) in the CodeDeploy User Guide. Set terminationHookEnabled to true to have CodeDeploy install a termination hook into your Auto Scaling group when you update a deployment group. When this hook is installed, CodeDeploy will perform termination deployments. For information about termination deployments, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable) in the CodeDeploy User Guide. For more information about Auto Scaling scale-in events, see the [Scale in](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in) topic in the Amazon EC2 Auto Scaling User Guide.
-    public var terminationHookEnabled: Swift.Bool?
     /// Information about triggers to change when the deployment group is updated. For examples, see [Edit a Trigger in a CodeDeploy Deployment Group](https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html) in the CodeDeploy User Guide.
     public var triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]?
 
@@ -18037,7 +17834,6 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
         onPremisesTagSet: CodeDeployClientTypes.OnPremisesTagSet? = nil,
         outdatedInstancesStrategy: CodeDeployClientTypes.OutdatedInstancesStrategy? = nil,
         serviceRoleArn: Swift.String? = nil,
-        terminationHookEnabled: Swift.Bool? = nil,
         triggerConfigurations: [CodeDeployClientTypes.TriggerConfig]? = nil
     )
     {
@@ -18058,7 +17854,6 @@ public struct UpdateDeploymentGroupInput: Swift.Equatable {
         self.onPremisesTagSet = onPremisesTagSet
         self.outdatedInstancesStrategy = outdatedInstancesStrategy
         self.serviceRoleArn = serviceRoleArn
-        self.terminationHookEnabled = terminationHookEnabled
         self.triggerConfigurations = triggerConfigurations
     }
 }
@@ -18082,7 +17877,6 @@ struct UpdateDeploymentGroupInputBody: Swift.Equatable {
     let ec2TagSet: CodeDeployClientTypes.EC2TagSet?
     let ecsServices: [CodeDeployClientTypes.ECSService]?
     let onPremisesTagSet: CodeDeployClientTypes.OnPremisesTagSet?
-    let terminationHookEnabled: Swift.Bool?
 }
 
 extension UpdateDeploymentGroupInputBody: Swift.Decodable {
@@ -18104,7 +17898,6 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
         case onPremisesTagSet
         case outdatedInstancesStrategy
         case serviceRoleArn
-        case terminationHookEnabled
         case triggerConfigurations
     }
 
@@ -18191,8 +17984,6 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
         ecsServices = ecsServicesDecoded0
         let onPremisesTagSetDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.OnPremisesTagSet.self, forKey: .onPremisesTagSet)
         onPremisesTagSet = onPremisesTagSetDecoded
-        let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled)
-        terminationHookEnabled = terminationHookEnabledDecoded
     }
 }
 
@@ -18285,59 +18076,4 @@ enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension CodeDeployClientTypes.ZonalConfig: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case firstZoneMonitorDurationInSeconds
-        case minimumHealthyHostsPerZone
-        case monitorDurationInSeconds
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let firstZoneMonitorDurationInSeconds = self.firstZoneMonitorDurationInSeconds {
-            try encodeContainer.encode(firstZoneMonitorDurationInSeconds, forKey: .firstZoneMonitorDurationInSeconds)
-        }
-        if let minimumHealthyHostsPerZone = self.minimumHealthyHostsPerZone {
-            try encodeContainer.encode(minimumHealthyHostsPerZone, forKey: .minimumHealthyHostsPerZone)
-        }
-        if let monitorDurationInSeconds = self.monitorDurationInSeconds {
-            try encodeContainer.encode(monitorDurationInSeconds, forKey: .monitorDurationInSeconds)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let firstZoneMonitorDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .firstZoneMonitorDurationInSeconds)
-        firstZoneMonitorDurationInSeconds = firstZoneMonitorDurationInSecondsDecoded
-        let monitorDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .monitorDurationInSeconds)
-        monitorDurationInSeconds = monitorDurationInSecondsDecoded
-        let minimumHealthyHostsPerZoneDecoded = try containerValues.decodeIfPresent(CodeDeployClientTypes.MinimumHealthyHostsPerZone.self, forKey: .minimumHealthyHostsPerZone)
-        minimumHealthyHostsPerZone = minimumHealthyHostsPerZoneDecoded
-    }
-}
-
-extension CodeDeployClientTypes {
-    /// Configure the ZonalConfig object if you want CodeDeploy to deploy your application to one [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones) at a time, within an Amazon Web Services Region. By deploying to one Availability Zone at a time, you can expose your deployment to a progressively larger audience as confidence in the deployment's performance and viability grows. If you don't configure the ZonalConfig object, CodeDeploy deploys your application to a random selection of hosts across a Region. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
-    public struct ZonalConfig: Swift.Equatable {
-        /// The period of time, in seconds, that CodeDeploy must wait after completing a deployment to the first Availability Zone. CodeDeploy will wait this amount of time before starting a deployment to the second Availability Zone. You might set this option if you want to allow extra bake time for the first Availability Zone. If you don't specify a value for firstZoneMonitorDurationInSeconds, then CodeDeploy uses the monitorDurationInSeconds value for the first Availability Zone. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
-        public var firstZoneMonitorDurationInSeconds: Swift.Int?
-        /// The number or percentage of instances that must remain available per Availability Zone during a deployment. This option works in conjunction with the MinimumHealthyHosts option. For more information, see [About the minimum number of healthy hosts per Availability Zone](https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html#minimum-healthy-hosts-az) in the CodeDeploy User Guide. If you don't specify the minimumHealthyHostsPerZone option, then CodeDeploy uses a default value of 0 percent. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
-        public var minimumHealthyHostsPerZone: CodeDeployClientTypes.MinimumHealthyHostsPerZone?
-        /// The period of time, in seconds, that CodeDeploy must wait after completing a deployment to an Availability Zone. CodeDeploy will wait this amount of time before starting a deployment to the next Availability Zone. Consider adding a monitor duration to give the deployment some time to prove itself (or 'bake') in one Availability Zone before it is released in the next zone. If you don't specify a monitorDurationInSeconds, CodeDeploy starts deploying to the next Availability Zone immediately. For more information about the zonal configuration feature, see [zonal configuration](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config) in the CodeDeploy User Guide.
-        public var monitorDurationInSeconds: Swift.Int?
-
-        public init(
-            firstZoneMonitorDurationInSeconds: Swift.Int? = nil,
-            minimumHealthyHostsPerZone: CodeDeployClientTypes.MinimumHealthyHostsPerZone? = nil,
-            monitorDurationInSeconds: Swift.Int? = nil
-        )
-        {
-            self.firstZoneMonitorDurationInSeconds = firstZoneMonitorDurationInSeconds
-            self.minimumHealthyHostsPerZone = minimumHealthyHostsPerZone
-            self.monitorDurationInSeconds = monitorDurationInSeconds
-        }
-    }
-
 }

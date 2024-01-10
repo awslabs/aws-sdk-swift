@@ -67,55 +67,6 @@ public struct MarketplaceCatalogClientLogHandlerFactory: ClientRuntime.SDKLogHan
 }
 
 extension MarketplaceCatalogClient: MarketplaceCatalogClientProtocol {
-    /// Performs the `BatchDescribeEntities` operation on the `AWSMPSeymour` service.
-    ///
-    /// Returns metadata and content for multiple entities.
-    ///
-    /// - Parameter BatchDescribeEntitiesInput : [no documentation found]
-    ///
-    /// - Returns: `BatchDescribeEntitiesOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Access is denied. HTTP status code: 403
-    /// - `InternalServiceException` : There was an internal service exception. HTTP status code: 500
-    /// - `ThrottlingException` : Too many requests. HTTP status code: 429
-    /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
-    public func batchDescribeEntities(input: BatchDescribeEntitiesInput) async throws -> BatchDescribeEntitiesOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "batchDescribeEntities")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "aws-marketplace")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<BatchDescribeEntitiesInput, BatchDescribeEntitiesOutput>(id: "batchDescribeEntities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeEntitiesInput, BatchDescribeEntitiesOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeEntitiesInput, BatchDescribeEntitiesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDescribeEntitiesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDescribeEntitiesInput, BatchDescribeEntitiesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDescribeEntitiesInput, BatchDescribeEntitiesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDescribeEntitiesOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeEntitiesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeEntitiesOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchDescribeEntitiesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeEntitiesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `CancelChangeSet` operation on the `AWSMPSeymour` service.
     ///
     /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.

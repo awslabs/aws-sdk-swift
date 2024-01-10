@@ -508,7 +508,7 @@ extension InvokeEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.body = nil
         }
     }
@@ -712,7 +712,7 @@ extension InvokeEndpointWithResponseStreamOutput: ClientRuntime.HttpResponseBind
         }
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<SageMakerRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<SageMakerRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
             self.body = decoderStream.toAsyncStream()
         } else {
             self.body = nil

@@ -288,7 +288,6 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidMinimumHealthyHostValueException` : The minimum healthy instance value was specified in an invalid format.
     /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
-    /// - `InvalidZonalDeploymentConfigurationException` : The ZonalConfig object is not valid.
     func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutput
     /// Performs the `CreateDeploymentGroup` operation on the `CodeDeploy_20141006` service.
     ///
@@ -699,7 +698,6 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidInstanceStatusException` : The specified instance status does not exist.
     /// - `InvalidInstanceTypeException` : An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
-    /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
     func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutput
     /// Performs the `ListGitHubAccountTokenNames` operation on the `CodeDeploy_20141006` service.
     ///

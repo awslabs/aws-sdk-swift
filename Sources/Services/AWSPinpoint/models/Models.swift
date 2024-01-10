@@ -4035,7 +4035,7 @@ extension PinpointClientTypes {
         public var daily: Swift.Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
         public var maximumDuration: Swift.Int?
-        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 1. The maximum value is 20,000.
+        /// The maximum number of messages that a campaign can send each second. For an application, this value specifies the default limit for the number of messages that campaigns can send each second. The minimum value is 50. The maximum value is 20,000.
         public var messagesPerSecond: Swift.Int?
         /// The maximum total number of messages that the campaign can send per user session.
         public var session: Swift.Int?

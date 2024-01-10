@@ -69,7 +69,7 @@ public struct B2biClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 extension B2biClient: B2biClientProtocol {
     /// Performs the `CreateCapability` operation on the `B2BI` service.
     ///
-    /// Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// Instantiates a capability based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     ///
     /// - Parameter CreateCapabilityInput : [no documentation found]
     ///
@@ -123,7 +123,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `CreatePartnership` operation on the `B2BI` service.
     ///
-    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
     ///
     /// - Parameter CreatePartnershipInput : [no documentation found]
     ///
@@ -177,7 +177,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `CreateProfile` operation on the `B2BI` service.
     ///
-    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
+    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. Profiles contain basic information about you and your business.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
     ///
@@ -231,7 +231,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `CreateTransformer` operation on the `B2BI` service.
     ///
-    /// Creates a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Creates a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
     ///
     /// - Parameter CreateTransformerInput : [no documentation found]
     ///
@@ -285,7 +285,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `DeleteCapability` operation on the `B2BI` service.
     ///
-    /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// Deletes the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     ///
     /// - Parameter DeleteCapabilityInput : [no documentation found]
     ///
@@ -337,7 +337,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `DeletePartnership` operation on the `B2BI` service.
     ///
-    /// Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+    /// Deletes the specified partnership. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
     ///
     /// - Parameter DeletePartnershipInput : [no documentation found]
     ///
@@ -389,7 +389,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `DeleteProfile` operation on the `B2BI` service.
     ///
-    /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
+    /// Deletes the specified profile. Profiles contain basic information about you and your business.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
     ///
@@ -441,7 +441,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `DeleteTransformer` operation on the `B2BI` service.
     ///
-    /// Deletes the specified transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Deletes the specified transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
     ///
     /// - Parameter DeleteTransformerInput : [no documentation found]
     ///
@@ -493,7 +493,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `GetCapability` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// Retrieves the details for the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     ///
     /// - Parameter GetCapabilityInput : [no documentation found]
     ///
@@ -544,7 +544,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `GetPartnership` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
     ///
     /// - Parameter GetPartnershipInput : [no documentation found]
     ///
@@ -595,7 +595,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `GetProfile` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
+    /// Retrieves the details for the profile specified by the profile ID. Profiles contain basic information about you and your business.
     ///
     /// - Parameter GetProfileInput : [no documentation found]
     ///
@@ -646,7 +646,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `GetTransformer` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for the transformer specified by the transformer ID. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Retrieves the details for the transformer specified by the transformer ID. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
     ///
     /// - Parameter GetTransformerInput : [no documentation found]
     ///
@@ -749,7 +749,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `ListCapabilities` operation on the `B2BI` service.
     ///
-    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     ///
     /// - Parameter ListCapabilitiesInput : [no documentation found]
     ///
@@ -792,7 +792,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `ListPartnerships` operation on the `B2BI` service.
     ///
-    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
     ///
     /// - Parameter ListPartnershipsInput : [no documentation found]
     ///
@@ -844,7 +844,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `ListProfiles` operation on the `B2BI` service.
     ///
-    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
+    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. Profiles contain basic information about you and your business.
     ///
     /// - Parameter ListProfilesInput : [no documentation found]
     ///
@@ -935,7 +935,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `ListTransformers` operation on the `B2BI` service.
     ///
-    /// Lists the available transformers. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Lists the available transformers. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
     ///
     /// - Parameter ListTransformersInput : [no documentation found]
     ///
@@ -978,7 +978,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `StartTransformerJob` operation on the `B2BI` service.
     ///
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange.
     ///
     /// - Parameter StartTransformerJobInput : [no documentation found]
     ///
@@ -1079,7 +1079,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `TestMapping` operation on the `B2BI` service.
     ///
-    /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter.
+    /// Maps the input file according to the provided template file.
     ///
     /// - Parameter TestMappingInput : [no documentation found]
     ///
@@ -1230,7 +1230,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `UpdateCapability` operation on the `B2BI` service.
     ///
-    /// Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
+    /// Updates some of the parameters for a capability, based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
     ///
     /// - Parameter UpdateCapabilityInput : [no documentation found]
     ///
@@ -1283,7 +1283,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `UpdatePartnership` operation on the `B2BI` service.
     ///
-    /// Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
+    /// Updates some of the parameters for a partnership between a customer and trading partner. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
     ///
     /// - Parameter UpdatePartnershipInput : [no documentation found]
     ///
@@ -1336,7 +1336,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `UpdateProfile` operation on the `B2BI` service.
     ///
-    /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
+    /// Updates the specified parameters for a profile. Profiles contain basic information about you and your business.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
     ///
@@ -1389,7 +1389,7 @@ extension B2biClient: B2biClientProtocol {
 
     /// Performs the `UpdateTransformer` operation on the `B2BI` service.
     ///
-    /// Updates the specified parameters for a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Updates the specified parameters for a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
     ///
     /// - Parameter UpdateTransformerInput : [no documentation found]
     ///

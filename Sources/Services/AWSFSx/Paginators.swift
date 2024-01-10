@@ -156,7 +156,6 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeSnapshotsInput {
         return DescribeSnapshotsInput(
             filters: self.filters,
-            includeShared: self.includeShared,
             maxResults: self.maxResults,
             nextToken: token,
             snapshotIds: self.snapshotIds

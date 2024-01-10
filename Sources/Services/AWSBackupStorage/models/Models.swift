@@ -456,7 +456,7 @@ extension GetChunkOutput: ClientRuntime.HttpResponseBinding {
             self.data = .data(data)
         case .stream(let stream):
             self.data = .stream(stream)
-        case .noStream:
+        case .none:
             self.data = nil
         }
     }
@@ -589,7 +589,7 @@ extension GetObjectMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.metadataBlob = .data(data)
         case .stream(let stream):
             self.metadataBlob = .stream(stream)
-        case .noStream:
+        case .none:
             self.metadataBlob = nil
         }
     }

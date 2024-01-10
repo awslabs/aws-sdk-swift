@@ -2360,7 +2360,7 @@ extension CreateHostedConfigurationVersionOutput: ClientRuntime.HttpResponseBind
             self.content = data
         case .stream(let stream):
             self.content = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.content = nil
         }
     }
@@ -3762,7 +3762,7 @@ extension GetConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.content = data
         case .stream(let stream):
             self.content = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.content = nil
         }
     }
@@ -5065,7 +5065,7 @@ extension GetHostedConfigurationVersionOutput: ClientRuntime.HttpResponseBinding
             self.content = data
         case .stream(let stream):
             self.content = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.content = nil
         }
     }

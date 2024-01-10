@@ -2526,7 +2526,7 @@ public struct CreateGameSessionInput: Swift.Equatable {
     public var creatorId: Swift.String?
     /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var fleetId: Swift.String?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create).
+    /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
     public var gameSessionData: Swift.String?
@@ -3158,7 +3158,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Equatable {
     ///
     /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
@@ -10440,17 +10440,17 @@ extension GameLiftClientTypes {
         ///
         /// * SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.
         ///
-        /// * SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.
+        /// * SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected. Check your game session log to see why InitSDK() was not called in time.
         ///
-        /// * SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.
+        /// * SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.
         ///
         /// * SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.
         ///
         /// * SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.
         ///
-        /// * SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.
+        /// * SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly after OnProcessTerminate() was sent within the time expected. Check your game session log to see why termination took longer than expected.
         ///
-        /// * SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.
+        /// * SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.
         ///
         ///
         /// Game session events:
@@ -11443,7 +11443,7 @@ extension GameLiftClientTypes.GameProperty: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game session's map, level of difficulty, or remaining time. The difficulty level could be specified like this: {"Key": "difficulty", "Value":"Novice"}. You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see [Create a game session with properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties).
+    /// Set of key-value pairs that contain information about a game session. When included in a game session request, these properties communicate details to be used when setting up the new game session. For example, a game property might specify a game mode, level, or map. Game properties are passed to the game server process when initiating a new game session. For more information, see the [ Amazon GameLift Developer Guide](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#gamelift-sdk-client-api-create).
     public struct GameProperty: Swift.Equatable {
         /// The game property identifier.
         /// This member is required.
@@ -12627,7 +12627,7 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the game session is running on.
         public var fleetId: Swift.String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
         public var gameSessionData: Swift.String?
@@ -13079,7 +13079,7 @@ extension GameLiftClientTypes {
         public var dnsName: Swift.String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public var endTime: ClientRuntime.Date?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public var gameSessionArn: Swift.String?
@@ -16654,7 +16654,7 @@ extension GameLiftClientTypes {
         ///
         /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift queue to start a game session for the match.
         public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var gameSessionData: Swift.String?
@@ -19985,7 +19985,7 @@ extension StartGameSessionPlacementInput: ClientRuntime.URLPathProvider {
 public struct StartGameSessionPlacementInput: Swift.Equatable {
     /// Set of information on each player to create a player session for.
     public var desiredPlayerSessions: [GameLiftClientTypes.DesiredPlayerSession]?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+    /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
     public var gameSessionData: Swift.String?
@@ -22553,7 +22553,6 @@ enum UpdateGameServerOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateGameSessionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gameProperties = "GameProperties"
         case gameSessionId = "GameSessionId"
         case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         case name = "Name"
@@ -22563,12 +22562,6 @@ extension UpdateGameSessionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let gameProperties = gameProperties {
-            var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gameproperty0 in gameProperties {
-                try gamePropertiesContainer.encode(gameproperty0)
-            }
-        }
         if let gameSessionId = self.gameSessionId {
             try encodeContainer.encode(gameSessionId, forKey: .gameSessionId)
         }
@@ -22594,8 +22587,6 @@ extension UpdateGameSessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateGameSessionInput: Swift.Equatable {
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update).
-    public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A unique identifier for the game session to update.
     /// This member is required.
     public var gameSessionId: Swift.String?
@@ -22613,7 +22604,6 @@ public struct UpdateGameSessionInput: Swift.Equatable {
     public var protectionPolicy: GameLiftClientTypes.ProtectionPolicy?
 
     public init(
-        gameProperties: [GameLiftClientTypes.GameProperty]? = nil,
         gameSessionId: Swift.String? = nil,
         maximumPlayerSessionCount: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -22621,7 +22611,6 @@ public struct UpdateGameSessionInput: Swift.Equatable {
         protectionPolicy: GameLiftClientTypes.ProtectionPolicy? = nil
     )
     {
-        self.gameProperties = gameProperties
         self.gameSessionId = gameSessionId
         self.maximumPlayerSessionCount = maximumPlayerSessionCount
         self.name = name
@@ -22636,12 +22625,10 @@ struct UpdateGameSessionInputBody: Swift.Equatable {
     let name: Swift.String?
     let playerSessionCreationPolicy: GameLiftClientTypes.PlayerSessionCreationPolicy?
     let protectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-    let gameProperties: [GameLiftClientTypes.GameProperty]?
 }
 
 extension UpdateGameSessionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gameProperties = "GameProperties"
         case gameSessionId = "GameSessionId"
         case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         case name = "Name"
@@ -22661,17 +22648,6 @@ extension UpdateGameSessionInputBody: Swift.Decodable {
         playerSessionCreationPolicy = playerSessionCreationPolicyDecoded
         let protectionPolicyDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.ProtectionPolicy.self, forKey: .protectionPolicy)
         protectionPolicy = protectionPolicyDecoded
-        let gamePropertiesContainer = try containerValues.decodeIfPresent([GameLiftClientTypes.GameProperty?].self, forKey: .gameProperties)
-        var gamePropertiesDecoded0:[GameLiftClientTypes.GameProperty]? = nil
-        if let gamePropertiesContainer = gamePropertiesContainer {
-            gamePropertiesDecoded0 = [GameLiftClientTypes.GameProperty]()
-            for structure0 in gamePropertiesContainer {
-                if let structure0 = structure0 {
-                    gamePropertiesDecoded0?.append(structure0)
-                }
-            }
-        }
-        gameProperties = gamePropertiesDecoded0
     }
 }
 
@@ -23037,7 +23013,7 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Equatable {
     ///
     /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)). This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?

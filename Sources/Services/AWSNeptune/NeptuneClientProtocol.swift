@@ -739,7 +739,6 @@ public protocol NeptuneClientProtocol {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
-    /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
     func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput
     /// Performs the `ModifyDBClusterEndpoint` operation on the `AmazonRDSv19` service.
     ///

@@ -10849,7 +10849,6 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         case attributeDefinitions = "AttributeDefinitions"
         case billingModeSummary = "BillingModeSummary"
         case creationDateTime = "CreationDateTime"
-        case deletionProtectionEnabled = "DeletionProtectionEnabled"
         case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         case globalTableVersion = "GlobalTableVersion"
         case itemCount = "ItemCount"
@@ -10881,9 +10880,6 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         }
         if let creationDateTime = self.creationDateTime {
             try encodeContainer.encode(creationDateTime, forKey: .creationDateTime)
-        }
-        if let deletionProtectionEnabled = self.deletionProtectionEnabled {
-            try encodeContainer.encode(deletionProtectionEnabled, forKey: .deletionProtectionEnabled)
         }
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
@@ -11032,8 +11028,6 @@ extension SecurityHubClientTypes.AwsDynamoDbTableDetails: Swift.Codable {
         tableSizeBytes = tableSizeBytesDecoded
         let tableStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableStatus)
         tableStatus = tableStatusDecoded
-        let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
-        deletionProtectionEnabled = deletionProtectionEnabledDecoded
     }
 }
 
@@ -11046,8 +11040,6 @@ extension SecurityHubClientTypes {
         public var billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary?
         /// Indicates when the table was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var creationDateTime: Swift.String?
-        /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
-        public var deletionProtectionEnabled: Swift.Bool?
         /// List of global secondary indexes for the table.
         public var globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex]?
         /// The version of global tables being used.
@@ -11099,7 +11091,6 @@ extension SecurityHubClientTypes {
             attributeDefinitions: [SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition]? = nil,
             billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary? = nil,
             creationDateTime: Swift.String? = nil,
-            deletionProtectionEnabled: Swift.Bool? = nil,
             globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex]? = nil,
             globalTableVersion: Swift.String? = nil,
             itemCount: Swift.Int? = nil,
@@ -11121,7 +11112,6 @@ extension SecurityHubClientTypes {
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
-            self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableVersion = globalTableVersion
             self.itemCount = itemCount
@@ -11895,607 +11885,6 @@ extension SecurityHubClientTypes {
         {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case directoryId = "DirectoryId"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let directoryId = self.directoryId {
-            try encodeContainer.encode(directoryId, forKey: .directoryId)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
-        directoryId = directoryIdDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Provides details about an Active Directory that’s used to authenticate an Client VPN endpoint.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails: Swift.Equatable {
-        /// The ID of the Active Directory used for authentication.
-        public var directoryId: Swift.String?
-
-        public init(
-            directoryId: Swift.String? = nil
-        )
-        {
-            self.directoryId = directoryId
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case activeDirectory = "ActiveDirectory"
-        case federatedAuthentication = "FederatedAuthentication"
-        case mutualAuthentication = "MutualAuthentication"
-        case type = "Type"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let activeDirectory = self.activeDirectory {
-            try encodeContainer.encode(activeDirectory, forKey: .activeDirectory)
-        }
-        if let federatedAuthentication = self.federatedAuthentication {
-            try encodeContainer.encode(federatedAuthentication, forKey: .federatedAuthentication)
-        }
-        if let mutualAuthentication = self.mutualAuthentication {
-            try encodeContainer.encode(mutualAuthentication, forKey: .mutualAuthentication)
-        }
-        if let type = self.type {
-            try encodeContainer.encode(type, forKey: .type)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
-        type = typeDecoded
-        let activeDirectoryDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails.self, forKey: .activeDirectory)
-        activeDirectory = activeDirectoryDecoded
-        let mutualAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails.self, forKey: .mutualAuthentication)
-        mutualAuthentication = mutualAuthenticationDecoded
-        let federatedAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails.self, forKey: .federatedAuthentication)
-        federatedAuthentication = federatedAuthenticationDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Information about the authentication method used by the Client VPN endpoint.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsDetails: Swift.Equatable {
-        /// Information about the Active Directory, if applicable. With Active Directory authentication, clients are authenticated against existing Active Directory groups.
-        public var activeDirectory: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails?
-        /// Information about the IAM SAML identity provider, if applicable.
-        public var federatedAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails?
-        /// Information about the authentication certificates, if applicable.
-        public var mutualAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails?
-        /// The authentication type used.
-        public var type: Swift.String?
-
-        public init(
-            activeDirectory: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails? = nil,
-            federatedAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails? = nil,
-            mutualAuthentication: SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails? = nil,
-            type: Swift.String? = nil
-        )
-        {
-            self.activeDirectory = activeDirectory
-            self.federatedAuthentication = federatedAuthentication
-            self.mutualAuthentication = mutualAuthentication
-            self.type = type
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case samlProviderArn = "SamlProviderArn"
-        case selfServiceSamlProviderArn = "SelfServiceSamlProviderArn"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let samlProviderArn = self.samlProviderArn {
-            try encodeContainer.encode(samlProviderArn, forKey: .samlProviderArn)
-        }
-        if let selfServiceSamlProviderArn = self.selfServiceSamlProviderArn {
-            try encodeContainer.encode(selfServiceSamlProviderArn, forKey: .selfServiceSamlProviderArn)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let samlProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .samlProviderArn)
-        samlProviderArn = samlProviderArnDecoded
-        let selfServiceSamlProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selfServiceSamlProviderArn)
-        selfServiceSamlProviderArn = selfServiceSamlProviderArnDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Describes the IAM SAML identity providers used for federated authentication.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
-        public var samlProviderArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
-        public var selfServiceSamlProviderArn: Swift.String?
-
-        public init(
-            samlProviderArn: Swift.String? = nil,
-            selfServiceSamlProviderArn: Swift.String? = nil
-        )
-        {
-            self.samlProviderArn = samlProviderArn
-            self.selfServiceSamlProviderArn = selfServiceSamlProviderArn
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientRootCertificateChain = "ClientRootCertificateChain"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let clientRootCertificateChain = self.clientRootCertificateChain {
-            try encodeContainer.encode(clientRootCertificateChain, forKey: .clientRootCertificateChain)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clientRootCertificateChainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRootCertificateChain)
-        clientRootCertificateChain = clientRootCertificateChainDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Information about the client certificate used for authentication.
-    public struct AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the client certificate.
-        public var clientRootCertificateChain: Swift.String?
-
-        public init(
-            clientRootCertificateChain: Swift.String? = nil
-        )
-        {
-            self.clientRootCertificateChain = clientRootCertificateChain
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case enabled = "Enabled"
-        case lambdaFunctionArn = "LambdaFunctionArn"
-        case status = "Status"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let enabled = self.enabled {
-            try encodeContainer.encode(enabled, forKey: .enabled)
-        }
-        if let lambdaFunctionArn = self.lambdaFunctionArn {
-            try encodeContainer.encode(lambdaFunctionArn, forKey: .lambdaFunctionArn)
-        }
-        if let status = self.status {
-            try encodeContainer.encode(status, forKey: .status)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
-        enabled = enabledDecoded
-        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
-        lambdaFunctionArn = lambdaFunctionArnDecoded
-        let statusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails.self, forKey: .status)
-        status = statusDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// The options for managing connection authorization for new client connections.
-    public struct AwsEc2ClientVpnEndpointClientConnectOptionsDetails: Swift.Equatable {
-        /// Indicates whether client connect options are enabled.
-        public var enabled: Swift.Bool?
-        /// The Amazon Resource Name (ARN) of the Lambda function used for connection authorization.
-        public var lambdaFunctionArn: Swift.String?
-        /// The status of any updates to the client connect options.
-        public var status: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails?
-
-        public init(
-            enabled: Swift.Bool? = nil,
-            lambdaFunctionArn: Swift.String? = nil,
-            status: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails? = nil
-        )
-        {
-            self.enabled = enabled
-            self.lambdaFunctionArn = lambdaFunctionArn
-            self.status = status
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case code = "Code"
-        case message = "Message"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let code = self.code {
-            try encodeContainer.encode(code, forKey: .code)
-        }
-        if let message = self.message {
-            try encodeContainer.encode(message, forKey: .message)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
-        code = codeDecoded
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Describes the status of the Client VPN endpoint attribute.
-    public struct AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails: Swift.Equatable {
-        /// The status code.
-        public var code: Swift.String?
-        /// The status message.
-        public var message: Swift.String?
-
-        public init(
-            code: Swift.String? = nil,
-            message: Swift.String? = nil
-        )
-        {
-            self.code = code
-            self.message = message
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case bannerText = "BannerText"
-        case enabled = "Enabled"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let bannerText = self.bannerText {
-            try encodeContainer.encode(bannerText, forKey: .bannerText)
-        }
-        if let enabled = self.enabled {
-            try encodeContainer.encode(enabled, forKey: .enabled)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
-        enabled = enabledDecoded
-        let bannerTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bannerText)
-        bannerText = bannerTextDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
-    public struct AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails: Swift.Equatable {
-        /// Customizable text that will be displayed in a banner on Amazon Web Services provided clients when a VPN session is established.
-        public var bannerText: Swift.String?
-        /// Current state of text banner feature.
-        public var enabled: Swift.Bool?
-
-        public init(
-            bannerText: Swift.String? = nil,
-            enabled: Swift.Bool? = nil
-        )
-        {
-            self.bannerText = bannerText
-            self.enabled = enabled
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cloudwatchLogGroup = "CloudwatchLogGroup"
-        case cloudwatchLogStream = "CloudwatchLogStream"
-        case enabled = "Enabled"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let cloudwatchLogGroup = self.cloudwatchLogGroup {
-            try encodeContainer.encode(cloudwatchLogGroup, forKey: .cloudwatchLogGroup)
-        }
-        if let cloudwatchLogStream = self.cloudwatchLogStream {
-            try encodeContainer.encode(cloudwatchLogStream, forKey: .cloudwatchLogStream)
-        }
-        if let enabled = self.enabled {
-            try encodeContainer.encode(enabled, forKey: .enabled)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
-        enabled = enabledDecoded
-        let cloudwatchLogGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudwatchLogGroup)
-        cloudwatchLogGroup = cloudwatchLogGroupDecoded
-        let cloudwatchLogStreamDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudwatchLogStream)
-        cloudwatchLogStream = cloudwatchLogStreamDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Information about the client connection logging options for the Client VPN endpoint.
-    public struct AwsEc2ClientVpnEndpointConnectionLogOptionsDetails: Swift.Equatable {
-        /// The name of the Amazon CloudWatch Logs log group to which connection logging data is published.
-        public var cloudwatchLogGroup: Swift.String?
-        /// The name of the Amazon CloudWatch Logs log stream to which connection logging data is published.
-        public var cloudwatchLogStream: Swift.String?
-        /// Indicates whether client connection logging is enabled for the Client VPN endpoint.
-        public var enabled: Swift.Bool?
-
-        public init(
-            cloudwatchLogGroup: Swift.String? = nil,
-            cloudwatchLogStream: Swift.String? = nil,
-            enabled: Swift.Bool? = nil
-        )
-        {
-            self.cloudwatchLogGroup = cloudwatchLogGroup
-            self.cloudwatchLogStream = cloudwatchLogStream
-            self.enabled = enabled
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case authenticationOptions = "AuthenticationOptions"
-        case clientCidrBlock = "ClientCidrBlock"
-        case clientConnectOptions = "ClientConnectOptions"
-        case clientLoginBannerOptions = "ClientLoginBannerOptions"
-        case clientVpnEndpointId = "ClientVpnEndpointId"
-        case connectionLogOptions = "ConnectionLogOptions"
-        case description = "Description"
-        case dnsServer = "DnsServer"
-        case securityGroupIdSet = "SecurityGroupIdSet"
-        case selfServicePortalUrl = "SelfServicePortalUrl"
-        case serverCertificateArn = "ServerCertificateArn"
-        case sessionTimeoutHours = "SessionTimeoutHours"
-        case splitTunnel = "SplitTunnel"
-        case transportProtocol = "TransportProtocol"
-        case vpcId = "VpcId"
-        case vpnPort = "VpnPort"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let authenticationOptions = authenticationOptions {
-            var authenticationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authenticationOptions)
-            for awsec2clientvpnendpointauthenticationoptionsdetails0 in authenticationOptions {
-                try authenticationOptionsContainer.encode(awsec2clientvpnendpointauthenticationoptionsdetails0)
-            }
-        }
-        if let clientCidrBlock = self.clientCidrBlock {
-            try encodeContainer.encode(clientCidrBlock, forKey: .clientCidrBlock)
-        }
-        if let clientConnectOptions = self.clientConnectOptions {
-            try encodeContainer.encode(clientConnectOptions, forKey: .clientConnectOptions)
-        }
-        if let clientLoginBannerOptions = self.clientLoginBannerOptions {
-            try encodeContainer.encode(clientLoginBannerOptions, forKey: .clientLoginBannerOptions)
-        }
-        if let clientVpnEndpointId = self.clientVpnEndpointId {
-            try encodeContainer.encode(clientVpnEndpointId, forKey: .clientVpnEndpointId)
-        }
-        if let connectionLogOptions = self.connectionLogOptions {
-            try encodeContainer.encode(connectionLogOptions, forKey: .connectionLogOptions)
-        }
-        if let description = self.description {
-            try encodeContainer.encode(description, forKey: .description)
-        }
-        if let dnsServer = dnsServer {
-            var dnsServerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsServer)
-            for nonemptystring0 in dnsServer {
-                try dnsServerContainer.encode(nonemptystring0)
-            }
-        }
-        if let securityGroupIdSet = securityGroupIdSet {
-            var securityGroupIdSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIdSet)
-            for nonemptystring0 in securityGroupIdSet {
-                try securityGroupIdSetContainer.encode(nonemptystring0)
-            }
-        }
-        if let selfServicePortalUrl = self.selfServicePortalUrl {
-            try encodeContainer.encode(selfServicePortalUrl, forKey: .selfServicePortalUrl)
-        }
-        if let serverCertificateArn = self.serverCertificateArn {
-            try encodeContainer.encode(serverCertificateArn, forKey: .serverCertificateArn)
-        }
-        if let sessionTimeoutHours = self.sessionTimeoutHours {
-            try encodeContainer.encode(sessionTimeoutHours, forKey: .sessionTimeoutHours)
-        }
-        if let splitTunnel = self.splitTunnel {
-            try encodeContainer.encode(splitTunnel, forKey: .splitTunnel)
-        }
-        if let transportProtocol = self.transportProtocol {
-            try encodeContainer.encode(transportProtocol, forKey: .transportProtocol)
-        }
-        if let vpcId = self.vpcId {
-            try encodeContainer.encode(vpcId, forKey: .vpcId)
-        }
-        if let vpnPort = self.vpnPort {
-            try encodeContainer.encode(vpnPort, forKey: .vpnPort)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clientVpnEndpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientVpnEndpointId)
-        clientVpnEndpointId = clientVpnEndpointIdDecoded
-        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
-        description = descriptionDecoded
-        let clientCidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientCidrBlock)
-        clientCidrBlock = clientCidrBlockDecoded
-        let dnsServerContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dnsServer)
-        var dnsServerDecoded0:[Swift.String]? = nil
-        if let dnsServerContainer = dnsServerContainer {
-            dnsServerDecoded0 = [Swift.String]()
-            for string0 in dnsServerContainer {
-                if let string0 = string0 {
-                    dnsServerDecoded0?.append(string0)
-                }
-            }
-        }
-        dnsServer = dnsServerDecoded0
-        let splitTunnelDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .splitTunnel)
-        splitTunnel = splitTunnelDecoded
-        let transportProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transportProtocol)
-        transportProtocol = transportProtocolDecoded
-        let vpnPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .vpnPort)
-        vpnPort = vpnPortDecoded
-        let serverCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverCertificateArn)
-        serverCertificateArn = serverCertificateArnDecoded
-        let authenticationOptionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails?].self, forKey: .authenticationOptions)
-        var authenticationOptionsDecoded0:[SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]? = nil
-        if let authenticationOptionsContainer = authenticationOptionsContainer {
-            authenticationOptionsDecoded0 = [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]()
-            for structure0 in authenticationOptionsContainer {
-                if let structure0 = structure0 {
-                    authenticationOptionsDecoded0?.append(structure0)
-                }
-            }
-        }
-        authenticationOptions = authenticationOptionsDecoded0
-        let connectionLogOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails.self, forKey: .connectionLogOptions)
-        connectionLogOptions = connectionLogOptionsDecoded
-        let securityGroupIdSetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIdSet)
-        var securityGroupIdSetDecoded0:[Swift.String]? = nil
-        if let securityGroupIdSetContainer = securityGroupIdSetContainer {
-            securityGroupIdSetDecoded0 = [Swift.String]()
-            for string0 in securityGroupIdSetContainer {
-                if let string0 = string0 {
-                    securityGroupIdSetDecoded0?.append(string0)
-                }
-            }
-        }
-        securityGroupIdSet = securityGroupIdSetDecoded0
-        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
-        vpcId = vpcIdDecoded
-        let selfServicePortalUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selfServicePortalUrl)
-        selfServicePortalUrl = selfServicePortalUrlDecoded
-        let clientConnectOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails.self, forKey: .clientConnectOptions)
-        clientConnectOptions = clientConnectOptionsDecoded
-        let sessionTimeoutHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionTimeoutHours)
-        sessionTimeoutHours = sessionTimeoutHoursDecoded
-        let clientLoginBannerOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails.self, forKey: .clientLoginBannerOptions)
-        clientLoginBannerOptions = clientLoginBannerOptionsDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Describes an Client VPN endpoint. A Client VPN endpoint is the resource that you create and configure to enable and manage client VPN sessions. It's the termination point for all client VPN sessions.
-    public struct AwsEc2ClientVpnEndpointDetails: Swift.Equatable {
-        /// Information about the authentication method used by the Client VPN endpoint.
-        public var authenticationOptions: [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]?
-        /// The IPv4 address range, in CIDR notation, from which client IP addresses are assigned.
-        public var clientCidrBlock: Swift.String?
-        /// The options for managing connection authorization for new client connections.
-        public var clientConnectOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails?
-        /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is established.
-        public var clientLoginBannerOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails?
-        /// The ID of the Client VPN endpoint.
-        public var clientVpnEndpointId: Swift.String?
-        /// Information about the client connection logging options for the Client VPN endpoint.
-        public var connectionLogOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails?
-        /// A brief description of the endpoint.
-        public var description: Swift.String?
-        /// Information about the DNS servers to be used for DNS resolution.
-        public var dnsServer: [Swift.String]?
-        /// The IDs of the security groups for the target network.
-        public var securityGroupIdSet: [Swift.String]?
-        /// The URL of the self-service portal.
-        public var selfServicePortalUrl: Swift.String?
-        /// The Amazon Resource Name (ARN) of the server certificate.
-        public var serverCertificateArn: Swift.String?
-        /// The maximum VPN session duration time in hours.
-        public var sessionTimeoutHours: Swift.Int?
-        /// Indicates whether split-tunnel is enabled in the Client VPN endpoint.
-        public var splitTunnel: Swift.Bool?
-        /// The transport protocol used by the Client VPN endpoint.
-        public var transportProtocol: Swift.String?
-        /// The ID of the VPC.
-        public var vpcId: Swift.String?
-        /// The port number for the Client VPN endpoint.
-        public var vpnPort: Swift.Int?
-
-        public init(
-            authenticationOptions: [SecurityHubClientTypes.AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]? = nil,
-            clientCidrBlock: Swift.String? = nil,
-            clientConnectOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientConnectOptionsDetails? = nil,
-            clientLoginBannerOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails? = nil,
-            clientVpnEndpointId: Swift.String? = nil,
-            connectionLogOptions: SecurityHubClientTypes.AwsEc2ClientVpnEndpointConnectionLogOptionsDetails? = nil,
-            description: Swift.String? = nil,
-            dnsServer: [Swift.String]? = nil,
-            securityGroupIdSet: [Swift.String]? = nil,
-            selfServicePortalUrl: Swift.String? = nil,
-            serverCertificateArn: Swift.String? = nil,
-            sessionTimeoutHours: Swift.Int? = nil,
-            splitTunnel: Swift.Bool? = nil,
-            transportProtocol: Swift.String? = nil,
-            vpcId: Swift.String? = nil,
-            vpnPort: Swift.Int? = nil
-        )
-        {
-            self.authenticationOptions = authenticationOptions
-            self.clientCidrBlock = clientCidrBlock
-            self.clientConnectOptions = clientConnectOptions
-            self.clientLoginBannerOptions = clientLoginBannerOptions
-            self.clientVpnEndpointId = clientVpnEndpointId
-            self.connectionLogOptions = connectionLogOptions
-            self.description = description
-            self.dnsServer = dnsServer
-            self.securityGroupIdSet = securityGroupIdSet
-            self.selfServicePortalUrl = selfServicePortalUrl
-            self.serverCertificateArn = serverCertificateArn
-            self.sessionTimeoutHours = sessionTimeoutHours
-            self.splitTunnel = splitTunnel
-            self.transportProtocol = transportProtocol
-            self.vpcId = vpcId
-            self.vpnPort = vpnPort
         }
     }
 
@@ -29521,7 +28910,6 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         case clusterName = "ClusterName"
         case currentVersion = "CurrentVersion"
         case encryptionInfo = "EncryptionInfo"
-        case enhancedMonitoring = "EnhancedMonitoring"
         case numberOfBrokerNodes = "NumberOfBrokerNodes"
     }
 
@@ -29538,9 +28926,6 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         }
         if let encryptionInfo = self.encryptionInfo {
             try encodeContainer.encode(encryptionInfo, forKey: .encryptionInfo)
-        }
-        if let enhancedMonitoring = self.enhancedMonitoring {
-            try encodeContainer.encode(enhancedMonitoring, forKey: .enhancedMonitoring)
         }
         if let numberOfBrokerNodes = self.numberOfBrokerNodes {
             try encodeContainer.encode(numberOfBrokerNodes, forKey: .numberOfBrokerNodes)
@@ -29559,24 +28944,20 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         clusterName = clusterNameDecoded
         let clientAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails.self, forKey: .clientAuthentication)
         clientAuthentication = clientAuthenticationDecoded
-        let enhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enhancedMonitoring)
-        enhancedMonitoring = enhancedMonitoringDecoded
     }
 }
 
 extension SecurityHubClientTypes {
-    /// Provide details about an Amazon Managed Streaming for Apache Kafka (Amazon MSK) cluster.
+    /// Provide details about an Amazon MSK cluster.
     public struct AwsMskClusterClusterInfoDetails: Swift.Equatable {
         /// Provides information for different modes of client authentication.
         public var clientAuthentication: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails?
         /// The name of the cluster.
         public var clusterName: Swift.String?
-        /// The current version of the cluster.
+        /// The current version of the MSK cluster.
         public var currentVersion: Swift.String?
         /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want Amazon MSK to encrypt your data in transit.
         public var encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails?
-        /// Specifies the level of monitoring for the cluster.
-        public var enhancedMonitoring: Swift.String?
         /// The number of broker nodes in the cluster.
         public var numberOfBrokerNodes: Swift.Int?
 
@@ -29585,7 +28966,6 @@ extension SecurityHubClientTypes {
             clusterName: Swift.String? = nil,
             currentVersion: Swift.String? = nil,
             encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails? = nil,
-            enhancedMonitoring: Swift.String? = nil,
             numberOfBrokerNodes: Swift.Int? = nil
         )
         {
@@ -29593,7 +28973,6 @@ extension SecurityHubClientTypes {
             self.clusterName = clusterName
             self.currentVersion = currentVersion
             self.encryptionInfo = encryptionInfo
-            self.enhancedMonitoring = enhancedMonitoring
             self.numberOfBrokerNodes = numberOfBrokerNodes
         }
     }
@@ -36058,146 +35437,6 @@ extension SecurityHubClientTypes {
 
 }
 
-extension SecurityHubClientTypes.AwsS3AccessPointDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accessPointArn = "AccessPointArn"
-        case alias = "Alias"
-        case bucket = "Bucket"
-        case bucketAccountId = "BucketAccountId"
-        case name = "Name"
-        case networkOrigin = "NetworkOrigin"
-        case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-        case vpcConfiguration = "VpcConfiguration"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let accessPointArn = self.accessPointArn {
-            try encodeContainer.encode(accessPointArn, forKey: .accessPointArn)
-        }
-        if let alias = self.alias {
-            try encodeContainer.encode(alias, forKey: .alias)
-        }
-        if let bucket = self.bucket {
-            try encodeContainer.encode(bucket, forKey: .bucket)
-        }
-        if let bucketAccountId = self.bucketAccountId {
-            try encodeContainer.encode(bucketAccountId, forKey: .bucketAccountId)
-        }
-        if let name = self.name {
-            try encodeContainer.encode(name, forKey: .name)
-        }
-        if let networkOrigin = self.networkOrigin {
-            try encodeContainer.encode(networkOrigin, forKey: .networkOrigin)
-        }
-        if let publicAccessBlockConfiguration = self.publicAccessBlockConfiguration {
-            try encodeContainer.encode(publicAccessBlockConfiguration, forKey: .publicAccessBlockConfiguration)
-        }
-        if let vpcConfiguration = self.vpcConfiguration {
-            try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPointArn)
-        accessPointArn = accessPointArnDecoded
-        let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
-        alias = aliasDecoded
-        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
-        bucket = bucketDecoded
-        let bucketAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccountId)
-        bucketAccountId = bucketAccountIdDecoded
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
-        let networkOriginDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkOrigin)
-        networkOrigin = networkOriginDecoded
-        let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails.self, forKey: .publicAccessBlockConfiguration)
-        publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
-        let vpcConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails.self, forKey: .vpcConfiguration)
-        vpcConfiguration = vpcConfigurationDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// Returns configuration information about the specified Amazon S3 access point. S3 access points are named network endpoints that are attached to buckets that you can use to perform S3 object operations.
-    public struct AwsS3AccessPointDetails: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the access point.
-        public var accessPointArn: Swift.String?
-        /// The name or alias of the access point.
-        public var alias: Swift.String?
-        /// The name of the S3 bucket associated with the specified access point.
-        public var bucket: Swift.String?
-        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
-        public var bucketAccountId: Swift.String?
-        /// The name of the specified access point.
-        public var name: Swift.String?
-        /// Indicates whether this access point allows access from the public internet.
-        public var networkOrigin: Swift.String?
-        /// provides information about the Amazon S3 Public Access Block configuration for accounts.
-        public var publicAccessBlockConfiguration: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails?
-        /// Contains the virtual private cloud (VPC) configuration for the specified access point.
-        public var vpcConfiguration: SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails?
-
-        public init(
-            accessPointArn: Swift.String? = nil,
-            alias: Swift.String? = nil,
-            bucket: Swift.String? = nil,
-            bucketAccountId: Swift.String? = nil,
-            name: Swift.String? = nil,
-            networkOrigin: Swift.String? = nil,
-            publicAccessBlockConfiguration: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
-            vpcConfiguration: SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails? = nil
-        )
-        {
-            self.accessPointArn = accessPointArn
-            self.alias = alias
-            self.bucket = bucket
-            self.bucketAccountId = bucketAccountId
-            self.name = name
-            self.networkOrigin = networkOrigin
-            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
-            self.vpcConfiguration = vpcConfiguration
-        }
-    }
-
-}
-
-extension SecurityHubClientTypes.AwsS3AccessPointVpcConfigurationDetails: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case vpcId = "VpcId"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let vpcId = self.vpcId {
-            try encodeContainer.encode(vpcId, forKey: .vpcId)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
-        vpcId = vpcIdDecoded
-    }
-}
-
-extension SecurityHubClientTypes {
-    /// The virtual private cloud (VPC) configuration for an Amazon S3 access point.
-    public struct AwsS3AccessPointVpcConfigurationDetails: Swift.Equatable {
-        /// If this field is specified, this access point will only allow connections from the specified VPC ID.
-        public var vpcId: Swift.String?
-
-        public init(
-            vpcId: Swift.String? = nil
-        )
-        {
-            self.vpcId = vpcId
-        }
-    }
-
-}
-
 extension SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blockPublicAcls = "BlockPublicAcls"
@@ -36925,7 +36164,6 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         case bucketVersioningConfiguration = "BucketVersioningConfiguration"
         case bucketWebsiteConfiguration = "BucketWebsiteConfiguration"
         case createdAt = "CreatedAt"
-        case name = "Name"
         case objectLockConfiguration = "ObjectLockConfiguration"
         case ownerAccountId = "OwnerAccountId"
         case ownerId = "OwnerId"
@@ -36956,9 +36194,6 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encode(createdAt, forKey: .createdAt)
-        }
-        if let name = self.name {
-            try encodeContainer.encode(name, forKey: .name)
         }
         if let objectLockConfiguration = self.objectLockConfiguration {
             try encodeContainer.encode(objectLockConfiguration, forKey: .objectLockConfiguration)
@@ -37008,17 +36243,15 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         bucketVersioningConfiguration = bucketVersioningConfigurationDecoded
         let objectLockConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration.self, forKey: .objectLockConfiguration)
         objectLockConfiguration = objectLockConfigurationDecoded
-        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
-        name = nameDecoded
     }
 }
 
 extension SecurityHubClientTypes {
-    /// The details of an Amazon Simple Storage Service (Amazon S3) bucket.
+    /// The details of an Amazon S3 bucket.
     public struct AwsS3BucketDetails: Swift.Equatable {
         /// The access control list for the S3 bucket.
         public var accessControlList: Swift.String?
-        /// The lifecycle configuration for objects in the specified bucket.
+        /// The lifecycle configuration for objects in the S3 bucket.
         public var bucketLifecycleConfiguration: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationDetails?
         /// The logging configuration for the S3 bucket.
         public var bucketLoggingConfiguration: SecurityHubClientTypes.AwsS3BucketLoggingConfiguration?
@@ -37030,9 +36263,7 @@ extension SecurityHubClientTypes {
         public var bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration?
         /// Indicates when the S3 bucket was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdAt: Swift.String?
-        /// The name of the bucket.
-        public var name: Swift.String?
-        /// Specifies which rule Amazon S3 applies by default to every new object placed in the bucket.
+        /// Specifies which rule Amazon S3 applies by default to every new object placed in the specified bucket.
         public var objectLockConfiguration: SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration?
         /// The Amazon Web Services account identifier of the account that owns the S3 bucket.
         public var ownerAccountId: Swift.String?
@@ -37053,7 +36284,6 @@ extension SecurityHubClientTypes {
             bucketVersioningConfiguration: SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration? = nil,
             bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration? = nil,
             createdAt: Swift.String? = nil,
-            name: Swift.String? = nil,
             objectLockConfiguration: SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration? = nil,
             ownerAccountId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
@@ -37069,7 +36299,6 @@ extension SecurityHubClientTypes {
             self.bucketVersioningConfiguration = bucketVersioningConfiguration
             self.bucketWebsiteConfiguration = bucketWebsiteConfiguration
             self.createdAt = createdAt
-            self.name = name
             self.objectLockConfiguration = objectLockConfiguration
             self.ownerAccountId = ownerAccountId
             self.ownerId = ownerId
@@ -47337,7 +46566,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The universally unique identifier (UUID) of the configuration policy.
         public var id: Swift.String?
-        /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
+        /// The name of the configuration policy.
         public var name: Swift.String?
         /// Indicates whether the service that the configuration policy applies to is enabled in the policy.
         public var serviceEnabled: Swift.Bool?
@@ -47965,7 +47194,7 @@ public struct CreateConfigurationPolicyInput: Swift.Equatable {
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The description of the configuration policy.
     public var description: Swift.String?
-    /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
+    /// The name of the configuration policy.
     /// This member is required.
     public var name: Swift.String?
     /// User-defined tags associated with a configuration policy. For more information, see [Tagging Security Hub resources](https://docs.aws.amazon.com/securityhub/latest/userguide/tagging-resources.html) in the Security Hub user guide.
@@ -57607,7 +56836,7 @@ extension SecurityHubClientTypes {
     public struct ParameterConfiguration: Swift.Equatable {
         /// The current value of a control parameter.
         public var value: SecurityHubClientTypes.ParameterValue?
-        /// Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub behavior. When ValueType is set equal to DEFAULT, the default behavior can be a specific Security Hub default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT, Security Hub ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM, the Value field can't be empty.
+        /// Identifies whether a control parameter uses a custom user-defined value or the Security Hub default value.
         /// This member is required.
         public var valueType: SecurityHubClientTypes.ParameterValueType?
 
@@ -59039,7 +58268,6 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsDmsReplicationInstance = "AwsDmsReplicationInstance"
         case awsDmsReplicationTask = "AwsDmsReplicationTask"
         case awsDynamoDbTable = "AwsDynamoDbTable"
-        case awsEc2ClientVpnEndpoint = "AwsEc2ClientVpnEndpoint"
         case awsEc2Eip = "AwsEc2Eip"
         case awsEc2Instance = "AwsEc2Instance"
         case awsEc2LaunchTemplate = "AwsEc2LaunchTemplate"
@@ -59093,7 +58321,6 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsRdsEventSubscription = "AwsRdsEventSubscription"
         case awsRedshiftCluster = "AwsRedshiftCluster"
         case awsRoute53HostedZone = "AwsRoute53HostedZone"
-        case awsS3AccessPoint = "AwsS3AccessPoint"
         case awsS3AccountPublicAccessBlock = "AwsS3AccountPublicAccessBlock"
         case awsS3Bucket = "AwsS3Bucket"
         case awsS3Object = "AwsS3Object"
@@ -59185,9 +58412,6 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsDynamoDbTable = self.awsDynamoDbTable {
             try encodeContainer.encode(awsDynamoDbTable, forKey: .awsDynamoDbTable)
-        }
-        if let awsEc2ClientVpnEndpoint = self.awsEc2ClientVpnEndpoint {
-            try encodeContainer.encode(awsEc2ClientVpnEndpoint, forKey: .awsEc2ClientVpnEndpoint)
         }
         if let awsEc2Eip = self.awsEc2Eip {
             try encodeContainer.encode(awsEc2Eip, forKey: .awsEc2Eip)
@@ -59347,9 +58571,6 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsRoute53HostedZone = self.awsRoute53HostedZone {
             try encodeContainer.encode(awsRoute53HostedZone, forKey: .awsRoute53HostedZone)
-        }
-        if let awsS3AccessPoint = self.awsS3AccessPoint {
-            try encodeContainer.encode(awsS3AccessPoint, forKey: .awsS3AccessPoint)
         }
         if let awsS3AccountPublicAccessBlock = self.awsS3AccountPublicAccessBlock {
             try encodeContainer.encode(awsS3AccountPublicAccessBlock, forKey: .awsS3AccountPublicAccessBlock)
@@ -59627,10 +58848,6 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsRoute53HostedZone = awsRoute53HostedZoneDecoded
         let awsMskClusterDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsMskClusterDetails.self, forKey: .awsMskCluster)
         awsMskCluster = awsMskClusterDecoded
-        let awsS3AccessPointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccessPointDetails.self, forKey: .awsS3AccessPoint)
-        awsS3AccessPoint = awsS3AccessPointDecoded
-        let awsEc2ClientVpnEndpointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.self, forKey: .awsEc2ClientVpnEndpoint)
-        awsEc2ClientVpnEndpoint = awsEc2ClientVpnEndpointDecoded
     }
 }
 
@@ -59681,8 +58898,6 @@ extension SecurityHubClientTypes {
         public var awsDmsReplicationTask: SecurityHubClientTypes.AwsDmsReplicationTaskDetails?
         /// Details about a DynamoDB table.
         public var awsDynamoDbTable: SecurityHubClientTypes.AwsDynamoDbTableDetails?
-        /// Provides details about an Client VPN endpoint. A Client VPN endpoint is the resource that you create and configure to enable and manage client VPN sessions. It's the termination point for all client VPN sessions.
-        public var awsEc2ClientVpnEndpoint: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails?
         /// Details about an Elastic IP address.
         public var awsEc2Eip: SecurityHubClientTypes.AwsEc2EipDetails?
         /// Details about an EC2 instance related to a finding.
@@ -59789,8 +59004,6 @@ extension SecurityHubClientTypes {
         public var awsRedshiftCluster: SecurityHubClientTypes.AwsRedshiftClusterDetails?
         /// Provides details about an Amazon Route 53 hosted zone, including the four name servers assigned to the hosted zone. A hosted zone represents a collection of records that can be managed together, belonging to a single parent domain name.
         public var awsRoute53HostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneDetails?
-        /// Provides details about an Amazon Simple Storage Service (Amazon S3) access point. S3 access points are named network endpoints that are attached to S3 buckets that you can use to perform S3 object operations.
-        public var awsS3AccessPoint: SecurityHubClientTypes.AwsS3AccessPointDetails?
         /// Details about the Amazon S3 Public Access Block configuration for an account.
         public var awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails?
         /// Details about an S3 bucket related to a finding.
@@ -59863,7 +59076,6 @@ extension SecurityHubClientTypes {
             awsDmsReplicationInstance: SecurityHubClientTypes.AwsDmsReplicationInstanceDetails? = nil,
             awsDmsReplicationTask: SecurityHubClientTypes.AwsDmsReplicationTaskDetails? = nil,
             awsDynamoDbTable: SecurityHubClientTypes.AwsDynamoDbTableDetails? = nil,
-            awsEc2ClientVpnEndpoint: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails? = nil,
             awsEc2Eip: SecurityHubClientTypes.AwsEc2EipDetails? = nil,
             awsEc2Instance: SecurityHubClientTypes.AwsEc2InstanceDetails? = nil,
             awsEc2LaunchTemplate: SecurityHubClientTypes.AwsEc2LaunchTemplateDetails? = nil,
@@ -59917,7 +59129,6 @@ extension SecurityHubClientTypes {
             awsRdsEventSubscription: SecurityHubClientTypes.AwsRdsEventSubscriptionDetails? = nil,
             awsRedshiftCluster: SecurityHubClientTypes.AwsRedshiftClusterDetails? = nil,
             awsRoute53HostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneDetails? = nil,
-            awsS3AccessPoint: SecurityHubClientTypes.AwsS3AccessPointDetails? = nil,
             awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
             awsS3Bucket: SecurityHubClientTypes.AwsS3BucketDetails? = nil,
             awsS3Object: SecurityHubClientTypes.AwsS3ObjectDetails? = nil,
@@ -59964,7 +59175,6 @@ extension SecurityHubClientTypes {
             self.awsDmsReplicationInstance = awsDmsReplicationInstance
             self.awsDmsReplicationTask = awsDmsReplicationTask
             self.awsDynamoDbTable = awsDynamoDbTable
-            self.awsEc2ClientVpnEndpoint = awsEc2ClientVpnEndpoint
             self.awsEc2Eip = awsEc2Eip
             self.awsEc2Instance = awsEc2Instance
             self.awsEc2LaunchTemplate = awsEc2LaunchTemplate
@@ -60018,7 +59228,6 @@ extension SecurityHubClientTypes {
             self.awsRdsEventSubscription = awsRdsEventSubscription
             self.awsRedshiftCluster = awsRedshiftCluster
             self.awsRoute53HostedZone = awsRoute53HostedZone
-            self.awsS3AccessPoint = awsS3AccessPoint
             self.awsS3AccountPublicAccessBlock = awsS3AccountPublicAccessBlock
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
@@ -65444,7 +64653,7 @@ public struct UpdateConfigurationPolicyInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
+    /// The name of the configuration policy.
     public var name: Swift.String?
     /// The reason for updating the configuration policy.
     public var updatedReason: Swift.String?

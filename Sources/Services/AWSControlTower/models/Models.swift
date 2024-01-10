@@ -290,7 +290,7 @@ extension CreateLandingZoneInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLandingZoneInput: Swift.Equatable {
-    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
     /// This member is required.
     public var manifest: ClientRuntime.Document?
     /// Tags to be applied to the landing zone.
@@ -1797,7 +1797,7 @@ extension ControlTowerClientTypes {
         public var driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary?
         /// The latest available version of the landing zone.
         public var latestAvailableVersion: Swift.String?
-        /// The landing zone manifest JSON text file that specifies the landing zone configurations.
+        /// The landing zone manifest.yaml text file that specifies the landing zone configurations.
         /// This member is required.
         public var manifest: ClientRuntime.Document?
         /// The landing zone deployment status.
@@ -3169,7 +3169,7 @@ public struct UpdateLandingZoneInput: Swift.Equatable {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
-    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
     /// This member is required.
     public var manifest: ClientRuntime.Document?
     /// The landing zone version, for example, 3.2.

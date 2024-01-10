@@ -196,7 +196,7 @@ extension GetMediaOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-        case .noStream:
+        case .none:
             self.payload = nil
         }
     }

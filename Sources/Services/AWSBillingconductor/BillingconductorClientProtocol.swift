@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a [proforma](https://docs.aws.amazon.com/billingconductor/latest/userguide/understanding-eb.html#eb-other-definitions) version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the [Amazon Web Services Billing console](https://console.aws.amazon.com/billing), or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the [Amazon Web Services Billing Conductor](https://console.aws.amazon.com/billingconductor/) user interface, see the [ Amazon Web Services Billing Conductor User Guide](https://docs.aws.amazon.com/billingconductor/latest/userguide/what-is-billingconductor.html).
+/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a [pro forma](https://docs.aws.amazon.com/billingconductor/latest/userguide/understanding-eb.html#eb-other-definitions) version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the [Amazon Web Services Billing console](https://console.aws.amazon.com/billing), or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the [Amazon Web Services Billing Conductor](https://console.aws.amazon.com/billingconductor/) user interface, see the [ Amazon Web Services Billing Conductor User Guide](https://docs.aws.amazon.com/billingconductor/latest/userguide/what-is-billingconductor.html).
 public protocol BillingconductorClientProtocol {
     /// Performs the `AssociateAccounts` operation on the `AWSBillingConductor` service.
     ///
@@ -255,23 +255,6 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutput
-    /// Performs the `GetBillingGroupCostReport` operation on the `AWSBillingConductor` service.
-    ///
-    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
-    ///
-    /// - Parameter GetBillingGroupCostReportInput : [no documentation found]
-    ///
-    /// - Returns: `GetBillingGroupCostReportOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : An unexpected error occurred while processing a request.
-    /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
-    func getBillingGroupCostReport(input: GetBillingGroupCostReportInput) async throws -> GetBillingGroupCostReportOutput
     /// Performs the `ListAccountAssociations` operation on the `AWSBillingConductor` service.
     ///
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.

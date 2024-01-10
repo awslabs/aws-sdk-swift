@@ -398,10 +398,10 @@ public struct AddDataSourceInput: Swift.Equatable {
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
     /// A description of the data source.
     public var description: Swift.String?
-    /// The name of the domain to add the data source to.
+    /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// A name for the data source.
+    /// The name of the data source.
     /// This member is required.
     public var name: Swift.String?
 
@@ -457,7 +457,7 @@ extension AddDataSourceOutput: ClientRuntime.HttpResponseBinding {
 
 /// The result of an AddDataSource operation.
 public struct AddDataSourceOutput: Swift.Equatable {
-    /// A message associated with creation of the data source.
+    /// A message associated with the data source.
     public var message: Swift.String?
 
     public init(
@@ -3716,7 +3716,7 @@ extension OpenSearchClientTypes.DataSourceDetails: Swift.Codable {
 }
 
 extension OpenSearchClientTypes {
-    /// Details about a direct-query data source.
+    /// Details about the data sources.
     public struct DataSourceDetails: Swift.Equatable {
         /// The type of data source.
         public var dataSourceType: OpenSearchClientTypes.DataSourceType?
@@ -3767,9 +3767,9 @@ extension OpenSearchClientTypes.DataSourceType: Swift.Codable {
 }
 
 extension OpenSearchClientTypes {
-    /// The type of data source.
+    /// Information about the data source.
     public enum DataSourceType: Swift.Equatable {
-        /// An Amazon S3 data source.
+        /// The data source for the AWS S3 Glue Data Catalog.
         case s3gluedatacatalog(OpenSearchClientTypes.S3GlueDataCatalog)
         case sdkUnknown(Swift.String)
     }
@@ -3793,7 +3793,7 @@ public struct DeleteDataSourceInput: Swift.Equatable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The name of the data source to delete.
+    /// The name of the data source.
     /// This member is required.
     public var name: Swift.String?
 
@@ -3830,7 +3830,7 @@ extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
 
 /// The result of a GetDataSource operation.
 public struct DeleteDataSourceOutput: Swift.Equatable {
-    /// A message associated with deletion of the data source.
+    /// A message associated with the initiated request.
     public var message: Swift.String?
 
     public init(
@@ -6923,9 +6923,13 @@ extension OpenSearchClientTypes {
         public var enforceHTTPS: Swift.Bool?
         /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:
         ///
-        /// * Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2
+        /// * Policy-Min-TLS-1-0-2019-07: TLS security policy which supports TLS version 1.0 to TLS version 1.2
         ///
-        /// * Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2
+        /// * Policy-Min-TLS-1-2-2019-07: TLS security policy which supports only TLS version 1.2
+        ///
+        /// * Policy-Min-TLS-1-0-2023-10: TLS security policy which supports TLS version 1.0 to TLS version 1.3
+        ///
+        /// * Policy-Min-TLS-1-2-2023-10: TLS security policy which supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
         public var tlsSecurityPolicy: OpenSearchClientTypes.TLSSecurityPolicy?
 
         public init(
@@ -8606,7 +8610,7 @@ public struct GetDataSourceInput: Swift.Equatable {
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The name of the data source to get information about.
+    /// The name of the data source.
     /// This member is required.
     public var name: Swift.String?
 
@@ -10069,7 +10073,7 @@ extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
 
 /// The result of a ListDataSources operation.
 public struct ListDataSourcesOutput: Swift.Equatable {
-    /// A list of data sources associated with specified domain.
+    /// A list of the data sources.
     public var dataSources: [OpenSearchClientTypes.DataSourceDetails]?
 
     public init(
@@ -14200,9 +14204,9 @@ extension OpenSearchClientTypes.S3GlueDataCatalog: Swift.Codable {
 }
 
 extension OpenSearchClientTypes {
-    /// Information about the Amazon S3 Glue Data Catalog.
+    /// Information about the AWS S3 Glue Data Catalog.
     public struct S3GlueDataCatalog: Swift.Equatable {
-        /// >The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
+        /// The role ARN for the AWS S3 Glue Data Catalog.
         public var roleArn: Swift.String?
 
         public init(
@@ -15677,12 +15681,12 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     /// The type of data source.
     /// This member is required.
     public var dataSourceType: OpenSearchClientTypes.DataSourceType?
-    /// A new description of the data source.
+    /// A description of the data source.
     public var description: Swift.String?
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The name of the data source to modify.
+    /// The name of the data source.
     /// This member is required.
     public var name: Swift.String?
 
@@ -15734,7 +15738,7 @@ extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
 
 /// The result of an UpdateDataSource operation.
 public struct UpdateDataSourceOutput: Swift.Equatable {
-    /// A message associated with the updated data source.
+    /// A message associated with the data source.
     public var message: Swift.String?
 
     public init(

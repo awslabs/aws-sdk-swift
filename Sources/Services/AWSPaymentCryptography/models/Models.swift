@@ -182,7 +182,7 @@ extension CreateAliasInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAliasInput: Swift.Equatable {
-    /// A friendly name that you can use to refer to a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    /// A friendly name that you can use to refer a key. An alias must begin with alias/ followed by a name, for example alias/ExampleAlias. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Don't include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
     /// This member is required.
     public var aliasName: Swift.String?
     /// The KeyARN of the key to associate with the alias.
@@ -316,7 +316,7 @@ extension CreateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateKeyInput: Swift.Equatable {
-    /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
+    /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key not enabled, then it is created but not activated. The default value is enabled.
     public var enabled: Swift.Bool?
     /// Specifies whether the key is exportable from the service.
     /// This member is required.
@@ -324,9 +324,9 @@ public struct CreateKeyInput: Swift.Equatable {
     /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
     /// This member is required.
     public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
-    /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+    /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV) for DES and AES keys. For DES key, the KCV is computed by encrypting 8 bytes, each with value '00', with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES key, the KCV is computed by encrypting 8 bytes, each with value '01', with the key to be checked and retaining the 3 highest order bytes of the encrypted result.
     public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
-    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource] operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
+    /// The tags to attach to the key. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. To use this parameter, you must have TagResource permission. Don't include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
     public init(
@@ -638,99 +638,14 @@ enum DeleteKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension PaymentCryptographyClientTypes.ExportAttributes: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportDukptInitialKey = "ExportDukptInitialKey"
-        case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exportDukptInitialKey = self.exportDukptInitialKey {
-            try encodeContainer.encode(exportDukptInitialKey, forKey: .exportDukptInitialKey)
-        }
-        if let keyCheckValueAlgorithm = self.keyCheckValueAlgorithm {
-            try encodeContainer.encode(keyCheckValueAlgorithm.rawValue, forKey: .keyCheckValueAlgorithm)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let exportDukptInitialKeyDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.ExportDukptInitialKey.self, forKey: .exportDukptInitialKey)
-        exportDukptInitialKey = exportDukptInitialKeyDecoded
-        let keyCheckValueAlgorithmDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyCheckValueAlgorithm.self, forKey: .keyCheckValueAlgorithm)
-        keyCheckValueAlgorithm = keyCheckValueAlgorithmDecoded
-    }
-}
-
-extension PaymentCryptographyClientTypes {
-    /// The attributes for IPEK generation during export.
-    public struct ExportAttributes: Swift.Equatable {
-        /// Parameter information for IPEK export.
-        public var exportDukptInitialKey: PaymentCryptographyClientTypes.ExportDukptInitialKey?
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. Specify KCV for IPEK export only. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
-        public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
-
-        public init(
-            exportDukptInitialKey: PaymentCryptographyClientTypes.ExportDukptInitialKey? = nil,
-            keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil
-        )
-        {
-            self.exportDukptInitialKey = exportDukptInitialKey
-            self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
-        }
-    }
-
-}
-
-extension PaymentCryptographyClientTypes.ExportDukptInitialKey: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case keySerialNumber = "KeySerialNumber"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let keySerialNumber = self.keySerialNumber {
-            try encodeContainer.encode(keySerialNumber, forKey: .keySerialNumber)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let keySerialNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keySerialNumber)
-        keySerialNumber = keySerialNumberDecoded
-    }
-}
-
-extension PaymentCryptographyClientTypes {
-    /// Parameter information for IPEK generation during export.
-    public struct ExportDukptInitialKey: Swift.Equatable {
-        /// The KSN for IPEK generation using DUKPT. KSN must be padded before sending to Amazon Web Services Payment Cryptography. KSN hex length should be 20 for a TDES_2KEY key or 24 for an AES key.
-        /// This member is required.
-        public var keySerialNumber: Swift.String?
-
-        public init(
-            keySerialNumber: Swift.String? = nil
-        )
-        {
-            self.keySerialNumber = keySerialNumber
-        }
-    }
-
-}
-
 extension ExportKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportAttributes = "ExportAttributes"
         case exportKeyIdentifier = "ExportKeyIdentifier"
         case keyMaterial = "KeyMaterial"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let exportAttributes = self.exportAttributes {
-            try encodeContainer.encode(exportAttributes, forKey: .exportAttributes)
-        }
         if let exportKeyIdentifier = self.exportKeyIdentifier {
             try encodeContainer.encode(exportKeyIdentifier, forKey: .exportKeyIdentifier)
         }
@@ -747,8 +662,6 @@ extension ExportKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ExportKeyInput: Swift.Equatable {
-    /// The attributes for IPEK generation during export.
-    public var exportAttributes: PaymentCryptographyClientTypes.ExportAttributes?
     /// The KeyARN of the key under export from Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var exportKeyIdentifier: Swift.String?
@@ -757,12 +670,10 @@ public struct ExportKeyInput: Swift.Equatable {
     public var keyMaterial: PaymentCryptographyClientTypes.ExportKeyMaterial?
 
     public init(
-        exportAttributes: PaymentCryptographyClientTypes.ExportAttributes? = nil,
         exportKeyIdentifier: Swift.String? = nil,
         keyMaterial: PaymentCryptographyClientTypes.ExportKeyMaterial? = nil
     )
     {
-        self.exportAttributes = exportAttributes
         self.exportKeyIdentifier = exportKeyIdentifier
         self.keyMaterial = keyMaterial
     }
@@ -771,12 +682,10 @@ public struct ExportKeyInput: Swift.Equatable {
 struct ExportKeyInputBody: Swift.Equatable {
     let keyMaterial: PaymentCryptographyClientTypes.ExportKeyMaterial?
     let exportKeyIdentifier: Swift.String?
-    let exportAttributes: PaymentCryptographyClientTypes.ExportAttributes?
 }
 
 extension ExportKeyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case exportAttributes = "ExportAttributes"
         case exportKeyIdentifier = "ExportKeyIdentifier"
         case keyMaterial = "KeyMaterial"
     }
@@ -787,8 +696,6 @@ extension ExportKeyInputBody: Swift.Decodable {
         keyMaterial = keyMaterialDecoded
         let exportKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportKeyIdentifier)
         exportKeyIdentifier = exportKeyIdentifierDecoded
-        let exportAttributesDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.ExportAttributes.self, forKey: .exportAttributes)
-        exportAttributes = exportAttributesDecoded
     }
 }
 
@@ -828,11 +735,11 @@ extension PaymentCryptographyClientTypes.ExportKeyMaterial: Swift.Codable {
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for key material export from Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
+    /// Parameter information for key material export from Amazon Web Services Payment Cryptography.
     public enum ExportKeyMaterial: Swift.Equatable {
-        /// Parameter information for key material export using symmetric TR-31 key exchange method.
+        /// Parameter information for key material export using TR-31 standard.
         case tr31keyblock(PaymentCryptographyClientTypes.ExportTr31KeyBlock)
-        /// Parameter information for key material export using the asymmetric TR-34 key exchange method.
+        /// Parameter information for key material export using TR-34 standard.
         case tr34keyblock(PaymentCryptographyClientTypes.ExportTr34KeyBlock)
         case sdkUnknown(Swift.String)
     }
@@ -852,7 +759,7 @@ extension ExportKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ExportKeyOutput: Swift.Equatable {
-    /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock.
+    /// The key material under export as a TR-34 or TR-31 wrapped key block.
     public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 
     public init(
@@ -916,7 +823,7 @@ extension PaymentCryptographyClientTypes.ExportTr31KeyBlock: Swift.Codable {
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for key material export using symmetric TR-31 key exchange method.
+    /// Parameter information for key material export using TR-31 standard.
     public struct ExportTr31KeyBlock: Swift.Equatable {
         /// The KeyARN of the the wrapping key. This key encrypts or wraps the key under export for TR-31 key block generation.
         /// This member is required.
@@ -981,7 +888,7 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.CustomDebugSt
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for key material export using the asymmetric TR-34 key exchange method.
+    /// Parameter information for key material export using TR-34 standard.
     public struct ExportTr34KeyBlock: Swift.Equatable {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         /// This member is required.
@@ -1253,7 +1160,7 @@ public struct GetParametersForExportInput: Swift.Equatable {
     /// The key block format type (for example, TR-34 or TR-31) to use during key material export. Export token is only required for a TR-34 key export, TR34_KEY_BLOCK. Export token is not required for TR-31 key export.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
-    /// The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block. RSA_2048 is the only signing key algorithm allowed.
+    /// The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block cryptogram. RSA_2048 is the only signing key algorithm allowed.
     /// This member is required.
     public var signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
@@ -1322,10 +1229,10 @@ public struct GetParametersForExportOutput: Swift.Equatable {
     /// The algorithm of the signing key certificate for use in TR-34 key block generation. RSA_2048 is the only signing key algorithm allowed.
     /// This member is required.
     public var signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
-    /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 7 days.
+    /// The signing key certificate of the public key for signature within the TR-34 key block cryptogram. The certificate expires after 7 days.
     /// This member is required.
     public var signingKeyCertificate: Swift.String?
-    /// The root certificate authority (CA) that signed the signing key certificate in PEM format (base64 encoded).
+    /// The certificate chain that signed the signing key certificate. This is the root certificate authority (CA) within your service account.
     /// This member is required.
     public var signingKeyCertificateChain: Swift.String?
 
@@ -1419,10 +1326,10 @@ extension GetParametersForImportInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetParametersForImportInput: Swift.Equatable {
-    /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
+    /// The key block format type such as TR-34 or TR-31 to use during key material import. Import token is only required for TR-34 key import TR34_KEY_BLOCK. Import token is not required for TR-31 key import.
     /// This member is required.
     public var keyMaterialType: PaymentCryptographyClientTypes.KeyMaterialType?
-    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048, RSA_3072, RSA_4096 are the only allowed algorithms for TR-34 WrappedKeyBlock import.
+    /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import within the TR-34 key block cryptogram. RSA_2048 is the only wrapping key algorithm allowed.
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
 
@@ -1488,13 +1395,13 @@ public struct GetParametersForImportOutput: Swift.Equatable {
     /// The validity period of the import token.
     /// This member is required.
     public var parametersValidUntilTimestamp: ClientRuntime.Date?
-    /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock.
+    /// The algorithm of the wrapping key for use within TR-34 key block. RSA_2048 is the only wrapping key algorithm allowed.
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
-    /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
+    /// The wrapping key certificate of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
     /// This member is required.
     public var wrappingKeyCertificate: Swift.String?
-    /// The Amazon Web Services Payment Cryptography root certificate authority (CA) that signed the wrapping key certificate in PEM format (base64 encoded).
+    /// The Amazon Web Services Payment Cryptography certificate chain that signed the wrapping key certificate. This is the root certificate authority (CA) within your service account.
     /// This member is required.
     public var wrappingKeyCertificateChain: Swift.String?
 
@@ -1632,10 +1539,10 @@ extension GetPublicKeyCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPublicKeyCertificateOutput: Swift.Equatable {
-    /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate expires in 90 days.
+    /// The public key component of the asymmetric key pair in a certificate (PEM) format. It is signed by the root certificate authority (CA) within your service account. The certificate expires in 90 days.
     /// This member is required.
     public var keyCertificate: Swift.String?
-    /// The root certificate authority (CA) that signed the public key certificate in PEM format (base64 encoded) of the asymmetric key pair.
+    /// The certificate chain that signed the public key certificate of the asymmetric key pair. This is the root certificate authority (CA) within your service account.
     /// This member is required.
     public var keyCertificateChain: Swift.String?
 
@@ -1722,12 +1629,12 @@ extension ImportKeyInput: ClientRuntime.URLPathProvider {
 public struct ImportKeyInput: Swift.Equatable {
     /// Specifies whether import key is enabled.
     public var enabled: Swift.Bool?
-    /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+    /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV) for DES and AES keys. For DES key, the KCV is computed by encrypting 8 bytes, each with value '00', with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES key, the KCV is computed by encrypting 8 bytes, each with value '01', with the key to be checked and retaining the 3 highest order bytes of the encrypted result.
     public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
     /// The key or public key certificate type to use during key material import, for example TR-34 or RootCertificatePublicKey.
     /// This member is required.
     public var keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial?
-    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource] operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
+    /// The tags to attach to the key. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one. To use this parameter, you must have TagResource permission. Don't include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
     public init(
@@ -1833,15 +1740,15 @@ extension PaymentCryptographyClientTypes.ImportKeyMaterial: Swift.Codable {
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for key material import into Amazon Web Services Payment Cryptography using TR-31 or TR-34 key exchange method.
+    /// Parameter information for key material import.
     public enum ImportKeyMaterial: Swift.Equatable {
         /// Parameter information for root public key certificate import.
         case rootcertificatepublickey(PaymentCryptographyClientTypes.RootCertificatePublicKey)
         /// Parameter information for trusted public key certificate import.
         case trustedcertificatepublickey(PaymentCryptographyClientTypes.TrustedCertificatePublicKey)
-        /// Parameter information for key material import using symmetric TR-31 key exchange method.
+        /// Parameter information for key material import using TR-31 standard.
         case tr31keyblock(PaymentCryptographyClientTypes.ImportTr31KeyBlock)
-        /// Parameter information for key material import using the asymmetric TR-34 key exchange method.
+        /// Parameter information for key material import using TR-34 standard.
         case tr34keyblock(PaymentCryptographyClientTypes.ImportTr34KeyBlock)
         case sdkUnknown(Swift.String)
     }
@@ -1933,9 +1840,9 @@ extension PaymentCryptographyClientTypes.ImportTr31KeyBlock: Swift.Codable {
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for key material import using symmetric TR-31 key exchange method.
+    /// Parameter information for key material import using TR-31 standard.
     public struct ImportTr31KeyBlock: Swift.Equatable {
-        /// The TR-31 wrapped key block to import.
+        /// The TR-34 wrapped key block to import.
         /// This member is required.
         public var wrappedKeyBlock: Swift.String?
         /// The KeyARN of the key that will decrypt or unwrap a TR-31 key block during import.
@@ -2009,12 +1916,12 @@ extension PaymentCryptographyClientTypes.ImportTr34KeyBlock: Swift.CustomDebugSt
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for key material import using the asymmetric TR-34 key exchange method.
+    /// Parameter information for key material import using TR-34 standard.
     public struct ImportTr34KeyBlock: Swift.Equatable {
         /// The KeyARN of the certificate chain that signs the signing key certificate during TR-34 key import.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token that initiates key import into Amazon Web Services Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
         /// This member is required.
         public var importToken: Swift.String?
         /// The key block format to use during key import. The only value allowed is X9_TR34_2012.
@@ -2022,7 +1929,7 @@ extension PaymentCryptographyClientTypes {
         public var keyBlockFormat: PaymentCryptographyClientTypes.Tr34KeyBlockFormat?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public var randomNonce: Swift.String?
-        /// The public key component in PEM certificate format of the private key that signs the KDH TR-34 WrappedKeyBlock.
+        /// The public key component in PEM certificate format of the private key that signs the KDH TR-34 wrapped key block.
         /// This member is required.
         public var signingKeyCertificate: Swift.String?
         /// The TR-34 wrapped key block to import.
@@ -2217,10 +2124,10 @@ extension PaymentCryptographyClientTypes {
         /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
         /// This member is required.
         public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
-        /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed.
+        /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
         /// This member is required.
         public var keyCheckValue: Swift.String?
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        /// The algorithm used for calculating key check value (KCV) for DES and AES keys. For a DES key, Amazon Web Services Payment Cryptography computes the KCV by encrypting 8 bytes, each with value '00', with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For an AES key, Amazon Web Services Payment Cryptography computes the KCV by encrypting 8 bytes, each with value '01', with the key to be checked and retaining the 3 highest order bytes of the encrypted result.
         /// This member is required.
         public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
         /// The source of the key material. For keys created within Amazon Web Services Payment Cryptography, the value is AWS_PAYMENT_CRYPTOGRAPHY. For keys imported into Amazon Web Services Payment Cryptography, the value is EXTERNAL.
@@ -2746,7 +2653,7 @@ extension PaymentCryptographyClientTypes {
         /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
         /// This member is required.
         public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
-        /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed.
+        /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
         /// This member is required.
         public var keyCheckValue: Swift.String?
         /// The state of an Amazon Web Services Payment Cryptography that is being created or deleted.
@@ -3030,7 +2937,7 @@ extension ListKeysInput: ClientRuntime.URLPathProvider {
 public struct ListKeysInput: Swift.Equatable {
     /// The key state of the keys you want to list.
     public var keyState: PaymentCryptographyClientTypes.KeyState?
-    /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
+    /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer.
     public var maxResults: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
     public var nextToken: Swift.String?
@@ -3175,7 +3082,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
+    /// Use this parameter to specify the maximum number of items to return. When this value is present, Amazon Web Services Payment Cryptography does not return more than the specified number of items, but it might return fewer.
     public var maxResults: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
     public var nextToken: Swift.String?
@@ -3910,7 +3817,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The KeyARN of the key whose tags are being updated.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// One or more tags. Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the new one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To use this parameter, you must have [TagResource] permission in an IAM policy. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    /// One or more tags. Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the new one. Don't include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To use this parameter, you must have [TagResource] permission in an IAM policy. Don't include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
     /// This member is required.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
@@ -4403,8 +4310,6 @@ extension ValidationExceptionBody: Swift.Decodable {
 
 extension PaymentCryptographyClientTypes.WrappedKey: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case keyCheckValue = "KeyCheckValue"
-        case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
         case keyMaterial = "KeyMaterial"
         case wrappedKeyMaterialFormat = "WrappedKeyMaterialFormat"
         case wrappingKeyArn = "WrappingKeyArn"
@@ -4412,12 +4317,6 @@ extension PaymentCryptographyClientTypes.WrappedKey: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let keyCheckValue = self.keyCheckValue {
-            try encodeContainer.encode(keyCheckValue, forKey: .keyCheckValue)
-        }
-        if let keyCheckValueAlgorithm = self.keyCheckValueAlgorithm {
-            try encodeContainer.encode(keyCheckValueAlgorithm.rawValue, forKey: .keyCheckValueAlgorithm)
-        }
         if let keyMaterial = self.keyMaterial {
             try encodeContainer.encode(keyMaterial, forKey: .keyMaterial)
         }
@@ -4437,26 +4336,18 @@ extension PaymentCryptographyClientTypes.WrappedKey: Swift.Codable {
         wrappedKeyMaterialFormat = wrappedKeyMaterialFormatDecoded
         let keyMaterialDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyMaterial)
         keyMaterial = keyMaterialDecoded
-        let keyCheckValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyCheckValue)
-        keyCheckValue = keyCheckValueDecoded
-        let keyCheckValueAlgorithmDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyCheckValueAlgorithm.self, forKey: .keyCheckValueAlgorithm)
-        keyCheckValueAlgorithm = keyCheckValueAlgorithmDecoded
     }
 }
 
 extension PaymentCryptographyClientTypes.WrappedKey: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WrappedKey(keyCheckValue: \(Swift.String(describing: keyCheckValue)), keyCheckValueAlgorithm: \(Swift.String(describing: keyCheckValueAlgorithm)), wrappedKeyMaterialFormat: \(Swift.String(describing: wrappedKeyMaterialFormat)), wrappingKeyArn: \(Swift.String(describing: wrappingKeyArn)), keyMaterial: \"CONTENT_REDACTED\")"}
+        "WrappedKey(wrappedKeyMaterialFormat: \(Swift.String(describing: wrappedKeyMaterialFormat)), wrappingKeyArn: \(Swift.String(describing: wrappingKeyArn)), keyMaterial: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyClientTypes {
-    /// Parameter information for generating a WrappedKeyBlock for key exchange.
+    /// Parameter information for generating a wrapped key using TR-31 or TR-34 standard.
     public struct WrappedKey: Swift.Equatable {
-        /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed.
-        public var keyCheckValue: Swift.String?
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
-        public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
-        /// Parameter information for generating a wrapped key using TR-31 or TR-34 skey exchange method.
+        /// Parameter information for generating a wrapped key using TR-31 or TR-34 standard.
         /// This member is required.
         public var keyMaterial: Swift.String?
         /// The key block format of a wrapped key.
@@ -4467,15 +4358,11 @@ extension PaymentCryptographyClientTypes {
         public var wrappingKeyArn: Swift.String?
 
         public init(
-            keyCheckValue: Swift.String? = nil,
-            keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm? = nil,
             keyMaterial: Swift.String? = nil,
             wrappedKeyMaterialFormat: PaymentCryptographyClientTypes.WrappedKeyMaterialFormat? = nil,
             wrappingKeyArn: Swift.String? = nil
         )
         {
-            self.keyCheckValue = keyCheckValue
-            self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyMaterial = keyMaterial
             self.wrappedKeyMaterialFormat = wrappedKeyMaterialFormat
             self.wrappingKeyArn = wrappingKeyArn

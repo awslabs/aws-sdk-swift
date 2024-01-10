@@ -1951,7 +1951,7 @@ extension GetImageFrameOutput: ClientRuntime.HttpResponseBinding {
             self.imageFrameBlob = .data(data)
         case .stream(let stream):
             self.imageFrameBlob = .stream(stream)
-        case .noStream:
+        case .none:
             self.imageFrameBlob = nil
         }
     }
@@ -2135,7 +2135,7 @@ extension GetImageSetMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.imageSetMetadataBlob = .data(data)
         case .stream(let stream):
             self.imageSetMetadataBlob = .stream(stream)
-        case .noStream:
+        case .none:
             self.imageSetMetadataBlob = nil
         }
     }

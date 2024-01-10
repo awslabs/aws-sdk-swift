@@ -2705,26 +2705,6 @@ public protocol ConnectClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func monitorContact(input: MonitorContactInput) async throws -> MonitorContactOutput
-    /// Performs the `PauseContact` operation on the `AmazonConnectService` service.
-    ///
-    /// Allows pausing an ongoing task contact.
-    ///
-    /// - Parameter PauseContactInput : [no documentation found]
-    ///
-    /// - Returns: `PauseContactOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
-    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
-    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `InvalidRequestException` : The request is not valid.
-    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
-    /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func pauseContact(input: PauseContactInput) async throws -> PauseContactOutput
     /// Performs the `PutUserStatus` operation on the `AmazonConnectService` service.
     ///
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see [Agent status](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-agent-status.html) and [Set your next status](https://docs.aws.amazon.com/connect/latest/adminguide/set-next-status.html) in the Amazon Connect Administrator Guide.
@@ -2782,25 +2762,6 @@ public protocol ConnectClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func replicateInstance(input: ReplicateInstanceInput) async throws -> ReplicateInstanceOutput
-    /// Performs the `ResumeContact` operation on the `AmazonConnectService` service.
-    ///
-    /// Allows resuming a task contact in a paused state.
-    ///
-    /// - Parameter ResumeContactInput : [no documentation found]
-    ///
-    /// - Returns: `ResumeContactOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
-    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
-    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
-    /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func resumeContact(input: ResumeContactInput) async throws -> ResumeContactOutput
     /// Performs the `ResumeContactRecording` operation on the `AmazonConnectService` service.
     ///
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would resume. Voice and screen recordings are supported.
@@ -3257,23 +3218,6 @@ public protocol ConnectClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutput
-    /// Performs the `TagContact` operation on the `AmazonConnectService` service.
-    ///
-    /// Adds the specified tags to the contact resource. For more information about this API is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
-    ///
-    /// - Parameter TagContactInput : [no documentation found]
-    ///
-    /// - Returns: `TagContactOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
-    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
-    /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func tagContact(input: TagContactInput) async throws -> TagContactOutput
     /// Performs the `TagResource` operation on the `AmazonConnectService` service.
     ///
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, contact flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
@@ -3320,23 +3264,6 @@ public protocol ConnectClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func transferContact(input: TransferContactInput) async throws -> TransferContactOutput
-    /// Performs the `UntagContact` operation on the `AmazonConnectService` service.
-    ///
-    /// Removes the specified tags from the contact resource. For more information about this API is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
-    ///
-    /// - Parameter UntagContactInput : [no documentation found]
-    ///
-    /// - Returns: `UntagContactOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
-    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceNotFoundException` : The specified resource was not found.
-    /// - `ThrottlingException` : The throttling limit has been exceeded.
-    func untagContact(input: UntagContactInput) async throws -> UntagContactOutput
     /// Performs the `UntagResource` operation on the `AmazonConnectService` service.
     ///
     /// Removes the specified tags from the specified resource.

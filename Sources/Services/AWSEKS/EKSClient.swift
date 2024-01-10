@@ -67,58 +67,9 @@ public struct EKSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension EKSClient: EKSClientProtocol {
-    /// Performs the `AssociateAccessPolicy` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see [Associating and disassociating access policies to and from access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html) in the Amazon EKS User Guide.
-    ///
-    /// - Parameter AssociateAccessPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `AssociateAccessPolicyOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func associateAccessPolicy(input: AssociateAccessPolicyInput) async throws -> AssociateAccessPolicyOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "associateAccessPolicy")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<AssociateAccessPolicyInput, AssociateAccessPolicyOutput>(id: "associateAccessPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAccessPolicyInput, AssociateAccessPolicyOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAccessPolicyInput, AssociateAccessPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateAccessPolicyInput, AssociateAccessPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateAccessPolicyInput, AssociateAccessPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateAccessPolicyOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAccessPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAccessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateAccessPolicyOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `AssociateEncryptionConfig` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't already have encryption enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
+    /// Associate encryption configuration to an existing cluster. You can use this API to enable encryption on existing clusters which do not have encryption already enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
     ///
     /// - Parameter AssociateEncryptionConfigInput : [no documentation found]
     ///
@@ -131,7 +82,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func associateEncryptionConfig(input: AssociateEncryptionConfigInput) async throws -> AssociateEncryptionConfigOutput
     {
@@ -170,7 +121,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `AssociateIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Associates an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes Role and ClusterRole objects, assign permissions to them, and then bind them to the identities using Kubernetes RoleBinding and ClusterRoleBinding objects. For more information see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation.
+    /// Associate an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes roles and clusterroles to assign permissions to the roles, and then bind the roles to the identities using Kubernetes rolebindings and clusterrolebindings. For more information see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation.
     ///
     /// - Parameter AssociateIdentityProviderConfigInput : [no documentation found]
     ///
@@ -183,7 +134,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func associateIdentityProviderConfig(input: AssociateIdentityProviderConfigInput) async throws -> AssociateIdentityProviderConfigOutput
     {
@@ -220,58 +171,6 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `CreateAccessEntry` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Creates an access entry. An access entry allows an IAM principal to access your cluster. Access entries can replace the need to maintain entries in the aws-authConfigMap for authentication. You have the following options for authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects, in addition to managing access entries. If you use Amazon EKS authorization exclusively, you don't need to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects. For more information about access entries, see [Access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) in the Amazon EKS User Guide.
-    ///
-    /// - Parameter CreateAccessEntryInput : [no documentation found]
-    ///
-    /// - Returns: `CreateAccessEntryOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func createAccessEntry(input: CreateAccessEntryInput) async throws -> CreateAccessEntryOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "createAccessEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<CreateAccessEntryInput, CreateAccessEntryOutput>(id: "createAccessEntry")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessEntryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessEntryOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessEntryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessEntryOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccessEntryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessEntryOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `CreateAddon` operation on the `AWSWesleyFrontend` service.
     ///
     /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
@@ -287,7 +186,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func createAddon(input: CreateAddonInput) async throws -> CreateAddonOutput
     {
@@ -430,7 +329,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `CreateFargateProfile` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate Profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateFargateProfileInput : [no documentation found]
     ///
@@ -482,7 +381,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `CreateNodegroup` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html). An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Regions that support Windows Amazon EKS.
     ///
     /// - Parameter CreateNodegroupInput : [no documentation found]
     ///
@@ -535,7 +434,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `CreatePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
+    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that 7EC2l instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
     ///
     /// - Parameter CreatePodIdentityAssociationInput : [no documentation found]
     ///
@@ -548,7 +447,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func createPodIdentityAssociation(input: CreatePodIdentityAssociationInput) async throws -> CreatePodIdentityAssociationOutput
     {
@@ -585,54 +484,9 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `DeleteAccessEntry` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Deletes an access entry. Deleting an access entry of a type other than Standard can cause your cluster to function improperly. If you delete an access entry in error, you can recreate it.
-    ///
-    /// - Parameter DeleteAccessEntryInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteAccessEntryOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func deleteAccessEntry(input: DeleteAccessEntryInput) async throws -> DeleteAccessEntryOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .delete)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "deleteAccessEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccessEntryInput, DeleteAccessEntryOutput>(id: "deleteAccessEntry")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessEntryInput, DeleteAccessEntryOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessEntryInput, DeleteAccessEntryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessEntryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessEntryOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessEntryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessEntryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccessEntryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessEntryOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `DeleteAddon` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Deletes an Amazon EKS add-on. When you remove an add-on, it's deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
+    /// Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
     ///
     /// - Parameter DeleteAddonInput : [no documentation found]
     ///
@@ -644,7 +498,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func deleteAddon(input: DeleteAddonInput) async throws -> DeleteAddonOutput
     {
@@ -680,7 +534,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DeleteCluster` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Deletes an Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see [Deleting a cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html) in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodgroup and DeleteFargateProfile.
+    /// Deletes the Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see [Deleting a Cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html) in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see [DeleteNodegroup] and [DeleteFargateProfile].
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
@@ -691,7 +545,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput
@@ -738,7 +592,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func deleteEksAnywhereSubscription(input: DeleteEksAnywhereSubscriptionInput) async throws -> DeleteEksAnywhereSubscriptionOutput
     {
@@ -773,7 +627,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DeleteFargateProfile` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Deletes an Fargate profile. When you delete a Fargate profile, any Pod running on Fargate that was created with the profile is deleted. If the Pod matches another Fargate profile, then it is scheduled on Fargate with that profile. If it no longer matches any Fargate profiles, then it's not scheduled on Fargate and may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
+    /// Deletes an Fargate profile. When you delete a Fargate profile, any pods running on Fargate that were created with the profile are deleted. If those pods match another Fargate profile, then they are scheduled on Fargate with that profile. If they no longer match any Fargate profiles, then they are not scheduled on Fargate and they may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
     ///
     /// - Parameter DeleteFargateProfileInput : [no documentation found]
     ///
@@ -784,7 +638,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func deleteFargateProfile(input: DeleteFargateProfileInput) async throws -> DeleteFargateProfileOutput
     {
@@ -819,7 +673,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DeleteNodegroup` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Deletes a managed node group.
+    /// Deletes an Amazon EKS node group for a cluster.
     ///
     /// - Parameter DeleteNodegroupInput : [no documentation found]
     ///
@@ -831,7 +685,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func deleteNodegroup(input: DeleteNodegroupInput) async throws -> DeleteNodegroupOutput
@@ -878,7 +732,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func deletePodIdentityAssociation(input: DeletePodIdentityAssociationInput) async throws -> DeletePodIdentityAssociationOutput
     {
@@ -913,7 +767,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DeregisterCluster` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Deregisters a connected cluster to remove it from the Amazon EKS control plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the [Amazon EKS Connector](https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html).
+    /// Deregisters a connected cluster to remove it from the Amazon EKS control plane.
     ///
     /// - Parameter DeregisterClusterInput : [no documentation found]
     ///
@@ -925,7 +779,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func deregisterCluster(input: DeregisterClusterInput) async throws -> DeregisterClusterOutput
@@ -959,51 +813,6 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `DescribeAccessEntry` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Describes an access entry.
-    ///
-    /// - Parameter DescribeAccessEntryInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeAccessEntryOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func describeAccessEntry(input: DescribeAccessEntryInput) async throws -> DescribeAccessEntryOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .get)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeAccessEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccessEntryInput, DescribeAccessEntryOutput>(id: "describeAccessEntry")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccessEntryInput, DescribeAccessEntryOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccessEntryInput, DescribeAccessEntryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccessEntryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccessEntryOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccessEntryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccessEntryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccessEntryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccessEntryOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `DescribeAddon` operation on the `AWSWesleyFrontend` service.
     ///
     /// Describes an Amazon EKS add-on.
@@ -1018,7 +827,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeAddon(input: DescribeAddonInput) async throws -> DescribeAddonOutput
     {
@@ -1063,7 +872,7 @@ extension EKSClient: EKSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeAddonConfiguration(input: DescribeAddonConfigurationInput) async throws -> DescribeAddonConfigurationOutput
     {
@@ -1109,7 +918,7 @@ extension EKSClient: EKSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeAddonVersions(input: DescribeAddonVersionsInput) async throws -> DescribeAddonVersionsOutput
     {
@@ -1145,7 +954,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DescribeCluster` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see [Creating or updating a ]kubeconfig file for an Amazon EKS cluster(https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html). The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
+    /// Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see [Create a kubeconfig for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html). The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     ///
     /// - Parameter DescribeClusterInput : [no documentation found]
     ///
@@ -1155,7 +964,7 @@ extension EKSClient: EKSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutput
@@ -1201,7 +1010,7 @@ extension EKSClient: EKSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func describeEksAnywhereSubscription(input: DescribeEksAnywhereSubscriptionInput) async throws -> DescribeEksAnywhereSubscriptionOutput
@@ -1237,7 +1046,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DescribeFargateProfile` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Describes an Fargate profile.
+    /// Returns descriptive information about an Fargate profile.
     ///
     /// - Parameter DescribeFargateProfileInput : [no documentation found]
     ///
@@ -1248,7 +1057,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeFargateProfile(input: DescribeFargateProfileInput) async throws -> DescribeFargateProfileOutput
     {
@@ -1283,7 +1092,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DescribeIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Describes an identity provider configuration.
+    /// Returns descriptive information about an identity provider configuration.
     ///
     /// - Parameter DescribeIdentityProviderConfigInput : [no documentation found]
     ///
@@ -1294,7 +1103,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func describeIdentityProviderConfig(input: DescribeIdentityProviderConfigInput) async throws -> DescribeIdentityProviderConfigOutput
@@ -1333,7 +1142,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DescribeNodegroup` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Describes a managed node group.
+    /// Returns descriptive information about an Amazon EKS node group.
     ///
     /// - Parameter DescribeNodegroupInput : [no documentation found]
     ///
@@ -1344,7 +1153,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func describeNodegroup(input: DescribeNodegroupInput) async throws -> DescribeNodegroupOutput
@@ -1391,7 +1200,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describePodIdentityAssociation(input: DescribePodIdentityAssociationInput) async throws -> DescribePodIdentityAssociationOutput
     {
@@ -1426,9 +1235,9 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `DescribeUpdate` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Describes an update to an Amazon EKS resource. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
+    /// Returns descriptive information about an update against your Amazon EKS cluster or associated managed node group or Amazon EKS add-on. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     ///
-    /// - Parameter DescribeUpdateInput : Describes an update request.
+    /// - Parameter DescribeUpdateInput : [no documentation found]
     ///
     /// - Returns: `DescribeUpdateOutput` : [no documentation found]
     ///
@@ -1437,7 +1246,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func describeUpdate(input: DescribeUpdateInput) async throws -> DescribeUpdateOutput
     {
@@ -1471,54 +1280,9 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `DisassociateAccessPolicy` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Disassociates an access policy from an access entry.
-    ///
-    /// - Parameter DisassociateAccessPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `DisassociateAccessPolicyOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func disassociateAccessPolicy(input: DisassociateAccessPolicyInput) async throws -> DisassociateAccessPolicyOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .delete)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "disassociateAccessPolicy")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<DisassociateAccessPolicyInput, DisassociateAccessPolicyOutput>(id: "disassociateAccessPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAccessPolicyInput, DisassociateAccessPolicyOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAccessPolicyInput, DisassociateAccessPolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateAccessPolicyOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAccessPolicyOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAccessPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateAccessPolicyOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `DisassociateIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals.
+    /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html).
     ///
     /// - Parameter DisassociateIdentityProviderConfigInput : [no documentation found]
     ///
@@ -1531,7 +1295,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func disassociateIdentityProviderConfig(input: DisassociateIdentityProviderConfigInput) async throws -> DisassociateIdentityProviderConfigOutput
     {
@@ -1568,97 +1332,6 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `ListAccessEntries` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Lists the access entries for your cluster.
-    ///
-    /// - Parameter ListAccessEntriesInput : [no documentation found]
-    ///
-    /// - Returns: `ListAccessEntriesOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func listAccessEntries(input: ListAccessEntriesInput) async throws -> ListAccessEntriesOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .get)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listAccessEntries")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<ListAccessEntriesInput, ListAccessEntriesOutput>(id: "listAccessEntries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessEntriesInput, ListAccessEntriesOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessEntriesInput, ListAccessEntriesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessEntriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAccessEntriesInput, ListAccessEntriesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessEntriesOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessEntriesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessEntriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccessEntriesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessEntriesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `ListAccessPolicies` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Lists the available access policies.
-    ///
-    /// - Parameter ListAccessPoliciesInput : [no documentation found]
-    ///
-    /// - Returns: `ListAccessPoliciesOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func listAccessPolicies(input: ListAccessPoliciesInput) async throws -> ListAccessPoliciesOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .get)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listAccessPolicies")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<ListAccessPoliciesInput, ListAccessPoliciesOutput>(id: "listAccessPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessPoliciesOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccessPoliciesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `ListAddons` operation on the `AWSWesleyFrontend` service.
     ///
     /// Lists the installed add-ons.
@@ -1673,7 +1346,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func listAddons(input: ListAddonsInput) async throws -> ListAddonsOutput
     {
@@ -1707,55 +1380,9 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `ListAssociatedAccessPolicies` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Lists the access policies associated with an access entry.
-    ///
-    /// - Parameter ListAssociatedAccessPoliciesInput : [no documentation found]
-    ///
-    /// - Returns: `ListAssociatedAccessPoliciesOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func listAssociatedAccessPolicies(input: ListAssociatedAccessPoliciesInput) async throws -> ListAssociatedAccessPoliciesOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .get)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listAssociatedAccessPolicies")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>(id: "listAssociatedAccessPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssociatedAccessPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAssociatedAccessPoliciesOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociatedAccessPoliciesOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociatedAccessPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAssociatedAccessPoliciesOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociatedAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `ListClusters` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
     ///
@@ -1849,7 +1476,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `ListFargateProfiles` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
     ///
     /// - Parameter ListFargateProfilesInput : [no documentation found]
     ///
@@ -1860,7 +1487,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func listFargateProfiles(input: ListFargateProfilesInput) async throws -> ListFargateProfilesOutput
     {
@@ -1896,7 +1523,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `ListIdentityProviderConfigs` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Lists the identity provider configurations for your cluster.
+    /// A list of identity provider configurations.
     ///
     /// - Parameter ListIdentityProviderConfigsInput : [no documentation found]
     ///
@@ -1907,7 +1534,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func listIdentityProviderConfigs(input: ListIdentityProviderConfigsInput) async throws -> ListIdentityProviderConfigsOutput
@@ -1944,7 +1571,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `ListNodegroups` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
+    /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
     ///
     /// - Parameter ListNodegroupsInput : [no documentation found]
     ///
@@ -1955,7 +1582,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     public func listNodegroups(input: ListNodegroupsInput) async throws -> ListNodegroupsOutput
@@ -2003,7 +1630,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func listPodIdentityAssociations(input: ListPodIdentityAssociationsInput) async throws -> ListPodIdentityAssociationsOutput
     {
@@ -2083,7 +1710,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `ListUpdates` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the specified Amazon Web Services Region.
+    /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
     ///
     /// - Parameter ListUpdatesInput : [no documentation found]
     ///
@@ -2094,7 +1721,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func listUpdates(input: ListUpdatesInput) async throws -> ListUpdatesOutput
     {
@@ -2130,7 +1757,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `RegisterCluster` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a [RegisterClusterRequest] to add it to the Amazon EKS control plane. Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml) containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the manifest is updated and applied, the connected cluster is visible to the Amazon EKS control plane. If the manifest isn't applied within three days, the connected cluster will no longer be visible and must be deregistered using DeregisterCluster.
+    /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a [RegisterClusterRequest] to add it to the Amazon EKS control plane. Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml) containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the Manifest is updated and applied, then the connected cluster is visible to the Amazon EKS control plane. If the Manifest is not applied within three days, then the connected cluster will no longer be visible and must be deregistered. See [DeregisterCluster].
     ///
     /// - Parameter RegisterClusterInput : [no documentation found]
     ///
@@ -2184,7 +1811,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `TagResource` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Associates the specified tags to an Amazon EKS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EKS resources don't propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag doesn't automatically propagate to the subnets and nodes associated with the cluster.
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. Tags that you create for Amazon EKS resources do not propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag does not automatically propagate to the subnets and nodes associated with the cluster.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -2231,7 +1858,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `UntagResource` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Deletes specified tags from an Amazon EKS resource.
+    /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -2274,56 +1901,6 @@ extension EKSClient: EKSClientProtocol {
         return result
     }
 
-    /// Performs the `UpdateAccessEntry` operation on the `AWSWesleyFrontend` service.
-    ///
-    /// Updates an access entry.
-    ///
-    /// - Parameter UpdateAccessEntryInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateAccessEntryOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
-    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-    /// - `ServerException` : These errors are usually caused by a server-side issue.
-    public func updateAccessEntry(input: UpdateAccessEntryInput) async throws -> UpdateAccessEntryOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateAccessEntry")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "eks")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccessEntryInput, UpdateAccessEntryOutput>(id: "updateAccessEntry")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccessEntryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccessEntryOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessEntryOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessEntryOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccessEntryOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessEntryOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
     /// Performs the `UpdateAddon` operation on the `AWSWesleyFrontend` service.
     ///
     /// Updates an Amazon EKS add-on.
@@ -2339,7 +1916,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updateAddon(input: UpdateAddonInput) async throws -> UpdateAddonOutput
     {
@@ -2378,7 +1955,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `UpdateClusterConfig` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate"/>. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see [https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) in the Amazon EKS User Guide . Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
+    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see [https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) in the Amazon EKS User Guide . Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     ///
     /// - Parameter UpdateClusterConfigInput : [no documentation found]
     ///
@@ -2391,7 +1968,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updateClusterConfig(input: UpdateClusterConfigInput) async throws -> UpdateClusterConfigOutput
     {
@@ -2443,7 +2020,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updateClusterVersion(input: UpdateClusterVersionInput) async throws -> UpdateClusterVersionOutput
     {
@@ -2494,7 +2071,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updateEksAnywhereSubscription(input: UpdateEksAnywhereSubscriptionInput) async throws -> UpdateEksAnywhereSubscriptionOutput
     {
@@ -2546,7 +2123,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updateNodegroupConfig(input: UpdateNodegroupConfigInput) async throws -> UpdateNodegroupConfigOutput
     {
@@ -2585,7 +2162,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `UpdateNodegroupVersion` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
+    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
     ///
     /// - Parameter UpdateNodegroupVersionInput : [no documentation found]
     ///
@@ -2598,7 +2175,7 @@ extension EKSClient: EKSClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updateNodegroupVersion(input: UpdateNodegroupVersionInput) async throws -> UpdateNodegroupVersionOutput
     {
@@ -2637,7 +2214,7 @@ extension EKSClient: EKSClientProtocol {
 
     /// Performs the `UpdatePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
     ///
-    /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings.
+    /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to remove the association and then create a new association with your desired settings.
     ///
     /// - Parameter UpdatePodIdentityAssociationInput : [no documentation found]
     ///
@@ -2648,7 +2225,7 @@ extension EKSClient: EKSClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     public func updatePodIdentityAssociation(input: UpdatePodIdentityAssociationInput) async throws -> UpdatePodIdentityAssociationOutput
     {

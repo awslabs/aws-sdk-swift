@@ -40,7 +40,7 @@ extension GetRawMessageContentOutput: ClientRuntime.HttpResponseBinding {
             self.messageContent = .data(data)
         case .stream(let stream):
             self.messageContent = .stream(stream)
-        case .noStream:
+        case .none:
             self.messageContent = nil
         }
     }

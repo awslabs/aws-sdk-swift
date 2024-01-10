@@ -71,29 +71,6 @@ extension ListKxDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FinspaceClient {
-    /// Paginate over `[ListKxDataviewsOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListKxDataviewsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKxDataviewsOutput`
-    public func listKxDataviewsPaginated(input: ListKxDataviewsInput) -> ClientRuntime.PaginatorSequence<ListKxDataviewsInput, ListKxDataviewsOutput> {
-        return ClientRuntime.PaginatorSequence<ListKxDataviewsInput, ListKxDataviewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKxDataviews(input:))
-    }
-}
-
-extension ListKxDataviewsInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListKxDataviewsInput {
-        return ListKxDataviewsInput(
-            databaseName: self.databaseName,
-            environmentId: self.environmentId,
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-extension FinspaceClient {
     /// Paginate over `[ListKxEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -122,26 +99,4 @@ extension PaginatorSequence where OperationStackInput == ListKxEnvironmentsInput
     public func environments() async throws -> [FinspaceClientTypes.KxEnvironment] {
         return try await self.asyncCompactMap { item in item.environments }
     }
-}
-extension FinspaceClient {
-    /// Paginate over `[ListKxScalingGroupsOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListKxScalingGroupsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListKxScalingGroupsOutput`
-    public func listKxScalingGroupsPaginated(input: ListKxScalingGroupsInput) -> ClientRuntime.PaginatorSequence<ListKxScalingGroupsInput, ListKxScalingGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListKxScalingGroupsInput, ListKxScalingGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKxScalingGroups(input:))
-    }
-}
-
-extension ListKxScalingGroupsInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListKxScalingGroupsInput {
-        return ListKxScalingGroupsInput(
-            environmentId: self.environmentId,
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
 }

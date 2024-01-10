@@ -231,7 +231,7 @@ extension GetLatestConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.configuration = data
         case .stream(let stream):
             self.configuration = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.configuration = nil
         }
     }

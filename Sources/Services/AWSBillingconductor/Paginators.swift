@@ -3,39 +3,6 @@
 import ClientRuntime
 
 extension BillingconductorClient {
-    /// Paginate over `[GetBillingGroupCostReportOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[GetBillingGroupCostReportInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `GetBillingGroupCostReportOutput`
-    public func getBillingGroupCostReportPaginated(input: GetBillingGroupCostReportInput) -> ClientRuntime.PaginatorSequence<GetBillingGroupCostReportInput, GetBillingGroupCostReportOutput> {
-        return ClientRuntime.PaginatorSequence<GetBillingGroupCostReportInput, GetBillingGroupCostReportOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBillingGroupCostReport(input:))
-    }
-}
-
-extension GetBillingGroupCostReportInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> GetBillingGroupCostReportInput {
-        return GetBillingGroupCostReportInput(
-            arn: self.arn,
-            billingPeriodRange: self.billingPeriodRange,
-            groupBy: self.groupBy,
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == GetBillingGroupCostReportInput, OperationStackOutput == GetBillingGroupCostReportOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `getBillingGroupCostReportPaginated`
-    /// to access the nested member `[BillingconductorClientTypes.BillingGroupCostReportResultElement]`
-    /// - Returns: `[BillingconductorClientTypes.BillingGroupCostReportResultElement]`
-    public func billingGroupCostReportResults() async throws -> [BillingconductorClientTypes.BillingGroupCostReportResultElement] {
-        return try await self.asyncCompactMap { item in item.billingGroupCostReportResults }
-    }
-}
-extension BillingconductorClient {
     /// Paginate over `[ListAccountAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

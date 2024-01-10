@@ -5598,7 +5598,7 @@ extension GetWorkUnitResultsOutput: ClientRuntime.HttpResponseBinding {
             self.resultStream = .data(data)
         case .stream(let stream):
             self.resultStream = .stream(stream)
-        case .noStream:
+        case .none:
             self.resultStream = nil
         }
     }

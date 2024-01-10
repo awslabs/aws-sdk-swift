@@ -38,68 +38,6 @@ extension PaginatorSequence where OperationStackInput == DescribeAddonVersionsIn
     }
 }
 extension EKSClient {
-    /// Paginate over `[ListAccessEntriesOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListAccessEntriesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessEntriesOutput`
-    public func listAccessEntriesPaginated(input: ListAccessEntriesInput) -> ClientRuntime.PaginatorSequence<ListAccessEntriesInput, ListAccessEntriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessEntriesInput, ListAccessEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessEntries(input:))
-    }
-}
-
-extension ListAccessEntriesInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListAccessEntriesInput {
-        return ListAccessEntriesInput(
-            associatedPolicyArn: self.associatedPolicyArn,
-            clusterName: self.clusterName,
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == ListAccessEntriesInput, OperationStackOutput == ListAccessEntriesOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listAccessEntriesPaginated`
-    /// to access the nested member `[Swift.String]`
-    /// - Returns: `[Swift.String]`
-    public func accessEntries() async throws -> [Swift.String] {
-        return try await self.asyncCompactMap { item in item.accessEntries }
-    }
-}
-extension EKSClient {
-    /// Paginate over `[ListAccessPoliciesOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListAccessPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPoliciesOutput`
-    public func listAccessPoliciesPaginated(input: ListAccessPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPolicies(input:))
-    }
-}
-
-extension ListAccessPoliciesInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListAccessPoliciesInput {
-        return ListAccessPoliciesInput(
-            maxResults: self.maxResults,
-            nextToken: token
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == ListAccessPoliciesInput, OperationStackOutput == ListAccessPoliciesOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listAccessPoliciesPaginated`
-    /// to access the nested member `[EKSClientTypes.AccessPolicy]`
-    /// - Returns: `[EKSClientTypes.AccessPolicy]`
-    public func accessPolicies() async throws -> [EKSClientTypes.AccessPolicy] {
-        return try await self.asyncCompactMap { item in item.accessPolicies }
-    }
-}
-extension EKSClient {
     /// Paginate over `[ListAddonsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -128,38 +66,6 @@ extension PaginatorSequence where OperationStackInput == ListAddonsInput, Operat
     /// - Returns: `[Swift.String]`
     public func addons() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.addons }
-    }
-}
-extension EKSClient {
-    /// Paginate over `[ListAssociatedAccessPoliciesOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListAssociatedAccessPoliciesInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAccessPoliciesOutput`
-    public func listAssociatedAccessPoliciesPaginated(input: ListAssociatedAccessPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedAccessPolicies(input:))
-    }
-}
-
-extension ListAssociatedAccessPoliciesInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> ListAssociatedAccessPoliciesInput {
-        return ListAssociatedAccessPoliciesInput(
-            clusterName: self.clusterName,
-            maxResults: self.maxResults,
-            nextToken: token,
-            principalArn: self.principalArn
-        )}
-}
-
-extension PaginatorSequence where OperationStackInput == ListAssociatedAccessPoliciesInput, OperationStackOutput == ListAssociatedAccessPoliciesOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `listAssociatedAccessPoliciesPaginated`
-    /// to access the nested member `[EKSClientTypes.AssociatedAccessPolicy]`
-    /// - Returns: `[EKSClientTypes.AssociatedAccessPolicy]`
-    public func associatedAccessPolicies() async throws -> [EKSClientTypes.AssociatedAccessPolicy] {
-        return try await self.asyncCompactMap { item in item.associatedAccessPolicies }
     }
 }
 extension EKSClient {

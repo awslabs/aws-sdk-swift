@@ -6511,7 +6511,6 @@ extension DescribeRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
             self.status = output.status
             self.statusMessage = output.statusMessage
             self.storageClass = output.storageClass
-            self.vaultType = output.vaultType
         } else {
             self.backupSizeInBytes = nil
             self.backupVaultArn = nil
@@ -6536,7 +6535,6 @@ extension DescribeRecoveryPointOutput: ClientRuntime.HttpResponseBinding {
             self.status = nil
             self.statusMessage = nil
             self.storageClass = nil
-            self.vaultType = nil
         }
     }
 }
@@ -6588,8 +6586,6 @@ public struct DescribeRecoveryPointOutput: Swift.Equatable {
     public var statusMessage: Swift.String?
     /// Specifies the storage class of the recovery point. Valid values are WARM or COLD.
     public var storageClass: BackupClientTypes.StorageClass?
-    /// This is the type of vault in which the described recovery point is stored.
-    public var vaultType: BackupClientTypes.VaultType?
 
     public init(
         backupSizeInBytes: Swift.Int? = nil,
@@ -6614,8 +6610,7 @@ public struct DescribeRecoveryPointOutput: Swift.Equatable {
         sourceBackupVaultArn: Swift.String? = nil,
         status: BackupClientTypes.RecoveryPointStatus? = nil,
         statusMessage: Swift.String? = nil,
-        storageClass: BackupClientTypes.StorageClass? = nil,
-        vaultType: BackupClientTypes.VaultType? = nil
+        storageClass: BackupClientTypes.StorageClass? = nil
     )
     {
         self.backupSizeInBytes = backupSizeInBytes
@@ -6641,7 +6636,6 @@ public struct DescribeRecoveryPointOutput: Swift.Equatable {
         self.status = status
         self.statusMessage = statusMessage
         self.storageClass = storageClass
-        self.vaultType = vaultType
     }
 }
 
@@ -6669,7 +6663,6 @@ struct DescribeRecoveryPointOutputBody: Swift.Equatable {
     let compositeMemberIdentifier: Swift.String?
     let isParent: Swift.Bool
     let resourceName: Swift.String?
-    let vaultType: BackupClientTypes.VaultType?
 }
 
 extension DescribeRecoveryPointOutputBody: Swift.Decodable {
@@ -6697,7 +6690,6 @@ extension DescribeRecoveryPointOutputBody: Swift.Decodable {
         case status = "Status"
         case statusMessage = "StatusMessage"
         case storageClass = "StorageClass"
-        case vaultType = "VaultType"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6748,8 +6740,6 @@ extension DescribeRecoveryPointOutputBody: Swift.Decodable {
         isParent = isParentDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
-        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
-        vaultType = vaultTypeDecoded
     }
 }
 
@@ -10091,8 +10081,6 @@ public struct ListBackupJobsInput: Swift.Equatable {
     ///
     /// * Aurora for Amazon Aurora
     ///
-    /// * CloudFormation for CloudFormation
-    ///
     /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
     ///
     /// * DynamoDB for Amazon DynamoDB
@@ -10107,17 +10095,11 @@ public struct ListBackupJobsInput: Swift.Equatable {
     ///
     /// * Neptune for Amazon Neptune
     ///
-    /// * Redshift for Amazon Redshift
-    ///
     /// * RDS for Amazon Relational Database Service
-    ///
-    /// * SAP HANA on Amazon EC2 for SAP HANA databases
     ///
     /// * Storage Gateway for Storage Gateway
     ///
     /// * S3 for Amazon S3
-    ///
-    /// * Timestream for Amazon Timestream
     ///
     /// * VirtualMachine for virtual machines
     public var byResourceType: Swift.String?
@@ -11156,8 +11138,6 @@ public struct ListCopyJobsInput: Swift.Equatable {
     ///
     /// * Aurora for Amazon Aurora
     ///
-    /// * CloudFormation for CloudFormation
-    ///
     /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
     ///
     /// * DynamoDB for Amazon DynamoDB
@@ -11172,17 +11152,11 @@ public struct ListCopyJobsInput: Swift.Equatable {
     ///
     /// * Neptune for Amazon Neptune
     ///
-    /// * Redshift for Amazon Redshift
-    ///
     /// * RDS for Amazon Relational Database Service
-    ///
-    /// * SAP HANA on Amazon EC2 for SAP HANA databases
     ///
     /// * Storage Gateway for Storage Gateway
     ///
     /// * S3 for Amazon S3
-    ///
-    /// * Timestream for Amazon Timestream
     ///
     /// * VirtualMachine for virtual machines
     public var byResourceType: Swift.String?
@@ -11868,39 +11842,7 @@ public struct ListRecoveryPointsByBackupVaultInput: Swift.Equatable {
     public var byParentRecoveryPointArn: Swift.String?
     /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
     public var byResourceArn: Swift.String?
-    /// Returns only recovery points that match the specified resource type(s):
-    ///
-    /// * Aurora for Amazon Aurora
-    ///
-    /// * CloudFormation for CloudFormation
-    ///
-    /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
-    ///
-    /// * DynamoDB for Amazon DynamoDB
-    ///
-    /// * EBS for Amazon Elastic Block Store
-    ///
-    /// * EC2 for Amazon Elastic Compute Cloud
-    ///
-    /// * EFS for Amazon Elastic File System
-    ///
-    /// * FSx for Amazon FSx
-    ///
-    /// * Neptune for Amazon Neptune
-    ///
-    /// * Redshift for Amazon Redshift
-    ///
-    /// * RDS for Amazon Relational Database Service
-    ///
-    /// * SAP HANA on Amazon EC2 for SAP HANA databases
-    ///
-    /// * Storage Gateway for Storage Gateway
-    ///
-    /// * S3 for Amazon S3
-    ///
-    /// * Timestream for Amazon Timestream
-    ///
-    /// * VirtualMachine for virtual machines
+    /// Returns only recovery points that match the specified resource type.
     public var byResourceType: Swift.String?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
@@ -12873,10 +12815,6 @@ extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if let byResourceType = byResourceType {
-                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-                items.append(byResourceTypeQueryItem)
-            }
             if let byCreatedBefore = byCreatedBefore {
                 let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
                 items.append(byCreatedBeforeQueryItem)
@@ -12935,40 +12873,6 @@ public struct ListRestoreJobsInput: Swift.Equatable {
     public var byCreatedAfter: ClientRuntime.Date?
     /// Returns only restore jobs that were created before the specified date.
     public var byCreatedBefore: ClientRuntime.Date?
-    /// Include this parameter to return only restore jobs for the specified resources:
-    ///
-    /// * Aurora for Amazon Aurora
-    ///
-    /// * CloudFormation for CloudFormation
-    ///
-    /// * DocumentDB for Amazon DocumentDB (with MongoDB compatibility)
-    ///
-    /// * DynamoDB for Amazon DynamoDB
-    ///
-    /// * EBS for Amazon Elastic Block Store
-    ///
-    /// * EC2 for Amazon Elastic Compute Cloud
-    ///
-    /// * EFS for Amazon Elastic File System
-    ///
-    /// * FSx for Amazon FSx
-    ///
-    /// * Neptune for Amazon Neptune
-    ///
-    /// * Redshift for Amazon Redshift
-    ///
-    /// * RDS for Amazon Relational Database Service
-    ///
-    /// * SAP HANA on Amazon EC2 for SAP HANA databases
-    ///
-    /// * Storage Gateway for Storage Gateway
-    ///
-    /// * S3 for Amazon S3
-    ///
-    /// * Timestream for Amazon Timestream
-    ///
-    /// * VirtualMachine for virtual machines
-    public var byResourceType: Swift.String?
     /// This returns only restore testing jobs that match the specified resource Amazon Resource Name (ARN).
     public var byRestoreTestingPlanArn: Swift.String?
     /// Returns only restore jobs associated with the specified job status.
@@ -12984,7 +12888,6 @@ public struct ListRestoreJobsInput: Swift.Equatable {
         byCompleteBefore: ClientRuntime.Date? = nil,
         byCreatedAfter: ClientRuntime.Date? = nil,
         byCreatedBefore: ClientRuntime.Date? = nil,
-        byResourceType: Swift.String? = nil,
         byRestoreTestingPlanArn: Swift.String? = nil,
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
         maxResults: Swift.Int? = nil,
@@ -12996,7 +12899,6 @@ public struct ListRestoreJobsInput: Swift.Equatable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
-        self.byResourceType = byResourceType
         self.byRestoreTestingPlanArn = byRestoreTestingPlanArn
         self.byStatus = byStatus
         self.maxResults = maxResults
@@ -14123,7 +14025,6 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         case sourceBackupVaultArn = "SourceBackupVaultArn"
         case status = "Status"
         case statusMessage = "StatusMessage"
-        case vaultType = "VaultType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14194,9 +14095,6 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         if let statusMessage = self.statusMessage {
             try encodeContainer.encode(statusMessage, forKey: .statusMessage)
         }
-        if let vaultType = self.vaultType {
-            try encodeContainer.encode(vaultType.rawValue, forKey: .vaultType)
-        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -14245,8 +14143,6 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         isParent = isParentDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
-        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
-        vaultType = vaultTypeDecoded
     }
 }
 
@@ -14297,8 +14193,6 @@ extension BackupClientTypes {
         public var status: BackupClientTypes.RecoveryPointStatus?
         /// A message explaining the reason of the recovery point deletion failure.
         public var statusMessage: Swift.String?
-        /// This is the type of vault in which the described recovery point is stored.
-        public var vaultType: BackupClientTypes.VaultType?
 
         public init(
             backupSizeInBytes: Swift.Int? = nil,
@@ -14322,8 +14216,7 @@ extension BackupClientTypes {
             resourceType: Swift.String? = nil,
             sourceBackupVaultArn: Swift.String? = nil,
             status: BackupClientTypes.RecoveryPointStatus? = nil,
-            statusMessage: Swift.String? = nil,
-            vaultType: BackupClientTypes.VaultType? = nil
+            statusMessage: Swift.String? = nil
         )
         {
             self.backupSizeInBytes = backupSizeInBytes
@@ -14348,7 +14241,6 @@ extension BackupClientTypes {
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
             self.statusMessage = statusMessage
-            self.vaultType = vaultType
         }
     }
 
@@ -18604,7 +18496,7 @@ extension UpdateRegionSettingsInput: ClientRuntime.URLPathProvider {
 public struct UpdateRegionSettingsInput: Swift.Equatable {
     /// Enables or disables full Backup management of backups for a resource type. To enable full Backup management for DynamoDB along with [ Backup's advanced DynamoDB backup features](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html), follow the procedure to [ enable advanced DynamoDB backup programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli).
     public var resourceTypeManagementPreference: [Swift.String:Swift.Bool]?
-    /// Updates the list of services along with the opt-in preferences for the Region. If resource assignments are only based on tags, then service opt-in settings are applied. If a resource type is explicitly assigned to a backup plan, such as Amazon S3, Amazon EC2, or Amazon RDS, it will be included in the backup even if the opt-in is not enabled for that particular service. If both a resource type and tags are specified in a resource assignment, the resource type specified in the backup plan takes priority over the tag condition. Service opt-in settings are disregarded in this situation.
+    /// Updates the list of services along with the opt-in preferences for the Region.
     public var resourceTypeOptInPreference: [Swift.String:Swift.Bool]?
 
     public init(

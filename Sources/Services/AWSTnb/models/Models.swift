@@ -1317,7 +1317,7 @@ extension GetSolFunctionPackageContentOutput: ClientRuntime.HttpResponseBinding 
             self.packageContent = data
         case .stream(let stream):
             self.packageContent = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.packageContent = nil
         }
     }
@@ -1428,7 +1428,7 @@ extension GetSolFunctionPackageDescriptorOutput: ClientRuntime.HttpResponseBindi
             self.vnfd = data
         case .stream(let stream):
             self.vnfd = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.vnfd = nil
         }
     }
@@ -2414,7 +2414,7 @@ extension GetSolNetworkPackageContentOutput: ClientRuntime.HttpResponseBinding {
             self.nsdContent = data
         case .stream(let stream):
             self.nsdContent = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.nsdContent = nil
         }
     }
@@ -2510,7 +2510,7 @@ extension GetSolNetworkPackageDescriptorOutput: ClientRuntime.HttpResponseBindin
             self.nsd = data
         case .stream(let stream):
             self.nsd = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.nsd = nil
         }
     }

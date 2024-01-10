@@ -9112,7 +9112,7 @@ extension DescribeInputDeviceThumbnailOutput: ClientRuntime.HttpResponseBinding 
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .noStream:
+        case .none:
             self.body = nil
         }
     }

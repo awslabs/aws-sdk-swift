@@ -2955,7 +2955,7 @@ extension SynthesizeSpeechOutput: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .noStream:
+        case .none:
             self.audioStream = nil
         }
     }

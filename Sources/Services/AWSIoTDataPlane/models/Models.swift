@@ -114,7 +114,7 @@ extension DeleteThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.payload = nil
         }
     }
@@ -354,7 +354,7 @@ extension GetThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.payload = nil
         }
     }
@@ -1516,7 +1516,7 @@ extension UpdateThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.payload = nil
         }
     }

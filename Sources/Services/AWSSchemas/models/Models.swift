@@ -2187,7 +2187,7 @@ extension GetCodeBindingSourceOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-        case .noStream:
+        case .none:
             self.body = nil
         }
     }

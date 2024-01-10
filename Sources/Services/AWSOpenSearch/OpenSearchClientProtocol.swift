@@ -21,7 +21,7 @@ public protocol OpenSearchClientProtocol {
     func acceptInboundConnection(input: AcceptInboundConnectionInput) async throws -> AcceptInboundConnectionOutput
     /// Performs the `AddDataSource` operation on the `AmazonOpenSearchService` service.
     ///
-    /// Creates a new direct-query data source to the specified domain. For more information, see [Creating Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
+    /// Adds the data source on the domain.
     ///
     /// - Parameter AddDataSourceInput : Container for the parameters to the AddDataSource operation.
     ///
@@ -180,7 +180,7 @@ public protocol OpenSearchClientProtocol {
     func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput
     /// Performs the `DeleteDataSource` operation on the `AmazonOpenSearchService` service.
     ///
-    /// Deletes a direct-query data source. For more information, see [Deleting an Amazon OpenSearch Service data source with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-delete.html).
+    /// Deletes the data source.
     ///
     /// - Parameter DeleteDataSourceInput : Container for the parameters to the DeleteDataSource operation.
     ///
@@ -553,7 +553,7 @@ public protocol OpenSearchClientProtocol {
     func getCompatibleVersions(input: GetCompatibleVersionsInput) async throws -> GetCompatibleVersionsOutput
     /// Performs the `GetDataSource` operation on the `AmazonOpenSearchService` service.
     ///
-    /// Retrieves information about a direct query data source.
+    /// Describes the data source details.
     ///
     /// - Parameter GetDataSourceInput : Container for the parameters to the GetDataSource operation.
     ///
@@ -639,7 +639,7 @@ public protocol OpenSearchClientProtocol {
     func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutput
     /// Performs the `ListDataSources` operation on the `AmazonOpenSearchService` service.
     ///
-    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see [Working with Amazon OpenSearch Service direct queries with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3.html).
+    /// A list of the data source details of the domain.
     ///
     /// - Parameter ListDataSourcesInput : Container for the parameters to the ListDataSources operation.
     ///
@@ -931,7 +931,7 @@ public protocol OpenSearchClientProtocol {
     func startServiceSoftwareUpdate(input: StartServiceSoftwareUpdateInput) async throws -> StartServiceSoftwareUpdateOutput
     /// Performs the `UpdateDataSource` operation on the `AmazonOpenSearchService` service.
     ///
-    /// Updates a direct-query data source. For more information, see [Working with Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
+    /// Updates the data source on the domain.
     ///
     /// - Parameter UpdateDataSourceInput : Container for the parameters to the UpdateDataSource operation.
     ///

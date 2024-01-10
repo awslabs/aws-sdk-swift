@@ -1219,14 +1219,6 @@ public protocol RDSClientProtocol {
     /// - `DBProxyTargetNotFoundFault` : The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     func describeDBProxyTargets(input: DescribeDBProxyTargetsInput) async throws -> DescribeDBProxyTargetsOutput
-    /// Performs the `DescribeDBRecommendations` operation on the `AmazonRDSv19` service.
-    ///
-    /// Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.
-    ///
-    /// - Parameter DescribeDBRecommendationsInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeDBRecommendationsOutput` : [no documentation found]
-    func describeDBRecommendations(input: DescribeDBRecommendationsInput) async throws -> DescribeDBRecommendationsOutput
     /// Performs the `DescribeDBSecurityGroups` operation on the `AmazonRDSv19` service.
     ///
     /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon EC2 User Guide, the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/), and [Moving a DB instance not in a VPC into a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.Non-VPC2VPC.html) in the Amazon RDS User Guide.
@@ -1797,14 +1789,6 @@ public protocol RDSClientProtocol {
     /// - `DBProxyTargetGroupNotFoundFault` : The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     /// - `InvalidDBProxyStateFault` : The requested operation can't be performed while the proxy is in this state.
     func modifyDBProxyTargetGroup(input: ModifyDBProxyTargetGroupInput) async throws -> ModifyDBProxyTargetGroupOutput
-    /// Performs the `ModifyDBRecommendation` operation on the `AmazonRDSv19` service.
-    ///
-    /// Updates the recommendation status and recommended action status for the specified recommendation.
-    ///
-    /// - Parameter ModifyDBRecommendationInput : [no documentation found]
-    ///
-    /// - Returns: `ModifyDBRecommendationOutput` : [no documentation found]
-    func modifyDBRecommendation(input: ModifyDBRecommendationInput) async throws -> ModifyDBRecommendationOutput
     /// Performs the `ModifyDBSnapshot` operation on the `AmazonRDSv19` service.
     ///
     /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public. Amazon RDS supports upgrading DB snapshots for MySQL, PostgreSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2.

@@ -21,7 +21,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func associateFirewallRuleGroup(input: AssociateFirewallRuleGroupInput) async throws -> AssociateFirewallRuleGroupOutput
     /// Performs the `AssociateResolverEndpointIpAddress` operation on the `Route53Resolver` service.
     ///
@@ -97,7 +97,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func createFirewallDomainList(input: CreateFirewallDomainListInput) async throws -> CreateFirewallDomainListOutput
     /// Performs the `CreateFirewallRule` operation on the `Route53Resolver` service.
     ///
@@ -115,7 +115,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func createFirewallRule(input: CreateFirewallRuleInput) async throws -> CreateFirewallRuleOutput
     /// Performs the `CreateFirewallRuleGroup` operation on the `Route53Resolver` service.
     ///
@@ -132,11 +132,11 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func createFirewallRuleGroup(input: CreateFirewallRuleGroupInput) async throws -> CreateFirewallRuleGroupOutput
     /// Performs the `CreateOutpostResolver` operation on the `Route53Resolver` service.
     ///
-    /// Creates a Route 53 Resolver on an Outpost.
+    /// Creates an Route 53 Resolver on an Outpost.
     ///
     /// - Parameter CreateOutpostResolverInput : [no documentation found]
     ///
@@ -150,7 +150,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ServiceQuotaExceededException` : Fulfilling the request would cause one or more quotas to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func createOutpostResolver(input: CreateOutpostResolverInput) async throws -> CreateOutpostResolverOutput
     /// Performs the `CreateResolverEndpoint` operation on the `Route53Resolver` service.
     ///
@@ -167,7 +167,6 @@ public protocol Route53ResolverClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -207,7 +206,6 @@ public protocol Route53ResolverClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -266,7 +264,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func deleteFirewallRuleGroup(input: DeleteFirewallRuleGroupInput) async throws -> DeleteFirewallRuleGroupOutput
     /// Performs the `DeleteOutpostResolver` operation on the `Route53Resolver` service.
     ///
@@ -284,7 +282,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func deleteOutpostResolver(input: DeleteOutpostResolverInput) async throws -> DeleteOutpostResolverOutput
     /// Performs the `DeleteResolverEndpoint` operation on the `Route53Resolver` service.
     ///
@@ -358,7 +356,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func disassociateFirewallRuleGroup(input: DisassociateFirewallRuleGroupInput) async throws -> DisassociateFirewallRuleGroupOutput
     /// Performs the `DisassociateResolverEndpointIpAddress` operation on the `Route53Resolver` service.
     ///
@@ -431,7 +429,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func getFirewallConfig(input: GetFirewallConfigInput) async throws -> GetFirewallConfigOutput
     /// Performs the `GetFirewallDomainList` operation on the `Route53Resolver` service.
     ///
@@ -496,7 +494,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func getFirewallRuleGroupPolicy(input: GetFirewallRuleGroupPolicyInput) async throws -> GetFirewallRuleGroupPolicyOutput
     /// Performs the `GetOutpostResolver` operation on the `Route53Resolver` service.
     ///
@@ -513,7 +511,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func getOutpostResolver(input: GetOutpostResolverInput) async throws -> GetOutpostResolverOutput
     /// Performs the `GetResolverConfig` operation on the `Route53Resolver` service.
     ///
@@ -531,7 +529,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func getResolverConfig(input: GetResolverConfigInput) async throws -> GetResolverConfigOutput
     /// Performs the `GetResolverDnssecConfig` operation on the `Route53Resolver` service.
     ///
@@ -691,7 +689,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func importFirewallDomains(input: ImportFirewallDomainsInput) async throws -> ImportFirewallDomainsOutput
     /// Performs the `ListFirewallConfigs` operation on the `Route53Resolver` service.
     ///
@@ -707,7 +705,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listFirewallConfigs(input: ListFirewallConfigsInput) async throws -> ListFirewallConfigsOutput
     /// Performs the `ListFirewallDomainLists` operation on the `Route53Resolver` service.
     ///
@@ -723,7 +721,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listFirewallDomainLists(input: ListFirewallDomainListsInput) async throws -> ListFirewallDomainListsOutput
     /// Performs the `ListFirewallDomains` operation on the `Route53Resolver` service.
     ///
@@ -740,7 +738,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listFirewallDomains(input: ListFirewallDomainsInput) async throws -> ListFirewallDomainsOutput
     /// Performs the `ListFirewallRuleGroupAssociations` operation on the `Route53Resolver` service.
     ///
@@ -756,7 +754,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listFirewallRuleGroupAssociations(input: ListFirewallRuleGroupAssociationsInput) async throws -> ListFirewallRuleGroupAssociationsOutput
     /// Performs the `ListFirewallRuleGroups` operation on the `Route53Resolver` service.
     ///
@@ -772,7 +770,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listFirewallRuleGroups(input: ListFirewallRuleGroupsInput) async throws -> ListFirewallRuleGroupsOutput
     /// Performs the `ListFirewallRules` operation on the `Route53Resolver` service.
     ///
@@ -789,7 +787,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listFirewallRules(input: ListFirewallRulesInput) async throws -> ListFirewallRulesOutput
     /// Performs the `ListOutpostResolvers` operation on the `Route53Resolver` service.
     ///
@@ -806,7 +804,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listOutpostResolvers(input: ListOutpostResolversInput) async throws -> ListOutpostResolversOutput
     /// Performs the `ListResolverConfigs` operation on the `Route53Resolver` service.
     ///
@@ -825,7 +823,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func listResolverConfigs(input: ListResolverConfigsInput) async throws -> ListResolverConfigsOutput
     /// Performs the `ListResolverDnssecConfigs` operation on the `Route53Resolver` service.
     ///
@@ -982,7 +980,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func putFirewallRuleGroupPolicy(input: PutFirewallRuleGroupPolicyInput) async throws -> PutFirewallRuleGroupPolicyOutput
     /// Performs the `PutResolverQueryLogConfigPolicy` operation on the `Route53Resolver` service.
     ///
@@ -1070,7 +1068,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func updateFirewallConfig(input: UpdateFirewallConfigInput) async throws -> UpdateFirewallConfigOutput
     /// Performs the `UpdateFirewallDomains` operation on the `Route53Resolver` service.
     ///
@@ -1089,7 +1087,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func updateFirewallDomains(input: UpdateFirewallDomainsInput) async throws -> UpdateFirewallDomainsOutput
     /// Performs the `UpdateFirewallRule` operation on the `Route53Resolver` service.
     ///
@@ -1107,7 +1105,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func updateFirewallRule(input: UpdateFirewallRuleInput) async throws -> UpdateFirewallRuleOutput
     /// Performs the `UpdateFirewallRuleGroupAssociation` operation on the `Route53Resolver` service.
     ///
@@ -1125,7 +1123,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func updateFirewallRuleGroupAssociation(input: UpdateFirewallRuleGroupAssociationInput) async throws -> UpdateFirewallRuleGroupAssociationOutput
     /// Performs the `UpdateOutpostResolver` operation on the `Route53Resolver` service.
     ///
@@ -1144,7 +1142,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ServiceQuotaExceededException` : Fulfilling the request would cause one or more quotas to be exceeded.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func updateOutpostResolver(input: UpdateOutpostResolverInput) async throws -> UpdateOutpostResolverOutput
     /// Performs the `UpdateResolverConfig` operation on the `Route53Resolver` service.
     ///
@@ -1165,7 +1163,7 @@ public protocol Route53ResolverClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ResourceUnavailableException` : The specified resource isn't available.
     /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
-    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    /// - `ValidationException` : You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
     func updateResolverConfig(input: UpdateResolverConfigInput) async throws -> UpdateResolverConfigOutput
     /// Performs the `UpdateResolverDnssecConfig` operation on the `Route53Resolver` service.
     ///
@@ -1187,7 +1185,7 @@ public protocol Route53ResolverClientProtocol {
     func updateResolverDnssecConfig(input: UpdateResolverDnssecConfigInput) async throws -> UpdateResolverDnssecConfigOutput
     /// Performs the `UpdateResolverEndpoint` operation on the `Route53Resolver` service.
     ///
-    /// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
+    /// Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     ///
     /// - Parameter UpdateResolverEndpointInput : [no documentation found]
     ///
@@ -1196,7 +1194,6 @@ public protocol Route53ResolverClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.
@@ -1214,7 +1211,6 @@ public protocol Route53ResolverClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
     /// - `InvalidParameterException` : One or more parameters in this request are not valid.
     /// - `InvalidRequestException` : The request is invalid.

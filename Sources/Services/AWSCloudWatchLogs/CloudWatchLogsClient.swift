@@ -182,7 +182,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     ///
     /// * Create a delivery destination, which is a logical object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
     ///
-    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
     ///
     /// * Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination.
     ///
@@ -1704,7 +1704,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
 
     /// Performs the `DescribeQueryDefinitions` operation on the `Logs_20140328` service.
     ///
-    /// This operation returns a paginated list of your saved CloudWatch Logs Insights query definitions. You can retrieve query definitions from the current account or from a source account that is linked to the current account. You can use the queryDefinitionNamePrefix parameter to limit the results to only the query definitions that have names that start with a certain string.
+    /// This operation returns a paginated list of your saved CloudWatch Logs Insights query definitions. You can use the queryDefinitionNamePrefix parameter to limit the results to only the query definitions that have names that start with a certain string.
     ///
     /// - Parameter DescribeQueryDefinitionsInput : [no documentation found]
     ///
@@ -2760,7 +2760,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     ///
     /// * Use PutDeliveryDestination to create a delivery destination, which is a logical object that represents the actual delivery destination.
     ///
-    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
     ///
     /// * Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
     ///
@@ -2884,7 +2884,7 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
     ///
     /// * Use PutDeliveryDestination to create a delivery destination, which is a logical object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
     ///
-    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
     ///
     /// * Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
     ///
@@ -3367,68 +3367,6 @@ extension CloudWatchLogsClient: CloudWatchLogsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSubscriptionFilterOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSubscriptionFilterOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutSubscriptionFilterOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSubscriptionFilterOutput>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Performs the `StartLiveTail` operation on the `Logs_20140328` service.
-    ///
-    /// Starts a Live Tail streaming session for one or more log groups. A Live Tail session returns a stream of log events that have been recently ingested in the log groups. For more information, see [Use Live Tail to view logs in near real time](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs_LiveTail.html). The response to this operation is a response stream, over which the server sends live log events and the client receives them. The following objects are sent over the stream:
-    ///
-    /// * A single [LiveTailSessionStart](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionStart.html) object is sent at the start of the session.
-    ///
-    /// * Every second, a [LiveTailSessionUpdate](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionUpdate.html) object is sent. Each of these objects contains an array of the actual log events. If no new log events were ingested in the past second, the LiveTailSessionUpdate object will contain an empty array. The array of log events contained in a LiveTailSessionUpdate can include as many as 500 log events. If the number of log events matching the request exceeds 500 per second, the log events are sampled down to 500 log events to be included in each LiveTailSessionUpdate object. If your client consumes the log events slower than the server produces them, CloudWatch Logs buffers up to 10 LiveTailSessionUpdate events or 5000 log events, after which it starts dropping the oldest events.
-    ///
-    /// * A [SessionStreamingException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionStreamingException.html) object is returned if an unknown error occurs on the server side.
-    ///
-    /// * A [SessionTimeoutException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionTimeoutException.html) object is returned when the session times out, after it has been kept open for three hours.
-    ///
-    ///
-    /// You can end a session before it times out by closing the session stream or by closing the client that is receiving the stream. The session also ends if the established connection between the client and the server breaks.
-    ///
-    /// - Parameter StartLiveTailInput : [no documentation found]
-    ///
-    /// - Returns: `StartLiveTailOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
-    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
-    /// - `InvalidParameterException` : A parameter is specified incorrectly.
-    /// - `LimitExceededException` : You have reached the maximum number of resources that can be created.
-    /// - `ResourceNotFoundException` : The specified resource does not exist.
-    public func startLiveTail(input: StartLiveTailInput) async throws -> StartLiveTailOutput
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "startLiveTail")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "logs")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        var operation = ClientRuntime.OperationStack<StartLiveTailInput, StartLiveTailOutput>(id: "startLiveTail")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLiveTailInput, StartLiveTailOutput>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLiveTailInput, StartLiveTailOutput>(hostPrefix: "streaming-"))
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLiveTailOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartLiveTailInput, StartLiveTailOutput>(xAmzTarget: "Logs_20140328.StartLiveTail"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartLiveTailInput, StartLiveTailOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLiveTailInput, StartLiveTailOutput>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartLiveTailOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLiveTailOutput>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLiveTailOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartLiveTailOutputError.self, decoder: decoder)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLiveTailOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -583,7 +583,7 @@ extension GetSnapshotBlockOutput: ClientRuntime.HttpResponseBinding {
             self.blockData = .data(data)
         case .stream(let stream):
             self.blockData = .stream(stream)
-        case .noStream:
+        case .none:
             self.blockData = nil
         }
     }
