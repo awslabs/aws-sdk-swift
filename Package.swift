@@ -630,7 +630,7 @@ let servicesWithIntegrationTests: [String] = [
 // addIntegrationTests()
 
 // Uncomment this line to enable protocol tests
-addProtocolTests()
+// addProtocolTests()
 
 addResolvedTargets()
 

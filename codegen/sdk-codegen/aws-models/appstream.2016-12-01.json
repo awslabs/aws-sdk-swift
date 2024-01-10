@@ -7858,12 +7858,6 @@
                         "smithy.api#enumValue": "WINDOWS_SERVER_2019"
                     }
                 },
-                "WINDOWS_SERVER_2022": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "WINDOWS_SERVER_2022"
-                    }
-                },
                 "AMAZON_LINUX2": {
                     "target": "smithy.api#Unit",
                     "traits": {
