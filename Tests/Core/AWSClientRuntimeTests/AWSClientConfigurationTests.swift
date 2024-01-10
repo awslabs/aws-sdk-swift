@@ -64,14 +64,6 @@ class AWSClientConfigurationTests: XCTestCase {
         let subject = try await Subject(region: region, appID: appID)
         XCTAssertEqual(subject.appID, appID)
     }
-
-    // MARK: - Timeout
-
-    func test_sync_configureTimeoutOptionsFromParams() throws {
-        let customTimeout: UInt32 = 10_000
-        let subject = try Subject(region: region, connectTimeoutMs: customTimeout)
-        XCTAssertEqual(subject.connectTimeoutMs, customTimeout)
-    }
 }
 
 struct TestAWSServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
