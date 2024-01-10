@@ -12,7 +12,7 @@ import AWSClientRuntime
 import AwsCommonRuntimeKit
 import ClientRuntime
 
-public class MockHttpClientEngine: HttpClientEngine {
+public class MockHttpClientEngine: HTTPClient {
 
     // Public initializer
     public init() {}
@@ -33,7 +33,7 @@ public class MockHttpClientEngine: HttpClientEngine {
         )
     }
 
-    public func execute(request: SdkHttpRequest) async throws -> HttpResponse {
+    public func send(request: SdkHttpRequest) async throws -> HttpResponse {
         return successHttpResponse(request: request)
     }
 }
