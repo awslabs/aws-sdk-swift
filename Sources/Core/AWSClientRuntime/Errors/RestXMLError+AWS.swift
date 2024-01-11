@@ -15,13 +15,13 @@ extension RestXMLError {
     /// - Returns: A`RestXMLError` instance with an error code of "NotFound" if the response body is empty and the status code is 404. Otherwise returns a `RestXMLError` by calling ``RestXMLError.init(httpResponse: HttpResponse)``.
     ///
     /// - Throws: An error if it fails to decode the response body.
-    public static func makeError(from response: HttpResponse) async throws -> RestXMLError {
-        response.statusCodeIsNotFoundAndBodyIsEmpty
-            ? .makeNotFoundError(requestID: response.requestId)
-            : try await .init(httpResponse: response)
-    }
-
-    static func makeNotFoundError(requestID: String?) -> RestXMLError {
-        return RestXMLError(errorCode: "NotFound", requestId: requestID)
-    }
+//    public static func makeError(from httpResponse: HttpResponse, reader: SmithyXML.Reader) async throws -> RestXMLError {
+//        response.statusCodeIsNotFoundAndBodyIsEmpty
+//            ? .makeNotFoundError(requestID: response.requestId)
+//            : try await .init(reader, )
+//    }
+//
+//    static func makeNotFoundError(requestID: String?) -> RestXMLError {
+//        return RestXMLError(code: "NotFound", type: "Sender", requestID: requestID)
+//    }
 }

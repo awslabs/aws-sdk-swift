@@ -32,6 +32,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackOutput>: Middle
         guard let data = try await response.httpResponse.body.readData() else {
             return response
         }
+        response.httpResponse.body = .data(data)
 
         let xmlString = String(data: data, encoding: .utf8) ?? ""
         if xmlString.contains("<Error>") {

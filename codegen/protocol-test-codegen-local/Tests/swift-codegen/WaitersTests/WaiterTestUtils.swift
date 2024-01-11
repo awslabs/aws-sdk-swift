@@ -41,8 +41,8 @@ extension WaiterConfiguration.Acceptor.Match: Equatable where Input: Equatable, 
 }
 
 // Allows for the use of a string as an Error, for easy test validation & easy-to-read tests.
-//extension String: Error {
-//    var localizedString: String? { self }
-//}
+extension String: Error {
+    var localizedString: String? { self }
+}
 
 var anInput = GetWidgetInput()

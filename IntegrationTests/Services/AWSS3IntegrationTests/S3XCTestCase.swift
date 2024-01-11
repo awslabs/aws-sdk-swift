@@ -89,7 +89,7 @@ class S3XCTestCase: XCTestCase {
             let data = try XCTUnwrap(dataOrNil)
             return String(data: data, encoding: .utf8)
         case .stream(let stream):
-            return String(data: try await stream.readToEndAsync()!, encoding: .utf8)
+            return String(data: try await stream.readToEndAsync() ?? Data(), encoding: .utf8)
         case .noStream:
             return nil
         }

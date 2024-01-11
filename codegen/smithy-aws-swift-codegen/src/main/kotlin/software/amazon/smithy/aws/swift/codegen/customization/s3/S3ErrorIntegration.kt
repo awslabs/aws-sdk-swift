@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
+import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -18,6 +19,7 @@ import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class S3ErrorIntegration : SwiftIntegration {
@@ -60,26 +62,30 @@ class S3ErrorIntegration : SwiftIntegration {
     private val httpResponseBinding = SectionWriter { writer, _ ->
         val ctx = writer.getContext("ctx") as ProtocolGenerator.GenerationContext
         val errorShapes = writer.getContext("errorShapes") as List<StructureShape>
-        writer.write("let errorBodyReader = reader[\"Error\"]")
 
         if (ctx.service.errors.isNotEmpty()) {
-            writer.write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.responseErrorServiceBinding(httpResponse, errorBodyReader)")
-            writer.write("if let error = serviceError { return error }")
+            writer.openBlock(
+                "if let serviceError = try await \$NTypes.responseErrorServiceBinding(httpResponse, errorBodyReader)",
+                "}",
+                ctx.symbolProvider.toSymbol(ctx.service)
+            ) {
+                writer.write("return serviceError")
+            }
         }
-        writer.write("let errorCode: String? = try errorBodyReader[\"Code\"].readIfPresent()")
-        writer.write("let message: String? = try errorBodyReader[\"Message\"].readIfPresent()")
-        writer.write("let requestID: String? = try errorBodyReader[\"RequestId\"].readIfPresent() ?? reader[\"RequestId\"].readIfPresent()")
-        writer.openBlock("switch errorCode {", "}") {
+        val noErrorWrapping = ctx.service.getTrait<RestXmlTrait>()?.let { it.isNoErrorWrapping } ?: false
+        writer.write("let errorBodyReader = \$N.errorBodyReader(responseReader: responseReader, noErrorWrapping: \$L)", AWSClientRuntimeTypes.RestXML.RestXMLError, noErrorWrapping)
+        writer.write("let restXMLError = try \$N(responseReader: responseReader, noErrorWrapping: \$L)", AWSClientRuntimeTypes.RestXML.RestXMLError, noErrorWrapping)
+        writer.openBlock("switch restXMLError.code {", "}") {
             for (errorShape in errorShapes) {
                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
                 writer.write(
-                    "case \$S: return try await \$L.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: message, requestID: requestID, requestID2: httpResponse.requestId2)",
+                    "case \$S: return try await \$L.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)",
                     errorShapeName,
                     errorShapeType
                 )
             }
-            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, requestID2: httpResponse.requestId2, typeName: errorCode)")
+            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)")
         }
     }
 
