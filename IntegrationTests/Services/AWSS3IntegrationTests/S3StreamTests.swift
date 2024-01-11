@@ -7,7 +7,7 @@
 
 import XCTest
 import AWSS3
-import ClientRuntime
+@testable import ClientRuntime
 
 final class S3StreamTests: S3XCTestCase {
     let objectName = "hello-world"
@@ -43,7 +43,7 @@ final class S3StreamTests: S3XCTestCase {
     func test_putObject_givenStreamBody() async throws {
         let audioURL = Bundle.module.url(forResource: objectName, withExtension: nil)!
         let fileHandle = FileHandle(forReadingAtPath: audioURL.relativePath)!
-        let fileByteStream = try ByteStream.data(try fileHandle.readToEnd() ?? Data())
+        let fileByteStream = ByteStream.stream(FileStream(fileHandle: fileHandle))
         let input = PutObjectInput(body: fileByteStream, bucket: bucketName, key: objectName)
         let output = try await client.putObject(input: input)
         XCTAssertNotNil(output)
