@@ -1458,6 +1458,7 @@ extension CloudFormationClientTypes.ChangeSetSummary: Swift.Codable {
         case creationTime = "CreationTime"
         case description = "Description"
         case executionStatus = "ExecutionStatus"
+        case importExistingResources = "ImportExistingResources"
         case includeNestedStacks = "IncludeNestedStacks"
         case parentChangeSetId = "ParentChangeSetId"
         case rootChangeSetId = "RootChangeSetId"
@@ -1483,6 +1484,9 @@ extension CloudFormationClientTypes.ChangeSetSummary: Swift.Codable {
         }
         if let executionStatus = executionStatus {
             try container.encode(executionStatus, forKey: ClientRuntime.Key("ExecutionStatus"))
+        }
+        if let importExistingResources = importExistingResources {
+            try container.encode(importExistingResources, forKey: ClientRuntime.Key("ImportExistingResources"))
         }
         if let includeNestedStacks = includeNestedStacks {
             try container.encode(includeNestedStacks, forKey: ClientRuntime.Key("IncludeNestedStacks"))
@@ -1533,6 +1537,8 @@ extension CloudFormationClientTypes.ChangeSetSummary: Swift.Codable {
         parentChangeSetId = parentChangeSetIdDecoded
         let rootChangeSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rootChangeSetId)
         rootChangeSetId = rootChangeSetIdDecoded
+        let importExistingResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .importExistingResources)
+        importExistingResources = importExistingResourcesDecoded
     }
 }
 
@@ -1549,6 +1555,8 @@ extension CloudFormationClientTypes {
         public var description: Swift.String?
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
         public var executionStatus: CloudFormationClientTypes.ExecutionStatus?
+        /// Indicates if the change set imports resources that already exist.
+        public var importExistingResources: Swift.Bool?
         /// Specifies the current setting of IncludeNestedStacks for the change set.
         public var includeNestedStacks: Swift.Bool?
         /// The parent change set ID.
@@ -1570,6 +1578,7 @@ extension CloudFormationClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             executionStatus: CloudFormationClientTypes.ExecutionStatus? = nil,
+            importExistingResources: Swift.Bool? = nil,
             includeNestedStacks: Swift.Bool? = nil,
             parentChangeSetId: Swift.String? = nil,
             rootChangeSetId: Swift.String? = nil,
@@ -1584,6 +1593,7 @@ extension CloudFormationClientTypes {
             self.creationTime = creationTime
             self.description = description
             self.executionStatus = executionStatus
+            self.importExistingResources = importExistingResources
             self.includeNestedStacks = includeNestedStacks
             self.parentChangeSetId = parentChangeSetId
             self.rootChangeSetId = rootChangeSetId
@@ -1697,6 +1707,38 @@ extension CloudFormationClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ChangeType(rawValue: rawValue) ?? ChangeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    public enum ConcurrencyMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case softFailureTolerance
+        case strictFailureTolerance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConcurrencyMode] {
+            return [
+                .softFailureTolerance,
+                .strictFailureTolerance,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .softFailureTolerance: return "SOFT_FAILURE_TOLERANCE"
+            case .strictFailureTolerance: return "STRICT_FAILURE_TOLERANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConcurrencyMode(rawValue: rawValue) ?? ConcurrencyMode.sdkUnknown(rawValue)
         }
     }
 }
@@ -1855,6 +1897,9 @@ extension CreateChangeSetInput: Swift.Encodable {
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
+        if let importExistingResources = importExistingResources {
+            try container.encode(importExistingResources, forKey: ClientRuntime.Key("ImportExistingResources"))
+        }
         if let includeNestedStacks = includeNestedStacks {
             try container.encode(includeNestedStacks, forKey: ClientRuntime.Key("IncludeNestedStacks"))
         }
@@ -1983,6 +2028,9 @@ public struct CreateChangeSetInput: Swift.Equatable {
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
     ///
     /// * CAPABILITY_AUTO_EXPAND Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation. This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no effect. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the [CreateStack] or [UpdateStack] action, and specifying this capability. For more information about macros, see [Using CloudFormation macros to perform custom processing on templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+    ///
+    ///
+    /// Only one of the Capabilities and ResourceType parameters can be specified.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical character and can't exceed 128 characters.
     /// This member is required.
@@ -1993,6 +2041,8 @@ public struct CreateChangeSetInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description to help you identify this change set.
     public var description: Swift.String?
+    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the resource import feature instead. For more information, see [Bringing existing resources into CloudFormation management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) in the CloudFormation User Guide.
+    public var importExistingResources: Swift.Bool?
     /// Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
     public var includeNestedStacks: Swift.Bool?
     /// The Amazon Resource Names (ARNs) of Amazon Simple Notification Service (Amazon SNS) topics that CloudFormation associates with the stack. To remove all associated notification topics, specify an empty list.
@@ -2010,7 +2060,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
     public var onStackFailure: CloudFormationClientTypes.OnStackFailure?
     /// A list of Parameter structures that specify input parameters for the change set. For more information, see the [Parameter] data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Controlling access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html) in the CloudFormation User Guide.
+    /// The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Controlling access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html) in the CloudFormation User Guide. Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// The resources to import into your stack.
     public var resourcesToImport: [CloudFormationClientTypes.ResourceToImport]?
@@ -2036,6 +2086,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
         changeSetType: CloudFormationClientTypes.ChangeSetType? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        importExistingResources: Swift.Bool? = nil,
         includeNestedStacks: Swift.Bool? = nil,
         notificationARNs: [Swift.String]? = nil,
         onStackFailure: CloudFormationClientTypes.OnStackFailure? = nil,
@@ -2056,6 +2107,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
         self.changeSetType = changeSetType
         self.clientToken = clientToken
         self.description = description
+        self.importExistingResources = importExistingResources
         self.includeNestedStacks = includeNestedStacks
         self.notificationARNs = notificationARNs
         self.onStackFailure = onStackFailure
@@ -2091,6 +2143,7 @@ struct CreateChangeSetInputBody: Swift.Equatable {
     let resourcesToImport: [CloudFormationClientTypes.ResourceToImport]?
     let includeNestedStacks: Swift.Bool?
     let onStackFailure: CloudFormationClientTypes.OnStackFailure?
+    let importExistingResources: Swift.Bool?
 }
 
 extension CreateChangeSetInputBody: Swift.Decodable {
@@ -2100,6 +2153,7 @@ extension CreateChangeSetInputBody: Swift.Decodable {
         case changeSetType = "ChangeSetType"
         case clientToken = "ClientToken"
         case description = "Description"
+        case importExistingResources = "ImportExistingResources"
         case includeNestedStacks = "IncludeNestedStacks"
         case notificationARNs = "NotificationARNs"
         case onStackFailure = "OnStackFailure"
@@ -2255,6 +2309,8 @@ extension CreateChangeSetInputBody: Swift.Decodable {
         includeNestedStacks = includeNestedStacksDecoded
         let onStackFailureDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.OnStackFailure.self, forKey: .onStackFailure)
         onStackFailure = onStackFailureDecoded
+        let importExistingResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .importExistingResources)
+        importExistingResources = importExistingResourcesDecoded
     }
 }
 
@@ -2468,6 +2524,9 @@ public struct CreateStackInput: Swift.Equatable {
     /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
     ///
     /// * CAPABILITY_AUTO_EXPAND Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability. You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified. For more information, see [Using CloudFormation macros to perform custom processing on templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+    ///
+    ///
+    /// Only one of the Capabilities and ResourceType parameters can be specified.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that CloudFormation successfully received them. All events initiated by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
     public var clientRequestToken: Swift.String?
@@ -2481,7 +2540,7 @@ public struct CreateStackInput: Swift.Equatable {
     public var onFailure: CloudFormationClientTypes.OnFailure?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID  (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID  (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
+    /// The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID  (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID  (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html). Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
@@ -4789,6 +4848,7 @@ extension DescribeChangeSetOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = output.creationTime
             self.description = output.description
             self.executionStatus = output.executionStatus
+            self.importExistingResources = output.importExistingResources
             self.includeNestedStacks = output.includeNestedStacks
             self.nextToken = output.nextToken
             self.notificationARNs = output.notificationARNs
@@ -4810,6 +4870,7 @@ extension DescribeChangeSetOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = nil
             self.description = nil
             self.executionStatus = nil
+            self.importExistingResources = nil
             self.includeNestedStacks = nil
             self.nextToken = nil
             self.notificationARNs = nil
@@ -4843,6 +4904,8 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
     public var description: Swift.String?
     /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
     public var executionStatus: CloudFormationClientTypes.ExecutionStatus?
+    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have [custom names](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in templates. To import resources that do not accept custom names, such as EC2 instances, use the [resource import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) feature instead.
+    public var importExistingResources: Swift.Bool?
     /// Verifies if IncludeNestedStacks is set to True.
     public var includeNestedStacks: Swift.Bool?
     /// If the output exceeds 1 MB, a string that identifies the next page of changes. If there is no additional page, this value is null.
@@ -4884,6 +4947,7 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         executionStatus: CloudFormationClientTypes.ExecutionStatus? = nil,
+        importExistingResources: Swift.Bool? = nil,
         includeNestedStacks: Swift.Bool? = nil,
         nextToken: Swift.String? = nil,
         notificationARNs: [Swift.String]? = nil,
@@ -4906,6 +4970,7 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
         self.creationTime = creationTime
         self.description = description
         self.executionStatus = executionStatus
+        self.importExistingResources = importExistingResources
         self.includeNestedStacks = includeNestedStacks
         self.nextToken = nextToken
         self.notificationARNs = notificationARNs
@@ -4943,6 +5008,7 @@ struct DescribeChangeSetOutputBody: Swift.Equatable {
     let parentChangeSetId: Swift.String?
     let rootChangeSetId: Swift.String?
     let onStackFailure: CloudFormationClientTypes.OnStackFailure?
+    let importExistingResources: Swift.Bool?
 }
 
 extension DescribeChangeSetOutputBody: Swift.Decodable {
@@ -4954,6 +5020,7 @@ extension DescribeChangeSetOutputBody: Swift.Decodable {
         case creationTime = "CreationTime"
         case description = "Description"
         case executionStatus = "ExecutionStatus"
+        case importExistingResources = "ImportExistingResources"
         case includeNestedStacks = "IncludeNestedStacks"
         case nextToken = "NextToken"
         case notificationARNs = "NotificationARNs"
@@ -5097,6 +5164,18 @@ extension DescribeChangeSetOutputBody: Swift.Decodable {
         rootChangeSetId = rootChangeSetIdDecoded
         let onStackFailureDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.OnStackFailure.self, forKey: .onStackFailure)
         onStackFailure = onStackFailureDecoded
+        let importExistingResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .importExistingResources)
+        importExistingResources = importExistingResourcesDecoded
+    }
+}
+
+enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
     }
 }
 
@@ -13178,7 +13257,7 @@ extension RegisterTypeInput: ClientRuntime.URLPathProvider {
 public struct RegisterTypeInput: Swift.Equatable {
     /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of an extension from the same registration request, even if the request is submitted multiple times.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principle (resources.cloudformation.amazonaws.com). For more information about adding trust relationships, see [Modifying a role trust policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-managingrole_edit-trust-policy) in the Identity and Access Management User Guide. If your extension calls Amazon Web Services APIs in any of its handlers, you must create an [IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
+    /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principal (resources.cloudformation.amazonaws.com). For more information about adding trust relationships, see [Modifying a role trust policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-managingrole_edit-trust-policy) in the Identity and Access Management User Guide. If your extension calls Amazon Web Services APIs in any of its handlers, you must create an [IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) that includes the necessary permissions to call those Amazon Web Services APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
     public var executionRoleArn: Swift.String?
     /// Specifies logging configuration information for an extension.
     public var loggingConfig: CloudFormationClientTypes.LoggingConfig?
@@ -18098,6 +18177,7 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes.StackSetOperationPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case concurrencyMode = "ConcurrencyMode"
         case failureToleranceCount = "FailureToleranceCount"
         case failureTolerancePercentage = "FailureTolerancePercentage"
         case maxConcurrentCount = "MaxConcurrentCount"
@@ -18108,6 +18188,9 @@ extension CloudFormationClientTypes.StackSetOperationPreferences: Swift.Codable 
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let concurrencyMode = concurrencyMode {
+            try container.encode(concurrencyMode, forKey: ClientRuntime.Key("ConcurrencyMode"))
+        }
         if let failureToleranceCount = failureToleranceCount {
             try container.encode(failureToleranceCount, forKey: ClientRuntime.Key("FailureToleranceCount"))
         }
@@ -18168,17 +18251,25 @@ extension CloudFormationClientTypes.StackSetOperationPreferences: Swift.Codable 
         maxConcurrentCount = maxConcurrentCountDecoded
         let maxConcurrentPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentPercentage)
         maxConcurrentPercentage = maxConcurrentPercentageDecoded
+        let concurrencyModeDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ConcurrencyMode.self, forKey: .concurrencyMode)
+        concurrencyMode = concurrencyModeDecoded
     }
 }
 
 extension CloudFormationClientTypes {
     /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
     public struct StackSetOperationPreferences: Swift.Equatable {
+        /// Specifies how the concurrency level behaves during the operation execution.
+        ///
+        /// * STRICT_FAILURE_TOLERANCE: This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The initial actual concurrency is set to the lower of either the value of the MaxConcurrentCount, or the value of MaxConcurrentCount +1. The actual concurrency is then reduced proportionally by the number of failures. This is the default behavior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar.
+        ///
+        /// * SOFT_FAILURE_TOLERANCE: This option decouples FailureToleranceCount from the actual concurrency. This allows stack set operations to run at the concurrency level set by the MaxConcurrentCount value, or MaxConcurrentPercentage, regardless of the number of failures.
+        public var concurrencyMode: CloudFormationClientTypes.ConcurrencyMode?
         /// The number of accounts, per Region, for which this operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both). By default, 0 is specified.
         public var failureToleranceCount: Swift.Int?
         /// The percentage of accounts, per Region, for which this stack operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public var failureTolerancePercentage: Swift.Int?
-        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of FailureToleranceCount.MaxConcurrentCount is at most one more than the FailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
+        /// The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode. MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public var maxConcurrentCount: Swift.Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public var maxConcurrentPercentage: Swift.Int?
@@ -18188,6 +18279,7 @@ extension CloudFormationClientTypes {
         public var regionOrder: [Swift.String]?
 
         public init(
+            concurrencyMode: CloudFormationClientTypes.ConcurrencyMode? = nil,
             failureToleranceCount: Swift.Int? = nil,
             failureTolerancePercentage: Swift.Int? = nil,
             maxConcurrentCount: Swift.Int? = nil,
@@ -18196,6 +18288,7 @@ extension CloudFormationClientTypes {
             regionOrder: [Swift.String]? = nil
         )
         {
+            self.concurrencyMode = concurrencyMode
             self.failureToleranceCount = failureToleranceCount
             self.failureTolerancePercentage = failureTolerancePercentage
             self.maxConcurrentCount = maxConcurrentCount
@@ -20297,6 +20390,9 @@ public struct UpdateStackInput: Swift.Equatable {
     /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
     ///
     /// * CAPABILITY_AUTO_EXPAND Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability. You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+    ///
+    ///
+    /// Only one of the Capabilities and ResourceType parameters can be specified.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
     public var clientRequestToken: Swift.String?
@@ -20306,7 +20402,7 @@ public struct UpdateStackInput: Swift.Equatable {
     public var notificationARNs: [Swift.String]?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
+    /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html). Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?

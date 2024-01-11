@@ -921,6 +921,7 @@ extension OpenSearchServerlessClientTypes.CollectionDetail: Swift.Codable {
         case kmsKeyArn
         case lastModifiedDate
         case name
+        case standbyReplicas
         case status
         case type
     }
@@ -954,6 +955,9 @@ extension OpenSearchServerlessClientTypes.CollectionDetail: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let standbyReplicas = self.standbyReplicas {
+            try encodeContainer.encode(standbyReplicas.rawValue, forKey: .standbyReplicas)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
@@ -978,6 +982,8 @@ extension OpenSearchServerlessClientTypes.CollectionDetail: Swift.Codable {
         arn = arnDecoded
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
+        let standbyReplicasDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.StandbyReplicas.self, forKey: .standbyReplicas)
+        standbyReplicas = standbyReplicasDecoded
         let createdDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdDate)
         createdDate = createdDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedDate)
@@ -1010,6 +1016,8 @@ extension OpenSearchServerlessClientTypes {
         public var lastModifiedDate: Swift.Int?
         /// The name of the collection.
         public var name: Swift.String?
+        /// Details about an OpenSearch Serverless collection.
+        public var standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
         /// The current status of the collection.
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
         /// The type of collection.
@@ -1025,6 +1033,7 @@ extension OpenSearchServerlessClientTypes {
             kmsKeyArn: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
+            standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
             type: OpenSearchServerlessClientTypes.CollectionType? = nil
         )
@@ -1038,6 +1047,7 @@ extension OpenSearchServerlessClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
         }
@@ -1516,6 +1526,7 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail: Swift.Codable 
         case kmsKeyArn
         case lastModifiedDate
         case name
+        case standbyReplicas
         case status
         case type
     }
@@ -1543,6 +1554,9 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail: Swift.Codable 
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let standbyReplicas = self.standbyReplicas {
+            try encodeContainer.encode(standbyReplicas.rawValue, forKey: .standbyReplicas)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
@@ -1567,6 +1581,8 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail: Swift.Codable 
         arn = arnDecoded
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
+        let standbyReplicasDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.StandbyReplicas.self, forKey: .standbyReplicas)
+        standbyReplicas = standbyReplicasDecoded
         let createdDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdDate)
         createdDate = createdDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedDate)
@@ -1591,6 +1607,8 @@ extension OpenSearchServerlessClientTypes {
         public var lastModifiedDate: Swift.Int?
         /// The name of the collection.
         public var name: Swift.String?
+        /// Creates details about an OpenSearch Serverless collection.
+        public var standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
         /// The current status of the collection.
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
         /// The type of collection.
@@ -1604,6 +1622,7 @@ extension OpenSearchServerlessClientTypes {
             kmsKeyArn: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             name: Swift.String? = nil,
+            standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
             type: OpenSearchServerlessClientTypes.CollectionType? = nil
         )
@@ -1615,6 +1634,7 @@ extension OpenSearchServerlessClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
         }
@@ -1627,6 +1647,7 @@ extension CreateCollectionInput: Swift.Encodable {
         case clientToken
         case description
         case name
+        case standbyReplicas
         case tags
         case type
     }
@@ -1641,6 +1662,9 @@ extension CreateCollectionInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let standbyReplicas = self.standbyReplicas {
+            try encodeContainer.encode(standbyReplicas.rawValue, forKey: .standbyReplicas)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -1668,6 +1692,8 @@ public struct CreateCollectionInput: Swift.Equatable {
     /// Name of the collection.
     /// This member is required.
     public var name: Swift.String?
+    /// Indicates whether standby replicas should be used for a collection.
+    public var standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
     /// An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection.
     public var tags: [OpenSearchServerlessClientTypes.Tag]?
     /// The type of collection.
@@ -1677,6 +1703,7 @@ public struct CreateCollectionInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil,
         type: OpenSearchServerlessClientTypes.CollectionType? = nil
     )
@@ -1684,6 +1711,7 @@ public struct CreateCollectionInput: Swift.Equatable {
         self.clientToken = clientToken
         self.description = description
         self.name = name
+        self.standbyReplicas = standbyReplicas
         self.tags = tags
         self.type = type
     }
@@ -1694,6 +1722,7 @@ struct CreateCollectionInputBody: Swift.Equatable {
     let type: OpenSearchServerlessClientTypes.CollectionType?
     let description: Swift.String?
     let tags: [OpenSearchServerlessClientTypes.Tag]?
+    let standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
     let clientToken: Swift.String?
 }
 
@@ -1702,6 +1731,7 @@ extension CreateCollectionInputBody: Swift.Decodable {
         case clientToken
         case description
         case name
+        case standbyReplicas
         case tags
         case type
     }
@@ -1725,6 +1755,8 @@ extension CreateCollectionInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let standbyReplicasDecoded = try containerValues.decodeIfPresent(OpenSearchServerlessClientTypes.StandbyReplicas.self, forKey: .standbyReplicas)
+        standbyReplicas = standbyReplicasDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
     }
@@ -6166,6 +6198,40 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         serviceCode = serviceCodeDecoded
         let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
         quotaCode = quotaCodeDecoded
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+    public enum StandbyReplicas: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// Standby replicas disabled
+        case disabled
+        /// Standby replicas enabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandbyReplicas] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StandbyReplicas(rawValue: rawValue) ?? StandbyReplicas.sdkUnknown(rawValue)
+        }
     }
 }
 

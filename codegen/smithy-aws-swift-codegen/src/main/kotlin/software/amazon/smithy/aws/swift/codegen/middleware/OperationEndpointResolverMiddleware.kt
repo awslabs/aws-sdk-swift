@@ -42,7 +42,7 @@ class OperationEndpointResolverMiddleware(
 
     override val position = MiddlewarePosition.BEFORE
 
-    override fun render(writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         val params = mutableListOf<String>()
@@ -76,7 +76,7 @@ class OperationEndpointResolverMiddleware(
             writer.write("context.attributes.set(key: AttributeKey<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)")
         }
         val middlewareParamsString = "endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, \$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output, outputError)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output)
     }
 
     /**

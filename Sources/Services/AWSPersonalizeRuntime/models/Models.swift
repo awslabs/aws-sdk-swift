@@ -2,6 +2,184 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension GetActionRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignArn
+        case filterArn
+        case filterValues
+        case numResults
+        case userId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let campaignArn = self.campaignArn {
+            try encodeContainer.encode(campaignArn, forKey: .campaignArn)
+        }
+        if let filterArn = self.filterArn {
+            try encodeContainer.encode(filterArn, forKey: .filterArn)
+        }
+        if let filterValues = filterValues {
+            var filterValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filterValues)
+            for (dictKey0, filterValues0) in filterValues {
+                try filterValuesContainer.encode(filterValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let numResults = self.numResults {
+            try encodeContainer.encode(numResults, forKey: .numResults)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+}
+
+extension GetActionRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/action-recommendations"
+    }
+}
+
+public struct GetActionRecommendationsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the campaign to use for getting action recommendations. This campaign must deploy a solution version trained with a PERSONALIZED_ACTIONS recipe.
+    public var campaignArn: Swift.String?
+    /// The ARN of the filter to apply to the returned recommendations. For more information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html). When using this parameter, be sure the filter resource is ACTIVE.
+    public var filterArn: Swift.String?
+    /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include actions, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude actions, you can omit the filter-values. In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
+    public var filterValues: [Swift.String:Swift.String]?
+    /// The number of results to return. The default is 5. The maximum is 100.
+    public var numResults: Swift.Int?
+    /// The user ID of the user to provide action recommendations for.
+    public var userId: Swift.String?
+
+    public init(
+        campaignArn: Swift.String? = nil,
+        filterArn: Swift.String? = nil,
+        filterValues: [Swift.String:Swift.String]? = nil,
+        numResults: Swift.Int? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.campaignArn = campaignArn
+        self.filterArn = filterArn
+        self.filterValues = filterValues
+        self.numResults = numResults
+        self.userId = userId
+    }
+}
+
+struct GetActionRecommendationsInputBody: Swift.Equatable {
+    let campaignArn: Swift.String?
+    let userId: Swift.String?
+    let numResults: Swift.Int?
+    let filterArn: Swift.String?
+    let filterValues: [Swift.String:Swift.String]?
+}
+
+extension GetActionRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case campaignArn
+        case filterArn
+        case filterValues
+        case numResults
+        case userId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let campaignArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .campaignArn)
+        campaignArn = campaignArnDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let numResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numResults)
+        numResults = numResultsDecoded
+        let filterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterArn)
+        filterArn = filterArnDecoded
+        let filterValuesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .filterValues)
+        var filterValuesDecoded0: [Swift.String:Swift.String]? = nil
+        if let filterValuesContainer = filterValuesContainer {
+            filterValuesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, filterattributevalue0) in filterValuesContainer {
+                if let filterattributevalue0 = filterattributevalue0 {
+                    filterValuesDecoded0?[key0] = filterattributevalue0
+                }
+            }
+        }
+        filterValues = filterValuesDecoded0
+    }
+}
+
+extension GetActionRecommendationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetActionRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.actionList = output.actionList
+            self.recommendationId = output.recommendationId
+        } else {
+            self.actionList = nil
+            self.recommendationId = nil
+        }
+    }
+}
+
+public struct GetActionRecommendationsOutput: Swift.Equatable {
+    /// A list of action recommendations sorted in descending order by prediction score. There can be a maximum of 100 actions in the list. For information about action scores, see [How action recommendation scoring works](https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html).
+    public var actionList: [PersonalizeRuntimeClientTypes.PredictedAction]?
+    /// The ID of the recommendation.
+    public var recommendationId: Swift.String?
+
+    public init(
+        actionList: [PersonalizeRuntimeClientTypes.PredictedAction]? = nil,
+        recommendationId: Swift.String? = nil
+    )
+    {
+        self.actionList = actionList
+        self.recommendationId = recommendationId
+    }
+}
+
+struct GetActionRecommendationsOutputBody: Swift.Equatable {
+    let actionList: [PersonalizeRuntimeClientTypes.PredictedAction]?
+    let recommendationId: Swift.String?
+}
+
+extension GetActionRecommendationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionList
+        case recommendationId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionListContainer = try containerValues.decodeIfPresent([PersonalizeRuntimeClientTypes.PredictedAction?].self, forKey: .actionList)
+        var actionListDecoded0:[PersonalizeRuntimeClientTypes.PredictedAction]? = nil
+        if let actionListContainer = actionListContainer {
+            actionListDecoded0 = [PersonalizeRuntimeClientTypes.PredictedAction]()
+            for structure0 in actionListContainer {
+                if let structure0 = structure0 {
+                    actionListDecoded0?.append(structure0)
+                }
+            }
+        }
+        actionList = actionListDecoded0
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+    }
+}
+
+enum GetActionRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetPersonalizedRankingInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case campaignArn
@@ -9,6 +187,7 @@ extension GetPersonalizedRankingInput: Swift.Encodable {
         case filterArn
         case filterValues
         case inputList
+        case metadataColumns
         case userId
     }
 
@@ -38,6 +217,15 @@ extension GetPersonalizedRankingInput: Swift.Encodable {
                 try inputListContainer.encode(itemid0)
             }
         }
+        if let metadataColumns = metadataColumns {
+            var metadataColumnsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadataColumns)
+            for (dictKey0, metadataColumns0) in metadataColumns {
+                var metadataColumns0Container = metadataColumnsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for columnname1 in metadataColumns0 {
+                    try metadataColumns0Container.encode(columnname1)
+                }
+            }
+        }
         if let userId = self.userId {
             try encodeContainer.encode(userId, forKey: .userId)
         }
@@ -60,9 +248,11 @@ public struct GetPersonalizedRankingInput: Swift.Equatable {
     public var filterArn: Swift.String?
     /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma. For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values.In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
     public var filterValues: [Swift.String:Swift.String]?
-    /// A list of items (by itemId) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. The maximum is 500.
+    /// A list of items (by itemId) to rank. If an item was not included in the training dataset, the item is appended to the end of the reranked list. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.
     /// This member is required.
     public var inputList: [Swift.String]?
+    /// If you enabled metadata in recommendations when you created or updated the campaign, specify metadata columns from your Items dataset to include in the personalized ranking. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see [Enabling metadata in recommendations for a campaign](https://docs.aws.amazon.com/personalize/latest/dg/create-campaign-return-metadata.html).
+    public var metadataColumns: [Swift.String:[Swift.String]]?
     /// The user for which you want the campaign to provide a personalized ranking.
     /// This member is required.
     public var userId: Swift.String?
@@ -73,6 +263,7 @@ public struct GetPersonalizedRankingInput: Swift.Equatable {
         filterArn: Swift.String? = nil,
         filterValues: [Swift.String:Swift.String]? = nil,
         inputList: [Swift.String]? = nil,
+        metadataColumns: [Swift.String:[Swift.String]]? = nil,
         userId: Swift.String? = nil
     )
     {
@@ -81,6 +272,7 @@ public struct GetPersonalizedRankingInput: Swift.Equatable {
         self.filterArn = filterArn
         self.filterValues = filterValues
         self.inputList = inputList
+        self.metadataColumns = metadataColumns
         self.userId = userId
     }
 }
@@ -92,6 +284,7 @@ struct GetPersonalizedRankingInputBody: Swift.Equatable {
     let context: [Swift.String:Swift.String]?
     let filterArn: Swift.String?
     let filterValues: [Swift.String:Swift.String]?
+    let metadataColumns: [Swift.String:[Swift.String]]?
 }
 
 extension GetPersonalizedRankingInputBody: Swift.Decodable {
@@ -101,6 +294,7 @@ extension GetPersonalizedRankingInputBody: Swift.Decodable {
         case filterArn
         case filterValues
         case inputList
+        case metadataColumns
         case userId
     }
 
@@ -145,6 +339,27 @@ extension GetPersonalizedRankingInputBody: Swift.Decodable {
             }
         }
         filterValues = filterValuesDecoded0
+<<<<<<< HEAD
+=======
+        let metadataColumnsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .metadataColumns)
+        var metadataColumnsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let metadataColumnsContainer = metadataColumnsContainer {
+            metadataColumnsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, columnnameslist0) in metadataColumnsContainer {
+                var columnnameslist0Decoded0: [Swift.String]? = nil
+                if let columnnameslist0 = columnnameslist0 {
+                    columnnameslist0Decoded0 = [Swift.String]()
+                    for string1 in columnnameslist0 {
+                        if let string1 = string1 {
+                            columnnameslist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                metadataColumnsDecoded0?[key0] = columnnameslist0Decoded0
+            }
+        }
+        metadataColumns = metadataColumnsDecoded0
+>>>>>>> main
     }
 }
 
@@ -226,6 +441,7 @@ extension GetRecommendationsInput: Swift.Encodable {
         case filterArn
         case filterValues
         case itemId
+        case metadataColumns
         case numResults
         case promotions
         case recommenderArn
@@ -254,6 +470,15 @@ extension GetRecommendationsInput: Swift.Encodable {
         }
         if let itemId = self.itemId {
             try encodeContainer.encode(itemId, forKey: .itemId)
+        }
+        if let metadataColumns = metadataColumns {
+            var metadataColumnsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadataColumns)
+            for (dictKey0, metadataColumns0) in metadataColumns {
+                var metadataColumns0Container = metadataColumnsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for columnname1 in metadataColumns0 {
+                    try metadataColumns0Container.encode(columnname1)
+                }
+            }
         }
         if let numResults = self.numResults {
             try encodeContainer.encode(numResults, forKey: .numResults)
@@ -290,7 +515,9 @@ public struct GetRecommendationsInput: Swift.Equatable {
     public var filterValues: [Swift.String:Swift.String]?
     /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
     public var itemId: Swift.String?
-    /// The number of results to return. The default is 25. The maximum is 500.
+    /// If you enabled metadata in recommendations when you created or updated the campaign or recommender, specify the metadata columns from your Items dataset to include in item recommendations. The map key is ITEMS and the value is a list of column names from your Items dataset. The maximum number of columns you can provide is 10. For information about enabling metadata for a campaign, see [Enabling metadata in recommendations for a campaign](https://docs.aws.amazon.com/personalize/latest/dg/create-campaign-return-metadata.html). For information about enabling metadata for a recommender, see [Enabling metadata in recommendations for a recommender](https://docs.aws.amazon.com/personalize/latest/dg/create-recommender-return-metadata.html).
+    public var metadataColumns: [Swift.String:[Swift.String]]?
+    /// The number of results to return. The default is 25. If you are including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.
     public var numResults: Swift.Int?
     /// The promotions to apply to the recommendation request. A promotion defines additional business rules that apply to a configurable subset of recommended items.
     public var promotions: [PersonalizeRuntimeClientTypes.Promotion]?
@@ -305,6 +532,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
         filterArn: Swift.String? = nil,
         filterValues: [Swift.String:Swift.String]? = nil,
         itemId: Swift.String? = nil,
+        metadataColumns: [Swift.String:[Swift.String]]? = nil,
         numResults: Swift.Int? = nil,
         promotions: [PersonalizeRuntimeClientTypes.Promotion]? = nil,
         recommenderArn: Swift.String? = nil,
@@ -316,6 +544,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
         self.filterArn = filterArn
         self.filterValues = filterValues
         self.itemId = itemId
+        self.metadataColumns = metadataColumns
         self.numResults = numResults
         self.promotions = promotions
         self.recommenderArn = recommenderArn
@@ -333,6 +562,7 @@ struct GetRecommendationsInputBody: Swift.Equatable {
     let filterValues: [Swift.String:Swift.String]?
     let recommenderArn: Swift.String?
     let promotions: [PersonalizeRuntimeClientTypes.Promotion]?
+    let metadataColumns: [Swift.String:[Swift.String]]?
 }
 
 extension GetRecommendationsInputBody: Swift.Decodable {
@@ -342,6 +572,7 @@ extension GetRecommendationsInputBody: Swift.Decodable {
         case filterArn
         case filterValues
         case itemId
+        case metadataColumns
         case numResults
         case promotions
         case recommenderArn
@@ -395,6 +626,27 @@ extension GetRecommendationsInputBody: Swift.Decodable {
             }
         }
         promotions = promotionsDecoded0
+<<<<<<< HEAD
+=======
+        let metadataColumnsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .metadataColumns)
+        var metadataColumnsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let metadataColumnsContainer = metadataColumnsContainer {
+            metadataColumnsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, columnnameslist0) in metadataColumnsContainer {
+                var columnnameslist0Decoded0: [Swift.String]? = nil
+                if let columnnameslist0 = columnnameslist0 {
+                    columnnameslist0Decoded0 = [Swift.String]()
+                    for string1 in columnnameslist0 {
+                        if let string1 = string1 {
+                            columnnameslist0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                metadataColumnsDecoded0?[key0] = columnnameslist0Decoded0
+            }
+        }
+        metadataColumns = metadataColumnsDecoded0
+>>>>>>> main
     }
 }
 
@@ -524,9 +776,55 @@ extension InvalidInputExceptionBody: Swift.Decodable {
     }
 }
 
+extension PersonalizeRuntimeClientTypes.PredictedAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId
+        case score
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionId = self.actionId {
+            try encodeContainer.encode(actionId, forKey: .actionId)
+        }
+        if let score = self.score {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score)
+        score = scoreDecoded
+    }
+}
+
+extension PersonalizeRuntimeClientTypes {
+    /// An object that identifies an action. The API returns a list of PredictedActions.
+    public struct PredictedAction: Swift.Equatable {
+        /// The ID of the recommended action.
+        public var actionId: Swift.String?
+        /// The score of the recommended action. For information about action scores, see [How action recommendation scoring works](https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html).
+        public var score: Swift.Double?
+
+        public init(
+            actionId: Swift.String? = nil,
+            score: Swift.Double? = nil
+        )
+        {
+            self.actionId = actionId
+            self.score = score
+        }
+    }
+
+}
+
 extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case itemId
+        case metadata
         case promotionName
         case score
     }
@@ -535,6 +833,12 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let itemId = self.itemId {
             try encodeContainer.encode(itemId, forKey: .itemId)
+        }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, metadata0) in metadata {
+                try metadataContainer.encode(metadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let promotionName = self.promotionName {
             try encodeContainer.encode(promotionName, forKey: .promotionName)
@@ -552,6 +856,17 @@ extension PersonalizeRuntimeClientTypes.PredictedItem: Swift.Codable {
         score = scoreDecoded
         let promotionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .promotionName)
         promotionName = promotionNameDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, columnvalue0) in metadataContainer {
+                if let columnvalue0 = columnvalue0 {
+                    metadataDecoded0?[key0] = columnvalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
     }
 }
 
@@ -560,6 +875,8 @@ extension PersonalizeRuntimeClientTypes {
     public struct PredictedItem: Swift.Equatable {
         /// The recommended item ID.
         public var itemId: Swift.String?
+        /// Metadata about the item from your Items dataset.
+        public var metadata: [Swift.String:Swift.String]?
         /// The name of the promotion that included the predicted item.
         public var promotionName: Swift.String?
         /// A numeric representation of the model's certainty that the item will be the next user selection. For more information on scoring logic, see [how-scores-work].
@@ -567,11 +884,13 @@ extension PersonalizeRuntimeClientTypes {
 
         public init(
             itemId: Swift.String? = nil,
+            metadata: [Swift.String:Swift.String]? = nil,
             promotionName: Swift.String? = nil,
             score: Swift.Double? = nil
         )
         {
             self.itemId = itemId
+            self.metadata = metadata
             self.promotionName = promotionName
             self.score = score
         }

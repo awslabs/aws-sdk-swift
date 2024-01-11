@@ -1939,11 +1939,19 @@ extension EMRClientTypes {
         public var configurations: [EMRClientTypes.Configuration]?
         /// Available only in Amazon EMR releases 5.7.0 and higher. The ID of a custom Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
         public var customAmiId: Swift.String?
+<<<<<<< HEAD
         /// The IOPS, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
         public var ebsRootVolumeIops: Swift.Int?
         /// The size, in GiB, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 4.x and higher.
         public var ebsRootVolumeSize: Swift.Int?
         /// The throughput, in MiB/s, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
+=======
+        /// The IOPS, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+        public var ebsRootVolumeIops: Swift.Int?
+        /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
+        public var ebsRootVolumeSize: Swift.Int?
+        /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+>>>>>>> main
         public var ebsRootVolumeThroughput: Swift.Int?
         /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public var ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes?
@@ -2854,13 +2862,17 @@ extension CreateStudioInput: Swift.Encodable {
         case authMode = "AuthMode"
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case engineSecurityGroupId = "EngineSecurityGroupId"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcUserAssignment = "IdcUserAssignment"
         case idpAuthUrl = "IdpAuthUrl"
         case idpRelayStateParameterName = "IdpRelayStateParameterName"
         case name = "Name"
         case serviceRole = "ServiceRole"
         case subnetIds = "SubnetIds"
         case tags = "Tags"
+        case trustedIdentityPropagationEnabled = "TrustedIdentityPropagationEnabled"
         case userRole = "UserRole"
         case vpcId = "VpcId"
         case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
@@ -2877,8 +2889,17 @@ extension CreateStudioInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
         if let engineSecurityGroupId = self.engineSecurityGroupId {
             try encodeContainer.encode(engineSecurityGroupId, forKey: .engineSecurityGroupId)
+        }
+        if let idcInstanceArn = self.idcInstanceArn {
+            try encodeContainer.encode(idcInstanceArn, forKey: .idcInstanceArn)
+        }
+        if let idcUserAssignment = self.idcUserAssignment {
+            try encodeContainer.encode(idcUserAssignment.rawValue, forKey: .idcUserAssignment)
         }
         if let idpAuthUrl = self.idpAuthUrl {
             try encodeContainer.encode(idpAuthUrl, forKey: .idpAuthUrl)
@@ -2903,6 +2924,9 @@ extension CreateStudioInput: Swift.Encodable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
+        }
+        if let trustedIdentityPropagationEnabled = self.trustedIdentityPropagationEnabled {
+            try encodeContainer.encode(trustedIdentityPropagationEnabled, forKey: .trustedIdentityPropagationEnabled)
         }
         if let userRole = self.userRole {
             try encodeContainer.encode(userRole, forKey: .userRole)
@@ -2931,9 +2955,15 @@ public struct CreateStudioInput: Swift.Equatable {
     public var defaultS3Location: Swift.String?
     /// A detailed description of the Amazon EMR Studio.
     public var description: Swift.String?
+    /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and notebook files when backed up to Amazon S3.
+    public var encryptionKeyArn: Swift.String?
     /// The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by VpcId.
     /// This member is required.
     public var engineSecurityGroupId: Swift.String?
+    /// The ARN of the IAM Identity Center instance to create the Studio application.
+    public var idcInstanceArn: Swift.String?
+    /// Specifies whether IAM Identity Center user assignment is REQUIRED or OPTIONAL. If the value is set to REQUIRED, users must be explicitly assigned to the Studio application to access the Studio.
+    public var idcUserAssignment: EMRClientTypes.IdcUserAssignment?
     /// The authentication endpoint of your identity provider (IdP). Specify this value when you use IAM authentication and want to let federated users log in to a Studio with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to this endpoint to enter credentials.
     public var idpAuthUrl: Swift.String?
     /// The name that your identity provider (IdP) uses for its RelayState parameter. For example, RelayState or TargetSource. Specify this value when you use IAM authentication and want to let federated users log in to a Studio using the Studio URL. The RelayState parameter differs by IdP.
@@ -2949,6 +2979,8 @@ public struct CreateStudioInput: Swift.Equatable {
     public var subnetIds: [Swift.String]?
     /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
     public var tags: [EMRClientTypes.Tag]?
+    /// A Boolean indicating whether to enable Trusted identity propagation for the Studio. The default value is false.
+    public var trustedIdentityPropagationEnabled: Swift.Bool?
     /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
     public var userRole: Swift.String?
     /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
@@ -2962,13 +2994,17 @@ public struct CreateStudioInput: Swift.Equatable {
         authMode: EMRClientTypes.AuthMode? = nil,
         defaultS3Location: Swift.String? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         engineSecurityGroupId: Swift.String? = nil,
+        idcInstanceArn: Swift.String? = nil,
+        idcUserAssignment: EMRClientTypes.IdcUserAssignment? = nil,
         idpAuthUrl: Swift.String? = nil,
         idpRelayStateParameterName: Swift.String? = nil,
         name: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [EMRClientTypes.Tag]? = nil,
+        trustedIdentityPropagationEnabled: Swift.Bool? = nil,
         userRole: Swift.String? = nil,
         vpcId: Swift.String? = nil,
         workspaceSecurityGroupId: Swift.String? = nil
@@ -2977,13 +3013,17 @@ public struct CreateStudioInput: Swift.Equatable {
         self.authMode = authMode
         self.defaultS3Location = defaultS3Location
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.engineSecurityGroupId = engineSecurityGroupId
+        self.idcInstanceArn = idcInstanceArn
+        self.idcUserAssignment = idcUserAssignment
         self.idpAuthUrl = idpAuthUrl
         self.idpRelayStateParameterName = idpRelayStateParameterName
         self.name = name
         self.serviceRole = serviceRole
         self.subnetIds = subnetIds
         self.tags = tags
+        self.trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabled
         self.userRole = userRole
         self.vpcId = vpcId
         self.workspaceSecurityGroupId = workspaceSecurityGroupId
@@ -3004,6 +3044,10 @@ struct CreateStudioInputBody: Swift.Equatable {
     let idpAuthUrl: Swift.String?
     let idpRelayStateParameterName: Swift.String?
     let tags: [EMRClientTypes.Tag]?
+    let trustedIdentityPropagationEnabled: Swift.Bool?
+    let idcUserAssignment: EMRClientTypes.IdcUserAssignment?
+    let idcInstanceArn: Swift.String?
+    let encryptionKeyArn: Swift.String?
 }
 
 extension CreateStudioInputBody: Swift.Decodable {
@@ -3011,13 +3055,17 @@ extension CreateStudioInputBody: Swift.Decodable {
         case authMode = "AuthMode"
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case engineSecurityGroupId = "EngineSecurityGroupId"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcUserAssignment = "IdcUserAssignment"
         case idpAuthUrl = "IdpAuthUrl"
         case idpRelayStateParameterName = "IdpRelayStateParameterName"
         case name = "Name"
         case serviceRole = "ServiceRole"
         case subnetIds = "SubnetIds"
         case tags = "Tags"
+        case trustedIdentityPropagationEnabled = "TrustedIdentityPropagationEnabled"
         case userRole = "UserRole"
         case vpcId = "VpcId"
         case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
@@ -3069,6 +3117,14 @@ extension CreateStudioInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let trustedIdentityPropagationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trustedIdentityPropagationEnabled)
+        trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabledDecoded
+        let idcUserAssignmentDecoded = try containerValues.decodeIfPresent(EMRClientTypes.IdcUserAssignment.self, forKey: .idcUserAssignment)
+        idcUserAssignment = idcUserAssignmentDecoded
+        let idcInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcInstanceArn)
+        idcInstanceArn = idcInstanceArnDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
     }
 }
 
@@ -5161,7 +5217,11 @@ extension GetBlockPublicAccessConfigurationOutput: ClientRuntime.HttpResponseBin
 }
 
 public struct GetBlockPublicAccessConfigurationOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. To change this, update the block public access configuration to remove the exception. For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region.
+=======
+    /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception. For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an Amazon EMR cluster in a Region before this date, block public access is enabled by default in that Region.
+>>>>>>> main
     /// This member is required.
     public var blockPublicAccessConfiguration: EMRClientTypes.BlockPublicAccessConfiguration?
     /// Properties that describe the Amazon Web Services principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
@@ -5238,7 +5298,6 @@ public struct GetClusterSessionCredentialsInput: Swift.Equatable {
     /// This member is required.
     public var clusterId: Swift.String?
     /// The Amazon Resource Name (ARN) of the runtime role for interactive workload submission on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.
-    /// This member is required.
     public var executionRoleArn: Swift.String?
 
     public init(
@@ -5745,6 +5804,38 @@ extension EMRClientTypes {
         }
     }
 
+}
+
+extension EMRClientTypes {
+    public enum IdcUserAssignment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdcUserAssignment] {
+            return [
+                .optional,
+                .required,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IdcUserAssignment(rawValue: rawValue) ?? IdcUserAssignment.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension EMRClientTypes {
@@ -13542,11 +13633,19 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var configurations: [EMRClientTypes.Configuration]?
     /// Available only in Amazon EMR releases 5.7.0 and higher. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster Amazon EC2 instances. For more information about custom AMIs in Amazon EMR, see [Using a Custom AMI](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html) in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR releases 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see [Creating an Amazon EBS-Backed Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see [Finding a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html).
     public var customAmiId: Swift.String?
+<<<<<<< HEAD
     /// The IOPS for the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
     public var ebsRootVolumeIops: Swift.Int?
     /// The size, in GiB, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 4.x and higher.
     public var ebsRootVolumeSize: Swift.Int?
     /// The throughput, in MiB/s, of the Amazon EBS root device volume for the Linux AMI that each Amazon EC2 instance uses. Available in Amazon EMR releases 6.15.0 and higher.
+=======
+    /// The IOPS, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+    public var ebsRootVolumeIops: Swift.Int?
+    /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x and later.
+    public var ebsRootVolumeSize: Swift.Int?
+    /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
+>>>>>>> main
     public var ebsRootVolumeThroughput: Swift.Int?
     /// A specification of the number and type of Amazon EC2 instances.
     /// This member is required.
@@ -16016,7 +16115,10 @@ extension EMRClientTypes.Studio: Swift.Codable {
         case creationTime = "CreationTime"
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case engineSecurityGroupId = "EngineSecurityGroupId"
+        case idcInstanceArn = "IdcInstanceArn"
+        case idcUserAssignment = "IdcUserAssignment"
         case idpAuthUrl = "IdpAuthUrl"
         case idpRelayStateParameterName = "IdpRelayStateParameterName"
         case name = "Name"
@@ -16025,6 +16127,7 @@ extension EMRClientTypes.Studio: Swift.Codable {
         case studioId = "StudioId"
         case subnetIds = "SubnetIds"
         case tags = "Tags"
+        case trustedIdentityPropagationEnabled = "TrustedIdentityPropagationEnabled"
         case url = "Url"
         case userRole = "UserRole"
         case vpcId = "VpcId"
@@ -16045,8 +16148,17 @@ extension EMRClientTypes.Studio: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
+        }
         if let engineSecurityGroupId = self.engineSecurityGroupId {
             try encodeContainer.encode(engineSecurityGroupId, forKey: .engineSecurityGroupId)
+        }
+        if let idcInstanceArn = self.idcInstanceArn {
+            try encodeContainer.encode(idcInstanceArn, forKey: .idcInstanceArn)
+        }
+        if let idcUserAssignment = self.idcUserAssignment {
+            try encodeContainer.encode(idcUserAssignment.rawValue, forKey: .idcUserAssignment)
         }
         if let idpAuthUrl = self.idpAuthUrl {
             try encodeContainer.encode(idpAuthUrl, forKey: .idpAuthUrl)
@@ -16077,6 +16189,9 @@ extension EMRClientTypes.Studio: Swift.Codable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
+        }
+        if let trustedIdentityPropagationEnabled = self.trustedIdentityPropagationEnabled {
+            try encodeContainer.encode(trustedIdentityPropagationEnabled, forKey: .trustedIdentityPropagationEnabled)
         }
         if let url = self.url {
             try encodeContainer.encode(url, forKey: .url)
@@ -16146,6 +16261,14 @@ extension EMRClientTypes.Studio: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let idcInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idcInstanceArn)
+        idcInstanceArn = idcInstanceArnDecoded
+        let trustedIdentityPropagationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trustedIdentityPropagationEnabled)
+        trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabledDecoded
+        let idcUserAssignmentDecoded = try containerValues.decodeIfPresent(EMRClientTypes.IdcUserAssignment.self, forKey: .idcUserAssignment)
+        idcUserAssignment = idcUserAssignmentDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
     }
 }
 
@@ -16160,8 +16283,14 @@ extension EMRClientTypes {
         public var defaultS3Location: Swift.String?
         /// The detailed description of the Amazon EMR Studio.
         public var description: Swift.String?
+        /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and notebook files when backed up to Amazon S3.
+        public var encryptionKeyArn: Swift.String?
         /// The ID of the Engine security group associated with the Amazon EMR Studio. The Engine security group allows inbound network traffic from resources in the Workspace security group.
         public var engineSecurityGroupId: Swift.String?
+        /// The ARN of the IAM Identity Center instance the Studio application belongs to.
+        public var idcInstanceArn: Swift.String?
+        /// Indicates whether the Studio has REQUIRED or OPTIONAL IAM Identity Center user assignment. If the value is set to REQUIRED, users must be explicitly assigned to the Studio application to access the Studio.
+        public var idcUserAssignment: EMRClientTypes.IdcUserAssignment?
         /// Your identity provider's authentication endpoint. Amazon EMR Studio redirects federated users to this endpoint for authentication when logging in to a Studio with the Studio URL.
         public var idpAuthUrl: Swift.String?
         /// The name of your identity provider's RelayState parameter.
@@ -16178,6 +16307,8 @@ extension EMRClientTypes {
         public var subnetIds: [Swift.String]?
         /// A list of tags associated with the Amazon EMR Studio.
         public var tags: [EMRClientTypes.Tag]?
+        /// Indicates whether the Studio has Trusted identity propagation enabled. The default value is false.
+        public var trustedIdentityPropagationEnabled: Swift.Bool?
         /// The unique access URL of the Amazon EMR Studio.
         public var url: Swift.String?
         /// The name of the IAM role assumed by users logged in to the Amazon EMR Studio. A Studio only requires a UserRole when you use IAM authentication.
@@ -16192,7 +16323,10 @@ extension EMRClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             defaultS3Location: Swift.String? = nil,
             description: Swift.String? = nil,
+            encryptionKeyArn: Swift.String? = nil,
             engineSecurityGroupId: Swift.String? = nil,
+            idcInstanceArn: Swift.String? = nil,
+            idcUserAssignment: EMRClientTypes.IdcUserAssignment? = nil,
             idpAuthUrl: Swift.String? = nil,
             idpRelayStateParameterName: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -16201,6 +16335,7 @@ extension EMRClientTypes {
             studioId: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
+            trustedIdentityPropagationEnabled: Swift.Bool? = nil,
             url: Swift.String? = nil,
             userRole: Swift.String? = nil,
             vpcId: Swift.String? = nil,
@@ -16211,7 +16346,10 @@ extension EMRClientTypes {
             self.creationTime = creationTime
             self.defaultS3Location = defaultS3Location
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.engineSecurityGroupId = engineSecurityGroupId
+            self.idcInstanceArn = idcInstanceArn
+            self.idcUserAssignment = idcUserAssignment
             self.idpAuthUrl = idpAuthUrl
             self.idpRelayStateParameterName = idpRelayStateParameterName
             self.name = name
@@ -16220,6 +16358,7 @@ extension EMRClientTypes {
             self.studioId = studioId
             self.subnetIds = subnetIds
             self.tags = tags
+            self.trustedIdentityPropagationEnabled = trustedIdentityPropagationEnabled
             self.url = url
             self.userRole = userRole
             self.vpcId = vpcId
@@ -16285,7 +16424,7 @@ extension EMRClientTypes.StudioSummary: Swift.Codable {
 }
 
 extension EMRClientTypes {
-    /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description. The details do not include subnets, IAM roles, security groups, or tags associated with the Studio.
+    /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description. To fetch additional details such as subnets, IAM roles, security groups, and tags for the Studio, use the [DescribeStudio] API.
     public struct StudioSummary: Swift.Equatable {
         /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center.
         public var authMode: EMRClientTypes.AuthMode?
@@ -16754,6 +16893,7 @@ extension UpdateStudioInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case name = "Name"
         case studioId = "StudioId"
         case subnetIds = "SubnetIds"
@@ -16766,6 +16906,9 @@ extension UpdateStudioInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let encryptionKeyArn = self.encryptionKeyArn {
+            try encodeContainer.encode(encryptionKeyArn, forKey: .encryptionKeyArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -16793,6 +16936,8 @@ public struct UpdateStudioInput: Swift.Equatable {
     public var defaultS3Location: Swift.String?
     /// A detailed description to assign to the Amazon EMR Studio.
     public var description: Swift.String?
+    /// The KMS key identifier (ARN) used to encrypt Amazon EMR Studio workspace and notebook files when backed up to Amazon S3.
+    public var encryptionKeyArn: Swift.String?
     /// A descriptive name for the Amazon EMR Studio.
     public var name: Swift.String?
     /// The ID of the Amazon EMR Studio to update.
@@ -16804,6 +16949,7 @@ public struct UpdateStudioInput: Swift.Equatable {
     public init(
         defaultS3Location: Swift.String? = nil,
         description: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         studioId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
@@ -16811,6 +16957,7 @@ public struct UpdateStudioInput: Swift.Equatable {
     {
         self.defaultS3Location = defaultS3Location
         self.description = description
+        self.encryptionKeyArn = encryptionKeyArn
         self.name = name
         self.studioId = studioId
         self.subnetIds = subnetIds
@@ -16823,12 +16970,14 @@ struct UpdateStudioInputBody: Swift.Equatable {
     let description: Swift.String?
     let subnetIds: [Swift.String]?
     let defaultS3Location: Swift.String?
+    let encryptionKeyArn: Swift.String?
 }
 
 extension UpdateStudioInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultS3Location = "DefaultS3Location"
         case description = "Description"
+        case encryptionKeyArn = "EncryptionKeyArn"
         case name = "Name"
         case studioId = "StudioId"
         case subnetIds = "SubnetIds"
@@ -16855,6 +17004,8 @@ extension UpdateStudioInputBody: Swift.Decodable {
         subnetIds = subnetIdsDecoded0
         let defaultS3LocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultS3Location)
         defaultS3Location = defaultS3LocationDecoded
+        let encryptionKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKeyArn)
+        encryptionKeyArn = encryptionKeyArnDecoded
     }
 }
 

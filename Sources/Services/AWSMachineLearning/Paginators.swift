@@ -12,7 +12,11 @@ extension MachineLearningClient {
     ///     - input: A `[DescribeBatchPredictionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBatchPredictionsOutput`
     public func describeBatchPredictionsPaginated(input: DescribeBatchPredictionsInput) -> ClientRuntime.PaginatorSequence<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput>(input: input, inputKey: \DescribeBatchPredictionsInput.nextToken, outputKey: \DescribeBatchPredictionsOutput.nextToken, paginationFunction: self.describeBatchPredictions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBatchPredictions(input:))
+>>>>>>> main
     }
 }
 
@@ -33,7 +37,11 @@ extension DescribeBatchPredictionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeBatchPredictionsInput, Output == DescribeBatchPredictionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeBatchPredictionsInput, OperationStackOutput == DescribeBatchPredictionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeBatchPredictionsPaginated`
     /// to access the nested member `[MachineLearningClientTypes.BatchPrediction]`
     /// - Returns: `[MachineLearningClientTypes.BatchPrediction]`
@@ -51,7 +59,11 @@ extension MachineLearningClient {
     ///     - input: A `[DescribeDataSourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSourcesOutput`
     public func describeDataSourcesPaginated(input: DescribeDataSourcesInput) -> ClientRuntime.PaginatorSequence<DescribeDataSourcesInput, DescribeDataSourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeDataSourcesInput, DescribeDataSourcesOutput>(input: input, inputKey: \DescribeDataSourcesInput.nextToken, outputKey: \DescribeDataSourcesOutput.nextToken, paginationFunction: self.describeDataSources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeDataSourcesInput, DescribeDataSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDataSources(input:))
+>>>>>>> main
     }
 }
 
@@ -72,7 +84,11 @@ extension DescribeDataSourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeDataSourcesInput, Output == DescribeDataSourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeDataSourcesInput, OperationStackOutput == DescribeDataSourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeDataSourcesPaginated`
     /// to access the nested member `[MachineLearningClientTypes.DataSource]`
     /// - Returns: `[MachineLearningClientTypes.DataSource]`
@@ -90,7 +106,11 @@ extension MachineLearningClient {
     ///     - input: A `[DescribeEvaluationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEvaluationsOutput`
     public func describeEvaluationsPaginated(input: DescribeEvaluationsInput) -> ClientRuntime.PaginatorSequence<DescribeEvaluationsInput, DescribeEvaluationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeEvaluationsInput, DescribeEvaluationsOutput>(input: input, inputKey: \DescribeEvaluationsInput.nextToken, outputKey: \DescribeEvaluationsOutput.nextToken, paginationFunction: self.describeEvaluations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeEvaluationsInput, DescribeEvaluationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEvaluations(input:))
+>>>>>>> main
     }
 }
 
@@ -111,7 +131,11 @@ extension DescribeEvaluationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeEvaluationsInput, Output == DescribeEvaluationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeEvaluationsInput, OperationStackOutput == DescribeEvaluationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEvaluationsPaginated`
     /// to access the nested member `[MachineLearningClientTypes.Evaluation]`
     /// - Returns: `[MachineLearningClientTypes.Evaluation]`
@@ -129,7 +153,11 @@ extension MachineLearningClient {
     ///     - input: A `[DescribeMLModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMLModelsOutput`
     public func describeMLModelsPaginated(input: DescribeMLModelsInput) -> ClientRuntime.PaginatorSequence<DescribeMLModelsInput, DescribeMLModelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeMLModelsInput, DescribeMLModelsOutput>(input: input, inputKey: \DescribeMLModelsInput.nextToken, outputKey: \DescribeMLModelsOutput.nextToken, paginationFunction: self.describeMLModels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeMLModelsInput, DescribeMLModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMLModels(input:))
+>>>>>>> main
     }
 }
 
@@ -150,7 +178,11 @@ extension DescribeMLModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeMLModelsInput, Output == DescribeMLModelsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeMLModelsInput, OperationStackOutput == DescribeMLModelsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMLModelsPaginated`
     /// to access the nested member `[MachineLearningClientTypes.MLModel]`
     /// - Returns: `[MachineLearningClientTypes.MLModel]`

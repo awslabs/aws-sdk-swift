@@ -12,7 +12,11 @@ extension ServiceQuotasClient {
     ///     - input: A `[ListAWSDefaultServiceQuotasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAWSDefaultServiceQuotasOutput`
     public func listAWSDefaultServiceQuotasPaginated(input: ListAWSDefaultServiceQuotasInput) -> ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput>(input: input, inputKey: \ListAWSDefaultServiceQuotasInput.nextToken, outputKey: \ListAWSDefaultServiceQuotasOutput.nextToken, paginationFunction: self.listAWSDefaultServiceQuotas(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAWSDefaultServiceQuotas(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListAWSDefaultServiceQuotasInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAWSDefaultServiceQuotasInput, Output == ListAWSDefaultServiceQuotasOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAWSDefaultServiceQuotasInput, OperationStackOutput == ListAWSDefaultServiceQuotasOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAWSDefaultServiceQuotasPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceQuota]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceQuota]`
@@ -43,7 +51,11 @@ extension ServiceQuotasClient {
     ///     - input: A `[ListRequestedServiceQuotaChangeHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRequestedServiceQuotaChangeHistoryOutput`
     public func listRequestedServiceQuotaChangeHistoryPaginated(input: ListRequestedServiceQuotaChangeHistoryInput) -> ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput>(input: input, inputKey: \ListRequestedServiceQuotaChangeHistoryInput.nextToken, outputKey: \ListRequestedServiceQuotaChangeHistoryOutput.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistory(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistory(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension ListRequestedServiceQuotaChangeHistoryInput: ClientRuntime.PaginateTok
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistoryInput, Output == ListRequestedServiceQuotaChangeHistoryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListRequestedServiceQuotaChangeHistoryInput, OperationStackOutput == ListRequestedServiceQuotaChangeHistoryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRequestedServiceQuotaChangeHistoryPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
     /// - Returns: `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
@@ -76,7 +92,11 @@ extension ServiceQuotasClient {
     ///     - input: A `[ListRequestedServiceQuotaChangeHistoryByQuotaInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRequestedServiceQuotaChangeHistoryByQuotaOutput`
     public func listRequestedServiceQuotaChangeHistoryByQuotaPaginated(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) -> ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput>(input: input, inputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaInput.nextToken, outputKey: \ListRequestedServiceQuotaChangeHistoryByQuotaOutput.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistoryByQuota(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRequestedServiceQuotaChangeHistoryByQuota(input:))
+>>>>>>> main
     }
 }
 
@@ -92,7 +112,11 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: ClientRuntime.Pagi
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListRequestedServiceQuotaChangeHistoryByQuotaInput, Output == ListRequestedServiceQuotaChangeHistoryByQuotaOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListRequestedServiceQuotaChangeHistoryByQuotaInput, OperationStackOutput == ListRequestedServiceQuotaChangeHistoryByQuotaOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRequestedServiceQuotaChangeHistoryByQuotaPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
     /// - Returns: `[ServiceQuotasClientTypes.RequestedServiceQuotaChange]`
@@ -110,7 +134,11 @@ extension ServiceQuotasClient {
     ///     - input: A `[ListServiceQuotaIncreaseRequestsInTemplateInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotaIncreaseRequestsInTemplateOutput`
     public func listServiceQuotaIncreaseRequestsInTemplatePaginated(input: ListServiceQuotaIncreaseRequestsInTemplateInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput>(input: input, inputKey: \ListServiceQuotaIncreaseRequestsInTemplateInput.nextToken, outputKey: \ListServiceQuotaIncreaseRequestsInTemplateOutput.nextToken, paginationFunction: self.listServiceQuotaIncreaseRequestsInTemplate(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceQuotaIncreaseRequestsInTemplate(input:))
+>>>>>>> main
     }
 }
 
@@ -124,7 +152,11 @@ extension ListServiceQuotaIncreaseRequestsInTemplateInput: ClientRuntime.Paginat
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListServiceQuotaIncreaseRequestsInTemplateInput, Output == ListServiceQuotaIncreaseRequestsInTemplateOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListServiceQuotaIncreaseRequestsInTemplateInput, OperationStackOutput == ListServiceQuotaIncreaseRequestsInTemplateOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listServiceQuotaIncreaseRequestsInTemplatePaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]`
@@ -142,7 +174,11 @@ extension ServiceQuotasClient {
     ///     - input: A `[ListServiceQuotasInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServiceQuotasOutput`
     public func listServiceQuotasPaginated(input: ListServiceQuotasInput) -> ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutput>(input: input, inputKey: \ListServiceQuotasInput.nextToken, outputKey: \ListServiceQuotasOutput.nextToken, paginationFunction: self.listServiceQuotas(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListServiceQuotasInput, ListServiceQuotasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceQuotas(input:))
+>>>>>>> main
     }
 }
 
@@ -157,7 +193,11 @@ extension ListServiceQuotasInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListServiceQuotasInput, Output == ListServiceQuotasOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListServiceQuotasInput, OperationStackOutput == ListServiceQuotasOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listServiceQuotasPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceQuota]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceQuota]`
@@ -175,7 +215,11 @@ extension ServiceQuotasClient {
     ///     - input: A `[ListServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
     public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServices(input:))
+>>>>>>> main
     }
 }
 
@@ -187,7 +231,11 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListServicesInput, Output == ListServicesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListServicesInput, OperationStackOutput == ListServicesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listServicesPaginated`
     /// to access the nested member `[ServiceQuotasClientTypes.ServiceInfo]`
     /// - Returns: `[ServiceQuotasClientTypes.ServiceInfo]`

@@ -1625,6 +1625,7 @@ enum DescribeProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct DetectAnomaliesInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "DetectAnomaliesInputBodyMiddleware"
 
@@ -1650,6 +1651,8 @@ public struct DetectAnomaliesInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension DetectAnomaliesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"

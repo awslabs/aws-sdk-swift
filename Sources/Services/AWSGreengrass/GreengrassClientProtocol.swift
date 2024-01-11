@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// AWS IoT Greengrass seamlessly extends AWS onto physical devices so they can act locally on the data they generate, while still using the cloud for management, analytics, and durable storage. AWS IoT Greengrass ensures your devices can respond quickly to local events and operate with intermittent connectivity. AWS IoT Greengrass minimizes the cost of transmitting data to the cloud by allowing you to author AWS Lambda functions that execute locally.
 public protocol GreengrassClientProtocol {
+    /// Performs the `AssociateRoleToGroup` operation on the `Greengrass` service.
+    ///
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
     ///
     /// - Parameter AssociateRoleToGroupInput : [no documentation found]
@@ -16,6 +18,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func associateRoleToGroup(input: AssociateRoleToGroupInput) async throws -> AssociateRoleToGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateServiceRoleToAccount` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
     ///
     /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
@@ -28,6 +35,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConnectorDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateConnectorDefinitionInput : [no documentation found]
@@ -39,6 +51,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createConnectorDefinition(input: CreateConnectorDefinitionInput) async throws -> CreateConnectorDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConnectorDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a connector definition which has already been defined.
     ///
     /// - Parameter CreateConnectorDefinitionVersionInput : [no documentation found]
@@ -50,6 +67,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createConnectorDefinitionVersion(input: CreateConnectorDefinitionVersionInput) async throws -> CreateConnectorDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCoreDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
     ///
     /// - Parameter CreateCoreDefinitionInput : Information needed to create a core definition.
@@ -61,6 +83,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createCoreDefinition(input: CreateCoreDefinitionInput) async throws -> CreateCoreDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCoreDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
     ///
     /// - Parameter CreateCoreDefinitionVersionInput : [no documentation found]
@@ -72,6 +99,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createCoreDefinitionVersion(input: CreateCoreDefinitionVersionInput) async throws -> CreateCoreDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDeployment` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
@@ -83,6 +115,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDeviceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateDeviceDefinitionInput : [no documentation found]
@@ -94,6 +131,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createDeviceDefinition(input: CreateDeviceDefinitionInput) async throws -> CreateDeviceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDeviceDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a device definition that has already been defined.
     ///
     /// - Parameter CreateDeviceDefinitionVersionInput : [no documentation found]
@@ -105,6 +147,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createDeviceDefinitionVersion(input: CreateDeviceDefinitionVersionInput) async throws -> CreateDeviceDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFunctionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
     ///
     /// - Parameter CreateFunctionDefinitionInput : [no documentation found]
@@ -116,6 +163,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createFunctionDefinition(input: CreateFunctionDefinitionInput) async throws -> CreateFunctionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFunctionDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a Lambda function definition that has already been defined.
     ///
     /// - Parameter CreateFunctionDefinitionVersionInput : Information needed to create a function definition version.
@@ -127,6 +179,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersionInput) async throws -> CreateFunctionDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGroup` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
@@ -138,6 +195,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGroupCertificateAuthority` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
     ///
     /// - Parameter CreateGroupCertificateAuthorityInput : [no documentation found]
@@ -150,6 +212,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func createGroupCertificateAuthority(input: CreateGroupCertificateAuthorityInput) async throws -> CreateGroupCertificateAuthorityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGroupVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a group which has already been defined.
     ///
     /// - Parameter CreateGroupVersionInput : [no documentation found]
@@ -161,6 +228,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createGroupVersion(input: CreateGroupVersionInput) async throws -> CreateGroupVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateLoggerDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateLoggerDefinitionInput : [no documentation found]
@@ -172,6 +244,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createLoggerDefinition(input: CreateLoggerDefinitionInput) async throws -> CreateLoggerDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateLoggerDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a logger definition that has already been defined.
     ///
     /// - Parameter CreateLoggerDefinitionVersionInput : [no documentation found]
@@ -183,6 +260,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createLoggerDefinitionVersion(input: CreateLoggerDefinitionVersionInput) async throws -> CreateLoggerDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateResourceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
     ///
     /// - Parameter CreateResourceDefinitionInput : [no documentation found]
@@ -194,6 +276,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createResourceDefinition(input: CreateResourceDefinitionInput) async throws -> CreateResourceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateResourceDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a resource definition that has already been defined.
     ///
     /// - Parameter CreateResourceDefinitionVersionInput : [no documentation found]
@@ -205,6 +292,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createResourceDefinitionVersion(input: CreateResourceDefinitionVersionInput) async throws -> CreateResourceDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSoftwareUpdateJob` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
     ///
     /// - Parameter CreateSoftwareUpdateJobInput : [no documentation found]
@@ -217,6 +309,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func createSoftwareUpdateJob(input: CreateSoftwareUpdateJobInput) async throws -> CreateSoftwareUpdateJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
     ///
     /// - Parameter CreateSubscriptionDefinitionInput : [no documentation found]
@@ -228,6 +325,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createSubscriptionDefinition(input: CreateSubscriptionDefinitionInput) async throws -> CreateSubscriptionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSubscriptionDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Creates a version of a subscription definition which has already been defined.
     ///
     /// - Parameter CreateSubscriptionDefinitionVersionInput : [no documentation found]
@@ -239,6 +341,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func createSubscriptionDefinitionVersion(input: CreateSubscriptionDefinitionVersionInput) async throws -> CreateSubscriptionDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConnectorDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a connector definition.
     ///
     /// - Parameter DeleteConnectorDefinitionInput : [no documentation found]
@@ -250,6 +357,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteConnectorDefinition(input: DeleteConnectorDefinitionInput) async throws -> DeleteConnectorDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCoreDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a core definition.
     ///
     /// - Parameter DeleteCoreDefinitionInput : [no documentation found]
@@ -261,6 +373,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteCoreDefinition(input: DeleteCoreDefinitionInput) async throws -> DeleteCoreDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDeviceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a device definition.
     ///
     /// - Parameter DeleteDeviceDefinitionInput : [no documentation found]
@@ -272,6 +389,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteDeviceDefinition(input: DeleteDeviceDefinitionInput) async throws -> DeleteDeviceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunctionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a Lambda function definition.
     ///
     /// - Parameter DeleteFunctionDefinitionInput : [no documentation found]
@@ -283,6 +405,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteFunctionDefinition(input: DeleteFunctionDefinitionInput) async throws -> DeleteFunctionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGroup` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a group.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
@@ -294,6 +421,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteLoggerDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a logger definition.
     ///
     /// - Parameter DeleteLoggerDefinitionInput : [no documentation found]
@@ -305,6 +437,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteLoggerDefinition(input: DeleteLoggerDefinitionInput) async throws -> DeleteLoggerDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteResourceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a resource definition.
     ///
     /// - Parameter DeleteResourceDefinitionInput : [no documentation found]
@@ -316,6 +453,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteResourceDefinition(input: DeleteResourceDefinitionInput) async throws -> DeleteResourceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deletes a subscription definition.
     ///
     /// - Parameter DeleteSubscriptionDefinitionInput : [no documentation found]
@@ -327,6 +469,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func deleteSubscriptionDefinition(input: DeleteSubscriptionDefinitionInput) async throws -> DeleteSubscriptionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateRoleFromGroup` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Disassociates the role from a group.
     ///
     /// - Parameter DisassociateRoleFromGroupInput : [no documentation found]
@@ -339,6 +486,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func disassociateRoleFromGroup(input: DisassociateRoleFromGroupInput) async throws -> DisassociateRoleFromGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateServiceRoleFromAccount` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
     ///
     /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
@@ -350,6 +502,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerErrorException` : General error information.
     func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAssociatedRole` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves the role associated with a particular group.
     ///
     /// - Parameter GetAssociatedRoleInput : [no documentation found]
@@ -362,6 +519,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func getAssociatedRole(input: GetAssociatedRoleInput) async throws -> GetAssociatedRoleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBulkDeploymentStatus` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Returns the status of a bulk deployment.
     ///
     /// - Parameter GetBulkDeploymentStatusInput : [no documentation found]
@@ -373,6 +535,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getBulkDeploymentStatus(input: GetBulkDeploymentStatusInput) async throws -> GetBulkDeploymentStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConnectivityInfo` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves the connectivity information for a core.
     ///
     /// - Parameter GetConnectivityInfoInput : [no documentation found]
@@ -385,6 +552,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConnectorDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a connector definition.
     ///
     /// - Parameter GetConnectorDefinitionInput : [no documentation found]
@@ -396,6 +568,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getConnectorDefinition(input: GetConnectorDefinitionInput) async throws -> GetConnectorDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConnectorDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
     ///
     /// - Parameter GetConnectorDefinitionVersionInput : [no documentation found]
@@ -407,6 +584,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getConnectorDefinitionVersion(input: GetConnectorDefinitionVersionInput) async throws -> GetConnectorDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCoreDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a core definition version.
     ///
     /// - Parameter GetCoreDefinitionInput : [no documentation found]
@@ -418,6 +600,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getCoreDefinition(input: GetCoreDefinitionInput) async throws -> GetCoreDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCoreDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a core definition version.
     ///
     /// - Parameter GetCoreDefinitionVersionInput : [no documentation found]
@@ -429,6 +616,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getCoreDefinitionVersion(input: GetCoreDefinitionVersionInput) async throws -> GetCoreDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeploymentStatus` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Returns the status of a deployment.
     ///
     /// - Parameter GetDeploymentStatusInput : [no documentation found]
@@ -440,6 +632,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getDeploymentStatus(input: GetDeploymentStatusInput) async throws -> GetDeploymentStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeviceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a device definition.
     ///
     /// - Parameter GetDeviceDefinitionInput : [no documentation found]
@@ -451,6 +648,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getDeviceDefinition(input: GetDeviceDefinitionInput) async throws -> GetDeviceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDeviceDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a device definition version.
     ///
     /// - Parameter GetDeviceDefinitionVersionInput : [no documentation found]
@@ -462,6 +664,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getDeviceDefinitionVersion(input: GetDeviceDefinitionVersionInput) async throws -> GetDeviceDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
     ///
     /// - Parameter GetFunctionDefinitionInput : [no documentation found]
@@ -473,6 +680,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getFunctionDefinition(input: GetFunctionDefinitionInput) async throws -> GetFunctionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunctionDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
     ///
     /// - Parameter GetFunctionDefinitionVersionInput : [no documentation found]
@@ -484,6 +696,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getFunctionDefinitionVersion(input: GetFunctionDefinitionVersionInput) async throws -> GetFunctionDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGroup` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a group.
     ///
     /// - Parameter GetGroupInput : [no documentation found]
@@ -495,6 +712,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGroupCertificateAuthority` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retreives the CA associated with a group. Returns the public key of the CA.
     ///
     /// - Parameter GetGroupCertificateAuthorityInput : [no documentation found]
@@ -507,6 +729,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func getGroupCertificateAuthority(input: GetGroupCertificateAuthorityInput) async throws -> GetGroupCertificateAuthorityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGroupCertificateConfiguration` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves the current configuration for the CA used by the group.
     ///
     /// - Parameter GetGroupCertificateConfigurationInput : [no documentation found]
@@ -519,6 +746,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func getGroupCertificateConfiguration(input: GetGroupCertificateConfigurationInput) async throws -> GetGroupCertificateConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGroupVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a group version.
     ///
     /// - Parameter GetGroupVersionInput : [no documentation found]
@@ -530,6 +762,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getGroupVersion(input: GetGroupVersionInput) async throws -> GetGroupVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLoggerDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a logger definition.
     ///
     /// - Parameter GetLoggerDefinitionInput : [no documentation found]
@@ -541,6 +778,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getLoggerDefinition(input: GetLoggerDefinitionInput) async throws -> GetLoggerDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLoggerDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a logger definition version.
     ///
     /// - Parameter GetLoggerDefinitionVersionInput : [no documentation found]
@@ -552,6 +794,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getLoggerDefinitionVersion(input: GetLoggerDefinitionVersionInput) async throws -> GetLoggerDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResourceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a resource definition, including its creation time and latest version.
     ///
     /// - Parameter GetResourceDefinitionInput : [no documentation found]
@@ -563,6 +810,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getResourceDefinition(input: GetResourceDefinitionInput) async throws -> GetResourceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResourceDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a resource definition version, including which resources are included in the version.
     ///
     /// - Parameter GetResourceDefinitionVersionInput : [no documentation found]
@@ -574,6 +826,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getResourceDefinitionVersion(input: GetResourceDefinitionVersionInput) async throws -> GetResourceDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetServiceRoleForAccount` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves the service role that is attached to your account.
     ///
     /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
@@ -585,6 +842,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServerErrorException` : General error information.
     func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a subscription definition.
     ///
     /// - Parameter GetSubscriptionDefinitionInput : [no documentation found]
@@ -596,6 +858,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getSubscriptionDefinition(input: GetSubscriptionDefinitionInput) async throws -> GetSubscriptionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSubscriptionDefinitionVersion` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a subscription definition version.
     ///
     /// - Parameter GetSubscriptionDefinitionVersionInput : [no documentation found]
@@ -607,6 +874,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func getSubscriptionDefinitionVersion(input: GetSubscriptionDefinitionVersionInput) async throws -> GetSubscriptionDefinitionVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetThingRuntimeConfiguration` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Get the runtime configuration of a thing.
     ///
     /// - Parameter GetThingRuntimeConfigurationInput : [no documentation found]
@@ -619,6 +891,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func getThingRuntimeConfiguration(input: GetThingRuntimeConfigurationInput) async throws -> GetThingRuntimeConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBulkDeploymentDetailedReports` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     ///
     /// - Parameter ListBulkDeploymentDetailedReportsInput : [no documentation found]
@@ -630,6 +907,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listBulkDeploymentDetailedReports(input: ListBulkDeploymentDetailedReportsInput) async throws -> ListBulkDeploymentDetailedReportsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBulkDeployments` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Returns a list of bulk deployments.
     ///
     /// - Parameter ListBulkDeploymentsInput : [no documentation found]
@@ -641,12 +923,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listBulkDeployments(input: ListBulkDeploymentsInput) async throws -> ListBulkDeploymentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConnectorDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of connector definitions.
     ///
     /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListConnectorDefinitionsOutput` : [no documentation found]
     func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConnectorDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
     ///
     /// - Parameter ListConnectorDefinitionVersionsInput : [no documentation found]
@@ -658,12 +950,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listConnectorDefinitionVersions(input: ListConnectorDefinitionVersionsInput) async throws -> ListConnectorDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCoreDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of core definitions.
     ///
     /// - Parameter ListCoreDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListCoreDefinitionsOutput` : [no documentation found]
     func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCoreDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a core definition.
     ///
     /// - Parameter ListCoreDefinitionVersionsInput : [no documentation found]
@@ -675,6 +977,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listCoreDefinitionVersions(input: ListCoreDefinitionVersionsInput) async throws -> ListCoreDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeployments` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Returns a history of deployments for the group.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
@@ -686,12 +993,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeviceDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of device definitions.
     ///
     /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListDeviceDefinitionsOutput` : [no documentation found]
     func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDeviceDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a device definition.
     ///
     /// - Parameter ListDeviceDefinitionVersionsInput : [no documentation found]
@@ -703,12 +1020,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listDeviceDefinitionVersions(input: ListDeviceDefinitionVersionsInput) async throws -> ListDeviceDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctionDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of Lambda function definitions.
     ///
     /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListFunctionDefinitionsOutput` : [no documentation found]
     func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctionDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a Lambda function definition.
     ///
     /// - Parameter ListFunctionDefinitionVersionsInput : [no documentation found]
@@ -720,6 +1047,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listFunctionDefinitionVersions(input: ListFunctionDefinitionVersionsInput) async throws -> ListFunctionDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGroupCertificateAuthorities` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves the current CAs for a group.
     ///
     /// - Parameter ListGroupCertificateAuthoritiesInput : [no documentation found]
@@ -732,12 +1064,22 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func listGroupCertificateAuthorities(input: ListGroupCertificateAuthoritiesInput) async throws -> ListGroupCertificateAuthoritiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGroups` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of groups.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
     /// - Returns: `ListGroupsOutput` : [no documentation found]
     func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGroupVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a group.
     ///
     /// - Parameter ListGroupVersionsInput : [no documentation found]
@@ -749,12 +1091,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listGroupVersions(input: ListGroupVersionsInput) async throws -> ListGroupVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLoggerDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of logger definitions.
     ///
     /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListLoggerDefinitionsOutput` : [no documentation found]
     func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLoggerDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a logger definition.
     ///
     /// - Parameter ListLoggerDefinitionVersionsInput : [no documentation found]
@@ -766,12 +1118,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listLoggerDefinitionVersions(input: ListLoggerDefinitionVersionsInput) async throws -> ListLoggerDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListResourceDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of resource definitions.
     ///
     /// - Parameter ListResourceDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListResourceDefinitionsOutput` : [no documentation found]
     func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListResourceDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a resource definition.
     ///
     /// - Parameter ListResourceDefinitionVersionsInput : [no documentation found]
@@ -783,12 +1145,22 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listResourceDefinitionVersions(input: ListResourceDefinitionVersionsInput) async throws -> ListResourceDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSubscriptionDefinitions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of subscription definitions.
     ///
     /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
     ///
     /// - Returns: `ListSubscriptionDefinitionsOutput` : [no documentation found]
     func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSubscriptionDefinitionVersions` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Lists the versions of a subscription definition.
     ///
     /// - Parameter ListSubscriptionDefinitionVersionsInput : [no documentation found]
@@ -800,6 +1172,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listSubscriptionDefinitionVersions(input: ListSubscriptionDefinitionVersionsInput) async throws -> ListSubscriptionDefinitionVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of resource tags for a resource arn.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -811,6 +1188,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ResetDeployments` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Resets a group's deployments.
     ///
     /// - Parameter ResetDeploymentsInput : Information needed to reset deployments.
@@ -822,6 +1204,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func resetDeployments(input: ResetDeploymentsInput) async throws -> ResetDeploymentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartBulkDeployment` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
     ///
     /// - Parameter StartBulkDeploymentInput : [no documentation found]
@@ -833,6 +1220,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func startBulkDeployment(input: StartBulkDeploymentInput) async throws -> StartBulkDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopBulkDeployment` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
     ///
     /// - Parameter StopBulkDeploymentInput : [no documentation found]
@@ -844,6 +1236,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func stopBulkDeployment(input: StopBulkDeploymentInput) async throws -> StopBulkDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
     ///
     /// - Parameter TagResourceInput : A map of the key-value pairs for the resource tag.
@@ -855,6 +1252,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Remove resource tags from a Greengrass Resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -866,6 +1268,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConnectivityInfo` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
     ///
     /// - Parameter UpdateConnectivityInfoInput : Connectivity information.
@@ -878,6 +1285,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConnectorDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a connector definition.
     ///
     /// - Parameter UpdateConnectorDefinitionInput : [no documentation found]
@@ -889,6 +1301,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateConnectorDefinition(input: UpdateConnectorDefinitionInput) async throws -> UpdateConnectorDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCoreDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a core definition.
     ///
     /// - Parameter UpdateCoreDefinitionInput : [no documentation found]
@@ -900,6 +1317,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateCoreDefinition(input: UpdateCoreDefinitionInput) async throws -> UpdateCoreDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDeviceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a device definition.
     ///
     /// - Parameter UpdateDeviceDefinitionInput : [no documentation found]
@@ -911,6 +1333,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateDeviceDefinition(input: UpdateDeviceDefinitionInput) async throws -> UpdateDeviceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFunctionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a Lambda function definition.
     ///
     /// - Parameter UpdateFunctionDefinitionInput : [no documentation found]
@@ -922,6 +1349,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateFunctionDefinition(input: UpdateFunctionDefinitionInput) async throws -> UpdateFunctionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGroup` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a group.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
@@ -933,6 +1365,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGroupCertificateConfiguration` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates the Certificate expiry time for a group.
     ///
     /// - Parameter UpdateGroupCertificateConfigurationInput : [no documentation found]
@@ -945,6 +1382,11 @@ public protocol GreengrassClientProtocol {
     /// - `BadRequestException` : General error information.
     /// - `InternalServerErrorException` : General error information.
     func updateGroupCertificateConfiguration(input: UpdateGroupCertificateConfigurationInput) async throws -> UpdateGroupCertificateConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateLoggerDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a logger definition.
     ///
     /// - Parameter UpdateLoggerDefinitionInput : [no documentation found]
@@ -956,6 +1398,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateLoggerDefinition(input: UpdateLoggerDefinitionInput) async throws -> UpdateLoggerDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateResourceDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a resource definition.
     ///
     /// - Parameter UpdateResourceDefinitionInput : [no documentation found]
@@ -967,6 +1414,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateResourceDefinition(input: UpdateResourceDefinitionInput) async throws -> UpdateResourceDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSubscriptionDefinition` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates a subscription definition.
     ///
     /// - Parameter UpdateSubscriptionDefinitionInput : [no documentation found]
@@ -978,6 +1430,11 @@ public protocol GreengrassClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : General error information.
     func updateSubscriptionDefinition(input: UpdateSubscriptionDefinitionInput) async throws -> UpdateSubscriptionDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateThingRuntimeConfiguration` operation on the `Greengrass` service.
+    ///
+>>>>>>> main
     /// Updates the runtime configuration of a thing.
     ///
     /// - Parameter UpdateThingRuntimeConfigurationInput : [no documentation found]

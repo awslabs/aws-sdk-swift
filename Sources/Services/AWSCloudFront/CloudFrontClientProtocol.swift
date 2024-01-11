@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon CloudFront This is the Amazon CloudFront API Reference. This guide is for developers who need detailed information about CloudFront API actions, data types, and errors. For detailed information about CloudFront features, see the Amazon CloudFront Developer Guide.
 public protocol CloudFrontClientProtocol {
+    /// Performs the `AssociateAlias` operation on the `Cloudfront2020_05_31` service.
+    ///
     /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that's already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter AssociateAliasInput : [no documentation found]
@@ -19,6 +21,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyDistributionCNAMEs` : Your request contains more CNAMEs than are allowed per distribution.
     func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CopyDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution. This API operation requires the following IAM permissions:
     ///
     /// * [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html)
@@ -99,6 +106,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCachePolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:
     ///
     /// * The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
@@ -124,6 +136,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCloudFrontOriginAccessIdentity` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateCloudFrontOriginAccessIdentityInput : The request to create a new origin access identity (OAI). An origin access identity is a special CloudFront user that you can associate with Amazon S3 origins, so that you can secure all or just some of your Amazon S3 content. For more information, see [ Restricting Access to Amazon S3 Content by Using an Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the Amazon CloudFront Developer Guide.
@@ -139,6 +156,11 @@ public protocol CloudFrontClientProtocol {
     /// - `MissingBody` : This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     /// - `TooManyCloudFrontOriginAccessIdentities` : Processing your request would cause you to exceed the maximum number of origin access identities allowed.
     func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateContinuousDeploymentPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
     ///
     /// - Parameter CreateContinuousDeploymentPolicyInput : [no documentation found]
@@ -155,6 +177,11 @@ public protocol CloudFrontClientProtocol {
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
     /// - `TooManyContinuousDeploymentPolicies` : You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
     func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a CloudFront distribution.
     ///
     /// - Parameter CreateDistributionInput : The request to create a new distribution.
@@ -230,6 +257,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDistributionWithTags` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Create a new distribution with tags. This API operation requires the following IAM permissions:
     ///
     /// * [CreateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CreateDistribution.html)
@@ -310,6 +342,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFieldLevelEncryptionConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Create a new field-level encryption configuration.
     ///
     /// - Parameter CreateFieldLevelEncryptionConfigInput : [no documentation found]
@@ -328,6 +365,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
     func createFieldLevelEncryptionConfig(input: CreateFieldLevelEncryptionConfigInput) async throws -> CreateFieldLevelEncryptionConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFieldLevelEncryptionProfile` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Create a field-level encryption profile.
     ///
     /// - Parameter CreateFieldLevelEncryptionProfileInput : [no documentation found]
@@ -346,6 +388,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionProfiles` : The maximum number of profiles for field-level encryption have been created.
     func createFieldLevelEncryptionProfile(input: CreateFieldLevelEncryptionProfileInput) async throws -> CreateFieldLevelEncryptionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
     ///
     /// - Parameter CreateFunctionInput : [no documentation found]
@@ -361,6 +408,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyFunctions` : You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateInvalidation` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Create a new invalidation.
     ///
     /// - Parameter CreateInvalidationInput : The request to create an invalidation.
@@ -378,6 +430,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `TooManyInvalidationsInProgress` : You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
     func createInvalidation(input: CreateInvalidationInput) async throws -> CreateInvalidationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKeyGroup` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a key group that you can use with [CloudFront signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html). To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateKeyGroupInput : [no documentation found]
@@ -392,6 +449,28 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyKeyGroups` : You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func createKeyGroup(input: CreateKeyGroupInput) async throws -> CreateKeyGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateKeyValueStore` operation on the `Cloudfront2020_05_31` service.
+    ///
+    /// Specifies the Key Value Store resource to add to your account. In your account, the Key Value Store names must be unique. You can also import Key Value Store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
+    ///
+    /// - Parameter CreateKeyValueStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKeyValueStoreOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : Access denied.
+    /// - `EntityAlreadyExists` : The Key Value Store entity already exists. You must provide a unique Key Value Store entity.
+    /// - `EntityLimitExceeded` : The Key Value Store entity limit has been exceeded.
+    /// - `EntitySizeLimitExceeded` : The Key Value Store entity size limit was exceeded.
+    /// - `InvalidArgument` : An argument is invalid.
+    func createKeyValueStore(input: CreateKeyValueStoreInput) async throws -> CreateKeyValueStoreOutput
+    /// Performs the `CreateMonitoringSubscription` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Enables additional CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see [Viewing additional CloudFront distribution metrics](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/viewing-cloudfront-metrics.html#monitoring-console.distributions-additional) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateMonitoringSubscriptionInput : [no documentation found]
@@ -406,6 +485,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateOriginAccessControl` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see [Restricting access to an Amazon Web Services origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateOriginAccessControlInput : [no documentation found]
@@ -419,6 +503,11 @@ public protocol CloudFrontClientProtocol {
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `TooManyOriginAccessControls` : The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func createOriginAccessControl(input: CreateOriginAccessControlInput) async throws -> CreateOriginAccessControlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateOriginRequestPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
     ///
     /// * The request body and the URL path (without the domain name) from the viewer request.
@@ -446,6 +535,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyOriginRequestPolicies` : You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePublicKey` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Uploads a public key to CloudFront that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
     ///
     /// - Parameter CreatePublicKeyInput : [no documentation found]
@@ -459,6 +553,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PublicKeyAlreadyExists` : The specified public key already exists.
     /// - `TooManyPublicKeys` : The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
     func createPublicKey(input: CreatePublicKeyInput) async throws -> CreatePublicKeyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRealtimeLogConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see [Real-time logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateRealtimeLogConfigInput : [no documentation found]
@@ -473,6 +572,11 @@ public protocol CloudFrontClientProtocol {
     /// - `RealtimeLogConfigAlreadyExists` : A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
     /// - `TooManyRealtimeLogConfigs` : You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func createRealtimeLogConfig(input: CreateRealtimeLogConfigInput) async throws -> CreateRealtimeLogConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateResponseHeadersPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that match the cache behavior. CloudFront adds or removes response headers according to the configuration of the response headers policy. For more information, see [Adding or removing HTTP headers in CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateResponseHeadersPolicyInput : [no documentation found]
@@ -491,6 +595,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyResponseHeadersPolicies` : You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateStreamingDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356) on the Amazon CloudFront discussion forum.
     ///
     /// - Parameter CreateStreamingDistributionInput : The request to create a new streaming distribution.
@@ -514,6 +623,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func createStreamingDistribution(input: CreateStreamingDistributionInput) async throws -> CreateStreamingDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateStreamingDistributionWithTags` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356) on the Amazon CloudFront discussion forum.
     ///
     /// - Parameter CreateStreamingDistributionWithTagsInput : The request to create a new streaming distribution with tags.
@@ -538,6 +652,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyTrustedSigners` : Your request contains more trusted signers than are allowed per distribution.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func createStreamingDistributionWithTags(input: CreateStreamingDistributionWithTagsInput) async throws -> CreateStreamingDistributionWithTagsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCachePolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     ///
     /// - Parameter DeleteCachePolicyInput : [no documentation found]
@@ -554,6 +673,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCloudFrontOriginAccessIdentity` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Delete an origin access identity.
     ///
     /// - Parameter DeleteCloudFrontOriginAccessIdentityInput : Deletes a origin access identity.
@@ -569,6 +693,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteContinuousDeploymentPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
     ///
     /// - Parameter DeleteContinuousDeploymentPolicyInput : [no documentation found]
@@ -585,6 +714,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Delete a distribution.
     ///
     /// - Parameter DeleteDistributionInput : This action deletes a web distribution. To delete a web distribution using the CloudFront API, perform the following steps. To delete a web distribution using the CloudFront API:
@@ -619,6 +753,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFieldLevelEncryptionConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Remove a field-level encryption configuration.
     ///
     /// - Parameter DeleteFieldLevelEncryptionConfigInput : [no documentation found]
@@ -634,6 +773,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteFieldLevelEncryptionConfig(input: DeleteFieldLevelEncryptionConfigInput) async throws -> DeleteFieldLevelEncryptionConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFieldLevelEncryptionProfile` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Remove a field-level encryption profile.
     ///
     /// - Parameter DeleteFieldLevelEncryptionProfileInput : [no documentation found]
@@ -649,6 +793,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteFieldLevelEncryptionProfile(input: DeleteFieldLevelEncryptionProfileInput) async throws -> DeleteFieldLevelEncryptionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
     /// - Parameter DeleteFunctionInput : [no documentation found]
@@ -664,6 +813,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKeyGroup` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     ///
     /// - Parameter DeleteKeyGroupInput : [no documentation found]
@@ -678,6 +832,28 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResourceInUse` : Cannot delete this resource because it is in use.
     func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteKeyValueStore` operation on the `Cloudfront2020_05_31` service.
+    ///
+    /// Specifies the Key Value Store to delete.
+    ///
+    /// - Parameter DeleteKeyValueStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKeyValueStoreOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : Access denied.
+    /// - `CannotDeleteEntityWhileInUse` : The Key Value Store entity cannot be deleted while it is in use.
+    /// - `EntityNotFound` : The Key Value Store entity was not found.
+    /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
+    /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
+    func deleteKeyValueStore(input: DeleteKeyValueStoreInput) async throws -> DeleteKeyValueStoreOutput
+    /// Performs the `DeleteMonitoringSubscription` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Disables additional CloudWatch metrics for the specified CloudFront distribution.
     ///
     /// - Parameter DeleteMonitoringSubscriptionInput : [no documentation found]
@@ -692,6 +868,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteOriginAccessControl` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
     ///
     /// - Parameter DeleteOriginAccessControlInput : [no documentation found]
@@ -707,6 +888,11 @@ public protocol CloudFrontClientProtocol {
     /// - `OriginAccessControlInUse` : Cannot delete the origin access control because it's in use by one or more distributions.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteOriginAccessControl(input: DeleteOriginAccessControlInput) async throws -> DeleteOriginAccessControlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteOriginRequestPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     ///
     /// - Parameter DeleteOriginRequestPolicyInput : [no documentation found]
@@ -723,6 +909,11 @@ public protocol CloudFrontClientProtocol {
     /// - `OriginRequestPolicyInUse` : Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePublicKey` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Remove a public key you previously added to CloudFront.
     ///
     /// - Parameter DeletePublicKeyInput : [no documentation found]
@@ -738,6 +929,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `PublicKeyInUse` : The specified public key is in use.
     func deletePublicKey(input: DeletePublicKeyInput) async throws -> DeletePublicKeyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRealtimeLogConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     ///
     /// - Parameter DeleteRealtimeLogConfigInput : [no documentation found]
@@ -752,6 +948,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     /// - `RealtimeLogConfigInUse` : Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
     func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteResponseHeadersPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     ///
     /// - Parameter DeleteResponseHeadersPolicyInput : [no documentation found]
@@ -768,6 +969,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `ResponseHeadersPolicyInUse` : Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
     func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteStreamingDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps. To delete an RTMP distribution using the CloudFront API:
     ///
     /// * Disable the RTMP distribution.
@@ -802,6 +1008,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StreamingDistributionNotDisabled` : The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     func deleteStreamingDistribution(input: DeleteStreamingDistributionInput) async throws -> DeleteStreamingDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
     /// - Parameter DescribeFunctionInput : [no documentation found]
@@ -814,6 +1025,26 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeKeyValueStore` operation on the `Cloudfront2020_05_31` service.
+    ///
+    /// Specifies the Key Value Store and its configuration.
+    ///
+    /// - Parameter DescribeKeyValueStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeKeyValueStoreOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : Access denied.
+    /// - `EntityNotFound` : The Key Value Store entity was not found.
+    /// - `InvalidArgument` : An argument is invalid.
+    func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput
+    /// Performs the `GetCachePolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a cache policy, including the following metadata:
     ///
     /// * The policy's identifier.
@@ -833,6 +1064,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCachePolicyConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
     /// - Parameter GetCachePolicyConfigInput : [no documentation found]
@@ -845,6 +1081,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCloudFrontOriginAccessIdentity` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the information about an origin access identity.
     ///
     /// - Parameter GetCloudFrontOriginAccessIdentityInput : The request to get an origin access identity's information.
@@ -857,6 +1098,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCloudFrontOriginAccessIdentityConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the configuration information about an origin access identity.
     ///
     /// - Parameter GetCloudFrontOriginAccessIdentityConfigInput : The origin access identity's configuration information. For more information, see [CloudFrontOriginAccessIdentityConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CloudFrontOriginAccessIdentityConfig.html).
@@ -869,6 +1115,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetContinuousDeploymentPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
     ///
     /// - Parameter GetContinuousDeploymentPolicyInput : [no documentation found]
@@ -881,6 +1132,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetContinuousDeploymentPolicyConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets configuration information about a continuous deployment policy.
     ///
     /// - Parameter GetContinuousDeploymentPolicyConfigInput : [no documentation found]
@@ -893,6 +1149,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the information about a distribution.
     ///
     /// - Parameter GetDistributionInput : The request to get a distribution's information.
@@ -905,6 +1166,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDistributionConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the configuration information about a distribution.
     ///
     /// - Parameter GetDistributionConfigInput : The request to get a distribution configuration.
@@ -917,6 +1183,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     func getDistributionConfig(input: GetDistributionConfigInput) async throws -> GetDistributionConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFieldLevelEncryption` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the field-level encryption configuration information.
     ///
     /// - Parameter GetFieldLevelEncryptionInput : [no documentation found]
@@ -929,6 +1200,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     func getFieldLevelEncryption(input: GetFieldLevelEncryptionInput) async throws -> GetFieldLevelEncryptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFieldLevelEncryptionConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the field-level encryption configuration information.
     ///
     /// - Parameter GetFieldLevelEncryptionConfigInput : [no documentation found]
@@ -941,6 +1217,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionConfig` : The specified configuration for field-level encryption doesn't exist.
     func getFieldLevelEncryptionConfig(input: GetFieldLevelEncryptionConfigInput) async throws -> GetFieldLevelEncryptionConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFieldLevelEncryptionProfile` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the field-level encryption profile information.
     ///
     /// - Parameter GetFieldLevelEncryptionProfileInput : [no documentation found]
@@ -953,6 +1234,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     func getFieldLevelEncryptionProfile(input: GetFieldLevelEncryptionProfileInput) async throws -> GetFieldLevelEncryptionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFieldLevelEncryptionProfileConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the field-level encryption profile configuration information.
     ///
     /// - Parameter GetFieldLevelEncryptionProfileConfigInput : [no documentation found]
@@ -965,6 +1251,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchFieldLevelEncryptionProfile` : The specified profile for field-level encryption doesn't exist.
     func getFieldLevelEncryptionProfileConfig(input: GetFieldLevelEncryptionProfileConfigInput) async throws -> GetFieldLevelEncryptionProfileConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
     /// - Parameter GetFunctionInput : [no documentation found]
@@ -977,6 +1268,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetInvalidation` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the information about an invalidation.
     ///
     /// - Parameter GetInvalidationInput : The request to get an invalidation's information.
@@ -990,6 +1286,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchInvalidation` : The specified invalidation does not exist.
     func getInvalidation(input: GetInvalidationInput) async throws -> GetInvalidationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKeyGroup` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
     /// - Parameter GetKeyGroupInput : [no documentation found]
@@ -1001,6 +1302,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
     func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetKeyGroupConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
     /// - Parameter GetKeyGroupConfigInput : [no documentation found]
@@ -1012,6 +1318,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `NoSuchResource` : A resource that was specified is not valid.
     func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMonitoringSubscription` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
     ///
     /// - Parameter GetMonitoringSubscriptionInput : [no documentation found]
@@ -1026,6 +1337,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOriginAccessControl` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a CloudFront origin access control, including its unique identifier.
     ///
     /// - Parameter GetOriginAccessControlInput : [no documentation found]
@@ -1038,6 +1354,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     func getOriginAccessControl(input: GetOriginAccessControlInput) async throws -> GetOriginAccessControlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOriginAccessControlConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a CloudFront origin access control configuration.
     ///
     /// - Parameter GetOriginAccessControlConfigInput : [no documentation found]
@@ -1050,6 +1371,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginAccessControl` : The origin access control does not exist.
     func getOriginAccessControlConfig(input: GetOriginAccessControlConfigInput) async throws -> GetOriginAccessControlConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOriginRequestPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets an origin request policy, including the following metadata:
     ///
     /// * The policy's identifier.
@@ -1069,6 +1395,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOriginRequestPolicyConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
     /// - Parameter GetOriginRequestPolicyConfigInput : [no documentation found]
@@ -1081,6 +1412,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPublicKey` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a public key.
     ///
     /// - Parameter GetPublicKeyInput : [no documentation found]
@@ -1093,6 +1429,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     func getPublicKey(input: GetPublicKeyInput) async throws -> GetPublicKeyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPublicKeyConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a public key configuration.
     ///
     /// - Parameter GetPublicKeyConfigInput : [no documentation found]
@@ -1105,6 +1446,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     func getPublicKeyConfig(input: GetPublicKeyConfigInput) async throws -> GetPublicKeyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRealtimeLogConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
     ///
     /// - Parameter GetRealtimeLogConfigInput : [no documentation found]
@@ -1118,6 +1464,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResponseHeadersPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
     /// - Parameter GetResponseHeadersPolicyInput : [no documentation found]
@@ -1130,6 +1481,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResponseHeadersPolicyConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
     /// - Parameter GetResponseHeadersPolicyConfigInput : [no documentation found]
@@ -1142,6 +1498,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetStreamingDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets information about a specified RTMP distribution, including the distribution configuration.
     ///
     /// - Parameter GetStreamingDistributionInput : The request to get a streaming distribution's information.
@@ -1154,6 +1515,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
     func getStreamingDistribution(input: GetStreamingDistributionInput) async throws -> GetStreamingDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetStreamingDistributionConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Get the configuration information about a streaming distribution.
     ///
     /// - Parameter GetStreamingDistributionConfigInput : To request to get a streaming distribution configuration.
@@ -1166,6 +1532,11 @@ public protocol CloudFrontClientProtocol {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchStreamingDistribution` : The specified streaming distribution does not exist.
     func getStreamingDistributionConfig(input: GetStreamingDistributionConfigInput) async throws -> GetStreamingDistributionConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCachePolicies` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListCachePoliciesInput : [no documentation found]
@@ -1179,6 +1550,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     func listCachePolicies(input: ListCachePoliciesInput) async throws -> ListCachePoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCloudFrontOriginAccessIdentities` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Lists origin access identities.
     ///
     /// - Parameter ListCloudFrontOriginAccessIdentitiesInput : The request to list origin access identities.
@@ -1190,6 +1566,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConflictingAliases` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListConflictingAliasesInput : [no documentation found]
@@ -1202,6 +1583,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListContinuousDeploymentPolicies` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListContinuousDeploymentPoliciesInput : [no documentation found]
@@ -1215,6 +1601,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchContinuousDeploymentPolicy` : The continuous deployment policy doesn't exist.
     func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributions` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// List CloudFront distributions.
     ///
     /// - Parameter ListDistributionsInput : The request to list your distributions.
@@ -1226,6 +1617,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributionsByCachePolicyId` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListDistributionsByCachePolicyIdInput : [no documentation found]
@@ -1239,6 +1635,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchCachePolicy` : The cache policy does not exist.
     func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributionsByKeyGroup` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListDistributionsByKeyGroupInput : [no documentation found]
@@ -1251,6 +1652,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     func listDistributionsByKeyGroup(input: ListDistributionsByKeyGroupInput) async throws -> ListDistributionsByKeyGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributionsByOriginRequestPolicyId` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListDistributionsByOriginRequestPolicyIdInput : [no documentation found]
@@ -1264,6 +1670,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributionsByRealtimeLogConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListDistributionsByRealtimeLogConfigInput : [no documentation found]
@@ -1275,6 +1686,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributionsByResponseHeadersPolicyId` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListDistributionsByResponseHeadersPolicyIdInput : [no documentation found]
@@ -1288,6 +1704,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDistributionsByWebACLId` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// List the distributions that are associated with a specified WAF web ACL.
     ///
     /// - Parameter ListDistributionsByWebACLIdInput : The request to list distributions that are associated with a specified WAF web ACL.
@@ -1300,6 +1721,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidWebACLId` : A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
     func listDistributionsByWebACLId(input: ListDistributionsByWebACLIdInput) async throws -> ListDistributionsByWebACLIdOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFieldLevelEncryptionConfigs` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// List all field-level encryption configurations that have been created in CloudFront for this account.
     ///
     /// - Parameter ListFieldLevelEncryptionConfigsInput : [no documentation found]
@@ -1311,6 +1737,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listFieldLevelEncryptionConfigs(input: ListFieldLevelEncryptionConfigsInput) async throws -> ListFieldLevelEncryptionConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFieldLevelEncryptionProfiles` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     ///
     /// - Parameter ListFieldLevelEncryptionProfilesInput : [no documentation found]
@@ -1322,6 +1753,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listFieldLevelEncryptionProfiles(input: ListFieldLevelEncryptionProfilesInput) async throws -> ListFieldLevelEncryptionProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFunctions` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListFunctionsInput : [no documentation found]
@@ -1334,6 +1770,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListInvalidations` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Lists invalidation batches.
     ///
     /// - Parameter ListInvalidationsInput : The request to list invalidations.
@@ -1347,6 +1788,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     func listInvalidations(input: ListInvalidationsInput) async throws -> ListInvalidationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKeyGroups` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListKeyGroupsInput : [no documentation found]
@@ -1358,6 +1804,25 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listKeyGroups(input: ListKeyGroupsInput) async throws -> ListKeyGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListKeyValueStores` operation on the `Cloudfront2020_05_31` service.
+    ///
+    /// Specifies the Key Value Stores to list.
+    ///
+    /// - Parameter ListKeyValueStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeyValueStoresOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : Access denied.
+    /// - `InvalidArgument` : An argument is invalid.
+    func listKeyValueStores(input: ListKeyValueStoresInput) async throws -> ListKeyValueStoresOutput
+    /// Performs the `ListOriginAccessControls` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets the list of CloudFront origin access controls in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request.
     ///
     /// - Parameter ListOriginAccessControlsInput : [no documentation found]
@@ -1369,6 +1834,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listOriginAccessControls(input: ListOriginAccessControlsInput) async throws -> ListOriginAccessControlsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListOriginRequestPolicies` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListOriginRequestPoliciesInput : [no documentation found]
@@ -1382,6 +1852,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchOriginRequestPolicy` : The origin request policy does not exist.
     func listOriginRequestPolicies(input: ListOriginRequestPoliciesInput) async throws -> ListOriginRequestPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPublicKeys` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// List all public keys that have been added to CloudFront for this account.
     ///
     /// - Parameter ListPublicKeysInput : [no documentation found]
@@ -1393,6 +1868,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listPublicKeys(input: ListPublicKeysInput) async throws -> ListPublicKeysOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRealtimeLogConfigs` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListRealtimeLogConfigsInput : [no documentation found]
@@ -1406,6 +1886,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     func listRealtimeLogConfigs(input: ListRealtimeLogConfigsInput) async throws -> ListRealtimeLogConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListResponseHeadersPolicies` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
     /// - Parameter ListResponseHeadersPoliciesInput : [no documentation found]
@@ -1419,6 +1904,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchResponseHeadersPolicy` : The response headers policy does not exist.
     func listResponseHeadersPolicies(input: ListResponseHeadersPoliciesInput) async throws -> ListResponseHeadersPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListStreamingDistributions` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// List streaming distributions.
     ///
     /// - Parameter ListStreamingDistributionsInput : The request to list your streaming distributions.
@@ -1430,6 +1920,11 @@ public protocol CloudFrontClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
     func listStreamingDistributions(input: ListStreamingDistributionsInput) async throws -> ListStreamingDistributionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// List tags for a CloudFront resource.
     ///
     /// - Parameter ListTagsForResourceInput : The request to list tags for a CloudFront resource.
@@ -1444,6 +1939,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PublishFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
     /// - Parameter PublishFunctionInput : [no documentation found]
@@ -1459,6 +1959,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Add tags to a CloudFront resource.
     ///
     /// - Parameter TagResourceInput : The request to add tags to a CloudFront resource.
@@ -1473,6 +1978,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function) in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
     ///
     /// - Parameter TestFunctionInput : [no documentation found]
@@ -1488,6 +1998,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TestFunctionFailed` : The CloudFront function failed.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Remove tags from a CloudFront resource.
     ///
     /// - Parameter UntagResourceInput : The request to remove tags from a CloudFront resource.
@@ -1502,6 +2017,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidTagging` : The tagging specified is not valid.
     /// - `NoSuchResource` : A resource that was specified is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCachePolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:
     ///
     /// * Use GetCachePolicyConfig to get the current configuration.
@@ -1529,6 +2049,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyHeadersInCachePolicy` : The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInCachePolicy` : The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCloudFrontOriginAccessIdentity` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Update an origin access identity.
     ///
     /// - Parameter UpdateCloudFrontOriginAccessIdentityInput : The request to update an origin access identity.
@@ -1547,6 +2072,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchCloudFrontOriginAccessIdentity` : The specified origin access identity does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateContinuousDeploymentPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration:
     ///
     /// * Use GetContinuousDeploymentPolicyConfig to get the current configuration.
@@ -1570,6 +2100,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `StagingDistributionInUse` : A continuous deployment policy for this staging distribution already exists.
     func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating it to make your changes, and then submitting an UpdateDistribution request to make the updates. To update a web distribution using the CloudFront API
     ///
     /// * Use GetDistributionConfig to get the current configuration, including the version identifier (ETag).
@@ -1659,6 +2194,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDistributionWithStagingConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution. This API operation requires the following IAM permissions:
     ///
     /// * [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html)
@@ -1734,6 +2274,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TrustedKeyGroupDoesNotExist` : The specified key group does not exist.
     /// - `TrustedSignerDoesNotExist` : One or more of your trusted signers don't exist.
     func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFieldLevelEncryptionConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Update a field-level encryption configuration.
     ///
     /// - Parameter UpdateFieldLevelEncryptionConfigInput : [no documentation found]
@@ -1755,6 +2300,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionContentTypeProfiles` : The maximum number of content type profiles for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionQueryArgProfiles` : The maximum number of query arg profiles for field-level encryption have been created.
     func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFieldLevelEncryptionProfile` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Update a field-level encryption profile.
     ///
     /// - Parameter UpdateFieldLevelEncryptionProfileInput : [no documentation found]
@@ -1777,6 +2327,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyFieldLevelEncryptionEncryptionEntities` : The maximum number of encryption entities for field-level encryption have been created.
     /// - `TooManyFieldLevelEncryptionFieldPatterns` : The maximum number of field patterns for field-level encryption have been created.
     func updateFieldLevelEncryptionProfile(input: UpdateFieldLevelEncryptionProfileInput) async throws -> UpdateFieldLevelEncryptionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFunction` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
     ///
     /// - Parameter UpdateFunctionInput : [no documentation found]
@@ -1793,6 +2348,11 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `UnsupportedOperation` : This operation is not supported in this region.
     func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKeyGroup` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group:
     ///
     /// * Get the current key group with GetKeyGroup or GetKeyGroupConfig.
@@ -1815,6 +2375,28 @@ public protocol CloudFrontClientProtocol {
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     /// - `TooManyPublicKeysInKeyGroup` : The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateKeyValueStore` operation on the `Cloudfront2020_05_31` service.
+    ///
+    /// Specifies the Key Value Store to update.
+    ///
+    /// - Parameter UpdateKeyValueStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKeyValueStoreOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : Access denied.
+    /// - `EntityNotFound` : The Key Value Store entity was not found.
+    /// - `InvalidArgument` : An argument is invalid.
+    /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
+    /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
+    func updateKeyValueStore(input: UpdateKeyValueStoreInput) async throws -> UpdateKeyValueStoreOutput
+    /// Performs the `UpdateOriginAccessControl` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a CloudFront origin access control.
     ///
     /// - Parameter UpdateOriginAccessControlInput : [no documentation found]
@@ -1832,6 +2414,11 @@ public protocol CloudFrontClientProtocol {
     /// - `OriginAccessControlAlreadyExists` : An origin access control with the specified parameters already exists.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func updateOriginAccessControl(input: UpdateOriginAccessControlInput) async throws -> UpdateOriginAccessControlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateOriginRequestPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:
     ///
     /// * Use GetOriginRequestPolicyConfig to get the current configuration.
@@ -1859,6 +2446,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyHeadersInOriginRequestPolicy` : The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyQueryStringsInOriginRequestPolicy` : The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePublicKey` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Update public key information. Note that the only value you can change is the comment.
     ///
     /// - Parameter UpdatePublicKeyInput : [no documentation found]
@@ -1876,6 +2468,11 @@ public protocol CloudFrontClientProtocol {
     /// - `NoSuchPublicKey` : The specified public key doesn't exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
     func updatePublicKey(input: UpdatePublicKeyInput) async throws -> UpdatePublicKeyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRealtimeLogConfig` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:
     ///
     /// * Call GetRealtimeLogConfig to get the current real-time log configuration.
@@ -1898,6 +2495,11 @@ public protocol CloudFrontClientProtocol {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `NoSuchRealtimeLogConfig` : The real-time log configuration does not exist.
     func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateResponseHeadersPolicy` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration:
     ///
     /// * Use GetResponseHeadersPolicyConfig to get the current policy's configuration.
@@ -1925,6 +2527,11 @@ public protocol CloudFrontClientProtocol {
     /// - `TooManyCustomHeadersInResponseHeadersPolicy` : The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `TooManyRemoveHeadersInResponseHeadersPolicy` : The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateStreamingDistribution` operation on the `Cloudfront2020_05_31` service.
+    ///
+>>>>>>> main
     /// Update a streaming distribution.
     ///
     /// - Parameter UpdateStreamingDistributionInput : The request to update a streaming distribution.

@@ -15,6 +15,8 @@ import ClientRuntime
 ///
 /// For specific API usage, see the sections that follow in this AWS Migration Hub Home Region API reference.
 public protocol MigrationHubConfigClientProtocol {
+    /// Performs the `CreateHomeRegionControl` operation on the `AWSMigrationHubMultiAccountService` service.
+    ///
     /// This API sets up the home region for the calling account only.
     ///
     /// - Parameter CreateHomeRegionControlInput : [no documentation found]
@@ -31,6 +33,11 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createHomeRegionControl(input: CreateHomeRegionControlInput) async throws -> CreateHomeRegionControlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteHomeRegionControl` operation on the `AWSMigrationHubMultiAccountService` service.
+    ///
+>>>>>>> main
     /// This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
     ///
     /// - Parameter DeleteHomeRegionControlInput : [no documentation found]
@@ -46,6 +53,11 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func deleteHomeRegionControl(input: DeleteHomeRegionControlInput) async throws -> DeleteHomeRegionControlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeHomeRegionControls` operation on the `AWSMigrationHubMultiAccountService` service.
+    ///
+>>>>>>> main
     /// This API permits filtering on the ControlId and HomeRegion fields.
     ///
     /// - Parameter DescribeHomeRegionControlsInput : [no documentation found]
@@ -61,6 +73,11 @@ public protocol MigrationHubConfigClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when a request fails due to temporary unavailability of the service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeHomeRegionControls(input: DescribeHomeRegionControlsInput) async throws -> DescribeHomeRegionControlsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetHomeRegion` operation on the `AWSMigrationHubMultiAccountService` service.
+    ///
+>>>>>>> main
     /// Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
     ///
     /// - Parameter GetHomeRegionInput : [no documentation found]

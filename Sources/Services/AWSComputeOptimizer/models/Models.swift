@@ -219,6 +219,51 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances discounts.
+    public struct AutoScalingGroupEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
@@ -441,6 +486,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         case projectedUtilizationMetrics
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -469,6 +515,9 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
         }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -496,6 +545,8 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         migrationEffort = migrationEffortDecoded
         let instanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .instanceGpuInfo)
         instanceGpuInfo = instanceGpuInfoDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -516,6 +567,8 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts?
 
         public init(
             configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration? = nil,
@@ -524,7 +577,8 @@ extension ComputeOptimizerClientTypes {
             performanceRisk: Swift.Double = 0.0,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.configuration = configuration
@@ -534,6 +588,52 @@ extension ComputeOptimizerClientTypes {
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Auto Scaling group recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
+    public struct AutoScalingGroupSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Auto Scaling group recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -814,6 +914,150 @@ extension ComputeOptimizerClientTypes {
         }
     }
 
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum CustomizableMetricHeadroom: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case percent0
+        case percent20
+        case percent30
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizableMetricHeadroom] {
+            return [
+                .percent0,
+                .percent20,
+                .percent30,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .percent0: return "PERCENT_0"
+            case .percent20: return "PERCENT_20"
+            case .percent30: return "PERCENT_30"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizableMetricHeadroom(rawValue: rawValue) ?? CustomizableMetricHeadroom.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum CustomizableMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cpuUtilization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizableMetricName] {
+            return [
+                .cpuUtilization,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpuUtilization: return "CpuUtilization"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizableMetricName(rawValue: rawValue) ?? CustomizableMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.CustomizableMetricParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case headroom
+        case threshold
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let headroom = self.headroom {
+            try encodeContainer.encode(headroom.rawValue, forKey: .headroom)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold.rawValue, forKey: .threshold)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let thresholdDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricThreshold.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let headroomDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricHeadroom.self, forKey: .headroom)
+        headroom = headroomDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Defines the various metric parameters that can be customized, such as threshold and headroom.
+    public struct CustomizableMetricParameters: Swift.Equatable {
+        /// The headroom threshold value in percentage used for the specified metric parameter.
+        public var headroom: ComputeOptimizerClientTypes.CustomizableMetricHeadroom?
+        /// The threshold value used for the specified metric parameter.
+        public var threshold: ComputeOptimizerClientTypes.CustomizableMetricThreshold?
+
+        public init(
+            headroom: ComputeOptimizerClientTypes.CustomizableMetricHeadroom? = nil,
+            threshold: ComputeOptimizerClientTypes.CustomizableMetricThreshold? = nil
+        )
+        {
+            self.headroom = headroom
+            self.threshold = threshold
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum CustomizableMetricThreshold: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case p90
+        case p95
+        case p995
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizableMetricThreshold] {
+            return [
+                .p90,
+                .p95,
+                .p995,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .p90: return "P90"
+            case .p95: return "P95"
+            case .p995: return "P99_5"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizableMetricThreshold(rawValue: rawValue) ?? CustomizableMetricThreshold.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DeleteRecommendationPreferencesInput: Swift.Encodable {
@@ -1113,6 +1357,89 @@ enum DescribeRecommendationExportJobsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsEstimationMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Amazon EBS volumes.
+    public struct EBSEffectiveRecommendationPreferences: Swift.Equatable {
+        /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode?
+
+        public init(
+            savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode? = nil
+        )
+        {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EBS volume recommendations. This includes any applicable discounts.
+    public struct EBSEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
+>>>>>>> main
 extension ComputeOptimizerClientTypes.EBSFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -1269,6 +1596,121 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon EBS volumes.
+    public struct EBSSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculating the savings opportunity for Amazon EBS volumes.
+        public var source: ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum EBSSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EBSSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EBSSavingsEstimationModeSource(rawValue: rawValue) ?? EBSSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Amazon EBS volume recommendations after applying specific discounts.
+    public struct EBSSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon EBS volume recommendations. This saving includes any applicable discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the specific discounts. This saving can be achieved by adopting Compute Optimizer’s Amazon EBS volume recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.EBSUtilizationMetric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -1327,6 +1769,201 @@ extension ComputeOptimizerClientTypes {
             self.name = name
             self.statistic = statistic
             self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsEstimationMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Amazon ECS services.
+    public struct ECSEffectiveRecommendationPreferences: Swift.Equatable {
+        /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode?
+
+        public init(
+            savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode? = nil
+        )
+        {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the estimated monthly savings possible for Amazon ECS services by adopting Compute Optimizer recommendations. This is based on Amazon ECS service pricing after applying Savings Plans discounts.
+    public struct ECSEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings for Amazon ECS services.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon ECS services.
+    public struct ECSSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculating the savings opportunity for Amazon ECS services.
+        public var source: ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSSavingsEstimationModeSource(rawValue: rawValue) ?? ECSSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Amazon ECS service recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct ECSSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -1607,6 +2244,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
         case accountId
         case currentPerformanceRisk
         case currentServiceConfiguration
+        case effectiveRecommendationPreferences
         case finding
         case findingReasonCodes
         case lastRefreshTimestamp
@@ -1628,6 +2266,9 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
         }
         if let currentServiceConfiguration = self.currentServiceConfiguration {
             try encodeContainer.encode(currentServiceConfiguration, forKey: .currentServiceConfiguration)
+        }
+        if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
+            try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -1732,6 +2373,8 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let effectiveRecommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences.self, forKey: .effectiveRecommendationPreferences)
+        effectiveRecommendationPreferences = effectiveRecommendationPreferencesDecoded
     }
 }
 
@@ -1744,6 +2387,8 @@ extension ComputeOptimizerClientTypes {
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
         /// The configuration of the current Amazon ECS service.
         public var currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration?
+        /// Describes the effective recommendation preferences for Amazon ECS services.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences?
         /// The finding classification of an Amazon ECS service. Findings for Amazon ECS services include:
         ///
         /// * Underprovisioned — When Compute Optimizer detects that there’s not enough memory or CPU, an Amazon ECS service is considered under-provisioned. An under-provisioned service might result in poor application performance.
@@ -1781,6 +2426,7 @@ extension ComputeOptimizerClientTypes {
             accountId: Swift.String? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.ECSServiceRecommendationFinding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]? = nil,
             lastRefreshTimestamp: ClientRuntime.Date? = nil,
@@ -1795,6 +2441,7 @@ extension ComputeOptimizerClientTypes {
             self.accountId = accountId
             self.currentPerformanceRisk = currentPerformanceRisk
             self.currentServiceConfiguration = currentServiceConfiguration
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.lastRefreshTimestamp = lastRefreshTimestamp
@@ -1982,6 +2629,7 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
         case memory
         case projectedUtilizationMetrics
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2006,6 +2654,9 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -2039,6 +2690,8 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
             }
         }
         containerRecommendations = containerRecommendationsDecoded0
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -2055,13 +2708,16 @@ extension ComputeOptimizerClientTypes {
         public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]?
         /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// Describes the savings opportunity for Amazon ECS service recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts?
 
         public init(
             containerRecommendations: [ComputeOptimizerClientTypes.ContainerRecommendation]? = nil,
             cpu: Swift.Int? = nil,
             memory: Swift.Int? = nil,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]? = nil,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.containerRecommendations = containerRecommendations
@@ -2069,6 +2725,7 @@ extension ComputeOptimizerClientTypes {
             self.memory = memory
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
     }
 
@@ -2200,12 +2857,117 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.EffectivePreferredResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case effectiveIncludeList
+        case excludeList
+        case includeList
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let effectiveIncludeList = effectiveIncludeList {
+            var effectiveIncludeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .effectiveIncludeList)
+            for preferredresourcevalue0 in effectiveIncludeList {
+                try effectiveIncludeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let excludeList = excludeList {
+            var excludeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeList)
+            for preferredresourcevalue0 in excludeList {
+                try excludeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let includeList = includeList {
+            var includeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeList)
+            for preferredresourcevalue0 in includeList {
+                try includeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.PreferredResourceName.self, forKey: .name)
+        name = nameDecoded
+        let includeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeList)
+        var includeListDecoded0:[Swift.String]? = nil
+        if let includeListContainer = includeListContainer {
+            includeListDecoded0 = [Swift.String]()
+            for string0 in includeListContainer {
+                if let string0 = string0 {
+                    includeListDecoded0?.append(string0)
+                }
+            }
+        }
+        includeList = includeListDecoded0
+        let effectiveIncludeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .effectiveIncludeList)
+        var effectiveIncludeListDecoded0:[Swift.String]? = nil
+        if let effectiveIncludeListContainer = effectiveIncludeListContainer {
+            effectiveIncludeListDecoded0 = [Swift.String]()
+            for string0 in effectiveIncludeListContainer {
+                if let string0 = string0 {
+                    effectiveIncludeListDecoded0?.append(string0)
+                }
+            }
+        }
+        effectiveIncludeList = effectiveIncludeListDecoded0
+        let excludeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludeList)
+        var excludeListDecoded0:[Swift.String]? = nil
+        if let excludeListContainer = excludeListContainer {
+            excludeListDecoded0 = [Swift.String]()
+            for string0 in excludeListContainer {
+                if let string0 = string0 {
+                    excludeListDecoded0?.append(string0)
+                }
+            }
+        }
+        excludeList = excludeListDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective preferred resources that Compute Optimizer considers as rightsizing recommendation candidates. Compute Optimizer only supports Amazon EC2 instance types.
+    public struct EffectivePreferredResource: Swift.Equatable {
+        /// The expanded version of your preferred resource's include list.
+        public var effectiveIncludeList: [Swift.String]?
+        /// The list of preferred resources values that you want excluded from rightsizing recommendation candidates.
+        public var excludeList: [Swift.String]?
+        /// The list of preferred resource values that you want considered as rightsizing recommendation candidates.
+        public var includeList: [Swift.String]?
+        /// The name of the preferred resource list.
+        public var name: ComputeOptimizerClientTypes.PreferredResourceName?
+
+        public init(
+            effectiveIncludeList: [Swift.String]? = nil,
+            excludeList: [Swift.String]? = nil,
+            includeList: [Swift.String]? = nil,
+            name: ComputeOptimizerClientTypes.PreferredResourceName? = nil
+        )
+        {
+            self.effectiveIncludeList = effectiveIncludeList
+            self.excludeList = excludeList
+            self.includeList = includeList
+            self.name = name
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpuVendorArchitectures
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
+        case savingsEstimationMode
+        case utilizationPreferences
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2224,6 +2986,24 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         }
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
+        }
+        if let lookBackPeriod = self.lookBackPeriod {
+            try encodeContainer.encode(lookBackPeriod.rawValue, forKey: .lookBackPeriod)
+        }
+        if let preferredResources = preferredResources {
+            var preferredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preferredResources)
+            for effectivepreferredresource0 in preferredResources {
+                try preferredResourcesContainer.encode(effectivepreferredresource0)
+            }
+        }
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+        if let utilizationPreferences = utilizationPreferences {
+            var utilizationPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationPreferences)
+            for utilizationpreference0 in utilizationPreferences {
+                try utilizationPreferencesContainer.encode(utilizationpreference0)
+            }
         }
     }
 
@@ -2246,6 +3026,32 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.EffectivePreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.EffectivePreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
     }
 }
 
@@ -2266,18 +3072,34 @@ extension ComputeOptimizerClientTypes {
         public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
         /// Describes the activation status of the inferred workload types preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
         public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+        /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+        /// The resource type values that are considered as candidates when generating rightsizing recommendations.
+        public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
+        /// Describes the savings estimation mode applied for calculating savings opportunity for a resource.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode?
+        /// The resource’s CPU utilization threshold preferences, such as threshold and headroom, that are used to generate rightsizing recommendations. This preference is only available for the Amazon EC2 instance resource type.
+        public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
         public init(
             cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil,
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
             externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
-            inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil
+            inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+            preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
+            savingsEstimationMode: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode? = nil,
+            utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
         )
         {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
+            self.savingsEstimationMode = savingsEstimationMode
+            self.utilizationPreferences = utilizationPreferences
         }
     }
 
@@ -3798,6 +4620,9 @@ extension ComputeOptimizerClientTypes {
         case effectiveRecommendationPreferencesCpuVendorArchitectures
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
         case effectiveRecommendationPreferencesInferredWorkloadTypes
+        case effectiveRecommendationPreferencesLookbackPeriod
+        case effectiveRecommendationPreferencesPreferredResources
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case inferredWorkloadTypes
         case lastRefreshTimestamp
@@ -3807,7 +4632,9 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsConfigurationMaxSize
         case recommendationOptionsConfigurationMinSize
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsInstanceGpuInfo
         case recommendationOptionsMemory
         case recommendationOptionsMigrationEffort
@@ -3818,6 +4645,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsProjectedUtilizationMetricsGpuMaximum
         case recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice
@@ -3862,6 +4690,9 @@ extension ComputeOptimizerClientTypes {
                 .effectiveRecommendationPreferencesCpuVendorArchitectures,
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
                 .effectiveRecommendationPreferencesInferredWorkloadTypes,
+                .effectiveRecommendationPreferencesLookbackPeriod,
+                .effectiveRecommendationPreferencesPreferredResources,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .inferredWorkloadTypes,
                 .lastRefreshTimestamp,
@@ -3871,7 +4702,9 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsConfigurationMaxSize,
                 .recommendationOptionsConfigurationMinSize,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsInstanceGpuInfo,
                 .recommendationOptionsMemory,
                 .recommendationOptionsMigrationEffort,
@@ -3882,6 +4715,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsProjectedUtilizationMetricsGpuMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
                 .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
@@ -3931,6 +4765,9 @@ extension ComputeOptimizerClientTypes {
             case .effectiveRecommendationPreferencesCpuVendorArchitectures: return "EffectiveRecommendationPreferencesCpuVendorArchitectures"
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
             case .effectiveRecommendationPreferencesInferredWorkloadTypes: return "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
+            case .effectiveRecommendationPreferencesPreferredResources: return "EffectiveRecommendationPreferencesPreferredResources"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
@@ -3940,7 +4777,9 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsConfigurationMaxSize: return "RecommendationOptionsConfigurationMaxSize"
             case .recommendationOptionsConfigurationMinSize: return "RecommendationOptionsConfigurationMinSize"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsInstanceGpuInfo: return "RecommendationOptionsInstanceGpuInfo"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsMigrationEffort: return "RecommendationOptionsMigrationEffort"
@@ -3951,6 +4790,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsProjectedUtilizationMetricsGpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .recommendationOptionsStandardOneYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
             case .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
@@ -3992,6 +4832,7 @@ extension ComputeOptimizerClientTypes {
         case currentServiceConfigurationMemory
         case currentServiceConfigurationTaskDefinitionArn
         case currentServiceContainerConfigurations
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case findingReasonCodes
         case lastRefreshTimestamp
@@ -4000,10 +4841,13 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsContainerRecommendations
         case recommendationOptionsCpu
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsMemory
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case serviceArn
         case tags
@@ -4020,6 +4864,7 @@ extension ComputeOptimizerClientTypes {
                 .currentServiceConfigurationMemory,
                 .currentServiceConfigurationTaskDefinitionArn,
                 .currentServiceContainerConfigurations,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .findingReasonCodes,
                 .lastRefreshTimestamp,
@@ -4028,10 +4873,13 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsContainerRecommendations,
                 .recommendationOptionsCpu,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsMemory,
                 .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .serviceArn,
                 .tags,
@@ -4053,6 +4901,7 @@ extension ComputeOptimizerClientTypes {
             case .currentServiceConfigurationMemory: return "CurrentServiceConfigurationMemory"
             case .currentServiceConfigurationTaskDefinitionArn: return "CurrentServiceConfigurationTaskDefinitionArn"
             case .currentServiceContainerConfigurations: return "CurrentServiceContainerConfigurations"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
@@ -4061,10 +4910,13 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsContainerRecommendations: return "RecommendationOptionsContainerRecommendations"
             case .recommendationOptionsCpu: return "RecommendationOptionsCpu"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .serviceArn: return "ServiceArn"
             case .tags: return "Tags"
@@ -4098,6 +4950,10 @@ extension ComputeOptimizerClientTypes {
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
         case effectiveRecommendationPreferencesExternalMetricsSource
         case effectiveRecommendationPreferencesInferredWorkloadTypes
+        case effectiveRecommendationPreferencesLookbackPeriod
+        case effectiveRecommendationPreferencesPreferredResources
+        case effectiveRecommendationPreferencesSavingsEstimationMode
+        case effectiveRecommendationPreferencesUtilizationPreferences
         case externalMetricStatusCode
         case externalMetricStatusReason
         case finding
@@ -4112,7 +4968,9 @@ extension ComputeOptimizerClientTypes {
         case recommendationsSourcesRecommendationSourceArn
         case recommendationsSourcesRecommendationSourceType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsInstanceGpuInfo
         case recommendationOptionsInstanceType
         case recommendationOptionsMemory
@@ -4125,6 +4983,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum
         case recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice
         case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice
@@ -4166,6 +5025,10 @@ extension ComputeOptimizerClientTypes {
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
                 .effectiveRecommendationPreferencesExternalMetricsSource,
                 .effectiveRecommendationPreferencesInferredWorkloadTypes,
+                .effectiveRecommendationPreferencesLookbackPeriod,
+                .effectiveRecommendationPreferencesPreferredResources,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
+                .effectiveRecommendationPreferencesUtilizationPreferences,
                 .externalMetricStatusCode,
                 .externalMetricStatusReason,
                 .finding,
@@ -4180,7 +5043,9 @@ extension ComputeOptimizerClientTypes {
                 .recommendationsSourcesRecommendationSourceArn,
                 .recommendationsSourcesRecommendationSourceType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsInstanceGpuInfo,
                 .recommendationOptionsInstanceType,
                 .recommendationOptionsMemory,
@@ -4193,6 +5058,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
                 .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice,
@@ -4239,6 +5105,10 @@ extension ComputeOptimizerClientTypes {
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
             case .effectiveRecommendationPreferencesExternalMetricsSource: return "EffectiveRecommendationPreferencesExternalMetricsSource"
             case .effectiveRecommendationPreferencesInferredWorkloadTypes: return "EffectiveRecommendationPreferencesInferredWorkloadTypes"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
+            case .effectiveRecommendationPreferencesPreferredResources: return "EffectiveRecommendationPreferencesPreferredResources"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
+            case .effectiveRecommendationPreferencesUtilizationPreferences: return "EffectiveRecommendationPreferencesUtilizationPreferences"
             case .externalMetricStatusCode: return "ExternalMetricStatusCode"
             case .externalMetricStatusReason: return "ExternalMetricStatusReason"
             case .finding: return "Finding"
@@ -4253,7 +5123,9 @@ extension ComputeOptimizerClientTypes {
             case .recommendationsSourcesRecommendationSourceArn: return "RecommendationsSourcesRecommendationSourceArn"
             case .recommendationsSourcesRecommendationSourceType: return "RecommendationsSourcesRecommendationSourceType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsInstanceGpuInfo: return "RecommendationOptionsInstanceGpuInfo"
             case .recommendationOptionsInstanceType: return "RecommendationOptionsInstanceType"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
@@ -4266,6 +5138,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .recommendationOptionsStandardOneYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
             case .recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
@@ -4307,6 +5180,7 @@ extension ComputeOptimizerClientTypes {
         case currentCostAverage
         case currentCostTotal
         case currentPerformanceRisk
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case findingReasonCodes
         case functionArn
@@ -4318,10 +5192,13 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsCostHigh
         case recommendationOptionsCostLow
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsProjectedUtilizationMetricsDurationExpected
         case recommendationOptionsProjectedUtilizationMetricsDurationLowerBound
         case recommendationOptionsProjectedUtilizationMetricsDurationUpperBound
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case tags
         case utilizationMetricsDurationAverage
@@ -4338,6 +5215,7 @@ extension ComputeOptimizerClientTypes {
                 .currentCostAverage,
                 .currentCostTotal,
                 .currentPerformanceRisk,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .findingReasonCodes,
                 .functionArn,
@@ -4349,10 +5227,13 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsCostHigh,
                 .recommendationOptionsCostLow,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsProjectedUtilizationMetricsDurationExpected,
                 .recommendationOptionsProjectedUtilizationMetricsDurationLowerBound,
                 .recommendationOptionsProjectedUtilizationMetricsDurationUpperBound,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .tags,
                 .utilizationMetricsDurationAverage,
@@ -4374,6 +5255,7 @@ extension ComputeOptimizerClientTypes {
             case .currentCostAverage: return "CurrentCostAverage"
             case .currentCostTotal: return "CurrentCostTotal"
             case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
             case .functionArn: return "FunctionArn"
@@ -4385,10 +5267,13 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsCostHigh: return "RecommendationOptionsCostHigh"
             case .recommendationOptionsCostLow: return "RecommendationOptionsCostLow"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsProjectedUtilizationMetricsDurationExpected: return "RecommendationOptionsProjectedUtilizationMetricsDurationExpected"
             case .recommendationOptionsProjectedUtilizationMetricsDurationLowerBound: return "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound"
             case .recommendationOptionsProjectedUtilizationMetricsDurationUpperBound: return "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .tags: return "Tags"
             case .utilizationMetricsDurationAverage: return "UtilizationMetricsDurationAverage"
@@ -4507,6 +5392,7 @@ extension ComputeOptimizerClientTypes {
         case currentConfigurationVolumeType
         case currentMonthlyPrice
         case currentPerformanceRisk
+        case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case lastRefreshTimestamp
         case lookbackPeriodInDays
@@ -4517,9 +5403,12 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsConfigurationVolumeSize
         case recommendationOptionsConfigurationVolumeType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
         case recommendationOptionsMonthlyPrice
         case recommendationOptionsPerformanceRisk
+        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage
         case recommendationOptionsSavingsOpportunityPercentage
         case rootVolume
         case tags
@@ -4542,6 +5431,7 @@ extension ComputeOptimizerClientTypes {
                 .currentConfigurationVolumeType,
                 .currentMonthlyPrice,
                 .currentPerformanceRisk,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .lastRefreshTimestamp,
                 .lookbackPeriodInDays,
@@ -4552,9 +5442,12 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsConfigurationVolumeSize,
                 .recommendationOptionsConfigurationVolumeType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
                 .recommendationOptionsMonthlyPrice,
                 .recommendationOptionsPerformanceRisk,
+                .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .rootVolume,
                 .tags,
@@ -4582,6 +5475,7 @@ extension ComputeOptimizerClientTypes {
             case .currentConfigurationVolumeType: return "CurrentConfigurationVolumeType"
             case .currentMonthlyPrice: return "CurrentMonthlyPrice"
             case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
             case .lookbackPeriodInDays: return "LookbackPeriodInDays"
@@ -4592,9 +5486,12 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsConfigurationVolumeSize: return "RecommendationOptionsConfigurationVolumeSize"
             case .recommendationOptionsConfigurationVolumeType: return "RecommendationOptionsConfigurationVolumeType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
             case .recommendationOptionsMonthlyPrice: return "RecommendationOptionsMonthlyPrice"
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
+            case .recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .rootVolume: return "RootVolume"
             case .tags: return "Tags"
@@ -6355,9 +7252,21 @@ extension GetEffectiveRecommendationPreferencesOutput: ClientRuntime.HttpRespons
             let output: GetEffectiveRecommendationPreferencesOutputBody = try responseDecoder.decode(responseBody: data)
             self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
             self.externalMetricsPreference = output.externalMetricsPreference
+<<<<<<< HEAD
         } else {
             self.enhancedInfrastructureMetrics = nil
             self.externalMetricsPreference = nil
+=======
+            self.lookBackPeriod = output.lookBackPeriod
+            self.preferredResources = output.preferredResources
+            self.utilizationPreferences = output.utilizationPreferences
+        } else {
+            self.enhancedInfrastructureMetrics = nil
+            self.externalMetricsPreference = nil
+            self.lookBackPeriod = nil
+            self.preferredResources = nil
+            self.utilizationPreferences = nil
+>>>>>>> main
         }
     }
 }
@@ -6367,26 +7276,60 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+<<<<<<< HEAD
 
     public init(
         enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
         externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil
+=======
+    /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    /// The resource type values that are considered as candidates when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. It also considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
+    /// The resource’s CPU utilization threshold preferences, such as threshold and headroom, that were used to generate rightsizing recommendations. It considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
+
+    public init(
+        enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+        externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
+        lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+        preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
+        utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+>>>>>>> main
     )
     {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
         self.externalMetricsPreference = externalMetricsPreference
+<<<<<<< HEAD
+=======
+        self.lookBackPeriod = lookBackPeriod
+        self.preferredResources = preferredResources
+        self.utilizationPreferences = utilizationPreferences
+>>>>>>> main
     }
 }
 
 struct GetEffectiveRecommendationPreferencesOutputBody: Swift.Equatable {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+<<<<<<< HEAD
+=======
+    let lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    let utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
+    let preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
+>>>>>>> main
 }
 
 extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
+<<<<<<< HEAD
+=======
+        case lookBackPeriod
+        case preferredResources
+        case utilizationPreferences
+>>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6395,6 +7338,33 @@ extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+<<<<<<< HEAD
+=======
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.EffectivePreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.EffectivePreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+>>>>>>> main
     }
 }
 
@@ -7760,6 +8730,51 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is based on the Savings Plans and Reserved Instances pricing discounts.
+    public struct InstanceEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes {
     public enum InstanceIdle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `false`
@@ -8234,6 +9249,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         case projectedUtilizationMetrics
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8267,6 +9283,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -8306,6 +9325,8 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         migrationEffort = migrationEffortDecoded
         let instanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .instanceGpuInfo)
         instanceGpuInfo = instanceGpuInfoDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -8340,6 +9361,8 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the instance recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the instance recommendation option that includes Savings Plans and Reserved Instances discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts?
 
         public init(
             instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
@@ -8349,7 +9372,8 @@ extension ComputeOptimizerClientTypes {
             platformDifferences: [ComputeOptimizerClientTypes.PlatformDifference]? = nil,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.instanceGpuInfo = instanceGpuInfo
@@ -8360,6 +9384,122 @@ extension ComputeOptimizerClientTypes {
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon EC2 instances.
+    public struct InstanceSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculating the savings opportunity for Amazon EC2 instances.
+        public var source: ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum InstanceSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceSavingsEstimationModeSource(rawValue: rawValue) ?? InstanceSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for instance recommendations after applying the Savings Plans and Reserved Instances discounts. Savings opportunity after discounts represents the estimated monthly savings you can achieve by implementing Compute Optimizer recommendations.
+    public struct InstanceSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// An object that describes the estimated monthly savings possible by adopting Compute Optimizer’s Amazon EC2 instance recommendations. This is based on pricing after applying the Savings Plans and Reserved Instances discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be achieved by adopting Compute Optimizer’s EC2 instance recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -8650,6 +9790,86 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsEstimationMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode, forKey: .savingsEstimationMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaSavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Lambda functions.
+    public struct LambdaEffectiveRecommendationPreferences: Swift.Equatable {
+        /// Describes the savings estimation mode applied for calculating savings opportunity for Lambda functions.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode?
+
+        public init(
+            savingsEstimationMode: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode? = nil
+        )
+        {
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency.rawValue, forKey: .currency)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currencyDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Currency.self, forKey: .currency)
+        currency = currencyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the estimated monthly savings possible for Lambda functions by adopting Compute Optimizer recommendations. This is based on Lambda functions pricing after applying Savings Plans discounts.
+    public struct LambdaEstimatedMonthlySavings: Swift.Equatable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes {
     public enum LambdaFunctionMemoryMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case duration
@@ -8775,6 +9995,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         case projectedUtilizationMetrics
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8793,6 +10014,9 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         }
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
         }
     }
 
@@ -8815,6 +10039,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         projectedUtilizationMetrics = projectedUtilizationMetricsDecoded0
         let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
         savingsOpportunity = savingsOpportunityDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -8829,18 +10055,22 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the Lambda function recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the Lambda recommendation option which includes Saving Plans discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts?
 
         public init(
             memorySize: Swift.Int = 0,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric]? = nil,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.memorySize = memorySize
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
     }
 
@@ -8915,6 +10145,7 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         case accountId
         case currentMemorySize
         case currentPerformanceRisk
+        case effectiveRecommendationPreferences
         case finding
         case findingReasonCodes
         case functionArn
@@ -8937,6 +10168,9 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         }
         if let currentPerformanceRisk = self.currentPerformanceRisk {
             try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
+        }
+        if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
+            try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -9046,6 +10280,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
             }
         }
         tags = tagsDecoded0
+        let effectiveRecommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences.self, forKey: .effectiveRecommendationPreferences)
+        effectiveRecommendationPreferences = effectiveRecommendationPreferencesDecoded
     }
 }
 
@@ -9058,6 +10294,8 @@ extension ComputeOptimizerClientTypes {
         public var currentMemorySize: Swift.Int
         /// The risk of the current Lambda function not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function requires more memory.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
+        /// Describes the effective recommendation preferences for Lambda functions.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences?
         /// The finding classification of the function. Findings for functions include:
         ///
         /// * Optimized — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.
@@ -9097,6 +10335,7 @@ extension ComputeOptimizerClientTypes {
             accountId: Swift.String? = nil,
             currentMemorySize: Swift.Int = 0,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFinding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode]? = nil,
             functionArn: Swift.String? = nil,
@@ -9112,6 +10351,7 @@ extension ComputeOptimizerClientTypes {
             self.accountId = accountId
             self.currentMemorySize = currentMemorySize
             self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.functionArn = functionArn
@@ -9347,6 +10587,121 @@ extension ComputeOptimizerClientTypes {
             self.name = name
             self.statistic = statistic
             self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation used for calculating savings opportunity for Lambda functions.
+    public struct LambdaSavingsEstimationMode: Swift.Equatable {
+        /// Describes the source for calculation of savings opportunity for Lambda functions.
+        public var source: ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LambdaSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LambdaSavingsEstimationModeSource(rawValue: rawValue) ?? LambdaSavingsEstimationModeSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case estimatedMonthlySavings
+        case savingsOpportunityPercentage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let estimatedMonthlySavings = self.estimatedMonthlySavings {
+            try encodeContainer.encode(estimatedMonthlySavings, forKey: .estimatedMonthlySavings)
+        }
+        if savingsOpportunityPercentage != 0.0 {
+            try encodeContainer.encode(savingsOpportunityPercentage, forKey: .savingsOpportunityPercentage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsOpportunityPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .savingsOpportunityPercentage) ?? 0.0
+        savingsOpportunityPercentage = savingsOpportunityPercentageDecoded
+        let estimatedMonthlySavingsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings.self, forKey: .estimatedMonthlySavings)
+        estimatedMonthlySavings = estimatedMonthlySavingsDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Lambda functions recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct LambdaSavingsOpportunityAfterDiscounts: Swift.Equatable {
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s Lambda function recommendations. This includes any applicable Savings Plans discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Lambda function recommendations. This includes any applicable Savings Plans discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
     }
 
@@ -10032,6 +11387,41 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ComputeOptimizerClientTypes {
+    public enum LookBackPeriodPreference: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case days14
+        case days32
+        case days93
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LookBackPeriodPreference] {
+            return [
+                .days14,
+                .days32,
+                .days93,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .days14: return "DAYS_14"
+            case .days32: return "DAYS_32"
+            case .days93: return "DAYS_93"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LookBackPeriodPreference(rawValue: rawValue) ?? LookBackPeriodPreference.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes.MemorySizeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case memory
@@ -10449,6 +11839,118 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.PreferredResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludeList
+        case includeList
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excludeList = excludeList {
+            var excludeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeList)
+            for preferredresourcevalue0 in excludeList {
+                try excludeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let includeList = includeList {
+            var includeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeList)
+            for preferredresourcevalue0 in includeList {
+                try includeListContainer.encode(preferredresourcevalue0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.PreferredResourceName.self, forKey: .name)
+        name = nameDecoded
+        let includeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeList)
+        var includeListDecoded0:[Swift.String]? = nil
+        if let includeListContainer = includeListContainer {
+            includeListDecoded0 = [Swift.String]()
+            for string0 in includeListContainer {
+                if let string0 = string0 {
+                    includeListDecoded0?.append(string0)
+                }
+            }
+        }
+        includeList = includeListDecoded0
+        let excludeListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludeList)
+        var excludeListDecoded0:[Swift.String]? = nil
+        if let excludeListContainer = excludeListContainer {
+            excludeListDecoded0 = [Swift.String]()
+            for string0 in excludeListContainer {
+                if let string0 = string0 {
+                    excludeListDecoded0?.append(string0)
+                }
+            }
+        }
+        excludeList = excludeListDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. For more information, see [ Rightsizing recommendation preferences](https://docs.aws.amazon.com/compute-optimizer/latest/ug/rightsizing-preferences.html) in the Compute Optimizer User Guide.
+    ///
+    /// * This preference is only available for the Amazon EC2 instance and Auto Scaling group resource types.
+    ///
+    /// * Compute Optimizer only supports the customization of Ec2InstanceTypes.
+    public struct PreferredResource: Swift.Equatable {
+        /// The preferred resource type values to exclude from the recommendation candidates. If this isn’t specified, all supported resources are included by default. You can specify up to 1000 values in this list.
+        public var excludeList: [Swift.String]?
+        /// The preferred resource type values to include in the recommendation candidates. You can specify the exact resource type value, such as m5.large, or use wild card expressions, such as m5. If this isn’t specified, all supported resources are included by default. You can specify up to 1000 values in this list.
+        public var includeList: [Swift.String]?
+        /// The type of preferred resource to customize. Compute Optimizer only supports the customization of Ec2InstanceTypes.
+        public var name: ComputeOptimizerClientTypes.PreferredResourceName?
+
+        public init(
+            excludeList: [Swift.String]? = nil,
+            includeList: [Swift.String]? = nil,
+            name: ComputeOptimizerClientTypes.PreferredResourceName? = nil
+        )
+        {
+            self.excludeList = excludeList
+            self.includeList = includeList
+            self.name = name
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum PreferredResourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2InstanceTypes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreferredResourceName] {
+            return [
+                .ec2InstanceTypes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2InstanceTypes: return "Ec2InstanceTypes"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PreferredResourceName(rawValue: rawValue) ?? PreferredResourceName.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes.ProjectedMetric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -10541,8 +12043,12 @@ extension PutRecommendationPreferencesInput: Swift.Encodable {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
         case resourceType
+        case savingsEstimationMode
         case scope
+        case utilizationPreferences
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10556,11 +12062,29 @@ extension PutRecommendationPreferencesInput: Swift.Encodable {
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
         }
+        if let lookBackPeriod = self.lookBackPeriod {
+            try encodeContainer.encode(lookBackPeriod.rawValue, forKey: .lookBackPeriod)
+        }
+        if let preferredResources = preferredResources {
+            var preferredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preferredResources)
+            for preferredresource0 in preferredResources {
+                try preferredResourcesContainer.encode(preferredresource0)
+            }
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
         }
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode.rawValue, forKey: .savingsEstimationMode)
+        }
         if let scope = self.scope {
             try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let utilizationPreferences = utilizationPreferences {
+            var utilizationPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationPreferences)
+            for utilizationpreference0 in utilizationPreferences {
+                try utilizationPreferencesContainer.encode(utilizationpreference0)
+            }
         }
     }
 }
@@ -10578,25 +12102,48 @@ public struct PutRecommendationPreferencesInput: Swift.Equatable {
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
     /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
+    /// The status of the savings estimation mode preference to create or update. Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see [ Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html) in the Compute Optimizer User Guide.
+    public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
     /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public var scope: ComputeOptimizerClientTypes.Scope?
+    /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. When this preference isn't specified, we use the following default values:
+    ///
+    /// * P99_5 for threshold
+    ///
+    /// * PERCENT_17 for headroom
+    ///
+    ///
+    /// You can only set this preference for the Amazon EC2 instance resource type.
+    public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
     public init(
         enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
         externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
         inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
+        lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+        preferredResources: [ComputeOptimizerClientTypes.PreferredResource]? = nil,
         resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
-        scope: ComputeOptimizerClientTypes.Scope? = nil
+        savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode? = nil,
+        scope: ComputeOptimizerClientTypes.Scope? = nil,
+        utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
     )
     {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
         self.externalMetricsPreference = externalMetricsPreference
         self.inferredWorkloadTypes = inferredWorkloadTypes
+        self.lookBackPeriod = lookBackPeriod
+        self.preferredResources = preferredResources
         self.resourceType = resourceType
+        self.savingsEstimationMode = savingsEstimationMode
         self.scope = scope
+        self.utilizationPreferences = utilizationPreferences
     }
 }
 
@@ -10606,6 +12153,10 @@ struct PutRecommendationPreferencesInputBody: Swift.Equatable {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
     let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
+    let lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+    let utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
+    let preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
+    let savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
 }
 
 extension PutRecommendationPreferencesInputBody: Swift.Decodable {
@@ -10613,8 +12164,12 @@ extension PutRecommendationPreferencesInputBody: Swift.Decodable {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
         case resourceType
+        case savingsEstimationMode
         case scope
+        case utilizationPreferences
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -10629,6 +12184,32 @@ extension PutRecommendationPreferencesInputBody: Swift.Decodable {
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.PreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.PreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.PreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
     }
 }
 
@@ -10805,6 +12386,9 @@ extension ComputeOptimizerClientTypes {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookbackPeriodPreference
+        case preferredResources
+        case utilizationPreferences
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationPreferenceName] {
@@ -10812,6 +12396,9 @@ extension ComputeOptimizerClientTypes {
                 .enhancedInfrastructureMetrics,
                 .externalMetricsPreference,
                 .inferredWorkloadTypes,
+                .lookbackPeriodPreference,
+                .preferredResources,
+                .utilizationPreferences,
                 .sdkUnknown("")
             ]
         }
@@ -10824,6 +12411,9 @@ extension ComputeOptimizerClientTypes {
             case .enhancedInfrastructureMetrics: return "EnhancedInfrastructureMetrics"
             case .externalMetricsPreference: return "ExternalMetricsPreference"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
+            case .lookbackPeriodPreference: return "LookBackPeriodPreference"
+            case .preferredResources: return "PreferredResources"
+            case .utilizationPreferences: return "UtilizationPreferences"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10893,8 +12483,12 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
         case inferredWorkloadTypes
+        case lookBackPeriod
+        case preferredResources
         case resourceType
+        case savingsEstimationMode
         case scope
+        case utilizationPreferences
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10908,11 +12502,29 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         if let inferredWorkloadTypes = self.inferredWorkloadTypes {
             try encodeContainer.encode(inferredWorkloadTypes.rawValue, forKey: .inferredWorkloadTypes)
         }
+        if let lookBackPeriod = self.lookBackPeriod {
+            try encodeContainer.encode(lookBackPeriod.rawValue, forKey: .lookBackPeriod)
+        }
+        if let preferredResources = preferredResources {
+            var preferredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preferredResources)
+            for effectivepreferredresource0 in preferredResources {
+                try preferredResourcesContainer.encode(effectivepreferredresource0)
+            }
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
         }
+        if let savingsEstimationMode = self.savingsEstimationMode {
+            try encodeContainer.encode(savingsEstimationMode.rawValue, forKey: .savingsEstimationMode)
+        }
         if let scope = self.scope {
             try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let utilizationPreferences = utilizationPreferences {
+            var utilizationPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationPreferences)
+            for utilizationpreference0 in utilizationPreferences {
+                try utilizationPreferencesContainer.encode(utilizationpreference0)
+            }
         }
     }
 
@@ -10928,6 +12540,32 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail: Swift.Cod
         inferredWorkloadTypes = inferredWorkloadTypesDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
+        let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
+        lookBackPeriod = lookBackPeriodDecoded
+        let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
+        var utilizationPreferencesDecoded0:[ComputeOptimizerClientTypes.UtilizationPreference]? = nil
+        if let utilizationPreferencesContainer = utilizationPreferencesContainer {
+            utilizationPreferencesDecoded0 = [ComputeOptimizerClientTypes.UtilizationPreference]()
+            for structure0 in utilizationPreferencesContainer {
+                if let structure0 = structure0 {
+                    utilizationPreferencesDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationPreferences = utilizationPreferencesDecoded0
+        let preferredResourcesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.EffectivePreferredResource?].self, forKey: .preferredResources)
+        var preferredResourcesDecoded0:[ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil
+        if let preferredResourcesContainer = preferredResourcesContainer {
+            preferredResourcesDecoded0 = [ComputeOptimizerClientTypes.EffectivePreferredResource]()
+            for structure0 in preferredResourcesContainer {
+                if let structure0 = structure0 {
+                    preferredResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        preferredResources = preferredResourcesDecoded0
+        let savingsEstimationModeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsEstimationMode.self, forKey: .savingsEstimationMode)
+        savingsEstimationMode = savingsEstimationModeDecoded
     }
 }
 
@@ -10940,24 +12578,40 @@ extension ComputeOptimizerClientTypes {
         public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
         /// The status of the inferred workload types recommendation preference. When the recommendations page is refreshed, a status of Active confirms that the preference is applied to the recommendations, and a status of Inactive confirms that the preference isn't yet applied to recommendations.
         public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
+        /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. If the preference isn’t set, this object is null.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+        /// The preference to control which resource type values are considered when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. If the preference isn’t set, this object is null.
+        public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public var resourceType: ComputeOptimizerClientTypes.ResourceType?
+        /// Describes the savings estimation mode used for calculating savings opportunity. Only the account manager or delegated administrator of your organization can activate this preference.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
         /// An object that describes the scope of the recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var scope: ComputeOptimizerClientTypes.Scope?
+        /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. If the preference isn’t set, this object is null. This preference is only available for the Amazon EC2 instance resource type.
+        public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
         public init(
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
             externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil,
             inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference? = nil,
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+            preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
             resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
-            scope: ComputeOptimizerClientTypes.Scope? = nil
+            savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode? = nil,
+            scope: ComputeOptimizerClientTypes.Scope? = nil,
+            utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
         )
         {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
+            self.lookBackPeriod = lookBackPeriod
+            self.preferredResources = preferredResources
             self.resourceType = resourceType
+            self.savingsEstimationMode = savingsEstimationMode
             self.scope = scope
+            self.utilizationPreferences = utilizationPreferences
         }
     }
 
@@ -11428,6 +13082,38 @@ extension ComputeOptimizerClientTypes {
         }
     }
 
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum SavingsEstimationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case afterDiscounts
+        case beforeDiscounts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SavingsEstimationMode] {
+            return [
+                .afterDiscounts,
+                .beforeDiscounts,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .afterDiscounts: return "AfterDiscounts"
+            case .beforeDiscounts: return "BeforeDiscounts"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SavingsEstimationMode(rawValue: rawValue) ?? SavingsEstimationMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ComputeOptimizerClientTypes.SavingsOpportunity: Swift.Codable {
@@ -12145,6 +13831,51 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.UtilizationPreference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricName
+        case metricParameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
+        }
+        if let metricParameters = self.metricParameters {
+            try encodeContainer.encode(metricParameters, forKey: .metricParameters)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricNameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricName.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let metricParametersDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CustomizableMetricParameters.self, forKey: .metricParameters)
+        metricParameters = metricParametersDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. This preference is only available for the Amazon EC2 instance resource type.
+    public struct UtilizationPreference: Swift.Equatable {
+        /// The name of the resource utilization metric name to customize. Compute Optimizer only supports CpuUtilization.
+        public var metricName: ComputeOptimizerClientTypes.CustomizableMetricName?
+        /// The parameters to set when customizing the resource utilization thresholds.
+        public var metricParameters: ComputeOptimizerClientTypes.CustomizableMetricParameters?
+
+        public init(
+            metricName: ComputeOptimizerClientTypes.CustomizableMetricName? = nil,
+            metricParameters: ComputeOptimizerClientTypes.CustomizableMetricParameters? = nil
+        )
+        {
+            self.metricName = metricName
+            self.metricParameters = metricParameters
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.VolumeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rootVolume
@@ -12245,6 +13976,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         case accountId
         case currentConfiguration
         case currentPerformanceRisk
+        case effectiveRecommendationPreferences
         case finding
         case lastRefreshTimestamp
         case lookBackPeriodInDays
@@ -12264,6 +13996,9 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         }
         if let currentPerformanceRisk = self.currentPerformanceRisk {
             try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
+        }
+        if let effectiveRecommendationPreferences = self.effectiveRecommendationPreferences {
+            try encodeContainer.encode(effectiveRecommendationPreferences, forKey: .effectiveRecommendationPreferences)
         }
         if let finding = self.finding {
             try encodeContainer.encode(finding.rawValue, forKey: .finding)
@@ -12346,6 +14081,8 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let effectiveRecommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences.self, forKey: .effectiveRecommendationPreferences)
+        effectiveRecommendationPreferences = effectiveRecommendationPreferencesDecoded
     }
 }
 
@@ -12358,6 +14095,8 @@ extension ComputeOptimizerClientTypes {
         public var currentConfiguration: ComputeOptimizerClientTypes.VolumeConfiguration?
         /// The risk of the current EBS volume not meeting the performance needs of its workloads. The higher the risk, the more likely the current EBS volume doesn't have sufficient capacity.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
+        /// Describes the effective recommendation preferences for Amazon EBS volume.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences?
         /// The finding classification of the volume. Findings for volumes include:
         ///
         /// * NotOptimized —A volume is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.
@@ -12381,6 +14120,7 @@ extension ComputeOptimizerClientTypes {
             accountId: Swift.String? = nil,
             currentConfiguration: ComputeOptimizerClientTypes.VolumeConfiguration? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.EBSFinding? = nil,
             lastRefreshTimestamp: ClientRuntime.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
@@ -12393,6 +14133,7 @@ extension ComputeOptimizerClientTypes {
             self.accountId = accountId
             self.currentConfiguration = currentConfiguration
             self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
@@ -12411,6 +14152,7 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
         case performanceRisk
         case rank
         case savingsOpportunity
+        case savingsOpportunityAfterDiscounts
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12427,6 +14169,9 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
         if let savingsOpportunity = self.savingsOpportunity {
             try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
         }
+        if let savingsOpportunityAfterDiscounts = self.savingsOpportunityAfterDiscounts {
+            try encodeContainer.encode(savingsOpportunityAfterDiscounts, forKey: .savingsOpportunityAfterDiscounts)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12439,6 +14184,8 @@ extension ComputeOptimizerClientTypes.VolumeRecommendationOption: Swift.Codable 
         rank = rankDecoded
         let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
         savingsOpportunity = savingsOpportunityDecoded
+        let savingsOpportunityAfterDiscountsDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts.self, forKey: .savingsOpportunityAfterDiscounts)
+        savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscountsDecoded
     }
 }
 
@@ -12453,18 +14200,22 @@ extension ComputeOptimizerClientTypes {
         public var rank: Swift.Int
         /// An object that describes the savings opportunity for the EBS volume recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// An object that describes the savings opportunity for the Amazon EBS volume recommendation option with specific discounts. Savings opportunity includes the estimated monthly savings and percentage.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts?
 
         public init(
             configuration: ComputeOptimizerClientTypes.VolumeConfiguration? = nil,
             performanceRisk: Swift.Double = 0.0,
             rank: Swift.Int = 0,
-            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts? = nil
         )
         {
             self.configuration = configuration
             self.performanceRisk = performanceRisk
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
         }
     }
 

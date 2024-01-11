@@ -12,7 +12,11 @@ extension FraudDetectorClient {
     ///     - input: A `[DescribeModelVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeModelVersionsOutput`
     public func describeModelVersionsPaginated(input: DescribeModelVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeModelVersionsInput, DescribeModelVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeModelVersionsInput, DescribeModelVersionsOutput>(input: input, inputKey: \DescribeModelVersionsInput.nextToken, outputKey: \DescribeModelVersionsOutput.nextToken, paginationFunction: self.describeModelVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeModelVersionsInput, DescribeModelVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeModelVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -36,7 +40,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetBatchImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBatchImportJobsOutput`
     public func getBatchImportJobsPaginated(input: GetBatchImportJobsInput) -> ClientRuntime.PaginatorSequence<GetBatchImportJobsInput, GetBatchImportJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBatchImportJobsInput, GetBatchImportJobsOutput>(input: input, inputKey: \GetBatchImportJobsInput.nextToken, outputKey: \GetBatchImportJobsOutput.nextToken, paginationFunction: self.getBatchImportJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBatchImportJobsInput, GetBatchImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBatchImportJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +66,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetBatchPredictionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetBatchPredictionJobsOutput`
     public func getBatchPredictionJobsPaginated(input: GetBatchPredictionJobsInput) -> ClientRuntime.PaginatorSequence<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(input: input, inputKey: \GetBatchPredictionJobsInput.nextToken, outputKey: \GetBatchPredictionJobsOutput.nextToken, paginationFunction: self.getBatchPredictionJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getBatchPredictionJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -80,7 +92,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetDetectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDetectorsOutput`
     public func getDetectorsPaginated(input: GetDetectorsInput) -> ClientRuntime.PaginatorSequence<GetDetectorsInput, GetDetectorsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetDetectorsInput, GetDetectorsOutput>(input: input, inputKey: \GetDetectorsInput.nextToken, outputKey: \GetDetectorsOutput.nextToken, paginationFunction: self.getDetectors(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetDetectorsInput, GetDetectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDetectors(input:))
+>>>>>>> main
     }
 }
 
@@ -102,7 +118,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetEntityTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEntityTypesOutput`
     public func getEntityTypesPaginated(input: GetEntityTypesInput) -> ClientRuntime.PaginatorSequence<GetEntityTypesInput, GetEntityTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetEntityTypesInput, GetEntityTypesOutput>(input: input, inputKey: \GetEntityTypesInput.nextToken, outputKey: \GetEntityTypesOutput.nextToken, paginationFunction: self.getEntityTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetEntityTypesInput, GetEntityTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEntityTypes(input:))
+>>>>>>> main
     }
 }
 
@@ -124,7 +144,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetEventTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEventTypesOutput`
     public func getEventTypesPaginated(input: GetEventTypesInput) -> ClientRuntime.PaginatorSequence<GetEventTypesInput, GetEventTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetEventTypesInput, GetEventTypesOutput>(input: input, inputKey: \GetEventTypesInput.nextToken, outputKey: \GetEventTypesOutput.nextToken, paginationFunction: self.getEventTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetEventTypesInput, GetEventTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEventTypes(input:))
+>>>>>>> main
     }
 }
 
@@ -146,7 +170,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetExternalModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetExternalModelsOutput`
     public func getExternalModelsPaginated(input: GetExternalModelsInput) -> ClientRuntime.PaginatorSequence<GetExternalModelsInput, GetExternalModelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetExternalModelsInput, GetExternalModelsOutput>(input: input, inputKey: \GetExternalModelsInput.nextToken, outputKey: \GetExternalModelsOutput.nextToken, paginationFunction: self.getExternalModels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetExternalModelsInput, GetExternalModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getExternalModels(input:))
+>>>>>>> main
     }
 }
 
@@ -168,7 +196,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetLabelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetLabelsOutput`
     public func getLabelsPaginated(input: GetLabelsInput) -> ClientRuntime.PaginatorSequence<GetLabelsInput, GetLabelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetLabelsInput, GetLabelsOutput>(input: input, inputKey: \GetLabelsInput.nextToken, outputKey: \GetLabelsOutput.nextToken, paginationFunction: self.getLabels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetLabelsInput, GetLabelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getLabels(input:))
+>>>>>>> main
     }
 }
 
@@ -190,7 +222,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetListElementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetListElementsOutput`
     public func getListElementsPaginated(input: GetListElementsInput) -> ClientRuntime.PaginatorSequence<GetListElementsInput, GetListElementsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetListElementsInput, GetListElementsOutput>(input: input, inputKey: \GetListElementsInput.nextToken, outputKey: \GetListElementsOutput.nextToken, paginationFunction: self.getListElements(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetListElementsInput, GetListElementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getListElements(input:))
+>>>>>>> main
     }
 }
 
@@ -212,7 +248,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetListsMetadataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetListsMetadataOutput`
     public func getListsMetadataPaginated(input: GetListsMetadataInput) -> ClientRuntime.PaginatorSequence<GetListsMetadataInput, GetListsMetadataOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetListsMetadataInput, GetListsMetadataOutput>(input: input, inputKey: \GetListsMetadataInput.nextToken, outputKey: \GetListsMetadataOutput.nextToken, paginationFunction: self.getListsMetadata(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetListsMetadataInput, GetListsMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getListsMetadata(input:))
+>>>>>>> main
     }
 }
 
@@ -234,7 +274,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetModelsOutput`
     public func getModelsPaginated(input: GetModelsInput) -> ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput>(input: input, inputKey: \GetModelsInput.nextToken, outputKey: \GetModelsOutput.nextToken, paginationFunction: self.getModels(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getModels(input:))
+>>>>>>> main
     }
 }
 
@@ -257,7 +301,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetOutcomesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetOutcomesOutput`
     public func getOutcomesPaginated(input: GetOutcomesInput) -> ClientRuntime.PaginatorSequence<GetOutcomesInput, GetOutcomesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetOutcomesInput, GetOutcomesOutput>(input: input, inputKey: \GetOutcomesInput.nextToken, outputKey: \GetOutcomesOutput.nextToken, paginationFunction: self.getOutcomes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetOutcomesInput, GetOutcomesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOutcomes(input:))
+>>>>>>> main
     }
 }
 
@@ -279,7 +327,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetRulesOutput`
     public func getRulesPaginated(input: GetRulesInput) -> ClientRuntime.PaginatorSequence<GetRulesInput, GetRulesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetRulesInput, GetRulesOutput>(input: input, inputKey: \GetRulesInput.nextToken, outputKey: \GetRulesOutput.nextToken, paginationFunction: self.getRules(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetRulesInput, GetRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getRules(input:))
+>>>>>>> main
     }
 }
 
@@ -303,7 +355,11 @@ extension FraudDetectorClient {
     ///     - input: A `[GetVariablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetVariablesOutput`
     public func getVariablesPaginated(input: GetVariablesInput) -> ClientRuntime.PaginatorSequence<GetVariablesInput, GetVariablesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetVariablesInput, GetVariablesOutput>(input: input, inputKey: \GetVariablesInput.nextToken, outputKey: \GetVariablesOutput.nextToken, paginationFunction: self.getVariables(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetVariablesInput, GetVariablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getVariables(input:))
+>>>>>>> main
     }
 }
 
@@ -325,7 +381,11 @@ extension FraudDetectorClient {
     ///     - input: A `[ListEventPredictionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventPredictionsOutput`
     public func listEventPredictionsPaginated(input: ListEventPredictionsInput) -> ClientRuntime.PaginatorSequence<ListEventPredictionsInput, ListEventPredictionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEventPredictionsInput, ListEventPredictionsOutput>(input: input, inputKey: \ListEventPredictionsInput.nextToken, outputKey: \ListEventPredictionsOutput.nextToken, paginationFunction: self.listEventPredictions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEventPredictionsInput, ListEventPredictionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventPredictions(input:))
+>>>>>>> main
     }
 }
 
@@ -351,7 +411,11 @@ extension FraudDetectorClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+>>>>>>> main
     }
 }
 

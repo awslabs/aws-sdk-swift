@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Amazon Chime SDK media pipeline APIs in this section allow software developers to create Amazon Chime SDK media pipelines that capture, concatenate, or stream your Amazon Chime SDK meetings. For more information about media pipelines, see [Amazon Chime SDK media pipelines](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_Operations_Amazon_Chime_SDK_Media_Pipelines.html).
 public protocol ChimeSDKMediaPipelinesClientProtocol {
+    /// Performs the `CreateMediaCapturePipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
     /// Creates a media pipeline.
     ///
     /// - Parameter CreateMediaCapturePipelineInput : [no documentation found]
@@ -21,6 +23,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaCapturePipeline(input: CreateMediaCapturePipelineInput) async throws -> CreateMediaCapturePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaConcatenationPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Creates a media concatenation pipeline.
     ///
     /// - Parameter CreateMediaConcatenationPipelineInput : [no documentation found]
@@ -38,6 +45,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaConcatenationPipeline(input: CreateMediaConcatenationPipelineInput) async throws -> CreateMediaConcatenationPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaInsightsPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Creates a media insights pipeline.
     ///
     /// - Parameter CreateMediaInsightsPipelineInput : [no documentation found]
@@ -56,6 +68,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaInsightsPipeline(input: CreateMediaInsightsPipelineInput) async throws -> CreateMediaInsightsPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// A structure that contains the static configurations for a media insights pipeline.
     ///
     /// - Parameter CreateMediaInsightsPipelineConfigurationInput : [no documentation found]
@@ -74,6 +91,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaInsightsPipelineConfiguration(input: CreateMediaInsightsPipelineConfigurationInput) async throws -> CreateMediaInsightsPipelineConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaLiveConnectorPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Creates a media live connector pipeline in an Amazon Chime SDK meeting.
     ///
     /// - Parameter CreateMediaLiveConnectorPipelineInput : [no documentation found]
@@ -91,6 +113,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaLiveConnectorPipeline(input: CreateMediaLiveConnectorPipelineInput) async throws -> CreateMediaLiveConnectorPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Creates an Kinesis video stream pool for the media pipeline.
     ///
     /// - Parameter CreateMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
@@ -109,6 +136,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaPipelineKinesisVideoStreamPool(input: CreateMediaPipelineKinesisVideoStreamPoolInput) async throws -> CreateMediaPipelineKinesisVideoStreamPoolOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMediaStreamPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Creates a streaming media pipeline.
     ///
     /// - Parameter CreateMediaStreamPipelineInput : [no documentation found]
@@ -127,6 +159,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func createMediaStreamPipeline(input: CreateMediaStreamPipelineInput) async throws -> CreateMediaStreamPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMediaCapturePipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Deletes the media pipeline.
     ///
     /// - Parameter DeleteMediaCapturePipelineInput : [no documentation found]
@@ -144,6 +181,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaCapturePipeline(input: DeleteMediaCapturePipelineInput) async throws -> DeleteMediaCapturePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified configuration settings.
     ///
     /// - Parameter DeleteMediaInsightsPipelineConfigurationInput : [no documentation found]
@@ -162,6 +204,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaInsightsPipelineConfiguration(input: DeleteMediaInsightsPipelineConfigurationInput) async throws -> DeleteMediaInsightsPipelineConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMediaPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Deletes the media pipeline.
     ///
     /// - Parameter DeleteMediaPipelineInput : [no documentation found]
@@ -180,6 +227,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaPipeline(input: DeleteMediaPipelineInput) async throws -> DeleteMediaPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Deletes an Kinesis video stream pool.
     ///
     /// - Parameter DeleteMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
@@ -198,6 +250,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func deleteMediaPipelineKinesisVideoStreamPool(input: DeleteMediaPipelineKinesisVideoStreamPoolInput) async throws -> DeleteMediaPipelineKinesisVideoStreamPoolOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMediaCapturePipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Gets an existing media pipeline.
     ///
     /// - Parameter GetMediaCapturePipelineInput : [no documentation found]
@@ -215,6 +272,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaCapturePipeline(input: GetMediaCapturePipelineInput) async throws -> GetMediaCapturePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Gets the configuration settings for a media insights pipeline.
     ///
     /// - Parameter GetMediaInsightsPipelineConfigurationInput : [no documentation found]
@@ -232,6 +294,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaInsightsPipelineConfiguration(input: GetMediaInsightsPipelineConfigurationInput) async throws -> GetMediaInsightsPipelineConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMediaPipeline` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Gets an existing media pipeline.
     ///
     /// - Parameter GetMediaPipelineInput : [no documentation found]
@@ -249,6 +316,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaPipeline(input: GetMediaPipelineInput) async throws -> GetMediaPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Gets an Kinesis video stream pool.
     ///
     /// - Parameter GetMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
@@ -266,6 +338,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaPipelineKinesisVideoStreamPool(input: GetMediaPipelineKinesisVideoStreamPoolInput) async throws -> GetMediaPipelineKinesisVideoStreamPoolOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSpeakerSearchTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Retrieves the details of the specified speaker search task.
     ///
     /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
@@ -283,6 +360,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Retrieves the details of a voice tone analysis task.
     ///
     /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
@@ -300,6 +382,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMediaCapturePipelines` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Returns a list of media pipelines.
     ///
     /// - Parameter ListMediaCapturePipelinesInput : [no documentation found]
@@ -317,6 +404,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaCapturePipelines(input: ListMediaCapturePipelinesInput) async throws -> ListMediaCapturePipelinesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMediaInsightsPipelineConfigurations` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Lists the available media insights pipeline configurations.
     ///
     /// - Parameter ListMediaInsightsPipelineConfigurationsInput : [no documentation found]
@@ -334,6 +426,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaInsightsPipelineConfigurations(input: ListMediaInsightsPipelineConfigurationsInput) async throws -> ListMediaInsightsPipelineConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMediaPipelineKinesisVideoStreamPools` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Lists the video stream pools in the media pipeline.
     ///
     /// - Parameter ListMediaPipelineKinesisVideoStreamPoolsInput : [no documentation found]
@@ -351,6 +448,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaPipelineKinesisVideoStreamPools(input: ListMediaPipelineKinesisVideoStreamPoolsInput) async throws -> ListMediaPipelineKinesisVideoStreamPoolsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMediaPipelines` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Returns a list of media pipelines.
     ///
     /// - Parameter ListMediaPipelinesInput : [no documentation found]
@@ -368,6 +470,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listMediaPipelines(input: ListMediaPipelinesInput) async throws -> ListMediaPipelinesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Lists the tags available for a media pipeline.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -385,6 +492,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartSpeakerSearchTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
     /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
@@ -403,6 +515,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
     /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
@@ -421,6 +538,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopSpeakerSearchTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Stops a speaker search task.
     ///
     /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
@@ -439,6 +561,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopVoiceToneAnalysisTask` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Stops a voice tone analysis task.
     ///
     /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
@@ -457,6 +584,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -474,6 +606,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Removes any tags from a media pipeline.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -491,6 +628,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMediaInsightsPipelineConfiguration` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Updates the media insights pipeline's configuration settings.
     ///
     /// - Parameter UpdateMediaInsightsPipelineConfigurationInput : [no documentation found]
@@ -509,6 +651,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateMediaInsightsPipelineConfiguration(input: UpdateMediaInsightsPipelineConfigurationInput) async throws -> UpdateMediaInsightsPipelineConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMediaInsightsPipelineStatus` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Updates the status of a media insights pipeline.
     ///
     /// - Parameter UpdateMediaInsightsPipelineStatusInput : [no documentation found]
@@ -527,6 +674,11 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func updateMediaInsightsPipelineStatus(input: UpdateMediaInsightsPipelineStatusInput) async throws -> UpdateMediaInsightsPipelineStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMediaPipelineKinesisVideoStreamPool` operation on the `ChimeSDKMediaPipelinesService` service.
+    ///
+>>>>>>> main
     /// Updates an Kinesis video stream pool in a media pipeline.
     ///
     /// - Parameter UpdateMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]

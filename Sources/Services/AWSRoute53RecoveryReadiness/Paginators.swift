@@ -12,7 +12,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[GetCellReadinessSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCellReadinessSummaryOutput`
     public func getCellReadinessSummaryPaginated(input: GetCellReadinessSummaryInput) -> ClientRuntime.PaginatorSequence<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutput>(input: input, inputKey: \GetCellReadinessSummaryInput.nextToken, outputKey: \GetCellReadinessSummaryOutput.nextToken, paginationFunction: self.getCellReadinessSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCellReadinessSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension GetCellReadinessSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetCellReadinessSummaryInput, Output == GetCellReadinessSummaryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetCellReadinessSummaryInput, OperationStackOutput == GetCellReadinessSummaryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getCellReadinessSummaryPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
@@ -43,7 +51,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[GetReadinessCheckResourceStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetReadinessCheckResourceStatusOutput`
     public func getReadinessCheckResourceStatusPaginated(input: GetReadinessCheckResourceStatusInput) -> ClientRuntime.PaginatorSequence<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutput>(input: input, inputKey: \GetReadinessCheckResourceStatusInput.nextToken, outputKey: \GetReadinessCheckResourceStatusOutput.nextToken, paginationFunction: self.getReadinessCheckResourceStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getReadinessCheckResourceStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -57,7 +69,11 @@ extension GetReadinessCheckResourceStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetReadinessCheckResourceStatusInput, Output == GetReadinessCheckResourceStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetReadinessCheckResourceStatusInput, OperationStackOutput == GetReadinessCheckResourceStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getReadinessCheckResourceStatusPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.RuleResult]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.RuleResult]`
@@ -75,7 +91,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[GetReadinessCheckStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetReadinessCheckStatusOutput`
     public func getReadinessCheckStatusPaginated(input: GetReadinessCheckStatusInput) -> ClientRuntime.PaginatorSequence<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutput>(input: input, inputKey: \GetReadinessCheckStatusInput.nextToken, outputKey: \GetReadinessCheckStatusOutput.nextToken, paginationFunction: self.getReadinessCheckStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getReadinessCheckStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -88,7 +108,11 @@ extension GetReadinessCheckStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetReadinessCheckStatusInput, Output == GetReadinessCheckStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetReadinessCheckStatusInput, OperationStackOutput == GetReadinessCheckStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getReadinessCheckStatusPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.ResourceResult]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.ResourceResult]`
@@ -106,7 +130,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[GetRecoveryGroupReadinessSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetRecoveryGroupReadinessSummaryOutput`
     public func getRecoveryGroupReadinessSummaryPaginated(input: GetRecoveryGroupReadinessSummaryInput) -> ClientRuntime.PaginatorSequence<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutput>(input: input, inputKey: \GetRecoveryGroupReadinessSummaryInput.nextToken, outputKey: \GetRecoveryGroupReadinessSummaryOutput.nextToken, paginationFunction: self.getRecoveryGroupReadinessSummary(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getRecoveryGroupReadinessSummary(input:))
+>>>>>>> main
     }
 }
 
@@ -119,7 +147,11 @@ extension GetRecoveryGroupReadinessSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetRecoveryGroupReadinessSummaryInput, Output == GetRecoveryGroupReadinessSummaryOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetRecoveryGroupReadinessSummaryInput, OperationStackOutput == GetRecoveryGroupReadinessSummaryOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getRecoveryGroupReadinessSummaryPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
@@ -137,7 +169,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[ListCellsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCellsOutput`
     public func listCellsPaginated(input: ListCellsInput) -> ClientRuntime.PaginatorSequence<ListCellsInput, ListCellsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCellsInput, ListCellsOutput>(input: input, inputKey: \ListCellsInput.nextToken, outputKey: \ListCellsOutput.nextToken, paginationFunction: self.listCells(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCellsInput, ListCellsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCells(input:))
+>>>>>>> main
     }
 }
 
@@ -149,7 +185,11 @@ extension ListCellsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCellsInput, Output == ListCellsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCellsInput, OperationStackOutput == ListCellsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCellsPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.CellOutput]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.CellOutput]`
@@ -167,7 +207,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[ListCrossAccountAuthorizationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountAuthorizationsOutput`
     public func listCrossAccountAuthorizationsPaginated(input: ListCrossAccountAuthorizationsInput) -> ClientRuntime.PaginatorSequence<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutput>(input: input, inputKey: \ListCrossAccountAuthorizationsInput.nextToken, outputKey: \ListCrossAccountAuthorizationsOutput.nextToken, paginationFunction: self.listCrossAccountAuthorizations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCrossAccountAuthorizations(input:))
+>>>>>>> main
     }
 }
 
@@ -179,7 +223,11 @@ extension ListCrossAccountAuthorizationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListCrossAccountAuthorizationsInput, Output == ListCrossAccountAuthorizationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListCrossAccountAuthorizationsInput, OperationStackOutput == ListCrossAccountAuthorizationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCrossAccountAuthorizationsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -197,7 +245,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[ListReadinessChecksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReadinessChecksOutput`
     public func listReadinessChecksPaginated(input: ListReadinessChecksInput) -> ClientRuntime.PaginatorSequence<ListReadinessChecksInput, ListReadinessChecksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListReadinessChecksInput, ListReadinessChecksOutput>(input: input, inputKey: \ListReadinessChecksInput.nextToken, outputKey: \ListReadinessChecksOutput.nextToken, paginationFunction: self.listReadinessChecks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListReadinessChecksInput, ListReadinessChecksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReadinessChecks(input:))
+>>>>>>> main
     }
 }
 
@@ -209,7 +261,11 @@ extension ListReadinessChecksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListReadinessChecksInput, Output == ListReadinessChecksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListReadinessChecksInput, OperationStackOutput == ListReadinessChecksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReadinessChecksPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]`
@@ -227,7 +283,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[ListRecoveryGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryGroupsOutput`
     public func listRecoveryGroupsPaginated(input: ListRecoveryGroupsInput) -> ClientRuntime.PaginatorSequence<ListRecoveryGroupsInput, ListRecoveryGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRecoveryGroupsInput, ListRecoveryGroupsOutput>(input: input, inputKey: \ListRecoveryGroupsInput.nextToken, outputKey: \ListRecoveryGroupsOutput.nextToken, paginationFunction: self.listRecoveryGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRecoveryGroupsInput, ListRecoveryGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -239,7 +299,11 @@ extension ListRecoveryGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListRecoveryGroupsInput, Output == ListRecoveryGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListRecoveryGroupsInput, OperationStackOutput == ListRecoveryGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRecoveryGroupsPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]`
@@ -257,7 +321,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[ListResourceSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceSetsOutput`
     public func listResourceSetsPaginated(input: ListResourceSetsInput) -> ClientRuntime.PaginatorSequence<ListResourceSetsInput, ListResourceSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceSetsInput, ListResourceSetsOutput>(input: input, inputKey: \ListResourceSetsInput.nextToken, outputKey: \ListResourceSetsOutput.nextToken, paginationFunction: self.listResourceSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceSetsInput, ListResourceSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceSets(input:))
+>>>>>>> main
     }
 }
 
@@ -269,7 +337,11 @@ extension ListResourceSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListResourceSetsInput, Output == ListResourceSetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListResourceSetsInput, OperationStackOutput == ListResourceSetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceSetsPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.ResourceSetOutput]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.ResourceSetOutput]`
@@ -287,7 +359,11 @@ extension Route53RecoveryReadinessClient {
     ///     - input: A `[ListRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutput`
     public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutput.nextToken, paginationFunction: self.listRules(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRules(input:))
+>>>>>>> main
     }
 }
 
@@ -300,7 +376,11 @@ extension ListRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListRulesInput, OperationStackOutput == ListRulesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
     /// to access the nested member `[Route53RecoveryReadinessClientTypes.ListRulesOutput]`
     /// - Returns: `[Route53RecoveryReadinessClientTypes.ListRulesOutput]`

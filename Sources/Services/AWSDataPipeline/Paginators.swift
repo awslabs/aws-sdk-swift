@@ -12,7 +12,11 @@ extension DataPipelineClient {
     ///     - input: A `[DescribeObjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeObjectsOutput`
     public func describeObjectsPaginated(input: DescribeObjectsInput) -> ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutput>(input: input, inputKey: \DescribeObjectsInput.marker, outputKey: \DescribeObjectsOutput.marker, paginationFunction: self.describeObjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeObjectsInput, DescribeObjectsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeObjects(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension DescribeObjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeObjectsInput, Output == DescribeObjectsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeObjectsInput, OperationStackOutput == DescribeObjectsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeObjectsPaginated`
     /// to access the nested member `[DataPipelineClientTypes.PipelineObject]`
     /// - Returns: `[DataPipelineClientTypes.PipelineObject]`
@@ -44,7 +52,11 @@ extension DataPipelineClient {
     ///     - input: A `[ListPipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
     public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.marker, outputKey: \ListPipelinesOutput.marker, paginationFunction: self.listPipelines(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listPipelines(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +67,11 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPipelinesInput, OperationStackOutput == ListPipelinesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[DataPipelineClientTypes.PipelineIdName]`
     /// - Returns: `[DataPipelineClientTypes.PipelineIdName]`
@@ -73,7 +89,11 @@ extension DataPipelineClient {
     ///     - input: A `[QueryObjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `QueryObjectsOutput`
     public func queryObjectsPaginated(input: QueryObjectsInput) -> ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutput>(input: input, inputKey: \QueryObjectsInput.marker, outputKey: \QueryObjectsOutput.marker, paginationFunction: self.queryObjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<QueryObjectsInput, QueryObjectsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.queryObjects(input:))
+>>>>>>> main
     }
 }
 
@@ -88,7 +108,11 @@ extension QueryObjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == QueryObjectsInput, Output == QueryObjectsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == QueryObjectsInput, OperationStackOutput == QueryObjectsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `queryObjectsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

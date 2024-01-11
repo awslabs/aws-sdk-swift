@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Web Services IoT Core Device Advisor is a cloud-based, fully managed test capability for validating IoT devices during device software development. Device Advisor provides pre-built tests that you can use to validate IoT devices for reliable and secure connectivity with Amazon Web Services IoT Core before deploying devices to production. By using Device Advisor, you can confirm that your devices can connect to Amazon Web Services IoT Core, follow security best practices and, if applicable, receive software updates from IoT Device Management. You can also download signed qualification reports to submit to the Amazon Web Services Partner Network to get your device qualified for the Amazon Web Services Partner Device Catalog without the need to send your device in and wait for it to be tested.
 public protocol IotDeviceAdvisorClientProtocol {
+    /// Performs the `CreateSuiteDefinition` operation on the `IotSenateService` service.
+    ///
     /// Creates a Device Advisor test suite. Requires permission to access the [CreateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CreateSuiteDefinitionInput : [no documentation found]
@@ -16,6 +18,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
     func createSuiteDefinition(input: CreateSuiteDefinitionInput) async throws -> CreateSuiteDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSuiteDefinition` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Deletes a Device Advisor test suite. Requires permission to access the [DeleteSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DeleteSuiteDefinitionInput : [no documentation found]
@@ -28,6 +35,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
     func deleteSuiteDefinition(input: DeleteSuiteDefinitionInput) async throws -> DeleteSuiteDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEndpoint` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Gets information about an Device Advisor endpoint.
     ///
     /// - Parameter GetEndpointInput : [no documentation found]
@@ -41,6 +53,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSuiteDefinition` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Advisor test suite. Requires permission to access the [GetSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetSuiteDefinitionInput : [no documentation found]
@@ -54,6 +71,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func getSuiteDefinition(input: GetSuiteDefinitionInput) async throws -> GetSuiteDefinitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSuiteRun` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Gets information about a Device Advisor test suite run. Requires permission to access the [GetSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetSuiteRunInput : [no documentation found]
@@ -67,6 +89,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func getSuiteRun(input: GetSuiteRunInput) async throws -> GetSuiteRunOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSuiteRunReport` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the [GetSuiteRunReport](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetSuiteRunReportInput : [no documentation found]
@@ -80,6 +107,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func getSuiteRunReport(input: GetSuiteRunReportInput) async throws -> GetSuiteRunReportOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSuiteDefinitions` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Lists the Device Advisor test suites you have created. Requires permission to access the [ListSuiteDefinitions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListSuiteDefinitionsInput : [no documentation found]
@@ -92,6 +124,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
     func listSuiteDefinitions(input: ListSuiteDefinitionsInput) async throws -> ListSuiteDefinitionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSuiteRuns` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the [ListSuiteRuns](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListSuiteRunsInput : [no documentation found]
@@ -104,6 +141,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
     func listSuiteRuns(input: ListSuiteRunsInput) async throws -> ListSuiteRunsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -117,6 +159,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartSuiteRun` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Starts a Device Advisor test suite run. Requires permission to access the [StartSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StartSuiteRunInput : [no documentation found]
@@ -130,6 +177,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `InternalServerException` : Sends an Internal Failure exception.
     /// - `ValidationException` : Sends a validation exception.
     func startSuiteRun(input: StartSuiteRunInput) async throws -> StartSuiteRunOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopSuiteRun` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Stops a Device Advisor test suite run that is currently running. Requires permission to access the [StopSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StopSuiteRunInput : [no documentation found]
@@ -143,6 +195,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func stopSuiteRun(input: StopSuiteRunInput) async throws -> StopSuiteRunOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -156,6 +213,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -169,6 +231,11 @@ public protocol IotDeviceAdvisorClientProtocol {
     /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
     /// - `ValidationException` : Sends a validation exception.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSuiteDefinition` operation on the `IotSenateService` service.
+    ///
+>>>>>>> main
     /// Updates a Device Advisor test suite. Requires permission to access the [UpdateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter UpdateSuiteDefinitionInput : [no documentation found]

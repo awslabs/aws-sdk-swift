@@ -12,7 +12,11 @@ extension FMSClient {
     ///     - input: A `[ListAdminAccountsForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAdminAccountsForOrganizationOutput`
     public func listAdminAccountsForOrganizationPaginated(input: ListAdminAccountsForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListAdminAccountsForOrganizationInput, ListAdminAccountsForOrganizationOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAdminAccountsForOrganizationInput, ListAdminAccountsForOrganizationOutput>(input: input, inputKey: \ListAdminAccountsForOrganizationInput.nextToken, outputKey: \ListAdminAccountsForOrganizationOutput.nextToken, paginationFunction: self.listAdminAccountsForOrganization(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAdminAccountsForOrganizationInput, ListAdminAccountsForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAdminAccountsForOrganization(input:))
+>>>>>>> main
     }
 }
 
@@ -24,7 +28,11 @@ extension ListAdminAccountsForOrganizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAdminAccountsForOrganizationInput, Output == ListAdminAccountsForOrganizationOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAdminAccountsForOrganizationInput, OperationStackOutput == ListAdminAccountsForOrganizationOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAdminAccountsForOrganizationPaginated`
     /// to access the nested member `[FMSClientTypes.AdminAccountSummary]`
     /// - Returns: `[FMSClientTypes.AdminAccountSummary]`
@@ -42,7 +50,11 @@ extension FMSClient {
     ///     - input: A `[ListAdminsManagingAccountInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAdminsManagingAccountOutput`
     public func listAdminsManagingAccountPaginated(input: ListAdminsManagingAccountInput) -> ClientRuntime.PaginatorSequence<ListAdminsManagingAccountInput, ListAdminsManagingAccountOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAdminsManagingAccountInput, ListAdminsManagingAccountOutput>(input: input, inputKey: \ListAdminsManagingAccountInput.nextToken, outputKey: \ListAdminsManagingAccountOutput.nextToken, paginationFunction: self.listAdminsManagingAccount(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAdminsManagingAccountInput, ListAdminsManagingAccountOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAdminsManagingAccount(input:))
+>>>>>>> main
     }
 }
 
@@ -54,7 +66,11 @@ extension ListAdminsManagingAccountInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAdminsManagingAccountInput, Output == ListAdminsManagingAccountOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAdminsManagingAccountInput, OperationStackOutput == ListAdminsManagingAccountOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAdminsManagingAccountPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -72,7 +88,11 @@ extension FMSClient {
     ///     - input: A `[ListAppsListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppsListsOutput`
     public func listAppsListsPaginated(input: ListAppsListsInput) -> ClientRuntime.PaginatorSequence<ListAppsListsInput, ListAppsListsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAppsListsInput, ListAppsListsOutput>(input: input, inputKey: \ListAppsListsInput.nextToken, outputKey: \ListAppsListsOutput.nextToken, paginationFunction: self.listAppsLists(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAppsListsInput, ListAppsListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppsLists(input:))
+>>>>>>> main
     }
 }
 
@@ -85,7 +105,11 @@ extension ListAppsListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAppsListsInput, Output == ListAppsListsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAppsListsInput, OperationStackOutput == ListAppsListsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAppsListsPaginated`
     /// to access the nested member `[FMSClientTypes.AppsListDataSummary]`
     /// - Returns: `[FMSClientTypes.AppsListDataSummary]`
@@ -103,7 +127,11 @@ extension FMSClient {
     ///     - input: A `[ListComplianceStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComplianceStatusOutput`
     public func listComplianceStatusPaginated(input: ListComplianceStatusInput) -> ClientRuntime.PaginatorSequence<ListComplianceStatusInput, ListComplianceStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComplianceStatusInput, ListComplianceStatusOutput>(input: input, inputKey: \ListComplianceStatusInput.nextToken, outputKey: \ListComplianceStatusOutput.nextToken, paginationFunction: self.listComplianceStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComplianceStatusInput, ListComplianceStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComplianceStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -116,7 +144,11 @@ extension ListComplianceStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListComplianceStatusInput, Output == ListComplianceStatusOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListComplianceStatusInput, OperationStackOutput == ListComplianceStatusOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComplianceStatusPaginated`
     /// to access the nested member `[FMSClientTypes.PolicyComplianceStatus]`
     /// - Returns: `[FMSClientTypes.PolicyComplianceStatus]`
@@ -134,7 +166,11 @@ extension FMSClient {
     ///     - input: A `[ListMemberAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutput`
     public func listMemberAccountsPaginated(input: ListMemberAccountsInput) -> ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput>(input: input, inputKey: \ListMemberAccountsInput.nextToken, outputKey: \ListMemberAccountsOutput.nextToken, paginationFunction: self.listMemberAccounts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMemberAccounts(input:))
+>>>>>>> main
     }
 }
 
@@ -146,7 +182,11 @@ extension ListMemberAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListMemberAccountsInput, Output == ListMemberAccountsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListMemberAccountsInput, OperationStackOutput == ListMemberAccountsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMemberAccountsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -164,7 +204,11 @@ extension FMSClient {
     ///     - input: A `[ListPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutput`
     public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \ListPoliciesInput.nextToken, outputKey: \ListPoliciesOutput.nextToken, paginationFunction: self.listPolicies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicies(input:))
+>>>>>>> main
     }
 }
 
@@ -176,7 +220,11 @@ extension ListPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPoliciesInput, Output == ListPoliciesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPoliciesInput, OperationStackOutput == ListPoliciesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPoliciesPaginated`
     /// to access the nested member `[FMSClientTypes.PolicySummary]`
     /// - Returns: `[FMSClientTypes.PolicySummary]`
@@ -194,7 +242,11 @@ extension FMSClient {
     ///     - input: A `[ListProtocolsListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProtocolsListsOutput`
     public func listProtocolsListsPaginated(input: ListProtocolsListsInput) -> ClientRuntime.PaginatorSequence<ListProtocolsListsInput, ListProtocolsListsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProtocolsListsInput, ListProtocolsListsOutput>(input: input, inputKey: \ListProtocolsListsInput.nextToken, outputKey: \ListProtocolsListsOutput.nextToken, paginationFunction: self.listProtocolsLists(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProtocolsListsInput, ListProtocolsListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtocolsLists(input:))
+>>>>>>> main
     }
 }
 
@@ -207,7 +259,11 @@ extension ListProtocolsListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListProtocolsListsInput, Output == ListProtocolsListsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListProtocolsListsInput, OperationStackOutput == ListProtocolsListsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProtocolsListsPaginated`
     /// to access the nested member `[FMSClientTypes.ProtocolsListDataSummary]`
     /// - Returns: `[FMSClientTypes.ProtocolsListDataSummary]`
@@ -225,7 +281,11 @@ extension FMSClient {
     ///     - input: A `[ListThirdPartyFirewallFirewallPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThirdPartyFirewallFirewallPoliciesOutput`
     public func listThirdPartyFirewallFirewallPoliciesPaginated(input: ListThirdPartyFirewallFirewallPoliciesInput) -> ClientRuntime.PaginatorSequence<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutput>(input: input, inputKey: \ListThirdPartyFirewallFirewallPoliciesInput.nextToken, outputKey: \ListThirdPartyFirewallFirewallPoliciesOutput.nextToken, paginationFunction: self.listThirdPartyFirewallFirewallPolicies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThirdPartyFirewallFirewallPolicies(input:))
+>>>>>>> main
     }
 }
 
@@ -238,7 +298,11 @@ extension ListThirdPartyFirewallFirewallPoliciesInput: ClientRuntime.PaginateTok
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListThirdPartyFirewallFirewallPoliciesInput, Output == ListThirdPartyFirewallFirewallPoliciesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListThirdPartyFirewallFirewallPoliciesInput, OperationStackOutput == ListThirdPartyFirewallFirewallPoliciesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listThirdPartyFirewallFirewallPoliciesPaginated`
     /// to access the nested member `[FMSClientTypes.ThirdPartyFirewallFirewallPolicy]`
     /// - Returns: `[FMSClientTypes.ThirdPartyFirewallFirewallPolicy]`

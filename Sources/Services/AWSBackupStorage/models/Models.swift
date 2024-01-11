@@ -456,7 +456,7 @@ extension GetChunkOutput: ClientRuntime.HttpResponseBinding {
             self.data = .data(data)
         case .stream(let stream):
             self.data = .stream(stream)
-        case .none:
+        case .noStream:
             self.data = nil
         }
     }
@@ -589,7 +589,7 @@ extension GetObjectMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.metadataBlob = .data(data)
         case .stream(let stream):
             self.metadataBlob = .stream(stream)
-        case .none:
+        case .noStream:
             self.metadataBlob = nil
         }
     }
@@ -1128,6 +1128,7 @@ extension NotReadableInputStreamExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct NotifyObjectCompleteInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "NotifyObjectCompleteInputBodyMiddleware"
 
@@ -1153,6 +1154,8 @@ public struct NotifyObjectCompleteInputBodyMiddleware: ClientRuntime.Middleware 
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension NotifyObjectCompleteInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metadataBlob = "MetadataBlob"
@@ -1345,6 +1348,7 @@ enum NotifyObjectCompleteOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -1365,13 +1369,17 @@ public struct PutChunkInputBodyMiddleware: ClientRuntime.Middleware {
         if let data = input.operationInput.data {
             let dataBody = ClientRuntime.HttpBody(byteStream: data)
             input.builder.withBody(dataBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutChunkInput>
     public typealias MOutput = ClientRuntime.OperationOutput<PutChunkOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension PutChunkInput: Swift.Encodable {
@@ -1554,6 +1562,7 @@ enum PutChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -1574,13 +1583,17 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
         if let inlineChunk = input.operationInput.inlineChunk {
             let inlineChunkBody = ClientRuntime.HttpBody(byteStream: inlineChunk)
             input.builder.withBody(inlineChunkBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
     public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension PutObjectInput: Swift.Encodable {

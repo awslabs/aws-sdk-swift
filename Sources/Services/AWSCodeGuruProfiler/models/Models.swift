@@ -2134,7 +2134,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
             self.profile = data
         case .stream(let stream):
             self.profile = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.profile = nil
         }
     }
@@ -3472,6 +3472,7 @@ extension CodeGuruProfilerClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct PostAgentProfileInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PostAgentProfileInputBodyMiddleware"
 
@@ -3498,6 +3499,8 @@ public struct PostAgentProfileInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PostAgentProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentProfile

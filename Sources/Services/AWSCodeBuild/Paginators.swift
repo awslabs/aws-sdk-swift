@@ -12,7 +12,11 @@ extension CodeBuildClient {
     ///     - input: A `[DescribeCodeCoveragesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCodeCoveragesOutput`
     public func describeCodeCoveragesPaginated(input: DescribeCodeCoveragesInput) -> ClientRuntime.PaginatorSequence<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(input: input, inputKey: \DescribeCodeCoveragesInput.nextToken, outputKey: \DescribeCodeCoveragesOutput.nextToken, paginationFunction: self.describeCodeCoverages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCodeCoverages(input:))
+>>>>>>> main
     }
 }
 
@@ -29,7 +33,11 @@ extension DescribeCodeCoveragesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeCodeCoveragesInput, Output == DescribeCodeCoveragesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeCodeCoveragesInput, OperationStackOutput == DescribeCodeCoveragesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCodeCoveragesPaginated`
     /// to access the nested member `[CodeBuildClientTypes.CodeCoverage]`
     /// - Returns: `[CodeBuildClientTypes.CodeCoverage]`
@@ -47,7 +55,11 @@ extension CodeBuildClient {
     ///     - input: A `[DescribeTestCasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTestCasesOutput`
     public func describeTestCasesPaginated(input: DescribeTestCasesInput) -> ClientRuntime.PaginatorSequence<DescribeTestCasesInput, DescribeTestCasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeTestCasesInput, DescribeTestCasesOutput>(input: input, inputKey: \DescribeTestCasesInput.nextToken, outputKey: \DescribeTestCasesOutput.nextToken, paginationFunction: self.describeTestCases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeTestCasesInput, DescribeTestCasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTestCases(input:))
+>>>>>>> main
     }
 }
 
@@ -61,7 +73,11 @@ extension DescribeTestCasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeTestCasesInput, Output == DescribeTestCasesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeTestCasesInput, OperationStackOutput == DescribeTestCasesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTestCasesPaginated`
     /// to access the nested member `[CodeBuildClientTypes.TestCase]`
     /// - Returns: `[CodeBuildClientTypes.TestCase]`
@@ -79,7 +95,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListBuildBatchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuildBatchesOutput`
     public func listBuildBatchesPaginated(input: ListBuildBatchesInput) -> ClientRuntime.PaginatorSequence<ListBuildBatchesInput, ListBuildBatchesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListBuildBatchesInput, ListBuildBatchesOutput>(input: input, inputKey: \ListBuildBatchesInput.nextToken, outputKey: \ListBuildBatchesOutput.nextToken, paginationFunction: self.listBuildBatches(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListBuildBatchesInput, ListBuildBatchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuildBatches(input:))
+>>>>>>> main
     }
 }
 
@@ -93,7 +113,11 @@ extension ListBuildBatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListBuildBatchesInput, Output == ListBuildBatchesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListBuildBatchesInput, OperationStackOutput == ListBuildBatchesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBuildBatchesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -111,7 +135,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListBuildBatchesForProjectInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuildBatchesForProjectOutput`
     public func listBuildBatchesForProjectPaginated(input: ListBuildBatchesForProjectInput) -> ClientRuntime.PaginatorSequence<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(input: input, inputKey: \ListBuildBatchesForProjectInput.nextToken, outputKey: \ListBuildBatchesForProjectOutput.nextToken, paginationFunction: self.listBuildBatchesForProject(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuildBatchesForProject(input:))
+>>>>>>> main
     }
 }
 
@@ -126,7 +154,11 @@ extension ListBuildBatchesForProjectInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListBuildBatchesForProjectInput, Output == ListBuildBatchesForProjectOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListBuildBatchesForProjectInput, OperationStackOutput == ListBuildBatchesForProjectOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBuildBatchesForProjectPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -144,7 +176,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListBuildsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsOutput`
     public func listBuildsPaginated(input: ListBuildsInput) -> ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput>(input: input, inputKey: \ListBuildsInput.nextToken, outputKey: \ListBuildsOutput.nextToken, paginationFunction: self.listBuilds(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuilds(input:))
+>>>>>>> main
     }
 }
 
@@ -156,7 +192,11 @@ extension ListBuildsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuildsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListBuildsInput, OperationStackOutput == ListBuildsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBuildsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -174,7 +214,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListBuildsForProjectInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsForProjectOutput`
     public func listBuildsForProjectPaginated(input: ListBuildsForProjectInput) -> ClientRuntime.PaginatorSequence<ListBuildsForProjectInput, ListBuildsForProjectOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListBuildsForProjectInput, ListBuildsForProjectOutput>(input: input, inputKey: \ListBuildsForProjectInput.nextToken, outputKey: \ListBuildsForProjectOutput.nextToken, paginationFunction: self.listBuildsForProject(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListBuildsForProjectInput, ListBuildsForProjectOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuildsForProject(input:))
+>>>>>>> main
     }
 }
 
@@ -187,7 +231,11 @@ extension ListBuildsForProjectInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListBuildsForProjectInput, Output == ListBuildsForProjectOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListBuildsForProjectInput, OperationStackOutput == ListBuildsForProjectOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBuildsForProjectPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -205,7 +253,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
+>>>>>>> main
     }
 }
 
@@ -218,7 +270,11 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -236,7 +292,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListReportGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReportGroupsOutput`
     public func listReportGroupsPaginated(input: ListReportGroupsInput) -> ClientRuntime.PaginatorSequence<ListReportGroupsInput, ListReportGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListReportGroupsInput, ListReportGroupsOutput>(input: input, inputKey: \ListReportGroupsInput.nextToken, outputKey: \ListReportGroupsOutput.nextToken, paginationFunction: self.listReportGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListReportGroupsInput, ListReportGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReportGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -250,7 +310,11 @@ extension ListReportGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListReportGroupsInput, Output == ListReportGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListReportGroupsInput, OperationStackOutput == ListReportGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReportGroupsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -268,7 +332,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListReportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReportsOutput`
     public func listReportsPaginated(input: ListReportsInput) -> ClientRuntime.PaginatorSequence<ListReportsInput, ListReportsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListReportsInput, ListReportsOutput>(input: input, inputKey: \ListReportsInput.nextToken, outputKey: \ListReportsOutput.nextToken, paginationFunction: self.listReports(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListReportsInput, ListReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReports(input:))
+>>>>>>> main
     }
 }
 
@@ -282,7 +350,11 @@ extension ListReportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListReportsInput, Output == ListReportsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListReportsInput, OperationStackOutput == ListReportsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReportsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -300,7 +372,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListReportsForReportGroupInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReportsForReportGroupOutput`
     public func listReportsForReportGroupPaginated(input: ListReportsForReportGroupInput) -> ClientRuntime.PaginatorSequence<ListReportsForReportGroupInput, ListReportsForReportGroupOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(input: input, inputKey: \ListReportsForReportGroupInput.nextToken, outputKey: \ListReportsForReportGroupOutput.nextToken, paginationFunction: self.listReportsForReportGroup(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReportsForReportGroup(input:))
+>>>>>>> main
     }
 }
 
@@ -315,7 +391,11 @@ extension ListReportsForReportGroupInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListReportsForReportGroupInput, Output == ListReportsForReportGroupOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListReportsForReportGroupInput, OperationStackOutput == ListReportsForReportGroupOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReportsForReportGroupPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -333,7 +413,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListSharedProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSharedProjectsOutput`
     public func listSharedProjectsPaginated(input: ListSharedProjectsInput) -> ClientRuntime.PaginatorSequence<ListSharedProjectsInput, ListSharedProjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSharedProjectsInput, ListSharedProjectsOutput>(input: input, inputKey: \ListSharedProjectsInput.nextToken, outputKey: \ListSharedProjectsOutput.nextToken, paginationFunction: self.listSharedProjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSharedProjectsInput, ListSharedProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSharedProjects(input:))
+>>>>>>> main
     }
 }
 
@@ -347,7 +431,11 @@ extension ListSharedProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListSharedProjectsInput, Output == ListSharedProjectsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListSharedProjectsInput, OperationStackOutput == ListSharedProjectsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSharedProjectsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -365,7 +453,11 @@ extension CodeBuildClient {
     ///     - input: A `[ListSharedReportGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSharedReportGroupsOutput`
     public func listSharedReportGroupsPaginated(input: ListSharedReportGroupsInput) -> ClientRuntime.PaginatorSequence<ListSharedReportGroupsInput, ListSharedReportGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(input: input, inputKey: \ListSharedReportGroupsInput.nextToken, outputKey: \ListSharedReportGroupsOutput.nextToken, paginationFunction: self.listSharedReportGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSharedReportGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -379,7 +471,11 @@ extension ListSharedReportGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListSharedReportGroupsInput, Output == ListSharedReportGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListSharedReportGroupsInput, OperationStackOutput == ListSharedReportGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSharedReportGroupsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`

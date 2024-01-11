@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// AWS Amplify Admin API
 public protocol AmplifyBackendClientProtocol {
+    /// Performs the `CloneBackend` operation on the `AmplifyBackend` service.
+    ///
     /// This operation clones an existing backend.
     ///
     /// - Parameter CloneBackendInput : The request body for CloneBackend.
@@ -18,6 +20,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func cloneBackend(input: CloneBackendInput) async throws -> CloneBackendOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBackend` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
     ///
     /// - Parameter CreateBackendInput : The request body for CreateBackend.
@@ -32,6 +39,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func createBackend(input: CreateBackendInput) async throws -> CreateBackendOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBackendAPI` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Creates a new backend API resource.
     ///
     /// - Parameter CreateBackendAPIInput : The request body for CreateBackendAPI.
@@ -46,6 +58,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func createBackendAPI(input: CreateBackendAPIInput) async throws -> CreateBackendAPIOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBackendAuth` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Creates a new backend authentication resource.
     ///
     /// - Parameter CreateBackendAuthInput : The request body for CreateBackendAuth.
@@ -60,6 +77,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func createBackendAuth(input: CreateBackendAuthInput) async throws -> CreateBackendAuthOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBackendConfig` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Creates a config object for a backend.
     ///
     /// - Parameter CreateBackendConfigInput : The request body for CreateBackendConfig.
@@ -74,6 +96,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func createBackendConfig(input: CreateBackendConfigInput) async throws -> CreateBackendConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBackendStorage` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Creates a backend storage resource.
     ///
     /// - Parameter CreateBackendStorageInput : The request body for CreateBackendStorage.
@@ -88,6 +115,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func createBackendStorage(input: CreateBackendStorageInput) async throws -> CreateBackendStorageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateToken` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
     ///
     /// - Parameter CreateTokenInput : [no documentation found]
@@ -102,6 +134,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBackend` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Removes an existing environment from your Amplify project.
     ///
     /// - Parameter DeleteBackendInput : [no documentation found]
@@ -116,6 +153,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func deleteBackend(input: DeleteBackendInput) async throws -> DeleteBackendOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBackendAPI` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Deletes an existing backend API resource.
     ///
     /// - Parameter DeleteBackendAPIInput : The request body for DeleteBackendAPI.
@@ -130,6 +172,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func deleteBackendAPI(input: DeleteBackendAPIInput) async throws -> DeleteBackendAPIOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBackendAuth` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Deletes an existing backend authentication resource.
     ///
     /// - Parameter DeleteBackendAuthInput : The request body for DeleteBackendAuth.
@@ -144,6 +191,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func deleteBackendAuth(input: DeleteBackendAuthInput) async throws -> DeleteBackendAuthOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBackendStorage` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Removes the specified backend storage resource.
     ///
     /// - Parameter DeleteBackendStorageInput : The request body for DeleteBackendStorage.
@@ -158,6 +210,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func deleteBackendStorage(input: DeleteBackendStorageInput) async throws -> DeleteBackendStorageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteToken` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Deletes the challenge token based on the given appId and sessionId.
     ///
     /// - Parameter DeleteTokenInput : [no documentation found]
@@ -172,6 +229,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GenerateBackendAPIModels` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Generates a model schema for an existing backend API resource.
     ///
     /// - Parameter GenerateBackendAPIModelsInput : The request body for GenerateBackendAPIModels.
@@ -186,6 +248,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func generateBackendAPIModels(input: GenerateBackendAPIModelsInput) async throws -> GenerateBackendAPIModelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackend` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Provides project-level details for your Amplify UI project.
     ///
     /// - Parameter GetBackendInput : The request body for GetBackend.
@@ -200,6 +267,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getBackend(input: GetBackendInput) async throws -> GetBackendOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackendAPI` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Gets the details for a backend API.
     ///
     /// - Parameter GetBackendAPIInput : The request body for GetBackendAPI.
@@ -214,6 +286,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackendAPIModels` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Gets a model introspection schema for an existing backend API resource.
     ///
     /// - Parameter GetBackendAPIModelsInput : The request body for GetBackendAPIModels.
@@ -228,6 +305,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackendAuth` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Gets a backend auth details.
     ///
     /// - Parameter GetBackendAuthInput : The request body for GetBackendAuth.
@@ -242,6 +324,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackendJob` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Returns information about a specific job.
     ///
     /// - Parameter GetBackendJobInput : [no documentation found]
@@ -256,6 +343,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getBackendJob(input: GetBackendJobInput) async throws -> GetBackendJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackendStorage` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Gets details for a backend storage resource.
     ///
     /// - Parameter GetBackendStorageInput : The request body for GetBackendStorage.
@@ -270,6 +362,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getBackendStorage(input: GetBackendStorageInput) async throws -> GetBackendStorageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetToken` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Gets the challenge token based on the given appId and sessionId.
     ///
     /// - Parameter GetTokenInput : [no documentation found]
@@ -284,6 +381,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func getToken(input: GetTokenInput) async throws -> GetTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ImportBackendAuth` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Imports an existing backend authentication resource.
     ///
     /// - Parameter ImportBackendAuthInput : The request body for ImportBackendAuth.
@@ -298,6 +400,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func importBackendAuth(input: ImportBackendAuthInput) async throws -> ImportBackendAuthOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ImportBackendStorage` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Imports an existing backend storage resource.
     ///
     /// - Parameter ImportBackendStorageInput : The request body for ImportBackendStorage.
@@ -312,6 +419,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func importBackendStorage(input: ImportBackendStorageInput) async throws -> ImportBackendStorageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBackendJobs` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Lists the jobs for the backend of an Amplify app.
     ///
     /// - Parameter ListBackendJobsInput : The request body for ListBackendJobs.
@@ -326,6 +438,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func listBackendJobs(input: ListBackendJobsInput) async throws -> ListBackendJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListS3Buckets` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// The list of S3 buckets in your account.
     ///
     /// - Parameter ListS3BucketsInput : The request body for S3Buckets.
@@ -340,6 +457,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func listS3Buckets(input: ListS3BucketsInput) async throws -> ListS3BucketsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemoveAllBackends` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Removes all backend environments from your Amplify project.
     ///
     /// - Parameter RemoveAllBackendsInput : The request body for RemoveAllBackends.
@@ -354,6 +476,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func removeAllBackends(input: RemoveAllBackendsInput) async throws -> RemoveAllBackendsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RemoveBackendConfig` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Removes the AWS resources required to access the Amplify Admin UI.
     ///
     /// - Parameter RemoveBackendConfigInput : [no documentation found]
@@ -368,6 +495,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func removeBackendConfig(input: RemoveBackendConfigInput) async throws -> RemoveBackendConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBackendAPI` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Updates an existing backend API resource.
     ///
     /// - Parameter UpdateBackendAPIInput : The request body for UpdateBackendAPI.
@@ -382,6 +514,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func updateBackendAPI(input: UpdateBackendAPIInput) async throws -> UpdateBackendAPIOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBackendAuth` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Updates an existing backend authentication resource.
     ///
     /// - Parameter UpdateBackendAuthInput : The request body for UpdateBackendAuth.
@@ -396,6 +533,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func updateBackendAuth(input: UpdateBackendAuthInput) async throws -> UpdateBackendAuthOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBackendConfig` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Updates the AWS resources required to access the Amplify Admin UI.
     ///
     /// - Parameter UpdateBackendConfigInput : The request body for UpdateBackendConfig.
@@ -410,6 +552,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func updateBackendConfig(input: UpdateBackendConfigInput) async throws -> UpdateBackendConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBackendJob` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Updates a specific job.
     ///
     /// - Parameter UpdateBackendJobInput : The request body for GetBackendJob.
@@ -424,6 +571,11 @@ public protocol AmplifyBackendClientProtocol {
     /// - `NotFoundException` : An error returned when a specific resource type is not found.
     /// - `TooManyRequestsException` : An error that is returned when a limit of a specific type has been exceeded.
     func updateBackendJob(input: UpdateBackendJobInput) async throws -> UpdateBackendJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBackendStorage` operation on the `AmplifyBackend` service.
+    ///
+>>>>>>> main
     /// Updates an existing backend storage resource.
     ///
     /// - Parameter UpdateBackendStorageInput : The request body for UpdateBackendStorage.

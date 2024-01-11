@@ -295,7 +295,7 @@ extension GetObjectOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
         self.statusCode = httpResponse.statusCode.rawValue
@@ -731,6 +731,7 @@ extension ObjectNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutObjectInputBodyMiddleware"
 
@@ -756,6 +757,8 @@ public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PutObjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"

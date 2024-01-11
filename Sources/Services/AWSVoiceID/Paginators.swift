@@ -12,7 +12,11 @@ extension VoiceIDClient {
     ///     - input: A `[ListFraudsterRegistrationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFraudsterRegistrationJobsOutput`
     public func listFraudsterRegistrationJobsPaginated(input: ListFraudsterRegistrationJobsInput) -> ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(input: input, inputKey: \ListFraudsterRegistrationJobsInput.nextToken, outputKey: \ListFraudsterRegistrationJobsOutput.nextToken, paginationFunction: self.listFraudsterRegistrationJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFraudsterRegistrationJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension ListFraudsterRegistrationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListFraudsterRegistrationJobsInput, Output == ListFraudsterRegistrationJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListFraudsterRegistrationJobsInput, OperationStackOutput == ListFraudsterRegistrationJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFraudsterRegistrationJobsPaginated`
     /// to access the nested member `[VoiceIDClientTypes.FraudsterRegistrationJobSummary]`
     /// - Returns: `[VoiceIDClientTypes.FraudsterRegistrationJobSummary]`
@@ -44,7 +52,11 @@ extension VoiceIDClient {
     ///     - input: A `[ListFraudstersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFraudstersOutput`
     public func listFraudstersPaginated(input: ListFraudstersInput) -> ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutput>(input: input, inputKey: \ListFraudstersInput.nextToken, outputKey: \ListFraudstersOutput.nextToken, paginationFunction: self.listFraudsters(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListFraudstersInput, ListFraudstersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFraudsters(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension ListFraudstersInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListFraudstersInput, Output == ListFraudstersOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListFraudstersInput, OperationStackOutput == ListFraudstersOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFraudstersPaginated`
     /// to access the nested member `[VoiceIDClientTypes.FraudsterSummary]`
     /// - Returns: `[VoiceIDClientTypes.FraudsterSummary]`
@@ -76,7 +92,11 @@ extension VoiceIDClient {
     ///     - input: A `[ListSpeakerEnrollmentJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSpeakerEnrollmentJobsOutput`
     public func listSpeakerEnrollmentJobsPaginated(input: ListSpeakerEnrollmentJobsInput) -> ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(input: input, inputKey: \ListSpeakerEnrollmentJobsInput.nextToken, outputKey: \ListSpeakerEnrollmentJobsOutput.nextToken, paginationFunction: self.listSpeakerEnrollmentJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSpeakerEnrollmentJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -90,7 +110,11 @@ extension ListSpeakerEnrollmentJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListSpeakerEnrollmentJobsInput, Output == ListSpeakerEnrollmentJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListSpeakerEnrollmentJobsInput, OperationStackOutput == ListSpeakerEnrollmentJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSpeakerEnrollmentJobsPaginated`
     /// to access the nested member `[VoiceIDClientTypes.SpeakerEnrollmentJobSummary]`
     /// - Returns: `[VoiceIDClientTypes.SpeakerEnrollmentJobSummary]`
@@ -108,7 +132,11 @@ extension VoiceIDClient {
     ///     - input: A `[ListSpeakersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSpeakersOutput`
     public func listSpeakersPaginated(input: ListSpeakersInput) -> ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutput>(input: input, inputKey: \ListSpeakersInput.nextToken, outputKey: \ListSpeakersOutput.nextToken, paginationFunction: self.listSpeakers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSpeakersInput, ListSpeakersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSpeakers(input:))
+>>>>>>> main
     }
 }
 
@@ -121,7 +149,11 @@ extension ListSpeakersInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListSpeakersInput, Output == ListSpeakersOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListSpeakersInput, OperationStackOutput == ListSpeakersOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSpeakersPaginated`
     /// to access the nested member `[VoiceIDClientTypes.SpeakerSummary]`
     /// - Returns: `[VoiceIDClientTypes.SpeakerSummary]`
@@ -139,7 +171,11 @@ extension VoiceIDClient {
     ///     - input: A `[ListWatchlistsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWatchlistsOutput`
     public func listWatchlistsPaginated(input: ListWatchlistsInput) -> ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutput>(input: input, inputKey: \ListWatchlistsInput.nextToken, outputKey: \ListWatchlistsOutput.nextToken, paginationFunction: self.listWatchlists(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListWatchlistsInput, ListWatchlistsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWatchlists(input:))
+>>>>>>> main
     }
 }
 
@@ -152,7 +188,11 @@ extension ListWatchlistsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListWatchlistsInput, Output == ListWatchlistsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListWatchlistsInput, OperationStackOutput == ListWatchlistsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWatchlistsPaginated`
     /// to access the nested member `[VoiceIDClientTypes.WatchlistSummary]`
     /// - Returns: `[VoiceIDClientTypes.WatchlistSummary]`

@@ -1465,6 +1465,7 @@ enum CreateLayoutOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension CreateRelatedItemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content
+        case performedBy
         case type
     }
 
@@ -1472,6 +1473,9 @@ extension CreateRelatedItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let performedBy = self.performedBy {
+            try encodeContainer.encode(performedBy, forKey: .performedBy)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -1501,6 +1505,8 @@ public struct CreateRelatedItemInput: Swift.Equatable {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
+    /// Represents the creator of the related item.
+    public var performedBy: ConnectCasesClientTypes.UserUnion?
     /// The type of a related item.
     /// This member is required.
     public var type: ConnectCasesClientTypes.RelatedItemType?
@@ -1509,12 +1515,14 @@ public struct CreateRelatedItemInput: Swift.Equatable {
         caseId: Swift.String? = nil,
         content: ConnectCasesClientTypes.RelatedItemInputContent? = nil,
         domainId: Swift.String? = nil,
+        performedBy: ConnectCasesClientTypes.UserUnion? = nil,
         type: ConnectCasesClientTypes.RelatedItemType? = nil
     )
     {
         self.caseId = caseId
         self.content = content
         self.domainId = domainId
+        self.performedBy = performedBy
         self.type = type
     }
 }
@@ -1522,11 +1530,13 @@ public struct CreateRelatedItemInput: Swift.Equatable {
 struct CreateRelatedItemInputBody: Swift.Equatable {
     let type: ConnectCasesClientTypes.RelatedItemType?
     let content: ConnectCasesClientTypes.RelatedItemInputContent?
+    let performedBy: ConnectCasesClientTypes.UserUnion?
 }
 
 extension CreateRelatedItemInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content
+        case performedBy
         case type
     }
 
@@ -1536,6 +1546,8 @@ extension CreateRelatedItemInputBody: Swift.Decodable {
         type = typeDecoded
         let contentDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.RelatedItemInputContent.self, forKey: .content)
         content = contentDecoded
+        let performedByDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.UserUnion.self, forKey: .performedBy)
+        performedBy = performedByDecoded
     }
 }
 
@@ -5664,6 +5676,7 @@ extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem: Swift.Codable 
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associationTime
         case content
+        case performedBy
         case relatedItemId
         case tags
         case type
@@ -5676,6 +5689,9 @@ extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem: Swift.Codable 
         }
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let performedBy = self.performedBy {
+            try encodeContainer.encode(performedBy, forKey: .performedBy)
         }
         if let relatedItemId = self.relatedItemId {
             try encodeContainer.encode(relatedItemId, forKey: .relatedItemId)
@@ -5714,6 +5730,8 @@ extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem: Swift.Codable 
             }
         }
         tags = tagsDecoded0
+        let performedByDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.UserUnion.self, forKey: .performedBy)
+        performedBy = performedByDecoded
     }
 }
 
@@ -5726,6 +5744,8 @@ extension ConnectCasesClientTypes {
         /// Represents the content of a particular type of related item.
         /// This member is required.
         public var content: ConnectCasesClientTypes.RelatedItemContent?
+        /// Represents the creator of the related item.
+        public var performedBy: ConnectCasesClientTypes.UserUnion?
         /// Unique identifier of a related item.
         /// This member is required.
         public var relatedItemId: Swift.String?
@@ -5738,6 +5758,7 @@ extension ConnectCasesClientTypes {
         public init(
             associationTime: ClientRuntime.Date? = nil,
             content: ConnectCasesClientTypes.RelatedItemContent? = nil,
+            performedBy: ConnectCasesClientTypes.UserUnion? = nil,
             relatedItemId: Swift.String? = nil,
             tags: [Swift.String:Swift.String?]? = nil,
             type: ConnectCasesClientTypes.RelatedItemType? = nil
@@ -5745,6 +5766,7 @@ extension ConnectCasesClientTypes {
         {
             self.associationTime = associationTime
             self.content = content
+            self.performedBy = performedBy
             self.relatedItemId = relatedItemId
             self.tags = tags
             self.type = type
@@ -6676,6 +6698,46 @@ enum UpdateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ConnectCasesClientTypes.UserUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case userarn = "userArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .userarn(userarn):
+                try container.encode(userarn, forKey: .userarn)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let userarnDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .userarn)
+        if let userarn = userarnDecoded {
+            self = .userarn(userarn)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// Represents the identity of the person who performed the action.
+    public enum UserUnion: Swift.Equatable {
+        /// Represents the Amazon Connect ARN of the user.
+        case userarn(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+>>>>>>> main
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

@@ -12,7 +12,11 @@ extension CodeGuruSecurityClient {
     ///     - input: A `[GetFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsOutput`
     public func getFindingsPaginated(input: GetFindingsInput) -> ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput>(input: input, inputKey: \GetFindingsInput.nextToken, outputKey: \GetFindingsOutput.nextToken, paginationFunction: self.getFindings(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindings(input:))
+>>>>>>> main
     }
 }
 
@@ -26,7 +30,11 @@ extension GetFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == GetFindingsInput, Output == GetFindingsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == GetFindingsInput, OperationStackOutput == GetFindingsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getFindingsPaginated`
     /// to access the nested member `[CodeGuruSecurityClientTypes.Finding]`
     /// - Returns: `[CodeGuruSecurityClientTypes.Finding]`
@@ -44,7 +52,11 @@ extension CodeGuruSecurityClient {
     ///     - input: A `[ListFindingsMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsMetricsOutput`
     public func listFindingsMetricsPaginated(input: ListFindingsMetricsInput) -> ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutput>(input: input, inputKey: \ListFindingsMetricsInput.nextToken, outputKey: \ListFindingsMetricsOutput.nextToken, paginationFunction: self.listFindingsMetrics(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListFindingsMetricsInput, ListFindingsMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindingsMetrics(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension ListFindingsMetricsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListFindingsMetricsInput, Output == ListFindingsMetricsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListFindingsMetricsInput, OperationStackOutput == ListFindingsMetricsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsMetricsPaginated`
     /// to access the nested member `[CodeGuruSecurityClientTypes.AccountFindingsMetric]`
     /// - Returns: `[CodeGuruSecurityClientTypes.AccountFindingsMetric]`
@@ -76,7 +92,11 @@ extension CodeGuruSecurityClient {
     ///     - input: A `[ListScansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScansOutput`
     public func listScansPaginated(input: ListScansInput) -> ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutput>(input: input, inputKey: \ListScansInput.nextToken, outputKey: \ListScansOutput.nextToken, paginationFunction: self.listScans(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListScansInput, ListScansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScans(input:))
+>>>>>>> main
     }
 }
 
@@ -88,7 +108,11 @@ extension ListScansInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListScansInput, Output == ListScansOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListScansInput, OperationStackOutput == ListScansOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listScansPaginated`
     /// to access the nested member `[CodeGuruSecurityClientTypes.ScanSummary]`
     /// - Returns: `[CodeGuruSecurityClientTypes.ScanSummary]`

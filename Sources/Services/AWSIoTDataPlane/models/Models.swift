@@ -114,7 +114,11 @@ extension DeleteThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.payload = nil
         }
     }
@@ -354,7 +358,11 @@ extension GetThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.payload = nil
         }
     }
@@ -872,6 +880,7 @@ extension IoTDataPlaneClientTypes {
     }
 }
 
+<<<<<<< HEAD
 public struct PublishInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PublishInputBodyMiddleware"
 
@@ -898,6 +907,8 @@ public struct PublishInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PublishInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload
@@ -1461,6 +1472,7 @@ extension UnsupportedDocumentEncodingExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateThingShadowInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateThingShadowInputBodyMiddleware"
 
@@ -1487,6 +1499,8 @@ public struct UpdateThingShadowInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateThingShadowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload
@@ -1568,7 +1582,11 @@ extension UpdateThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.payload = nil
         }
     }

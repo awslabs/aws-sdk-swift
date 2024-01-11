@@ -12,7 +12,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListComponentBuildVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentBuildVersionsOutput`
     public func listComponentBuildVersionsPaginated(input: ListComponentBuildVersionsInput) -> ClientRuntime.PaginatorSequence<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutput>(input: input, inputKey: \ListComponentBuildVersionsInput.nextToken, outputKey: \ListComponentBuildVersionsOutput.nextToken, paginationFunction: self.listComponentBuildVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponentBuildVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListComponentBuildVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListComponentBuildVersionsInput, Output == ListComponentBuildVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListComponentBuildVersionsInput, OperationStackOutput == ListComponentBuildVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComponentBuildVersionsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ComponentSummary]`
     /// - Returns: `[ImagebuilderClientTypes.ComponentSummary]`
@@ -43,7 +51,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutput`
     public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutput.nextToken, paginationFunction: self.listComponents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponents(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension ListComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListComponentsInput, OperationStackOutput == ListComponentsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ComponentVersion]`
     /// - Returns: `[ImagebuilderClientTypes.ComponentVersion]`
@@ -76,7 +92,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListContainerRecipesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContainerRecipesOutput`
     public func listContainerRecipesPaginated(input: ListContainerRecipesInput) -> ClientRuntime.PaginatorSequence<ListContainerRecipesInput, ListContainerRecipesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListContainerRecipesInput, ListContainerRecipesOutput>(input: input, inputKey: \ListContainerRecipesInput.nextToken, outputKey: \ListContainerRecipesOutput.nextToken, paginationFunction: self.listContainerRecipes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListContainerRecipesInput, ListContainerRecipesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContainerRecipes(input:))
+>>>>>>> main
     }
 }
 
@@ -90,7 +110,11 @@ extension ListContainerRecipesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListContainerRecipesInput, Output == ListContainerRecipesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListContainerRecipesInput, OperationStackOutput == ListContainerRecipesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listContainerRecipesPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ContainerRecipeSummary]`
     /// - Returns: `[ImagebuilderClientTypes.ContainerRecipeSummary]`
@@ -108,7 +132,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListDistributionConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDistributionConfigurationsOutput`
     public func listDistributionConfigurationsPaginated(input: ListDistributionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutput>(input: input, inputKey: \ListDistributionConfigurationsInput.nextToken, outputKey: \ListDistributionConfigurationsOutput.nextToken, paginationFunction: self.listDistributionConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDistributionConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -121,7 +149,11 @@ extension ListDistributionConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDistributionConfigurationsInput, Output == ListDistributionConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDistributionConfigurationsInput, OperationStackOutput == ListDistributionConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDistributionConfigurationsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.DistributionConfigurationSummary]`
     /// - Returns: `[ImagebuilderClientTypes.DistributionConfigurationSummary]`
@@ -139,7 +171,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImageBuildVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImageBuildVersionsOutput`
     public func listImageBuildVersionsPaginated(input: ListImageBuildVersionsInput) -> ClientRuntime.PaginatorSequence<ListImageBuildVersionsInput, ListImageBuildVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImageBuildVersionsInput, ListImageBuildVersionsOutput>(input: input, inputKey: \ListImageBuildVersionsInput.nextToken, outputKey: \ListImageBuildVersionsOutput.nextToken, paginationFunction: self.listImageBuildVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImageBuildVersionsInput, ListImageBuildVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImageBuildVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -153,7 +189,11 @@ extension ListImageBuildVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImageBuildVersionsInput, Output == ListImageBuildVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImageBuildVersionsInput, OperationStackOutput == ListImageBuildVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImageBuildVersionsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImageSummary]`
     /// - Returns: `[ImagebuilderClientTypes.ImageSummary]`
@@ -171,7 +211,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImagePackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagePackagesOutput`
     public func listImagePackagesPaginated(input: ListImagePackagesInput) -> ClientRuntime.PaginatorSequence<ListImagePackagesInput, ListImagePackagesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImagePackagesInput, ListImagePackagesOutput>(input: input, inputKey: \ListImagePackagesInput.nextToken, outputKey: \ListImagePackagesOutput.nextToken, paginationFunction: self.listImagePackages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImagePackagesInput, ListImagePackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImagePackages(input:))
+>>>>>>> main
     }
 }
 
@@ -184,7 +228,11 @@ extension ListImagePackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImagePackagesInput, Output == ListImagePackagesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImagePackagesInput, OperationStackOutput == ListImagePackagesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImagePackagesPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImagePackage]`
     /// - Returns: `[ImagebuilderClientTypes.ImagePackage]`
@@ -202,7 +250,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImagePipelineImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagePipelineImagesOutput`
     public func listImagePipelineImagesPaginated(input: ListImagePipelineImagesInput) -> ClientRuntime.PaginatorSequence<ListImagePipelineImagesInput, ListImagePipelineImagesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImagePipelineImagesInput, ListImagePipelineImagesOutput>(input: input, inputKey: \ListImagePipelineImagesInput.nextToken, outputKey: \ListImagePipelineImagesOutput.nextToken, paginationFunction: self.listImagePipelineImages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImagePipelineImagesInput, ListImagePipelineImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImagePipelineImages(input:))
+>>>>>>> main
     }
 }
 
@@ -216,7 +268,11 @@ extension ListImagePipelineImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImagePipelineImagesInput, Output == ListImagePipelineImagesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImagePipelineImagesInput, OperationStackOutput == ListImagePipelineImagesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImagePipelineImagesPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImageSummary]`
     /// - Returns: `[ImagebuilderClientTypes.ImageSummary]`
@@ -234,7 +290,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImagePipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagePipelinesOutput`
     public func listImagePipelinesPaginated(input: ListImagePipelinesInput) -> ClientRuntime.PaginatorSequence<ListImagePipelinesInput, ListImagePipelinesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImagePipelinesInput, ListImagePipelinesOutput>(input: input, inputKey: \ListImagePipelinesInput.nextToken, outputKey: \ListImagePipelinesOutput.nextToken, paginationFunction: self.listImagePipelines(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImagePipelinesInput, ListImagePipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImagePipelines(input:))
+>>>>>>> main
     }
 }
 
@@ -247,7 +307,11 @@ extension ListImagePipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImagePipelinesInput, Output == ListImagePipelinesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImagePipelinesInput, OperationStackOutput == ListImagePipelinesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImagePipelinesPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImagePipeline]`
     /// - Returns: `[ImagebuilderClientTypes.ImagePipeline]`
@@ -265,7 +329,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImageRecipesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImageRecipesOutput`
     public func listImageRecipesPaginated(input: ListImageRecipesInput) -> ClientRuntime.PaginatorSequence<ListImageRecipesInput, ListImageRecipesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImageRecipesInput, ListImageRecipesOutput>(input: input, inputKey: \ListImageRecipesInput.nextToken, outputKey: \ListImageRecipesOutput.nextToken, paginationFunction: self.listImageRecipes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImageRecipesInput, ListImageRecipesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImageRecipes(input:))
+>>>>>>> main
     }
 }
 
@@ -279,7 +347,11 @@ extension ListImageRecipesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImageRecipesInput, Output == ListImageRecipesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImageRecipesInput, OperationStackOutput == ListImageRecipesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImageRecipesPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImageRecipeSummary]`
     /// - Returns: `[ImagebuilderClientTypes.ImageRecipeSummary]`
@@ -297,7 +369,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagesOutput`
     public func listImagesPaginated(input: ListImagesInput) -> ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput>(input: input, inputKey: \ListImagesInput.nextToken, outputKey: \ListImagesOutput.nextToken, paginationFunction: self.listImages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImages(input:))
+>>>>>>> main
     }
 }
 
@@ -313,7 +389,11 @@ extension ListImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImagesInput, Output == ListImagesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImagesInput, OperationStackOutput == ListImagesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImagesPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImageVersion]`
     /// - Returns: `[ImagebuilderClientTypes.ImageVersion]`
@@ -331,7 +411,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImageScanFindingAggregationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImageScanFindingAggregationsOutput`
     public func listImageScanFindingAggregationsPaginated(input: ListImageScanFindingAggregationsInput) -> ClientRuntime.PaginatorSequence<ListImageScanFindingAggregationsInput, ListImageScanFindingAggregationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImageScanFindingAggregationsInput, ListImageScanFindingAggregationsOutput>(input: input, inputKey: \ListImageScanFindingAggregationsInput.nextToken, outputKey: \ListImageScanFindingAggregationsOutput.nextToken, paginationFunction: self.listImageScanFindingAggregations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImageScanFindingAggregationsInput, ListImageScanFindingAggregationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImageScanFindingAggregations(input:))
+>>>>>>> main
     }
 }
 
@@ -343,7 +427,11 @@ extension ListImageScanFindingAggregationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImageScanFindingAggregationsInput, Output == ListImageScanFindingAggregationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImageScanFindingAggregationsInput, OperationStackOutput == ListImageScanFindingAggregationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImageScanFindingAggregationsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImageScanFindingAggregation]`
     /// - Returns: `[ImagebuilderClientTypes.ImageScanFindingAggregation]`
@@ -361,7 +449,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListImageScanFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImageScanFindingsOutput`
     public func listImageScanFindingsPaginated(input: ListImageScanFindingsInput) -> ClientRuntime.PaginatorSequence<ListImageScanFindingsInput, ListImageScanFindingsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImageScanFindingsInput, ListImageScanFindingsOutput>(input: input, inputKey: \ListImageScanFindingsInput.nextToken, outputKey: \ListImageScanFindingsOutput.nextToken, paginationFunction: self.listImageScanFindings(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImageScanFindingsInput, ListImageScanFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImageScanFindings(input:))
+>>>>>>> main
     }
 }
 
@@ -374,7 +466,11 @@ extension ListImageScanFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImageScanFindingsInput, Output == ListImageScanFindingsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImageScanFindingsInput, OperationStackOutput == ListImageScanFindingsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImageScanFindingsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.ImageScanFinding]`
     /// - Returns: `[ImagebuilderClientTypes.ImageScanFinding]`
@@ -392,7 +488,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListInfrastructureConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInfrastructureConfigurationsOutput`
     public func listInfrastructureConfigurationsPaginated(input: ListInfrastructureConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutput>(input: input, inputKey: \ListInfrastructureConfigurationsInput.nextToken, outputKey: \ListInfrastructureConfigurationsOutput.nextToken, paginationFunction: self.listInfrastructureConfigurations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInfrastructureConfigurations(input:))
+>>>>>>> main
     }
 }
 
@@ -405,7 +505,11 @@ extension ListInfrastructureConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListInfrastructureConfigurationsInput, Output == ListInfrastructureConfigurationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListInfrastructureConfigurationsInput, OperationStackOutput == ListInfrastructureConfigurationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInfrastructureConfigurationsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.InfrastructureConfigurationSummary]`
     /// - Returns: `[ImagebuilderClientTypes.InfrastructureConfigurationSummary]`
@@ -414,6 +518,164 @@ extension PaginatorSequence where Input == ListInfrastructureConfigurationsInput
     }
 }
 extension ImagebuilderClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[ListLifecycleExecutionResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLifecycleExecutionResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLifecycleExecutionResourcesOutput`
+    public func listLifecycleExecutionResourcesPaginated(input: ListLifecycleExecutionResourcesInput) -> ClientRuntime.PaginatorSequence<ListLifecycleExecutionResourcesInput, ListLifecycleExecutionResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListLifecycleExecutionResourcesInput, ListLifecycleExecutionResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLifecycleExecutionResources(input:))
+    }
+}
+
+extension ListLifecycleExecutionResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLifecycleExecutionResourcesInput {
+        return ListLifecycleExecutionResourcesInput(
+            lifecycleExecutionId: self.lifecycleExecutionId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            parentResourceId: self.parentResourceId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLifecycleExecutionResourcesInput, OperationStackOutput == ListLifecycleExecutionResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLifecycleExecutionResourcesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.LifecycleExecutionResource]`
+    /// - Returns: `[ImagebuilderClientTypes.LifecycleExecutionResource]`
+    public func resources() async throws -> [ImagebuilderClientTypes.LifecycleExecutionResource] {
+        return try await self.asyncCompactMap { item in item.resources }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListLifecycleExecutionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLifecycleExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLifecycleExecutionsOutput`
+    public func listLifecycleExecutionsPaginated(input: ListLifecycleExecutionsInput) -> ClientRuntime.PaginatorSequence<ListLifecycleExecutionsInput, ListLifecycleExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLifecycleExecutionsInput, ListLifecycleExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLifecycleExecutions(input:))
+    }
+}
+
+extension ListLifecycleExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLifecycleExecutionsInput {
+        return ListLifecycleExecutionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLifecycleExecutionsInput, OperationStackOutput == ListLifecycleExecutionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLifecycleExecutionsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.LifecycleExecution]`
+    /// - Returns: `[ImagebuilderClientTypes.LifecycleExecution]`
+    public func lifecycleExecutions() async throws -> [ImagebuilderClientTypes.LifecycleExecution] {
+        return try await self.asyncCompactMap { item in item.lifecycleExecutions }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListLifecyclePoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLifecyclePoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLifecyclePoliciesOutput`
+    public func listLifecyclePoliciesPaginated(input: ListLifecyclePoliciesInput) -> ClientRuntime.PaginatorSequence<ListLifecyclePoliciesInput, ListLifecyclePoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListLifecyclePoliciesInput, ListLifecyclePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLifecyclePolicies(input:))
+    }
+}
+
+extension ListLifecyclePoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLifecyclePoliciesInput {
+        return ListLifecyclePoliciesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLifecyclePoliciesInput, OperationStackOutput == ListLifecyclePoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLifecyclePoliciesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.LifecyclePolicySummary]`
+    /// - Returns: `[ImagebuilderClientTypes.LifecyclePolicySummary]`
+    public func lifecyclePolicySummaryList() async throws -> [ImagebuilderClientTypes.LifecyclePolicySummary] {
+        return try await self.asyncCompactMap { item in item.lifecyclePolicySummaryList }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListWaitingWorkflowStepsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWaitingWorkflowStepsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWaitingWorkflowStepsOutput`
+    public func listWaitingWorkflowStepsPaginated(input: ListWaitingWorkflowStepsInput) -> ClientRuntime.PaginatorSequence<ListWaitingWorkflowStepsInput, ListWaitingWorkflowStepsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWaitingWorkflowStepsInput, ListWaitingWorkflowStepsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWaitingWorkflowSteps(input:))
+    }
+}
+
+extension ListWaitingWorkflowStepsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWaitingWorkflowStepsInput {
+        return ListWaitingWorkflowStepsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListWaitingWorkflowStepsInput, OperationStackOutput == ListWaitingWorkflowStepsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWaitingWorkflowStepsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.WorkflowStepExecution]`
+    /// - Returns: `[ImagebuilderClientTypes.WorkflowStepExecution]`
+    public func steps() async throws -> [ImagebuilderClientTypes.WorkflowStepExecution] {
+        return try await self.asyncCompactMap { item in item.steps }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListWorkflowBuildVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkflowBuildVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowBuildVersionsOutput`
+    public func listWorkflowBuildVersionsPaginated(input: ListWorkflowBuildVersionsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowBuildVersionsInput, ListWorkflowBuildVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkflowBuildVersionsInput, ListWorkflowBuildVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkflowBuildVersions(input:))
+    }
+}
+
+extension ListWorkflowBuildVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWorkflowBuildVersionsInput {
+        return ListWorkflowBuildVersionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workflowVersionArn: self.workflowVersionArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListWorkflowBuildVersionsInput, OperationStackOutput == ListWorkflowBuildVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkflowBuildVersionsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.WorkflowSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.WorkflowSummary]`
+    public func workflowSummaryList() async throws -> [ImagebuilderClientTypes.WorkflowSummary] {
+        return try await self.asyncCompactMap { item in item.workflowSummaryList }
+    }
+}
+extension ImagebuilderClient {
+>>>>>>> main
     /// Paginate over `[ListWorkflowExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -423,7 +685,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListWorkflowExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowExecutionsOutput`
     public func listWorkflowExecutionsPaginated(input: ListWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowExecutionsInput, ListWorkflowExecutionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListWorkflowExecutionsInput, ListWorkflowExecutionsOutput>(input: input, inputKey: \ListWorkflowExecutionsInput.nextToken, outputKey: \ListWorkflowExecutionsOutput.nextToken, paginationFunction: self.listWorkflowExecutions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListWorkflowExecutionsInput, ListWorkflowExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkflowExecutions(input:))
+>>>>>>> main
     }
 }
 
@@ -436,7 +702,11 @@ extension ListWorkflowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListWorkflowExecutionsInput, Output == ListWorkflowExecutionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListWorkflowExecutionsInput, OperationStackOutput == ListWorkflowExecutionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorkflowExecutionsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.WorkflowExecutionMetadata]`
     /// - Returns: `[ImagebuilderClientTypes.WorkflowExecutionMetadata]`
@@ -445,6 +715,42 @@ extension PaginatorSequence where Input == ListWorkflowExecutionsInput, Output =
     }
 }
 extension ImagebuilderClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[ListWorkflowsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkflowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowsOutput`
+    public func listWorkflowsPaginated(input: ListWorkflowsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutput> {
+        return ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkflows(input:))
+    }
+}
+
+extension ListWorkflowsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWorkflowsInput {
+        return ListWorkflowsInput(
+            byName: self.byName,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            owner: self.owner
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListWorkflowsInput, OperationStackOutput == ListWorkflowsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkflowsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.WorkflowVersion]`
+    /// - Returns: `[ImagebuilderClientTypes.WorkflowVersion]`
+    public func workflowVersionList() async throws -> [ImagebuilderClientTypes.WorkflowVersion] {
+        return try await self.asyncCompactMap { item in item.workflowVersionList }
+    }
+}
+extension ImagebuilderClient {
+>>>>>>> main
     /// Paginate over `[ListWorkflowStepExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -454,7 +760,11 @@ extension ImagebuilderClient {
     ///     - input: A `[ListWorkflowStepExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowStepExecutionsOutput`
     public func listWorkflowStepExecutionsPaginated(input: ListWorkflowStepExecutionsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowStepExecutionsInput, ListWorkflowStepExecutionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListWorkflowStepExecutionsInput, ListWorkflowStepExecutionsOutput>(input: input, inputKey: \ListWorkflowStepExecutionsInput.nextToken, outputKey: \ListWorkflowStepExecutionsOutput.nextToken, paginationFunction: self.listWorkflowStepExecutions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListWorkflowStepExecutionsInput, ListWorkflowStepExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkflowStepExecutions(input:))
+>>>>>>> main
     }
 }
 
@@ -467,7 +777,11 @@ extension ListWorkflowStepExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListWorkflowStepExecutionsInput, Output == ListWorkflowStepExecutionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListWorkflowStepExecutionsInput, OperationStackOutput == ListWorkflowStepExecutionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorkflowStepExecutionsPaginated`
     /// to access the nested member `[ImagebuilderClientTypes.WorkflowStepMetadata]`
     /// - Returns: `[ImagebuilderClientTypes.WorkflowStepMetadata]`

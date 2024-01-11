@@ -12,7 +12,11 @@ extension TranslateClient {
     ///     - input: A `[ListLanguagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLanguagesOutput`
     public func listLanguagesPaginated(input: ListLanguagesInput) -> ClientRuntime.PaginatorSequence<ListLanguagesInput, ListLanguagesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListLanguagesInput, ListLanguagesOutput>(input: input, inputKey: \ListLanguagesInput.nextToken, outputKey: \ListLanguagesOutput.nextToken, paginationFunction: self.listLanguages(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListLanguagesInput, ListLanguagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLanguages(input:))
+>>>>>>> main
     }
 }
 
@@ -34,7 +38,11 @@ extension TranslateClient {
     ///     - input: A `[ListParallelDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListParallelDataOutput`
     public func listParallelDataPaginated(input: ListParallelDataInput) -> ClientRuntime.PaginatorSequence<ListParallelDataInput, ListParallelDataOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListParallelDataInput, ListParallelDataOutput>(input: input, inputKey: \ListParallelDataInput.nextToken, outputKey: \ListParallelDataOutput.nextToken, paginationFunction: self.listParallelData(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListParallelDataInput, ListParallelDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listParallelData(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +63,11 @@ extension TranslateClient {
     ///     - input: A `[ListTerminologiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTerminologiesOutput`
     public func listTerminologiesPaginated(input: ListTerminologiesInput) -> ClientRuntime.PaginatorSequence<ListTerminologiesInput, ListTerminologiesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTerminologiesInput, ListTerminologiesOutput>(input: input, inputKey: \ListTerminologiesInput.nextToken, outputKey: \ListTerminologiesOutput.nextToken, paginationFunction: self.listTerminologies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTerminologiesInput, ListTerminologiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTerminologies(input:))
+>>>>>>> main
     }
 }
 
@@ -76,7 +88,11 @@ extension TranslateClient {
     ///     - input: A `[ListTextTranslationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTextTranslationJobsOutput`
     public func listTextTranslationJobsPaginated(input: ListTextTranslationJobsInput) -> ClientRuntime.PaginatorSequence<ListTextTranslationJobsInput, ListTextTranslationJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(input: input, inputKey: \ListTextTranslationJobsInput.nextToken, outputKey: \ListTextTranslationJobsOutput.nextToken, paginationFunction: self.listTextTranslationJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTextTranslationJobs(input:))
+>>>>>>> main
     }
 }
 

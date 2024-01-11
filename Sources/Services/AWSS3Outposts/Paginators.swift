@@ -12,7 +12,11 @@ extension S3OutpostsClient {
     ///     - input: A `[ListEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointsOutput`
     public func listEndpointsPaginated(input: ListEndpointsInput) -> ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \ListEndpointsInput.nextToken, outputKey: \ListEndpointsOutput.nextToken, paginationFunction: self.listEndpoints(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEndpoints(input:))
+>>>>>>> main
     }
 }
 
@@ -24,7 +28,11 @@ extension ListEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEndpointsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListEndpointsInput, OperationStackOutput == ListEndpointsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointsPaginated`
     /// to access the nested member `[S3OutpostsClientTypes.Endpoint]`
     /// - Returns: `[S3OutpostsClientTypes.Endpoint]`
@@ -42,7 +50,11 @@ extension S3OutpostsClient {
     ///     - input: A `[ListOutpostsWithS3Input]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOutpostsWithS3Output`
     public func listOutpostsWithS3Paginated(input: ListOutpostsWithS3Input) -> ClientRuntime.PaginatorSequence<ListOutpostsWithS3Input, ListOutpostsWithS3Output> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOutpostsWithS3Input, ListOutpostsWithS3Output>(input: input, inputKey: \ListOutpostsWithS3Input.nextToken, outputKey: \ListOutpostsWithS3Output.nextToken, paginationFunction: self.listOutpostsWithS3(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOutpostsWithS3Input, ListOutpostsWithS3Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOutpostsWithS3(input:))
+>>>>>>> main
     }
 }
 
@@ -54,7 +66,11 @@ extension ListOutpostsWithS3Input: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListOutpostsWithS3Input, Output == ListOutpostsWithS3Output {
+=======
+extension PaginatorSequence where OperationStackInput == ListOutpostsWithS3Input, OperationStackOutput == ListOutpostsWithS3Output {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOutpostsWithS3Paginated`
     /// to access the nested member `[S3OutpostsClientTypes.Outpost]`
     /// - Returns: `[S3OutpostsClientTypes.Outpost]`
@@ -72,7 +88,11 @@ extension S3OutpostsClient {
     ///     - input: A `[ListSharedEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSharedEndpointsOutput`
     public func listSharedEndpointsPaginated(input: ListSharedEndpointsInput) -> ClientRuntime.PaginatorSequence<ListSharedEndpointsInput, ListSharedEndpointsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSharedEndpointsInput, ListSharedEndpointsOutput>(input: input, inputKey: \ListSharedEndpointsInput.nextToken, outputKey: \ListSharedEndpointsOutput.nextToken, paginationFunction: self.listSharedEndpoints(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSharedEndpointsInput, ListSharedEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSharedEndpoints(input:))
+>>>>>>> main
     }
 }
 
@@ -85,7 +105,11 @@ extension ListSharedEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListSharedEndpointsInput, Output == ListSharedEndpointsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListSharedEndpointsInput, OperationStackOutput == ListSharedEndpointsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSharedEndpointsPaginated`
     /// to access the nested member `[S3OutpostsClientTypes.Endpoint]`
     /// - Returns: `[S3OutpostsClientTypes.Endpoint]`

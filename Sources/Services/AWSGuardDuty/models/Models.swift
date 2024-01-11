@@ -518,6 +518,9 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         case awsApiCallAction = "awsApiCallAction"
         case dnsRequestAction = "dnsRequestAction"
         case kubernetesApiCallAction = "kubernetesApiCallAction"
+        case kubernetesPermissionCheckedDetails = "kubernetesPermissionCheckedDetails"
+        case kubernetesRoleBindingDetails = "kubernetesRoleBindingDetails"
+        case kubernetesRoleDetails = "kubernetesRoleDetails"
         case networkConnectionAction = "networkConnectionAction"
         case portProbeAction = "portProbeAction"
         case rdsLoginAttemptAction = "rdsLoginAttemptAction"
@@ -536,6 +539,15 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         }
         if let kubernetesApiCallAction = self.kubernetesApiCallAction {
             try encodeContainer.encode(kubernetesApiCallAction, forKey: .kubernetesApiCallAction)
+        }
+        if let kubernetesPermissionCheckedDetails = self.kubernetesPermissionCheckedDetails {
+            try encodeContainer.encode(kubernetesPermissionCheckedDetails, forKey: .kubernetesPermissionCheckedDetails)
+        }
+        if let kubernetesRoleBindingDetails = self.kubernetesRoleBindingDetails {
+            try encodeContainer.encode(kubernetesRoleBindingDetails, forKey: .kubernetesRoleBindingDetails)
+        }
+        if let kubernetesRoleDetails = self.kubernetesRoleDetails {
+            try encodeContainer.encode(kubernetesRoleDetails, forKey: .kubernetesRoleDetails)
         }
         if let networkConnectionAction = self.networkConnectionAction {
             try encodeContainer.encode(networkConnectionAction, forKey: .networkConnectionAction)
@@ -564,6 +576,12 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         kubernetesApiCallAction = kubernetesApiCallActionDecoded
         let rdsLoginAttemptActionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RdsLoginAttemptAction.self, forKey: .rdsLoginAttemptAction)
         rdsLoginAttemptAction = rdsLoginAttemptActionDecoded
+        let kubernetesPermissionCheckedDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesPermissionCheckedDetails.self, forKey: .kubernetesPermissionCheckedDetails)
+        kubernetesPermissionCheckedDetails = kubernetesPermissionCheckedDetailsDecoded
+        let kubernetesRoleBindingDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesRoleBindingDetails.self, forKey: .kubernetesRoleBindingDetails)
+        kubernetesRoleBindingDetails = kubernetesRoleBindingDetailsDecoded
+        let kubernetesRoleDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesRoleDetails.self, forKey: .kubernetesRoleDetails)
+        kubernetesRoleDetails = kubernetesRoleDetailsDecoded
     }
 }
 
@@ -578,6 +596,12 @@ extension GuardDutyClientTypes {
         public var dnsRequestAction: GuardDutyClientTypes.DnsRequestAction?
         /// Information about the Kubernetes API call action described in this finding.
         public var kubernetesApiCallAction: GuardDutyClientTypes.KubernetesApiCallAction?
+        /// Information whether the user has the permission to use a specific Kubernetes API.
+        public var kubernetesPermissionCheckedDetails: GuardDutyClientTypes.KubernetesPermissionCheckedDetails?
+        /// Information about the role binding that grants the permission defined in a Kubernetes role.
+        public var kubernetesRoleBindingDetails: GuardDutyClientTypes.KubernetesRoleBindingDetails?
+        /// Information about the Kubernetes role name and role type.
+        public var kubernetesRoleDetails: GuardDutyClientTypes.KubernetesRoleDetails?
         /// Information about the NETWORK_CONNECTION action described in this finding.
         public var networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction?
         /// Information about the PORT_PROBE action described in this finding.
@@ -590,6 +614,9 @@ extension GuardDutyClientTypes {
             awsApiCallAction: GuardDutyClientTypes.AwsApiCallAction? = nil,
             dnsRequestAction: GuardDutyClientTypes.DnsRequestAction? = nil,
             kubernetesApiCallAction: GuardDutyClientTypes.KubernetesApiCallAction? = nil,
+            kubernetesPermissionCheckedDetails: GuardDutyClientTypes.KubernetesPermissionCheckedDetails? = nil,
+            kubernetesRoleBindingDetails: GuardDutyClientTypes.KubernetesRoleBindingDetails? = nil,
+            kubernetesRoleDetails: GuardDutyClientTypes.KubernetesRoleDetails? = nil,
             networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction? = nil,
             portProbeAction: GuardDutyClientTypes.PortProbeAction? = nil,
             rdsLoginAttemptAction: GuardDutyClientTypes.RdsLoginAttemptAction? = nil
@@ -599,6 +626,9 @@ extension GuardDutyClientTypes {
             self.awsApiCallAction = awsApiCallAction
             self.dnsRequestAction = dnsRequestAction
             self.kubernetesApiCallAction = kubernetesApiCallAction
+            self.kubernetesPermissionCheckedDetails = kubernetesPermissionCheckedDetails
+            self.kubernetesRoleBindingDetails = kubernetesRoleBindingDetails
+            self.kubernetesRoleDetails = kubernetesRoleDetails
             self.networkConnectionAction = networkConnectionAction
             self.portProbeAction = portProbeAction
             self.rdsLoginAttemptAction = rdsLoginAttemptAction
@@ -789,6 +819,230 @@ extension GuardDutyClientTypes {
             self.invitationId = invitationId
             self.invitedAt = invitedAt
             self.relationshipStatus = relationshipStatus
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.AgentDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case version = "version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the installed GuardDuty security agent.
+    public struct AgentDetails: Swift.Equatable {
+        /// Version of the installed GuardDuty security agent.
+        public var version: Swift.String?
+
+        public init(
+            version: Swift.String? = nil
+        )
+        {
+            self.version = version
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.Anomaly: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profiles = "profiles"
+        case unusual = "unusual"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let profiles = profiles {
+            var profilesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .profiles)
+            for (dictKey0, anomalyProfiles0) in profiles {
+                var anomalyProfiles0Container = profilesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, anomalyProfileFeatures1) in anomalyProfiles0 {
+                    var anomalyProfileFeatures1Container = anomalyProfiles0Container.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey1))
+                    for anomalyobject2 in anomalyProfileFeatures1 {
+                        try anomalyProfileFeatures1Container.encode(anomalyobject2)
+                    }
+                }
+            }
+        }
+        if let unusual = self.unusual {
+            try encodeContainer.encode(unusual, forKey: .unusual)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profilesContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [GuardDutyClientTypes.AnomalyObject?]?]?].self, forKey: .profiles)
+        var profilesDecoded0: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]? = nil
+        if let profilesContainer = profilesContainer {
+            profilesDecoded0 = [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]()
+            for (key0, anomalyprofilefeatures0) in profilesContainer {
+                var anomalyprofilefeatures0Decoded0: [Swift.String: [GuardDutyClientTypes.AnomalyObject]]? = nil
+                if let anomalyprofilefeatures0 = anomalyprofilefeatures0 {
+                    anomalyprofilefeatures0Decoded0 = [Swift.String: [GuardDutyClientTypes.AnomalyObject]]()
+                    for (key1, anomalyprofilefeatureobjects1) in anomalyprofilefeatures0 {
+                        var anomalyprofilefeatureobjects1Decoded1: [GuardDutyClientTypes.AnomalyObject]? = nil
+                        if let anomalyprofilefeatureobjects1 = anomalyprofilefeatureobjects1 {
+                            anomalyprofilefeatureobjects1Decoded1 = [GuardDutyClientTypes.AnomalyObject]()
+                            for structure2 in anomalyprofilefeatureobjects1 {
+                                if let structure2 = structure2 {
+                                    anomalyprofilefeatureobjects1Decoded1?.append(structure2)
+                                }
+                            }
+                        }
+                        anomalyprofilefeatures0Decoded0?[key1] = anomalyprofilefeatureobjects1Decoded1
+                    }
+                }
+                profilesDecoded0?[key0] = anomalyprofilefeatures0Decoded0
+            }
+        }
+        profiles = profilesDecoded0
+        let unusualDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AnomalyUnusual.self, forKey: .unusual)
+        unusual = unusualDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the anomalies.
+    public struct Anomaly: Swift.Equatable {
+        /// Information about the types of profiles.
+        public var profiles: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]?
+        /// Information about the behavior of the anomalies.
+        public var unusual: GuardDutyClientTypes.AnomalyUnusual?
+
+        public init(
+            profiles: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]? = nil,
+            unusual: GuardDutyClientTypes.AnomalyUnusual? = nil
+        )
+        {
+            self.profiles = profiles
+            self.unusual = unusual
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.AnomalyObject: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case observations = "observations"
+        case profileSubtype = "profileSubtype"
+        case profileType = "profileType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let observations = self.observations {
+            try encodeContainer.encode(observations, forKey: .observations)
+        }
+        if let profileSubtype = self.profileSubtype {
+            try encodeContainer.encode(profileSubtype.rawValue, forKey: .profileSubtype)
+        }
+        if let profileType = self.profileType {
+            try encodeContainer.encode(profileType.rawValue, forKey: .profileType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ProfileType.self, forKey: .profileType)
+        profileType = profileTypeDecoded
+        let profileSubtypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ProfileSubtype.self, forKey: .profileSubtype)
+        profileSubtype = profileSubtypeDecoded
+        let observationsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Observations.self, forKey: .observations)
+        observations = observationsDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the unusual anomalies.
+    public struct AnomalyObject: Swift.Equatable {
+        /// The recorded value.
+        public var observations: GuardDutyClientTypes.Observations?
+        /// The frequency of the anomaly.
+        public var profileSubtype: GuardDutyClientTypes.ProfileSubtype?
+        /// The type of behavior of the profile.
+        public var profileType: GuardDutyClientTypes.ProfileType?
+
+        public init(
+            observations: GuardDutyClientTypes.Observations? = nil,
+            profileSubtype: GuardDutyClientTypes.ProfileSubtype? = nil,
+            profileType: GuardDutyClientTypes.ProfileType? = nil
+        )
+        {
+            self.observations = observations
+            self.profileSubtype = profileSubtype
+            self.profileType = profileType
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.AnomalyUnusual: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case behavior = "behavior"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let behavior = behavior {
+            var behaviorContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .behavior)
+            for (dictKey0, behavior0) in behavior {
+                var behavior0Container = behaviorContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, anomalyUnusualBehaviorFeature1) in behavior0 {
+                    try behavior0Container.encode(anomalyUnusualBehaviorFeature1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let behaviorContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: GuardDutyClientTypes.AnomalyObject?]?].self, forKey: .behavior)
+        var behaviorDecoded0: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]? = nil
+        if let behaviorContainer = behaviorContainer {
+            behaviorDecoded0 = [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]()
+            for (key0, anomalyunusualbehaviorfeature0) in behaviorContainer {
+                var anomalyunusualbehaviorfeature0Decoded0: [Swift.String: GuardDutyClientTypes.AnomalyObject]? = nil
+                if let anomalyunusualbehaviorfeature0 = anomalyunusualbehaviorfeature0 {
+                    anomalyunusualbehaviorfeature0Decoded0 = [Swift.String: GuardDutyClientTypes.AnomalyObject]()
+                    for (key1, anomalyobject1) in anomalyunusualbehaviorfeature0 {
+                        if let anomalyobject1 = anomalyobject1 {
+                            anomalyunusualbehaviorfeature0Decoded0?[key1] = anomalyobject1
+                        }
+                    }
+                }
+                behaviorDecoded0?[key0] = anomalyunusualbehaviorfeature0Decoded0
+            }
+        }
+        behavior = behaviorDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the behavior of the anomaly that is new to GuardDuty.
+    public struct AnomalyUnusual: Swift.Equatable {
+        /// The behavior of the anomalous activity that caused GuardDuty to generate the finding.
+        public var behavior: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]?
+
+        public init(
+            behavior: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]? = nil
+        )
+        {
+            self.behavior = behavior
         }
     }
 
@@ -1720,6 +1974,51 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.ContainerInstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case compatibleContainerInstances = "compatibleContainerInstances"
+        case coveredContainerInstances = "coveredContainerInstances"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let compatibleContainerInstances = self.compatibleContainerInstances {
+            try encodeContainer.encode(compatibleContainerInstances, forKey: .compatibleContainerInstances)
+        }
+        if let coveredContainerInstances = self.coveredContainerInstances {
+            try encodeContainer.encode(coveredContainerInstances, forKey: .coveredContainerInstances)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let coveredContainerInstancesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coveredContainerInstances)
+        coveredContainerInstances = coveredContainerInstancesDecoded
+        let compatibleContainerInstancesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .compatibleContainerInstances)
+        compatibleContainerInstances = compatibleContainerInstancesDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the Amazon EC2 instance that is running the Amazon ECS container.
+    public struct ContainerInstanceDetails: Swift.Equatable {
+        /// Represents total number of nodes in the Amazon ECS cluster.
+        public var compatibleContainerInstances: Swift.Int?
+        /// Represents the nodes in the Amazon ECS cluster that has a HEALTHY coverage status.
+        public var coveredContainerInstances: Swift.Int?
+
+        public init(
+            compatibleContainerInstances: Swift.Int? = nil,
+            coveredContainerInstances: Swift.Int? = nil
+        )
+        {
+            self.compatibleContainerInstances = compatibleContainerInstances
+            self.coveredContainerInstances = coveredContainerInstances
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.Country: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case countryCode = "countryCode"
@@ -1760,6 +2059,143 @@ extension GuardDutyClientTypes {
         {
             self.countryCode = countryCode
             self.countryName = countryName
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.CoverageEc2InstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentDetails = "agentDetails"
+        case clusterArn = "clusterArn"
+        case instanceId = "instanceId"
+        case instanceType = "instanceType"
+        case managementType = "managementType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentDetails = self.agentDetails {
+            try encodeContainer.encode(agentDetails, forKey: .agentDetails)
+        }
+        if let clusterArn = self.clusterArn {
+            try encodeContainer.encode(clusterArn, forKey: .clusterArn)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let managementType = self.managementType {
+            try encodeContainer.encode(managementType.rawValue, forKey: .managementType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let clusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterArn)
+        clusterArn = clusterArnDecoded
+        let agentDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AgentDetails.self, forKey: .agentDetails)
+        agentDetails = agentDetailsDecoded
+        let managementTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ManagementType.self, forKey: .managementType)
+        managementType = managementTypeDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Contains information about the Amazon EC2 instance runtime coverage details.
+    public struct CoverageEc2InstanceDetails: Swift.Equatable {
+        /// Information about the installed security agent.
+        public var agentDetails: GuardDutyClientTypes.AgentDetails?
+        /// The cluster ARN of the Amazon ECS cluster running on the Amazon EC2 instance.
+        public var clusterArn: Swift.String?
+        /// The Amazon EC2 instance ID.
+        public var instanceId: Swift.String?
+        /// The instance type of the Amazon EC2 instance.
+        public var instanceType: Swift.String?
+        /// Indicates how the GuardDuty security agent is managed for this resource.
+        ///
+        /// * AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.
+        ///
+        /// * MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.
+        ///
+        ///
+        /// The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters that run on Amazon EC2 instances.
+        public var managementType: GuardDutyClientTypes.ManagementType?
+
+        public init(
+            agentDetails: GuardDutyClientTypes.AgentDetails? = nil,
+            clusterArn: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            managementType: GuardDutyClientTypes.ManagementType? = nil
+        )
+        {
+            self.agentDetails = agentDetails
+            self.clusterArn = clusterArn
+            self.instanceId = instanceId
+            self.instanceType = instanceType
+            self.managementType = managementType
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.CoverageEcsClusterDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterName = "clusterName"
+        case containerInstanceDetails = "containerInstanceDetails"
+        case fargateDetails = "fargateDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let containerInstanceDetails = self.containerInstanceDetails {
+            try encodeContainer.encode(containerInstanceDetails, forKey: .containerInstanceDetails)
+        }
+        if let fargateDetails = self.fargateDetails {
+            try encodeContainer.encode(fargateDetails, forKey: .fargateDetails)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let fargateDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FargateDetails.self, forKey: .fargateDetails)
+        fargateDetails = fargateDetailsDecoded
+        let containerInstanceDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ContainerInstanceDetails.self, forKey: .containerInstanceDetails)
+        containerInstanceDetails = containerInstanceDetailsDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about Amazon ECS cluster runtime coverage details.
+    public struct CoverageEcsClusterDetails: Swift.Equatable {
+        /// The name of the Amazon ECS cluster.
+        public var clusterName: Swift.String?
+        /// Information about the Amazon ECS container running on Amazon EC2 instance.
+        public var containerInstanceDetails: GuardDutyClientTypes.ContainerInstanceDetails?
+        /// Information about the Fargate details associated with the Amazon ECS cluster.
+        public var fargateDetails: GuardDutyClientTypes.FargateDetails?
+
+        public init(
+            clusterName: Swift.String? = nil,
+            containerInstanceDetails: GuardDutyClientTypes.ContainerInstanceDetails? = nil,
+            fargateDetails: GuardDutyClientTypes.FargateDetails? = nil
+        )
+        {
+            self.clusterName = clusterName
+            self.containerInstanceDetails = containerInstanceDetails
+            self.fargateDetails = fargateDetails
         }
     }
 
@@ -2005,9 +2441,13 @@ extension GuardDutyClientTypes {
     public enum CoverageFilterCriterionKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
         case addonVersion
+        case agentVersion
+        case clusterArn
         case clusterName
         case coverageStatus
+        case ecsClusterName
         case eksClusterName
+        case instanceId
         case managementType
         case resourceType
         case sdkUnknown(Swift.String)
@@ -2016,9 +2456,13 @@ extension GuardDutyClientTypes {
             return [
                 .accountId,
                 .addonVersion,
+                .agentVersion,
+                .clusterArn,
                 .clusterName,
                 .coverageStatus,
+                .ecsClusterName,
                 .eksClusterName,
+                .instanceId,
                 .managementType,
                 .resourceType,
                 .sdkUnknown("")
@@ -2032,9 +2476,13 @@ extension GuardDutyClientTypes {
             switch self {
             case .accountId: return "ACCOUNT_ID"
             case .addonVersion: return "ADDON_VERSION"
+            case .agentVersion: return "AGENT_VERSION"
+            case .clusterArn: return "CLUSTER_ARN"
             case .clusterName: return "CLUSTER_NAME"
             case .coverageStatus: return "COVERAGE_STATUS"
+            case .ecsClusterName: return "ECS_CLUSTER_NAME"
             case .eksClusterName: return "EKS_CLUSTER_NAME"
+            case .instanceId: return "INSTANCE_ID"
             case .managementType: return "MANAGEMENT_TYPE"
             case .resourceType: return "RESOURCE_TYPE"
             case let .sdkUnknown(s): return s
@@ -2145,12 +2593,20 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ec2InstanceDetails = "ec2InstanceDetails"
+        case ecsClusterDetails = "ecsClusterDetails"
         case eksClusterDetails = "eksClusterDetails"
         case resourceType = "resourceType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ec2InstanceDetails = self.ec2InstanceDetails {
+            try encodeContainer.encode(ec2InstanceDetails, forKey: .ec2InstanceDetails)
+        }
+        if let ecsClusterDetails = self.ecsClusterDetails {
+            try encodeContainer.encode(ecsClusterDetails, forKey: .ecsClusterDetails)
+        }
         if let eksClusterDetails = self.eksClusterDetails {
             try encodeContainer.encode(eksClusterDetails, forKey: .eksClusterDetails)
         }
@@ -2165,22 +2621,34 @@ extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
         eksClusterDetails = eksClusterDetailsDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ResourceType.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let ecsClusterDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.CoverageEcsClusterDetails.self, forKey: .ecsClusterDetails)
+        ecsClusterDetails = ecsClusterDetailsDecoded
+        let ec2InstanceDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.CoverageEc2InstanceDetails.self, forKey: .ec2InstanceDetails)
+        ec2InstanceDetails = ec2InstanceDetailsDecoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// Information about the resource for each individual EKS cluster.
     public struct CoverageResourceDetails: Swift.Equatable {
+        /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Information about the Amazon EC2 instance assessed for runtime coverage.
+        public var ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails?
+        /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
+        public var ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails?
         /// EKS cluster details involved in the coverage statistics.
         public var eksClusterDetails: GuardDutyClientTypes.CoverageEksClusterDetails?
         /// The type of Amazon Web Services resource.
         public var resourceType: GuardDutyClientTypes.ResourceType?
 
         public init(
+            ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails? = nil,
+            ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails? = nil,
             eksClusterDetails: GuardDutyClientTypes.CoverageEksClusterDetails? = nil,
             resourceType: GuardDutyClientTypes.ResourceType? = nil
         )
         {
+            self.ec2InstanceDetails = ec2InstanceDetails
+            self.ecsClusterDetails = ecsClusterDetails
             self.eksClusterDetails = eksClusterDetails
             self.resourceType = resourceType
         }
@@ -2239,7 +2707,9 @@ extension GuardDutyClientTypes {
         case addonVersion
         case clusterName
         case coverageStatus
+        case ecsClusterName
         case eksClusterName
+        case instanceId
         case issue
         case updatedAt
         case sdkUnknown(Swift.String)
@@ -2250,7 +2720,9 @@ extension GuardDutyClientTypes {
                 .addonVersion,
                 .clusterName,
                 .coverageStatus,
+                .ecsClusterName,
                 .eksClusterName,
+                .instanceId,
                 .issue,
                 .updatedAt,
                 .sdkUnknown("")
@@ -2266,7 +2738,9 @@ extension GuardDutyClientTypes {
             case .addonVersion: return "ADDON_VERSION"
             case .clusterName: return "CLUSTER_NAME"
             case .coverageStatus: return "COVERAGE_STATUS"
+            case .ecsClusterName: return "ECS_CLUSTER_NAME"
             case .eksClusterName: return "EKS_CLUSTER_NAME"
+            case .instanceId: return "INSTANCE_ID"
             case .issue: return "ISSUE"
             case .updatedAt: return "UPDATED_AT"
             case let .sdkUnknown(s): return s
@@ -2760,6 +3234,8 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.dnsRequestAction.domain
     ///
+    /// * service.action.dnsRequestAction.domainWithSuffix
+    ///
     /// * service.action.networkConnectionAction.blocked
     ///
     /// * service.action.networkConnectionAction.connectionDirection
@@ -2784,7 +3260,13 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
     ///
+    /// * service.action.kubernetesApiCallAction.namespace
+    ///
+    /// * service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn
+    ///
     /// * service.action.kubernetesApiCallAction.requestUri
+    ///
+    /// * service.action.kubernetesApiCallAction.statusCode
     ///
     /// * service.action.networkConnectionAction.localIpDetails.ipAddressV4
     ///
@@ -5452,6 +5934,41 @@ extension GuardDutyClientTypes {
     }
 }
 
+extension GuardDutyClientTypes.Detection: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomaly = "anomaly"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomaly = self.anomaly {
+            try encodeContainer.encode(anomaly, forKey: .anomaly)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Anomaly.self, forKey: .anomaly)
+        anomaly = anomalyDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the detected behavior.
+    public struct Detection: Swift.Equatable {
+        /// The details about the anomalous activity that caused GuardDuty to generate the finding.
+        public var anomaly: GuardDutyClientTypes.Anomaly?
+
+        public init(
+            anomaly: GuardDutyClientTypes.Anomaly? = nil
+        )
+        {
+            self.anomaly = anomaly
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.DetectorAdditionalConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "name"
@@ -5559,6 +6076,7 @@ extension GuardDutyClientTypes {
         case eksRuntimeMonitoring
         case lambdaNetworkLogs
         case rdsLoginEvents
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
@@ -5569,6 +6087,7 @@ extension GuardDutyClientTypes {
                 .eksRuntimeMonitoring,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
+                .runtimeMonitoring,
                 .s3DataEvents,
                 .sdkUnknown("")
             ]
@@ -5584,6 +6103,7 @@ extension GuardDutyClientTypes {
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -5750,6 +6270,7 @@ extension GuardDutyClientTypes {
         case flowLogs
         case lambdaNetworkLogs
         case rdsLoginEvents
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
@@ -5763,6 +6284,7 @@ extension GuardDutyClientTypes {
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
+                .runtimeMonitoring,
                 .s3DataEvents,
                 .sdkUnknown("")
             ]
@@ -5781,6 +6303,7 @@ extension GuardDutyClientTypes {
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -6978,13 +7501,78 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.FargateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case issues = "issues"
+        case managementType = "managementType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let issues = issues {
+            var issuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issues)
+            for string0 in issues {
+                try issuesContainer.encode(string0)
+            }
+        }
+        if let managementType = self.managementType {
+            try encodeContainer.encode(managementType.rawValue, forKey: .managementType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .issues)
+        var issuesDecoded0:[Swift.String]? = nil
+        if let issuesContainer = issuesContainer {
+            issuesDecoded0 = [Swift.String]()
+            for string0 in issuesContainer {
+                if let string0 = string0 {
+                    issuesDecoded0?.append(string0)
+                }
+            }
+        }
+        issues = issuesDecoded0
+        let managementTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ManagementType.self, forKey: .managementType)
+        managementType = managementTypeDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about AWS Fargate details associated with an Amazon ECS cluster.
+    public struct FargateDetails: Swift.Equatable {
+        /// Runtime coverage issues identified for the resource running on AWS Fargate.
+        public var issues: [Swift.String]?
+        /// Indicates how the GuardDuty security agent is managed for this resource.
+        ///
+        /// * AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.
+        ///
+        /// * MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.
+        ///
+        /// * DISABLED indicates that the deployment of the GuardDuty security agent is disabled for this resource.
+        public var managementType: GuardDutyClientTypes.ManagementType?
+
+        public init(
+            issues: [Swift.String]? = nil,
+            managementType: GuardDutyClientTypes.ManagementType? = nil
+        )
+        {
+            self.issues = issues
+            self.managementType = managementType
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes {
     public enum FeatureAdditionalConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ecsFargateAgentManagement
         case eksAddonManagement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FeatureAdditionalConfiguration] {
             return [
+                .ecsFargateAgentManagement,
                 .eksAddonManagement,
                 .sdkUnknown("")
             ]
@@ -6995,6 +7583,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
             case let .sdkUnknown(s): return s
             }
@@ -7679,8 +8268,10 @@ extension GuardDutyClientTypes {
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
+        case ec2RuntimeMonitoring
         case eksAuditLogs
         case eksRuntimeMonitoring
+        case fargateRuntimeMonitoring
         case flowLogs
         case lambdaNetworkLogs
         case rdsLoginEvents
@@ -7692,8 +8283,10 @@ extension GuardDutyClientTypes {
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
+                .ec2RuntimeMonitoring,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
+                .fargateRuntimeMonitoring,
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
@@ -7710,8 +8303,10 @@ extension GuardDutyClientTypes {
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .ec2RuntimeMonitoring: return "EC2_RUNTIME_MONITORING"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .fargateRuntimeMonitoring: return "FARGATE_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
@@ -9878,6 +10473,63 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.ImpersonatedUser: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groups = "groups"
+        case username = "username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groups = groups {
+            var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
+            for string0 in groups {
+                try groupsContainer.encode(string0)
+            }
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+        let groupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .groups)
+        var groupsDecoded0:[Swift.String]? = nil
+        if let groupsContainer = groupsContainer {
+            groupsDecoded0 = [Swift.String]()
+            for string0 in groupsContainer {
+                if let string0 = string0 {
+                    groupsDecoded0?.append(string0)
+                }
+            }
+        }
+        groups = groupsDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the impersonated user.
+    public struct ImpersonatedUser: Swift.Equatable {
+        /// The group to which the user name belongs.
+        public var groups: [Swift.String]?
+        /// Information about the username that was being impersonated.
+        public var username: Swift.String?
+
+        public init(
+            groups: [Swift.String]? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.groups = groups
+            self.username = username
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.InstanceDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZone = "availabilityZone"
@@ -10447,17 +11099,24 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespace = "namespace"
         case parameters = "parameters"
         case remoteIpDetails = "remoteIpDetails"
         case requestUri = "requestUri"
+        case resource = "resource"
+        case resourceName = "resourceName"
         case sourceIps = "sourceIps"
         case statusCode = "statusCode"
+        case subresource = "subresource"
         case userAgent = "userAgent"
         case verb = "verb"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
         if let parameters = self.parameters {
             try encodeContainer.encode(parameters, forKey: .parameters)
         }
@@ -10467,6 +11126,12 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         if let requestUri = self.requestUri {
             try encodeContainer.encode(requestUri, forKey: .requestUri)
         }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
         if let sourceIps = sourceIps {
             var sourceIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceIps)
             for string0 in sourceIps {
@@ -10475,6 +11140,9 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         }
         if let statusCode = self.statusCode {
             try encodeContainer.encode(statusCode, forKey: .statusCode)
+        }
+        if let subresource = self.subresource {
+            try encodeContainer.encode(subresource, forKey: .subresource)
         }
         if let userAgent = self.userAgent {
             try encodeContainer.encode(userAgent, forKey: .userAgent)
@@ -10509,42 +11177,72 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         statusCode = statusCodeDecoded
         let parametersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameters)
         parameters = parametersDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let subresourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subresource)
+        subresource = subresourceDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// Information about the Kubernetes API call action described in this finding.
     public struct KubernetesApiCallAction: Swift.Equatable {
+        /// The name of the namespace where the Kubernetes API call action takes place.
+        public var namespace: Swift.String?
         /// Parameters related to the Kubernetes API call action.
         public var parameters: Swift.String?
         /// Contains information about the remote IP address of the connection.
         public var remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails?
         /// The Kubernetes API request URI.
         public var requestUri: Swift.String?
+        /// The resource component in the Kubernetes API call action.
+        public var resource: Swift.String?
+        /// The name of the resource in the Kubernetes API call action.
+        public var resourceName: Swift.String?
         /// The IP of the Kubernetes API caller and the IPs of any proxies or load balancers between the caller and the API endpoint.
         public var sourceIps: [Swift.String]?
         /// The resulting HTTP response code of the Kubernetes API call action.
         public var statusCode: Swift.Int?
+<<<<<<< HEAD
+=======
+        /// The name of the sub-resource in the Kubernetes API call action.
+        public var subresource: Swift.String?
+>>>>>>> main
         /// The user agent of the caller of the Kubernetes API.
         public var userAgent: Swift.String?
         /// The Kubernetes API request HTTP verb.
         public var verb: Swift.String?
 
         public init(
+            namespace: Swift.String? = nil,
             parameters: Swift.String? = nil,
             remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil,
             requestUri: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             sourceIps: [Swift.String]? = nil,
             statusCode: Swift.Int? = nil,
+<<<<<<< HEAD
+=======
+            subresource: Swift.String? = nil,
+>>>>>>> main
             userAgent: Swift.String? = nil,
             verb: Swift.String? = nil
         )
         {
+            self.namespace = namespace
             self.parameters = parameters
             self.remoteIpDetails = remoteIpDetails
             self.requestUri = requestUri
+            self.resource = resource
+            self.resourceName = resourceName
             self.sourceIps = sourceIps
             self.statusCode = statusCode
+            self.subresource = subresource
             self.userAgent = userAgent
             self.verb = verb
         }
@@ -10776,9 +11474,205 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.KubernetesPermissionCheckedDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowed = "allowed"
+        case namespace = "namespace"
+        case resource = "resource"
+        case verb = "verb"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowed = self.allowed {
+            try encodeContainer.encode(allowed, forKey: .allowed)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let verb = self.verb {
+            try encodeContainer.encode(verb, forKey: .verb)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let verbDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .verb)
+        verb = verbDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let allowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowed)
+        allowed = allowedDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the Kubernetes API for which you check if you have permission to call.
+    public struct KubernetesPermissionCheckedDetails: Swift.Equatable {
+        /// Information whether the user has the permission to call the Kubernetes API.
+        public var allowed: Swift.Bool?
+        /// The namespace where the Kubernetes API action will take place.
+        public var namespace: Swift.String?
+        /// The Kubernetes resource with which your Kubernetes API call will interact.
+        public var resource: Swift.String?
+        /// The verb component of the Kubernetes API call. For example, when you check whether or not you have the permission to call the CreatePod API, the verb component will be Create.
+        public var verb: Swift.String?
+
+        public init(
+            allowed: Swift.Bool? = nil,
+            namespace: Swift.String? = nil,
+            resource: Swift.String? = nil,
+            verb: Swift.String? = nil
+        )
+        {
+            self.allowed = allowed
+            self.namespace = namespace
+            self.resource = resource
+            self.verb = verb
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.KubernetesRoleBindingDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kind = "kind"
+        case name = "name"
+        case roleRefKind = "roleRefKind"
+        case roleRefName = "roleRefName"
+        case uid = "uid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kind = self.kind {
+            try encodeContainer.encode(kind, forKey: .kind)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let roleRefKind = self.roleRefKind {
+            try encodeContainer.encode(roleRefKind, forKey: .roleRefKind)
+        }
+        if let roleRefName = self.roleRefName {
+            try encodeContainer.encode(roleRefName, forKey: .roleRefName)
+        }
+        if let uid = self.uid {
+            try encodeContainer.encode(uid, forKey: .uid)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kind)
+        kind = kindDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let uidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uid)
+        uid = uidDecoded
+        let roleRefNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleRefName)
+        roleRefName = roleRefNameDecoded
+        let roleRefKindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleRefKind)
+        roleRefKind = roleRefKindDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the role binding that grants the permission defined in a Kubernetes role.
+    public struct KubernetesRoleBindingDetails: Swift.Equatable {
+        /// The kind of the role. For role binding, this value will be RoleBinding.
+        public var kind: Swift.String?
+        /// The name of the RoleBinding.
+        public var name: Swift.String?
+        /// The type of the role being referenced. This could be either Role or ClusterRole.
+        public var roleRefKind: Swift.String?
+        /// The name of the role being referenced. This must match the name of the Role or ClusterRole that you want to bind to.
+        public var roleRefName: Swift.String?
+        /// The unique identifier of the role binding.
+        public var uid: Swift.String?
+
+        public init(
+            kind: Swift.String? = nil,
+            name: Swift.String? = nil,
+            roleRefKind: Swift.String? = nil,
+            roleRefName: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.kind = kind
+            self.name = name
+            self.roleRefKind = roleRefKind
+            self.roleRefName = roleRefName
+            self.uid = uid
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.KubernetesRoleDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kind = "kind"
+        case name = "name"
+        case uid = "uid"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kind = self.kind {
+            try encodeContainer.encode(kind, forKey: .kind)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let uid = self.uid {
+            try encodeContainer.encode(uid, forKey: .uid)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kindDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kind)
+        kind = kindDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let uidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uid)
+        uid = uidDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the Kubernetes role name and role type.
+    public struct KubernetesRoleDetails: Swift.Equatable {
+        /// The kind of role. For this API, the value of kind will be Role.
+        public var kind: Swift.String?
+        /// The name of the Kubernetes role.
+        public var name: Swift.String?
+        /// The unique identifier of the Kubernetes role name.
+        public var uid: Swift.String?
+
+        public init(
+            kind: Swift.String? = nil,
+            name: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.kind = kind
+            self.name = name
+            self.uid = uid
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groups = "groups"
+        case impersonatedUser = "impersonatedUser"
         case sessionName = "sessionName"
         case uid = "uid"
         case username = "username"
@@ -10791,6 +11685,9 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
             for string0 in groups {
                 try groupsContainer.encode(string0)
             }
+        }
+        if let impersonatedUser = self.impersonatedUser {
+            try encodeContainer.encode(impersonatedUser, forKey: .impersonatedUser)
         }
         if let sessionName = sessionName {
             var sessionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sessionName)
@@ -10834,6 +11731,8 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
             }
         }
         sessionName = sessionNameDecoded0
+        let impersonatedUserDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ImpersonatedUser.self, forKey: .impersonatedUser)
+        impersonatedUser = impersonatedUserDecoded
     }
 }
 
@@ -10842,6 +11741,8 @@ extension GuardDutyClientTypes {
     public struct KubernetesUserDetails: Swift.Equatable {
         /// The groups that include the user who called the Kubernetes API.
         public var groups: [Swift.String]?
+        /// Information about the impersonated user.
+        public var impersonatedUser: GuardDutyClientTypes.ImpersonatedUser?
         /// Entity that assumes the IAM role when Kubernetes RBAC permissions are assigned to that role.
         public var sessionName: [Swift.String]?
         /// The user ID of the user who called the Kubernetes API.
@@ -10851,12 +11752,14 @@ extension GuardDutyClientTypes {
 
         public init(
             groups: [Swift.String]? = nil,
+            impersonatedUser: GuardDutyClientTypes.ImpersonatedUser? = nil,
             sessionName: [Swift.String]? = nil,
             uid: Swift.String? = nil,
             username: Swift.String? = nil
         )
         {
             self.groups = groups
+            self.impersonatedUser = impersonatedUser
             self.sessionName = sessionName
             self.uid = uid
             self.username = username
@@ -10868,9 +11771,12 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containers = "containers"
+        case hostIPC = "hostIPC"
         case hostNetwork = "hostNetwork"
+        case hostPID = "hostPID"
         case name = "name"
         case namespace = "namespace"
+        case serviceAccountName = "serviceAccountName"
         case type = "type"
         case uid = "uid"
         case volumes = "volumes"
@@ -10884,14 +11790,26 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
                 try containersContainer.encode(container0)
             }
         }
+<<<<<<< HEAD
+=======
+        if let hostIPC = self.hostIPC {
+            try encodeContainer.encode(hostIPC, forKey: .hostIPC)
+        }
+>>>>>>> main
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
+        }
+        if let hostPID = self.hostPID {
+            try encodeContainer.encode(hostPID, forKey: .hostPID)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let namespace = self.namespace {
             try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let serviceAccountName = self.serviceAccountName {
+            try encodeContainer.encode(serviceAccountName, forKey: .serviceAccountName)
         }
         if let type = self.type {
             try encodeContainer.encode(type, forKey: .type)
@@ -10941,6 +11859,12 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
             }
         }
         volumes = volumesDecoded0
+        let serviceAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccountName)
+        serviceAccountName = serviceAccountNameDecoded
+        let hostIPCDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostIPC)
+        hostIPC = hostIPCDecoded
+        let hostPIDDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hostPID)
+        hostPID = hostPIDDecoded
     }
 }
 
@@ -10949,12 +11873,21 @@ extension GuardDutyClientTypes {
     public struct KubernetesWorkloadDetails: Swift.Equatable {
         /// Containers running as part of the Kubernetes workload.
         public var containers: [GuardDutyClientTypes.Container]?
+        /// Whether the host IPC flag is enabled for the pods in the workload.
+        public var hostIPC: Swift.Bool?
         /// Whether the hostNetwork flag is enabled for the pods included in the workload.
         public var hostNetwork: Swift.Bool?
+<<<<<<< HEAD
+=======
+        /// Whether the host PID flag is enabled for the pods in the workload.
+        public var hostPID: Swift.Bool?
+>>>>>>> main
         /// Kubernetes workload name.
         public var name: Swift.String?
         /// Kubernetes namespace that the workload is part of.
         public var namespace: Swift.String?
+        /// The service account name that is associated with a Kubernetes workload.
+        public var serviceAccountName: Swift.String?
         /// Kubernetes workload type (e.g. Pod, Deployment, etc.).
         public var type: Swift.String?
         /// Kubernetes workload ID.
@@ -10964,18 +11897,28 @@ extension GuardDutyClientTypes {
 
         public init(
             containers: [GuardDutyClientTypes.Container]? = nil,
+<<<<<<< HEAD
             hostNetwork: Swift.Bool? = nil,
+=======
+            hostIPC: Swift.Bool? = nil,
+            hostNetwork: Swift.Bool? = nil,
+            hostPID: Swift.Bool? = nil,
+>>>>>>> main
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
+            serviceAccountName: Swift.String? = nil,
             type: Swift.String? = nil,
             uid: Swift.String? = nil,
             volumes: [GuardDutyClientTypes.Volume]? = nil
         )
         {
             self.containers = containers
+            self.hostIPC = hostIPC
             self.hostNetwork = hostNetwork
+            self.hostPID = hostPID
             self.name = name
             self.namespace = namespace
+            self.serviceAccountName = serviceAccountName
             self.type = type
             self.uid = uid
             self.volumes = volumes
@@ -12224,7 +13167,11 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListMembersOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// A list of members.
+=======
+    /// A list of members. The values for email and invitedAt are available only if the member accounts are added by invitation.
+>>>>>>> main
     public var members: [GuardDutyClientTypes.Member]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
@@ -13011,12 +13958,14 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
     public enum ManagementType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case autoManaged
+        case disabled
         case manual
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ManagementType] {
             return [
                 .autoManaged,
+                .disabled,
                 .manual,
                 .sdkUnknown("")
             ]
@@ -13028,6 +13977,7 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoManaged: return "AUTO_MANAGED"
+            case .disabled: return "DISABLED"
             case .manual: return "MANUAL"
             case let .sdkUnknown(s): return s
             }
@@ -13784,6 +14734,53 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.Observations: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text = "text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = text {
+            var textContainer = encodeContainer.nestedUnkeyedContainer(forKey: .text)
+            for string0 in text {
+                try textContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .text)
+        var textDecoded0:[Swift.String]? = nil
+        if let textContainer = textContainer {
+            textDecoded0 = [Swift.String]()
+            for string0 in textContainer {
+                if let string0 = string0 {
+                    textDecoded0?.append(string0)
+                }
+            }
+        }
+        text = textDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the observed behavior.
+    public struct Observations: Swift.Equatable {
+        /// The text that was unusual.
+        public var text: [Swift.String]?
+
+        public init(
+            text: [Swift.String]? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes {
     public enum OrderBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case asc
@@ -13823,6 +14820,7 @@ extension GuardDutyClientTypes {
         case eksRuntimeMonitoring
         case lambdaNetworkLogs
         case rdsLoginEvents
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
@@ -13833,6 +14831,7 @@ extension GuardDutyClientTypes {
                 .eksRuntimeMonitoring,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
+                .runtimeMonitoring,
                 .s3DataEvents,
                 .sdkUnknown("")
             ]
@@ -13848,6 +14847,7 @@ extension GuardDutyClientTypes {
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -13862,11 +14862,13 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum OrgFeatureAdditionalConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ecsFargateAgentManagement
         case eksAddonManagement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OrgFeatureAdditionalConfiguration] {
             return [
+                .ecsFargateAgentManagement,
                 .eksAddonManagement,
                 .sdkUnknown("")
             ]
@@ -13877,6 +14879,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
             case let .sdkUnknown(s): return s
             }
@@ -15223,6 +16226,73 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes {
+    public enum ProfileSubtype: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case frequent
+        case infrequent
+        case rare
+        case unseen
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileSubtype] {
+            return [
+                .frequent,
+                .infrequent,
+                .rare,
+                .unseen,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .frequent: return "FREQUENT"
+            case .infrequent: return "INFREQUENT"
+            case .rare: return "RARE"
+            case .unseen: return "UNSEEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProfileSubtype(rawValue: rawValue) ?? ProfileSubtype.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+    public enum ProfileType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case frequency
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileType] {
+            return [
+                .frequency,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .frequency: return "FREQUENCY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProfileType(rawValue: rawValue) ?? ProfileType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GuardDutyClientTypes.PublicAccess: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case effectivePermission = "effectivePermission"
@@ -15894,11 +16964,15 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2
+        case ecs
         case eks
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
+                .ec2,
+                .ecs,
                 .eks,
                 .sdkUnknown("")
             ]
@@ -15909,6 +16983,8 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ec2: return "EC2"
+            case .ecs: return "ECS"
             case .eks: return "EKS"
             case let .sdkUnknown(s): return s
             }
@@ -17255,11 +18331,18 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.SecurityContext: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowPrivilegeEscalation = "allowPrivilegeEscalation"
         case privileged = "privileged"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+<<<<<<< HEAD
+=======
+        if let allowPrivilegeEscalation = self.allowPrivilegeEscalation {
+            try encodeContainer.encode(allowPrivilegeEscalation, forKey: .allowPrivilegeEscalation)
+        }
+>>>>>>> main
         if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
@@ -17269,19 +18352,28 @@ extension GuardDutyClientTypes.SecurityContext: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
+        let allowPrivilegeEscalationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPrivilegeEscalation)
+        allowPrivilegeEscalation = allowPrivilegeEscalationDecoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// Container security context.
     public struct SecurityContext: Swift.Equatable {
+        /// Whether or not a container or a Kubernetes pod is allowed to gain more privileges than its parent process.
+        public var allowPrivilegeEscalation: Swift.Bool?
         /// Whether the container is privileged.
         public var privileged: Swift.Bool?
 
         public init(
+<<<<<<< HEAD
+=======
+            allowPrivilegeEscalation: Swift.Bool? = nil,
+>>>>>>> main
             privileged: Swift.Bool? = nil
         )
         {
+            self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
         }
     }
@@ -17339,6 +18431,7 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         case additionalInfo = "additionalInfo"
         case archived = "archived"
         case count = "count"
+        case detection = "detection"
         case detectorId = "detectorId"
         case ebsVolumeScanDetails = "ebsVolumeScanDetails"
         case eventFirstSeen = "eventFirstSeen"
@@ -17364,6 +18457,9 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         }
         if let count = self.count {
             try encodeContainer.encode(count, forKey: .count)
+        }
+        if let detection = self.detection {
+            try encodeContainer.encode(detection, forKey: .detection)
         }
         if let detectorId = self.detectorId {
             try encodeContainer.encode(detectorId, forKey: .detectorId)
@@ -17427,6 +18523,8 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
         ebsVolumeScanDetails = ebsVolumeScanDetailsDecoded
         let runtimeDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RuntimeDetails.self, forKey: .runtimeDetails)
         runtimeDetails = runtimeDetailsDecoded
+        let detectionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Detection.self, forKey: .detection)
+        detection = detectionDecoded
     }
 }
 
@@ -17441,6 +18539,11 @@ extension GuardDutyClientTypes {
         public var archived: Swift.Bool?
         /// The total count of the occurrences of this finding type.
         public var count: Swift.Int?
+<<<<<<< HEAD
+=======
+        /// Contains information about the detected unusual behavior.
+        public var detection: GuardDutyClientTypes.Detection?
+>>>>>>> main
         /// The detector ID for the GuardDuty service.
         public var detectorId: Swift.String?
         /// Returns details from the malware scan that created a finding.
@@ -17467,6 +18570,10 @@ extension GuardDutyClientTypes {
             additionalInfo: GuardDutyClientTypes.ServiceAdditionalInfo? = nil,
             archived: Swift.Bool? = nil,
             count: Swift.Int? = nil,
+<<<<<<< HEAD
+=======
+            detection: GuardDutyClientTypes.Detection? = nil,
+>>>>>>> main
             detectorId: Swift.String? = nil,
             ebsVolumeScanDetails: GuardDutyClientTypes.EbsVolumeScanDetails? = nil,
             eventFirstSeen: Swift.String? = nil,
@@ -17483,6 +18590,7 @@ extension GuardDutyClientTypes {
             self.additionalInfo = additionalInfo
             self.archived = archived
             self.count = count
+            self.detection = detection
             self.detectorId = detectorId
             self.ebsVolumeScanDetails = ebsVolumeScanDetails
             self.eventFirstSeen = eventFirstSeen
@@ -19977,8 +21085,10 @@ extension GuardDutyClientTypes {
         case cloudTrail
         case dnsLogs
         case ebsMalwareProtection
+        case ec2RuntimeMonitoring
         case eksAuditLogs
         case eksRuntimeMonitoring
+        case fargateRuntimeMonitoring
         case flowLogs
         case lambdaNetworkLogs
         case rdsLoginEvents
@@ -19990,8 +21100,10 @@ extension GuardDutyClientTypes {
                 .cloudTrail,
                 .dnsLogs,
                 .ebsMalwareProtection,
+                .ec2RuntimeMonitoring,
                 .eksAuditLogs,
                 .eksRuntimeMonitoring,
+                .fargateRuntimeMonitoring,
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
@@ -20008,8 +21120,10 @@ extension GuardDutyClientTypes {
             case .cloudTrail: return "CLOUD_TRAIL"
             case .dnsLogs: return "DNS_LOGS"
             case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .ec2RuntimeMonitoring: return "EC2_RUNTIME_MONITORING"
             case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .fargateRuntimeMonitoring: return "FARGATE_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"

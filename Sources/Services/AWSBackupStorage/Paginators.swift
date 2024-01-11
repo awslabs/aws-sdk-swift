@@ -12,7 +12,11 @@ extension BackupStorageClient {
     ///     - input: A `[ListChunksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChunksOutput`
     public func listChunksPaginated(input: ListChunksInput) -> ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutput>(input: input, inputKey: \ListChunksInput.nextToken, outputKey: \ListChunksOutput.nextToken, paginationFunction: self.listChunks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListChunksInput, ListChunksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChunks(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension BackupStorageClient {
     ///     - input: A `[ListObjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectsOutput`
     public func listObjectsPaginated(input: ListObjectsInput) -> ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutput>(input: input, inputKey: \ListObjectsInput.nextToken, outputKey: \ListObjectsOutput.nextToken, paginationFunction: self.listObjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListObjectsInput, ListObjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObjects(input:))
+>>>>>>> main
     }
 }
 

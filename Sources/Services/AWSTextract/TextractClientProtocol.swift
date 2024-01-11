@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Textract detects and analyzes text in documents and converts it into machine-readable text. This is the API reference documentation for Amazon Textract.
 public protocol TextractClientProtocol {
+    /// Performs the `AnalyzeDocument` operation on the `Textract` service.
+    ///
     /// Analyzes an input document for relationships between detected items. The types of information returned are as follows:
     ///
     /// * Form data (key-value pairs). The related information is returned in two [Block] objects, each of type KEY_VALUE_SET: a KEY Block object and a VALUE Block object. For example, Name: Ana Silva Carolina contains a key and value. Name: is the key. Ana Silva Carolina is the value.
@@ -39,6 +41,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func analyzeDocument(input: AnalyzeDocumentInput) async throws -> AnalyzeDocumentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AnalyzeExpense` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// AnalyzeExpense synchronously analyzes an input document for financially related relationships between text. Information is returned as ExpenseDocuments and seperated as follows:
     ///
     /// * LineItemGroups- A data set containing LineItems which store information about the lines of text, such as an item purchased and its price on a receipt.
@@ -62,6 +69,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func analyzeExpense(input: AnalyzeExpenseInput) async throws -> AnalyzeExpenseOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AnalyzeID` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Analyzes identity documents for relevant information. This information is extracted and returned as IdentityDocumentFields, which records both the normalized field and value of the extracted text. Unlike other Amazon Textract operations, AnalyzeID doesn't return any Geometry data.
     ///
     /// - Parameter AnalyzeIDInput : [no documentation found]
@@ -81,6 +93,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func analyzeID(input: AnalyzeIDInput) async throws -> AnalyzeIDOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAdapter` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES. You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
     ///
     /// - Parameter CreateAdapterInput : [no documentation found]
@@ -101,6 +118,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func createAdapter(input: CreateAdapterInput) async throws -> CreateAdapterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAdapterVersion` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Requires that you specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an optional ClientRequestToken, and optional tags.
     ///
     /// - Parameter CreateAdapterVersionInput : [no documentation found]
@@ -124,6 +146,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func createAdapterVersion(input: CreateAdapterVersionInput) async throws -> CreateAdapterVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAdapter` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
     ///
     /// - Parameter DeleteAdapterInput : [no documentation found]
@@ -142,6 +169,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func deleteAdapter(input: DeleteAdapterInput) async throws -> DeleteAdapterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAdapterVersion` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
     ///
     /// - Parameter DeleteAdapterVersionInput : [no documentation found]
@@ -160,6 +192,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func deleteAdapterVersion(input: DeleteAdapterVersionInput) async throws -> DeleteAdapterVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetectDocumentText` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. DetectDocumentText is a synchronous operation. To analyze documents asynchronously, use [StartDocumentTextDetection]. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter DetectDocumentTextInput : [no documentation found]
@@ -179,6 +216,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func detectDocumentText(input: DetectDocumentTextInput) async throws -> DetectDocumentTextOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAdapter` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes.
     ///
     /// - Parameter GetAdapterInput : [no documentation found]
@@ -196,6 +238,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func getAdapter(input: GetAdapterInput) async throws -> GetAdapterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAdapterVersion` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
     ///
     /// - Parameter GetAdapterVersionInput : [no documentation found]
@@ -213,6 +260,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func getAdapterVersion(input: GetAdapterVersionInput) async throws -> GetAdapterVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDocumentAnalysis` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a document. You start asynchronous text analysis by calling [StartDocumentAnalysis], which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentAnalysis. To get the results of the text-detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentAnalysis, and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. GetDocumentAnalysis returns an array of [Block] objects. The following types of information are returned:
     ///
     /// * Form data (key-value pairs). The related information is returned in two [Block] objects, each of type KEY_VALUE_SET: a KEY Block object and a VALUE Block object. For example, Name: Ana Silva Carolina contains a key and value. Name: is the key. Ana Silva Carolina is the value.
@@ -244,6 +296,11 @@ public protocol TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     func getDocumentAnalysis(input: GetDocumentAnalysisInput) async throws -> GetDocumentAnalysisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDocumentTextDetection` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets the results for an Amazon Textract asynchronous operation that detects text in a document. Amazon Textract can detect lines of text and the words that make up a line of text. You start asynchronous text detection by calling [StartDocumentTextDetection], which returns a job identifier (JobId). When the text detection operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentTextDetection. To get the results of the text-detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentTextDetection, and pass the job identifier (JobId) from the initial call to StartDocumentTextDetection. GetDocumentTextDetection returns an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetDocumentTextDetection, and populate the NextToken request parameter with the token value that's returned from the previous call to GetDocumentTextDetection. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter GetDocumentTextDetectionInput : [no documentation found]
@@ -262,6 +319,11 @@ public protocol TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     func getDocumentTextDetection(input: GetDocumentTextDetectionInput) async throws -> GetDocumentTextDetectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetExpenseAnalysis` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and receipts. Amazon Textract finds contact information, items purchased, and vendor name, from input invoices and receipts. You start asynchronous invoice/receipt analysis by calling [StartExpenseAnalysis], which returns a job identifier (JobId). Upon completion of the invoice/receipt analysis, Amazon Textract publishes the completion status to the Amazon Simple Notification Service (Amazon SNS) topic. This topic must be registered in the initial call to StartExpenseAnalysis. To get the results of the invoice/receipt analysis operation, first ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetExpenseAnalysis, and pass the job identifier (JobId) from the initial call to StartExpenseAnalysis. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetExpenseAnalysis, and populate the NextToken request parameter with the token value that's returned from the previous call to GetExpenseAnalysis. For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoices-receipts.html).
     ///
     /// - Parameter GetExpenseAnalysisInput : [no documentation found]
@@ -280,6 +342,11 @@ public protocol TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     func getExpenseAnalysis(input: GetExpenseAnalysisInput) async throws -> GetExpenseAnalysisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLendingAnalysis` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a lending document. You start asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartLendingAnalysis. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass the job identifier (JobId) from the initial call to StartLendingAnalysis.
     ///
     /// - Parameter GetLendingAnalysisInput : [no documentation found]
@@ -298,6 +365,11 @@ public protocol TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     func getLendingAnalysis(input: GetLendingAnalysisInput) async throws -> GetLendingAnalysisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLendingAnalysisSummary` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Gets summarized results for the StartLendingAnalysis operation, which analyzes text in a lending document. The returned summary consists of information about documents grouped together by a common document type. Information like detected signatures, page numbers, and split documents is returned with respect to the type of grouped document. You start asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartLendingAnalysis. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysisSummary, and pass the job identifier (JobId) from the initial call to StartLendingAnalysis.
     ///
     /// - Parameter GetLendingAnalysisSummaryInput : [no documentation found]
@@ -316,6 +388,11 @@ public protocol TextractClientProtocol {
     /// - `ProvisionedThroughputExceededException` : The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Textract.
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     func getLendingAnalysisSummary(input: GetLendingAnalysisSummaryInput) async throws -> GetLendingAnalysisSummaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAdapters` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Lists all adapters that match the specified filtration criteria.
     ///
     /// - Parameter ListAdaptersInput : [no documentation found]
@@ -332,6 +409,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func listAdapters(input: ListAdaptersInput) async throws -> ListAdaptersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAdapterVersions` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// List all version of an adapter that meet the specified filtration criteria.
     ///
     /// - Parameter ListAdapterVersionsInput : [no documentation found]
@@ -349,6 +431,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func listAdapterVersions(input: ListAdapterVersionsInput) async throws -> ListAdapterVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Lists all tags for an Amazon Textract resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -366,6 +453,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDocumentAnalysis` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentAnalysis], and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
     ///
     /// - Parameter StartDocumentAnalysisInput : [no documentation found]
@@ -388,6 +480,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func startDocumentAnalysis(input: StartDocumentAnalysisInput) async throws -> StartDocumentAnalysisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDocumentTextDetection` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of text and the words that make up a line of text. StartDocumentTextDetection can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartTextDetection returns a job identifier (JobId) that you use to get the results of the operation. When text detection is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentTextDetection], and pass the job identifier (JobId) from the initial call to StartDocumentTextDetection. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
     /// - Parameter StartDocumentTextDetectionInput : [no documentation found]
@@ -410,6 +507,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func startDocumentTextDetection(input: StartDocumentTextDetectionInput) async throws -> StartDocumentTextDetectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartExpenseAnalysis` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Starts the asynchronous analysis of invoices or receipts for data like contact information, items purchased, and vendor names. StartExpenseAnalysis can analyze text in documents that are in JPEG, PNG, and PDF format. The documents must be stored in an Amazon S3 bucket. Use the [DocumentLocation] parameter to specify the name of your S3 bucket and the name of the document in that bucket. StartExpenseAnalysis returns a job identifier (JobId) that you will provide to GetExpenseAnalysis to retrieve the results of the operation. When the analysis of the input invoices/receipts is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you provide to the NotificationChannel. To obtain the results of the invoice and receipt analysis operation, ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetExpenseAnalysis], and pass the job identifier (JobId) that was returned by your call to StartExpenseAnalysis. For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoice-receipts.html).
     ///
     /// - Parameter StartExpenseAnalysisInput : [no documentation found]
@@ -432,6 +534,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func startExpenseAnalysis(input: StartExpenseAnalysisInput) async throws -> StartExpenseAnalysisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartLendingAnalysis` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Starts the classification and analysis of an input document. StartLendingAnalysis initiates the classification and analysis of a packet of lending documents. StartLendingAnalysis operates on a document file located in an Amazon S3 bucket. StartLendingAnalysis can analyze text in documents that are in one of the following formats: JPEG, PNG, TIFF, PDF. Use DocumentLocation to specify the bucket name and the file name of the document. StartLendingAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When the text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If the status is SUCCEEDED you can call either GetLendingAnalysis or GetLendingAnalysisSummary and provide the JobId to obtain the results of the analysis. If using OutputConfig to specify an Amazon S3 bucket, the output will be contained within the specified prefix in a directory labeled with the job-id. In the directory there are 3 sub-directories:
     ///
     /// * detailedResponse (contains the GetLendingAnalysis response)
@@ -460,6 +567,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `UnsupportedDocumentException` : The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     func startLendingAnalysis(input: StartLendingAnalysisInput) async throws -> StartLendingAnalysisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Adds one or more tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -478,6 +590,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Removes any tags with the specified keys from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -495,6 +612,11 @@ public protocol TextractClientProtocol {
     /// - `ThrottlingException` : Amazon Textract is temporarily unable to process the request. Try your call again.
     /// - `ValidationException` : Indicates that a request was not valid. Check request for proper formatting.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAdapter` operation on the `Textract` service.
+    ///
+>>>>>>> main
     /// Update the configuration for an adapter. FeatureTypes configurations cannot be updated. At least one new parameter must be specified as an argument.
     ///
     /// - Parameter UpdateAdapterInput : [no documentation found]

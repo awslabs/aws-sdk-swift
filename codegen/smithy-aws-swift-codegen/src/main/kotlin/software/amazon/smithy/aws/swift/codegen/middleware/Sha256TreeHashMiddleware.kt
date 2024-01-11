@@ -5,6 +5,7 @@ import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
@@ -17,9 +18,8 @@ class Sha256TreeHashMiddleware(private val symbolProvider: SymbolProvider, priva
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val outputShape = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
-        val outputErrorShapeName = MiddlewareShapeUtils.outputErrorSymbolName(op)
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N, $outputErrorShapeName>())", AWSClientRuntimeTypes.Core.Sha256TreeHashMiddleware, outputShape)
+        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>())", AWSClientRuntimeTypes.Core.Sha256TreeHashMiddleware, outputShape)
     }
 }

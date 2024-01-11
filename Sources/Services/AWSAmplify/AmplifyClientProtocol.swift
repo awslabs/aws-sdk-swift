@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amplify enables developers to develop and deploy cloud-powered mobile and web apps. Amplify Hosting provides a continuous delivery and hosting service for web applications. For more information, see the [Amplify Hosting User Guide](https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html). The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and documentation for client app development. For more information, see the [Amplify Framework.](https://docs.amplify.aws/)
 public protocol AmplifyClientProtocol {
+    /// Performs the `CreateApp` operation on the `Amplify` service.
+    ///
     /// Creates a new Amplify app.
     ///
     /// - Parameter CreateAppInput : The request structure used to create apps in Amplify.
@@ -19,6 +21,11 @@ public protocol AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createApp(input: CreateAppInput) async throws -> CreateAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBackendEnvironment` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Creates a new backend environment for an Amplify app.
     ///
     /// - Parameter CreateBackendEnvironmentInput : The request structure for the backend environment create request.
@@ -34,6 +41,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createBackendEnvironment(input: CreateBackendEnvironmentInput) async throws -> CreateBackendEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateBranch` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Creates a new branch for an Amplify app.
     ///
     /// - Parameter CreateBranchInput : The request structure for the create branch request.
@@ -50,6 +62,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createBranch(input: CreateBranchInput) async throws -> CreateBranchOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDeployment` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
     /// - Parameter CreateDeploymentInput : The request structure for the create a new deployment request.
@@ -64,6 +81,11 @@ public protocol AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDomainAssociation` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
     ///
     /// - Parameter CreateDomainAssociationInput : The request structure for the create domain association request.
@@ -80,6 +102,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createDomainAssociation(input: CreateDomainAssociationInput) async throws -> CreateDomainAssociationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateWebhook` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Creates a new webhook on an Amplify app.
     ///
     /// - Parameter CreateWebhookInput : The request structure for the create webhook request.
@@ -96,6 +123,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteApp` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Deletes an existing Amplify app specified by an app ID.
     ///
     /// - Parameter DeleteAppInput : Describes the request structure for the delete app request.
@@ -111,6 +143,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBackendEnvironment` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Deletes a backend environment for an Amplify app.
     ///
     /// - Parameter DeleteBackendEnvironmentInput : The request structure for the delete backend environment request.
@@ -126,6 +163,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func deleteBackendEnvironment(input: DeleteBackendEnvironmentInput) async throws -> DeleteBackendEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteBranch` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Deletes a branch for an Amplify app.
     ///
     /// - Parameter DeleteBranchInput : The request structure for the delete branch request.
@@ -141,6 +183,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func deleteBranch(input: DeleteBranchInput) async throws -> DeleteBranchOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDomainAssociation` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Deletes a domain association for an Amplify app.
     ///
     /// - Parameter DeleteDomainAssociationInput : The request structure for the delete domain association request.
@@ -156,6 +203,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func deleteDomainAssociation(input: DeleteDomainAssociationInput) async throws -> DeleteDomainAssociationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteJob` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Deletes a job for a branch of an Amplify app.
     ///
     /// - Parameter DeleteJobInput : The request structure for the delete job request.
@@ -171,6 +223,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteWebhook` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Deletes a webhook.
     ///
     /// - Parameter DeleteWebhookInput : The request structure for the delete webhook request.
@@ -186,6 +243,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GenerateAccessLogs` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns the website access logs for a specific time range using a presigned URL.
     ///
     /// - Parameter GenerateAccessLogsInput : The request structure for the generate access logs request.
@@ -200,6 +262,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func generateAccessLogs(input: GenerateAccessLogsInput) async throws -> GenerateAccessLogsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetApp` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns an existing Amplify app specified by an app ID.
     ///
     /// - Parameter GetAppInput : The request structure for the get app request.
@@ -214,6 +281,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getApp(input: GetAppInput) async throws -> GetAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetArtifactUrl` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns the artifact info that corresponds to an artifact id.
     ///
     /// - Parameter GetArtifactUrlInput : Returns the request structure for the get artifact request.
@@ -229,6 +301,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getArtifactUrl(input: GetArtifactUrlInput) async throws -> GetArtifactUrlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBackendEnvironment` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a backend environment for an Amplify app.
     ///
     /// - Parameter GetBackendEnvironmentInput : The request structure for the get backend environment request.
@@ -243,6 +320,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getBackendEnvironment(input: GetBackendEnvironmentInput) async throws -> GetBackendEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBranch` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a branch for an Amplify app.
     ///
     /// - Parameter GetBranchInput : The request structure for the get branch request.
@@ -257,6 +339,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getBranch(input: GetBranchInput) async throws -> GetBranchOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDomainAssociation` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns the domain information for an Amplify app.
     ///
     /// - Parameter GetDomainAssociationInput : The request structure for the get domain association request.
@@ -271,6 +358,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getDomainAssociation(input: GetDomainAssociationInput) async throws -> GetDomainAssociationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetJob` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a job for a branch of an Amplify app.
     ///
     /// - Parameter GetJobInput : The request structure for the get job request.
@@ -286,6 +378,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getJob(input: GetJobInput) async throws -> GetJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWebhook` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns the webhook information that corresponds to a specified webhook ID.
     ///
     /// - Parameter GetWebhookInput : The request structure for the get webhook request.
@@ -301,6 +398,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func getWebhook(input: GetWebhookInput) async throws -> GetWebhookOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListApps` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a list of the existing Amplify apps.
     ///
     /// - Parameter ListAppsInput : The request structure for the list apps request.
@@ -314,6 +416,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listApps(input: ListAppsInput) async throws -> ListAppsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListArtifacts` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a list of artifacts for a specified app, branch, and job.
     ///
     /// - Parameter ListArtifactsInput : Describes the request structure for the list artifacts request.
@@ -328,6 +435,11 @@ public protocol AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBackendEnvironments` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Lists the backend environments for an Amplify app.
     ///
     /// - Parameter ListBackendEnvironmentsInput : The request structure for the list backend environments request.
@@ -341,6 +453,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listBackendEnvironments(input: ListBackendEnvironmentsInput) async throws -> ListBackendEnvironmentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListBranches` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Lists the branches of an Amplify app.
     ///
     /// - Parameter ListBranchesInput : The request structure for the list branches request.
@@ -354,6 +471,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDomainAssociations` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns the domain associations for an Amplify app.
     ///
     /// - Parameter ListDomainAssociationsInput : The request structure for the list domain associations request.
@@ -367,6 +489,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listDomainAssociations(input: ListDomainAssociationsInput) async throws -> ListDomainAssociationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListJobs` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Lists the jobs for a branch of an Amplify app.
     ///
     /// - Parameter ListJobsInput : The request structure for the list jobs request.
@@ -381,6 +508,11 @@ public protocol AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a list of tags for a specified Amazon Resource Name (ARN).
     ///
     /// - Parameter ListTagsForResourceInput : The request structure to use to list tags for a resource.
@@ -394,6 +526,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWebhooks` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Returns a list of webhooks for an Amplify app.
     ///
     /// - Parameter ListWebhooksInput : The request structure for the list webhooks request.
@@ -408,6 +545,11 @@ public protocol AmplifyClientProtocol {
     /// - `LimitExceededException` : A resource could not be created because service quotas were exceeded.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDeployment` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
     /// - Parameter StartDeploymentInput : The request structure for the start a deployment request.
@@ -423,6 +565,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func startDeployment(input: StartDeploymentInput) async throws -> StartDeploymentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartJob` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Starts a new job for a branch of an Amplify app.
     ///
     /// - Parameter StartJobInput : The request structure for the start job request.
@@ -438,6 +585,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func startJob(input: StartJobInput) async throws -> StartJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopJob` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Stops a job that is in progress for a branch of an Amplify app.
     ///
     /// - Parameter StopJobInput : The request structure for the stop job request.
@@ -453,6 +605,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func stopJob(input: StopJobInput) async throws -> StopJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Tags the resource with a tag key and value.
     ///
     /// - Parameter TagResourceInput : The request structure to tag a resource with a tag key and value.
@@ -466,6 +623,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Untags a resource with a specified Amazon Resource Name (ARN).
     ///
     /// - Parameter UntagResourceInput : The request structure for the untag resource request.
@@ -479,6 +641,11 @@ public protocol AmplifyClientProtocol {
     /// - `InternalFailureException` : The service failed to perform an operation due to an internal issue.
     /// - `ResourceNotFoundException` : An operation failed due to a non-existent resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateApp` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Updates an existing Amplify app.
     ///
     /// - Parameter UpdateAppInput : The request structure for the update app request.
@@ -493,6 +660,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateBranch` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Updates a branch for an Amplify app.
     ///
     /// - Parameter UpdateBranchInput : The request structure for the update branch request.
@@ -508,6 +680,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func updateBranch(input: UpdateBranchInput) async throws -> UpdateBranchOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDomainAssociation` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Creates a new domain association for an Amplify app.
     ///
     /// - Parameter UpdateDomainAssociationInput : The request structure for the update domain association request.
@@ -523,6 +700,11 @@ public protocol AmplifyClientProtocol {
     /// - `NotFoundException` : An entity was not found during an operation.
     /// - `UnauthorizedException` : An operation failed due to a lack of access.
     func updateDomainAssociation(input: UpdateDomainAssociationInput) async throws -> UpdateDomainAssociationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateWebhook` operation on the `Amplify` service.
+    ///
+>>>>>>> main
     /// Updates a webhook.
     ///
     /// - Parameter UpdateWebhookInput : The request structure for the update webhook request.

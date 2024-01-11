@@ -1548,8 +1548,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// virtual addressing, aws-global region with fips uses the regional fips endpoint
+    /// virtual addressing, aws-global region with Prefix, and Key uses the global endpoint. Prefix and Key parameters should not be used in endpoint evaluation.
     func testResolve57() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "bucket-name",
+            key: "key",
+            prefix: "prefix",
+            region: "aws-global",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://bucket-name.s3.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// virtual addressing, aws-global region with fips uses the regional fips endpoint
+    func testResolve58() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1580,7 +1613,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, aws-global region with dualstack uses the regional dualstack endpoint
-    func testResolve58() throws {
+    func testResolve59() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1611,7 +1644,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, aws-global region with fips/dualstack uses the regional fips/dualstack endpoint
-    func testResolve59() throws {
+    func testResolve60() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1642,7 +1675,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, aws-global region with accelerate uses the global accelerate endpoint
-    func testResolve60() throws {
+    func testResolve61() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -1673,7 +1706,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, aws-global region with custom endpoint
-    func testResolve61() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1705,7 +1738,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, UseGlobalEndpoint and us-east-1 region uses the global endpoint
-    func testResolve62() throws {
+    func testResolve63() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1737,7 +1770,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, UseGlobalEndpoint and us-west-2 region uses the regional endpoint
-    func testResolve63() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1769,7 +1802,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, UseGlobalEndpoint and us-east-1 region and fips uses the regional fips endpoint
-    func testResolve64() throws {
+    func testResolve65() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1801,7 +1834,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, UseGlobalEndpoint and us-east-1 region and dualstack uses the regional dualstack endpoint
-    func testResolve65() throws {
+    func testResolve66() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1833,7 +1866,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, UseGlobalEndpoint and us-east-1 region and accelerate uses the global accelerate endpoint
-    func testResolve66() throws {
+    func testResolve67() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -1865,7 +1898,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing, UseGlobalEndpoint and us-east-1 region with custom endpoint
-    func testResolve67() throws {
+    func testResolve68() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1898,7 +1931,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, aws-global region uses the global endpoint
-    func testResolve68() throws {
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1930,7 +1963,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, aws-global region with fips is invalid
-    func testResolve69() throws {
+    func testResolve70() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1962,7 +1995,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, aws-global region with dualstack uses regional dualstack endpoint
-    func testResolve70() throws {
+    func testResolve71() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -1994,7 +2027,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, aws-global region custom endpoint uses the custom endpoint
-    func testResolve71() throws {
+    func testResolve72() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -2027,7 +2060,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, UseGlobalEndpoint us-east-1 region uses the global endpoint
-    func testResolve72() throws {
+    func testResolve73() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -2060,7 +2093,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, UseGlobalEndpoint us-west-2 region uses the regional endpoint
-    func testResolve73() throws {
+    func testResolve74() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -2093,7 +2126,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, UseGlobalEndpoint us-east-1 region, dualstack uses the regional dualstack endpoint
-    func testResolve74() throws {
+    func testResolve75() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -2126,7 +2159,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ForcePathStyle, UseGlobalEndpoint us-east-1 region custom endpoint uses the custom endpoint
-    func testResolve75() throws {
+    func testResolve76() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -2160,7 +2193,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ARN with aws-global region and  UseArnRegion uses the regional endpoint
-    func testResolve76() throws {
+    func testResolve77() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -2192,7 +2225,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// cross partition MRAP ARN is an error
-    func testResolve77() throws {
+    func testResolve78() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws-cn:s3::123456789012:accesspoint:mfzwi23gnjvgw.mrap",
             region: "us-west-1"
@@ -2210,7 +2243,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Endpoint override, accesspoint with HTTP, port
-    func testResolve78() throws {
+    func testResolve79() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
             endpoint: "http://beta.example.com:1234",
@@ -2239,7 +2272,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Endpoint override, accesspoint with http, path, query, and port
-    func testResolve79() throws {
+    func testResolve80() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
@@ -2271,7 +2304,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non-bucket endpoint override with FIPS = error
-    func testResolve80() throws {
+    func testResolve81() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
             region: "us-west-2",
@@ -2291,7 +2324,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + dualstack + custom endpoint
-    func testResolve81() throws {
+    func testResolve82() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
             region: "us-west-2",
@@ -2311,7 +2344,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// dualstack + custom endpoint
-    func testResolve82() throws {
+    func testResolve83() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
             region: "us-west-2",
@@ -2331,7 +2364,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// custom endpoint without FIPS/dualstack
-    func testResolve83() throws {
+    func testResolve84() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://beta.example.com:1234/path",
             region: "us-west-2",
@@ -2361,7 +2394,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// s3 object lambda with access points disabled
-    func testResolve84() throws {
+    func testResolve85() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint:myendpoint",
             disableAccessPoints: true,
@@ -2380,7 +2413,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non bucket + FIPS
-    func testResolve85() throws {
+    func testResolve86() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useDualStack: false,
@@ -2409,7 +2442,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// standard non bucket endpoint
-    func testResolve86() throws {
+    func testResolve87() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useDualStack: false,
@@ -2438,7 +2471,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non bucket endpoint with FIPS + Dualstack
-    func testResolve87() throws {
+    func testResolve88() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useDualStack: true,
@@ -2467,7 +2500,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non bucket endpoint with dualstack
-    func testResolve88() throws {
+    func testResolve89() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useDualStack: true,
@@ -2496,7 +2529,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// use global endpoint + IP address endpoint override
-    func testResolve89() throws {
+    func testResolve90() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             endpoint: "http://127.0.0.1",
@@ -2528,7 +2561,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non-dns endpoint + global endpoint
-    func testResolve90() throws {
+    func testResolve91() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             region: "us-east-1",
@@ -2559,7 +2592,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint override + use global endpoint
-    func testResolve91() throws {
+    func testResolve92() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "http://foo.com",
@@ -2591,7 +2624,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + dualstack + non-bucket endpoint
-    func testResolve92() throws {
+    func testResolve93() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             region: "us-east-1",
@@ -2621,7 +2654,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + dualstack + non-DNS endpoint
-    func testResolve93() throws {
+    func testResolve94() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             forcePathStyle: true,
@@ -2652,7 +2685,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint override + FIPS + dualstack (BUG)
-    func testResolve94() throws {
+    func testResolve95() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "http://foo.com",
@@ -2674,7 +2707,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint override + non-dns bucket + FIPS (BUG)
-    func testResolve95() throws {
+    func testResolve96() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "http://foo.com",
@@ -2695,7 +2728,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + bucket endpoint + force path style
-    func testResolve96() throws {
+    func testResolve97() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             forcePathStyle: true,
@@ -2727,7 +2760,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// bucket + FIPS + force path style
-    func testResolve97() throws {
+    func testResolve98() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             forcePathStyle: true,
@@ -2759,7 +2792,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + dualstack + use global endpoint
-    func testResolve98() throws {
+    func testResolve99() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             region: "us-east-1",
@@ -2790,7 +2823,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// URI encoded bucket + use global endpoint
-    func testResolve99() throws {
+    func testResolve100() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "https://foo.com",
@@ -2812,7 +2845,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + path based endpoint
-    func testResolve100() throws {
+    func testResolve101() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -2844,7 +2877,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate + dualstack + global endpoint
-    func testResolve101() throws {
+    func testResolve102() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket",
@@ -2876,7 +2909,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// dualstack + global endpoint + non URI safe bucket
-    func testResolve102() throws {
+    func testResolve103() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -2908,7 +2941,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + uri encoded bucket
-    func testResolve103() throws {
+    func testResolve104() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -2941,7 +2974,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint override + non-uri safe endpoint + force path style
-    func testResolve104() throws {
+    func testResolve105() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -2965,7 +2998,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + Dualstack + global endpoint + non-dns bucket
-    func testResolve105() throws {
+    func testResolve106() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -2997,7 +3030,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint override + FIPS + dualstack
-    func testResolve106() throws {
+    func testResolve107() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
             region: "us-east-1",
@@ -3018,7 +3051,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non-bucket endpoint override + dualstack + global endpoint
-    func testResolve107() throws {
+    func testResolve108() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
             region: "us-east-1",
@@ -3039,7 +3072,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Endpoint override + UseGlobalEndpoint + us-east-1
-    func testResolve108() throws {
+    func testResolve109() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
             region: "us-east-1",
@@ -3060,7 +3093,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// non-FIPS partition with FIPS set + custom endpoint
-    func testResolve109() throws {
+    func testResolve110() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -3080,7 +3113,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global signs as us-east-1
-    func testResolve110() throws {
+    func testResolve111() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -3111,7 +3144,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global signs as us-east-1
-    func testResolve111() throws {
+    func testResolve112() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket",
@@ -3143,7 +3176,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global + dualstack + path-only bucket
-    func testResolve112() throws {
+    func testResolve113() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -3174,7 +3207,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global + path-only bucket
-    func testResolve113() throws {
+    func testResolve114() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             region: "aws-global"
@@ -3202,7 +3235,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global + fips + custom endpoint
-    func testResolve114() throws {
+    func testResolve115() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -3224,7 +3257,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global, endpoint override & path only-bucket
-    func testResolve115() throws {
+    func testResolve116() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -3256,7 +3289,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global + dualstack + custom endpoint
-    func testResolve116() throws {
+    func testResolve117() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             endpoint: "http://foo.com",
@@ -3277,7 +3310,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate, dualstack + aws-global
-    func testResolve117() throws {
+    func testResolve118() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket",
@@ -3308,7 +3341,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + aws-global + path only bucket. This is not supported by S3 but we allow garbage in garbage out
-    func testResolve118() throws {
+    func testResolve119() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket!",
@@ -3340,7 +3373,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// aws-global + FIPS + endpoint override.
-    func testResolve119() throws {
+    func testResolve120() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
             region: "aws-global",
@@ -3359,7 +3392,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// force path style, FIPS, aws-global & endpoint override
-    func testResolve120() throws {
+    func testResolve121() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "http://foo.com",
@@ -3380,7 +3413,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ip address causes path style to be forced
-    func testResolve121() throws {
+    func testResolve122() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             endpoint: "http://192.168.1.1",
@@ -3409,7 +3442,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint override with aws-global region
-    func testResolve122() throws {
+    func testResolve123() throws {
         let endpointParams = EndpointParams(
             endpoint: "http://foo.com",
             region: "aws-global",
@@ -3429,7 +3462,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS + path-only (TODO: consider making this an error)
-    func testResolve123() throws {
+    func testResolve124() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             region: "aws-global",
@@ -3458,7 +3491,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// empty arn type
-    func testResolve124() throws {
+    func testResolve125() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:not-s3:us-west-2:123456789012::myendpoint",
             region: "us-east-2"
@@ -3476,7 +3509,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style can't be used with accelerate
-    func testResolve125() throws {
+    func testResolve126() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket!",
@@ -3495,7 +3528,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid region
-    func testResolve126() throws {
+    func testResolve127() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket.subdomain",
             endpoint: "http://foo.com",
@@ -3514,7 +3547,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid region
-    func testResolve127() throws {
+    func testResolve128() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             endpoint: "http://foo.com",
@@ -3533,7 +3566,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// empty arn type
-    func testResolve128() throws {
+    func testResolve129() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3::123456789012:accesspoint:my_endpoint",
             region: "us-east-2"
@@ -3551,7 +3584,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// empty arn type
-    func testResolve129() throws {
+    func testResolve130() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3:cn-north-1:123456789012:accesspoint:my-endpoint",
             region: "us-east-2",
@@ -3570,7 +3603,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid arn region
-    func testResolve130() throws {
+    func testResolve131() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-object-lambda:us-east_2:123456789012:accesspoint:my-endpoint",
             region: "us-east-2",
@@ -3589,7 +3622,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid ARN outpost
-    func testResolve131() throws {
+    func testResolve132() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost/op_01234567890123456/accesspoint/reports",
             region: "us-east-2",
@@ -3608,7 +3641,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid ARN
-    func testResolve132() throws {
+    func testResolve133() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost/op-01234567890123456/reports",
             region: "us-east-2"
@@ -3626,7 +3659,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid ARN
-    func testResolve133() throws {
+    func testResolve134() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost/op-01234567890123456",
             region: "us-east-2"
@@ -3644,7 +3677,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid outpost type
-    func testResolve134() throws {
+    func testResolve135() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost/op-01234567890123456/not-accesspoint/reports",
             region: "us-east-2"
@@ -3662,7 +3695,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid outpost type
-    func testResolve135() throws {
+    func testResolve136() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east_1:123456789012:outpost/op-01234567890123456/not-accesspoint/reports",
             region: "us-east-2"
@@ -3680,7 +3713,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid outpost type
-    func testResolve136() throws {
+    func testResolve137() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:12345_789012:outpost/op-01234567890123456/not-accesspoint/reports",
             region: "us-east-2"
@@ -3698,7 +3731,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid outpost type
-    func testResolve137() throws {
+    func testResolve138() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:12345789012:outpost",
             region: "us-east-2"
@@ -3716,7 +3749,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// use global endpoint virtual addressing
-    func testResolve138() throws {
+    func testResolve139() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             endpoint: "http://example.com",
@@ -3746,7 +3779,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// global endpoint + ip address
-    func testResolve139() throws {
+    func testResolve140() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket",
             endpoint: "http://192.168.0.1",
@@ -3776,7 +3809,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid outpost type
-    func testResolve140() throws {
+    func testResolve141() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             region: "us-east-2",
@@ -3805,7 +3838,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid outpost type
-    func testResolve141() throws {
+    func testResolve142() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket",
@@ -3835,7 +3868,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// use global endpoint + custom endpoint
-    func testResolve142() throws {
+    func testResolve143() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "http://foo.com",
@@ -3865,7 +3898,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// use global endpoint, not us-east-1, force path style
-    func testResolve143() throws {
+    func testResolve144() throws {
         let endpointParams = EndpointParams(
             bucket: "bucket!",
             endpoint: "http://foo.com",
@@ -3896,7 +3929,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla virtual addressing@us-west-2
-    func testResolve144() throws {
+    func testResolve145() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -3928,7 +3961,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + dualstack@us-west-2
-    func testResolve145() throws {
+    func testResolve146() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -3960,7 +3993,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate + dualstack@us-west-2
-    func testResolve146() throws {
+    func testResolve147() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -3992,7 +4025,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate (dualstack=false)@us-west-2
-    func testResolve147() throws {
+    func testResolve148() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4024,7 +4057,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + fips@us-west-2
-    func testResolve148() throws {
+    func testResolve149() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4056,7 +4089,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + dualstack + fips@us-west-2
-    func testResolve149() throws {
+    func testResolve150() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4088,7 +4121,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate + fips = error@us-west-2
-    func testResolve150() throws {
+    func testResolve151() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4110,7 +4143,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla virtual addressing@cn-north-1
-    func testResolve151() throws {
+    func testResolve152() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4142,7 +4175,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + dualstack@cn-north-1
-    func testResolve152() throws {
+    func testResolve153() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4174,7 +4207,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate (dualstack=false)@cn-north-1
-    func testResolve153() throws {
+    func testResolve154() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4196,7 +4229,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + fips@cn-north-1
-    func testResolve154() throws {
+    func testResolve155() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4218,7 +4251,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla virtual addressing@af-south-1
-    func testResolve155() throws {
+    func testResolve156() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4250,7 +4283,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + dualstack@af-south-1
-    func testResolve156() throws {
+    func testResolve157() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4282,7 +4315,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate + dualstack@af-south-1
-    func testResolve157() throws {
+    func testResolve158() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4314,7 +4347,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate (dualstack=false)@af-south-1
-    func testResolve158() throws {
+    func testResolve159() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4346,7 +4379,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + fips@af-south-1
-    func testResolve159() throws {
+    func testResolve160() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4378,7 +4411,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + dualstack + fips@af-south-1
-    func testResolve160() throws {
+    func testResolve161() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4410,7 +4443,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate + fips = error@af-south-1
-    func testResolve161() throws {
+    func testResolve162() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4432,7 +4465,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla path style@us-west-2
-    func testResolve162() throws {
+    func testResolve163() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4464,7 +4497,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// fips@us-gov-west-2, bucket is not S3-dns-compatible (subdomains)
-    func testResolve163() throws {
+    func testResolve164() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket.with.dots",
@@ -4495,7 +4528,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + accelerate = error@us-west-2
-    func testResolve164() throws {
+    func testResolve165() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4517,7 +4550,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + dualstack@us-west-2
-    func testResolve165() throws {
+    func testResolve166() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4549,7 +4582,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + arn is error@us-west-2
-    func testResolve166() throws {
+    func testResolve167() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:PARTITION:s3-outposts:REGION:123456789012:outpost:op-01234567890123456:bucket:mybucket",
@@ -4571,7 +4604,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + invalid DNS name@us-west-2
-    func testResolve167() throws {
+    func testResolve168() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "99a_b",
@@ -4603,7 +4636,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// no path style + invalid DNS name@us-west-2
-    func testResolve168() throws {
+    func testResolve169() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "99a_b",
@@ -4634,7 +4667,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla path style@cn-north-1
-    func testResolve169() throws {
+    func testResolve170() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4666,7 +4699,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + fips@cn-north-1
-    func testResolve170() throws {
+    func testResolve171() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4688,7 +4721,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + accelerate = error@cn-north-1
-    func testResolve171() throws {
+    func testResolve172() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4710,7 +4743,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + dualstack@cn-north-1
-    func testResolve172() throws {
+    func testResolve173() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4742,7 +4775,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + arn is error@cn-north-1
-    func testResolve173() throws {
+    func testResolve174() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:PARTITION:s3-outposts:REGION:123456789012:outpost:op-01234567890123456:bucket:mybucket",
@@ -4764,7 +4797,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + invalid DNS name@cn-north-1
-    func testResolve174() throws {
+    func testResolve175() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "99a_b",
@@ -4796,7 +4829,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// no path style + invalid DNS name@cn-north-1
-    func testResolve175() throws {
+    func testResolve176() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "99a_b",
@@ -4827,7 +4860,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla path style@af-south-1
-    func testResolve176() throws {
+    func testResolve177() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4859,7 +4892,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + fips@af-south-1
-    func testResolve177() throws {
+    func testResolve178() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4891,7 +4924,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + accelerate = error@af-south-1
-    func testResolve178() throws {
+    func testResolve179() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -4913,7 +4946,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + dualstack@af-south-1
-    func testResolve179() throws {
+    func testResolve180() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -4945,7 +4978,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + arn is error@af-south-1
-    func testResolve180() throws {
+    func testResolve181() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:PARTITION:s3-outposts:REGION:123456789012:outpost:op-01234567890123456:bucket:mybucket",
@@ -4967,7 +5000,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + invalid DNS name@af-south-1
-    func testResolve181() throws {
+    func testResolve182() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "99a_b",
@@ -4999,7 +5032,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// no path style + invalid DNS name@af-south-1
-    func testResolve182() throws {
+    func testResolve183() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "99a_b",
@@ -5030,7 +5063,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + private link@us-west-2
-    func testResolve183() throws {
+    func testResolve184() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5063,7 +5096,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + private link@us-west-2
-    func testResolve184() throws {
+    func testResolve185() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5096,7 +5129,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + FIPS@us-west-2
-    func testResolve185() throws {
+    func testResolve186() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5119,7 +5152,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + DualStack@us-west-2
-    func testResolve186() throws {
+    func testResolve187() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5142,7 +5175,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::HOST + accelerate@us-west-2
-    func testResolve187() throws {
+    func testResolve188() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -5165,7 +5198,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + access point ARN@us-west-2
-    func testResolve188() throws {
+    func testResolve189() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
@@ -5198,7 +5231,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + private link@cn-north-1
-    func testResolve189() throws {
+    func testResolve190() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5231,7 +5264,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + private link@cn-north-1
-    func testResolve190() throws {
+    func testResolve191() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5264,7 +5297,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// FIPS@cn-north-1
-    func testResolve191() throws {
+    func testResolve192() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5286,7 +5319,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + DualStack@cn-north-1
-    func testResolve192() throws {
+    func testResolve193() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5309,7 +5342,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::HOST + accelerate@cn-north-1
-    func testResolve193() throws {
+    func testResolve194() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -5332,7 +5365,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + access point ARN@cn-north-1
-    func testResolve194() throws {
+    func testResolve195() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-cn:s3:cn-north-1:123456789012:accesspoint:myendpoint",
@@ -5365,7 +5398,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// virtual addressing + private link@af-south-1
-    func testResolve195() throws {
+    func testResolve196() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5398,7 +5431,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// path style + private link@af-south-1
-    func testResolve196() throws {
+    func testResolve197() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5431,7 +5464,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + FIPS@af-south-1
-    func testResolve197() throws {
+    func testResolve198() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5454,7 +5487,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + DualStack@af-south-1
-    func testResolve198() throws {
+    func testResolve199() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucket-name",
@@ -5477,7 +5510,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::HOST + accelerate@af-south-1
-    func testResolve199() throws {
+    func testResolve200() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "bucket-name",
@@ -5500,7 +5533,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// SDK::Host + access point ARN@af-south-1
-    func testResolve200() throws {
+    func testResolve201() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:af-south-1:123456789012:accesspoint:myendpoint",
@@ -5533,7 +5566,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla access point arn@us-west-2
-    func testResolve201() throws {
+    func testResolve202() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
@@ -5565,7 +5598,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + FIPS@us-west-2
-    func testResolve202() throws {
+    func testResolve203() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
@@ -5597,7 +5630,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + accelerate = error@us-west-2
-    func testResolve203() throws {
+    func testResolve204() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
@@ -5619,7 +5652,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + FIPS + DualStack@us-west-2
-    func testResolve204() throws {
+    func testResolve205() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:us-west-2:123456789012:accesspoint:myendpoint",
@@ -5651,7 +5684,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla access point arn@cn-north-1
-    func testResolve205() throws {
+    func testResolve206() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-cn:s3:cn-north-1:123456789012:accesspoint:myendpoint",
@@ -5683,7 +5716,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + FIPS@cn-north-1
-    func testResolve206() throws {
+    func testResolve207() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-cn:s3:cn-north-1:123456789012:accesspoint:myendpoint",
@@ -5705,7 +5738,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + accelerate = error@cn-north-1
-    func testResolve207() throws {
+    func testResolve208() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "arn:aws-cn:s3:cn-north-1:123456789012:accesspoint:myendpoint",
@@ -5727,7 +5760,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + FIPS + DualStack@cn-north-1
-    func testResolve208() throws {
+    func testResolve209() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-cn:s3:cn-north-1:123456789012:accesspoint:myendpoint",
@@ -5749,7 +5782,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// vanilla access point arn@af-south-1
-    func testResolve209() throws {
+    func testResolve210() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:af-south-1:123456789012:accesspoint:myendpoint",
@@ -5781,7 +5814,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + FIPS@af-south-1
-    func testResolve210() throws {
+    func testResolve211() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:af-south-1:123456789012:accesspoint:myendpoint",
@@ -5813,7 +5846,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + accelerate = error@af-south-1
-    func testResolve211() throws {
+    func testResolve212() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "arn:aws:s3:af-south-1:123456789012:accesspoint:myendpoint",
@@ -5835,7 +5868,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point arn + FIPS + DualStack@af-south-1
-    func testResolve212() throws {
+    func testResolve213() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3:af-south-1:123456789012:accesspoint:myendpoint",
@@ -5867,7 +5900,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 outposts vanilla test
-    func testResolve213() throws {
+    func testResolve214() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -5898,7 +5931,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 outposts custom endpoint
-    func testResolve214() throws {
+    func testResolve215() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -5930,7 +5963,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outposts arn with region mismatch and UseArnRegion=false
-    func testResolve215() throws {
+    func testResolve216() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
@@ -5953,7 +5986,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outposts arn with region mismatch, custom region and UseArnRegion=false
-    func testResolve216() throws {
+    func testResolve217() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
@@ -5977,7 +6010,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outposts arn with region mismatch and UseArnRegion=true
-    func testResolve217() throws {
+    func testResolve218() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
@@ -6010,7 +6043,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outposts arn with region mismatch and UseArnRegion unset
-    func testResolve218() throws {
+    func testResolve219() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
@@ -6042,7 +6075,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outposts arn with partition mismatch and UseArnRegion=true
-    func testResolve219() throws {
+    func testResolve220() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:cn-north-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
@@ -6065,7 +6098,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ARN with UseGlobalEndpoint and use-east-1 region uses the regional endpoint
-    func testResolve220() throws {
+    func testResolve221() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -6097,7 +6130,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 outposts does not support dualstack
-    func testResolve221() throws {
+    func testResolve222() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -6118,7 +6151,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 outposts does not support fips
-    func testResolve222() throws {
+    func testResolve223() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -6139,7 +6172,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 outposts does not support accelerate
-    func testResolve223() throws {
+    func testResolve224() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost/op-01234567890123456/accesspoint/reports",
@@ -6160,7 +6193,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// validates against subresource
-    func testResolve224() throws {
+    func testResolve225() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:mybucket:object:foo",
@@ -6181,7 +6214,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-east-1
-    func testResolve225() throws {
+    func testResolve226() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6213,7 +6246,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-west-2
-    func testResolve226() throws {
+    func testResolve227() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint/mybanner",
@@ -6245,7 +6278,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda, colon resource deliminator @us-west-2
-    func testResolve227() throws {
+    func testResolve228() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint:mybanner",
@@ -6277,7 +6310,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-east-1, client region us-west-2, useArnRegion=true
-    func testResolve228() throws {
+    func testResolve229() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6309,7 +6342,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-east-1, client region s3-external-1, useArnRegion=true
-    func testResolve229() throws {
+    func testResolve230() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6341,7 +6374,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-east-1, client region s3-external-1, useArnRegion=false
-    func testResolve230() throws {
+    func testResolve231() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6363,7 +6396,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-east-1, client region aws-global, useArnRegion=true
-    func testResolve231() throws {
+    func testResolve232() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6395,7 +6428,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-east-1, client region aws-global, useArnRegion=false
-    func testResolve232() throws {
+    func testResolve233() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6417,7 +6450,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @cn-north-1, client region us-west-2 (cross partition), useArnRegion=true
-    func testResolve233() throws {
+    func testResolve234() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-cn:s3-object-lambda:cn-north-1:123456789012:accesspoint/mybanner",
@@ -6439,7 +6472,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with dualstack
-    func testResolve234() throws {
+    func testResolve235() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint/mybanner",
@@ -6461,7 +6494,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-gov-east-1
-    func testResolve235() throws {
+    func testResolve236() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-us-gov:s3-object-lambda:us-gov-east-1:123456789012:accesspoint/mybanner",
@@ -6493,7 +6526,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @us-gov-east-1, with fips
-    func testResolve236() throws {
+    func testResolve237() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-us-gov:s3-object-lambda:us-gov-east-1:123456789012:accesspoint/mybanner",
@@ -6525,7 +6558,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda @cn-north-1, with fips
-    func testResolve237() throws {
+    func testResolve238() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws-cn:s3-object-lambda:cn-north-1:123456789012:accesspoint/mybanner",
@@ -6547,7 +6580,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with accelerate
-    func testResolve238() throws {
+    func testResolve239() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint/mybanner",
@@ -6569,7 +6602,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - bad service and someresource
-    func testResolve239() throws {
+    func testResolve240() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:sqs:us-west-2:123456789012:someresource",
@@ -6591,7 +6624,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - invalid resource
-    func testResolve240() throws {
+    func testResolve241() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:bucket_name:mybucket",
@@ -6613,7 +6646,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - missing region
-    func testResolve241() throws {
+    func testResolve242() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda::123456789012:accesspoint/mybanner",
@@ -6635,7 +6668,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - missing account-id
-    func testResolve242() throws {
+    func testResolve243() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2::accesspoint/mybanner",
@@ -6657,7 +6690,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - account id contains invalid characters
-    func testResolve243() throws {
+    func testResolve244() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123.45678.9012:accesspoint:mybucket",
@@ -6679,7 +6712,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - missing access point name
-    func testResolve244() throws {
+    func testResolve245() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint",
@@ -6701,7 +6734,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - access point name contains invalid character: *
-    func testResolve245() throws {
+    func testResolve246() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint:*",
@@ -6723,7 +6756,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - access point name contains invalid character: .
-    func testResolve246() throws {
+    func testResolve247() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint:my.bucket",
@@ -6745,7 +6778,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with invalid arn - access point name contains sub resources
-    func testResolve247() throws {
+    func testResolve248() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint:mybucket:object:foo",
@@ -6767,7 +6800,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda with custom endpoint
-    func testResolve248() throws {
+    func testResolve249() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-west-2:123456789012:accesspoint/mybanner",
@@ -6800,7 +6833,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// object lambda arn with region mismatch and UseArnRegion=false
-    func testResolve249() throws {
+    func testResolve250() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
@@ -6823,7 +6856,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse @ us-west-2
-    func testResolve250() throws {
+    func testResolve251() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "us-west-2",
@@ -6854,7 +6887,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with custom endpoint
-    func testResolve251() throws {
+    func testResolve252() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             endpoint: "https://my-endpoint.com",
@@ -6886,7 +6919,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse @ us-east-1
-    func testResolve252() throws {
+    func testResolve253() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "us-east-1",
@@ -6917,7 +6950,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with fips
-    func testResolve253() throws {
+    func testResolve254() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "us-east-1",
@@ -6948,7 +6981,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with dualstack
-    func testResolve254() throws {
+    func testResolve255() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "us-east-1",
@@ -6969,7 +7002,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with accelerate
-    func testResolve255() throws {
+    func testResolve256() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             region: "us-east-1",
@@ -6990,7 +7023,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with fips in CN
-    func testResolve256() throws {
+    func testResolve257() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "cn-north-1",
@@ -7011,7 +7044,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with invalid partition
-    func testResolve257() throws {
+    func testResolve258() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "not a valid DNS name",
@@ -7032,7 +7065,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// WriteGetObjectResponse with an unknown partition
-    func testResolve258() throws {
+    func testResolve259() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             region: "us-east.special",
@@ -7063,7 +7096,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Real Outpost Prod us-west-1
-    func testResolve259() throws {
+    func testResolve260() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-o0b1d075431d83bebde8xz5w8ijx1qzlbp3i3kuse10--op-s3",
@@ -7094,7 +7127,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Real Outpost Prod ap-east-1
-    func testResolve260() throws {
+    func testResolve261() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-o0b1d075431d83bebde8xz5w8ijx1qzlbp3i3kuse10--op-s3",
@@ -7125,7 +7158,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Ec2 Outpost Prod us-east-1
-    func testResolve261() throws {
+    func testResolve262() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-e0000075431d83bebde8xz5w8ijx1qzlbp3i3kuse10--op-s3",
@@ -7156,7 +7189,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Ec2 Outpost Prod me-south-1
-    func testResolve262() throws {
+    func testResolve263() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-e0000075431d83bebde8xz5w8ijx1qzlbp3i3kuse10--op-s3",
@@ -7187,7 +7220,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Real Outpost Beta
-    func testResolve263() throws {
+    func testResolve264() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-o0b1d075431d83bebde8xz5w8ijx1qzlbp3i3kbeta0--op-s3",
@@ -7219,7 +7252,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Ec2 Outpost Beta
-    func testResolve264() throws {
+    func testResolve265() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "161743052723-e00000136899934034jeahy1t8gpzpbwjj8kb7beta0--op-s3",
@@ -7251,7 +7284,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias - No endpoint set for beta
-    func testResolve265() throws {
+    func testResolve266() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-o0b1d075431d83bebde8xz5w8ijx1qzlbp3i3kbeta0--op-s3",
@@ -7272,7 +7305,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Invalid hardware type
-    func testResolve266() throws {
+    func testResolve267() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-h0000075431d83bebde8xz5w8ijx1qzlbp3i3kuse10--op-s3",
@@ -7293,7 +7326,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias Special character in Outpost Arn
-    func testResolve267() throws {
+    func testResolve268() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-o00000754%1d83bebde8xz5w8ijx1qzlbp3i3kuse10--op-s3",
@@ -7314,7 +7347,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Outposts bucketAlias - No endpoint set for beta
-    func testResolve268() throws {
+    func testResolve269() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "test-accessp-e0b1d075431d83bebde8xz5w8ijx1qzlbp3i3ebeta0--op-s3",
@@ -7335,7 +7368,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow with bucket
-    func testResolve269() throws {
+    func testResolve270() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucketName",
@@ -7367,7 +7400,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow without bucket
-    func testResolve270() throws {
+    func testResolve271() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             endpoint: "https://10.0.1.12:433",
@@ -7398,7 +7431,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow no port
-    func testResolve271() throws {
+    func testResolve272() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucketName",
@@ -7430,7 +7463,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow dns endpoint
-    func testResolve272() throws {
+    func testResolve273() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "bucketName",
@@ -7459,6 +7492,732 @@ class EndpointResolverTest: XCTestCase {
         let expected = try ClientRuntime.Endpoint(urlString: "https://amazonaws.com/bucketName", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short AZ
+    func testResolve274() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--use1-az1--x-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--use1-az1--x-s3.s3express-use1-az1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short AZ fips
+    func testResolve275() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--use1-az1--x-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--use1-az1--x-s3.s3express-fips-use1-az1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with long AZ
+    func testResolve276() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--apne1-az1--x-s3",
+            region: "ap-northeast-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "ap-northeast-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with long AZ fips
+    func testResolve277() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--apne1-az1--x-s3",
+            region: "ap-northeast-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "ap-northeast-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-fips-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control plane with short AZ bucket
+    func testResolve278() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--use1-az1--x-s3",
+            disableS3ExpressSessionAuth: false,
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3express-control.us-east-1.amazonaws.com/mybucket--use1-az1--x-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control plane with short AZ bucket and fips
+    func testResolve279() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--use1-az1--x-s3",
+            disableS3ExpressSessionAuth: false,
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3express-control-fips.us-east-1.amazonaws.com/mybucket--use1-az1--x-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control plane without bucket
+    func testResolve280() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            disableS3ExpressSessionAuth: false,
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3express-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control plane without bucket and fips
+    func testResolve281() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            disableS3ExpressSessionAuth: false,
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3express-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with short AZ
+    func testResolve282() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usw2-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--usw2-az1--x-s3.s3express-usw2-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with short AZ fips
+    func testResolve283() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usw2-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--usw2-az1--x-s3.s3express-fips-usw2-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with long AZ
+    func testResolve284() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--apne1-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "ap-northeast-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "ap-northeast-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with long AZ fips
+    func testResolve285() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--apne1-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "ap-northeast-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "ap-northeast-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-fips-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control Plane host override
+    func testResolve286() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usw2-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--usw2-az1--x-s3.custom.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control Plane host override no bucket
+    func testResolve287() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://custom.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data plane host override non virtual session auth
+    func testResolve288() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usw2-az1--x-s3",
+            endpoint: "https://10.0.0.1",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.0.1/mybucket--usw2-az1--x-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Control Plane host override ip
+    func testResolve289() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usw2-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://10.0.0.1",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.0.1/mybucket--usw2-az1--x-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data plane host override
+    func testResolve290() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usw2-az1--x-s3",
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://mybucket--usw2-az1--x-s3.custom.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// bad format error
+    func testResolve291() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usaz1--x-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Unrecognized S3Express bucket name format.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// bad format error no session auth
+    func testResolve292() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--usaz1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Unrecognized S3Express bucket name format.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// dual-stack error
+    func testResolve293() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--use1-az1--x-s3",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express does not support Dual-stack.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// accelerate error
+    func testResolve294() throws {
+        let endpointParams = EndpointParams(
+            accelerate: true,
+            bucket: "mybucket--use1-az1--x-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express does not support S3 Accelerate.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Data plane bucket format error
+    func testResolve295() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "my.bucket--use1-az1--x-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express bucket name is not a valid virtual hostable name.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// host override data plane bucket error session auth
+    func testResolve296() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "my.bucket--usw2-az1--x-s3",
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express bucket name is not a valid virtual hostable name.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// host override data plane bucket error
+    func testResolve297() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "my.bucket--usw2-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express bucket name is not a valid virtual hostable name.", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
 }

@@ -74,6 +74,8 @@ import ClientRuntime
 ///
 /// * [PutThirdPartyJobSuccessResult], which provides details of a job success.
 public protocol CodePipelineClientProtocol {
+    /// Performs the `AcknowledgeJob` operation on the `CodePipeline_20150709` service.
+    ///
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
     ///
     /// - Parameter AcknowledgeJobInput : Represents the input of an AcknowledgeJob action.
@@ -87,6 +89,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func acknowledgeJob(input: AcknowledgeJobInput) async throws -> AcknowledgeJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AcknowledgeThirdPartyJob` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Confirms a job worker has received the specified job. Used for partner actions only.
     ///
     /// - Parameter AcknowledgeThirdPartyJobInput : Represents the input of an AcknowledgeThirdPartyJob action.
@@ -101,6 +108,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func acknowledgeThirdPartyJob(input: AcknowledgeThirdPartyJobInput) async throws -> AcknowledgeThirdPartyJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCustomActionType` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions.
     ///
     /// - Parameter CreateCustomActionTypeInput : Represents the input of a CreateCustomActionType operation.
@@ -116,6 +128,11 @@ public protocol CodePipelineClientProtocol {
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func createCustomActionType(input: CreateCustomActionTypeInput) async throws -> CreateCustomActionTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreatePipeline` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Creates a pipeline. In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
     ///
     /// - Parameter CreatePipelineInput : Represents the input of a CreatePipeline action.
@@ -136,6 +153,11 @@ public protocol CodePipelineClientProtocol {
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCustomActionType` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field.
     ///
     /// - Parameter DeleteCustomActionTypeInput : Represents the input of a DeleteCustomActionType operation. The custom action will be marked as deleted.
@@ -148,6 +170,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func deleteCustomActionType(input: DeleteCustomActionTypeInput) async throws -> DeleteCustomActionTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePipeline` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Deletes the specified pipeline.
     ///
     /// - Parameter DeletePipelineInput : Represents the input of a DeletePipeline action.
@@ -160,6 +187,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteWebhook` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
     ///
     /// - Parameter DeleteWebhookInput : [no documentation found]
@@ -172,6 +204,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ConcurrentModificationException` : Unable to modify the tag due to a simultaneous update request.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeregisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub.
     ///
     /// - Parameter DeregisterWebhookWithThirdPartyInput : [no documentation found]
@@ -184,6 +221,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ValidationException` : The validation was specified in an invalid format.
     /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
     func deregisterWebhookWithThirdParty(input: DeregisterWebhookWithThirdPartyInput) async throws -> DeregisterWebhookWithThirdPartyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisableStageTransition` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
     ///
     /// - Parameter DisableStageTransitionInput : Represents the input of a DisableStageTransition action.
@@ -197,6 +239,11 @@ public protocol CodePipelineClientProtocol {
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func disableStageTransition(input: DisableStageTransitionInput) async throws -> DisableStageTransitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `EnableStageTransition` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline.
     ///
     /// - Parameter EnableStageTransitionInput : Represents the input of an EnableStageTransition action.
@@ -210,6 +257,11 @@ public protocol CodePipelineClientProtocol {
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func enableStageTransition(input: EnableStageTransitionInput) async throws -> EnableStageTransitionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetActionType` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model.
     ///
     /// - Parameter GetActionTypeInput : [no documentation found]
@@ -222,6 +274,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func getActionType(input: GetActionTypeInput) async throws -> GetActionTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetJobDetails` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Returns information about a job. Used for custom actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
     /// - Parameter GetJobDetailsInput : Represents the input of a GetJobDetails action.
@@ -234,6 +291,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func getJobDetails(input: GetJobDetailsInput) async throws -> GetJobDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPipeline` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with [UpdatePipeline].
     ///
     /// - Parameter GetPipelineInput : Represents the input of a GetPipeline action.
@@ -247,6 +309,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineVersionNotFoundException` : The pipeline version was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func getPipeline(input: GetPipelineInput) async throws -> GetPipelineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
     ///
     /// - Parameter GetPipelineExecutionInput : Represents the input of a GetPipelineExecution action.
@@ -260,6 +327,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func getPipelineExecution(input: GetPipelineExecutionInput) async throws -> GetPipelineExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPipelineState` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Returns information about the state of a pipeline, including the stages and actions. Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state.
     ///
     /// - Parameter GetPipelineStateInput : Represents the input of a GetPipelineState action.
@@ -272,6 +344,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func getPipelineState(input: GetPipelineStateInput) async throws -> GetPipelineStateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetThirdPartyJobDetails` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
     /// - Parameter GetThirdPartyJobDetailsInput : Represents the input of a GetThirdPartyJobDetails action.
@@ -286,6 +363,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func getThirdPartyJobDetails(input: GetThirdPartyJobDetailsInput) async throws -> GetThirdPartyJobDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListActionExecutions` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Lists the action executions that have occurred in a pipeline.
     ///
     /// - Parameter ListActionExecutionsInput : [no documentation found]
@@ -300,6 +382,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func listActionExecutions(input: ListActionExecutionsInput) async throws -> ListActionExecutionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListActionTypes` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Gets a summary of all CodePipeline action types associated with your account.
     ///
     /// - Parameter ListActionTypesInput : Represents the input of a ListActionTypes action.
@@ -312,6 +399,11 @@ public protocol CodePipelineClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func listActionTypes(input: ListActionTypesInput) async throws -> ListActionTypesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPipelineExecutions` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Gets a summary of the most recent executions for a pipeline.
     ///
     /// - Parameter ListPipelineExecutionsInput : Represents the input of a ListPipelineExecutions action.
@@ -325,6 +417,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func listPipelineExecutions(input: ListPipelineExecutionsInput) async throws -> ListPipelineExecutionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPipelines` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Gets a summary of all of the pipelines associated with your account.
     ///
     /// - Parameter ListPipelinesInput : Represents the input of a ListPipelines action.
@@ -337,6 +434,11 @@ public protocol CodePipelineClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -351,6 +453,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWebhooks` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
     ///
     /// - Parameter ListWebhooksInput : [no documentation found]
@@ -363,6 +470,11 @@ public protocol CodePipelineClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func listWebhooks(input: ListWebhooksInput) async throws -> ListWebhooksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PollForJobs` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
     /// - Parameter PollForJobsInput : Represents the input of a PollForJobs action.
@@ -375,6 +487,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func pollForJobs(input: PollForJobsInput) async throws -> PollForJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PollForThirdPartyJobs` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
     ///
     /// - Parameter PollForThirdPartyJobsInput : Represents the input of a PollForThirdPartyJobs action.
@@ -387,6 +504,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ActionTypeNotFoundException` : The specified action type cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func pollForThirdPartyJobs(input: PollForThirdPartyJobsInput) async throws -> PollForThirdPartyJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutActionRevision` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Provides information to CodePipeline about new revisions to a source.
     ///
     /// - Parameter PutActionRevisionInput : Represents the input of a PutActionRevision action.
@@ -401,6 +523,11 @@ public protocol CodePipelineClientProtocol {
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putActionRevision(input: PutActionRevisionInput) async throws -> PutActionRevisionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutApprovalResult` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected.
     ///
     /// - Parameter PutApprovalResultInput : Represents the input of a PutApprovalResult action.
@@ -417,6 +544,11 @@ public protocol CodePipelineClientProtocol {
     /// - `StageNotFoundException` : The stage was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putApprovalResult(input: PutApprovalResultInput) async throws -> PutApprovalResultOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutJobFailureResult` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
     /// - Parameter PutJobFailureResultInput : Represents the input of a PutJobFailureResult action.
@@ -430,6 +562,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putJobFailureResult(input: PutJobFailureResultInput) async throws -> PutJobFailureResultOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
     /// - Parameter PutJobSuccessResultInput : Represents the input of a PutJobSuccessResult action.
@@ -444,6 +581,11 @@ public protocol CodePipelineClientProtocol {
     /// - `OutputVariablesSizeExceededException` : Exceeded the total size limit for all variables in the pipeline.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putJobSuccessResult(input: PutJobSuccessResultInput) async throws -> PutJobSuccessResultOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutThirdPartyJobFailureResult` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
     /// - Parameter PutThirdPartyJobFailureResultInput : Represents the input of a PutThirdPartyJobFailureResult action.
@@ -458,6 +600,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putThirdPartyJobFailureResult(input: PutThirdPartyJobFailureResultInput) async throws -> PutThirdPartyJobFailureResultOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutThirdPartyJobSuccessResult` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
     /// - Parameter PutThirdPartyJobSuccessResultInput : Represents the input of a PutThirdPartyJobSuccessResult action.
@@ -472,6 +619,11 @@ public protocol CodePipelineClientProtocol {
     /// - `JobNotFoundException` : The job was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putThirdPartyJobSuccessResult(input: PutThirdPartyJobSuccessResultInput) async throws -> PutThirdPartyJobSuccessResultOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutWebhook` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL.
     ///
     /// - Parameter PutWebhookInput : [no documentation found]
@@ -490,6 +642,11 @@ public protocol CodePipelineClientProtocol {
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func putWebhook(input: PutWebhookInput) async throws -> PutWebhookOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterWebhookWithThirdParty` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Configures a connection between the webhook that was created and the external tool with events to be detected.
     ///
     /// - Parameter RegisterWebhookWithThirdPartyInput : [no documentation found]
@@ -502,6 +659,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ValidationException` : The validation was specified in an invalid format.
     /// - `WebhookNotFoundException` : The specified webhook was entered in an invalid format or cannot be found.
     func registerWebhookWithThirdParty(input: RegisterWebhookWithThirdPartyInput) async throws -> RegisterWebhookWithThirdPartyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RetryStageExecution` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
     ///
     /// - Parameter RetryStageExecutionInput : Represents the input of a RetryStageExecution action.
@@ -518,6 +680,11 @@ public protocol CodePipelineClientProtocol {
     /// - `StageNotRetryableException` : Unable to retry. The pipeline structure or stage state might have changed while actions awaited retry, or the stage contains no failed actions.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func retryStageExecution(input: RetryStageExecutionInput) async throws -> RetryStageExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
     ///
     /// - Parameter StartPipelineExecutionInput : Represents the input of a StartPipelineExecution action.
@@ -531,6 +698,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopPipelineExecution` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state.
     ///
     /// - Parameter StopPipelineExecutionInput : [no documentation found]
@@ -546,6 +718,11 @@ public protocol CodePipelineClientProtocol {
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -562,6 +739,11 @@ public protocol CodePipelineClientProtocol {
     /// - `TooManyTagsException` : The tags limit for a resource has been exceeded.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Removes tags from an Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -577,6 +759,11 @@ public protocol CodePipelineClientProtocol {
     /// - `ResourceNotFoundException` : The resource was specified in an invalid format.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateActionType` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateActionType to provide the full structure.
     ///
     /// - Parameter UpdateActionTypeInput : [no documentation found]
@@ -590,6 +777,11 @@ public protocol CodePipelineClientProtocol {
     /// - `RequestFailedException` : The request failed because of an unknown error, exception, or failure.
     /// - `ValidationException` : The validation was specified in an invalid format.
     func updateActionType(input: UpdateActionTypeInput) async throws -> UpdateActionTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePipeline` operation on the `CodePipeline_20150709` service.
+    ///
+>>>>>>> main
     /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
     ///
     /// - Parameter UpdatePipelineInput : Represents the input of an UpdatePipeline action.

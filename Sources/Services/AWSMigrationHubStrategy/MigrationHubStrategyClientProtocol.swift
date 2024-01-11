@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Migration Hub Strategy Recommendations This API reference provides descriptions, syntax, and other details about each of the actions and data types for Migration Hub Strategy Recommendations (Strategy Recommendations). The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see [AWS SDKs](http://aws.amazon.com/tools/#SDKs).
 public protocol MigrationHubStrategyClientProtocol {
+    /// Performs the `GetApplicationComponentDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
     /// Retrieves details about an application component.
     ///
     /// - Parameter GetApplicationComponentDetailsInput : [no documentation found]
@@ -17,6 +19,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetApplicationComponentStrategies` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all the recommended strategies and tools for an application component running on a server.
     ///
     /// - Parameter GetApplicationComponentStrategiesInput : [no documentation found]
@@ -30,6 +37,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAssessment` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves the status of an on-going assessment.
     ///
     /// - Parameter GetAssessmentInput : [no documentation found]
@@ -44,6 +56,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetImportFileTask` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves the details about a specific import task.
     ///
     /// - Parameter GetImportFileTaskInput : [no documentation found]
@@ -59,6 +76,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLatestAssessmentId` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieve the latest ID of a specific assessment task.
     ///
     /// - Parameter GetLatestAssessmentIdInput : [no documentation found]
@@ -73,6 +95,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The request body isn't valid.
     func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPortfolioPreferences` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves your migration and modernization preferences.
     ///
     /// - Parameter GetPortfolioPreferencesInput : [no documentation found]
@@ -87,6 +114,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ResourceNotFoundException` : The specified ID in the request is not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPortfolioSummary` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     ///
     /// - Parameter GetPortfolioSummaryInput : [no documentation found]
@@ -100,6 +132,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `InternalServerException` : The server experienced an internal error. Try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRecommendationReportDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves detailed information about the specified recommendation report.
     ///
     /// - Parameter GetRecommendationReportDetailsInput : [no documentation found]
@@ -115,6 +152,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetServerDetails` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves detailed information about a specified server.
     ///
     /// - Parameter GetServerDetailsInput : [no documentation found]
@@ -130,6 +172,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetServerStrategies` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves recommended strategies and tools for the specified server.
     ///
     /// - Parameter GetServerStrategiesInput : [no documentation found]
@@ -145,6 +192,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAnalyzableServers` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
     ///
     /// - Parameter ListAnalyzableServersInput : Represents input for ListAnalyzableServers operation.
@@ -159,6 +211,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func listAnalyzableServers(input: ListAnalyzableServersInput) async throws -> ListAnalyzableServersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListApplicationComponents` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all the application components (processes).
     ///
     /// - Parameter ListApplicationComponentsInput : [no documentation found]
@@ -173,6 +230,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ServiceLinkedRoleLockClientException` : Exception to indicate that the service-linked role (SLR) is locked.
     /// - `ValidationException` : The request body isn't valid.
     func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCollectors` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all the installed collectors.
     ///
     /// - Parameter ListCollectorsInput : [no documentation found]
@@ -187,6 +249,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListImportFileTask` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all the imports performed.
     ///
     /// - Parameter ListImportFileTaskInput : [no documentation found]
@@ -201,6 +268,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListServers` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Returns a list of all the servers.
     ///
     /// - Parameter ListServersInput : [no documentation found]
@@ -215,6 +287,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func listServers(input: ListServersInput) async throws -> ListServersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutPortfolioPreferences` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Saves the specified migration and modernization preferences.
     ///
     /// - Parameter PutPortfolioPreferencesInput : [no documentation found]
@@ -230,6 +307,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartAssessment` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Starts the assessment of an on-premises environment.
     ///
     /// - Parameter StartAssessmentInput : [no documentation found]
@@ -244,6 +326,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartImportFileTask` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Starts a file import.
     ///
     /// - Parameter StartImportFileTaskInput : [no documentation found]
@@ -259,6 +346,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartRecommendationReportGeneration` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Starts generating a recommendation report.
     ///
     /// - Parameter StartRecommendationReportGenerationInput : [no documentation found]
@@ -274,6 +366,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopAssessment` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Stops the assessment of an on-premises environment.
     ///
     /// - Parameter StopAssessmentInput : [no documentation found]
@@ -288,6 +385,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateApplicationComponentConfig` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Updates the configuration of an application component.
     ///
     /// - Parameter UpdateApplicationComponentConfigInput : [no documentation found]
@@ -302,6 +404,11 @@ public protocol MigrationHubStrategyClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request body isn't valid.
     func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateServerConfig` operation on the `AWSMigrationHubStrategyRecommendation` service.
+    ///
+>>>>>>> main
     /// Updates the configuration of the specified server.
     ///
     /// - Parameter UpdateServerConfigInput : [no documentation found]

@@ -17,6 +17,11 @@ import ClientRuntime
 ///
 /// * The limits WAF places on the use of rules more closely reflects the cost of running each type of rule. Rule groups include capacity settings, so you know the maximum cost of a rule group when you use it.
 public protocol WAFV2ClientProtocol {
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Associates a web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To associate a web ACL, in the CloudFront call UpdateDistribution, set the web ACL ID to the Amazon Resource Name (ARN) of the web ACL. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront Developer Guide. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for AssociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-AssociateWebACL) in the WAF Developer Guide. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
     ///
     /// * After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.
@@ -48,6 +53,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
     func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CheckCapacity` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules. You can use this to check the capacity requirements for the rules you want to use in a [RuleGroup] or [WebACL]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     ///
     /// - Parameter CheckCapacityInput : [no documentation found]
@@ -75,6 +85,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
     func checkCapacity(input: CheckCapacityInput) async throws -> CheckCapacityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAPIKey` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Creates an API key that contains a set of token domains. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide. You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your JavaScript integration.
     ///
     /// - Parameter CreateAPIKeyInput : [no documentation found]
@@ -97,6 +112,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFLimitsExceededException` : WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     func createAPIKey(input: CreateAPIKeyInput) async throws -> CreateAPIKeyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateIPSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Creates an [IPSet], which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses.
     ///
     /// - Parameter CreateIPSetInput : [no documentation found]
@@ -123,6 +143,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Creates a [RegexPatternSet], which you reference in a [RegexPatternSetReferenceStatement], to have WAF inspect a web request component for the specified patterns.
     ///
     /// - Parameter CreateRegexPatternSetInput : [no documentation found]
@@ -149,6 +174,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRuleGroup` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Creates a [RuleGroup] per the specifications provided. A rule group defines a collection of rules to inspect and control web requests that you can use in a [WebACL]. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
     ///
     /// - Parameter CreateRuleGroupInput : [no documentation found]
@@ -178,6 +208,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
     func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Creates a [WebACL] per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
     ///
     /// - Parameter CreateWebACLInput : [no documentation found]
@@ -210,6 +245,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
     func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFirewallManagerRuleGroups` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Deletes all rule groups that are managed by Firewall Manager for the specified web ACL. You can only use this if ManagedByFirewallManager is false in the specified [WebACL].
     ///
     /// - Parameter DeleteFirewallManagerRuleGroupsInput : [no documentation found]
@@ -233,6 +273,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     func deleteFirewallManagerRuleGroups(input: DeleteFirewallManagerRuleGroupsInput) async throws -> DeleteFirewallManagerRuleGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteIPSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Deletes the specified [IPSet].
     ///
     /// - Parameter DeleteIPSetInput : [no documentation found]
@@ -259,6 +304,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteLoggingConfiguration` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Deletes the [LoggingConfiguration] from the specified web ACL.
     ///
     /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
@@ -282,6 +332,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePermissionPolicy` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Permanently deletes an IAM policy from the specified rule group. You must be the owner of the rule group to perform this operation.
     ///
     /// - Parameter DeletePermissionPolicyInput : [no documentation found]
@@ -303,6 +358,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Deletes the specified [RegexPatternSet].
     ///
     /// - Parameter DeleteRegexPatternSetInput : [no documentation found]
@@ -329,6 +389,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRuleGroup` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Deletes the specified [RuleGroup].
     ///
     /// - Parameter DeleteRuleGroupInput : [no documentation found]
@@ -355,6 +420,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Deletes the specified [WebACL]. You can only use this if ManagedByFirewallManager is false in the specified [WebACL]. Before deleting any web ACL, first disassociate it from all resources.
     ///
     /// * To retrieve a list of the resources that are associated with a web ACL, use the following calls:
@@ -396,6 +466,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAllManagedProducts` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
     ///
     /// - Parameter DescribeAllManagedProductsInput : [no documentation found]
@@ -408,6 +483,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     func describeAllManagedProducts(input: DescribeAllManagedProductsInput) async throws -> DescribeAllManagedProductsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeManagedProductsByVendor` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Provides high-level information for the managed rule groups owned by a specific vendor.
     ///
     /// - Parameter DescribeManagedProductsByVendorInput : [no documentation found]
@@ -429,6 +509,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func describeManagedProductsByVendor(input: DescribeManagedProductsByVendorInput) async throws -> DescribeManagedProductsByVendorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeManagedRuleGroup` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Provides high-level information for a managed rule group, including descriptions of the rules.
     ///
     /// - Parameter DescribeManagedRuleGroupInput : [no documentation found]
@@ -453,6 +538,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFInvalidResourceException` : WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func describeManagedRuleGroup(input: DescribeManagedRuleGroupInput) async throws -> DescribeManagedRuleGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified regional application resource from any existing web ACL association. A resource can have at most one web ACL association. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To disassociate a web ACL, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for DisassociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-DisassociateWebACL) in the WAF Developer Guide.
     ///
     /// - Parameter DisassociateWebACLInput : [no documentation found]
@@ -475,6 +565,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func disassociateWebACL(input: DisassociateWebACLInput) async throws -> DisassociateWebACLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GenerateMobileSdkReleaseUrl` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
     /// - Parameter GenerateMobileSdkReleaseUrlInput : [no documentation found]
@@ -497,6 +592,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func generateMobileSdkReleaseUrl(input: GenerateMobileSdkReleaseUrlInput) async throws -> GenerateMobileSdkReleaseUrlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDecryptedAPIKey` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Returns your API key in decrypted form. Use this to check the token domains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
     /// - Parameter GetDecryptedAPIKeyInput : [no documentation found]
@@ -519,6 +619,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFInvalidResourceException` : WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     func getDecryptedAPIKey(input: GetDecryptedAPIKeyInput) async throws -> GetDecryptedAPIKeyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIPSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the specified [IPSet].
     ///
     /// - Parameter GetIPSetInput : [no documentation found]
@@ -541,6 +646,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLoggingConfiguration` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Returns the [LoggingConfiguration] for the specified web ACL.
     ///
     /// - Parameter GetLoggingConfigurationInput : [no documentation found]
@@ -563,6 +673,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetManagedRuleSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the specified managed rule set. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
     /// - Parameter GetManagedRuleSetInput : [no documentation found]
@@ -585,6 +700,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getManagedRuleSet(input: GetManagedRuleSetInput) async throws -> GetManagedRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMobileSdkRelease` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves information for the specified mobile SDK release, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
     /// - Parameter GetMobileSdkReleaseInput : [no documentation found]
@@ -607,6 +727,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getMobileSdkRelease(input: GetMobileSdkReleaseInput) async throws -> GetMobileSdkReleaseOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPermissionPolicy` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Returns the IAM policy that is attached to the specified rule group. You must be the owner of the rule group to perform this operation.
     ///
     /// - Parameter GetPermissionPolicyInput : [no documentation found]
@@ -628,6 +753,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRateBasedStatementManagedKeys` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the IP addresses that are currently blocked by a rate-based rule instance. This is only available for rate-based rules that aggregate solely on the IP address or on the forwarded IP address. The maximum number of addresses that can be blocked for a single rate-based rule instance is 10,000. If more than 10,000 addresses exceed the rate limit, those with the highest rates are blocked. For a rate-based rule that you've defined inside a rule group, provide the name of the rule group reference statement in your request, in addition to the rate-based rule name and the web ACL name. WAF monitors web requests and manages keys independently for each unique combination of web ACL, optional rule group, and rate-based rule. For example, if you define a rate-based rule inside a rule group, and then use the rule group in a web ACL, WAF monitors web requests and manages keys for that web ACL, rule group reference statement, and rate-based rule instance. If you use the same rule group in a second web ACL, WAF monitors web requests and manages keys for this second usage completely independent of your first.
     ///
     /// - Parameter GetRateBasedStatementManagedKeysInput : [no documentation found]
@@ -651,6 +781,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnsupportedAggregateKeyTypeException` : The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
     func getRateBasedStatementManagedKeys(input: GetRateBasedStatementManagedKeysInput) async throws -> GetRateBasedStatementManagedKeysOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the specified [RegexPatternSet].
     ///
     /// - Parameter GetRegexPatternSetInput : [no documentation found]
@@ -673,6 +808,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRuleGroup` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the specified [RuleGroup].
     ///
     /// - Parameter GetRuleGroupInput : [no documentation found]
@@ -695,6 +835,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSampledRequests` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Gets detailed information about a specified number of requests--a sample--that WAF randomly selects from among the first 5,000 requests that your Amazon Web Services resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours. GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, GetSampledRequests returns an updated time range. This new time range indicates the actual period during which WAF selected the requests in the sample.
     ///
     /// - Parameter GetSampledRequestsInput : [no documentation found]
@@ -716,6 +861,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the specified [WebACL].
     ///
     /// - Parameter GetWebACLInput : [no documentation found]
@@ -738,6 +888,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWebACLForResource` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the [WebACL] for the specified resource. This call uses GetWebACL, to verify that your account has permission to access the retrieved web ACL. If you get an error that indicates that your account isn't authorized to perform wafv2:GetWebACL on the resource, that error won't be included in your CloudTrail event history. For Amazon CloudFront, don't use this call. Instead, call the CloudFront action GetDistributionConfig. For information, see [GetDistributionConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistributionConfig.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for GetWebACLForResource](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-GetWebACLForResource) in the WAF Developer Guide.
     ///
     /// - Parameter GetWebACLForResourceInput : [no documentation found]
@@ -761,6 +916,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
     func getWebACLForResource(input: GetWebACLForResourceInput) async throws -> GetWebACLForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAPIKeys` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of the API keys that you've defined for the specified scope. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
     /// - Parameter ListAPIKeysInput : [no documentation found]
@@ -783,6 +943,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFInvalidResourceException` : WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     func listAPIKeys(input: ListAPIKeysInput) async throws -> ListAPIKeysOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAvailableManagedRuleGroups` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of managed rule groups that are available for you to use. This list includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web Services Marketplace managed rule groups that you're subscribed to.
     ///
     /// - Parameter ListAvailableManagedRuleGroupsInput : [no documentation found]
@@ -804,6 +969,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listAvailableManagedRuleGroups(input: ListAvailableManagedRuleGroupsInput) async throws -> ListAvailableManagedRuleGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAvailableManagedRuleGroupVersions` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Returns a list of the available versions for the specified managed rule group.
     ///
     /// - Parameter ListAvailableManagedRuleGroupVersionsInput : [no documentation found]
@@ -826,6 +996,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func listAvailableManagedRuleGroupVersions(input: ListAvailableManagedRuleGroupVersionsInput) async throws -> ListAvailableManagedRuleGroupVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListIPSets` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of [IPSetSummary] objects for the IP sets that you manage.
     ///
     /// - Parameter ListIPSetsInput : [no documentation found]
@@ -847,6 +1022,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLoggingConfigurations` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of your [LoggingConfiguration] objects.
     ///
     /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
@@ -868,6 +1048,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListManagedRuleSets` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the managed rule sets that you own. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
     /// - Parameter ListManagedRuleSetsInput : [no documentation found]
@@ -889,6 +1074,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listManagedRuleSets(input: ListManagedRuleSetsInput) async throws -> ListManagedRuleSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMobileSdkReleases` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of the available releases for the mobile SDK and the specified device platform. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
     /// - Parameter ListMobileSdkReleasesInput : [no documentation found]
@@ -910,6 +1100,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listMobileSdkReleases(input: ListMobileSdkReleasesInput) async throws -> ListMobileSdkReleasesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRegexPatternSets` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of [RegexPatternSetSummary] objects for the regex pattern sets that you manage.
     ///
     /// - Parameter ListRegexPatternSetsInput : [no documentation found]
@@ -931,6 +1126,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListResourcesForWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for ListResourcesForWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-ListResourcesForWebACL) in the WAF Developer Guide.
     ///
     /// - Parameter ListResourcesForWebACLInput : [no documentation found]
@@ -953,6 +1153,11 @@ public protocol WAFV2ClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func listResourcesForWebACL(input: ListResourcesForWebACLInput) async throws -> ListResourcesForWebACLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRuleGroups` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of [RuleGroupSummary] objects for the rule groups that you manage.
     ///
     /// - Parameter ListRuleGroupsInput : [no documentation found]
@@ -974,6 +1179,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves the [TagInfoForResource] for the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -998,6 +1208,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWebACLs` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Retrieves an array of [WebACLSummary] objects for the web ACLs that you manage.
     ///
     /// - Parameter ListWebACLsInput : [no documentation found]
@@ -1019,6 +1234,11 @@ public protocol WAFV2ClientProtocol {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutLoggingConfiguration` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Enables the specified [LoggingConfiguration], to start logging from a web ACL, according to the configuration provided. This operation completely replaces any mutable specifications that you already have for a logging configuration with the ones that you provide to this call. To modify an existing logging configuration, do the following:
     ///
     /// * Retrieve it by calling [GetLoggingConfiguration]
@@ -1061,6 +1281,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFServiceLinkedRoleErrorException` : WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutManagedRuleSetVersions` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Defines the versions of your managed rule set that you are offering to the customers. Customers see your offerings as managed rule groups with versioning. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate. Customers retrieve their managed rule group list by calling [ListAvailableManagedRuleGroups]. The name that you provide here for your managed rule set is the name the customer sees for the corresponding managed rule group. Customers can retrieve the available versions for a managed rule group by calling [ListAvailableManagedRuleGroupVersions]. You provide a rule group specification for each version. For each managed rule set, you must specify a version that you recommend using. To initiate the expiration of a managed rule group version, use [UpdateManagedRuleSetVersionExpiryDate].
     ///
     /// - Parameter PutManagedRuleSetVersionsInput : [no documentation found]
@@ -1084,6 +1309,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     func putManagedRuleSetVersions(input: PutManagedRuleSetVersionsInput) async throws -> PutManagedRuleSetVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutPermissionPolicy` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Attaches an IAM policy to the specified resource. Use this to share a rule group across accounts. You must be the owner of the rule group to perform this operation. This action is subject to the following restrictions:
     ///
     /// * You can attach only one policy with each PutPermissionPolicy request.
@@ -1125,6 +1355,11 @@ public protocol WAFV2ClientProtocol {
     /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Associates tags with the specified Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1150,6 +1385,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Disassociates tags from an Amazon Web Services resource. Tags are key:value pairs that you can associate with Amazon Web Services resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1174,6 +1414,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateIPSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Updates the specified [IPSet]. This operation completely replaces the mutable specifications that you already have for the IP set with the ones that you provide to this call. To modify an IP set, do the following:
     ///
     /// * Retrieve it by calling [GetIPSet]
@@ -1216,6 +1461,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateManagedRuleSetVersionExpiryDate` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Updates the expiration information for your managed rule set. Use this to initiate the expiration of a managed rule group version. After you initiate expiration for a version, WAF excludes it from the response to [ListAvailableManagedRuleGroupVersions] for the managed rule group. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
     /// - Parameter UpdateManagedRuleSetVersionExpiryDateInput : [no documentation found]
@@ -1239,6 +1489,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     func updateManagedRuleSetVersionExpiryDate(input: UpdateManagedRuleSetVersionExpiryDateInput) async throws -> UpdateManagedRuleSetVersionExpiryDateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRegexPatternSet` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Updates the specified [RegexPatternSet]. This operation completely replaces the mutable specifications that you already have for the regex pattern set with the ones that you provide to this call. To modify a regex pattern set, do the following:
     ///
     /// * Retrieve it by calling [GetRegexPatternSet]
@@ -1281,6 +1536,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRuleGroup` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Updates the specified [RuleGroup]. This operation completely replaces the mutable specifications that you already have for the rule group with the ones that you provide to this call. To modify a rule group, do the following:
     ///
     /// * Retrieve it by calling [GetRuleGroup]
@@ -1326,6 +1586,11 @@ public protocol WAFV2ClientProtocol {
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
     func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateWebACL` operation on the `AWSWAF_20190729` service.
+    ///
+>>>>>>> main
     /// Updates the specified [WebACL]. While updating a web ACL, WAF provides continuous coverage to the resources that you have associated with the web ACL. This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call. To modify a web ACL, do the following:
     ///
     /// * Retrieve it by calling [GetWebACL]

@@ -8,6 +8,8 @@ import ClientRuntime
 ///
 /// * [Amazon AppStream 2.0 documentation](http://aws.amazon.com/documentation/appstream2)
 public protocol AppStreamClientProtocol {
+    /// Performs the `AssociateAppBlockBuilderAppBlock` operation on the `PhotonAdminProxyService` service.
+    ///
     /// Associates the specified app block builder with the specified app block.
     ///
     /// - Parameter AssociateAppBlockBuilderAppBlockInput : [no documentation found]
@@ -23,6 +25,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func associateAppBlockBuilderAppBlock(input: AssociateAppBlockBuilderAppBlockInput) async throws -> AssociateAppBlockBuilderAppBlockOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateApplicationFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     ///
     /// - Parameter AssociateApplicationFleetInput : [no documentation found]
@@ -38,6 +45,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func associateApplicationFleet(input: AssociateApplicationFleetInput) async throws -> AssociateApplicationFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateApplicationToEntitlement` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Associates an application to entitle.
     ///
     /// - Parameter AssociateApplicationToEntitlementInput : [no documentation found]
@@ -52,6 +64,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func associateApplicationToEntitlement(input: AssociateApplicationToEntitlementInput) async throws -> AssociateApplicationToEntitlementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Associates the specified fleet with the specified stack.
     ///
     /// - Parameter AssociateFleetInput : [no documentation found]
@@ -68,6 +85,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func associateFleet(input: AssociateFleetInput) async throws -> AssociateFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchAssociateUserStack` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     ///
     /// - Parameter BatchAssociateUserStackInput : [no documentation found]
@@ -80,6 +102,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     func batchAssociateUserStack(input: BatchAssociateUserStackInput) async throws -> BatchAssociateUserStackOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `BatchDisassociateUserStack` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified users from the specified stacks.
     ///
     /// - Parameter BatchDisassociateUserStackInput : [no documentation found]
@@ -92,6 +119,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     func batchDisassociateUserStack(input: BatchDisassociateUserStackInput) async throws -> BatchDisassociateUserStackOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CopyImage` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
     ///
     /// - Parameter CopyImageInput : [no documentation found]
@@ -108,6 +140,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func copyImage(input: CopyImageInput) async throws -> CopyImageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppBlock` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
     /// - Parameter CreateAppBlockInput : [no documentation found]
@@ -122,6 +159,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     func createAppBlock(input: CreateAppBlockInput) async throws -> CreateAppBlockOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates an app block builder.
     ///
     /// - Parameter CreateAppBlockBuilderInput : [no documentation found]
@@ -142,6 +184,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createAppBlockBuilder(input: CreateAppBlockBuilderInput) async throws -> CreateAppBlockBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAppBlockBuilderStreamingURL` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a URL to start a create app block builder streaming session.
     ///
     /// - Parameter CreateAppBlockBuilderStreamingURLInput : [no documentation found]
@@ -154,6 +201,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createAppBlockBuilderStreamingURL(input: CreateAppBlockBuilderStreamingURLInput) async throws -> CreateAppBlockBuilderStreamingURLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateApplication` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
@@ -169,6 +221,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDirectoryConfig` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// - Parameter CreateDirectoryConfigInput : [no documentation found]
@@ -185,6 +242,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createDirectoryConfig(input: CreateDirectoryConfigInput) async throws -> CreateDirectoryConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEntitlement` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
     /// - Parameter CreateEntitlementInput : [no documentation found]
@@ -199,6 +261,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createEntitlement(input: CreateEntitlementInput) async throws -> CreateEntitlementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     ///
     /// - Parameter CreateFleetInput : [no documentation found]
@@ -220,6 +287,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateImageBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     ///
     /// - Parameter CreateImageBuilderInput : [no documentation found]
@@ -241,6 +313,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createImageBuilder(input: CreateImageBuilderInput) async throws -> CreateImageBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateImageBuilderStreamingURL` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a URL to start an image builder streaming session.
     ///
     /// - Parameter CreateImageBuilderStreamingURLInput : [no documentation found]
@@ -253,6 +330,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createImageBuilderStreamingURL(input: CreateImageBuilderStreamingURLInput) async throws -> CreateImageBuilderStreamingURLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateStack` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     ///
     /// - Parameter CreateStackInput : [no documentation found]
@@ -270,6 +352,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createStack(input: CreateStackInput) async throws -> CreateStackOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateStreamingURL` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
     /// - Parameter CreateStreamingURLInput : [no documentation found]
@@ -284,6 +371,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createStreamingURL(input: CreateStreamingURLInput) async throws -> CreateStreamingURLOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUpdatedImage` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter CreateUpdatedImageInput : [no documentation found]
@@ -301,6 +393,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func createUpdatedImage(input: CreateUpdatedImageInput) async throws -> CreateUpdatedImageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUsageReportSubscription` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a usage report subscription. Usage reports are generated daily.
     ///
     /// - Parameter CreateUsageReportSubscriptionInput : [no documentation found]
@@ -314,6 +411,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     func createUsageReportSubscription(input: CreateUsageReportSubscriptionInput) async throws -> CreateUsageReportSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUser` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Creates a new user in the user pool.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -329,6 +431,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppBlock` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes an app block.
     ///
     /// - Parameter DeleteAppBlockInput : [no documentation found]
@@ -342,6 +449,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteAppBlock(input: DeleteAppBlockInput) async throws -> DeleteAppBlockOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
     ///
     /// - Parameter DeleteAppBlockBuilderInput : [no documentation found]
@@ -356,6 +468,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteAppBlockBuilder(input: DeleteAppBlockBuilderInput) async throws -> DeleteAppBlockBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteApplication` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes an application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -370,6 +487,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDirectoryConfig` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
     /// - Parameter DeleteDirectoryConfigInput : [no documentation found]
@@ -382,6 +504,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteDirectoryConfig(input: DeleteDirectoryConfigInput) async throws -> DeleteDirectoryConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEntitlement` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified entitlement.
     ///
     /// - Parameter DeleteEntitlementInput : [no documentation found]
@@ -396,6 +523,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteEntitlement(input: DeleteEntitlementInput) async throws -> DeleteEntitlementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified fleet.
     ///
     /// - Parameter DeleteFleetInput : [no documentation found]
@@ -409,6 +541,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteImage` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
     ///
     /// - Parameter DeleteImageInput : [no documentation found]
@@ -423,6 +560,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteImageBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified image builder and releases the capacity.
     ///
     /// - Parameter DeleteImageBuilderInput : [no documentation found]
@@ -436,6 +578,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteImageBuilder(input: DeleteImageBuilderInput) async throws -> DeleteImageBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteImagePermissions` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
     ///
     /// - Parameter DeleteImagePermissionsInput : [no documentation found]
@@ -448,6 +595,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteImagePermissions(input: DeleteImagePermissionsInput) async throws -> DeleteImagePermissionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteStack` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
     ///
     /// - Parameter DeleteStackInput : [no documentation found]
@@ -462,6 +614,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteStack(input: DeleteStackInput) async throws -> DeleteStackOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteUsageReportSubscription` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disables usage report generation.
     ///
     /// - Parameter DeleteUsageReportSubscriptionInput : [no documentation found]
@@ -474,6 +631,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteUsageReportSubscription(input: DeleteUsageReportSubscriptionInput) async throws -> DeleteUsageReportSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteUser` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes a user from the user pool.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
@@ -485,6 +647,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppBlockBuilderAppBlockAssociations` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more app block builder associations.
     ///
     /// - Parameter DescribeAppBlockBuilderAppBlockAssociationsInput : [no documentation found]
@@ -497,6 +664,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     func describeAppBlockBuilderAppBlockAssociations(input: DescribeAppBlockBuilderAppBlockAssociationsInput) async throws -> DescribeAppBlockBuilderAppBlockAssociationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppBlockBuilders` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more app block builders.
     ///
     /// - Parameter DescribeAppBlockBuildersInput : [no documentation found]
@@ -509,6 +681,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeAppBlockBuilders(input: DescribeAppBlockBuildersInput) async throws -> DescribeAppBlockBuildersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeAppBlocks` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more app blocks.
     ///
     /// - Parameter DescribeAppBlocksInput : [no documentation found]
@@ -521,6 +698,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeAppBlocks(input: DescribeAppBlocksInput) async throws -> DescribeAppBlocksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeApplicationFleetAssociations` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     ///
     /// - Parameter DescribeApplicationFleetAssociationsInput : [no documentation found]
@@ -533,6 +715,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     func describeApplicationFleetAssociations(input: DescribeApplicationFleetAssociationsInput) async throws -> DescribeApplicationFleetAssociationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeApplications` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more applications.
     ///
     /// - Parameter DescribeApplicationsInput : [no documentation found]
@@ -545,6 +732,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDirectoryConfigs` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
     /// - Parameter DescribeDirectoryConfigsInput : [no documentation found]
@@ -556,6 +748,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeDirectoryConfigs(input: DescribeDirectoryConfigsInput) async throws -> DescribeDirectoryConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEntitlements` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one of more entitlements.
     ///
     /// - Parameter DescribeEntitlementsInput : [no documentation found]
@@ -569,6 +766,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeEntitlements(input: DescribeEntitlementsInput) async throws -> DescribeEntitlementsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeFleets` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     ///
     /// - Parameter DescribeFleetsInput : [no documentation found]
@@ -580,6 +782,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeImageBuilders` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     ///
     /// - Parameter DescribeImageBuildersInput : [no documentation found]
@@ -591,6 +798,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeImageBuilders(input: DescribeImageBuildersInput) async throws -> DescribeImageBuildersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeImagePermissions` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     ///
     /// - Parameter DescribeImagePermissionsInput : [no documentation found]
@@ -602,6 +814,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeImagePermissions(input: DescribeImagePermissionsInput) async throws -> DescribeImagePermissionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeImages` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
@@ -614,6 +831,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeSessions` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     ///
     /// - Parameter DescribeSessionsInput : [no documentation found]
@@ -625,6 +847,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     func describeSessions(input: DescribeSessionsInput) async throws -> DescribeSessionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeStacks` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     ///
     /// - Parameter DescribeStacksInput : [no documentation found]
@@ -636,6 +863,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeUsageReportSubscriptions` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more usage report subscriptions.
     ///
     /// - Parameter DescribeUsageReportSubscriptionsInput : [no documentation found]
@@ -648,6 +880,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeUsageReportSubscriptions(input: DescribeUsageReportSubscriptionsInput) async throws -> DescribeUsageReportSubscriptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeUsers` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes one or more specified users in the user pool.
     ///
     /// - Parameter DescribeUsersInput : [no documentation found]
@@ -661,6 +898,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeUserStackAssociations` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:
     ///
     /// * The stack name
@@ -677,6 +919,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     func describeUserStackAssociations(input: DescribeUserStackAssociationsInput) async throws -> DescribeUserStackAssociationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisableUser` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
     ///
     /// - Parameter DisableUserInput : [no documentation found]
@@ -688,6 +935,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func disableUser(input: DisableUserInput) async throws -> DisableUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateAppBlockBuilderAppBlock` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disassociates a specified app block builder from a specified app block.
     ///
     /// - Parameter DisassociateAppBlockBuilderAppBlockInput : [no documentation found]
@@ -702,6 +954,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func disassociateAppBlockBuilderAppBlock(input: DisassociateAppBlockBuilderAppBlockInput) async throws -> DisassociateAppBlockBuilderAppBlockOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateApplicationFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified application from the fleet.
     ///
     /// - Parameter DisassociateApplicationFleetInput : [no documentation found]
@@ -715,6 +972,11 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     func disassociateApplicationFleet(input: DisassociateApplicationFleetInput) async throws -> DisassociateApplicationFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateApplicationFromEntitlement` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified application from the specified entitlement.
     ///
     /// - Parameter DisassociateApplicationFromEntitlementInput : [no documentation found]
@@ -728,6 +990,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func disassociateApplicationFromEntitlement(input: DisassociateApplicationFromEntitlementInput) async throws -> DisassociateApplicationFromEntitlementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified fleet from the specified stack.
     ///
     /// - Parameter DisassociateFleetInput : [no documentation found]
@@ -742,6 +1009,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func disassociateFleet(input: DisassociateFleetInput) async throws -> DisassociateFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `EnableUser` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
     ///
     /// - Parameter EnableUserInput : [no documentation found]
@@ -754,24 +1026,44 @@ public protocol AppStreamClientProtocol {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func enableUser(input: EnableUserInput) async throws -> EnableUserOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExpireSession` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Immediately stops the specified streaming session.
     ///
     /// - Parameter ExpireSessionInput : [no documentation found]
     ///
     /// - Returns: `ExpireSessionOutput` : [no documentation found]
     func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssociatedFleets` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves the name of the fleet that is associated with the specified stack.
     ///
     /// - Parameter ListAssociatedFleetsInput : [no documentation found]
     ///
     /// - Returns: `ListAssociatedFleetsOutput` : [no documentation found]
     func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssociatedStacks` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves the name of the stack with which the specified fleet is associated.
     ///
     /// - Parameter ListAssociatedStacksInput : [no documentation found]
     ///
     /// - Returns: `ListAssociatedStacksOutput` : [no documentation found]
     func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEntitledApplications` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of entitled applications.
     ///
     /// - Parameter ListEntitledApplicationsInput : [no documentation found]
@@ -785,6 +1077,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listEntitledApplications(input: ListEntitledApplicationsInput) async throws -> ListEntitledApplicationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -796,6 +1093,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
     ///
     /// - Parameter StartAppBlockBuilderInput : [no documentation found]
@@ -813,6 +1115,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Starts the specified fleet.
     ///
     /// - Parameter StartFleetInput : [no documentation found]
@@ -831,6 +1138,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func startFleet(input: StartFleetInput) async throws -> StartFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartImageBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Starts the specified image builder.
     ///
     /// - Parameter StartImageBuilderInput : [no documentation found]
@@ -846,6 +1158,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func startImageBuilder(input: StartImageBuilderInput) async throws -> StartImageBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
     ///
     /// - Parameter StopAppBlockBuilderInput : [no documentation found]
@@ -859,6 +1176,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func stopAppBlockBuilder(input: StopAppBlockBuilderInput) async throws -> StopAppBlockBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Stops the specified fleet.
     ///
     /// - Parameter StopFleetInput : [no documentation found]
@@ -871,6 +1193,11 @@ public protocol AppStreamClientProtocol {
     /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func stopFleet(input: StopFleetInput) async throws -> StopFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopImageBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Stops the specified image builder.
     ///
     /// - Parameter StopImageBuilderInput : [no documentation found]
@@ -884,6 +1211,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func stopImageBuilder(input: StopImageBuilderInput) async throws -> StopImageBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -897,6 +1229,11 @@ public protocol AppStreamClientProtocol {
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -908,6 +1245,11 @@ public protocol AppStreamClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAppBlockBuilder` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
     ///
     /// - Parameter UpdateAppBlockBuilderInput : [no documentation found]
@@ -928,6 +1270,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func updateAppBlockBuilder(input: UpdateAppBlockBuilderInput) async throws -> UpdateAppBlockBuilderOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateApplication` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Updates the specified application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
@@ -941,6 +1288,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDirectoryConfig` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// - Parameter UpdateDirectoryConfigInput : [no documentation found]
@@ -956,6 +1308,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func updateDirectoryConfig(input: UpdateDirectoryConfigInput) async throws -> UpdateDirectoryConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEntitlement` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Updates the specified entitlement.
     ///
     /// - Parameter UpdateEntitlementInput : [no documentation found]
@@ -970,6 +1327,11 @@ public protocol AppStreamClientProtocol {
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func updateEntitlement(input: UpdateEntitlementInput) async throws -> UpdateEntitlementOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFleet` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type:
     ///
     /// * Always-On and On-Demand fleet types You can update the DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and DisconnectTimeoutInSeconds attributes.
@@ -998,6 +1360,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateImagePermissions` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Adds or updates permissions for the specified private image.
     ///
     /// - Parameter UpdateImagePermissionsInput : [no documentation found]
@@ -1011,6 +1378,11 @@ public protocol AppStreamClientProtocol {
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func updateImagePermissions(input: UpdateImagePermissionsInput) async throws -> UpdateImagePermissionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateStack` operation on the `PhotonAdminProxyService` service.
+    ///
+>>>>>>> main
     /// Updates the specified fields for the specified stack.
     ///
     /// - Parameter UpdateStackInput : [no documentation found]

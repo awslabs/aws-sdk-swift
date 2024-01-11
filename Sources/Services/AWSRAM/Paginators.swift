@@ -12,7 +12,11 @@ extension RAMClient {
     ///     - input: A `[GetResourcePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutput`
     public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutput.nextToken, paginationFunction: self.getResourcePolicies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourcePolicies(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension RAMClient {
     ///     - input: A `[GetResourceShareAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourceShareAssociationsOutput`
     public func getResourceShareAssociationsPaginated(input: GetResourceShareAssociationsInput) -> ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput>(input: input, inputKey: \GetResourceShareAssociationsInput.nextToken, outputKey: \GetResourceShareAssociationsOutput.nextToken, paginationFunction: self.getResourceShareAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceShareAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -61,7 +69,11 @@ extension RAMClient {
     ///     - input: A `[GetResourceShareInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourceShareInvitationsOutput`
     public func getResourceShareInvitationsPaginated(input: GetResourceShareInvitationsInput) -> ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput>(input: input, inputKey: \GetResourceShareInvitationsInput.nextToken, outputKey: \GetResourceShareInvitationsOutput.nextToken, paginationFunction: self.getResourceShareInvitations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceShareInvitations(input:))
+>>>>>>> main
     }
 }
 
@@ -84,7 +96,11 @@ extension RAMClient {
     ///     - input: A `[GetResourceSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourceSharesOutput`
     public func getResourceSharesPaginated(input: GetResourceSharesInput) -> ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutput>(input: input, inputKey: \GetResourceSharesInput.nextToken, outputKey: \GetResourceSharesOutput.nextToken, paginationFunction: self.getResourceShares(input:))
+=======
+        return ClientRuntime.PaginatorSequence<GetResourceSharesInput, GetResourceSharesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceShares(input:))
+>>>>>>> main
     }
 }
 
@@ -112,7 +128,11 @@ extension RAMClient {
     ///     - input: A `[ListPendingInvitationResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPendingInvitationResourcesOutput`
     public func listPendingInvitationResourcesPaginated(input: ListPendingInvitationResourcesInput) -> ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput>(input: input, inputKey: \ListPendingInvitationResourcesInput.nextToken, outputKey: \ListPendingInvitationResourcesOutput.nextToken, paginationFunction: self.listPendingInvitationResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPendingInvitationResources(input:))
+>>>>>>> main
     }
 }
 
@@ -135,7 +155,11 @@ extension RAMClient {
     ///     - input: A `[ListPermissionAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionAssociationsOutput`
     public func listPermissionAssociationsPaginated(input: ListPermissionAssociationsInput) -> ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutput>(input: input, inputKey: \ListPermissionAssociationsInput.nextToken, outputKey: \ListPermissionAssociationsOutput.nextToken, paginationFunction: self.listPermissionAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPermissionAssociationsInput, ListPermissionAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissionAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -162,7 +186,11 @@ extension RAMClient {
     ///     - input: A `[ListPermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutput`
     public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutput.nextToken, paginationFunction: self.listPermissions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissions(input:))
+>>>>>>> main
     }
 }
 
@@ -185,7 +213,11 @@ extension RAMClient {
     ///     - input: A `[ListPermissionVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionVersionsOutput`
     public func listPermissionVersionsPaginated(input: ListPermissionVersionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutput>(input: input, inputKey: \ListPermissionVersionsInput.nextToken, outputKey: \ListPermissionVersionsOutput.nextToken, paginationFunction: self.listPermissionVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPermissionVersionsInput, ListPermissionVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissionVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -207,7 +239,11 @@ extension RAMClient {
     ///     - input: A `[ListPrincipalsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalsOutput`
     public func listPrincipalsPaginated(input: ListPrincipalsInput) -> ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutput>(input: input, inputKey: \ListPrincipalsInput.nextToken, outputKey: \ListPrincipalsOutput.nextToken, paginationFunction: self.listPrincipals(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPrincipalsInput, ListPrincipalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPrincipals(input:))
+>>>>>>> main
     }
 }
 
@@ -233,7 +269,11 @@ extension RAMClient {
     ///     - input: A `[ListReplacePermissionAssociationsWorkInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReplacePermissionAssociationsWorkOutput`
     public func listReplacePermissionAssociationsWorkPaginated(input: ListReplacePermissionAssociationsWorkInput) -> ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput>(input: input, inputKey: \ListReplacePermissionAssociationsWorkInput.nextToken, outputKey: \ListReplacePermissionAssociationsWorkOutput.nextToken, paginationFunction: self.listReplacePermissionAssociationsWork(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReplacePermissionAssociationsWork(input:))
+>>>>>>> main
     }
 }
 
@@ -256,7 +296,11 @@ extension RAMClient {
     ///     - input: A `[ListResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
     public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutput.nextToken, paginationFunction: self.listResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResources(input:))
+>>>>>>> main
     }
 }
 
@@ -283,7 +327,11 @@ extension RAMClient {
     ///     - input: A `[ListResourceSharePermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceSharePermissionsOutput`
     public func listResourceSharePermissionsPaginated(input: ListResourceSharePermissionsInput) -> ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput>(input: input, inputKey: \ListResourceSharePermissionsInput.nextToken, outputKey: \ListResourceSharePermissionsOutput.nextToken, paginationFunction: self.listResourceSharePermissions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceSharePermissions(input:))
+>>>>>>> main
     }
 }
 
@@ -305,7 +353,11 @@ extension RAMClient {
     ///     - input: A `[ListResourceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTypesOutput`
     public func listResourceTypesPaginated(input: ListResourceTypesInput) -> ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutput>(input: input, inputKey: \ListResourceTypesInput.nextToken, outputKey: \ListResourceTypesOutput.nextToken, paginationFunction: self.listResourceTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourceTypesInput, ListResourceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceTypes(input:))
+>>>>>>> main
     }
 }
 

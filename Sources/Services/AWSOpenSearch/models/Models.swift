@@ -361,6 +361,146 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension AddDataSourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType = "DataSourceType"
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceType = self.dataSourceType {
+            try encodeContainer.encode(dataSourceType, forKey: .dataSourceType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension AddDataSourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
+    }
+}
+
+/// Container for the parameters to the AddDataSource operation.
+public struct AddDataSourceInput: Swift.Equatable {
+    /// The type of data source.
+    /// This member is required.
+    public var dataSourceType: OpenSearchClientTypes.DataSourceType?
+    /// A description of the data source.
+    public var description: Swift.String?
+    /// The name of the domain to add the data source to.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A name for the data source.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
+        description: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.domainName = domainName
+        self.name = name
+    }
+}
+
+struct AddDataSourceInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let dataSourceType: OpenSearchClientTypes.DataSourceType?
+    let description: Swift.String?
+}
+
+extension AddDataSourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType = "DataSourceType"
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let dataSourceTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DataSourceType.self, forKey: .dataSourceType)
+        dataSourceType = dataSourceTypeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension AddDataSourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AddDataSourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+    }
+}
+
+/// The result of an AddDataSource operation.
+public struct AddDataSourceOutput: Swift.Equatable {
+    /// A message associated with creation of the data source.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct AddDataSourceOutputBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AddDataSourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+enum AddDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension AddTagsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
@@ -3544,6 +3684,195 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes.DataSourceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType = "DataSourceType"
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceType = self.dataSourceType {
+            try encodeContainer.encode(dataSourceType, forKey: .dataSourceType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DataSourceType.self, forKey: .dataSourceType)
+        dataSourceType = dataSourceTypeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Details about a direct-query data source.
+    public struct DataSourceDetails: Swift.Equatable {
+        /// The type of data source.
+        public var dataSourceType: OpenSearchClientTypes.DataSourceType?
+        /// A description of the data source.
+        public var description: Swift.String?
+        /// The name of the data source.
+        public var name: Swift.String?
+
+        public init(
+            dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.name = name
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.DataSourceType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3gluedatacatalog = "S3GlueDataCatalog"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .s3gluedatacatalog(s3gluedatacatalog):
+                try container.encode(s3gluedatacatalog, forKey: .s3gluedatacatalog)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let s3gluedatacatalogDecoded = try values.decodeIfPresent(OpenSearchClientTypes.S3GlueDataCatalog.self, forKey: .s3gluedatacatalog)
+        if let s3gluedatacatalog = s3gluedatacatalogDecoded {
+            self = .s3gluedatacatalog(s3gluedatacatalog)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// The type of data source.
+    public enum DataSourceType: Swift.Equatable {
+        /// An Amazon S3 data source.
+        case s3gluedatacatalog(OpenSearchClientTypes.S3GlueDataCatalog)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension DeleteDataSourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
+    }
+}
+
+/// Container for the parameters to the DeleteDataSource operation.
+public struct DeleteDataSourceInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the data source to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.name = name
+    }
+}
+
+struct DeleteDataSourceInputBody: Swift.Equatable {
+}
+
+extension DeleteDataSourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteDataSourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDataSourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+    }
+}
+
+/// The result of a GetDataSource operation.
+public struct DeleteDataSourceOutput: Swift.Equatable {
+    /// A message associated with deletion of the data source.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct DeleteDataSourceOutputBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DeleteDataSourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+enum DeleteDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteDomainInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let domainName = domainName else {
@@ -6592,11 +6921,11 @@ extension OpenSearchClientTypes {
         public var customEndpointEnabled: Swift.Bool?
         /// True to require that all traffic to the domain arrive over HTTPS.
         public var enforceHTTPS: Swift.Bool?
-        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. Can be one of the following values:
+        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:
         ///
-        /// * Policy-Min-TLS-1-0-2019-07: TLS security policy which supports TLS version 1.0 and higher.
+        /// * Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2
         ///
-        /// * Policy-Min-TLS-1-2-2019-07: TLS security policy which supports only TLS version 1.2
+        /// * Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2
         public var tlsSecurityPolicy: OpenSearchClientTypes.TLSSecurityPolicy?
 
         public init(
@@ -8260,6 +8589,126 @@ enum GetCompatibleVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GetDataSourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
+    }
+}
+
+/// Container for the parameters to the GetDataSource operation.
+public struct GetDataSourceInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the data source to get information about.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.name = name
+    }
+}
+
+struct GetDataSourceInputBody: Swift.Equatable {
+}
+
+extension GetDataSourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetDataSourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDataSourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataSourceType = output.dataSourceType
+            self.description = output.description
+            self.name = output.name
+        } else {
+            self.dataSourceType = nil
+            self.description = nil
+            self.name = nil
+        }
+    }
+}
+
+/// The result of a GetDataSource operation.
+public struct GetDataSourceOutput: Swift.Equatable {
+    /// The type of data source.
+    public var dataSourceType: OpenSearchClientTypes.DataSourceType?
+    /// A description of the data source.
+    public var description: Swift.String?
+    /// The name of the data source.
+    public var name: Swift.String?
+
+    public init(
+        dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.name = name
+    }
+}
+
+struct GetDataSourceOutputBody: Swift.Equatable {
+    let dataSourceType: OpenSearchClientTypes.DataSourceType?
+    let name: Swift.String?
+    let description: Swift.String?
+}
+
+extension GetDataSourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType = "DataSourceType"
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DataSourceType.self, forKey: .dataSourceType)
+        dataSourceType = dataSourceTypeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+enum GetDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension GetDomainMaintenanceStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9577,6 +10026,107 @@ extension OpenSearchClientTypes {
 
 }
 
+<<<<<<< HEAD
+=======
+extension ListDataSourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
+    }
+}
+
+/// Container for the parameters to the ListDataSources operation.
+public struct ListDataSourcesInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+    }
+}
+
+struct ListDataSourcesInputBody: Swift.Equatable {
+}
+
+extension ListDataSourcesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListDataSourcesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListDataSourcesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataSources = output.dataSources
+        } else {
+            self.dataSources = nil
+        }
+    }
+}
+
+/// The result of a ListDataSources operation.
+public struct ListDataSourcesOutput: Swift.Equatable {
+    /// A list of data sources associated with specified domain.
+    public var dataSources: [OpenSearchClientTypes.DataSourceDetails]?
+
+    public init(
+        dataSources: [OpenSearchClientTypes.DataSourceDetails]? = nil
+    )
+    {
+        self.dataSources = dataSources
+    }
+}
+
+struct ListDataSourcesOutputBody: Swift.Equatable {
+    let dataSources: [OpenSearchClientTypes.DataSourceDetails]?
+}
+
+extension ListDataSourcesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSources = "DataSources"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourcesContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.DataSourceDetails?].self, forKey: .dataSources)
+        var dataSourcesDecoded0:[OpenSearchClientTypes.DataSourceDetails]? = nil
+        if let dataSourcesContainer = dataSourcesContainer {
+            dataSourcesDecoded0 = [OpenSearchClientTypes.DataSourceDetails]()
+            for structure0 in dataSourcesContainer {
+                if let structure0 = structure0 {
+                    dataSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSources = dataSourcesDecoded0
+    }
+}
+
+enum ListDataSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListDomainMaintenancesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -13636,6 +14186,41 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes.S3GlueDataCatalog: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case roleArn = "RoleArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Information about the Amazon S3 Glue Data Catalog.
+    public struct S3GlueDataCatalog: Swift.Equatable {
+        /// >The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
 extension OpenSearchClientTypes.SAMLIdp: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entityId = "EntityId"
@@ -15060,6 +15645,140 @@ extension OpenSearchClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = TimeUnit(rawValue: rawValue) ?? TimeUnit.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension UpdateDataSourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType = "DataSourceType"
+        case description = "Description"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceType = self.dataSourceType {
+            try encodeContainer.encode(dataSourceType, forKey: .dataSourceType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateDataSourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
+    }
+}
+
+/// Container for the parameters to the UpdateDataSource operation.
+public struct UpdateDataSourceInput: Swift.Equatable {
+    /// The type of data source.
+    /// This member is required.
+    public var dataSourceType: OpenSearchClientTypes.DataSourceType?
+    /// A new description of the data source.
+    public var description: Swift.String?
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the data source to modify.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
+        description: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.domainName = domainName
+        self.name = name
+    }
+}
+
+struct UpdateDataSourceInputBody: Swift.Equatable {
+    let dataSourceType: OpenSearchClientTypes.DataSourceType?
+    let description: Swift.String?
+}
+
+extension UpdateDataSourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceType = "DataSourceType"
+        case description = "Description"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DataSourceType.self, forKey: .dataSourceType)
+        dataSourceType = dataSourceTypeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateDataSourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDataSourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+    }
+}
+
+/// The result of an UpdateDataSource operation.
+public struct UpdateDataSourceOutput: Swift.Equatable {
+    /// A message associated with the updated data source.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct UpdateDataSourceOutputBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UpdateDataSourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+enum UpdateDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BaseException": return try await BaseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DisabledOperationException": return try await DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }

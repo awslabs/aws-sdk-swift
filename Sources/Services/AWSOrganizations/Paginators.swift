@@ -12,7 +12,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsOutput`
     public func listAccountsPaginated(input: ListAccountsInput) -> ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \ListAccountsInput.nextToken, outputKey: \ListAccountsOutput.nextToken, paginationFunction: self.listAccounts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAccountsInput, ListAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccounts(input:))
+>>>>>>> main
     }
 }
 
@@ -33,7 +37,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListAccountsForParentInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsForParentOutput`
     public func listAccountsForParentPaginated(input: ListAccountsForParentInput) -> ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutput>(input: input, inputKey: \ListAccountsForParentInput.nextToken, outputKey: \ListAccountsForParentOutput.nextToken, paginationFunction: self.listAccountsForParent(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAccountsForParentInput, ListAccountsForParentOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountsForParent(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +63,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListAWSServiceAccessForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAWSServiceAccessForOrganizationOutput`
     public func listAWSServiceAccessForOrganizationPaginated(input: ListAWSServiceAccessForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(input: input, inputKey: \ListAWSServiceAccessForOrganizationInput.nextToken, outputKey: \ListAWSServiceAccessForOrganizationOutput.nextToken, paginationFunction: self.listAWSServiceAccessForOrganization(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAWSServiceAccessForOrganization(input:))
+>>>>>>> main
     }
 }
 
@@ -76,7 +88,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListChildrenInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChildrenOutput`
     public func listChildrenPaginated(input: ListChildrenInput) -> ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutput>(input: input, inputKey: \ListChildrenInput.nextToken, outputKey: \ListChildrenOutput.nextToken, paginationFunction: self.listChildren(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListChildrenInput, ListChildrenOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChildren(input:))
+>>>>>>> main
     }
 }
 
@@ -99,7 +115,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListCreateAccountStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCreateAccountStatusOutput`
     public func listCreateAccountStatusPaginated(input: ListCreateAccountStatusInput) -> ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(input: input, inputKey: \ListCreateAccountStatusInput.nextToken, outputKey: \ListCreateAccountStatusOutput.nextToken, paginationFunction: self.listCreateAccountStatus(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCreateAccountStatus(input:))
+>>>>>>> main
     }
 }
 
@@ -121,7 +141,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListDelegatedAdministratorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDelegatedAdministratorsOutput`
     public func listDelegatedAdministratorsPaginated(input: ListDelegatedAdministratorsInput) -> ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(input: input, inputKey: \ListDelegatedAdministratorsInput.nextToken, outputKey: \ListDelegatedAdministratorsOutput.nextToken, paginationFunction: self.listDelegatedAdministrators(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDelegatedAdministrators(input:))
+>>>>>>> main
     }
 }
 
@@ -134,7 +158,11 @@ extension ListDelegatedAdministratorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDelegatedAdministratorsInput, Output == ListDelegatedAdministratorsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDelegatedAdministratorsInput, OperationStackOutput == ListDelegatedAdministratorsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDelegatedAdministratorsPaginated`
     /// to access the nested member `[OrganizationsClientTypes.DelegatedAdministrator]`
     /// - Returns: `[OrganizationsClientTypes.DelegatedAdministrator]`
@@ -152,7 +180,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListDelegatedServicesForAccountInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDelegatedServicesForAccountOutput`
     public func listDelegatedServicesForAccountPaginated(input: ListDelegatedServicesForAccountInput) -> ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(input: input, inputKey: \ListDelegatedServicesForAccountInput.nextToken, outputKey: \ListDelegatedServicesForAccountOutput.nextToken, paginationFunction: self.listDelegatedServicesForAccount(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDelegatedServicesForAccount(input:))
+>>>>>>> main
     }
 }
 
@@ -165,7 +197,11 @@ extension ListDelegatedServicesForAccountInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDelegatedServicesForAccountInput, Output == ListDelegatedServicesForAccountOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDelegatedServicesForAccountInput, OperationStackOutput == ListDelegatedServicesForAccountOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDelegatedServicesForAccountPaginated`
     /// to access the nested member `[OrganizationsClientTypes.DelegatedService]`
     /// - Returns: `[OrganizationsClientTypes.DelegatedService]`
@@ -183,7 +219,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListHandshakesForAccountInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHandshakesForAccountOutput`
     public func listHandshakesForAccountPaginated(input: ListHandshakesForAccountInput) -> ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(input: input, inputKey: \ListHandshakesForAccountInput.nextToken, outputKey: \ListHandshakesForAccountOutput.nextToken, paginationFunction: self.listHandshakesForAccount(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHandshakesForAccount(input:))
+>>>>>>> main
     }
 }
 
@@ -205,7 +245,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListHandshakesForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHandshakesForOrganizationOutput`
     public func listHandshakesForOrganizationPaginated(input: ListHandshakesForOrganizationInput) -> ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(input: input, inputKey: \ListHandshakesForOrganizationInput.nextToken, outputKey: \ListHandshakesForOrganizationOutput.nextToken, paginationFunction: self.listHandshakesForOrganization(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHandshakesForOrganization(input:))
+>>>>>>> main
     }
 }
 
@@ -227,7 +271,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListOrganizationalUnitsForParentInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationalUnitsForParentOutput`
     public func listOrganizationalUnitsForParentPaginated(input: ListOrganizationalUnitsForParentInput) -> ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(input: input, inputKey: \ListOrganizationalUnitsForParentInput.nextToken, outputKey: \ListOrganizationalUnitsForParentOutput.nextToken, paginationFunction: self.listOrganizationalUnitsForParent(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationalUnitsForParent(input:))
+>>>>>>> main
     }
 }
 
@@ -249,7 +297,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListParentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListParentsOutput`
     public func listParentsPaginated(input: ListParentsInput) -> ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutput>(input: input, inputKey: \ListParentsInput.nextToken, outputKey: \ListParentsOutput.nextToken, paginationFunction: self.listParents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListParentsInput, ListParentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listParents(input:))
+>>>>>>> main
     }
 }
 
@@ -271,7 +323,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutput`
     public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \ListPoliciesInput.nextToken, outputKey: \ListPoliciesOutput.nextToken, paginationFunction: self.listPolicies(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPolicies(input:))
+>>>>>>> main
     }
 }
 
@@ -293,7 +349,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListPoliciesForTargetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesForTargetOutput`
     public func listPoliciesForTargetPaginated(input: ListPoliciesForTargetInput) -> ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(input: input, inputKey: \ListPoliciesForTargetInput.nextToken, outputKey: \ListPoliciesForTargetOutput.nextToken, paginationFunction: self.listPoliciesForTarget(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPoliciesForTarget(input:))
+>>>>>>> main
     }
 }
 
@@ -316,7 +376,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListRootsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRootsOutput`
     public func listRootsPaginated(input: ListRootsInput) -> ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutput>(input: input, inputKey: \ListRootsInput.nextToken, outputKey: \ListRootsOutput.nextToken, paginationFunction: self.listRoots(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListRootsInput, ListRootsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoots(input:))
+>>>>>>> main
     }
 }
 
@@ -337,7 +401,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
+>>>>>>> main
     }
 }
 
@@ -349,7 +417,11 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[OrganizationsClientTypes.Tag]`
     /// - Returns: `[OrganizationsClientTypes.Tag]`
@@ -367,7 +439,11 @@ extension OrganizationsClient {
     ///     - input: A `[ListTargetsForPolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTargetsForPolicyOutput`
     public func listTargetsForPolicyPaginated(input: ListTargetsForPolicyInput) -> ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(input: input, inputKey: \ListTargetsForPolicyInput.nextToken, outputKey: \ListTargetsForPolicyOutput.nextToken, paginationFunction: self.listTargetsForPolicy(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTargetsForPolicy(input:))
+>>>>>>> main
     }
 }
 

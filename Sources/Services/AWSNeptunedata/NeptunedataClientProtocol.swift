@@ -4,6 +4,11 @@ import ClientRuntime
 
 /// Neptune Data API The Amazon Neptune data API provides SDK support for more than 40 of Neptune's data operations, including data loading, query execution, data inquiry, and machine learning. It supports the Gremlin and openCypher query languages, and is available in all SDK languages. It automatically signs API requests and greatly simplifies integrating Neptune into your applications.
 public protocol NeptunedataClientProtocol {
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelGremlinQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels a Gremlin query. See [Gremlin query cancellation](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status-cancel.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery) IAM action in that cluster.
     ///
     /// - Parameter CancelGremlinQueryInput : [no documentation found]
@@ -28,6 +33,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func cancelGremlinQuery(input: CancelGremlinQueryInput) async throws -> CancelGremlinQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelLoaderJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels a specified load job. This is an HTTP DELETE request. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelLoaderJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelloaderjob) IAM action in that cluster..
     ///
     /// - Parameter CancelLoaderJobInput : [no documentation found]
@@ -51,6 +61,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func cancelLoaderJob(input: CancelLoaderJobInput) async throws -> CancelLoaderJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelMLDataProcessingJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels a Neptune ML data processing job. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLDataProcessingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmldataprocessingjob) IAM action in that cluster.
     ///
     /// - Parameter CancelMLDataProcessingJobInput : [no documentation found]
@@ -72,6 +87,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func cancelMLDataProcessingJob(input: CancelMLDataProcessingJobInput) async throws -> CancelMLDataProcessingJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelMLModelTrainingJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels a Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLModelTrainingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltrainingjob) IAM action in that cluster.
     ///
     /// - Parameter CancelMLModelTrainingJobInput : [no documentation found]
@@ -93,6 +113,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func cancelMLModelTrainingJob(input: CancelMLModelTrainingJobInput) async throws -> CancelMLModelTrainingJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelMLModelTransformJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLModelTransformJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltransformjob) IAM action in that cluster.
     ///
     /// - Parameter CancelMLModelTransformJobInput : [no documentation found]
@@ -114,6 +139,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func cancelMLModelTransformJob(input: CancelMLModelTransformJobInput) async throws -> CancelMLModelTransformJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelOpenCypherQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels a specified openCypher query. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery) IAM action in that cluster.
     ///
     /// - Parameter CancelOpenCypherQueryInput : [no documentation found]
@@ -139,6 +169,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func cancelOpenCypherQuery(input: CancelOpenCypherQueryInput) async throws -> CancelOpenCypherQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMLEndpoint` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CreateMLEndpoint](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#createmlendpoint) IAM action in that cluster.
     ///
     /// - Parameter CreateMLEndpointInput : [no documentation found]
@@ -160,6 +195,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func createMLEndpoint(input: CreateMLEndpointInput) async throws -> CreateMLEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMLEndpoint` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Cancels the creation of a Neptune ML inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteMLEndpoint](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletemlendpoint) IAM action in that cluster.
     ///
     /// - Parameter DeleteMLEndpointInput : [no documentation found]
@@ -181,6 +221,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func deleteMLEndpoint(input: DeleteMLEndpointInput) async throws -> DeleteMLEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeletePropertygraphStatistics` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Deletes statistics for Gremlin and openCypher (property graph) data. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics) IAM action in that cluster.
     ///
     /// - Parameter DeletePropertygraphStatisticsInput : [no documentation found]
@@ -204,6 +249,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func deletePropertygraphStatistics(input: DeletePropertygraphStatisticsInput) async throws -> DeletePropertygraphStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSparqlStatistics` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Deletes SPARQL statistics When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics) IAM action in that cluster.
     ///
     /// - Parameter DeleteSparqlStatisticsInput : [no documentation found]
@@ -227,6 +277,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func deleteSparqlStatistics(input: DeleteSparqlStatisticsInput) async throws -> DeleteSparqlStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteFastReset` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of its data. Neptune fast reset is a two-step process. First you call ExecuteFastReset with action set to initiateDatabaseReset. This returns a UUID token which you then include when calling ExecuteFastReset again with action set to performDatabaseReset. See [Empty an Amazon Neptune DB cluster using the fast reset API](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-fast-reset.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ResetDatabase](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#resetdatabase) IAM action in that cluster.
     ///
     /// - Parameter ExecuteFastResetInput : [no documentation found]
@@ -250,6 +305,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func executeFastReset(input: ExecuteFastResetInput) async throws -> ExecuteFastResetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteGremlinExplainQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Executes a Gremlin Explain query. Amazon Neptune has added a Gremlin feature named explain that provides is a self-service tool for understanding the execution approach being taken by the Neptune engine for the query. You invoke it by adding an explain parameter to an HTTP call that submits a Gremlin query. The explain feature provides information about the logical structure of query execution plans. You can use this information to identify potential evaluation and execution bottlenecks and to tune your query, as explained in [Tuning Gremlin queries](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html). You can also use query hints to improve query execution plans. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
     ///
     /// * [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
@@ -289,6 +349,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func executeGremlinExplainQuery(input: ExecuteGremlinExplainQueryInput) async throws -> ExecuteGremlinExplainQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteGremlinProfileQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html) for details. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter ExecuteGremlinProfileQueryInput : [no documentation found]
@@ -319,6 +384,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func executeGremlinProfileQuery(input: ExecuteGremlinProfileQueryInput) async throws -> ExecuteGremlinProfileQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteGremlinQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described under [The Graph](https://tinkerpop.apache.org/docs/current/reference/#graph) in the Apache TinkerPop3 documentation. More details can also be found in [Accessing a Neptune graph with Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that enables one of the following IAM actions in that cluster, depending on the query:
     ///
     /// * [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
@@ -358,6 +428,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func executeGremlinQuery(input: ExecuteGremlinQueryInput) async throws -> ExecuteGremlinQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteOpenCypherExplainQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Executes an openCypher explain request. See [The openCypher explain feature](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-explain.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter ExecuteOpenCypherExplainQueryInput : [no documentation found]
@@ -389,6 +464,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func executeOpenCypherExplainQuery(input: ExecuteOpenCypherExplainQueryInput) async throws -> ExecuteOpenCypherExplainQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExecuteOpenCypherQuery` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Executes an openCypher query. See [Accessing the Neptune Graph with openCypher](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher.html) for more information. Neptune supports building graph applications using openCypher, which is currently one of the most popular query languages among developers working with graph databases. Developers, business analysts, and data scientists like openCypher's declarative, SQL-inspired syntax because it provides a familiar structure in which to querying property graphs. The openCypher language was originally developed by Neo4j, then open-sourced in 2015 and contributed to the [openCypher project](https://opencypher.org/) under an Apache 2 open-source license. Note that when invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
     ///
     /// * [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
@@ -429,6 +509,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func executeOpenCypherQuery(input: ExecuteOpenCypherQueryInput) async throws -> ExecuteOpenCypherQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEngineStatus` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Retrieves the status of the graph database on the host. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetEngineStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getenginestatus) IAM action in that cluster.
     ///
     /// - Parameter GetEngineStatusInput : [no documentation found]
@@ -447,6 +532,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getEngineStatus(input: GetEngineStatusInput) async throws -> GetEngineStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGremlinQueryStatus` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets the status of a specified Gremlin query. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter GetGremlinQueryStatusInput : [no documentation found]
@@ -473,6 +563,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getGremlinQueryStatus(input: GetGremlinQueryStatusInput) async throws -> GetGremlinQueryStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetLoaderJobStatus` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetLoaderJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getloaderjobstatus) IAM action in that cluster..
     ///
     /// - Parameter GetLoaderJobStatusInput : [no documentation found]
@@ -496,6 +591,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getLoaderJobStatus(input: GetLoaderJobStatusInput) async throws -> GetLoaderJobStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMLDataProcessingJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a specified data processing job. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:neptune-db:GetMLDataProcessingJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmldataprocessingjobstatus) IAM action in that cluster.
     ///
     /// - Parameter GetMLDataProcessingJobInput : [no documentation found]
@@ -517,6 +617,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getMLDataProcessingJob(input: GetMLDataProcessingJobInput) async throws -> GetMLDataProcessingJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMLEndpoint` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Retrieves details about an inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLEndpointStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlendpointstatus) IAM action in that cluster.
     ///
     /// - Parameter GetMLEndpointInput : [no documentation found]
@@ -538,6 +643,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getMLEndpoint(input: GetMLEndpointInput) async throws -> GetMLEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMLModelTrainingJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLModelTrainingJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltrainingjobstatus) IAM action in that cluster.
     ///
     /// - Parameter GetMLModelTrainingJobInput : [no documentation found]
@@ -559,6 +669,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getMLModelTrainingJob(input: GetMLModelTrainingJobInput) async throws -> GetMLModelTrainingJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMLModelTransformJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets information about a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLModelTransformJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltransformjobstatus) IAM action in that cluster.
     ///
     /// - Parameter GetMLModelTransformJobInput : [no documentation found]
@@ -580,6 +695,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getMLModelTransformJob(input: GetMLModelTransformJobInput) async throws -> GetMLModelTransformJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOpenCypherQueryStatus` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Retrieves the status of a specified openCypher query. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter GetOpenCypherQueryStatusInput : [no documentation found]
@@ -607,6 +727,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getOpenCypherQueryStatus(input: GetOpenCypherQueryStatusInput) async throws -> GetOpenCypherQueryStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPropertygraphStatistics` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets property graph statistics (Gremlin and openCypher). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStatisticsStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstatisticsstatus) IAM action in that cluster.
     ///
     /// - Parameter GetPropertygraphStatisticsInput : [no documentation found]
@@ -630,6 +755,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getPropertygraphStatistics(input: GetPropertygraphStatisticsInput) async throws -> GetPropertygraphStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPropertygraphStream` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets a stream for a property graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetPropertygraphStream lets you collect these change-log entries for a property graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams) DB cluster parameter to 1. See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStreamRecords](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstreamrecords) IAM action in that cluster. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that enables one of the following IAM actions, depending on the query: Note that you can restrict property-graph queries using the following IAM context keys:
     ///
     /// * [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
@@ -659,6 +789,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getPropertygraphStream(input: GetPropertygraphStreamInput) async throws -> GetPropertygraphStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPropertygraphSummary` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets a graph summary for a property graph. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetGraphSummary](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary) IAM action in that cluster.
     ///
     /// - Parameter GetPropertygraphSummaryInput : [no documentation found]
@@ -682,6 +817,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getPropertygraphSummary(input: GetPropertygraphSummaryInput) async throws -> GetPropertygraphSummaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRDFGraphSummary` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets a graph summary for an RDF graph. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetGraphSummary](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary) IAM action in that cluster.
     ///
     /// - Parameter GetRDFGraphSummaryInput : [no documentation found]
@@ -705,6 +845,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getRDFGraphSummary(input: GetRDFGraphSummaryInput) async throws -> GetRDFGraphSummaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSparqlStatistics` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets RDF statistics (SPARQL).
     ///
     /// - Parameter GetSparqlStatisticsInput : [no documentation found]
@@ -728,6 +873,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getSparqlStatistics(input: GetSparqlStatisticsInput) async throws -> GetSparqlStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSparqlStream` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Gets a stream for an RDF graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetSparqlStream lets you collect these change-log entries for an RDF graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams) DB cluster parameter to 1. See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStreamRecords](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstreamrecords) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Sparql](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter GetSparqlStreamInput : [no documentation found]
@@ -750,6 +900,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func getSparqlStream(input: GetSparqlStreamInput) async throws -> GetSparqlStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGremlinQueries` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Lists active Gremlin queries. See [Gremlin query status API](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html) for details about the output. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter ListGremlinQueriesInput : [no documentation found]
@@ -776,6 +931,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listGremlinQueries(input: ListGremlinQueriesInput) async throws -> ListGremlinQueriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListLoaderJobs` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of the loadIds for all active loader jobs. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListLoaderJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listloaderjobs) IAM action in that cluster..
     ///
     /// - Parameter ListLoaderJobsInput : [no documentation found]
@@ -798,6 +958,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listLoaderJobs(input: ListLoaderJobsInput) async throws -> ListLoaderJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMLDataProcessingJobs` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Returns a list of Neptune ML data processing jobs. See [Listing active data-processing jobs using the Neptune ML dataprocessing command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html#machine-learning-api-dataprocessing-list-jobs). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLDataProcessingJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmldataprocessingjobs) IAM action in that cluster.
     ///
     /// - Parameter ListMLDataProcessingJobsInput : [no documentation found]
@@ -819,6 +984,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listMLDataProcessingJobs(input: ListMLDataProcessingJobsInput) async throws -> ListMLDataProcessingJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMLEndpoints` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Lists existing inference endpoints. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLEndpoints](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlendpoints) IAM action in that cluster.
     ///
     /// - Parameter ListMLEndpointsInput : [no documentation found]
@@ -840,6 +1010,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listMLEndpoints(input: ListMLEndpointsInput) async throws -> ListMLEndpointsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMLModelTrainingJobs` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Lists Neptune ML model-training jobs. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:neptune-db:ListMLModelTrainingJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#neptune-db:listmlmodeltrainingjobs) IAM action in that cluster.
     ///
     /// - Parameter ListMLModelTrainingJobsInput : [no documentation found]
@@ -861,6 +1036,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listMLModelTrainingJobs(input: ListMLModelTrainingJobsInput) async throws -> ListMLModelTrainingJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMLModelTransformJobs` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Returns a list of model transform job IDs. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLModelTransformJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlmodeltransformjobs) IAM action in that cluster.
     ///
     /// - Parameter ListMLModelTransformJobsInput : [no documentation found]
@@ -882,6 +1062,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listMLModelTransformJobs(input: ListMLModelTransformJobsInput) async throws -> ListMLModelTransformJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListOpenCypherQueries` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Lists active openCypher queries. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
     /// - Parameter ListOpenCypherQueriesInput : [no documentation found]
@@ -909,6 +1094,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func listOpenCypherQueries(input: ListOpenCypherQueriesInput) async throws -> ListOpenCypherQueriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ManagePropertygraphStatistics` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Manages the generation and use of property graph statistics. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ManageStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics) IAM action in that cluster.
     ///
     /// - Parameter ManagePropertygraphStatisticsInput : [no documentation found]
@@ -932,6 +1122,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func managePropertygraphStatistics(input: ManagePropertygraphStatisticsInput) async throws -> ManagePropertygraphStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ManageSparqlStatistics` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Manages the generation and use of RDF graph statistics. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ManageStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics) IAM action in that cluster.
     ///
     /// - Parameter ManageSparqlStatisticsInput : [no documentation found]
@@ -955,6 +1150,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func manageSparqlStatistics(input: ManageSparqlStatisticsInput) async throws -> ManageSparqlStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartLoaderJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See [Using the Amazon Neptune Bulk Loader to Ingest Data](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartLoaderJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startloaderjob) IAM action in that cluster.
     ///
     /// - Parameter StartLoaderJobInput : [no documentation found]
@@ -979,6 +1179,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func startLoaderJob(input: StartLoaderJobInput) async throws -> StartLoaderJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartMLDataProcessingJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelDataProcessingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeldataprocessingjob) IAM action in that cluster.
     ///
     /// - Parameter StartMLDataProcessingJobInput : [no documentation found]
@@ -1000,6 +1205,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func startMLDataProcessingJob(input: StartMLDataProcessingJobInput) async throws -> StartMLDataProcessingJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartMLModelTrainingJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Creates a new Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelTrainingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltrainingjob) IAM action in that cluster.
     ///
     /// - Parameter StartMLModelTrainingJobInput : [no documentation found]
@@ -1021,6 +1231,11 @@ public protocol NeptunedataClientProtocol {
     /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
     /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
     func startMLModelTrainingJob(input: StartMLModelTrainingJobInput) async throws -> StartMLModelTrainingJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartMLModelTransformJob` operation on the `AmazonNeptuneDataplane` service.
+    ///
+>>>>>>> main
     /// Creates a new model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelTransformJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltransformjob) IAM action in that cluster.
     ///
     /// - Parameter StartMLModelTransformJobInput : [no documentation found]

@@ -1275,7 +1275,7 @@ enum CreateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateServerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateServerInput(certificate: \(Swift.String(describing: certificate)), domain: \(Swift.String(describing: domain)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), identityProviderType: \(Swift.String(describing: identityProviderType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), tags: \(Swift.String(describing: tags)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
+        "CreateServerInput(certificate: \(Swift.String(describing: certificate)), domain: \(Swift.String(describing: domain)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), identityProviderType: \(Swift.String(describing: identityProviderType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), tags: \(Swift.String(describing: tags)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateServerInput: Swift.Encodable {
@@ -1292,6 +1292,7 @@ extension CreateServerInput: Swift.Encodable {
         case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
         case protocolDetails = "ProtocolDetails"
         case protocols = "Protocols"
+        case s3StorageOptions = "S3StorageOptions"
         case securityPolicyName = "SecurityPolicyName"
         case structuredLogDestinations = "StructuredLogDestinations"
         case tags = "Tags"
@@ -1338,6 +1339,9 @@ extension CreateServerInput: Swift.Encodable {
             for protocol0 in protocols {
                 try protocolsContainer.encode(protocol0.rawValue)
             }
+        }
+        if let s3StorageOptions = self.s3StorageOptions {
+            try encodeContainer.encode(s3StorageOptions, forKey: .s3StorageOptions)
         }
         if let securityPolicyName = self.securityPolicyName {
             try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
@@ -1433,6 +1437,8 @@ public struct CreateServerInput: Swift.Equatable {
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
+    /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+    public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy that is attached to the server.
     public var securityPolicyName: Swift.String?
     /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
@@ -1455,6 +1461,7 @@ public struct CreateServerInput: Swift.Equatable {
         preAuthenticationLoginBanner: Swift.String? = nil,
         protocolDetails: TransferClientTypes.ProtocolDetails? = nil,
         protocols: [TransferClientTypes.ModelProtocol]? = nil,
+        s3StorageOptions: TransferClientTypes.S3StorageOptions? = nil,
         securityPolicyName: Swift.String? = nil,
         structuredLogDestinations: [Swift.String]? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
@@ -1473,6 +1480,7 @@ public struct CreateServerInput: Swift.Equatable {
         self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
         self.protocolDetails = protocolDetails
         self.protocols = protocols
+        self.s3StorageOptions = s3StorageOptions
         self.securityPolicyName = securityPolicyName
         self.structuredLogDestinations = structuredLogDestinations
         self.tags = tags
@@ -1497,6 +1505,7 @@ struct CreateServerInputBody: Swift.Equatable {
     let tags: [TransferClientTypes.Tag]?
     let workflowDetails: TransferClientTypes.WorkflowDetails?
     let structuredLogDestinations: [Swift.String]?
+    let s3StorageOptions: TransferClientTypes.S3StorageOptions?
 }
 
 extension CreateServerInputBody: Swift.Decodable {
@@ -1513,6 +1522,7 @@ extension CreateServerInputBody: Swift.Decodable {
         case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
         case protocolDetails = "ProtocolDetails"
         case protocols = "Protocols"
+        case s3StorageOptions = "S3StorageOptions"
         case securityPolicyName = "SecurityPolicyName"
         case structuredLogDestinations = "StructuredLogDestinations"
         case tags = "Tags"
@@ -1580,6 +1590,49 @@ extension CreateServerInputBody: Swift.Decodable {
             }
         }
         structuredLogDestinations = structuredLogDestinationsDecoded0
+        let s3StorageOptionsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.S3StorageOptions.self, forKey: .s3StorageOptions)
+        s3StorageOptions = s3StorageOptionsDecoded
+    }
+}
+
+extension CreateServerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverId = output.serverId
+        } else {
+            self.serverId = nil
+        }
+    }
+}
+
+public struct CreateServerOutput: Swift.Equatable {
+    /// The service-assigned identifier of the server that is created.
+    /// This member is required.
+    public var serverId: Swift.String?
+
+    public init(
+        serverId: Swift.String? = nil
+    )
+    {
+        self.serverId = serverId
+    }
+}
+
+struct CreateServerOutputBody: Swift.Equatable {
+    let serverId: Swift.String?
+}
+
+extension CreateServerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverId = "ServerId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverId)
+        serverId = serverIdDecoded
     }
 }
 
@@ -5386,6 +5439,7 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
         case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
         case protocolDetails = "ProtocolDetails"
         case protocols = "Protocols"
+        case s3StorageOptions = "S3StorageOptions"
         case securityPolicyName = "SecurityPolicyName"
         case serverId = "ServerId"
         case state = "State"
@@ -5438,6 +5492,9 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
             for protocol0 in protocols {
                 try protocolsContainer.encode(protocol0.rawValue)
             }
+        }
+        if let s3StorageOptions = self.s3StorageOptions {
+            try encodeContainer.encode(s3StorageOptions, forKey: .s3StorageOptions)
         }
         if let securityPolicyName = self.securityPolicyName {
             try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
@@ -5537,6 +5594,8 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
             }
         }
         structuredLogDestinations = structuredLogDestinationsDecoded0
+        let s3StorageOptionsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.S3StorageOptions.self, forKey: .s3StorageOptions)
+        s3StorageOptions = s3StorageOptionsDecoded
     }
 }
 
@@ -5599,6 +5658,8 @@ extension TransferClientTypes {
         ///
         /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public var protocols: [TransferClientTypes.ModelProtocol]?
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+        public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
         /// Specifies the name of the security policy that is attached to the server.
         public var securityPolicyName: Swift.String?
         /// Specifies the unique system-assigned identifier for a server that you instantiate.
@@ -5628,6 +5689,7 @@ extension TransferClientTypes {
             preAuthenticationLoginBanner: Swift.String? = nil,
             protocolDetails: TransferClientTypes.ProtocolDetails? = nil,
             protocols: [TransferClientTypes.ModelProtocol]? = nil,
+            s3StorageOptions: TransferClientTypes.S3StorageOptions? = nil,
             securityPolicyName: Swift.String? = nil,
             serverId: Swift.String? = nil,
             state: TransferClientTypes.State? = nil,
@@ -5650,6 +5712,7 @@ extension TransferClientTypes {
             self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
             self.protocolDetails = protocolDetails
             self.protocols = protocols
+            self.s3StorageOptions = s3StorageOptions
             self.securityPolicyName = securityPolicyName
             self.serverId = serverId
             self.state = state
@@ -5944,6 +6007,39 @@ extension TransferClientTypes {
         }
     }
 
+}
+
+extension TransferClientTypes {
+    /// Indicates whether optimization to directory listing on S3 servers is used. Disabled by default for compatibility.
+    public enum DirectoryListingOptimization: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DirectoryListingOptimization] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DirectoryListingOptimization(rawValue: rawValue) ?? DirectoryListingOptimization.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension TransferClientTypes {
@@ -6570,6 +6666,7 @@ extension TransferClientTypes.HomeDirectoryMapEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case entry = "Entry"
         case target = "Target"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6580,6 +6677,9 @@ extension TransferClientTypes.HomeDirectoryMapEntry: Swift.Codable {
         if let target = self.target {
             try encodeContainer.encode(target, forKey: .target)
         }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6588,6 +6688,8 @@ extension TransferClientTypes.HomeDirectoryMapEntry: Swift.Codable {
         entry = entryDecoded
         let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
         target = targetDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(TransferClientTypes.MapType.self, forKey: .type)
+        type = typeDecoded
     }
 }
 
@@ -6597,17 +6699,21 @@ extension TransferClientTypes {
         /// Represents an entry for HomeDirectoryMappings.
         /// This member is required.
         public var entry: Swift.String?
-        /// Represents the map target that is used in a HomeDirectorymapEntry.
+        /// Represents the map target that is used in a HomeDirectoryMapEntry.
         /// This member is required.
         public var target: Swift.String?
+        /// Specifies the type of mapping. Set the type to FILE if you want the mapping to point to a file, or DIRECTORY for the directory to point to a directory. By default, home directory mappings have a Type of DIRECTORY when you create a Transfer Family server. You would need to explicitly set Type to FILE if you want a mapping to have a file target.
+        public var type: TransferClientTypes.MapType?
 
         public init(
             entry: Swift.String? = nil,
-            target: Swift.String? = nil
+            target: Swift.String? = nil,
+            type: TransferClientTypes.MapType? = nil
         )
         {
             self.entry = entry
             self.target = target
+            self.type = type
         }
     }
 
@@ -10099,6 +10205,38 @@ extension TransferClientTypes {
 }
 
 extension TransferClientTypes {
+    public enum MapType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case directory
+        case file
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MapType] {
+            return [
+                .directory,
+                .file,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .directory: return "DIRECTORY"
+            case .file: return "FILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MapType(rawValue: rawValue) ?? MapType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TransferClientTypes {
     public enum MdnResponse: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
         case sync
@@ -10685,6 +10823,41 @@ extension TransferClientTypes {
         {
             self.bucket = bucket
             self.key = key
+        }
+    }
+
+}
+
+extension TransferClientTypes.S3StorageOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case directoryListingOptimization = "DirectoryListingOptimization"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let directoryListingOptimization = self.directoryListingOptimization {
+            try encodeContainer.encode(directoryListingOptimization.rawValue, forKey: .directoryListingOptimization)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let directoryListingOptimizationDecoded = try containerValues.decodeIfPresent(TransferClientTypes.DirectoryListingOptimization.self, forKey: .directoryListingOptimization)
+        directoryListingOptimization = directoryListingOptimizationDecoded
+    }
+}
+
+extension TransferClientTypes {
+    /// The Amazon S3 storage options that are configured for your server.
+    public struct S3StorageOptions: Swift.Equatable {
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+        public var directoryListingOptimization: TransferClientTypes.DirectoryListingOptimization?
+
+        public init(
+            directoryListingOptimization: TransferClientTypes.DirectoryListingOptimization? = nil
+        )
+        {
+            self.directoryListingOptimization = directoryListingOptimization
         }
     }
 
@@ -13227,7 +13400,7 @@ enum UpdateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateServerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
+        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateServerInput: Swift.Encodable {
@@ -13242,6 +13415,7 @@ extension UpdateServerInput: Swift.Encodable {
         case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
         case protocolDetails = "ProtocolDetails"
         case protocols = "Protocols"
+        case s3StorageOptions = "S3StorageOptions"
         case securityPolicyName = "SecurityPolicyName"
         case serverId = "ServerId"
         case structuredLogDestinations = "StructuredLogDestinations"
@@ -13282,6 +13456,9 @@ extension UpdateServerInput: Swift.Encodable {
             for protocol0 in protocols {
                 try protocolsContainer.encode(protocol0.rawValue)
             }
+        }
+        if let s3StorageOptions = self.s3StorageOptions {
+            try encodeContainer.encode(s3StorageOptions, forKey: .s3StorageOptions)
         }
         if let securityPolicyName = self.securityPolicyName {
             try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
@@ -13370,6 +13547,8 @@ public struct UpdateServerInput: Swift.Equatable {
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
+    /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+    public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy that is attached to the server.
     public var securityPolicyName: Swift.String?
     /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
@@ -13391,6 +13570,7 @@ public struct UpdateServerInput: Swift.Equatable {
         preAuthenticationLoginBanner: Swift.String? = nil,
         protocolDetails: TransferClientTypes.ProtocolDetails? = nil,
         protocols: [TransferClientTypes.ModelProtocol]? = nil,
+        s3StorageOptions: TransferClientTypes.S3StorageOptions? = nil,
         securityPolicyName: Swift.String? = nil,
         serverId: Swift.String? = nil,
         structuredLogDestinations: [Swift.String]? = nil,
@@ -13407,6 +13587,7 @@ public struct UpdateServerInput: Swift.Equatable {
         self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
         self.protocolDetails = protocolDetails
         self.protocols = protocols
+        self.s3StorageOptions = s3StorageOptions
         self.securityPolicyName = securityPolicyName
         self.serverId = serverId
         self.structuredLogDestinations = structuredLogDestinations
@@ -13429,6 +13610,7 @@ struct UpdateServerInputBody: Swift.Equatable {
     let serverId: Swift.String?
     let workflowDetails: TransferClientTypes.WorkflowDetails?
     let structuredLogDestinations: [Swift.String]?
+    let s3StorageOptions: TransferClientTypes.S3StorageOptions?
 }
 
 extension UpdateServerInputBody: Swift.Decodable {
@@ -13443,6 +13625,7 @@ extension UpdateServerInputBody: Swift.Decodable {
         case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
         case protocolDetails = "ProtocolDetails"
         case protocols = "Protocols"
+        case s3StorageOptions = "S3StorageOptions"
         case securityPolicyName = "SecurityPolicyName"
         case serverId = "ServerId"
         case structuredLogDestinations = "StructuredLogDestinations"
@@ -13497,6 +13680,49 @@ extension UpdateServerInputBody: Swift.Decodable {
             }
         }
         structuredLogDestinations = structuredLogDestinationsDecoded0
+        let s3StorageOptionsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.S3StorageOptions.self, forKey: .s3StorageOptions)
+        s3StorageOptions = s3StorageOptionsDecoded
+    }
+}
+
+extension UpdateServerOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServerOutputBody = try responseDecoder.decode(responseBody: data)
+            self.serverId = output.serverId
+        } else {
+            self.serverId = nil
+        }
+    }
+}
+
+public struct UpdateServerOutput: Swift.Equatable {
+    /// A system-assigned unique identifier for a server that the Transfer Family user is assigned to.
+    /// This member is required.
+    public var serverId: Swift.String?
+
+    public init(
+        serverId: Swift.String? = nil
+    )
+    {
+        self.serverId = serverId
+    }
+}
+
+struct UpdateServerOutputBody: Swift.Equatable {
+    let serverId: Swift.String?
+}
+
+extension UpdateServerOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverId = "ServerId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverId)
+        serverId = serverIdDecoded
     }
 }
 

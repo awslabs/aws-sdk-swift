@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents. Amazon Comprehend Medical only detects entities in English language texts. Amazon Comprehend Medical places limits on the sizes of files allowed for different API operations. To learn more, see [Guidelines and quotas](https://docs.aws.amazon.com/comprehend-medical/latest/dev/comprehendmedical-quotas.html) in the Amazon Comprehend Medical Developer Guide.
 public protocol ComprehendMedicalClientProtocol {
+    /// Performs the `DescribeEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
+    ///
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
     ///
     /// - Parameter DescribeEntitiesDetectionV2JobInput : [no documentation found]
@@ -18,6 +20,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func describeEntitiesDetectionV2Job(input: DescribeEntitiesDetectionV2JobInput) async throws -> DescribeEntitiesDetectionV2JobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeICD10CMInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job.
     ///
     /// - Parameter DescribeICD10CMInferenceJobInput : [no documentation found]
@@ -32,6 +39,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func describeICD10CMInferenceJob(input: DescribeICD10CMInferenceJobInput) async throws -> DescribeICD10CMInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribePHIDetectionJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job.
     ///
     /// - Parameter DescribePHIDetectionJobInput : [no documentation found]
@@ -46,6 +58,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func describePHIDetectionJob(input: DescribePHIDetectionJobInput) async throws -> DescribePHIDetectionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeRxNormInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
     ///
     /// - Parameter DescribeRxNormInferenceJobInput : [no documentation found]
@@ -60,6 +77,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func describeRxNormInferenceJob(input: DescribeRxNormInferenceJobInput) async throws -> DescribeRxNormInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeSNOMEDCTInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
     ///
     /// - Parameter DescribeSNOMEDCTInferenceJobInput : [no documentation found]
@@ -74,6 +96,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func describeSNOMEDCTInferenceJob(input: DescribeSNOMEDCTInferenceJobInput) async throws -> DescribeSNOMEDCTInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetectEntities` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
     ///
@@ -91,6 +118,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DetectEntitiesV2` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the [DetectEntities] operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
     ///
     /// - Parameter DetectEntitiesV2Input : [no documentation found]
@@ -107,6 +139,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func detectEntitiesV2(input: DetectEntitiesV2Input) async throws -> DetectEntitiesV2Output
+<<<<<<< HEAD
+=======
+    /// Performs the `DetectPHI` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts.
     ///
     /// - Parameter DetectPHIInput : [no documentation found]
@@ -123,6 +160,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func detectPHI(input: DetectPHIInput) async throws -> DetectPHIOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InferICD10CM` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
     /// - Parameter InferICD10CMInput : [no documentation found]
@@ -139,6 +181,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func inferICD10CM(input: InferICD10CMInput) async throws -> InferICD10CMOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InferRxNorm` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
     /// - Parameter InferRxNormInput : [no documentation found]
@@ -155,6 +202,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func inferRxNorm(input: InferRxNormInput) async throws -> InferRxNormOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `InferSNOMEDCT` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
     ///
     /// - Parameter InferSNOMEDCTInput : [no documentation found]
@@ -171,6 +223,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TextSizeLimitExceededException` : The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func inferSNOMEDCT(input: InferSNOMEDCTInput) async throws -> InferSNOMEDCTOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEntitiesDetectionV2Jobs` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets a list of medical entity detection jobs that you have submitted.
     ///
     /// - Parameter ListEntitiesDetectionV2JobsInput : [no documentation found]
@@ -185,6 +242,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     func listEntitiesDetectionV2Jobs(input: ListEntitiesDetectionV2JobsInput) async throws -> ListEntitiesDetectionV2JobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListICD10CMInferenceJobs` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets a list of InferICD10CM jobs that you have submitted.
     ///
     /// - Parameter ListICD10CMInferenceJobsInput : [no documentation found]
@@ -199,6 +261,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     func listICD10CMInferenceJobs(input: ListICD10CMInferenceJobsInput) async throws -> ListICD10CMInferenceJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListPHIDetectionJobs` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets a list of protected health information (PHI) detection jobs you have submitted.
     ///
     /// - Parameter ListPHIDetectionJobsInput : [no documentation found]
@@ -213,6 +280,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     func listPHIDetectionJobs(input: ListPHIDetectionJobsInput) async throws -> ListPHIDetectionJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRxNormInferenceJobs` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets a list of InferRxNorm jobs that you have submitted.
     ///
     /// - Parameter ListRxNormInferenceJobsInput : [no documentation found]
@@ -227,6 +299,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     func listRxNormInferenceJobs(input: ListRxNormInferenceJobsInput) async throws -> ListRxNormInferenceJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSNOMEDCTInferenceJobs` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Gets a list of InferSNOMEDCT jobs a user has submitted.
     ///
     /// - Parameter ListSNOMEDCTInferenceJobsInput : [no documentation found]
@@ -241,6 +318,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     /// - `ValidationException` : The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     func listSNOMEDCTInferenceJobs(input: ListSNOMEDCTInferenceJobsInput) async throws -> ListSNOMEDCTInferenceJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
     ///
     /// - Parameter StartEntitiesDetectionV2JobInput : [no documentation found]
@@ -255,6 +337,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func startEntitiesDetectionV2Job(input: StartEntitiesDetectionV2JobInput) async throws -> StartEntitiesDetectionV2JobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartICD10CMInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
     ///
     /// - Parameter StartICD10CMInferenceJobInput : [no documentation found]
@@ -269,6 +356,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func startICD10CMInferenceJob(input: StartICD10CMInferenceJobInput) async throws -> StartICD10CMInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartPHIDetectionJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job.
     ///
     /// - Parameter StartPHIDetectionJobInput : [no documentation found]
@@ -283,6 +375,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func startPHIDetectionJob(input: StartPHIDetectionJobInput) async throws -> StartPHIDetectionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartRxNormInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
     ///
     /// - Parameter StartRxNormInferenceJobInput : [no documentation found]
@@ -297,6 +394,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func startRxNormInferenceJob(input: StartRxNormInferenceJobInput) async throws -> StartRxNormInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartSNOMEDCTInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
     ///
     /// - Parameter StartSNOMEDCTInferenceJobInput : [no documentation found]
@@ -311,6 +413,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     /// - `TooManyRequestsException` : You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     func startSNOMEDCTInferenceJob(input: StartSNOMEDCTInferenceJobInput) async throws -> StartSNOMEDCTInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopEntitiesDetectionV2Job` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Stops a medical entities detection job in progress.
     ///
     /// - Parameter StopEntitiesDetectionV2JobInput : [no documentation found]
@@ -324,6 +431,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     func stopEntitiesDetectionV2Job(input: StopEntitiesDetectionV2JobInput) async throws -> StopEntitiesDetectionV2JobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopICD10CMInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Stops an InferICD10CM inference job in progress.
     ///
     /// - Parameter StopICD10CMInferenceJobInput : [no documentation found]
@@ -337,6 +449,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     func stopICD10CMInferenceJob(input: StopICD10CMInferenceJobInput) async throws -> StopICD10CMInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopPHIDetectionJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Stops a protected health information (PHI) detection job in progress.
     ///
     /// - Parameter StopPHIDetectionJobInput : [no documentation found]
@@ -350,6 +467,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     func stopPHIDetectionJob(input: StopPHIDetectionJobInput) async throws -> StopPHIDetectionJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopRxNormInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Stops an InferRxNorm inference job in progress.
     ///
     /// - Parameter StopRxNormInferenceJobInput : [no documentation found]
@@ -363,6 +485,11 @@ public protocol ComprehendMedicalClientProtocol {
     /// - `InvalidRequestException` : The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     /// - `ResourceNotFoundException` : The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     func stopRxNormInferenceJob(input: StopRxNormInferenceJobInput) async throws -> StopRxNormInferenceJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopSNOMEDCTInferenceJob` operation on the `ComprehendMedical_20181030` service.
+    ///
+>>>>>>> main
     /// Stops an InferSNOMEDCT inference job in progress.
     ///
     /// - Parameter StopSNOMEDCTInferenceJobInput : [no documentation found]

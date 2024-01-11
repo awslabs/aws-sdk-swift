@@ -51,7 +51,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             stream: baseStream,
             messageEncoder: messageEncoder,
             requestEncoder: JSONEncoder(),
-            messageSinger: messageSigner
+            messageSigner: messageSigner
         )
         
         var actual: [Data] = []
@@ -81,7 +81,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             stream: baseStream,
             messageEncoder: messageEncoder,
             requestEncoder: JSONEncoder(),
-            messageSinger: messageSigner
+            messageSigner: messageSigner
         )
         
         let read1 = try await sut.readAsync(upToCount: 100)

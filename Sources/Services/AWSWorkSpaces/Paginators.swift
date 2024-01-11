@@ -12,7 +12,11 @@ extension WorkSpacesClient {
     ///     - input: A `[DescribeApplicationAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeApplicationAssociationsOutput`
     public func describeApplicationAssociationsPaginated(input: DescribeApplicationAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeApplicationAssociationsInput, DescribeApplicationAssociationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeApplicationAssociationsInput, DescribeApplicationAssociationsOutput>(input: input, inputKey: \DescribeApplicationAssociationsInput.nextToken, outputKey: \DescribeApplicationAssociationsOutput.nextToken, paginationFunction: self.describeApplicationAssociations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeApplicationAssociationsInput, DescribeApplicationAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeApplicationAssociations(input:))
+>>>>>>> main
     }
 }
 
@@ -35,7 +39,11 @@ extension WorkSpacesClient {
     ///     - input: A `[DescribeApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeApplicationsOutput`
     public func describeApplicationsPaginated(input: DescribeApplicationsInput) -> ClientRuntime.PaginatorSequence<DescribeApplicationsInput, DescribeApplicationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeApplicationsInput, DescribeApplicationsOutput>(input: input, inputKey: \DescribeApplicationsInput.nextToken, outputKey: \DescribeApplicationsOutput.nextToken, paginationFunction: self.describeApplications(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeApplicationsInput, DescribeApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeApplications(input:))
+>>>>>>> main
     }
 }
 
@@ -61,7 +69,11 @@ extension WorkSpacesClient {
     ///     - input: A `[DescribeWorkspaceBundlesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspaceBundlesOutput`
     public func describeWorkspaceBundlesPaginated(input: DescribeWorkspaceBundlesInput) -> ClientRuntime.PaginatorSequence<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutput>(input: input, inputKey: \DescribeWorkspaceBundlesInput.nextToken, outputKey: \DescribeWorkspaceBundlesOutput.nextToken, paginationFunction: self.describeWorkspaceBundles(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeWorkspaceBundles(input:))
+>>>>>>> main
     }
 }
 
@@ -74,7 +86,11 @@ extension DescribeWorkspaceBundlesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeWorkspaceBundlesInput, Output == DescribeWorkspaceBundlesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeWorkspaceBundlesInput, OperationStackOutput == DescribeWorkspaceBundlesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeWorkspaceBundlesPaginated`
     /// to access the nested member `[WorkSpacesClientTypes.WorkspaceBundle]`
     /// - Returns: `[WorkSpacesClientTypes.WorkspaceBundle]`
@@ -92,7 +108,11 @@ extension WorkSpacesClient {
     ///     - input: A `[DescribeWorkspaceDirectoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspaceDirectoriesOutput`
     public func describeWorkspaceDirectoriesPaginated(input: DescribeWorkspaceDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutput>(input: input, inputKey: \DescribeWorkspaceDirectoriesInput.nextToken, outputKey: \DescribeWorkspaceDirectoriesOutput.nextToken, paginationFunction: self.describeWorkspaceDirectories(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeWorkspaceDirectories(input:))
+>>>>>>> main
     }
 }
 
@@ -105,7 +125,11 @@ extension DescribeWorkspaceDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeWorkspaceDirectoriesInput, Output == DescribeWorkspaceDirectoriesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeWorkspaceDirectoriesInput, OperationStackOutput == DescribeWorkspaceDirectoriesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeWorkspaceDirectoriesPaginated`
     /// to access the nested member `[WorkSpacesClientTypes.WorkspaceDirectory]`
     /// - Returns: `[WorkSpacesClientTypes.WorkspaceDirectory]`
@@ -123,7 +147,11 @@ extension WorkSpacesClient {
     ///     - input: A `[DescribeWorkspacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspacesOutput`
     public func describeWorkspacesPaginated(input: DescribeWorkspacesInput) -> ClientRuntime.PaginatorSequence<DescribeWorkspacesInput, DescribeWorkspacesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeWorkspacesInput, DescribeWorkspacesOutput>(input: input, inputKey: \DescribeWorkspacesInput.nextToken, outputKey: \DescribeWorkspacesOutput.nextToken, paginationFunction: self.describeWorkspaces(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeWorkspacesInput, DescribeWorkspacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeWorkspaces(input:))
+>>>>>>> main
     }
 }
 
@@ -139,7 +167,11 @@ extension DescribeWorkspacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeWorkspacesInput, Output == DescribeWorkspacesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeWorkspacesInput, OperationStackOutput == DescribeWorkspacesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeWorkspacesPaginated`
     /// to access the nested member `[WorkSpacesClientTypes.Workspace]`
     /// - Returns: `[WorkSpacesClientTypes.Workspace]`

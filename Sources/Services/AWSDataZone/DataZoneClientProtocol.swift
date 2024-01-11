@@ -4,6 +4,11 @@ import ClientRuntime
 
 /// Amazon DataZone is a data management service that enables you to catalog, discover, govern, share, and analyze your data. With Amazon DataZone, you can share and access your data across accounts and supported regions. Amazon DataZone simplifies your experience across Amazon Web Services services, including, but not limited to, Amazon Redshift, Amazon Athena, Amazon Web Services Glue, and Amazon Web Services Lake Formation.
 public protocol DataZoneClientProtocol {
+<<<<<<< HEAD
+=======
+    /// Performs the `AcceptPredictions` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
     ///
     /// - Parameter AcceptPredictionsInput : [no documentation found]
@@ -21,6 +26,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func acceptPredictions(input: AcceptPredictionsInput) async throws -> AcceptPredictionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AcceptSubscriptionRequest` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Accepts a subscription request to a specific asset.
     ///
     /// - Parameter AcceptSubscriptionRequestInput : [no documentation found]
@@ -38,6 +48,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func acceptSubscriptionRequest(input: AcceptSubscriptionRequestInput) async throws -> AcceptSubscriptionRequestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelSubscription` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Cancels the subscription to the specified asset.
     ///
     /// - Parameter CancelSubscriptionInput : [no documentation found]
@@ -55,6 +70,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func cancelSubscription(input: CancelSubscriptionInput) async throws -> CancelSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAsset` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates an asset in Amazon DataZone catalog.
     ///
     /// - Parameter CreateAssetInput : [no documentation found]
@@ -73,6 +93,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createAsset(input: CreateAssetInput) async throws -> CreateAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAssetRevision` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a revision of the asset.
     ///
     /// - Parameter CreateAssetRevisionInput : [no documentation found]
@@ -90,6 +115,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createAssetRevision(input: CreateAssetRevisionInput) async throws -> CreateAssetRevisionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateAssetType` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a custom asset type.
     ///
     /// - Parameter CreateAssetTypeInput : [no documentation found]
@@ -107,6 +137,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createAssetType(input: CreateAssetTypeInput) async throws -> CreateAssetTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDataSource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon DataZone data source.
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
@@ -125,6 +160,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDomain` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon DataZone domain.
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
@@ -143,6 +183,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEnvironment` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Create an Amazon DataZone environment.
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
@@ -160,6 +205,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEnvironmentProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon DataZone environment profile.
     ///
     /// - Parameter CreateEnvironmentProfileInput : [no documentation found]
@@ -178,6 +228,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createEnvironmentProfile(input: CreateEnvironmentProfileInput) async throws -> CreateEnvironmentProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFormType` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a metadata form type.
     ///
     /// - Parameter CreateFormTypeInput : [no documentation found]
@@ -195,6 +250,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createFormType(input: CreateFormTypeInput) async throws -> CreateFormTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGlossary` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon DataZone business glossary.
     ///
     /// - Parameter CreateGlossaryInput : [no documentation found]
@@ -212,6 +272,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createGlossary(input: CreateGlossaryInput) async throws -> CreateGlossaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGlossaryTerm` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a business glossary term.
     ///
     /// - Parameter CreateGlossaryTermInput : [no documentation found]
@@ -230,6 +295,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createGlossaryTerm(input: CreateGlossaryTermInput) async throws -> CreateGlossaryTermOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGroupProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a group profile in Amazon DataZone.
     ///
     /// - Parameter CreateGroupProfileInput : [no documentation found]
@@ -246,6 +316,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createGroupProfile(input: CreateGroupProfileInput) async throws -> CreateGroupProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateListingChangeSet` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     ///
     ///
     /// - Parameter CreateListingChangeSetInput : [no documentation found]
@@ -264,6 +339,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createListingChangeSet(input: CreateListingChangeSetInput) async throws -> CreateListingChangeSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProject` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates an Amazon DataZone project.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
@@ -282,6 +362,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProjectMembership` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a project membership in Amazon DataZone.
     ///
     /// - Parameter CreateProjectMembershipInput : [no documentation found]
@@ -298,6 +383,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createProjectMembership(input: CreateProjectMembershipInput) async throws -> CreateProjectMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSubscriptionGrant` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a subsscription grant in Amazon DataZone.
     ///
     /// - Parameter CreateSubscriptionGrantInput : [no documentation found]
@@ -315,6 +405,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createSubscriptionGrant(input: CreateSubscriptionGrantInput) async throws -> CreateSubscriptionGrantOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSubscriptionRequest` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a subscription request in Amazon DataZone.
     ///
     /// - Parameter CreateSubscriptionRequestInput : [no documentation found]
@@ -332,6 +427,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createSubscriptionRequest(input: CreateSubscriptionRequestInput) async throws -> CreateSubscriptionRequestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSubscriptionTarget` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a subscription target in Amazon DataZone.
     ///
     /// - Parameter CreateSubscriptionTargetInput : [no documentation found]
@@ -349,6 +449,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createSubscriptionTarget(input: CreateSubscriptionTargetInput) async throws -> CreateSubscriptionTargetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateUserProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Creates a user profile in Amazon DataZone.
     ///
     /// - Parameter CreateUserProfileInput : [no documentation found]
@@ -365,6 +470,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAsset` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Delets an asset in Amazon DataZone.
     ///
     /// - Parameter DeleteAssetInput : [no documentation found]
@@ -381,6 +491,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAssetType` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes an asset type in Amazon DataZone.
     ///
     /// - Parameter DeleteAssetTypeInput : [no documentation found]
@@ -398,6 +513,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteAssetType(input: DeleteAssetTypeInput) async throws -> DeleteAssetTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDataSource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a data source in Amazon DataZone.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
@@ -416,6 +536,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDomain` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a Amazon DataZone domain.
     ///
     /// - Parameter DeleteDomainInput : [no documentation found]
@@ -433,6 +558,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEnvironment` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes an environment in Amazon DataZone.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
@@ -449,6 +579,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEnvironmentBlueprintConfiguration` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes the blueprint configuration in Amazon DataZone.
     ///
     /// - Parameter DeleteEnvironmentBlueprintConfigurationInput : [no documentation found]
@@ -464,6 +599,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteEnvironmentBlueprintConfiguration(input: DeleteEnvironmentBlueprintConfigurationInput) async throws -> DeleteEnvironmentBlueprintConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEnvironmentProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes an environment profile in Amazon DataZone.
     ///
     /// - Parameter DeleteEnvironmentProfileInput : [no documentation found]
@@ -480,6 +620,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteEnvironmentProfile(input: DeleteEnvironmentProfileInput) async throws -> DeleteEnvironmentProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFormType` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Delets and metadata form type in Amazon DataZone.
     ///
     /// - Parameter DeleteFormTypeInput : [no documentation found]
@@ -497,6 +642,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteFormType(input: DeleteFormTypeInput) async throws -> DeleteFormTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGlossary` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a business glossary in Amazon DataZone.
     ///
     /// - Parameter DeleteGlossaryInput : [no documentation found]
@@ -514,6 +664,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteGlossary(input: DeleteGlossaryInput) async throws -> DeleteGlossaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGlossaryTerm` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a business glossary term in Amazon DataZone.
     ///
     /// - Parameter DeleteGlossaryTermInput : [no documentation found]
@@ -531,6 +686,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteGlossaryTerm(input: DeleteGlossaryTermInput) async throws -> DeleteGlossaryTermOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteListing` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     ///
     ///
     /// - Parameter DeleteListingInput : [no documentation found]
@@ -548,6 +708,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteListing(input: DeleteListingInput) async throws -> DeleteListingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProject` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a project in Amazon DataZone.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
@@ -564,6 +729,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProjectMembership` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes project membership in Amazon DataZone.
     ///
     /// - Parameter DeleteProjectMembershipInput : [no documentation found]
@@ -581,6 +751,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteProjectMembership(input: DeleteProjectMembershipInput) async throws -> DeleteProjectMembershipOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSubscriptionGrant` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes and subscription grant in Amazon DataZone.
     ///
     /// - Parameter DeleteSubscriptionGrantInput : [no documentation found]
@@ -598,6 +773,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteSubscriptionGrant(input: DeleteSubscriptionGrantInput) async throws -> DeleteSubscriptionGrantOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSubscriptionRequest` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a subscription request in Amazon DataZone.
     ///
     /// - Parameter DeleteSubscriptionRequestInput : [no documentation found]
@@ -615,6 +795,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteSubscriptionRequest(input: DeleteSubscriptionRequestInput) async throws -> DeleteSubscriptionRequestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSubscriptionTarget` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Deletes a subscription target in Amazon DataZone.
     ///
     /// - Parameter DeleteSubscriptionTargetInput : [no documentation found]
@@ -632,6 +817,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func deleteSubscriptionTarget(input: DeleteSubscriptionTargetInput) async throws -> DeleteSubscriptionTargetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAsset` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone asset.
     ///
     /// - Parameter GetAssetInput : [no documentation found]
@@ -648,6 +838,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getAsset(input: GetAssetInput) async throws -> GetAssetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAssetType` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone asset type.
     ///
     /// - Parameter GetAssetTypeInput : [no documentation found]
@@ -664,6 +859,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getAssetType(input: GetAssetTypeInput) async throws -> GetAssetTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataSource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone data source.
     ///
     /// - Parameter GetDataSourceInput : [no documentation found]
@@ -682,6 +882,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataSourceRun` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone data source run.
     ///
     /// - Parameter GetDataSourceRunInput : [no documentation found]
@@ -700,6 +905,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getDataSourceRun(input: GetDataSourceRunInput) async throws -> GetDataSourceRunOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDomain` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone domain.
     ///
     /// - Parameter GetDomainInput : [no documentation found]
@@ -717,6 +927,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getDomain(input: GetDomainInput) async throws -> GetDomainOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEnvironment` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone environment.
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
@@ -733,6 +948,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEnvironmentBlueprint` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an Amazon DataZone blueprint.
     ///
     /// - Parameter GetEnvironmentBlueprintInput : [no documentation found]
@@ -749,6 +969,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getEnvironmentBlueprint(input: GetEnvironmentBlueprintInput) async throws -> GetEnvironmentBlueprintOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEnvironmentBlueprintConfiguration` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets the blueprint configuration in Amazon DataZone.
     ///
     /// - Parameter GetEnvironmentBlueprintConfigurationInput : [no documentation found]
@@ -765,6 +990,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getEnvironmentBlueprintConfiguration(input: GetEnvironmentBlueprintConfigurationInput) async throws -> GetEnvironmentBlueprintConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEnvironmentProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets an evinronment profile in Amazon DataZone.
     ///
     /// - Parameter GetEnvironmentProfileInput : [no documentation found]
@@ -781,6 +1011,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getEnvironmentProfile(input: GetEnvironmentProfileInput) async throws -> GetEnvironmentProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetFormType` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a metadata form type in Amazon DataZone.
     ///
     /// - Parameter GetFormTypeInput : [no documentation found]
@@ -797,6 +1032,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getFormType(input: GetFormTypeInput) async throws -> GetFormTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGlossary` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a business glossary in Amazon DataZone.
     ///
     /// - Parameter GetGlossaryInput : [no documentation found]
@@ -813,6 +1053,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getGlossary(input: GetGlossaryInput) async throws -> GetGlossaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGlossaryTerm` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a business glossary term in Amazon DataZone.
     ///
     /// - Parameter GetGlossaryTermInput : [no documentation found]
@@ -829,6 +1074,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getGlossaryTerm(input: GetGlossaryTermInput) async throws -> GetGlossaryTermOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGroupProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a group profile in Amazon DataZone.
     ///
     /// - Parameter GetGroupProfileInput : [no documentation found]
@@ -845,6 +1095,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getGroupProfile(input: GetGroupProfileInput) async throws -> GetGroupProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIamPortalLoginUrl` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets the data portal URL for the specified Amazon DataZone domain.
     ///
     /// - Parameter GetIamPortalLoginUrlInput : [no documentation found]
@@ -862,6 +1117,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getIamPortalLoginUrl(input: GetIamPortalLoginUrlInput) async throws -> GetIamPortalLoginUrlOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetListing` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     ///
     ///
     /// - Parameter GetListingInput : [no documentation found]
@@ -878,6 +1138,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getListing(input: GetListingInput) async throws -> GetListingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetProject` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a project in Amazon DataZone.
     ///
     /// - Parameter GetProjectInput : [no documentation found]
@@ -894,6 +1159,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getProject(input: GetProjectInput) async throws -> GetProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSubscription` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a subscription in Amazon DataZone.
     ///
     /// - Parameter GetSubscriptionInput : [no documentation found]
@@ -910,6 +1180,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSubscriptionGrant` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets the subscription grant in Amazon DataZone.
     ///
     /// - Parameter GetSubscriptionGrantInput : [no documentation found]
@@ -926,6 +1201,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getSubscriptionGrant(input: GetSubscriptionGrantInput) async throws -> GetSubscriptionGrantOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSubscriptionRequestDetails` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets the details of the specified subscription request.
     ///
     /// - Parameter GetSubscriptionRequestDetailsInput : [no documentation found]
@@ -942,6 +1222,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getSubscriptionRequestDetails(input: GetSubscriptionRequestDetailsInput) async throws -> GetSubscriptionRequestDetailsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSubscriptionTarget` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets the subscription target in Amazon DataZone.
     ///
     /// - Parameter GetSubscriptionTargetInput : [no documentation found]
@@ -958,6 +1243,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getSubscriptionTarget(input: GetSubscriptionTargetInput) async throws -> GetSubscriptionTargetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetUserProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Gets a user profile in Amazon DataZone.
     ///
     /// - Parameter GetUserProfileInput : [no documentation found]
@@ -974,6 +1264,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func getUserProfile(input: GetUserProfileInput) async throws -> GetUserProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListAssetRevisions` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists the revisions for the asset.
     ///
     /// - Parameter ListAssetRevisionsInput : [no documentation found]
@@ -990,6 +1285,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listAssetRevisions(input: ListAssetRevisionsInput) async throws -> ListAssetRevisionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataSourceRunActivities` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists data source run activities.
     ///
     /// - Parameter ListDataSourceRunActivitiesInput : [no documentation found]
@@ -1008,6 +1308,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listDataSourceRunActivities(input: ListDataSourceRunActivitiesInput) async throws -> ListDataSourceRunActivitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataSourceRuns` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists data source runs in Amazon DataZone.
     ///
     /// - Parameter ListDataSourceRunsInput : [no documentation found]
@@ -1026,6 +1331,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listDataSourceRuns(input: ListDataSourceRunsInput) async throws -> ListDataSourceRunsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataSources` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists data sources in Amazon DataZone.
     ///
     /// - Parameter ListDataSourcesInput : [no documentation found]
@@ -1044,6 +1354,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDomains` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists Amazon DataZone domains.
     ///
     /// - Parameter ListDomainsInput : [no documentation found]
@@ -1062,6 +1377,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEnvironmentBlueprintConfigurations` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists blueprint configurations for a Amazon DataZone environment.
     ///
     /// - Parameter ListEnvironmentBlueprintConfigurationsInput : [no documentation found]
@@ -1078,6 +1398,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listEnvironmentBlueprintConfigurations(input: ListEnvironmentBlueprintConfigurationsInput) async throws -> ListEnvironmentBlueprintConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEnvironmentBlueprints` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists blueprints in an Amazon DataZone environment.
     ///
     /// - Parameter ListEnvironmentBlueprintsInput : [no documentation found]
@@ -1094,6 +1419,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listEnvironmentBlueprints(input: ListEnvironmentBlueprintsInput) async throws -> ListEnvironmentBlueprintsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEnvironmentProfiles` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists Amazon DataZone environment profiles.
     ///
     /// - Parameter ListEnvironmentProfilesInput : [no documentation found]
@@ -1109,6 +1439,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listEnvironmentProfiles(input: ListEnvironmentProfilesInput) async throws -> ListEnvironmentProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEnvironments` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists Amazon DataZone environments.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
@@ -1124,6 +1459,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListNotifications` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists all Amazon DataZone notifications.
     ///
     /// - Parameter ListNotificationsInput : [no documentation found]
@@ -1140,6 +1480,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProjectMemberships` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists all members of the specified project.
     ///
     /// - Parameter ListProjectMembershipsInput : [no documentation found]
@@ -1156,6 +1501,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listProjectMemberships(input: ListProjectMembershipsInput) async throws -> ListProjectMembershipsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProjects` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists Amazon DataZone projects.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
@@ -1171,6 +1521,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSubscriptionGrants` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists subscription grants.
     ///
     /// - Parameter ListSubscriptionGrantsInput : [no documentation found]
@@ -1187,6 +1542,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listSubscriptionGrants(input: ListSubscriptionGrantsInput) async throws -> ListSubscriptionGrantsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSubscriptionRequests` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists Amazon DataZone subscription requests.
     ///
     /// - Parameter ListSubscriptionRequestsInput : [no documentation found]
@@ -1203,6 +1563,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listSubscriptionRequests(input: ListSubscriptionRequestsInput) async throws -> ListSubscriptionRequestsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSubscriptions` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists subscriptions in Amazon DataZone.
     ///
     /// - Parameter ListSubscriptionsInput : [no documentation found]
@@ -1219,6 +1584,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSubscriptionTargets` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists subscription targets in Amazon DataZone.
     ///
     /// - Parameter ListSubscriptionTargetsInput : [no documentation found]
@@ -1235,6 +1605,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listSubscriptionTargets(input: ListSubscriptionTargetsInput) async throws -> ListSubscriptionTargetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Lists tags for the specified resource in Amazon DataZone.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1251,6 +1626,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutEnvironmentBlueprintConfiguration` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Writes the configuration for the specified environment blueprint in Amazon DataZone.
     ///
     /// - Parameter PutEnvironmentBlueprintConfigurationInput : [no documentation found]
@@ -1268,6 +1648,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func putEnvironmentBlueprintConfiguration(input: PutEnvironmentBlueprintConfigurationInput) async throws -> PutEnvironmentBlueprintConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RejectPredictions` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
     ///
     /// - Parameter RejectPredictionsInput : [no documentation found]
@@ -1284,6 +1669,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func rejectPredictions(input: RejectPredictionsInput) async throws -> RejectPredictionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RejectSubscriptionRequest` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Rejects the specified subscription request.
     ///
     /// - Parameter RejectSubscriptionRequestInput : [no documentation found]
@@ -1301,6 +1691,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func rejectSubscriptionRequest(input: RejectSubscriptionRequestInput) async throws -> RejectSubscriptionRequestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RevokeSubscription` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Revokes a specified subscription in Amazon DataZone.
     ///
     /// - Parameter RevokeSubscriptionInput : [no documentation found]
@@ -1318,6 +1713,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func revokeSubscription(input: RevokeSubscriptionInput) async throws -> RevokeSubscriptionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `Search` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Searches for assets in Amazon DataZone.
     ///
     /// - Parameter SearchInput : [no documentation found]
@@ -1333,6 +1733,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func search(input: SearchInput) async throws -> SearchOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchGroupProfiles` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Searches group profiles in Amazon DataZone.
     ///
     /// - Parameter SearchGroupProfilesInput : [no documentation found]
@@ -1349,6 +1754,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func searchGroupProfiles(input: SearchGroupProfilesInput) async throws -> SearchGroupProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchListings` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Searches listings in Amazon DataZone.
     ///
     /// - Parameter SearchListingsInput : [no documentation found]
@@ -1364,6 +1774,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func searchListings(input: SearchListingsInput) async throws -> SearchListingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchTypes` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Searches for types in Amazon DataZone.
     ///
     /// - Parameter SearchTypesInput : [no documentation found]
@@ -1379,6 +1794,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func searchTypes(input: SearchTypesInput) async throws -> SearchTypesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchUserProfiles` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Searches user profiles in Amazon DataZone.
     ///
     /// - Parameter SearchUserProfilesInput : [no documentation found]
@@ -1395,6 +1815,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func searchUserProfiles(input: SearchUserProfilesInput) async throws -> SearchUserProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDataSourceRun` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Start the run of the specified data source in Amazon DataZone.
     ///
     /// - Parameter StartDataSourceRunInput : [no documentation found]
@@ -1413,6 +1838,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func startDataSourceRun(input: StartDataSourceRunInput) async throws -> StartDataSourceRunOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Tags a resource in Amazon DataZone.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1429,6 +1859,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Untags a resource in Amazon DataZone.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1444,6 +1879,11 @@ public protocol DataZoneClientProtocol {
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDataSource` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified data source in Amazon DataZone.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
@@ -1462,6 +1902,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDomain` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates a Amazon DataZone domain.
     ///
     /// - Parameter UpdateDomainInput : [no documentation found]
@@ -1480,6 +1925,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEnvironment` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified environment in Amazon DataZone.
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]
@@ -1497,6 +1947,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEnvironmentProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified environment profile in Amazon DataZone.
     ///
     /// - Parameter UpdateEnvironmentProfileInput : [no documentation found]
@@ -1515,6 +1970,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateEnvironmentProfile(input: UpdateEnvironmentProfileInput) async throws -> UpdateEnvironmentProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGlossary` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the business glossary in Amazon DataZone.
     ///
     /// - Parameter UpdateGlossaryInput : [no documentation found]
@@ -1532,6 +1992,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateGlossary(input: UpdateGlossaryInput) async throws -> UpdateGlossaryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGlossaryTerm` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates a business glossary term in Amazon DataZone.
     ///
     /// - Parameter UpdateGlossaryTermInput : [no documentation found]
@@ -1549,6 +2014,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateGlossaryTerm(input: UpdateGlossaryTermInput) async throws -> UpdateGlossaryTermOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGroupProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified group profile in Amazon DataZone.
     ///
     /// - Parameter UpdateGroupProfileInput : [no documentation found]
@@ -1565,6 +2035,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateGroupProfile(input: UpdateGroupProfileInput) async throws -> UpdateGroupProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateProject` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified project in Amazon DataZone.
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
@@ -1583,6 +2058,11 @@ public protocol DataZoneClientProtocol {
     /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSubscriptionGrantStatus` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the status of the specified subscription grant status in Amazon DataZone.
     ///
     /// - Parameter UpdateSubscriptionGrantStatusInput : [no documentation found]
@@ -1600,6 +2080,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateSubscriptionGrantStatus(input: UpdateSubscriptionGrantStatusInput) async throws -> UpdateSubscriptionGrantStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSubscriptionRequest` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates a specified subscription request in Amazon DataZone.
     ///
     /// - Parameter UpdateSubscriptionRequestInput : [no documentation found]
@@ -1617,6 +2102,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateSubscriptionRequest(input: UpdateSubscriptionRequestInput) async throws -> UpdateSubscriptionRequestOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSubscriptionTarget` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified subscription target in Amazon DataZone.
     ///
     /// - Parameter UpdateSubscriptionTargetInput : [no documentation found]
@@ -1634,6 +2124,11 @@ public protocol DataZoneClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
     func updateSubscriptionTarget(input: UpdateSubscriptionTargetInput) async throws -> UpdateSubscriptionTargetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateUserProfile` operation on the `DataZone` service.
+    ///
+>>>>>>> main
     /// Updates the specified user profile in Amazon DataZone.
     ///
     /// - Parameter UpdateUserProfileInput : [no documentation found]

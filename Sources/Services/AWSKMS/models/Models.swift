@@ -1391,7 +1391,7 @@ extension CreateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateKeyInput: Swift.Equatable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). The ConnectionState of the custom key store must be CONNECTED. To find the CustomKeyStoreID and ConnectionState use the [DescribeCustomKeyStores] operation. This parameter is valid only for symmetric encryption KMS keys in a single Region. You cannot create any other type of KMS key in a custom key store. When you create a KMS key in an CloudHSM key store, KMS generates a non-exportable 256-bit symmetric key in its associated CloudHSM cluster and associates it with the KMS key. When you create a KMS key in an external key store, you must use the XksKeyId parameter to specify an external key that serves as key material for the KMS key.
     public var customKeyStoreId: Swift.String?
@@ -2301,7 +2301,7 @@ public struct DecryptInput: Swift.Equatable {
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     public var keyId: Swift.String?
-    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -5477,7 +5477,7 @@ public struct GetParametersForImportInput: Swift.Equatable {
     ///
     /// * RSAES_OAEP_SHA_1 — Supported for all types of key material, except RSA key material (private key). You cannot use the RSAES_OAEP_SHA_1 wrapping algorithm with the RSA_2048 wrapping key spec to wrap ECC_NIST_P521 key material.
     ///
-    /// * RSAES_PKCS1_V1_5 (Deprecated) — Supported only for symmetric encryption key material (and only in legacy mode).
+    /// * RSAES_PKCS1_V1_5 (Deprecated) — As of October 10, 2023, KMS does not support the RSAES_PKCS1_V1_5 wrapping algorithm.
     /// This member is required.
     public var wrappingAlgorithm: KMSClientTypes.AlgorithmSpec?
     /// The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import. Use the longest RSA wrapping key that is practical. You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algorithm or choose a longer RSA public key.
@@ -9116,7 +9116,7 @@ extension PutKeyPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutKeyPolicyInput: Swift.Equatable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Sets the key policy on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:
     ///
@@ -9613,7 +9613,7 @@ extension ReplicateKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ReplicateKeyInput: Swift.Equatable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// A description of the KMS key. The default value is an empty string (no description). Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. The description is not a shared property of multi-Region keys. You can specify the same description or a different description for each key in a set of related multi-Region keys. KMS does not synchronize this property.
     public var description: Swift.String?
@@ -12542,7 +12542,7 @@ extension XksProxyVpcEndpointServiceInvalidConfigurationException {
     }
 }
 
-/// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
+/// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/vpc-connectivity.html#xks-vpc-requirements) for Amazon VPC endpoint service connectivity for an external key store.
 public struct XksProxyVpcEndpointServiceInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

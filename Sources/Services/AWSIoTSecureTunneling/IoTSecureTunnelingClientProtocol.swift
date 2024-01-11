@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// IoT Secure Tunneling IoT Secure Tunneling creates remote connections to devices deployed in the field. For more information about how IoT Secure Tunneling works, see [IoT Secure Tunneling](https://docs.aws.amazon.com/iot/latest/developerguide/secure-tunneling.html).
 public protocol IoTSecureTunnelingClientProtocol {
+    /// Performs the `CloseTunnel` operation on the `IoTSecuredTunneling` service.
+    ///
     /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted. Requires permission to access the [CloseTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter CloseTunnelInput : [no documentation found]
@@ -15,6 +17,11 @@ public protocol IoTSecureTunnelingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     func closeTunnel(input: CloseTunnelInput) async throws -> CloseTunnelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeTunnel` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// Gets information about a tunnel identified by the unique tunnel id. Requires permission to access the [DescribeTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeTunnelInput : [no documentation found]
@@ -26,6 +33,11 @@ public protocol IoTSecureTunnelingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     func describeTunnel(input: DescribeTunnelInput) async throws -> DescribeTunnelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -37,12 +49,22 @@ public protocol IoTSecureTunnelingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTunnels` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels. Requires permission to access the [ListTunnels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListTunnelsInput : [no documentation found]
     ///
     /// - Returns: `ListTunnelsOutput` : [no documentation found]
     func listTunnels(input: ListTunnelsInput) async throws -> ListTunnelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `OpenTunnel` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// Creates a new tunnel, and returns two client access tokens for clients to use to connect to the IoT Secure Tunneling proxy server. Requires permission to access the [OpenTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter OpenTunnelInput : [no documentation found]
@@ -54,6 +76,11 @@ public protocol IoTSecureTunnelingClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Thrown when a tunnel limit is exceeded.
     func openTunnel(input: OpenTunnelInput) async throws -> OpenTunnelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RotateTunnelAccessToken` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// Revokes the current client access token (CAT) and returns new CAT for clients to use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the [RotateTunnelAccessToken](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the access tokens, the new tokens that are generated can only be used for the remaining 8 hours.
     ///
     /// - Parameter RotateTunnelAccessTokenInput : [no documentation found]
@@ -65,6 +92,11 @@ public protocol IoTSecureTunnelingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     func rotateTunnelAccessToken(input: RotateTunnelAccessTokenInput) async throws -> RotateTunnelAccessTokenOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// A resource tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -76,6 +108,11 @@ public protocol IoTSecureTunnelingClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Thrown when an operation is attempted on a resource that does not exist.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `IoTSecuredTunneling` service.
+    ///
+>>>>>>> main
     /// Removes a tag from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

@@ -28,12 +28,19 @@ let package = Package(
     name: "aws-sdk-swift",
     platforms: [
         .macOS(.v10_15),
-        .iOS(.v13)
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6)
     ],
     products: [
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"])
     ],
     targets: [
+        .target(
+            name: "AWSSDKForSwift",
+            path: "Sources/Core/AWSSDKForSwift",
+            exclude: ["Documentation.docc/AWSSDKForSwift.md"]
+        ),
         .target(
             name: "AWSClientRuntime",
             dependencies: [.crt, .clientRuntime],
@@ -53,6 +60,7 @@ let package = Package(
 func addDependencies(clientRuntimeVersion: Version, crtVersion: Version) {
     addClientRuntimeDependency(clientRuntimeVersion)
     addCRTDependency(crtVersion)
+    addDoccDependency()
 }
 
 func addClientRuntimeDependency(_ version: Version) {
@@ -83,10 +91,15 @@ func addCRTDependency(_ version: Version) {
     ]
 }
 
+func addDoccDependency() {
+    package.dependencies += [
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+    ]
+}
+
 // MARK: - Services
 
 func addServiceTarget(_ name: String) {
-    let testName = "\(name)Tests"
     package.products += [
         .library(name: name, targets: [name]),
     ]
@@ -95,7 +108,13 @@ func addServiceTarget(_ name: String) {
             name: name,
             dependencies: [.clientRuntime, .awsClientRuntime],
             path: "./Sources/Services/\(name)"
-        ),
+        )
+    ]
+}
+
+func addServiceUnitTestTarget(_ name: String) {
+    let testName = "\(name)Tests"
+    package.targets += [
         .testTarget(
             name: "\(testName)",
             dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
@@ -106,7 +125,7 @@ func addServiceTarget(_ name: String) {
 
 func addIntegrationTestTarget(_ name: String) {
     let integrationTestName = "\(name)IntegrationTests"
-    var additionalDependencies: [PackageDescription.Target.Dependency] = []
+    var additionalDependencies: [String] = []
     var exclusions: [String] = []
     switch name {
     case "AWSECS":
@@ -120,15 +139,36 @@ func addIntegrationTestTarget(_ name: String) {
     default:
         break
     }
+    integrationTestServices.insert(name)
+    additionalDependencies.forEach { integrationTestServices.insert($0) }
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies,
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
             path: "./IntegrationTests/Services/\(integrationTestName)",
             exclude: exclusions,
             resources: [.process("Resources")]
         )
     ]
+}
+
+var enabledServices = Set<String>()
+
+var enabledServiceUnitTests = Set<String>()
+
+func addAllServices() {
+    enabledServices = Set(serviceTargets)
+    enabledServiceUnitTests = Set(serviceTargets)
+}
+
+var integrationTestServices = Set<String>()
+
+func addIntegrationTests() {
+    servicesWithIntegrationTests.forEach { addIntegrationTestTarget($0) }
+}
+
+func excludeRuntimeUnitTests() {
+    package.targets.removeAll { $0.name == "AWSClientRuntimeTests" }
 }
 
 func addProtocolTests() {
@@ -150,6 +190,7 @@ func addProtocolTests() {
 
     let protocolTests: [ProtocolTest] = [
         .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
+        .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
         .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
         .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
         .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
@@ -180,13 +221,21 @@ func addProtocolTests() {
     }
 }
 
+func addResolvedTargets() {
+    enabledServices.union(integrationTestServices).forEach(addServiceTarget)
+    enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
+}
+
 
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.35.0",
-    crtVersion: "0.17.0"
+    clientRuntimeVersion: "0.37.0",
+    crtVersion: "0.20.0"
 )
+
+// Uncomment this line to exclude runtime unit tests
+// excludeRuntimeUnitTests()
 
 let serviceTargets: [String] = [
     "AWSACM",
@@ -219,11 +268,15 @@ let serviceTargets: [String] = [
     "AWSAuditManager",
     "AWSAutoScaling",
     "AWSAutoScalingPlans",
+    "AWSB2bi",
+    "AWSBCMDataExports",
     "AWSBackup",
     "AWSBackupGateway",
     "AWSBackupStorage",
     "AWSBatch",
     "AWSBedrock",
+    "AWSBedrockAgent",
+    "AWSBedrockAgentRuntime",
     "AWSBedrockRuntime",
     "AWSBillingconductor",
     "AWSBraket",
@@ -235,11 +288,13 @@ let serviceTargets: [String] = [
     "AWSChimeSDKMessaging",
     "AWSChimeSDKVoice",
     "AWSCleanRooms",
+    "AWSCleanRoomsML",
     "AWSCloud9",
     "AWSCloudControl",
     "AWSCloudDirectory",
     "AWSCloudFormation",
     "AWSCloudFront",
+    "AWSCloudFrontKeyValueStore",
     "AWSCloudHSM",
     "AWSCloudHSMV2",
     "AWSCloudSearch",
@@ -275,6 +330,7 @@ let serviceTargets: [String] = [
     "AWSConnectParticipant",
     "AWSControlTower",
     "AWSCostExplorer",
+    "AWSCostOptimizationHub",
     "AWSCostandUsageReportService",
     "AWSCustomerProfiles",
     "AWSDAX",
@@ -303,6 +359,7 @@ let serviceTargets: [String] = [
     "AWSECS",
     "AWSEFS",
     "AWSEKS",
+    "AWSEKSAuth",
     "AWSEMR",
     "AWSEMRServerless",
     "AWSEMRcontainers",
@@ -325,6 +382,7 @@ let serviceTargets: [String] = [
     "AWSForecast",
     "AWSForecastquery",
     "AWSFraudDetector",
+    "AWSFreeTier",
     "AWSGameLift",
     "AWSGlacier",
     "AWSGlobalAccelerator",
@@ -343,6 +401,7 @@ let serviceTargets: [String] = [
     "AWSImagebuilder",
     "AWSInspector",
     "AWSInspector2",
+    "AWSInspectorScan",
     "AWSInternetMonitor",
     "AWSIoT",
     "AWSIoT1ClickDevicesService",
@@ -396,12 +455,13 @@ let serviceTargets: [String] = [
     "AWSMTurk",
     "AWSMWAA",
     "AWSMachineLearning",
-    "AWSMacie",
     "AWSMacie2",
     "AWSManagedBlockchain",
     "AWSManagedBlockchainQuery",
+    "AWSMarketplaceAgreement",
     "AWSMarketplaceCatalog",
     "AWSMarketplaceCommerceAnalytics",
+    "AWSMarketplaceDeployment",
     "AWSMarketplaceEntitlementService",
     "AWSMarketplaceMetering",
     "AWSMediaConnect",
@@ -424,6 +484,7 @@ let serviceTargets: [String] = [
     "AWSMobile",
     "AWSMq",
     "AWSNeptune",
+    "AWSNeptuneGraph",
     "AWSNeptunedata",
     "AWSNetworkFirewall",
     "AWSNetworkManager",
@@ -454,6 +515,8 @@ let serviceTargets: [String] = [
     "AWSPricing",
     "AWSPrivateNetworks",
     "AWSProton",
+    "AWSQBusiness",
+    "AWSQConnect",
     "AWSQLDB",
     "AWSQLDBSession",
     "AWSQuickSight",
@@ -466,6 +529,7 @@ let serviceTargets: [String] = [
     "AWSRedshiftData",
     "AWSRedshiftServerless",
     "AWSRekognition",
+    "AWSRepostspace",
     "AWSResiliencehub",
     "AWSResourceExplorer2",
     "AWSResourceGroups",
@@ -531,6 +595,7 @@ let serviceTargets: [String] = [
     "AWSTranscribeStreaming",
     "AWSTransfer",
     "AWSTranslate",
+    "AWSTrustedAdvisor",
     "AWSVPCLattice",
     "AWSVerifiedPermissions",
     "AWSVoiceID",
@@ -544,17 +609,31 @@ let serviceTargets: [String] = [
     "AWSWorkMail",
     "AWSWorkMailMessageFlow",
     "AWSWorkSpaces",
+    "AWSWorkSpacesThinClient",
     "AWSWorkSpacesWeb",
     "AWSXRay",
 ]
 
-serviceTargets.forEach(addServiceTarget)
+// Uncomment this line to enable all services
+addAllServices()
 
 let servicesWithIntegrationTests: [String] = [
+    "AWSECS",
+    "AWSKinesis",
+    "AWSMediaConvert",
+    "AWSS3",
+    "AWSSQS",
+    "AWSTranscribeStreaming",
 ]
 
-servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
+// Uncomment this line to enable integration tests
+// addIntegrationTests()
 
 // Uncomment this line to enable protocol tests
 // addProtocolTests()
 
+<<<<<<< HEAD
+=======
+addResolvedTargets()
+
+>>>>>>> main

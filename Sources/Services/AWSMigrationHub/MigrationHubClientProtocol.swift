@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The AWS Migration Hub API methods help to obtain server and application migration status and integrate your resource-specific migration tool by providing a programmatic interface to Migration Hub. Remember that you must set your AWS Migration Hub home region before you call any of these APIs, or a HomeRegionNotSetException error will be returned. Also, you must make the API calls while in your home region.
 public protocol MigrationHubClientProtocol {
+    /// Performs the `AssociateCreatedArtifact` operation on the `AWSMigrationHub` service.
+    ///
     /// Associates a created artifact of an AWS cloud resource, the target receiving the migration, with the migration task performed by a migration tool. This API has the following traits:
     ///
     /// * Migration tools can call the AssociateCreatedArtifact operation to indicate which AWS artifact is associated with a migration task.
@@ -29,6 +31,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func associateCreatedArtifact(input: AssociateCreatedArtifactInput) async throws -> AssociateCreatedArtifactOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `AssociateDiscoveredResource` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Associates a discovered resource ID from Application Discovery Service with a migration task.
     ///
     /// - Parameter AssociateDiscoveredResourceInput : [no documentation found]
@@ -49,6 +56,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func associateDiscoveredResource(input: AssociateDiscoveredResourceInput) async throws -> AssociateDiscoveredResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateProgressUpdateStream` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
     ///
     /// - Parameter CreateProgressUpdateStreamInput : [no documentation found]
@@ -67,6 +79,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func createProgressUpdateStream(input: CreateProgressUpdateStreamInput) async throws -> CreateProgressUpdateStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteProgressUpdateStream` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits:
     ///
     /// * The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call).
@@ -96,6 +113,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func deleteProgressUpdateStream(input: DeleteProgressUpdateStreamInput) async throws -> DeleteProgressUpdateStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeApplicationState` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Gets the migration status of an application.
     ///
     /// - Parameter DescribeApplicationStateInput : [no documentation found]
@@ -114,6 +136,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeApplicationState(input: DescribeApplicationStateInput) async throws -> DescribeApplicationStateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeMigrationTask` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Retrieves a list of all attributes associated with a specific migration task.
     ///
     /// - Parameter DescribeMigrationTaskInput : [no documentation found]
@@ -131,6 +158,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func describeMigrationTask(input: DescribeMigrationTaskInput) async throws -> DescribeMigrationTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateCreatedArtifact` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Disassociates a created artifact of an AWS resource with a migration task performed by a migration tool that was previously associated. This API has the following traits:
     ///
     /// * A migration user can call the DisassociateCreatedArtifacts operation to disassociate a created AWS Artifact from a migration task.
@@ -156,6 +188,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func disassociateCreatedArtifact(input: DisassociateCreatedArtifactInput) async throws -> DisassociateCreatedArtifactOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateDiscoveredResource` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Disassociate an Application Discovery Service discovered resource from a migration task.
     ///
     /// - Parameter DisassociateDiscoveredResourceInput : [no documentation found]
@@ -175,6 +212,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func disassociateDiscoveredResource(input: DisassociateDiscoveredResourceInput) async throws -> DisassociateDiscoveredResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ImportMigrationTask` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
     ///
     /// - Parameter ImportMigrationTaskInput : [no documentation found]
@@ -194,6 +236,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func importMigrationTask(input: ImportMigrationTaskInput) async throws -> ImportMigrationTaskOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListApplicationStates` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned.
     ///
     /// - Parameter ListApplicationStatesInput : [no documentation found]
@@ -210,6 +257,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listApplicationStates(input: ListApplicationStatesInput) async throws -> ListApplicationStatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCreatedArtifacts` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Lists the created artifacts attached to a given migration task in an update stream. This API has the following traits:
     ///
     /// * Gets the list of the created artifacts while migration is taking place.
@@ -233,6 +285,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listCreatedArtifacts(input: ListCreatedArtifactsInput) async throws -> ListCreatedArtifactsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDiscoveredResources` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Lists discovered resources associated with the given MigrationTask.
     ///
     /// - Parameter ListDiscoveredResourcesInput : [no documentation found]
@@ -250,6 +307,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMigrationTasks` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits:
     ///
     /// * Can show a summary list of the most recent migration tasks.
@@ -274,6 +336,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listMigrationTasks(input: ListMigrationTasksInput) async throws -> ListMigrationTasksOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListProgressUpdateStreams` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Lists progress update streams associated with the user account making this call.
     ///
     /// - Parameter ListProgressUpdateStreamsInput : [no documentation found]
@@ -290,6 +357,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func listProgressUpdateStreams(input: ListProgressUpdateStreamsInput) async throws -> ListProgressUpdateStreamsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `NotifyApplicationState` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId, its status is set or updated by passing one of three values to Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
     ///
     /// - Parameter NotifyApplicationStateInput : [no documentation found]
@@ -310,6 +382,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func notifyApplicationState(input: NotifyApplicationStateInput) async throws -> NotifyApplicationStateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `NotifyMigrationTaskState` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Notifies Migration Hub of the current status, progress, or other detail regarding a migration task. This API has the following traits:
     ///
     /// * Migration tools will call the NotifyMigrationTaskState API to share the latest progress and status.
@@ -335,6 +412,11 @@ public protocol MigrationHubClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     func notifyMigrationTaskState(input: NotifyMigrationTaskStateInput) async throws -> NotifyMigrationTaskStateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutResourceAttributes` operation on the `AWSMigrationHub` service.
+    ///
+>>>>>>> main
     /// Provides identifying details of the resource being migrated so that it can be associated in the Application Discovery Service repository. This association occurs asynchronously after PutResourceAttributes returns.
     ///
     /// * Keep in mind that subsequent calls to PutResourceAttributes will override previously stored attributes. For example, if it is first called with a MAC address, but later, it is desired to add an IP address, it will then be required to call it with both the IP and MAC addresses to prevent overriding the MAC address.

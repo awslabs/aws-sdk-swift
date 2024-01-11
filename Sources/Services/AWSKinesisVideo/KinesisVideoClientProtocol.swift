@@ -4,6 +4,8 @@ import ClientRuntime
 
 ///
 public protocol KinesisVideoClientProtocol {
+    /// Performs the `CreateSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    ///
     /// Creates a signaling channel. CreateSignalingChannel is an asynchronous operation.
     ///
     /// - Parameter CreateSignalingChannelInput : [no documentation found]
@@ -26,6 +28,11 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `TagsPerResourceExceededLimitException` : You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
     func createSignalingChannel(input: CreateSignalingChannelInput) async throws -> CreateSignalingChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see [How it Works](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/how-it-works.html). You must have permissions for the KinesisVideo:CreateStream action.
     ///
     /// - Parameter CreateStreamInput : [no documentation found]
@@ -49,6 +56,11 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `TagsPerResourceExceededLimitException` : You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
     func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEdgeConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED. You will need to re-try the deletion. When the deletion process has completed successfully, the edge configuration is no longer accessible.
     ///
     /// - Parameter DeleteEdgeConfigurationInput : [no documentation found]
@@ -64,6 +76,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `StreamEdgeConfigurationNotFoundException` : The Exception rendered when the Amazon Kinesis Video Stream can't find a stream's edge configuration that you specified.
     func deleteEdgeConfiguration(input: DeleteEdgeConfigurationInput) async throws -> DeleteEdgeConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted.
     ///
     /// - Parameter DeleteSignalingChannelInput : [no documentation found]
@@ -86,6 +103,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `VersionMismatchException` : The stream version that you specified is not the latest version. To get the latest version, use the [DescribeStream](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html) API.
     func deleteSignalingChannel(input: DeleteSignalingChannelInput) async throws -> DeleteSignalingChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Deletes a Kinesis video stream and the data contained in the stream. This method marks the stream for deletion, and makes the data in the stream inaccessible immediately. To ensure that you have the latest version of the stream before deleting it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. This operation requires permission for the KinesisVideo:DeleteStream action.
     ///
     /// - Parameter DeleteStreamInput : [no documentation found]
@@ -108,6 +130,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `VersionMismatchException` : The stream version that you specified is not the latest version. To get the latest version, use the [DescribeStream](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html) API.
     func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEdgeConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the configuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent.
     ///
     /// - Parameter DescribeEdgeConfigurationInput : [no documentation found]
@@ -123,6 +150,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `StreamEdgeConfigurationNotFoundException` : The Exception rendered when the Amazon Kinesis Video Stream can't find a stream's edge configuration that you specified.
     func describeEdgeConfiguration(input: DescribeEdgeConfigurationInput) async throws -> DescribeEdgeConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeImageGenerationConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Gets the ImageGenerationConfiguration for a given Kinesis video stream.
     ///
     /// - Parameter DescribeImageGenerationConfigurationInput : [no documentation found]
@@ -137,6 +169,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeImageGenerationConfiguration(input: DescribeImageGenerationConfigurationInput) async throws -> DescribeImageGenerationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeMappedResourceConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
     ///
     /// - Parameter DescribeMappedResourceConfigurationInput : [no documentation found]
@@ -151,7 +188,13 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeMappedResourceConfiguration(input: DescribeMappedResourceConfigurationInput) async throws -> DescribeMappedResourceConfigurationOutput
+<<<<<<< HEAD
     /// This API is related to [WebRTC Ingestion](https://docs.aws.amazon.com/kinesisvideostreams-webrtc-dg/latest/devguide/webrtc-ingestion.html) and is only available in the us-west-2 region. Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
+=======
+    /// Performs the `DescribeMediaStorageConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+    /// Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
+>>>>>>> main
     ///
     /// - Parameter DescribeMediaStorageConfigurationInput : [no documentation found]
     ///
@@ -165,6 +208,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeMediaStorageConfiguration(input: DescribeMediaStorageConfigurationInput) async throws -> DescribeMediaStorageConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeNotificationConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Gets the NotificationConfiguration for a given Kinesis video stream.
     ///
     /// - Parameter DescribeNotificationConfigurationInput : [no documentation found]
@@ -179,6 +227,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeNotificationConfiguration(input: DescribeNotificationConfigurationInput) async throws -> DescribeNotificationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns the most current information about the signaling channel. You must specify either the name or the Amazon Resource Name (ARN) of the channel that you want to describe.
     ///
     /// - Parameter DescribeSignalingChannelInput : [no documentation found]
@@ -193,6 +246,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeSignalingChannel(input: DescribeSignalingChannelInput) async throws -> DescribeSignalingChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns the most current information about the specified stream. You must specify either the StreamName or the StreamARN.
     ///
     /// - Parameter DescribeStreamInput : [no documentation found]
@@ -207,6 +265,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeStream(input: DescribeStreamInput) async throws -> DescribeStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataEndpoint` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation). The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint. In the request, specify the stream either by StreamName or StreamARN.
     ///
     /// - Parameter GetDataEndpointInput : [no documentation found]
@@ -221,6 +284,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func getDataEndpoint(input: GetDataEndpointInput) async throws -> GetDataEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSignalingChannelEndpoint` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
     ///
     /// - Parameter GetSignalingChannelEndpointInput : [no documentation found]
@@ -242,6 +310,11 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func getSignalingChannelEndpoint(input: GetSignalingChannelEndpointInput) async throws -> GetSignalingChannelEndpointOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEdgeAgentConfigurations` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn.
     ///
     /// - Parameter ListEdgeAgentConfigurationsInput : [no documentation found]
@@ -255,6 +328,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     func listEdgeAgentConfigurations(input: ListEdgeAgentConfigurationsInput) async throws -> ListEdgeAgentConfigurationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSignalingChannels` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
     ///
     /// - Parameter ListSignalingChannelsInput : [no documentation found]
@@ -268,6 +346,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     func listSignalingChannels(input: ListSignalingChannelsInput) async throws -> ListSignalingChannelsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListStreams` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition.
     ///
     /// - Parameter ListStreamsInput : [no documentation found]
@@ -280,6 +363,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns a list of tags associated with the specified signaling channel.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -294,6 +382,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Returns a list of tags associated with the specified stream. In the request, you must specify either the StreamName or the StreamARN.
     ///
     /// - Parameter ListTagsForStreamInput : [no documentation found]
@@ -309,6 +402,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func listTagsForStream(input: ListTagsForStreamInput) async throws -> ListTagsForStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartEdgeConfigurationUpdate` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke this API during the syncing process, a ResourceInUseException will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move an edge configuration from one device to another, use [DeleteEdgeConfiguration] to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
     ///
     /// - Parameter StartEdgeConfigurationUpdateInput : [no documentation found]
@@ -331,6 +429,11 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func startEdgeConfigurationUpdate(input: StartEdgeConfigurationUpdateInput) async throws -> StartEdgeConfigurationUpdateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -346,6 +449,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `TagsPerResourceExceededLimitException` : You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide. You must provide either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:TagStream action. A Kinesis video stream can support up to 50 tags.
     ///
     /// - Parameter TagStreamInput : [no documentation found]
@@ -362,6 +470,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `TagsPerResourceExceededLimitException` : You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
     func tagStream(input: TagStreamInput) async throws -> TagStreamOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Removes one or more tags from a signaling channel. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -376,6 +489,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Removes one or more tags from a stream. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored. In the request, you must provide the StreamName or StreamARN.
     ///
     /// - Parameter UntagStreamInput : [no documentation found]
@@ -391,7 +509,13 @@ public protocol KinesisVideoClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func untagStream(input: UntagStreamInput) async throws -> UntagStreamOutput
+<<<<<<< HEAD
     /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN. The retention period that you specify replaces the current value. This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:
+=======
+    /// Performs the `UpdateDataRetention` operation on the `KinesisVideo_20170930` service.
+    ///
+    /// Increases or decreases the stream's data retention period by the value that you specify. To indicate whether you want to increase or decrease the data retention period, specify the Operation parameter in the request body. In the request, you must specify either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the data in the stream as follows:
+>>>>>>> main
     ///
     /// * If the data retention period is increased, existing data is retained for the new retention period. For example, if the data retention period is increased from one hour to seven hours, all existing data is retained for seven hours.
     ///
@@ -417,6 +541,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `VersionMismatchException` : The stream version that you specified is not the latest version. To get the latest version, use the [DescribeStream](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html) API.
     func updateDataRetention(input: UpdateDataRetentionInput) async throws -> UpdateDataRetentionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateImageGenerationConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Updates the StreamInfo and ImageProcessingConfiguration fields.
     ///
     /// - Parameter UpdateImageGenerationConfigurationInput : [no documentation found]
@@ -439,11 +568,17 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func updateImageGenerationConfiguration(input: UpdateImageGenerationConfigurationInput) async throws -> UpdateImageGenerationConfigurationOutput
+<<<<<<< HEAD
     /// This API is related to [WebRTC Ingestion](https://docs.aws.amazon.com/kinesisvideostreams-webrtc-dg/latest/devguide/webrtc-ingestion.html) and is only available in the us-west-2 region. Associates a SignalingChannel to a stream to store the media. There are two signaling modes that can specified :
+=======
+    /// Performs the `UpdateMediaStorageConfiguration` operation on the `KinesisVideo_20170930` service.
+>>>>>>> main
     ///
-    /// * If the StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that you can specify :
     ///
-    /// * If the StorageStatus is enabled, the data will be stored in the StreamARN provided.
+    /// * If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled.
+    ///
+    /// * If StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.
     ///
     ///
     /// If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers connect directly to the storage session. You must call the JoinStorageSession API to trigger an SDP offer send and establish a connection between a peer and the storage session.
@@ -468,6 +603,11 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func updateMediaStorageConfiguration(input: UpdateMediaStorageConfigurationInput) async throws -> UpdateMediaStorageConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateNotificationConfiguration` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Updates the notification information for a stream.
     ///
     /// - Parameter UpdateNotificationConfigurationInput : [no documentation found]
@@ -490,6 +630,11 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func updateNotificationConfiguration(input: UpdateNotificationConfigurationInput) async throws -> UpdateNotificationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSignalingChannel` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value.
     ///
     /// - Parameter UpdateSignalingChannelInput : [no documentation found]
@@ -512,6 +657,11 @@ public protocol KinesisVideoClientProtocol {
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     /// - `VersionMismatchException` : The stream version that you specified is not the latest version. To get the latest version, use the [DescribeStream](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html) API.
     func updateSignalingChannel(input: UpdateSignalingChannelInput) async throws -> UpdateSignalingChannelOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateStream` operation on the `KinesisVideo_20170930` service.
+    ///
+>>>>>>> main
     /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operation, and takes time to complete.
     ///
     /// - Parameter UpdateStreamInput : [no documentation found]

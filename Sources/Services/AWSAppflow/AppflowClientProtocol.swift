@@ -15,6 +15,8 @@ import ClientRuntime
 ///
 /// If you're new to Amazon AppFlow, we recommend that you review the [Amazon AppFlow User Guide](https://docs.aws.amazon.com/appflow/latest/userguide/what-is-appflow.html). Amazon AppFlow API users can use vendor-specific mechanisms for OAuth, and include applicable OAuth attributes (such as auth-code and redirecturi) with the connector-specific ConnectorProfileProperties when creating a new connector profile using Amazon AppFlow API operations. For example, Salesforce users can refer to the [ Authorize Apps with OAuth ](https://help.salesforce.com/articleView?id=remoteaccess_authenticate.htm) documentation.
 public protocol AppflowClientProtocol {
+    /// Performs the `CancelFlowExecutions` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
     /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't cancel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the status for each run becomes CancelStarted. When the cancellation completes, the status becomes Canceled. When you cancel a run, you still incur charges for any data that the run already processed before the cancellation. If the run had already written some data to the flow destination, then that data remains in the destination. If you configured the flow to use a batch API (such as the Salesforce Bulk API 2.0), then the run will finish reading or writing its entire batch of data after the cancellation. For these operations, the data processing charges for Amazon AppFlow apply. For the pricing information, see [Amazon AppFlow pricing](http://aws.amazon.com/appflow/pricing/).
     ///
     /// - Parameter CancelFlowExecutionsInput : [no documentation found]
@@ -30,6 +32,11 @@ public protocol AppflowClientProtocol {
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func cancelFlowExecutions(input: CancelFlowExecutionsInput) async throws -> CancelFlowExecutionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConnectorProfile` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector.
     ///
     /// - Parameter CreateConnectorProfileInput : [no documentation found]
@@ -45,6 +52,11 @@ public protocol AppflowClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func createConnectorProfile(input: CreateConnectorProfileInput) async throws -> CreateConnectorProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destinations at once.
     ///
     /// - Parameter CreateFlowInput : [no documentation found]
@@ -63,6 +75,11 @@ public protocol AppflowClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConnectorProfile` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Enables you to delete an existing connector profile.
     ///
     /// - Parameter DeleteConnectorProfileInput : [no documentation found]
@@ -76,6 +93,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     func deleteConnectorProfile(input: DeleteConnectorProfileInput) async throws -> DeleteConnectorProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time.
     ///
     /// - Parameter DeleteFlowInput : [no documentation found]
@@ -89,6 +111,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeConnector` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors.
     ///
     /// - Parameter DescribeConnectorInput : [no documentation found]
@@ -102,6 +129,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeConnectorEntity` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Provides details regarding the entity used with the connector, with a description of the data model for each field in that entity.
     ///
     /// - Parameter DescribeConnectorEntityInput : [no documentation found]
@@ -117,6 +149,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func describeConnectorEntity(input: DescribeConnectorEntityInput) async throws -> DescribeConnectorEntityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeConnectorProfiles` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Returns a list of connector-profile details matching the provided connector-profile names and connector-types. Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list.
     ///
     /// - Parameter DescribeConnectorProfilesInput : [no documentation found]
@@ -129,6 +166,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func describeConnectorProfiles(input: DescribeConnectorProfilesInput) async throws -> DescribeConnectorProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeConnectors` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page.
     ///
     /// - Parameter DescribeConnectorsInput : [no documentation found]
@@ -141,6 +183,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func describeConnectors(input: DescribeConnectorsInput) async throws -> DescribeConnectorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Provides a description of the specified flow.
     ///
     /// - Parameter DescribeFlowInput : [no documentation found]
@@ -153,6 +200,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeFlowExecutionRecords` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Fetches the execution history of the flow.
     ///
     /// - Parameter DescribeFlowExecutionRecordsInput : [no documentation found]
@@ -166,6 +218,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func describeFlowExecutionRecords(input: DescribeFlowExecutionRecordsInput) async throws -> DescribeFlowExecutionRecordsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConnectorEntities` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity.
     ///
     /// - Parameter ListConnectorEntitiesInput : [no documentation found]
@@ -181,6 +238,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listConnectorEntities(input: ListConnectorEntitiesInput) async throws -> ListConnectorEntitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConnectors` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Returns the list of all registered custom connectors in your Amazon Web Services account. This API lists only custom connectors registered in this account, not the Amazon Web Services authored connectors.
     ///
     /// - Parameter ListConnectorsInput : [no documentation found]
@@ -193,6 +255,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListFlows` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Lists all of the flows associated with your account.
     ///
     /// - Parameter ListFlowsInput : [no documentation found]
@@ -205,6 +272,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Retrieves the tags that are associated with a specified flow.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -218,6 +290,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterConnector` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Registers a new custom connector with your Amazon Web Services account. Before you can register the connector, you must deploy the associated AWS lambda function in your account.
     ///
     /// - Parameter RegisterConnectorInput : [no documentation found]
@@ -237,6 +314,11 @@ public protocol AppflowClientProtocol {
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func registerConnector(input: RegisterConnectorInput) async throws -> RegisterConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ResetConnectorMetadataCache` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Resets metadata about your connector entities that Amazon AppFlow stored in its cache. Use this action when you want Amazon AppFlow to return the latest information about the data that you have in a source application. Amazon AppFlow returns metadata about your entities when you use the ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to the source application. Amazon AppFlow automatically resets the cache once every hour, but you can use this action when you want to get the latest metadata right away.
     ///
     /// - Parameter ResetConnectorMetadataCacheInput : [no documentation found]
@@ -251,6 +333,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func resetConnectorMetadataCache(input: ResetConnectorMetadataCacheInput) async throws -> ResetConnectorMetadataCacheOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
     ///
     /// - Parameter StartFlowInput : [no documentation found]
@@ -265,6 +352,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota (such as the number of flows) to be exceeded.
     func startFlow(input: StartFlowInput) async throws -> StartFlowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Deactivates the existing flow. For on-demand flows, this operation returns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow.
     ///
     /// - Parameter StopFlowInput : [no documentation found]
@@ -279,6 +371,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `UnsupportedOperationException` : The requested operation is not supported for the current flow.
     func stopFlow(input: StopFlowInput) async throws -> StopFlowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Applies a tag to the specified flow.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -292,6 +389,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UnregisterConnector` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Unregisters the custom connector registered in your account that matches the connector label provided in the request.
     ///
     /// - Parameter UnregisterConnectorInput : [no documentation found]
@@ -305,6 +407,11 @@ public protocol AppflowClientProtocol {
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     func unregisterConnector(input: UnregisterConnectorInput) async throws -> UnregisterConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Removes a tag from the specified flow.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -318,6 +425,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConnectorProfile` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Updates a given connector profile associated with your account.
     ///
     /// - Parameter UpdateConnectorProfileInput : [no documentation found]
@@ -333,6 +445,11 @@ public protocol AppflowClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request (such as the source or destination connector profile) is not found.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateConnectorProfile(input: UpdateConnectorProfileInput) async throws -> UpdateConnectorProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConnectorRegistration` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following:
     ///
     /// * The latest version of the AWS Lambda function that's assigned to the connector
@@ -356,6 +473,11 @@ public protocol AppflowClientProtocol {
     /// - `ThrottlingException` : API calls have exceeded the maximum allowed API request rate per account and per Region.
     /// - `ValidationException` : The request has invalid or missing parameters.
     func updateConnectorRegistration(input: UpdateConnectorRegistrationInput) async throws -> UpdateConnectorRegistrationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateFlow` operation on the `SandstoneConfigurationServiceLambda` service.
+    ///
+>>>>>>> main
     /// Updates an existing flow.
     ///
     /// - Parameter UpdateFlowInput : [no documentation found]

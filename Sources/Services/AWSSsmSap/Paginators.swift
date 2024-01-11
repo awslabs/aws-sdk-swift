@@ -12,7 +12,11 @@ extension SsmSapClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[SsmSapClientTypes.ApplicationSummary]`
     /// - Returns: `[SsmSapClientTypes.ApplicationSummary]`
@@ -43,7 +51,11 @@ extension SsmSapClient {
     ///     - input: A `[ListComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutput`
     public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutput.nextToken, paginationFunction: self.listComponents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponents(input:))
+>>>>>>> main
     }
 }
 
@@ -56,7 +68,11 @@ extension ListComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListComponentsInput, OperationStackOutput == ListComponentsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
     /// to access the nested member `[SsmSapClientTypes.ComponentSummary]`
     /// - Returns: `[SsmSapClientTypes.ComponentSummary]`
@@ -74,7 +90,11 @@ extension SsmSapClient {
     ///     - input: A `[ListDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
     public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatabases(input:))
+>>>>>>> main
     }
 }
 
@@ -88,7 +108,11 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDatabasesInput, OperationStackOutput == ListDatabasesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
     /// to access the nested member `[SsmSapClientTypes.DatabaseSummary]`
     /// - Returns: `[SsmSapClientTypes.DatabaseSummary]`
@@ -106,7 +130,11 @@ extension SsmSapClient {
     ///     - input: A `[ListOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutput`
     public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutput.nextToken, paginationFunction: self.listOperations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOperations(input:))
+>>>>>>> main
     }
 }
 
@@ -120,7 +148,11 @@ extension ListOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListOperationsInput, Output == ListOperationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListOperationsInput, OperationStackOutput == ListOperationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOperationsPaginated`
     /// to access the nested member `[SsmSapClientTypes.Operation]`
     /// - Returns: `[SsmSapClientTypes.Operation]`

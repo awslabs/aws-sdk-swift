@@ -12,7 +12,11 @@ extension HoneycodeClient {
     ///     - input: A `[ListTableColumnsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTableColumnsOutput`
     public func listTableColumnsPaginated(input: ListTableColumnsInput) -> ClientRuntime.PaginatorSequence<ListTableColumnsInput, ListTableColumnsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTableColumnsInput, ListTableColumnsOutput>(input: input, inputKey: \ListTableColumnsInput.nextToken, outputKey: \ListTableColumnsOutput.nextToken, paginationFunction: self.listTableColumns(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTableColumnsInput, ListTableColumnsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTableColumns(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListTableColumnsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTableColumnsInput, Output == ListTableColumnsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTableColumnsInput, OperationStackOutput == ListTableColumnsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTableColumnsPaginated`
     /// to access the nested member `[HoneycodeClientTypes.TableColumn]`
     /// - Returns: `[HoneycodeClientTypes.TableColumn]`
@@ -43,7 +51,11 @@ extension HoneycodeClient {
     ///     - input: A `[ListTableRowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTableRowsOutput`
     public func listTableRowsPaginated(input: ListTableRowsInput) -> ClientRuntime.PaginatorSequence<ListTableRowsInput, ListTableRowsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTableRowsInput, ListTableRowsOutput>(input: input, inputKey: \ListTableRowsInput.nextToken, outputKey: \ListTableRowsOutput.nextToken, paginationFunction: self.listTableRows(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTableRowsInput, ListTableRowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTableRows(input:))
+>>>>>>> main
     }
 }
 
@@ -58,7 +70,11 @@ extension ListTableRowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTableRowsInput, Output == ListTableRowsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTableRowsInput, OperationStackOutput == ListTableRowsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTableRowsPaginated`
     /// to access the nested member `[HoneycodeClientTypes.TableRow]`
     /// - Returns: `[HoneycodeClientTypes.TableRow]`
@@ -76,7 +92,11 @@ extension HoneycodeClient {
     ///     - input: A `[ListTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutput`
     public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \ListTablesInput.nextToken, outputKey: \ListTablesOutput.nextToken, paginationFunction: self.listTables(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTables(input:))
+>>>>>>> main
     }
 }
 
@@ -89,7 +109,11 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTablesInput, OperationStackOutput == ListTablesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
     /// to access the nested member `[HoneycodeClientTypes.Table]`
     /// - Returns: `[HoneycodeClientTypes.Table]`
@@ -107,7 +131,11 @@ extension HoneycodeClient {
     ///     - input: A `[QueryTableRowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `QueryTableRowsOutput`
     public func queryTableRowsPaginated(input: QueryTableRowsInput) -> ClientRuntime.PaginatorSequence<QueryTableRowsInput, QueryTableRowsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<QueryTableRowsInput, QueryTableRowsOutput>(input: input, inputKey: \QueryTableRowsInput.nextToken, outputKey: \QueryTableRowsOutput.nextToken, paginationFunction: self.queryTableRows(input:))
+=======
+        return ClientRuntime.PaginatorSequence<QueryTableRowsInput, QueryTableRowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.queryTableRows(input:))
+>>>>>>> main
     }
 }
 
@@ -122,7 +150,11 @@ extension QueryTableRowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == QueryTableRowsInput, Output == QueryTableRowsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == QueryTableRowsInput, OperationStackOutput == QueryTableRowsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `queryTableRowsPaginated`
     /// to access the nested member `[HoneycodeClientTypes.TableRow]`
     /// - Returns: `[HoneycodeClientTypes.TableRow]`

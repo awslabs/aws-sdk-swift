@@ -3750,6 +3750,7 @@ extension IoTClientTypes {
 extension IoTClientTypes.Behavior: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case criteria
+        case exportMetric
         case metric
         case metricDimension
         case name
@@ -3760,6 +3761,9 @@ extension IoTClientTypes.Behavior: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let criteria = self.criteria {
             try encodeContainer.encode(criteria, forKey: .criteria)
+        }
+        if let exportMetric = self.exportMetric {
+            try encodeContainer.encode(exportMetric, forKey: .exportMetric)
         }
         if let metric = self.metric {
             try encodeContainer.encode(metric, forKey: .metric)
@@ -3787,6 +3791,8 @@ extension IoTClientTypes.Behavior: Swift.Codable {
         criteria = criteriaDecoded
         let suppressAlertsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .suppressAlerts)
         suppressAlerts = suppressAlertsDecoded
+        let exportMetricDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exportMetric)
+        exportMetric = exportMetricDecoded
     }
 }
 
@@ -3795,6 +3801,8 @@ extension IoTClientTypes {
     public struct Behavior: Swift.Equatable {
         /// The criteria that determine if a device is behaving normally in regard to the metric. In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously.
         public var criteria: IoTClientTypes.BehaviorCriteria?
+        /// Value indicates exporting metrics related to the behavior when it is true.
+        public var exportMetric: Swift.Bool?
         /// What is measured by the behavior.
         public var metric: Swift.String?
         /// The dimension for a metric in your behavior. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric to only MQTT topics where the name matches the pattern specified in the dimension. This can't be used with custom metrics.
@@ -3807,6 +3815,7 @@ extension IoTClientTypes {
 
         public init(
             criteria: IoTClientTypes.BehaviorCriteria? = nil,
+            exportMetric: Swift.Bool? = nil,
             metric: Swift.String? = nil,
             metricDimension: IoTClientTypes.MetricDimension? = nil,
             name: Swift.String? = nil,
@@ -3814,6 +3823,7 @@ extension IoTClientTypes {
         )
         {
             self.criteria = criteria
+            self.exportMetric = exportMetric
             self.metric = metric
             self.metricDimension = metricDimension
             self.name = name
@@ -5356,6 +5366,80 @@ extension IoTClientTypes {
             self = CertificateMode(rawValue: rawValue) ?? CertificateMode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension IoTClientTypes {
+    public enum CertificateProviderOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createcertificatefromcsr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateProviderOperation] {
+            return [
+                .createcertificatefromcsr,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createcertificatefromcsr: return "CreateCertificateFromCsr"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateProviderOperation(rawValue: rawValue) ?? CertificateProviderOperation.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTClientTypes.CertificateProviderSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderArn
+        case certificateProviderName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateProviderArn = self.certificateProviderArn {
+            try encodeContainer.encode(certificateProviderArn, forKey: .certificateProviderArn)
+        }
+        if let certificateProviderName = self.certificateProviderName {
+            try encodeContainer.encode(certificateProviderName, forKey: .certificateProviderName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// The certificate provider summary.
+    public struct CertificateProviderSummary: Swift.Equatable {
+        /// The ARN of the certificate provider.
+        public var certificateProviderArn: Swift.String?
+        /// The name of the certificate provider.
+        public var certificateProviderName: Swift.String?
+
+        public init(
+            certificateProviderArn: Swift.String? = nil,
+            certificateProviderName: Swift.String? = nil
+        )
+        {
+            self.certificateProviderArn = certificateProviderArn
+            self.certificateProviderName = certificateProviderName
+        }
+    }
+
 }
 
 extension CertificateStateException {
@@ -6908,6 +6992,193 @@ enum CreateCertificateFromCsrOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+<<<<<<< HEAD
+=======
+extension CreateCertificateProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case clientToken
+        case lambdaFunctionArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountDefaultForOperations = accountDefaultForOperations {
+            var accountDefaultForOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountDefaultForOperations)
+            for certificateprovideroperation0 in accountDefaultForOperations {
+                try accountDefaultForOperationsContainer.encode(certificateprovideroperation0.rawValue)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let lambdaFunctionArn = self.lambdaFunctionArn {
+            try encodeContainer.encode(lambdaFunctionArn, forKey: .lambdaFunctionArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateCertificateProviderInput: Swift.Equatable {
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
+    /// This member is required.
+    public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+    /// A string that you can optionally pass in the CreateCertificateProvider request to make sure the request is idempotent.
+    public var clientToken: Swift.String?
+    /// The ARN of the Lambda function that defines the authentication logic.
+    /// This member is required.
+    public var lambdaFunctionArn: Swift.String?
+    /// Metadata which can be used to manage the certificate provider.
+    public var tags: [IoTClientTypes.Tag]?
+
+    public init(
+        accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
+        certificateProviderName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        lambdaFunctionArn: Swift.String? = nil,
+        tags: [IoTClientTypes.Tag]? = nil
+    )
+    {
+        self.accountDefaultForOperations = accountDefaultForOperations
+        self.certificateProviderName = certificateProviderName
+        self.clientToken = clientToken
+        self.lambdaFunctionArn = lambdaFunctionArn
+        self.tags = tags
+    }
+}
+
+struct CreateCertificateProviderInputBody: Swift.Equatable {
+    let lambdaFunctionArn: Swift.String?
+    let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    let clientToken: Swift.String?
+    let tags: [IoTClientTypes.Tag]?
+}
+
+extension CreateCertificateProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case clientToken
+        case lambdaFunctionArn
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let accountDefaultForOperationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderOperation?].self, forKey: .accountDefaultForOperations)
+        var accountDefaultForOperationsDecoded0:[IoTClientTypes.CertificateProviderOperation]? = nil
+        if let accountDefaultForOperationsContainer = accountDefaultForOperationsContainer {
+            accountDefaultForOperationsDecoded0 = [IoTClientTypes.CertificateProviderOperation]()
+            for enum0 in accountDefaultForOperationsContainer {
+                if let enum0 = enum0 {
+                    accountDefaultForOperationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        accountDefaultForOperations = accountDefaultForOperationsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([IoTClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[IoTClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [IoTClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCertificateProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateProviderArn = output.certificateProviderArn
+            self.certificateProviderName = output.certificateProviderName
+        } else {
+            self.certificateProviderArn = nil
+            self.certificateProviderName = nil
+        }
+    }
+}
+
+public struct CreateCertificateProviderOutput: Swift.Equatable {
+    /// The ARN of the certificate provider.
+    public var certificateProviderArn: Swift.String?
+    /// The name of the certificate provider.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderArn: Swift.String? = nil,
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderArn = certificateProviderArn
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct CreateCertificateProviderOutputBody: Swift.Equatable {
+    let certificateProviderName: Swift.String?
+    let certificateProviderArn: Swift.String?
+}
+
+extension CreateCertificateProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderArn
+        case certificateProviderName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+    }
+}
+
+enum CreateCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension CreateCustomMetricInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
@@ -8040,7 +8311,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A short text description of the job.
     public var description: Swift.String?
-    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -8382,7 +8653,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     /// A description of the job document.
     /// This member is required.
     public var description: Swift.String?
-    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -10847,6 +11118,7 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         case additionalMetricsToRetainV2
         case alertTargets
         case behaviors
+        case metricsExportConfig
         case securityProfileDescription
         case tags
     }
@@ -10876,6 +11148,9 @@ extension CreateSecurityProfileInput: Swift.Encodable {
             for behavior0 in behaviors {
                 try behaviorsContainer.encode(behavior0)
             }
+        }
+        if let metricsExportConfig = self.metricsExportConfig {
+            try encodeContainer.encode(metricsExportConfig, forKey: .metricsExportConfig)
         }
         if let securityProfileDescription = self.securityProfileDescription {
             try encodeContainer.encode(securityProfileDescription, forKey: .securityProfileDescription)
@@ -10908,6 +11183,8 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     public var alertTargets: [Swift.String:IoTClientTypes.AlertTarget]?
     /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
     public var behaviors: [IoTClientTypes.Behavior]?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// A description of the security profile.
     public var securityProfileDescription: Swift.String?
     /// The name you are giving to the security profile.
@@ -10921,6 +11198,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
         additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]? = nil,
         alertTargets: [Swift.String:IoTClientTypes.AlertTarget]? = nil,
         behaviors: [IoTClientTypes.Behavior]? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
@@ -10930,6 +11208,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
         self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
         self.alertTargets = alertTargets
         self.behaviors = behaviors
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
         self.tags = tags
@@ -10943,6 +11222,7 @@ struct CreateSecurityProfileInputBody: Swift.Equatable {
     let additionalMetricsToRetain: [Swift.String]?
     let additionalMetricsToRetainV2: [IoTClientTypes.MetricToRetain]?
     let tags: [IoTClientTypes.Tag]?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
 }
 
 extension CreateSecurityProfileInputBody: Swift.Decodable {
@@ -10951,6 +11231,7 @@ extension CreateSecurityProfileInputBody: Swift.Decodable {
         case additionalMetricsToRetainV2
         case alertTargets
         case behaviors
+        case metricsExportConfig
         case securityProfileDescription
         case tags
     }
@@ -11014,6 +11295,8 @@ extension CreateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
     }
 }
 
@@ -11869,6 +12152,7 @@ enum CreateTopicRuleDestinationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+<<<<<<< HEAD
 public struct CreateTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateTopicRuleInputBodyMiddleware"
 
@@ -11907,6 +12191,8 @@ public struct CreateTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateTopicRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case topicRulePayload
@@ -12569,6 +12855,67 @@ enum DeleteCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteCertificateProviderInput: Swift.Equatable {
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct DeleteCertificateProviderInputBody: Swift.Equatable {
+}
+
+extension DeleteCertificateProviderInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCertificateProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeleteConflictException": return try await DeleteConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeleteConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -15606,6 +15953,155 @@ enum DescribeCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DescribeCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeCertificateProviderInput: Swift.Equatable {
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct DescribeCertificateProviderInputBody: Swift.Equatable {
+}
+
+extension DescribeCertificateProviderInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCertificateProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountDefaultForOperations = output.accountDefaultForOperations
+            self.certificateProviderArn = output.certificateProviderArn
+            self.certificateProviderName = output.certificateProviderName
+            self.creationDate = output.creationDate
+            self.lambdaFunctionArn = output.lambdaFunctionArn
+            self.lastModifiedDate = output.lastModifiedDate
+        } else {
+            self.accountDefaultForOperations = nil
+            self.certificateProviderArn = nil
+            self.certificateProviderName = nil
+            self.creationDate = nil
+            self.lambdaFunctionArn = nil
+            self.lastModifiedDate = nil
+        }
+    }
+}
+
+public struct DescribeCertificateProviderOutput: Swift.Equatable {
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
+    public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    /// The ARN of the certificate provider.
+    public var certificateProviderArn: Swift.String?
+    /// The name of the certificate provider.
+    public var certificateProviderName: Swift.String?
+    /// The date-time string that indicates when the certificate provider was created.
+    public var creationDate: ClientRuntime.Date?
+    /// The Lambda function ARN that's associated with the certificate provider.
+    public var lambdaFunctionArn: Swift.String?
+    /// The date-time string that indicates when the certificate provider was last updated.
+    public var lastModifiedDate: ClientRuntime.Date?
+
+    public init(
+        accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
+        certificateProviderArn: Swift.String? = nil,
+        certificateProviderName: Swift.String? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        lambdaFunctionArn: Swift.String? = nil,
+        lastModifiedDate: ClientRuntime.Date? = nil
+    )
+    {
+        self.accountDefaultForOperations = accountDefaultForOperations
+        self.certificateProviderArn = certificateProviderArn
+        self.certificateProviderName = certificateProviderName
+        self.creationDate = creationDate
+        self.lambdaFunctionArn = lambdaFunctionArn
+        self.lastModifiedDate = lastModifiedDate
+    }
+}
+
+struct DescribeCertificateProviderOutputBody: Swift.Equatable {
+    let certificateProviderName: Swift.String?
+    let certificateProviderArn: Swift.String?
+    let lambdaFunctionArn: Swift.String?
+    let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    let creationDate: ClientRuntime.Date?
+    let lastModifiedDate: ClientRuntime.Date?
+}
+
+extension DescribeCertificateProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case certificateProviderArn
+        case certificateProviderName
+        case creationDate
+        case lambdaFunctionArn
+        case lastModifiedDate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let accountDefaultForOperationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderOperation?].self, forKey: .accountDefaultForOperations)
+        var accountDefaultForOperationsDecoded0:[IoTClientTypes.CertificateProviderOperation]? = nil
+        if let accountDefaultForOperationsContainer = accountDefaultForOperationsContainer {
+            accountDefaultForOperationsDecoded0 = [IoTClientTypes.CertificateProviderOperation]()
+            for enum0 in accountDefaultForOperationsContainer {
+                if let enum0 = enum0 {
+                    accountDefaultForOperationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        accountDefaultForOperations = accountDefaultForOperationsDecoded0
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+enum DescribeCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DescribeCustomMetricInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let metricName = metricName else {
@@ -17052,7 +17548,7 @@ public struct DescribeJobTemplateOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// A description of the job template.
     public var description: Swift.String?
-    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
     public var destinationPackageVersions: [Swift.String]?
     /// The job document.
     public var document: Swift.String?
@@ -18119,6 +18615,7 @@ extension DescribeSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = output.behaviors
             self.creationDate = output.creationDate
             self.lastModifiedDate = output.lastModifiedDate
+            self.metricsExportConfig = output.metricsExportConfig
             self.securityProfileArn = output.securityProfileArn
             self.securityProfileDescription = output.securityProfileDescription
             self.securityProfileName = output.securityProfileName
@@ -18130,6 +18627,7 @@ extension DescribeSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = nil
             self.creationDate = nil
             self.lastModifiedDate = nil
+            self.metricsExportConfig = nil
             self.securityProfileArn = nil
             self.securityProfileDescription = nil
             self.securityProfileName = nil
@@ -18152,6 +18650,8 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// The time the security profile was last modified.
     public var lastModifiedDate: ClientRuntime.Date?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// The ARN of the security profile.
     public var securityProfileArn: Swift.String?
     /// A description of the security profile (associated with the security profile when it was created or updated).
@@ -18168,6 +18668,7 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
         behaviors: [IoTClientTypes.Behavior]? = nil,
         creationDate: ClientRuntime.Date? = nil,
         lastModifiedDate: ClientRuntime.Date? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileArn: Swift.String? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
@@ -18180,6 +18681,7 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
         self.behaviors = behaviors
         self.creationDate = creationDate
         self.lastModifiedDate = lastModifiedDate
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileArn = securityProfileArn
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
@@ -18198,6 +18700,7 @@ struct DescribeSecurityProfileOutputBody: Swift.Equatable {
     let version: Swift.Int
     let creationDate: ClientRuntime.Date?
     let lastModifiedDate: ClientRuntime.Date?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
 }
 
 extension DescribeSecurityProfileOutputBody: Swift.Decodable {
@@ -18208,6 +18711,7 @@ extension DescribeSecurityProfileOutputBody: Swift.Decodable {
         case behaviors
         case creationDate
         case lastModifiedDate
+        case metricsExportConfig
         case securityProfileArn
         case securityProfileDescription
         case securityProfileName
@@ -18272,6 +18776,22 @@ extension DescribeSecurityProfileOutputBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
         lastModifiedDate = lastModifiedDateDecoded
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
+    }
+}
+
+enum DescribeSecurityProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -21250,6 +21770,51 @@ extension IoTClientTypes {
     }
 }
 
+extension IoTClientTypes.GeoLocationTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TargetFieldOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// A geolocation target that you select to index. Each geolocation target contains a name and order key-value pair that specifies the geolocation target fields.
+    public struct GeoLocationTarget: Swift.Equatable {
+        /// The name of the geolocation target field. If the target field is part of a named shadow, you must select the named shadow using the namedShadow filter.
+        public var name: Swift.String?
+        /// The order of the geolocation target field. This field is optional. The default value is LatLon.
+        public var order: IoTClientTypes.TargetFieldOrder?
+
+        public init(
+            name: Swift.String? = nil,
+            order: IoTClientTypes.TargetFieldOrder? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+        }
+    }
+
+}
+
 extension GetBehaviorModelTrainingSummariesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -24076,11 +24641,18 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.IndexingFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case geoLocations
         case namedShadowNames
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let geoLocations = geoLocations {
+            var geoLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .geoLocations)
+            for geolocationtarget0 in geoLocations {
+                try geoLocationsContainer.encode(geolocationtarget0)
+            }
+        }
         if let namedShadowNames = namedShadowNames {
             var namedShadowNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .namedShadowNames)
             for shadowname0 in namedShadowNames {
@@ -24102,19 +24674,38 @@ extension IoTClientTypes.IndexingFilter: Swift.Codable {
             }
         }
         namedShadowNames = namedShadowNamesDecoded0
+        let geoLocationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.GeoLocationTarget?].self, forKey: .geoLocations)
+        var geoLocationsDecoded0:[IoTClientTypes.GeoLocationTarget]? = nil
+        if let geoLocationsContainer = geoLocationsContainer {
+            geoLocationsDecoded0 = [IoTClientTypes.GeoLocationTarget]()
+            for structure0 in geoLocationsContainer {
+                if let structure0 = structure0 {
+                    geoLocationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        geoLocations = geoLocationsDecoded0
     }
 }
 
 extension IoTClientTypes {
-    /// Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in filter.
+    /// Provides additional selections for named shadows and geolocation data. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in namedShadowNames filter. To add geolocation data to your fleet indexing configuration:
+    ///
+    /// * If you store geolocation data in a class/unnamed shadow, set thingIndexingMode to be REGISTRY_AND_SHADOW and specify your geolocation data in geoLocations filter.
+    ///
+    /// * If you store geolocation data in a named shadow, set namedShadowIndexingMode to be ON, add the shadow name in namedShadowNames filter, and specify your geolocation data in geoLocations filter. For more information, see [Managing fleet indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html).
     public struct IndexingFilter: Swift.Equatable {
+        /// The list of geolocation targets that you select to index. The default maximum number of geolocation targets for indexing is 1. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
+        public var geoLocations: [IoTClientTypes.GeoLocationTarget]?
         /// The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
         public var namedShadowNames: [Swift.String]?
 
         public init(
+            geoLocations: [IoTClientTypes.GeoLocationTarget]? = nil,
             namedShadowNames: [Swift.String]? = nil
         )
         {
+            self.geoLocations = geoLocations
             self.namedShadowNames = namedShadowNames
         }
     }
@@ -25037,7 +25628,7 @@ extension IoTClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// A short text description of the job.
         public var description: Swift.String?
-        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single string. Up to five strings are allowed.
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
         public var destinationPackageVersions: [Swift.String]?
         /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public var documentParameters: [Swift.String:Swift.String]?
@@ -27967,6 +28558,131 @@ enum ListCACertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListCertificateProvidersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let ascendingOrder = ascendingOrder {
+                let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
+                items.append(ascendingOrderQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCertificateProvidersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/certificate-providers"
+    }
+}
+
+public struct ListCertificateProvidersInput: Swift.Equatable {
+    /// Returns the list of certificate providers in ascending alphabetical order.
+    public var ascendingOrder: Swift.Bool?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ascendingOrder: Swift.Bool? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.ascendingOrder = ascendingOrder
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCertificateProvidersInputBody: Swift.Equatable {
+}
+
+extension ListCertificateProvidersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCertificateProvidersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCertificateProvidersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateProviders = output.certificateProviders
+            self.nextToken = output.nextToken
+        } else {
+            self.certificateProviders = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCertificateProvidersOutput: Swift.Equatable {
+    /// The list of certificate providers in your Amazon Web Services account.
+    public var certificateProviders: [IoTClientTypes.CertificateProviderSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        certificateProviders: [IoTClientTypes.CertificateProviderSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.certificateProviders = certificateProviders
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCertificateProvidersOutputBody: Swift.Equatable {
+    let certificateProviders: [IoTClientTypes.CertificateProviderSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCertificateProvidersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviders
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProvidersContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderSummary?].self, forKey: .certificateProviders)
+        var certificateProvidersDecoded0:[IoTClientTypes.CertificateProviderSummary]? = nil
+        if let certificateProvidersContainer = certificateProvidersContainer {
+            certificateProvidersDecoded0 = [IoTClientTypes.CertificateProviderSummary]()
+            for structure0 in certificateProvidersContainer {
+                if let structure0 = structure0 {
+                    certificateProvidersDecoded0?.append(structure0)
+                }
+            }
+        }
+        certificateProviders = certificateProvidersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCertificateProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListCertificatesByCAInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -35295,12 +36011,16 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.MetricToRetain: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportMetric
         case metric
         case metricDimension
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportMetric = self.exportMetric {
+            try encodeContainer.encode(exportMetric, forKey: .exportMetric)
+        }
         if let metric = self.metric {
             try encodeContainer.encode(metric, forKey: .metric)
         }
@@ -35315,12 +36035,16 @@ extension IoTClientTypes.MetricToRetain: Swift.Codable {
         metric = metricDecoded
         let metricDimensionDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricDimension.self, forKey: .metricDimension)
         metricDimension = metricDimensionDecoded
+        let exportMetricDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exportMetric)
+        exportMetric = exportMetricDecoded
     }
 }
 
 extension IoTClientTypes {
     /// The metric you want to retain. Dimensions are optional.
     public struct MetricToRetain: Swift.Equatable {
+        /// The value indicates exporting metrics related to the MetricToRetain  when it's true.
+        public var exportMetric: Swift.Bool?
         /// What is measured by the behavior.
         /// This member is required.
         public var metric: Swift.String?
@@ -35328,10 +36052,12 @@ extension IoTClientTypes {
         public var metricDimension: IoTClientTypes.MetricDimension?
 
         public init(
+            exportMetric: Swift.Bool? = nil,
             metric: Swift.String? = nil,
             metricDimension: IoTClientTypes.MetricDimension? = nil
         )
         {
+            self.exportMetric = exportMetric
             self.metric = metric
             self.metricDimension = metricDimension
         }
@@ -35467,6 +36193,53 @@ extension IoTClientTypes {
             self.numbers = numbers
             self.ports = ports
             self.strings = strings
+        }
+    }
+
+}
+
+extension IoTClientTypes.MetricsExportConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mqttTopic
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mqttTopic = self.mqttTopic {
+            try encodeContainer.encode(mqttTopic, forKey: .mqttTopic)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mqttTopicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mqttTopic)
+        mqttTopic = mqttTopicDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// Set configurations for metrics export.
+    public struct MetricsExportConfig: Swift.Equatable {
+        /// The MQTT topic that Device Defender Detect should publish messages to for metrics export.
+        /// This member is required.
+        public var mqttTopic: Swift.String?
+        /// This role ARN has permission to publish MQTT messages, after which Device Defender Detect can assume the role and publish messages on your behalf.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            mqttTopic: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.mqttTopic = mqttTopic
+            self.roleArn = roleArn
         }
     }
 
@@ -38805,6 +39578,7 @@ extension IoTClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct ReplaceTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "ReplaceTopicRuleInputBodyMiddleware"
 
@@ -38843,6 +39617,8 @@ public struct ReplaceTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension ReplaceTopicRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case topicRulePayload
@@ -40008,7 +40784,7 @@ extension SearchIndexInput: ClientRuntime.URLPathProvider {
 public struct SearchIndexInput: Swift.Equatable {
     /// The search index name.
     public var indexName: Swift.String?
-    /// The maximum number of results to return at one time.
+    /// The maximum number of results to return per page at one time. The response might contain fewer results but will never contain more.
     public var maxResults: Swift.Int?
     /// The token used to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
@@ -40704,6 +41480,7 @@ enum SetDefaultPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
 public struct SetLoggingOptionsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SetLoggingOptionsInputBodyMiddleware"
 
@@ -40742,6 +41519,8 @@ public struct SetLoggingOptionsInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SetLoggingOptionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingOptionsPayload
@@ -42641,6 +43420,41 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension IoTClientTypes {
+    public enum TargetFieldOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case latlon
+        case lonlat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetFieldOrder] {
+            return [
+                .latlon,
+                .lonlat,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .latlon: return "LatLon"
+            case .lonlat: return "LonLat"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TargetFieldOrder(rawValue: rawValue) ?? TargetFieldOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+>>>>>>> main
 extension IoTClientTypes {
     public enum TargetSelection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case continuous
@@ -43851,7 +44665,7 @@ extension IoTClientTypes {
     public struct ThingGroupIndexingConfiguration: Swift.Equatable {
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public var customFields: [IoTClientTypes.Field]?
-        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide.
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide. You can't modify managed fields by updating fleet indexing configuration.
         public var managedFields: [IoTClientTypes.Field]?
         /// Thing group indexing mode.
         /// This member is required.
@@ -44108,9 +44922,13 @@ extension IoTClientTypes {
         ///
         /// For more information about Device Defender violations, see [Device Defender Detect.](https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-detect.html)
         public var deviceDefenderIndexingMode: IoTClientTypes.DeviceDefenderIndexingMode?
-        /// Provides additional filters for specific data sources. Named shadow is the only data source that currently supports and requires a filter. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in filter.
+        /// Provides additional selections for named shadows and geolocation data. To add named shadows to your fleet indexing configuration, set namedShadowIndexingMode to be ON and specify your shadow names in namedShadowNames filter. To add geolocation data to your fleet indexing configuration:
+        ///
+        /// * If you store geolocation data in a class/unnamed shadow, set thingIndexingMode to be REGISTRY_AND_SHADOW and specify your geolocation data in geoLocations filter.
+        ///
+        /// * If you store geolocation data in a named shadow, set namedShadowIndexingMode to be ON, add the shadow name in namedShadowNames filter, and specify your geolocation data in geoLocations filter. For more information, see [Managing fleet indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html).
         public var filter: IoTClientTypes.IndexingFilter?
-        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide. You can't modify managed fields by updating fleet indexing configuration.
         public var managedFields: [IoTClientTypes.Field]?
         /// Named shadow indexing mode. Valid values are:
         ///
@@ -46537,6 +47355,154 @@ enum UpdateCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension UpdateCertificateProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case lambdaFunctionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountDefaultForOperations = accountDefaultForOperations {
+            var accountDefaultForOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountDefaultForOperations)
+            for certificateprovideroperation0 in accountDefaultForOperations {
+                try accountDefaultForOperationsContainer.encode(certificateprovideroperation0.rawValue)
+            }
+        }
+        if let lambdaFunctionArn = self.lambdaFunctionArn {
+            try encodeContainer.encode(lambdaFunctionArn, forKey: .lambdaFunctionArn)
+        }
+    }
+}
+
+extension UpdateCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateCertificateProviderInput: Swift.Equatable {
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
+    public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+    /// The Lambda function ARN that's associated with the certificate provider.
+    public var lambdaFunctionArn: Swift.String?
+
+    public init(
+        accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
+        certificateProviderName: Swift.String? = nil,
+        lambdaFunctionArn: Swift.String? = nil
+    )
+    {
+        self.accountDefaultForOperations = accountDefaultForOperations
+        self.certificateProviderName = certificateProviderName
+        self.lambdaFunctionArn = lambdaFunctionArn
+    }
+}
+
+struct UpdateCertificateProviderInputBody: Swift.Equatable {
+    let lambdaFunctionArn: Swift.String?
+    let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+}
+
+extension UpdateCertificateProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case lambdaFunctionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let accountDefaultForOperationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderOperation?].self, forKey: .accountDefaultForOperations)
+        var accountDefaultForOperationsDecoded0:[IoTClientTypes.CertificateProviderOperation]? = nil
+        if let accountDefaultForOperationsContainer = accountDefaultForOperationsContainer {
+            accountDefaultForOperationsDecoded0 = [IoTClientTypes.CertificateProviderOperation]()
+            for enum0 in accountDefaultForOperationsContainer {
+                if let enum0 = enum0 {
+                    accountDefaultForOperationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        accountDefaultForOperations = accountDefaultForOperationsDecoded0
+    }
+}
+
+extension UpdateCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCertificateProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateProviderArn = output.certificateProviderArn
+            self.certificateProviderName = output.certificateProviderName
+        } else {
+            self.certificateProviderArn = nil
+            self.certificateProviderName = nil
+        }
+    }
+}
+
+public struct UpdateCertificateProviderOutput: Swift.Equatable {
+    /// The ARN of the certificate provider.
+    public var certificateProviderArn: Swift.String?
+    /// The name of the certificate provider.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderArn: Swift.String? = nil,
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderArn = certificateProviderArn
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct UpdateCertificateProviderOutputBody: Swift.Equatable {
+    let certificateProviderName: Swift.String?
+    let certificateProviderArn: Swift.String?
+}
+
+extension UpdateCertificateProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderArn
+        case certificateProviderName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+    }
+}
+
+enum UpdateCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension UpdateCustomMetricInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayName
@@ -48663,6 +49629,8 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         case deleteAdditionalMetricsToRetain
         case deleteAlertTargets
         case deleteBehaviors
+        case deleteMetricsExportConfig
+        case metricsExportConfig
         case securityProfileDescription
     }
 
@@ -48700,6 +49668,12 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         }
         if let deleteBehaviors = self.deleteBehaviors {
             try encodeContainer.encode(deleteBehaviors, forKey: .deleteBehaviors)
+        }
+        if let deleteMetricsExportConfig = self.deleteMetricsExportConfig {
+            try encodeContainer.encode(deleteMetricsExportConfig, forKey: .deleteMetricsExportConfig)
+        }
+        if let metricsExportConfig = self.metricsExportConfig {
+            try encodeContainer.encode(metricsExportConfig, forKey: .metricsExportConfig)
         }
         if let securityProfileDescription = self.securityProfileDescription {
             try encodeContainer.encode(securityProfileDescription, forKey: .securityProfileDescription)
@@ -48745,8 +49719,12 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     public var deleteAlertTargets: Swift.Bool?
     /// If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation, an exception occurs.
     public var deleteBehaviors: Swift.Bool?
+    /// Set the value as true to delete metrics export related configurations.
+    public var deleteMetricsExportConfig: Swift.Bool?
     /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
     public var expectedVersion: Swift.Int?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// A description of the security profile.
     public var securityProfileDescription: Swift.String?
     /// The name of the security profile you want to update.
@@ -48761,7 +49739,9 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
         deleteAdditionalMetricsToRetain: Swift.Bool? = nil,
         deleteAlertTargets: Swift.Bool? = nil,
         deleteBehaviors: Swift.Bool? = nil,
+        deleteMetricsExportConfig: Swift.Bool? = nil,
         expectedVersion: Swift.Int? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
     )
@@ -48773,7 +49753,9 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
         self.deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetain
         self.deleteAlertTargets = deleteAlertTargets
         self.deleteBehaviors = deleteBehaviors
+        self.deleteMetricsExportConfig = deleteMetricsExportConfig
         self.expectedVersion = expectedVersion
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
     }
@@ -48788,6 +49770,8 @@ struct UpdateSecurityProfileInputBody: Swift.Equatable {
     let deleteBehaviors: Swift.Bool?
     let deleteAlertTargets: Swift.Bool?
     let deleteAdditionalMetricsToRetain: Swift.Bool?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
+    let deleteMetricsExportConfig: Swift.Bool?
 }
 
 extension UpdateSecurityProfileInputBody: Swift.Decodable {
@@ -48799,6 +49783,8 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
         case deleteAdditionalMetricsToRetain
         case deleteAlertTargets
         case deleteBehaviors
+        case deleteMetricsExportConfig
+        case metricsExportConfig
         case securityProfileDescription
     }
 
@@ -48856,6 +49842,10 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
         deleteAlertTargets = deleteAlertTargetsDecoded
         let deleteAdditionalMetricsToRetainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAdditionalMetricsToRetain)
         deleteAdditionalMetricsToRetain = deleteAdditionalMetricsToRetainDecoded
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
+        let deleteMetricsExportConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteMetricsExportConfig)
+        deleteMetricsExportConfig = deleteMetricsExportConfigDecoded
     }
 }
 
@@ -48870,6 +49860,7 @@ extension UpdateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = output.behaviors
             self.creationDate = output.creationDate
             self.lastModifiedDate = output.lastModifiedDate
+            self.metricsExportConfig = output.metricsExportConfig
             self.securityProfileArn = output.securityProfileArn
             self.securityProfileDescription = output.securityProfileDescription
             self.securityProfileName = output.securityProfileName
@@ -48881,6 +49872,7 @@ extension UpdateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
             self.behaviors = nil
             self.creationDate = nil
             self.lastModifiedDate = nil
+            self.metricsExportConfig = nil
             self.securityProfileArn = nil
             self.securityProfileDescription = nil
             self.securityProfileName = nil
@@ -48903,6 +49895,8 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// The time the security profile was last modified.
     public var lastModifiedDate: ClientRuntime.Date?
+    /// Specifies the MQTT topic and role ARN required for metric export.
+    public var metricsExportConfig: IoTClientTypes.MetricsExportConfig?
     /// The ARN of the security profile that was updated.
     public var securityProfileArn: Swift.String?
     /// The description of the security profile.
@@ -48919,6 +49913,7 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
         behaviors: [IoTClientTypes.Behavior]? = nil,
         creationDate: ClientRuntime.Date? = nil,
         lastModifiedDate: ClientRuntime.Date? = nil,
+        metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileArn: Swift.String? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
@@ -48931,6 +49926,7 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
         self.behaviors = behaviors
         self.creationDate = creationDate
         self.lastModifiedDate = lastModifiedDate
+        self.metricsExportConfig = metricsExportConfig
         self.securityProfileArn = securityProfileArn
         self.securityProfileDescription = securityProfileDescription
         self.securityProfileName = securityProfileName
@@ -48949,6 +49945,7 @@ struct UpdateSecurityProfileOutputBody: Swift.Equatable {
     let version: Swift.Int
     let creationDate: ClientRuntime.Date?
     let lastModifiedDate: ClientRuntime.Date?
+    let metricsExportConfig: IoTClientTypes.MetricsExportConfig?
 }
 
 extension UpdateSecurityProfileOutputBody: Swift.Decodable {
@@ -48959,6 +49956,7 @@ extension UpdateSecurityProfileOutputBody: Swift.Decodable {
         case behaviors
         case creationDate
         case lastModifiedDate
+        case metricsExportConfig
         case securityProfileArn
         case securityProfileDescription
         case securityProfileName
@@ -49023,6 +50021,23 @@ extension UpdateSecurityProfileOutputBody: Swift.Decodable {
         creationDate = creationDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
         lastModifiedDate = lastModifiedDateDecoded
+        let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
+        metricsExportConfig = metricsExportConfigDecoded
+    }
+}
+
+enum UpdateSecurityProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "VersionConflictException": return try await VersionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

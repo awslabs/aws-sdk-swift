@@ -12,7 +12,11 @@ extension CloudFormationClient {
     ///     - input: A `[DescribeAccountLimitsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccountLimitsOutput`
     public func describeAccountLimitsPaginated(input: DescribeAccountLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(input: input, inputKey: \DescribeAccountLimitsInput.nextToken, outputKey: \DescribeAccountLimitsOutput.nextToken, paginationFunction: self.describeAccountLimits(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccountLimits(input:))
+>>>>>>> main
     }
 }
 
@@ -23,7 +27,11 @@ extension DescribeAccountLimitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeAccountLimitsInput, Output == DescribeAccountLimitsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeAccountLimitsInput, OperationStackOutput == DescribeAccountLimitsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAccountLimitsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.AccountLimit]`
     /// - Returns: `[CloudFormationClientTypes.AccountLimit]`
@@ -41,7 +49,11 @@ extension CloudFormationClient {
     ///     - input: A `[DescribeStackEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStackEventsOutput`
     public func describeStackEventsPaginated(input: DescribeStackEventsInput) -> ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutput>(input: input, inputKey: \DescribeStackEventsInput.nextToken, outputKey: \DescribeStackEventsOutput.nextToken, paginationFunction: self.describeStackEvents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeStackEventsInput, DescribeStackEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStackEvents(input:))
+>>>>>>> main
     }
 }
 
@@ -53,7 +65,11 @@ extension DescribeStackEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeStackEventsInput, Output == DescribeStackEventsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeStackEventsInput, OperationStackOutput == DescribeStackEventsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeStackEventsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackEvent]`
     /// - Returns: `[CloudFormationClientTypes.StackEvent]`
@@ -71,7 +87,11 @@ extension CloudFormationClient {
     ///     - input: A `[DescribeStackResourceDriftsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStackResourceDriftsOutput`
     public func describeStackResourceDriftsPaginated(input: DescribeStackResourceDriftsInput) -> ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput>(input: input, inputKey: \DescribeStackResourceDriftsInput.nextToken, outputKey: \DescribeStackResourceDriftsOutput.nextToken, paginationFunction: self.describeStackResourceDrifts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStackResourceDrifts(input:))
+>>>>>>> main
     }
 }
 
@@ -94,7 +114,11 @@ extension CloudFormationClient {
     ///     - input: A `[DescribeStacksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStacksOutput`
     public func describeStacksPaginated(input: DescribeStacksInput) -> ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutput>(input: input, inputKey: \DescribeStacksInput.nextToken, outputKey: \DescribeStacksOutput.nextToken, paginationFunction: self.describeStacks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeStacksInput, DescribeStacksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStacks(input:))
+>>>>>>> main
     }
 }
 
@@ -106,7 +130,11 @@ extension DescribeStacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeStacksInput, Output == DescribeStacksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeStacksInput, OperationStackOutput == DescribeStacksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeStacksPaginated`
     /// to access the nested member `[CloudFormationClientTypes.Stack]`
     /// - Returns: `[CloudFormationClientTypes.Stack]`
@@ -124,7 +152,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListChangeSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChangeSetsOutput`
     public func listChangeSetsPaginated(input: ListChangeSetsInput) -> ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput>(input: input, inputKey: \ListChangeSetsInput.nextToken, outputKey: \ListChangeSetsOutput.nextToken, paginationFunction: self.listChangeSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChangeSets(input:))
+>>>>>>> main
     }
 }
 
@@ -136,7 +168,11 @@ extension ListChangeSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListChangeSetsInput, Output == ListChangeSetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListChangeSetsInput, OperationStackOutput == ListChangeSetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listChangeSetsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.ChangeSetSummary]`
     /// - Returns: `[CloudFormationClientTypes.ChangeSetSummary]`
@@ -154,7 +190,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutput`
     public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutput.nextToken, paginationFunction: self.listExports(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExports(input:))
+>>>>>>> main
     }
 }
 
@@ -165,7 +205,11 @@ extension ListExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListExportsInput, Output == ListExportsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListExportsInput, OperationStackOutput == ListExportsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listExportsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.Export]`
     /// - Returns: `[CloudFormationClientTypes.Export]`
@@ -183,7 +227,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListImportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutput`
     public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutput.nextToken, paginationFunction: self.listImports(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImports(input:))
+>>>>>>> main
     }
 }
 
@@ -195,7 +243,11 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListImportsInput, Output == ListImportsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListImportsInput, OperationStackOutput == ListImportsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImportsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -213,7 +265,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListStackInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStackInstancesOutput`
     public func listStackInstancesPaginated(input: ListStackInstancesInput) -> ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutput>(input: input, inputKey: \ListStackInstancesInput.nextToken, outputKey: \ListStackInstancesOutput.nextToken, paginationFunction: self.listStackInstances(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStackInstancesInput, ListStackInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackInstances(input:))
+>>>>>>> main
     }
 }
 
@@ -230,7 +286,11 @@ extension ListStackInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListStackInstancesInput, Output == ListStackInstancesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListStackInstancesInput, OperationStackOutput == ListStackInstancesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStackInstancesPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackInstanceSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackInstanceSummary]`
@@ -248,7 +308,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListStackResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStackResourcesOutput`
     public func listStackResourcesPaginated(input: ListStackResourcesInput) -> ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutput>(input: input, inputKey: \ListStackResourcesInput.nextToken, outputKey: \ListStackResourcesOutput.nextToken, paginationFunction: self.listStackResources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStackResourcesInput, ListStackResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackResources(input:))
+>>>>>>> main
     }
 }
 
@@ -260,7 +324,11 @@ extension ListStackResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListStackResourcesInput, Output == ListStackResourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListStackResourcesInput, OperationStackOutput == ListStackResourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStackResourcesPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackResourceSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackResourceSummary]`
@@ -278,7 +346,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListStacksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStacksOutput`
     public func listStacksPaginated(input: ListStacksInput) -> ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutput>(input: input, inputKey: \ListStacksInput.nextToken, outputKey: \ListStacksOutput.nextToken, paginationFunction: self.listStacks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStacksInput, ListStacksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStacks(input:))
+>>>>>>> main
     }
 }
 
@@ -290,7 +362,11 @@ extension ListStacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListStacksInput, Output == ListStacksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListStacksInput, OperationStackOutput == ListStacksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStacksPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSummary]`
@@ -308,7 +384,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListStackSetOperationResultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetOperationResultsOutput`
     public func listStackSetOperationResultsPaginated(input: ListStackSetOperationResultsInput) -> ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput>(input: input, inputKey: \ListStackSetOperationResultsInput.nextToken, outputKey: \ListStackSetOperationResultsOutput.nextToken, paginationFunction: self.listStackSetOperationResults(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackSetOperationResults(input:))
+>>>>>>> main
     }
 }
 
@@ -324,7 +404,11 @@ extension ListStackSetOperationResultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListStackSetOperationResultsInput, Output == ListStackSetOperationResultsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListStackSetOperationResultsInput, OperationStackOutput == ListStackSetOperationResultsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStackSetOperationResultsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSetOperationResultSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSetOperationResultSummary]`
@@ -342,7 +426,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListStackSetOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetOperationsOutput`
     public func listStackSetOperationsPaginated(input: ListStackSetOperationsInput) -> ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutput>(input: input, inputKey: \ListStackSetOperationsInput.nextToken, outputKey: \ListStackSetOperationsOutput.nextToken, paginationFunction: self.listStackSetOperations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStackSetOperationsInput, ListStackSetOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackSetOperations(input:))
+>>>>>>> main
     }
 }
 
@@ -356,7 +444,11 @@ extension ListStackSetOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListStackSetOperationsInput, Output == ListStackSetOperationsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListStackSetOperationsInput, OperationStackOutput == ListStackSetOperationsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStackSetOperationsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSetOperationSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSetOperationSummary]`
@@ -374,7 +466,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListStackSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStackSetsOutput`
     public func listStackSetsPaginated(input: ListStackSetsInput) -> ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutput>(input: input, inputKey: \ListStackSetsInput.nextToken, outputKey: \ListStackSetsOutput.nextToken, paginationFunction: self.listStackSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListStackSetsInput, ListStackSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackSets(input:))
+>>>>>>> main
     }
 }
 
@@ -388,7 +484,11 @@ extension ListStackSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListStackSetsInput, Output == ListStackSetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListStackSetsInput, OperationStackOutput == ListStackSetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStackSetsPaginated`
     /// to access the nested member `[CloudFormationClientTypes.StackSetSummary]`
     /// - Returns: `[CloudFormationClientTypes.StackSetSummary]`
@@ -406,7 +506,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListTypeRegistrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTypeRegistrationsOutput`
     public func listTypeRegistrationsPaginated(input: ListTypeRegistrationsInput) -> ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutput>(input: input, inputKey: \ListTypeRegistrationsInput.nextToken, outputKey: \ListTypeRegistrationsOutput.nextToken, paginationFunction: self.listTypeRegistrations(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTypeRegistrationsInput, ListTypeRegistrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTypeRegistrations(input:))
+>>>>>>> main
     }
 }
 
@@ -431,7 +535,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTypesOutput`
     public func listTypesPaginated(input: ListTypesInput) -> ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutput>(input: input, inputKey: \ListTypesInput.nextToken, outputKey: \ListTypesOutput.nextToken, paginationFunction: self.listTypes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTypesInput, ListTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTypes(input:))
+>>>>>>> main
     }
 }
 
@@ -448,7 +556,11 @@ extension ListTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTypesInput, Output == ListTypesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTypesInput, OperationStackOutput == ListTypesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTypesPaginated`
     /// to access the nested member `[CloudFormationClientTypes.TypeSummary]`
     /// - Returns: `[CloudFormationClientTypes.TypeSummary]`
@@ -466,7 +578,11 @@ extension CloudFormationClient {
     ///     - input: A `[ListTypeVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTypeVersionsOutput`
     public func listTypeVersionsPaginated(input: ListTypeVersionsInput) -> ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutput>(input: input, inputKey: \ListTypeVersionsInput.nextToken, outputKey: \ListTypeVersionsOutput.nextToken, paginationFunction: self.listTypeVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTypeVersionsInput, ListTypeVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTypeVersions(input:))
+>>>>>>> main
     }
 }
 

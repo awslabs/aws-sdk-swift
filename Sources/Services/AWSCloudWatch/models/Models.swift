@@ -4538,7 +4538,7 @@ public struct GetMetricStreamOutput: Swift.Equatable {
     public var lastUpdateDate: ClientRuntime.Date?
     /// The name of the metric stream.
     public var name: Swift.String?
-    /// The output format for the stream. Valid values are json and opentelemetry0.7. For more information about metric stream output formats, see [Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
+    /// The output format for the stream. Valid values are json, opentelemetry1.0, and opentelemetry0.7. For more information about metric stream output formats, see [Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
     public var outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat?
     /// The ARN of the IAM role that is used by this metric stream.
     public var roleArn: Swift.String?
@@ -7829,7 +7829,7 @@ extension CloudWatchClientTypes {
         public var lastUpdateDate: ClientRuntime.Date?
         /// The name of the metric stream.
         public var name: Swift.String?
-        /// The output format of this metric stream. Valid values are json and opentelemetry0.7.
+        /// The output format of this metric stream. Valid values are json, opentelemetry1.0, and opentelemetry0.7.
         public var outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat?
         /// The current state of this stream. Valid values are running and stopped.
         public var state: Swift.String?
@@ -7931,12 +7931,14 @@ extension CloudWatchClientTypes {
     public enum MetricStreamOutputFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case json
         case openTelemetry07
+        case openTelemetry10
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MetricStreamOutputFormat] {
             return [
                 .json,
                 .openTelemetry07,
+                .openTelemetry10,
                 .sdkUnknown("")
             ]
         }
@@ -7948,6 +7950,7 @@ extension CloudWatchClientTypes {
             switch self {
             case .json: return "json"
             case .openTelemetry07: return "opentelemetry0.7"
+            case .openTelemetry10: return "opentelemetry1.0"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8039,7 +8042,7 @@ extension CloudWatchClientTypes.MetricStreamStatisticsConfiguration: Swift.Codab
 extension CloudWatchClientTypes {
     /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. This structure contains information for one metric that includes additional statistics in the stream. For more information about statistics, see CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html).
     public struct MetricStreamStatisticsConfiguration: Swift.Equatable {
-        /// The list of additional statistics that are to be streamed for the metrics listed in the IncludeMetrics array in this structure. This list can include as many as 20 statistics. If the OutputFormat for the stream is opentelemetry0.7, the only valid values are p??  percentile statistics such as p90, p99 and so on. If the OutputFormat for the stream is json, the valid values include the abbreviations for all of the statistics listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). For example, this includes tm98, wm90, PR(:300), and so on.
+        /// The list of additional statistics that are to be streamed for the metrics listed in the IncludeMetrics array in this structure. This list can include as many as 20 statistics. If the OutputFormat for the stream is opentelemetry1.0 or opentelemetry0.7, the only valid values are p??  percentile statistics such as p90, p99 and so on. If the OutputFormat for the stream is json, the valid values include the abbreviations for all of the statistics listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). For example, this includes tm98, wm90, PR(:300), and so on.
         /// This member is required.
         public var additionalStatistics: [Swift.String]?
         /// An array of metric name and namespace pairs that stream the additional statistics listed in the value of the AdditionalStatistics parameter. There can be as many as 100 pairs in the array. All metrics that match the combination of metric name and namespace will be streamed with the additional statistics, no matter their dimensions.
@@ -9366,9 +9369,9 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     ///
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     public var insufficientDataActions: [Swift.String]?
-    /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
+    /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Namespace, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
     public var metricName: Swift.String?
-    /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see [MetricDataQuery](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html). If you use the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
+    /// An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see [MetricDataQuery](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html). If you use the Metrics parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
     public var metrics: [CloudWatchClientTypes.MetricDataQuery]?
     /// The namespace for the metric associated specified in MetricName.
     public var namespace: Swift.String?
@@ -9419,7 +9422,7 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     public var thresholdMetricId: Swift.String?
     /// Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see [Configuring How CloudWatch Alarms Treats Missing Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data). Valid Values: breaching | notBreaching | ignore | missing Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state.
     public var treatMissingData: Swift.String?
-    /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
+    /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
     public var unit: CloudWatchClientTypes.StandardUnit?
 
     public init(
@@ -9891,7 +9894,7 @@ public struct PutMetricStreamInput: Swift.Equatable {
     /// If you are creating a new metric stream, this is the name for the new stream. The name must be different than the names of other metric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_".
     /// This member is required.
     public var name: Swift.String?
-    /// The output format for the stream. Valid values are json and opentelemetry0.7. For more information about metric stream output formats, see [ Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
+    /// The output format for the stream. Valid values are json, opentelemetry1.0, and opentelemetry0.7. For more information about metric stream output formats, see [ Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
     /// This member is required.
     public var outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat?
     /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Data Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:
@@ -9901,7 +9904,7 @@ public struct PutMetricStreamInput: Swift.Equatable {
     /// * firehose:PutRecordBatch
     /// This member is required.
     public var roleArn: Swift.String?
-    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). If the OutputFormat is opentelemetry0.7, you can stream percentile statistics such as p95, p99.9, and so on.
+    /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in [ CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html). If the OutputFormat is opentelemetry1.0 or opentelemetry0.7, you can stream percentile statistics such as p95, p99.9, and so on.
     public var statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]?
     /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. You can use this parameter only when you are creating a new metric stream. If you are using this operation to update an existing metric stream, any tags you specify in this parameter are ignored. To change the tags of an existing metric stream, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
     public var tags: [CloudWatchClientTypes.Tag]?

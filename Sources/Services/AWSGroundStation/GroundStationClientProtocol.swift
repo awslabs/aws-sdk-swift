@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
 public protocol GroundStationClientProtocol {
+    /// Performs the `CancelContact` operation on the `GroundStation` service.
+    ///
     /// Cancels a contact with a specified contact ID.
     ///
     /// - Parameter CancelContactInput :
@@ -17,6 +19,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func cancelContact(input: CancelContactInput) async throws -> CancelContactOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConfig` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     ///
     /// - Parameter CreateConfigInput :
@@ -31,6 +38,11 @@ public protocol GroundStationClientProtocol {
     /// - `ResourceLimitExceededException` : Account limits for this resource have been exceeded.
     /// - `ResourceNotFoundException` : Resource was not found.
     func createConfig(input: CreateConfigInput) async throws -> CreateConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateDataflowEndpointGroup` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     ///
     /// - Parameter CreateDataflowEndpointGroupInput :
@@ -44,6 +56,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput) async throws -> CreateDataflowEndpointGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEphemeris` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Creates an Ephemeris with the specified EphemerisData.
     ///
     /// - Parameter CreateEphemerisInput : [no documentation found]
@@ -57,6 +74,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func createEphemeris(input: CreateEphemerisInput) async throws -> CreateEphemerisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMissionProfile` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     ///
     /// - Parameter CreateMissionProfileInput :
@@ -70,6 +92,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func createMissionProfile(input: CreateMissionProfileInput) async throws -> CreateMissionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConfig` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Deletes a Config.
     ///
     /// - Parameter DeleteConfigInput :
@@ -83,6 +110,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func deleteConfig(input: DeleteConfigInput) async throws -> DeleteConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDataflowEndpointGroup` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Deletes a dataflow endpoint group.
     ///
     /// - Parameter DeleteDataflowEndpointGroupInput :
@@ -96,6 +128,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func deleteDataflowEndpointGroup(input: DeleteDataflowEndpointGroupInput) async throws -> DeleteDataflowEndpointGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEphemeris` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Deletes an ephemeris
     ///
     /// - Parameter DeleteEphemerisInput : [no documentation found]
@@ -109,6 +146,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func deleteEphemeris(input: DeleteEphemerisInput) async throws -> DeleteEphemerisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteMissionProfile` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Deletes a mission profile.
     ///
     /// - Parameter DeleteMissionProfileInput :
@@ -122,6 +164,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func deleteMissionProfile(input: DeleteMissionProfileInput) async throws -> DeleteMissionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeContact` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Describes an existing contact.
     ///
     /// - Parameter DescribeContactInput :
@@ -135,6 +182,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeEphemeris` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Describes an existing ephemeris.
     ///
     /// - Parameter DescribeEphemerisInput : [no documentation found]
@@ -148,6 +200,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func describeEphemeris(input: DescribeEphemerisInput) async throws -> DescribeEphemerisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAgentConfiguration` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent.
     ///
     /// - Parameter GetAgentConfigurationInput : [no documentation found]
@@ -161,6 +218,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func getAgentConfiguration(input: GetAgentConfigurationInput) async throws -> GetAgentConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConfig` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns Config information. Only one Config response can be returned.
     ///
     /// - Parameter GetConfigInput :
@@ -174,6 +236,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func getConfig(input: GetConfigInput) async throws -> GetConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDataflowEndpointGroup` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns the dataflow endpoint group.
     ///
     /// - Parameter GetDataflowEndpointGroupInput :
@@ -187,6 +254,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func getDataflowEndpointGroup(input: GetDataflowEndpointGroupInput) async throws -> GetDataflowEndpointGroupOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMinuteUsage` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns the number of reserved minutes used by account.
     ///
     /// - Parameter GetMinuteUsageInput :
@@ -200,6 +272,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func getMinuteUsage(input: GetMinuteUsageInput) async throws -> GetMinuteUsageOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMissionProfile` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a mission profile.
     ///
     /// - Parameter GetMissionProfileInput :
@@ -213,6 +290,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func getMissionProfile(input: GetMissionProfileInput) async throws -> GetMissionProfileOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSatellite` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a satellite.
     ///
     /// - Parameter GetSatelliteInput :
@@ -226,6 +308,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func getSatellite(input: GetSatelliteInput) async throws -> GetSatelliteOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConfigs` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of Config objects.
     ///
     /// - Parameter ListConfigsInput :
@@ -239,6 +326,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listConfigs(input: ListConfigsInput) async throws -> ListConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListContacts` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     ///
     /// - Parameter ListContactsInput :
@@ -252,6 +344,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listContacts(input: ListContactsInput) async throws -> ListContactsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDataflowEndpointGroups` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of DataflowEndpoint groups.
     ///
     /// - Parameter ListDataflowEndpointGroupsInput :
@@ -265,6 +362,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listDataflowEndpointGroups(input: ListDataflowEndpointGroupsInput) async throws -> ListDataflowEndpointGroupsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEphemerides` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// List existing ephemerides.
     ///
     /// - Parameter ListEphemeridesInput : [no documentation found]
@@ -278,6 +380,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listEphemerides(input: ListEphemeridesInput) async throws -> ListEphemeridesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGroundStations` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of ground stations.
     ///
     /// - Parameter ListGroundStationsInput :
@@ -291,6 +398,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listGroundStations(input: ListGroundStationsInput) async throws -> ListGroundStationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMissionProfiles` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of mission profiles.
     ///
     /// - Parameter ListMissionProfilesInput :
@@ -304,6 +416,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listMissionProfiles(input: ListMissionProfilesInput) async throws -> ListMissionProfilesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSatellites` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of satellites.
     ///
     /// - Parameter ListSatellitesInput :
@@ -317,6 +434,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listSatellites(input: ListSatellitesInput) async throws -> ListSatellitesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Returns a list of tags for a specified resource.
     ///
     /// - Parameter ListTagsForResourceInput :
@@ -330,6 +452,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `RegisterAgent` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station.
     ///
     /// - Parameter RegisterAgentInput : [no documentation found]
@@ -343,6 +470,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func registerAgent(input: RegisterAgentInput) async throws -> RegisterAgentOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ReserveContact` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Reserves a contact using specified parameters.
     ///
     /// - Parameter ReserveContactInput :
@@ -356,6 +488,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func reserveContact(input: ReserveContactInput) async throws -> ReserveContactOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Assigns a tag to a resource.
     ///
     /// - Parameter TagResourceInput :
@@ -369,6 +506,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Deassigns a resource tag.
     ///
     /// - Parameter UntagResourceInput :
@@ -382,6 +524,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAgentStatus` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent.
     ///
     /// - Parameter UpdateAgentStatusInput : [no documentation found]
@@ -395,6 +542,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConfig` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     ///
     /// - Parameter UpdateConfigInput :
@@ -408,6 +560,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func updateConfig(input: UpdateConfigInput) async throws -> UpdateConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEphemeris` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Updates an existing ephemeris
     ///
     /// - Parameter UpdateEphemerisInput : [no documentation found]
@@ -421,6 +578,11 @@ public protocol GroundStationClientProtocol {
     /// - `InvalidParameterException` : One or more parameters are not valid.
     /// - `ResourceNotFoundException` : Resource was not found.
     func updateEphemeris(input: UpdateEphemerisInput) async throws -> UpdateEphemerisOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateMissionProfile` operation on the `GroundStation` service.
+    ///
+>>>>>>> main
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     ///
     /// - Parameter UpdateMissionProfileInput :

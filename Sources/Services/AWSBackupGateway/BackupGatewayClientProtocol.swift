@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Backup gateway Backup gateway connects Backup to your hypervisor, so you can create, store, and restore backups of your virtual machines (VMs) anywhere, whether on-premises or in the VMware Cloud (VMC) on Amazon Web Services. Add on-premises resources by connecting to a hypervisor through a gateway. Backup will automatically discover the resources in your hypervisor. Use Backup to assign virtual or on-premises resources to a backup plan, or run on-demand backups. Once you have backed up your resources, you can view them and restore them like any resource supported by Backup. To download the Amazon Web Services software to get started, navigate to the Backup console, choose Gateways, then choose Create gateway.
 public protocol BackupGatewayClientProtocol {
+    /// Performs the `AssociateGatewayToServer` operation on the `BackupOnPremises_v20210101` service.
+    ///
     /// Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
     ///
     /// - Parameter AssociateGatewayToServerInput : [no documentation found]
@@ -18,6 +20,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateGateway` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation.
     ///
     /// - Parameter CreateGatewayInput : [no documentation found]
@@ -31,6 +38,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteGateway` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Deletes a backup gateway.
     ///
     /// - Parameter DeleteGatewayInput : [no documentation found]
@@ -45,6 +57,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Deletes a hypervisor.
     ///
     /// - Parameter DeleteHypervisorInput : [no documentation found]
@@ -61,6 +78,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateGatewayFromServer` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
     ///
     /// - Parameter DisassociateGatewayFromServerInput : [no documentation found]
@@ -76,6 +98,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetBandwidthRateLimitSchedule` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
     ///
     /// - Parameter GetBandwidthRateLimitScheduleInput : [no documentation found]
@@ -90,6 +117,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetGateway` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
     ///
     /// - Parameter GetGatewayInput : [no documentation found]
@@ -104,6 +136,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
     ///
     /// - Parameter GetHypervisorInput : [no documentation found]
@@ -118,6 +155,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetHypervisorPropertyMappings` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
     ///
     /// - Parameter GetHypervisorPropertyMappingsInput : [no documentation found]
@@ -132,6 +174,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetVirtualMachine` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
     ///
     /// - Parameter GetVirtualMachineInput : [no documentation found]
@@ -146,6 +193,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ImportHypervisorConfiguration` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Connect to a hypervisor by importing its configuration.
     ///
     /// - Parameter ImportHypervisorConfigurationInput : [no documentation found]
@@ -161,6 +213,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListGateways` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
     ///
     /// - Parameter ListGatewaysInput : [no documentation found]
@@ -174,6 +231,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListHypervisors` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Lists your hypervisors.
     ///
     /// - Parameter ListHypervisorsInput : [no documentation found]
@@ -187,6 +249,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -201,6 +268,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVirtualMachines` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Lists your virtual machines.
     ///
     /// - Parameter ListVirtualMachinesInput : [no documentation found]
@@ -214,6 +286,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutBandwidthRateLimitSchedule` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
     ///
     /// - Parameter PutBandwidthRateLimitScheduleInput : [no documentation found]
@@ -228,6 +305,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutHypervisorPropertyMappings` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
     ///
     /// - Parameter PutHypervisorPropertyMappingsInput : [no documentation found]
@@ -244,6 +326,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutMaintenanceStartTime` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Set the maintenance start time for a gateway.
     ///
     /// - Parameter PutMaintenanceStartTimeInput : [no documentation found]
@@ -259,6 +346,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartVirtualMachinesMetadataSync` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// This action sends a request to sync metadata across the specified virtual machines.
     ///
     /// - Parameter StartVirtualMachinesMetadataSyncInput : [no documentation found]
@@ -274,6 +366,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Tag the resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -288,6 +385,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestHypervisorConfiguration` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
     ///
     /// - Parameter TestHypervisorConfigurationInput : [no documentation found]
@@ -303,6 +405,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Removes tags from the resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -317,6 +424,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGatewayInformation` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
     ///
     /// - Parameter UpdateGatewayInformationInput : [no documentation found]
@@ -332,6 +444,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateGatewaySoftwareNow` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
     ///
     /// - Parameter UpdateGatewaySoftwareNowInput : [no documentation found]
@@ -346,6 +463,11 @@ public protocol BackupGatewayClientProtocol {
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateHypervisor` operation on the `BackupOnPremises_v20210101` service.
+    ///
+>>>>>>> main
     /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
     ///
     /// - Parameter UpdateHypervisorInput : [no documentation found]

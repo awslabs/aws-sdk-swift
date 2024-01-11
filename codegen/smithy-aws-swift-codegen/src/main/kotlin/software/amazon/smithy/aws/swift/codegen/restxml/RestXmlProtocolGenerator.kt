@@ -11,13 +11,13 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.DynamicNodeEncodingGeneratorStrategy
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
@@ -31,8 +31,9 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory(),
     )
+    override val shouldRenderDecodableBodyStructForInputShapes = false
     override val serdeContext = serdeContextXML
     override val testsToIgnore = setOf(
         "S3DefaultAddressing",
@@ -46,8 +47,13 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3EscapePathObjectKeyInUriLabel",
         "SDKAppliedContentEncoding_restXml",
         "SDKAppendedGzipAfterProvidedEncoding_restXml",
-        "S3OperationNoErrorWrappingResponse"
+        "S3OperationNoErrorWrappingResponse",
     )
+    override val tagsToIgnore = setOf("defaults")
+
+    override val codableProtocol = SwiftTypes.Protocols.Decodable
+    override val encodableProtocol = null
+    override val decodableProtocol = SwiftTypes.Protocols.Decodable
 
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
@@ -56,14 +62,10 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?
+        path: String?,
     ) {
-        val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer, defaultTimestampFormat)
+        val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer)
         encoder.render()
-
-        val xmlNamespaces = encoder.xmlNamespaces
-        val dynamicNodeEncoding = DynamicNodeEncodingGeneratorStrategy(ctx, shapeContainingMembers, xmlNamespaces)
-        dynamicNodeEncoding.renderIfNeeded()
     }
 
     override fun renderStructDecode(
@@ -72,7 +74,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
+        path: String,
     ) {
         val decoder = RestXmlStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()

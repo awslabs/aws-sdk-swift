@@ -2,6 +2,38 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension FisClientTypes {
+    public enum AccountTargeting: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case multiAccount
+        case singleAccount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountTargeting] {
+            return [
+                .multiAccount,
+                .singleAccount,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiAccount: return "multi-account"
+            case .singleAccount: return "single-account"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AccountTargeting(rawValue: rawValue) ?? AccountTargeting.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FisClientTypes.Action: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -449,11 +481,57 @@ extension FisClientTypes {
 
 }
 
+extension FisClientTypes.CreateExperimentTemplateExperimentOptionsInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountTargeting
+        case emptyTargetResolutionMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountTargeting = self.accountTargeting {
+            try encodeContainer.encode(accountTargeting.rawValue, forKey: .accountTargeting)
+        }
+        if let emptyTargetResolutionMode = self.emptyTargetResolutionMode {
+            try encodeContainer.encode(emptyTargetResolutionMode.rawValue, forKey: .emptyTargetResolutionMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountTargetingDecoded = try containerValues.decodeIfPresent(FisClientTypes.AccountTargeting.self, forKey: .accountTargeting)
+        accountTargeting = accountTargetingDecoded
+        let emptyTargetResolutionModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.EmptyTargetResolutionMode.self, forKey: .emptyTargetResolutionMode)
+        emptyTargetResolutionMode = emptyTargetResolutionModeDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Specifies experiment options for an experiment template.
+    public struct CreateExperimentTemplateExperimentOptionsInput: Swift.Equatable {
+        /// Specifies the account targeting setting for experiment options.
+        public var accountTargeting: FisClientTypes.AccountTargeting?
+        /// Specifies the empty target resolution mode for experiment options.
+        public var emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode?
+
+        public init(
+            accountTargeting: FisClientTypes.AccountTargeting? = nil,
+            emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
+        )
+        {
+            self.accountTargeting = accountTargeting
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
+        }
+    }
+
+}
+
 extension CreateExperimentTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions
         case clientToken
         case description
+        case experimentOptions
         case logConfiguration
         case roleArn
         case stopConditions
@@ -474,6 +552,9 @@ extension CreateExperimentTemplateInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let experimentOptions = self.experimentOptions {
+            try encodeContainer.encode(experimentOptions, forKey: .experimentOptions)
         }
         if let logConfiguration = self.logConfiguration {
             try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
@@ -518,6 +599,8 @@ public struct CreateExperimentTemplateInput: Swift.Equatable {
     /// A description for the experiment template.
     /// This member is required.
     public var description: Swift.String?
+    /// The experiment options for the experiment template.
+    public var experimentOptions: FisClientTypes.CreateExperimentTemplateExperimentOptionsInput?
     /// The configuration for experiment logging.
     public var logConfiguration: FisClientTypes.CreateExperimentTemplateLogConfigurationInput?
     /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
@@ -535,6 +618,7 @@ public struct CreateExperimentTemplateInput: Swift.Equatable {
         actions: [Swift.String:FisClientTypes.CreateExperimentTemplateActionInput]? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        experimentOptions: FisClientTypes.CreateExperimentTemplateExperimentOptionsInput? = nil,
         logConfiguration: FisClientTypes.CreateExperimentTemplateLogConfigurationInput? = nil,
         roleArn: Swift.String? = nil,
         stopConditions: [FisClientTypes.CreateExperimentTemplateStopConditionInput]? = nil,
@@ -545,6 +629,7 @@ public struct CreateExperimentTemplateInput: Swift.Equatable {
         self.actions = actions
         self.clientToken = clientToken
         self.description = description
+        self.experimentOptions = experimentOptions
         self.logConfiguration = logConfiguration
         self.roleArn = roleArn
         self.stopConditions = stopConditions
@@ -562,6 +647,7 @@ struct CreateExperimentTemplateInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let logConfiguration: FisClientTypes.CreateExperimentTemplateLogConfigurationInput?
+    let experimentOptions: FisClientTypes.CreateExperimentTemplateExperimentOptionsInput?
 }
 
 extension CreateExperimentTemplateInputBody: Swift.Decodable {
@@ -569,6 +655,7 @@ extension CreateExperimentTemplateInputBody: Swift.Decodable {
         case actions
         case clientToken
         case description
+        case experimentOptions
         case logConfiguration
         case roleArn
         case stopConditions
@@ -630,6 +717,8 @@ extension CreateExperimentTemplateInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let logConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.CreateExperimentTemplateLogConfigurationInput.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
+        let experimentOptionsDecoded = try containerValues.decodeIfPresent(FisClientTypes.CreateExperimentTemplateExperimentOptionsInput.self, forKey: .experimentOptions)
+        experimentOptions = experimentOptionsDecoded
     }
 }
 
@@ -930,6 +1019,148 @@ extension FisClientTypes {
 
 }
 
+extension CreateTargetAccountConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+}
+
+extension CreateTargetAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentTemplateId = experimentTemplateId else {
+            return nil
+        }
+        guard let accountId = accountId else {
+            return nil
+        }
+        return "/experimentTemplates/\(experimentTemplateId.urlPercentEncoding())/targetAccountConfigurations/\(accountId.urlPercentEncoding())"
+    }
+}
+
+public struct CreateTargetAccountConfigurationInput: Swift.Equatable {
+    /// The AWS account ID of the target account.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description of the target account.
+    public var description: Swift.String?
+    /// The experiment template ID.
+    /// This member is required.
+    public var experimentTemplateId: Swift.String?
+    /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+    /// This member is required.
+    public var roleArn: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        experimentTemplateId: Swift.String? = nil,
+        roleArn: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.clientToken = clientToken
+        self.description = description
+        self.experimentTemplateId = experimentTemplateId
+        self.roleArn = roleArn
+    }
+}
+
+struct CreateTargetAccountConfigurationInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let roleArn: Swift.String?
+    let description: Swift.String?
+}
+
+extension CreateTargetAccountConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case roleArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension CreateTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.targetAccountConfiguration = output.targetAccountConfiguration
+        } else {
+            self.targetAccountConfiguration = nil
+        }
+    }
+}
+
+public struct CreateTargetAccountConfigurationOutput: Swift.Equatable {
+    /// Information about the target account configuration.
+    public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+
+    public init(
+        targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
+    )
+    {
+        self.targetAccountConfiguration = targetAccountConfiguration
+    }
+}
+
+struct CreateTargetAccountConfigurationOutputBody: Swift.Equatable {
+    let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+}
+
+extension CreateTargetAccountConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case targetAccountConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.TargetAccountConfiguration.self, forKey: .targetAccountConfiguration)
+        targetAccountConfiguration = targetAccountConfigurationDecoded
+    }
+}
+
+enum CreateTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteExperimentTemplateInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -962,6 +1193,13 @@ extension DeleteExperimentTemplateInputBody: Swift.Decodable {
 }
 
 extension DeleteExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
+<<<<<<< HEAD
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteExperimentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.experimentTemplate = output.experimentTemplate
+=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -1013,11 +1251,162 @@ enum DeleteExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension DeleteTargetAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentTemplateId = experimentTemplateId else {
+            return nil
+        }
+        guard let accountId = accountId else {
+            return nil
+        }
+        return "/experimentTemplates/\(experimentTemplateId.urlPercentEncoding())/targetAccountConfigurations/\(accountId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTargetAccountConfigurationInput: Swift.Equatable {
+    /// The AWS account ID of the target account.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The ID of the experiment template.
+    /// This member is required.
+    public var experimentTemplateId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        experimentTemplateId: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.experimentTemplateId = experimentTemplateId
+    }
+}
+
+struct DeleteTargetAccountConfigurationInputBody: Swift.Equatable {
+}
+
+extension DeleteTargetAccountConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.targetAccountConfiguration = output.targetAccountConfiguration
+>>>>>>> main
+        } else {
+            self.targetAccountConfiguration = nil
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct DeleteExperimentTemplateOutput: Swift.Equatable {
+    /// Information about the experiment template.
+    public var experimentTemplate: FisClientTypes.ExperimentTemplate?
+=======
+public struct DeleteTargetAccountConfigurationOutput: Swift.Equatable {
+    /// Information about the target account configuration.
+    public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+>>>>>>> main
+
+    public init(
+        targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
+    )
+    {
+        self.targetAccountConfiguration = targetAccountConfiguration
+    }
+}
+
+<<<<<<< HEAD
+struct DeleteExperimentTemplateOutputBody: Swift.Equatable {
+    let experimentTemplate: FisClientTypes.ExperimentTemplate?
+}
+
+extension DeleteExperimentTemplateOutputBody: Swift.Decodable {
+=======
+struct DeleteTargetAccountConfigurationOutputBody: Swift.Equatable {
+    let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+}
+
+extension DeleteTargetAccountConfigurationOutputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case targetAccountConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.TargetAccountConfiguration.self, forKey: .targetAccountConfiguration)
+        targetAccountConfiguration = targetAccountConfigurationDecoded
+    }
+}
+
+enum DeleteTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension FisClientTypes {
+    public enum EmptyTargetResolutionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fail
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmptyTargetResolutionMode] {
+            return [
+                .fail,
+                .skip,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "fail"
+            case .skip: return "skip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EmptyTargetResolutionMode(rawValue: rawValue) ?? EmptyTargetResolutionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+enum DeleteExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension FisClientTypes.Experiment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions
         case creationTime
         case endTime
+        case experimentOptions
         case experimentTemplateId
         case id
         case logConfiguration
@@ -1026,6 +1415,7 @@ extension FisClientTypes.Experiment: Swift.Codable {
         case state
         case stopConditions
         case tags
+        case targetAccountConfigurationsCount
         case targets
     }
 
@@ -1042,6 +1432,9 @@ extension FisClientTypes.Experiment: Swift.Codable {
         }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let experimentOptions = self.experimentOptions {
+            try encodeContainer.encode(experimentOptions, forKey: .experimentOptions)
         }
         if let experimentTemplateId = self.experimentTemplateId {
             try encodeContainer.encode(experimentTemplateId, forKey: .experimentTemplateId)
@@ -1072,6 +1465,9 @@ extension FisClientTypes.Experiment: Swift.Codable {
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let targetAccountConfigurationsCount = self.targetAccountConfigurationsCount {
+            try encodeContainer.encode(targetAccountConfigurationsCount, forKey: .targetAccountConfigurationsCount)
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
@@ -1143,6 +1539,10 @@ extension FisClientTypes.Experiment: Swift.Codable {
         tags = tagsDecoded0
         let logConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentLogConfiguration.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
+        let experimentOptionsDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentOptions.self, forKey: .experimentOptions)
+        experimentOptions = experimentOptionsDecoded
+        let targetAccountConfigurationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetAccountConfigurationsCount)
+        targetAccountConfigurationsCount = targetAccountConfigurationsCountDecoded
     }
 }
 
@@ -1155,6 +1555,8 @@ extension FisClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The time that the experiment ended.
         public var endTime: ClientRuntime.Date?
+        /// The experiment options for the experiment.
+        public var experimentOptions: FisClientTypes.ExperimentOptions?
         /// The ID of the experiment template.
         public var experimentTemplateId: Swift.String?
         /// The ID of the experiment.
@@ -1171,6 +1573,8 @@ extension FisClientTypes {
         public var stopConditions: [FisClientTypes.ExperimentStopCondition]?
         /// The tags for the experiment.
         public var tags: [Swift.String:Swift.String]?
+        /// The count of target account configurations for the experiment.
+        public var targetAccountConfigurationsCount: Swift.Int?
         /// The targets for the experiment.
         public var targets: [Swift.String:FisClientTypes.ExperimentTarget]?
 
@@ -1178,6 +1582,7 @@ extension FisClientTypes {
             actions: [Swift.String:FisClientTypes.ExperimentAction]? = nil,
             creationTime: ClientRuntime.Date? = nil,
             endTime: ClientRuntime.Date? = nil,
+            experimentOptions: FisClientTypes.ExperimentOptions? = nil,
             experimentTemplateId: Swift.String? = nil,
             id: Swift.String? = nil,
             logConfiguration: FisClientTypes.ExperimentLogConfiguration? = nil,
@@ -1186,12 +1591,14 @@ extension FisClientTypes {
             state: FisClientTypes.ExperimentState? = nil,
             stopConditions: [FisClientTypes.ExperimentStopCondition]? = nil,
             tags: [Swift.String:Swift.String]? = nil,
+            targetAccountConfigurationsCount: Swift.Int? = nil,
             targets: [Swift.String:FisClientTypes.ExperimentTarget]? = nil
         )
         {
             self.actions = actions
             self.creationTime = creationTime
             self.endTime = endTime
+            self.experimentOptions = experimentOptions
             self.experimentTemplateId = experimentTemplateId
             self.id = id
             self.logConfiguration = logConfiguration
@@ -1200,6 +1607,7 @@ extension FisClientTypes {
             self.state = state
             self.stopConditions = stopConditions
             self.tags = tags
+            self.targetAccountConfigurationsCount = targetAccountConfigurationsCount
             self.targets = targets
         }
     }
@@ -1400,6 +1808,7 @@ extension FisClientTypes {
         case initiating
         case pending
         case running
+        case skipped
         case stopped
         case stopping
         case sdkUnknown(Swift.String)
@@ -1412,6 +1821,7 @@ extension FisClientTypes {
                 .initiating,
                 .pending,
                 .running,
+                .skipped,
                 .stopped,
                 .stopping,
                 .sdkUnknown("")
@@ -1429,6 +1839,7 @@ extension FisClientTypes {
             case .initiating: return "initiating"
             case .pending: return "pending"
             case .running: return "running"
+            case .skipped: return "skipped"
             case .stopped: return "stopped"
             case .stopping: return "stopping"
             case let .sdkUnknown(s): return s
@@ -1527,6 +1938,51 @@ extension FisClientTypes {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
             self.s3Configuration = s3Configuration
+        }
+    }
+
+}
+
+extension FisClientTypes.ExperimentOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountTargeting
+        case emptyTargetResolutionMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountTargeting = self.accountTargeting {
+            try encodeContainer.encode(accountTargeting.rawValue, forKey: .accountTargeting)
+        }
+        if let emptyTargetResolutionMode = self.emptyTargetResolutionMode {
+            try encodeContainer.encode(emptyTargetResolutionMode.rawValue, forKey: .emptyTargetResolutionMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountTargetingDecoded = try containerValues.decodeIfPresent(FisClientTypes.AccountTargeting.self, forKey: .accountTargeting)
+        accountTargeting = accountTargetingDecoded
+        let emptyTargetResolutionModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.EmptyTargetResolutionMode.self, forKey: .emptyTargetResolutionMode)
+        emptyTargetResolutionMode = emptyTargetResolutionModeDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Describes the options for an experiment.
+    public struct ExperimentOptions: Swift.Equatable {
+        /// The account targeting setting for an experiment.
+        public var accountTargeting: FisClientTypes.AccountTargeting?
+        /// The empty target resolution mode for an experiment.
+        public var emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode?
+
+        public init(
+            accountTargeting: FisClientTypes.AccountTargeting? = nil,
+            emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
+        )
+        {
+            self.accountTargeting = accountTargeting
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
     }
 
@@ -1934,6 +2390,116 @@ extension FisClientTypes {
 
 }
 
+extension FisClientTypes.ExperimentTargetAccountConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case description
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Describes a target account configuration for an experiment.
+    public struct ExperimentTargetAccountConfiguration: Swift.Equatable {
+        /// The AWS account ID of the target account.
+        public var accountId: Swift.String?
+        /// The description of the target account.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public var roleArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension FisClientTypes.ExperimentTargetAccountConfigurationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case description
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Provides a summary of a target account configuration.
+    public struct ExperimentTargetAccountConfigurationSummary: Swift.Equatable {
+        /// The AWS account ID of the target account.
+        public var accountId: Swift.String?
+        /// The description of the target account.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public var roleArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
 extension FisClientTypes.ExperimentTargetFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case path
@@ -1996,12 +2562,14 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
         case actions
         case creationTime
         case description
+        case experimentOptions
         case id
         case lastUpdateTime
         case logConfiguration
         case roleArn
         case stopConditions
         case tags
+        case targetAccountConfigurationsCount
         case targets
     }
 
@@ -2018,6 +2586,9 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let experimentOptions = self.experimentOptions {
+            try encodeContainer.encode(experimentOptions, forKey: .experimentOptions)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -2042,6 +2613,9 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let targetAccountConfigurationsCount = self.targetAccountConfigurationsCount {
+            try encodeContainer.encode(targetAccountConfigurationsCount, forKey: .targetAccountConfigurationsCount)
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
@@ -2109,6 +2683,10 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
         tags = tagsDecoded0
         let logConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentTemplateLogConfiguration.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
+        let experimentOptionsDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentTemplateExperimentOptions.self, forKey: .experimentOptions)
+        experimentOptions = experimentOptionsDecoded
+        let targetAccountConfigurationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetAccountConfigurationsCount)
+        targetAccountConfigurationsCount = targetAccountConfigurationsCountDecoded
     }
 }
 
@@ -2121,6 +2699,8 @@ extension FisClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The description for the experiment template.
         public var description: Swift.String?
+        /// The experiment options for an experiment template.
+        public var experimentOptions: FisClientTypes.ExperimentTemplateExperimentOptions?
         /// The ID of the experiment template.
         public var id: Swift.String?
         /// The time the experiment template was last updated.
@@ -2133,6 +2713,8 @@ extension FisClientTypes {
         public var stopConditions: [FisClientTypes.ExperimentTemplateStopCondition]?
         /// The tags for the experiment template.
         public var tags: [Swift.String:Swift.String]?
+        /// The count of target account configurations for the experiment template.
+        public var targetAccountConfigurationsCount: Swift.Int?
         /// The targets for the experiment.
         public var targets: [Swift.String:FisClientTypes.ExperimentTemplateTarget]?
 
@@ -2140,24 +2722,28 @@ extension FisClientTypes {
             actions: [Swift.String:FisClientTypes.ExperimentTemplateAction]? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            experimentOptions: FisClientTypes.ExperimentTemplateExperimentOptions? = nil,
             id: Swift.String? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             logConfiguration: FisClientTypes.ExperimentTemplateLogConfiguration? = nil,
             roleArn: Swift.String? = nil,
             stopConditions: [FisClientTypes.ExperimentTemplateStopCondition]? = nil,
             tags: [Swift.String:Swift.String]? = nil,
+            targetAccountConfigurationsCount: Swift.Int? = nil,
             targets: [Swift.String:FisClientTypes.ExperimentTemplateTarget]? = nil
         )
         {
             self.actions = actions
             self.creationTime = creationTime
             self.description = description
+            self.experimentOptions = experimentOptions
             self.id = id
             self.lastUpdateTime = lastUpdateTime
             self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
             self.tags = tags
+            self.targetAccountConfigurationsCount = targetAccountConfigurationsCount
             self.targets = targets
         }
     }
@@ -2341,6 +2927,51 @@ extension FisClientTypes {
         )
         {
             self.logGroupArn = logGroupArn
+        }
+    }
+
+}
+
+extension FisClientTypes.ExperimentTemplateExperimentOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountTargeting
+        case emptyTargetResolutionMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountTargeting = self.accountTargeting {
+            try encodeContainer.encode(accountTargeting.rawValue, forKey: .accountTargeting)
+        }
+        if let emptyTargetResolutionMode = self.emptyTargetResolutionMode {
+            try encodeContainer.encode(emptyTargetResolutionMode.rawValue, forKey: .emptyTargetResolutionMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountTargetingDecoded = try containerValues.decodeIfPresent(FisClientTypes.AccountTargeting.self, forKey: .accountTargeting)
+        accountTargeting = accountTargetingDecoded
+        let emptyTargetResolutionModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.EmptyTargetResolutionMode.self, forKey: .emptyTargetResolutionMode)
+        emptyTargetResolutionMode = emptyTargetResolutionModeDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Describes the experiment options for an experiment template.
+    public struct ExperimentTemplateExperimentOptions: Swift.Equatable {
+        /// The account targeting setting for an experiment template.
+        public var accountTargeting: FisClientTypes.AccountTargeting?
+        /// The empty target resolution mode for an experiment template.
+        public var emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode?
+
+        public init(
+            accountTargeting: FisClientTypes.AccountTargeting? = nil,
+            emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
+        )
+        {
+            self.accountTargeting = accountTargeting
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
     }
 
@@ -2988,6 +3619,13 @@ extension GetExperimentInputBody: Swift.Decodable {
 }
 
 extension GetExperimentOutput: ClientRuntime.HttpResponseBinding {
+<<<<<<< HEAD
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetExperimentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.experiment = output.experiment
+=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3039,6 +3677,124 @@ enum GetExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetExperimentTargetAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentId = experimentId else {
+            return nil
+        }
+        guard let accountId = accountId else {
+            return nil
+        }
+        return "/experiments/\(experimentId.urlPercentEncoding())/targetAccountConfigurations/\(accountId.urlPercentEncoding())"
+    }
+}
+
+public struct GetExperimentTargetAccountConfigurationInput: Swift.Equatable {
+    /// The AWS account ID of the target account.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The ID of the experiment.
+    /// This member is required.
+    public var experimentId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        experimentId: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.experimentId = experimentId
+    }
+}
+
+struct GetExperimentTargetAccountConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetExperimentTargetAccountConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetExperimentTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetExperimentTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.targetAccountConfiguration = output.targetAccountConfiguration
+>>>>>>> main
+        } else {
+            self.targetAccountConfiguration = nil
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct GetExperimentOutput: Swift.Equatable {
+    /// Information about the experiment.
+    public var experiment: FisClientTypes.Experiment?
+=======
+public struct GetExperimentTargetAccountConfigurationOutput: Swift.Equatable {
+    /// Information about the target account configuration.
+    public var targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration?
+>>>>>>> main
+
+    public init(
+        targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration? = nil
+    )
+    {
+        self.targetAccountConfiguration = targetAccountConfiguration
+    }
+}
+
+<<<<<<< HEAD
+struct GetExperimentOutputBody: Swift.Equatable {
+    let experiment: FisClientTypes.Experiment?
+}
+
+extension GetExperimentOutputBody: Swift.Decodable {
+=======
+struct GetExperimentTargetAccountConfigurationOutputBody: Swift.Equatable {
+    let targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration?
+}
+
+extension GetExperimentTargetAccountConfigurationOutputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case targetAccountConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentTargetAccountConfiguration.self, forKey: .targetAccountConfiguration)
+        targetAccountConfiguration = targetAccountConfigurationDecoded
+    }
+}
+
+enum GetExperimentTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+enum GetExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetExperimentTemplateInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -3071,6 +3827,13 @@ extension GetExperimentTemplateInputBody: Swift.Decodable {
 }
 
 extension GetExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
+<<<<<<< HEAD
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetExperimentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.experimentTemplate = output.experimentTemplate
+=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3107,6 +3870,124 @@ extension GetExperimentTemplateOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let experimentTemplateDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentTemplate.self, forKey: .experimentTemplate)
         experimentTemplate = experimentTemplateDecoded
+    }
+}
+
+enum GetExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetTargetAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentTemplateId = experimentTemplateId else {
+            return nil
+        }
+        guard let accountId = accountId else {
+            return nil
+        }
+        return "/experimentTemplates/\(experimentTemplateId.urlPercentEncoding())/targetAccountConfigurations/\(accountId.urlPercentEncoding())"
+    }
+}
+
+public struct GetTargetAccountConfigurationInput: Swift.Equatable {
+    /// The AWS account ID of the target account.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The ID of the experiment template.
+    /// This member is required.
+    public var experimentTemplateId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        experimentTemplateId: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.experimentTemplateId = experimentTemplateId
+    }
+}
+
+struct GetTargetAccountConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetTargetAccountConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.targetAccountConfiguration = output.targetAccountConfiguration
+>>>>>>> main
+        } else {
+            self.targetAccountConfiguration = nil
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct GetExperimentTemplateOutput: Swift.Equatable {
+    /// Information about the experiment template.
+    public var experimentTemplate: FisClientTypes.ExperimentTemplate?
+=======
+public struct GetTargetAccountConfigurationOutput: Swift.Equatable {
+    /// Information about the target account configuration.
+    public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+>>>>>>> main
+
+    public init(
+        targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
+    )
+    {
+        self.targetAccountConfiguration = targetAccountConfiguration
+    }
+}
+
+<<<<<<< HEAD
+struct GetExperimentTemplateOutputBody: Swift.Equatable {
+    let experimentTemplate: FisClientTypes.ExperimentTemplate?
+}
+
+extension GetExperimentTemplateOutputBody: Swift.Decodable {
+=======
+struct GetTargetAccountConfigurationOutputBody: Swift.Equatable {
+    let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+}
+
+extension GetTargetAccountConfigurationOutputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case targetAccountConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.TargetAccountConfiguration.self, forKey: .targetAccountConfiguration)
+        targetAccountConfiguration = targetAccountConfigurationDecoded
+    }
+}
+
+enum GetTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3323,6 +4204,263 @@ enum ListActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListExperimentResolvedTargetsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let targetName = targetName {
+                let targetNameQueryItem = ClientRuntime.URLQueryItem(name: "targetName".urlPercentEncoding(), value: Swift.String(targetName).urlPercentEncoding())
+                items.append(targetNameQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListExperimentResolvedTargetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentId = experimentId else {
+            return nil
+        }
+        return "/experiments/\(experimentId.urlPercentEncoding())/resolvedTargets"
+    }
+}
+
+public struct ListExperimentResolvedTargetsInput: Swift.Equatable {
+    /// The ID of the experiment.
+    /// This member is required.
+    public var experimentId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The name of the target.
+    public var targetName: Swift.String?
+
+    public init(
+        experimentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        targetName: Swift.String? = nil
+    )
+    {
+        self.experimentId = experimentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.targetName = targetName
+    }
+}
+
+struct ListExperimentResolvedTargetsInputBody: Swift.Equatable {
+}
+
+extension ListExperimentResolvedTargetsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListExperimentResolvedTargetsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListExperimentResolvedTargetsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.resolvedTargets = output.resolvedTargets
+        } else {
+            self.nextToken = nil
+            self.resolvedTargets = nil
+        }
+    }
+}
+
+public struct ListExperimentResolvedTargetsOutput: Swift.Equatable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The resolved targets.
+    public var resolvedTargets: [FisClientTypes.ResolvedTarget]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resolvedTargets: [FisClientTypes.ResolvedTarget]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resolvedTargets = resolvedTargets
+    }
+}
+
+struct ListExperimentResolvedTargetsOutputBody: Swift.Equatable {
+    let resolvedTargets: [FisClientTypes.ResolvedTarget]?
+    let nextToken: Swift.String?
+}
+
+extension ListExperimentResolvedTargetsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case resolvedTargets
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resolvedTargetsContainer = try containerValues.decodeIfPresent([FisClientTypes.ResolvedTarget?].self, forKey: .resolvedTargets)
+        var resolvedTargetsDecoded0:[FisClientTypes.ResolvedTarget]? = nil
+        if let resolvedTargetsContainer = resolvedTargetsContainer {
+            resolvedTargetsDecoded0 = [FisClientTypes.ResolvedTarget]()
+            for structure0 in resolvedTargetsContainer {
+                if let structure0 = structure0 {
+                    resolvedTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resolvedTargets = resolvedTargetsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListExperimentResolvedTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListExperimentTargetAccountConfigurationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListExperimentTargetAccountConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentId = experimentId else {
+            return nil
+        }
+        return "/experiments/\(experimentId.urlPercentEncoding())/targetAccountConfigurations"
+    }
+}
+
+public struct ListExperimentTargetAccountConfigurationsInput: Swift.Equatable {
+    /// The ID of the experiment.
+    /// This member is required.
+    public var experimentId: Swift.String?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        experimentId: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.experimentId = experimentId
+        self.nextToken = nextToken
+    }
+}
+
+struct ListExperimentTargetAccountConfigurationsInputBody: Swift.Equatable {
+}
+
+extension ListExperimentTargetAccountConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListExperimentTargetAccountConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListExperimentTargetAccountConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.targetAccountConfigurations = output.targetAccountConfigurations
+        } else {
+            self.nextToken = nil
+            self.targetAccountConfigurations = nil
+        }
+    }
+}
+
+public struct ListExperimentTargetAccountConfigurationsOutput: Swift.Equatable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The target account configurations.
+    public var targetAccountConfigurations: [FisClientTypes.ExperimentTargetAccountConfigurationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        targetAccountConfigurations: [FisClientTypes.ExperimentTargetAccountConfigurationSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.targetAccountConfigurations = targetAccountConfigurations
+    }
+}
+
+struct ListExperimentTargetAccountConfigurationsOutputBody: Swift.Equatable {
+    let targetAccountConfigurations: [FisClientTypes.ExperimentTargetAccountConfigurationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListExperimentTargetAccountConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case targetAccountConfigurations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationsContainer = try containerValues.decodeIfPresent([FisClientTypes.ExperimentTargetAccountConfigurationSummary?].self, forKey: .targetAccountConfigurations)
+        var targetAccountConfigurationsDecoded0:[FisClientTypes.ExperimentTargetAccountConfigurationSummary]? = nil
+        if let targetAccountConfigurationsContainer = targetAccountConfigurationsContainer {
+            targetAccountConfigurationsDecoded0 = [FisClientTypes.ExperimentTargetAccountConfigurationSummary]()
+            for structure0 in targetAccountConfigurationsContainer {
+                if let structure0 = structure0 {
+                    targetAccountConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetAccountConfigurations = targetAccountConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListExperimentTargetAccountConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListExperimentTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3649,6 +4787,136 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListTargetAccountConfigurationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListTargetAccountConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentTemplateId = experimentTemplateId else {
+            return nil
+        }
+        return "/experimentTemplates/\(experimentTemplateId.urlPercentEncoding())/targetAccountConfigurations"
+    }
+}
+
+public struct ListTargetAccountConfigurationsInput: Swift.Equatable {
+    /// The ID of the experiment template.
+    /// This member is required.
+    public var experimentTemplateId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        experimentTemplateId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.experimentTemplateId = experimentTemplateId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListTargetAccountConfigurationsInputBody: Swift.Equatable {
+}
+
+extension ListTargetAccountConfigurationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTargetAccountConfigurationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTargetAccountConfigurationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.targetAccountConfigurations = output.targetAccountConfigurations
+        } else {
+            self.nextToken = nil
+            self.targetAccountConfigurations = nil
+        }
+    }
+}
+
+public struct ListTargetAccountConfigurationsOutput: Swift.Equatable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The target account configurations.
+    public var targetAccountConfigurations: [FisClientTypes.TargetAccountConfigurationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        targetAccountConfigurations: [FisClientTypes.TargetAccountConfigurationSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.targetAccountConfigurations = targetAccountConfigurations
+    }
+}
+
+struct ListTargetAccountConfigurationsOutputBody: Swift.Equatable {
+    let targetAccountConfigurations: [FisClientTypes.TargetAccountConfigurationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListTargetAccountConfigurationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case targetAccountConfigurations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationsContainer = try containerValues.decodeIfPresent([FisClientTypes.TargetAccountConfigurationSummary?].self, forKey: .targetAccountConfigurations)
+        var targetAccountConfigurationsDecoded0:[FisClientTypes.TargetAccountConfigurationSummary]? = nil
+        if let targetAccountConfigurationsContainer = targetAccountConfigurationsContainer {
+            targetAccountConfigurationsDecoded0 = [FisClientTypes.TargetAccountConfigurationSummary]()
+            for structure0 in targetAccountConfigurationsContainer {
+                if let structure0 = structure0 {
+                    targetAccountConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetAccountConfigurations = targetAccountConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTargetAccountConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListTargetResourceTypesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3767,6 +5035,76 @@ enum ListTargetResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
+=======
+extension FisClientTypes.ResolvedTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceType
+        case targetInformation
+        case targetName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let targetInformation = targetInformation {
+            var targetInformationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targetInformation)
+            for (dictKey0, targetInformationMap0) in targetInformation {
+                try targetInformationContainer.encode(targetInformationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetName = self.targetName {
+            try encodeContainer.encode(targetName, forKey: .targetName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let targetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetName)
+        targetName = targetNameDecoded
+        let targetInformationContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .targetInformation)
+        var targetInformationDecoded0: [Swift.String:Swift.String]? = nil
+        if let targetInformationContainer = targetInformationContainer {
+            targetInformationDecoded0 = [Swift.String:Swift.String]()
+            for (key0, targetinformationvalue0) in targetInformationContainer {
+                if let targetinformationvalue0 = targetinformationvalue0 {
+                    targetInformationDecoded0?[key0] = targetinformationvalue0
+                }
+            }
+        }
+        targetInformation = targetInformationDecoded0
+    }
+}
+
+extension FisClientTypes {
+    /// Describes a resolved target.
+    public struct ResolvedTarget: Swift.Equatable {
+        /// The resource type of the target.
+        public var resourceType: Swift.String?
+        /// Information about the target.
+        public var targetInformation: [Swift.String:Swift.String]?
+        /// The name of the target.
+        public var targetName: Swift.String?
+
+        public init(
+            resourceType: Swift.String? = nil,
+            targetInformation: [Swift.String:Swift.String]? = nil,
+            targetName: Swift.String? = nil
+        )
+        {
+            self.resourceType = resourceType
+            self.targetInformation = targetInformation
+            self.targetName = targetName
+        }
+    }
+
+}
+
+>>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4187,6 +5525,119 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension FisClientTypes.TargetAccountConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case description
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Describes a target account configuration.
+    public struct TargetAccountConfiguration: Swift.Equatable {
+        /// The AWS account ID of the target account.
+        public var accountId: Swift.String?
+        /// The description of the target account.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public var roleArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+extension FisClientTypes.TargetAccountConfigurationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case description
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Provides a summary of a target account configuration.
+    public struct TargetAccountConfigurationSummary: Swift.Equatable {
+        /// The AWS account ID of the target account.
+        public var accountId: Swift.String?
+        /// The description of the target account.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+        public var roleArn: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.description = description
+            self.roleArn = roleArn
+        }
+    }
+
+}
+
+>>>>>>> main
 extension FisClientTypes.TargetResourceType: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -4525,10 +5976,46 @@ extension FisClientTypes {
 
 }
 
+extension FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emptyTargetResolutionMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let emptyTargetResolutionMode = self.emptyTargetResolutionMode {
+            try encodeContainer.encode(emptyTargetResolutionMode.rawValue, forKey: .emptyTargetResolutionMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let emptyTargetResolutionModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.EmptyTargetResolutionMode.self, forKey: .emptyTargetResolutionMode)
+        emptyTargetResolutionMode = emptyTargetResolutionModeDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Specifies an experiment option for an experiment template.
+    public struct UpdateExperimentTemplateExperimentOptionsInput: Swift.Equatable {
+        /// The empty target resolution mode of the experiment template.
+        public var emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode?
+
+        public init(
+            emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
+        )
+        {
+            self.emptyTargetResolutionMode = emptyTargetResolutionMode
+        }
+    }
+
+}
+
 extension UpdateExperimentTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions
         case description
+        case experimentOptions
         case logConfiguration
         case roleArn
         case stopConditions
@@ -4545,6 +6032,9 @@ extension UpdateExperimentTemplateInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let experimentOptions = self.experimentOptions {
+            try encodeContainer.encode(experimentOptions, forKey: .experimentOptions)
         }
         if let logConfiguration = self.logConfiguration {
             try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
@@ -4581,6 +6071,8 @@ public struct UpdateExperimentTemplateInput: Swift.Equatable {
     public var actions: [Swift.String:FisClientTypes.UpdateExperimentTemplateActionInputItem]?
     /// A description for the template.
     public var description: Swift.String?
+    /// The experiment options for the experiment template.
+    public var experimentOptions: FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput?
     /// The ID of the experiment template.
     /// This member is required.
     public var id: Swift.String?
@@ -4596,6 +6088,7 @@ public struct UpdateExperimentTemplateInput: Swift.Equatable {
     public init(
         actions: [Swift.String:FisClientTypes.UpdateExperimentTemplateActionInputItem]? = nil,
         description: Swift.String? = nil,
+        experimentOptions: FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput? = nil,
         id: Swift.String? = nil,
         logConfiguration: FisClientTypes.UpdateExperimentTemplateLogConfigurationInput? = nil,
         roleArn: Swift.String? = nil,
@@ -4605,6 +6098,7 @@ public struct UpdateExperimentTemplateInput: Swift.Equatable {
     {
         self.actions = actions
         self.description = description
+        self.experimentOptions = experimentOptions
         self.id = id
         self.logConfiguration = logConfiguration
         self.roleArn = roleArn
@@ -4620,12 +6114,14 @@ struct UpdateExperimentTemplateInputBody: Swift.Equatable {
     let actions: [Swift.String:FisClientTypes.UpdateExperimentTemplateActionInputItem]?
     let roleArn: Swift.String?
     let logConfiguration: FisClientTypes.UpdateExperimentTemplateLogConfigurationInput?
+    let experimentOptions: FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput?
 }
 
 extension UpdateExperimentTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions
         case description
+        case experimentOptions
         case logConfiguration
         case roleArn
         case stopConditions
@@ -4673,6 +6169,8 @@ extension UpdateExperimentTemplateInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.UpdateExperimentTemplateLogConfigurationInput.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
+        let experimentOptionsDecoded = try containerValues.decodeIfPresent(FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput.self, forKey: .experimentOptions)
+        experimentOptions = experimentOptionsDecoded
     }
 }
 
@@ -4963,6 +6461,133 @@ extension FisClientTypes {
         }
     }
 
+}
+
+extension UpdateTargetAccountConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+}
+
+extension UpdateTargetAccountConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let experimentTemplateId = experimentTemplateId else {
+            return nil
+        }
+        guard let accountId = accountId else {
+            return nil
+        }
+        return "/experimentTemplates/\(experimentTemplateId.urlPercentEncoding())/targetAccountConfigurations/\(accountId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateTargetAccountConfigurationInput: Swift.Equatable {
+    /// The AWS account ID of the target account.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The description of the target account.
+    public var description: Swift.String?
+    /// The ID of the experiment template.
+    /// This member is required.
+    public var experimentTemplateId: Swift.String?
+    /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+    public var roleArn: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        experimentTemplateId: Swift.String? = nil,
+        roleArn: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.description = description
+        self.experimentTemplateId = experimentTemplateId
+        self.roleArn = roleArn
+    }
+}
+
+struct UpdateTargetAccountConfigurationInputBody: Swift.Equatable {
+    let roleArn: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateTargetAccountConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case roleArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.targetAccountConfiguration = output.targetAccountConfiguration
+        } else {
+            self.targetAccountConfiguration = nil
+        }
+    }
+}
+
+public struct UpdateTargetAccountConfigurationOutput: Swift.Equatable {
+    /// Information about the target account configuration.
+    public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+
+    public init(
+        targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
+    )
+    {
+        self.targetAccountConfiguration = targetAccountConfiguration
+    }
+}
+
+struct UpdateTargetAccountConfigurationOutputBody: Swift.Equatable {
+    let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
+}
+
+extension UpdateTargetAccountConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case targetAccountConfiguration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountConfigurationDecoded = try containerValues.decodeIfPresent(FisClientTypes.TargetAccountConfiguration.self, forKey: .targetAccountConfiguration)
+        targetAccountConfiguration = targetAccountConfigurationDecoded
+    }
+}
+
+enum UpdateTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ValidationException {

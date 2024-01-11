@@ -211,6 +211,7 @@ extension MobileClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateProjectInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateProjectInputBodyMiddleware"
 
@@ -237,6 +238,8 @@ public struct CreateProjectInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateProjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contents
@@ -1857,6 +1860,7 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateProjectInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateProjectInputBodyMiddleware"
 
@@ -1883,6 +1887,8 @@ public struct UpdateProjectInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateProjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contents

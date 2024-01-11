@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Amazon EventBridge Schema Registry
 public protocol SchemasClientProtocol {
+    /// Performs the `CreateDiscoverer` operation on the `schemas` service.
+    ///
     /// Creates a discoverer.
     ///
     /// - Parameter CreateDiscovererInput : [no documentation found]
@@ -20,6 +22,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func createDiscoverer(input: CreateDiscovererInput) async throws -> CreateDiscovererOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRegistry` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Creates a registry.
     ///
     /// - Parameter CreateRegistryInput : [no documentation found]
@@ -36,6 +43,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSchema` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
     ///
     /// - Parameter CreateSchemaInput : [no documentation found]
@@ -50,6 +62,11 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `ServiceUnavailableException` : [no documentation found]
     func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteDiscoverer` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Deletes a discoverer.
     ///
     /// - Parameter DeleteDiscovererInput : [no documentation found]
@@ -66,6 +83,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func deleteDiscoverer(input: DeleteDiscovererInput) async throws -> DeleteDiscovererOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRegistry` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Deletes a Registry.
     ///
     /// - Parameter DeleteRegistryInput : [no documentation found]
@@ -82,6 +104,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteResourcePolicy` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Delete the resource-based policy attached to the specified registry.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -98,6 +125,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSchema` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Delete a schema definition.
     ///
     /// - Parameter DeleteSchemaInput : [no documentation found]
@@ -114,6 +146,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSchemaVersion` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Delete the schema version definition
     ///
     /// - Parameter DeleteSchemaVersionInput : [no documentation found]
@@ -130,6 +167,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func deleteSchemaVersion(input: DeleteSchemaVersionInput) async throws -> DeleteSchemaVersionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeCodeBinding` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Describe the code binding URI.
     ///
     /// - Parameter DescribeCodeBindingInput : [no documentation found]
@@ -146,6 +188,11 @@ public protocol SchemasClientProtocol {
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func describeCodeBinding(input: DescribeCodeBindingInput) async throws -> DescribeCodeBindingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeDiscoverer` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Describes the discoverer.
     ///
     /// - Parameter DescribeDiscovererInput : [no documentation found]
@@ -162,6 +209,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func describeDiscoverer(input: DescribeDiscovererInput) async throws -> DescribeDiscovererOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeRegistry` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Describes the registry.
     ///
     /// - Parameter DescribeRegistryInput : [no documentation found]
@@ -178,6 +230,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func describeRegistry(input: DescribeRegistryInput) async throws -> DescribeRegistryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeSchema` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Retrieve the schema definition.
     ///
     /// - Parameter DescribeSchemaInput : [no documentation found]
@@ -194,6 +251,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func describeSchema(input: DescribeSchemaInput) async throws -> DescribeSchemaOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ExportSchema` operation on the `schemas` service.
+    ///
+>>>>>>> main
     ///
     /// - Parameter ExportSchemaInput : [no documentation found]
     ///
@@ -210,6 +272,11 @@ public protocol SchemasClientProtocol {
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func exportSchema(input: ExportSchemaInput) async throws -> ExportSchemaOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCodeBindingSource` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Get the code binding source URI.
     ///
     /// - Parameter GetCodeBindingSourceInput : [no documentation found]
@@ -226,6 +293,11 @@ public protocol SchemasClientProtocol {
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func getCodeBindingSource(input: GetCodeBindingSourceInput) async throws -> GetCodeBindingSourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetDiscoveredSchema` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Get the discovered schema that was generated based on sampled events.
     ///
     /// - Parameter GetDiscoveredSchemaInput : [no documentation found]
@@ -241,6 +313,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func getDiscoveredSchema(input: GetDiscoveredSchemaInput) async throws -> GetDiscoveredSchemaOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetResourcePolicy` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Retrieves the resource-based policy attached to a given registry.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
@@ -257,6 +334,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListDiscoverers` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// List the discoverers.
     ///
     /// - Parameter ListDiscoverersInput : [no documentation found]
@@ -272,6 +354,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func listDiscoverers(input: ListDiscoverersInput) async throws -> ListDiscoverersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRegistries` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// List the registries.
     ///
     /// - Parameter ListRegistriesInput : [no documentation found]
@@ -287,6 +374,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSchemas` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// List the schemas.
     ///
     /// - Parameter ListSchemasInput : [no documentation found]
@@ -302,6 +394,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSchemaVersions` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Provides a list of the schema versions and related information.
     ///
     /// - Parameter ListSchemaVersionsInput : [no documentation found]
@@ -318,6 +415,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Get tags for resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -332,6 +434,11 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutCodeBinding` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Put code binding URI
     ///
     /// - Parameter PutCodeBindingInput : [no documentation found]
@@ -349,6 +456,11 @@ public protocol SchemasClientProtocol {
     /// - `TooManyRequestsException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func putCodeBinding(input: PutCodeBindingInput) async throws -> PutCodeBindingOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutResourcePolicy` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// The name of the policy.
     ///
     /// - Parameter PutResourcePolicyInput : The name of the policy.
@@ -366,6 +478,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SearchSchemas` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Search the schemas
     ///
     /// - Parameter SearchSchemasInput : [no documentation found]
@@ -381,6 +498,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func searchSchemas(input: SearchSchemasInput) async throws -> SearchSchemasOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartDiscoverer` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Starts the discoverer
     ///
     /// - Parameter StartDiscovererInput : [no documentation found]
@@ -397,6 +519,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func startDiscoverer(input: StartDiscovererInput) async throws -> StartDiscovererOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopDiscoverer` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Stops the discoverer
     ///
     /// - Parameter StopDiscovererInput : [no documentation found]
@@ -413,6 +540,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func stopDiscoverer(input: StopDiscovererInput) async throws -> StopDiscovererOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Add tags to a resource.
     ///
     /// - Parameter TagResourceInput :
@@ -427,6 +559,11 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -441,6 +578,11 @@ public protocol SchemasClientProtocol {
     /// - `InternalServerErrorException` : [no documentation found]
     /// - `NotFoundException` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateDiscoverer` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Updates the discoverer
     ///
     /// - Parameter UpdateDiscovererInput : [no documentation found]
@@ -457,6 +599,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func updateDiscoverer(input: UpdateDiscovererInput) async throws -> UpdateDiscovererOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRegistry` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Updates a registry.
     ///
     /// - Parameter UpdateRegistryInput : Updates the registry.
@@ -473,6 +620,11 @@ public protocol SchemasClientProtocol {
     /// - `ServiceUnavailableException` : [no documentation found]
     /// - `UnauthorizedException` : [no documentation found]
     func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateSchema` operation on the `schemas` service.
+    ///
+>>>>>>> main
     /// Updates the schema definition Inactive schemas will be deleted after two years.
     ///
     /// - Parameter UpdateSchemaInput : [no documentation found]

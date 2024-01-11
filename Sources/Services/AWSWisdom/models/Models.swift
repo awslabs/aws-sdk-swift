@@ -277,7 +277,7 @@ extension WisdomClientTypes.AssistantAssociationInputData: Swift.Codable {
 extension WisdomClientTypes {
     /// The data that is input into Wisdom as a result of the assistant association.
     public enum AssistantAssociationInputData: Swift.Equatable {
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         case knowledgebaseid(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -529,7 +529,11 @@ extension WisdomClientTypes {
         /// The name.
         /// This member is required.
         public var name: Swift.String?
+<<<<<<< HEAD
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+=======
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+>>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -740,7 +744,11 @@ extension WisdomClientTypes {
         /// The name of the assistant.
         /// This member is required.
         public var name: Swift.String?
+<<<<<<< HEAD
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+=======
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+>>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -835,6 +843,43 @@ extension WisdomClientTypes {
     }
 }
 
+extension WisdomClientTypes.Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectconfiguration = "connectConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .connectconfiguration(connectconfiguration):
+                try container.encode(connectconfiguration, forKey: .connectconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let connectconfigurationDecoded = try values.decodeIfPresent(WisdomClientTypes.ConnectConfiguration.self, forKey: .connectconfiguration)
+        if let connectconfiguration = connectconfigurationDecoded {
+            self = .connectconfiguration(connectconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension WisdomClientTypes {
+    /// The configuration information of the external data source.
+    public enum Configuration: Swift.Equatable {
+        /// The configuration information of the Amazon Connect data source.
+        case connectconfiguration(WisdomClientTypes.ConnectConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -888,6 +933,41 @@ extension ConflictExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension WisdomClientTypes.ConnectConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The configuration information of the Amazon Connect data source.
+    public struct ConnectConfiguration: Swift.Equatable {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public var instanceId: Swift.String?
+
+        public init(
+            instanceId: Swift.String? = nil
+        )
+        {
+            self.instanceId = instanceId
+        }
+    }
+
 }
 
 extension WisdomClientTypes.ContentData: Swift.Codable {
@@ -1031,7 +1111,7 @@ extension WisdomClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The URI of the content.
@@ -1142,7 +1222,7 @@ extension WisdomClientTypes {
         public var contentId: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         public var knowledgeBaseId: Swift.String?
 
         public init(
@@ -1326,7 +1406,7 @@ extension WisdomClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -1587,7 +1667,11 @@ public struct CreateAssistantInput: Swift.Equatable {
     /// The name of the assistant.
     /// This member is required.
     public var name: Swift.String?
+<<<<<<< HEAD
     /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant and  kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+=======
+    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+>>>>>>> main
     public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
@@ -1767,7 +1851,7 @@ extension CreateContentInput: ClientRuntime.URLPathProvider {
 public struct CreateContentInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -1983,7 +2067,11 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     public var name: Swift.String?
     /// Information about how to render the content.
     public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
+<<<<<<< HEAD
     /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+=======
+    /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+>>>>>>> main
     public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
     /// The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
     public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -2073,6 +2161,8 @@ extension CreateKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
             self.knowledgeBase = output.knowledgeBase
         } else {
             self.knowledgeBase = nil
+<<<<<<< HEAD
+=======
         }
     }
 }
@@ -2102,6 +2192,301 @@ extension CreateKnowledgeBaseOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let knowledgeBaseDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.KnowledgeBaseData.self, forKey: .knowledgeBase)
         knowledgeBase = knowledgeBaseDecoded
+    }
+}
+
+enum CreateKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateQuickResponseInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels
+        case clientToken
+        case content
+        case contentType
+        case description
+        case groupingConfiguration
+        case isActive
+        case language
+        case name
+        case shortcutKey
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channels = channels {
+            var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let groupingConfiguration = self.groupingConfiguration {
+            try encodeContainer.encode(groupingConfiguration, forKey: .groupingConfiguration)
+        }
+        if let isActive = self.isActive {
+            try encodeContainer.encode(isActive, forKey: .isActive)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let shortcutKey = self.shortcutKey {
+            try encodeContainer.encode(shortcutKey, forKey: .shortcutKey)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+>>>>>>> main
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct CreateKnowledgeBaseOutput: Swift.Equatable {
+    /// The knowledge base.
+    public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
+
+    public init(
+        knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
+    )
+    {
+        self.knowledgeBase = knowledgeBase
+    }
+}
+
+struct CreateKnowledgeBaseOutputBody: Swift.Equatable {
+    let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
+}
+
+extension CreateKnowledgeBaseOutputBody: Swift.Decodable {
+=======
+extension CreateQuickResponseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses"
+    }
+}
+
+public struct CreateQuickResponseInput: Swift.Equatable {
+    /// The Amazon Connect channels this quick response applies to.
+    public var channels: [Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The content of the quick response.
+    /// This member is required.
+    public var content: WisdomClientTypes.QuickResponseDataProvider?
+    /// The media type of the quick response content.
+    ///
+    /// * Use application/x.quickresponse;format=plain for a quick response written in plain text.
+    ///
+    /// * Use application/x.quickresponse;format=markdown for a quick response written in richtext.
+    public var contentType: Swift.String?
+    /// The description of the quick response.
+    public var description: Swift.String?
+    /// The configuration information of the user groups that the quick response is accessible to.
+    public var groupingConfiguration: WisdomClientTypes.GroupingConfiguration?
+    /// Whether the quick response is active.
+    public var isActive: Swift.Bool?
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+    public var language: Swift.String?
+    /// The name of the quick response.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+    public var shortcutKey: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        channels: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        content: WisdomClientTypes.QuickResponseDataProvider? = nil,
+        contentType: Swift.String? = nil,
+        description: Swift.String? = nil,
+        groupingConfiguration: WisdomClientTypes.GroupingConfiguration? = nil,
+        isActive: Swift.Bool? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        language: Swift.String? = nil,
+        name: Swift.String? = nil,
+        shortcutKey: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.channels = channels
+        self.clientToken = clientToken
+        self.content = content
+        self.contentType = contentType
+        self.description = description
+        self.groupingConfiguration = groupingConfiguration
+        self.isActive = isActive
+        self.knowledgeBaseId = knowledgeBaseId
+        self.language = language
+        self.name = name
+        self.shortcutKey = shortcutKey
+        self.tags = tags
+    }
+}
+
+struct CreateQuickResponseInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let content: WisdomClientTypes.QuickResponseDataProvider?
+    let contentType: Swift.String?
+    let groupingConfiguration: WisdomClientTypes.GroupingConfiguration?
+    let description: Swift.String?
+    let shortcutKey: Swift.String?
+    let isActive: Swift.Bool?
+    let channels: [Swift.String]?
+    let language: Swift.String?
+    let clientToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateQuickResponseInputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels
+        case clientToken
+        case content
+        case contentType
+        case description
+        case groupingConfiguration
+        case isActive
+        case language
+        case name
+        case shortcutKey
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseDataProvider.self, forKey: .content)
+        content = contentDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let groupingConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.GroupingConfiguration.self, forKey: .groupingConfiguration)
+        groupingConfiguration = groupingConfigurationDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let shortcutKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortcutKey)
+        shortcutKey = shortcutKeyDecoded
+        let isActiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isActive)
+        isActive = isActiveDecoded
+        let channelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channels)
+        var channelsDecoded0:[Swift.String]? = nil
+        if let channelsContainer = channelsContainer {
+            channelsDecoded0 = [Swift.String]()
+            for string0 in channelsContainer {
+                if let string0 = string0 {
+                    channelsDecoded0?.append(string0)
+                }
+            }
+        }
+        channels = channelsDecoded0
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateQuickResponseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateQuickResponseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.quickResponse = output.quickResponse
+        } else {
+            self.quickResponse = nil
+        }
+    }
+}
+
+public struct CreateQuickResponseOutput: Swift.Equatable {
+    /// The quick response.
+    public var quickResponse: WisdomClientTypes.QuickResponseData?
+
+    public init(
+        quickResponse: WisdomClientTypes.QuickResponseData? = nil
+    )
+    {
+        self.quickResponse = quickResponse
+    }
+}
+
+struct CreateQuickResponseOutputBody: Swift.Equatable {
+    let quickResponse: WisdomClientTypes.QuickResponseData?
+}
+
+extension CreateQuickResponseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case quickResponse
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseData.self, forKey: .quickResponse)
+        quickResponse = quickResponseDecoded
+    }
+}
+
+enum CreateQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2408,7 +2793,7 @@ public struct DeleteContentInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -2454,6 +2839,72 @@ enum DeleteContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteImportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        guard let importJobId = importJobId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs/\(importJobId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteImportJobInput: Swift.Equatable {
+    /// The identifier of the import job to be deleted.
+    /// This member is required.
+    public var importJobId: Swift.String?
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        importJobId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.importJobId = importJobId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+struct DeleteImportJobInputBody: Swift.Equatable {
+}
+
+extension DeleteImportJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteImportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteImportJobOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DeleteKnowledgeBaseInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -2509,6 +2960,71 @@ enum DeleteKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteQuickResponseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        guard let quickResponseId = quickResponseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteQuickResponseInput: Swift.Equatable {
+    /// The knowledge base from which the quick response is deleted. The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The identifier of the quick response to delete.
+    /// This member is required.
+    public var quickResponseId: Swift.String?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        quickResponseId: Swift.String? = nil
+    )
+    {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.quickResponseId = quickResponseId
+    }
+}
+
+struct DeleteQuickResponseInputBody: Swift.Equatable {
+}
+
+extension DeleteQuickResponseInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteQuickResponseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteQuickResponseOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension WisdomClientTypes.Document: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentReference
@@ -2622,6 +3138,82 @@ extension WisdomClientTypes {
         {
             self.highlights = highlights
             self.text = text
+        }
+    }
+
+}
+
+extension WisdomClientTypes {
+    public enum ExternalSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case amazonConnect
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalSource] {
+            return [
+                .amazonConnect,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonConnect: return "AMAZON_CONNECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExternalSource(rawValue: rawValue) ?? ExternalSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WisdomClientTypes.ExternalSourceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source.rawValue, forKey: .source)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ExternalSource.self, forKey: .source)
+        source = sourceDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.Configuration.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The configuration information of the external data source.
+    public struct ExternalSourceConfiguration: Swift.Equatable {
+        /// The configuration information of the external data source.
+        /// This member is required.
+        public var configuration: WisdomClientTypes.Configuration?
+        /// The type of the external data source.
+        /// This member is required.
+        public var source: WisdomClientTypes.ExternalSource?
+
+        public init(
+            configuration: WisdomClientTypes.Configuration? = nil,
+            source: WisdomClientTypes.ExternalSource? = nil
+        )
+        {
+            self.configuration = configuration
+            self.source = source
         }
     }
 
@@ -2935,7 +3527,7 @@ public struct GetContentInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -3027,7 +3619,7 @@ public struct GetContentSummaryInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -3051,6 +3643,13 @@ extension GetContentSummaryInputBody: Swift.Decodable {
 }
 
 extension GetContentSummaryOutput: ClientRuntime.HttpResponseBinding {
+<<<<<<< HEAD
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetContentSummaryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.contentSummary = output.contentSummary
+=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3103,6 +3702,126 @@ enum GetContentSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetImportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        guard let importJobId = importJobId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs/\(importJobId.urlPercentEncoding())"
+    }
+}
+
+public struct GetImportJobInput: Swift.Equatable {
+    /// The identifier of the import job to retrieve.
+    /// This member is required.
+    public var importJobId: Swift.String?
+    /// The identifier of the knowledge base that the import job belongs to.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        importJobId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.importJobId = importJobId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+struct GetImportJobInputBody: Swift.Equatable {
+}
+
+extension GetImportJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetImportJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.importJob = output.importJob
+>>>>>>> main
+        } else {
+            self.importJob = nil
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct GetContentSummaryOutput: Swift.Equatable {
+    /// The content summary.
+    public var contentSummary: WisdomClientTypes.ContentSummary?
+=======
+public struct GetImportJobOutput: Swift.Equatable {
+    /// The import job.
+    public var importJob: WisdomClientTypes.ImportJobData?
+>>>>>>> main
+
+    public init(
+        importJob: WisdomClientTypes.ImportJobData? = nil
+    )
+    {
+        self.importJob = importJob
+    }
+}
+
+<<<<<<< HEAD
+struct GetContentSummaryOutputBody: Swift.Equatable {
+    let contentSummary: WisdomClientTypes.ContentSummary?
+}
+
+extension GetContentSummaryOutputBody: Swift.Decodable {
+=======
+struct GetImportJobOutputBody: Swift.Equatable {
+    let importJob: WisdomClientTypes.ImportJobData?
+}
+
+extension GetImportJobOutputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJob
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobData.self, forKey: .importJob)
+        importJob = importJobDecoded
+    }
+}
+
+enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+enum GetContentSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetKnowledgeBaseInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -3113,7 +3832,7 @@ extension GetKnowledgeBaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetKnowledgeBaseInput: Swift.Equatable {
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -3135,6 +3854,13 @@ extension GetKnowledgeBaseInputBody: Swift.Decodable {
 }
 
 extension GetKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
+<<<<<<< HEAD
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKnowledgeBaseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.knowledgeBase = output.knowledgeBase
+=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3171,6 +3897,126 @@ extension GetKnowledgeBaseOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let knowledgeBaseDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.KnowledgeBaseData.self, forKey: .knowledgeBase)
         knowledgeBase = knowledgeBaseDecoded
+    }
+}
+
+enum GetKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetQuickResponseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        guard let quickResponseId = quickResponseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"
+    }
+}
+
+public struct GetQuickResponseInput: Swift.Equatable {
+    /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The identifier of the quick response.
+    /// This member is required.
+    public var quickResponseId: Swift.String?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        quickResponseId: Swift.String? = nil
+    )
+    {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.quickResponseId = quickResponseId
+    }
+}
+
+struct GetQuickResponseInputBody: Swift.Equatable {
+}
+
+extension GetQuickResponseInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetQuickResponseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetQuickResponseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.quickResponse = output.quickResponse
+>>>>>>> main
+        } else {
+            self.quickResponse = nil
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct GetKnowledgeBaseOutput: Swift.Equatable {
+    /// The knowledge base.
+    public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
+=======
+public struct GetQuickResponseOutput: Swift.Equatable {
+    /// The quick response.
+    public var quickResponse: WisdomClientTypes.QuickResponseData?
+>>>>>>> main
+
+    public init(
+        quickResponse: WisdomClientTypes.QuickResponseData? = nil
+    )
+    {
+        self.quickResponse = quickResponse
+    }
+}
+
+<<<<<<< HEAD
+struct GetKnowledgeBaseOutputBody: Swift.Equatable {
+    let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
+}
+
+extension GetKnowledgeBaseOutputBody: Swift.Decodable {
+=======
+struct GetQuickResponseOutputBody: Swift.Equatable {
+    let quickResponse: WisdomClientTypes.QuickResponseData?
+}
+
+extension GetQuickResponseOutputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case quickResponse
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseData.self, forKey: .quickResponse)
+        quickResponse = quickResponseDecoded
+    }
+}
+
+enum GetQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3401,6 +4247,8 @@ struct GetSessionOutputBody: Swift.Equatable {
 }
 
 extension GetSessionOutputBody: Swift.Decodable {
+<<<<<<< HEAD
+=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case session
     }
@@ -3423,6 +4271,87 @@ enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension WisdomClientTypes.GroupingConfiguration: Swift.Codable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case criteria
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let criteria = self.criteria {
+            try encodeContainer.encode(criteria, forKey: .criteria)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for groupingvalue0 in values {
+                try valuesContainer.encode(groupingvalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let criteriaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .criteria)
+        criteria = criteriaDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+<<<<<<< HEAD
+enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+=======
+extension WisdomClientTypes.GroupingConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GroupingConfiguration(values: \(Swift.String(describing: values)), criteria: \"CONTENT_REDACTED\")"}
+}
+
+extension WisdomClientTypes {
+    /// The configuration information of the grouping of Wisdom users.
+    public struct GroupingConfiguration: Swift.Equatable {
+        /// The criteria used for grouping Wisdom users. The following is the list of supported criteria values.
+        ///
+        /// * RoutingProfileArn: Grouping the users by their [Amazon Connect routing profile ARN](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html). User should have [SearchRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchRoutingProfiles.html) and [DescribeRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeRoutingProfile.html) permissions when setting criteria to this value.
+        public var criteria: Swift.String?
+        /// The list of values that define different groups of Wisdom users.
+        ///
+        /// * When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of [Amazon Connect routing profiles](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html) as values of this parameter.
+        public var values: [Swift.String]?
+
+        public init(
+            criteria: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.criteria = criteria
+            self.values = values
+        }
+    }
+
+>>>>>>> main
 }
 
 extension WisdomClientTypes.Highlight: Swift.Codable {
@@ -3470,6 +4399,406 @@ extension WisdomClientTypes {
 
 }
 
+extension WisdomClientTypes.ImportJobData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime
+        case externalSourceConfiguration
+        case failedRecordReport
+        case importJobId
+        case importJobType
+        case knowledgeBaseArn
+        case knowledgeBaseId
+        case lastModifiedTime
+        case metadata
+        case status
+        case uploadId
+        case url
+        case urlExpiry
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let externalSourceConfiguration = self.externalSourceConfiguration {
+            try encodeContainer.encode(externalSourceConfiguration, forKey: .externalSourceConfiguration)
+        }
+        if let failedRecordReport = self.failedRecordReport {
+            try encodeContainer.encode(failedRecordReport, forKey: .failedRecordReport)
+        }
+        if let importJobId = self.importJobId {
+            try encodeContainer.encode(importJobId, forKey: .importJobId)
+        }
+        if let importJobType = self.importJobType {
+            try encodeContainer.encode(importJobType.rawValue, forKey: .importJobType)
+        }
+        if let knowledgeBaseArn = self.knowledgeBaseArn {
+            try encodeContainer.encode(knowledgeBaseArn, forKey: .knowledgeBaseArn)
+        }
+        if let knowledgeBaseId = self.knowledgeBaseId {
+            try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let uploadId = self.uploadId {
+            try encodeContainer.encode(uploadId, forKey: .uploadId)
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+        if let urlExpiry = self.urlExpiry {
+            try encodeContainer.encodeTimestamp(urlExpiry, format: .epochSeconds, forKey: .urlExpiry)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importJobId)
+        importJobId = importJobIdDecoded
+        let knowledgeBaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseId)
+        knowledgeBaseId = knowledgeBaseIdDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+        let knowledgeBaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseArn)
+        knowledgeBaseArn = knowledgeBaseArnDecoded
+        let importJobTypeDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobType.self, forKey: .importJobType)
+        importJobType = importJobTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let failedRecordReportDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failedRecordReport)
+        failedRecordReport = failedRecordReportDecoded
+        let urlExpiryDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .urlExpiry)
+        urlExpiry = urlExpiryDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, nonemptystring0) in metadataContainer {
+                if let nonemptystring0 = nonemptystring0 {
+                    metadataDecoded0?[key0] = nonemptystring0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+        let externalSourceConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ExternalSourceConfiguration.self, forKey: .externalSourceConfiguration)
+        externalSourceConfiguration = externalSourceConfigurationDecoded
+    }
+}
+
+extension WisdomClientTypes.ImportJobData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImportJobData(createdTime: \(Swift.String(describing: createdTime)), externalSourceConfiguration: \(Swift.String(describing: externalSourceConfiguration)), importJobId: \(Swift.String(describing: importJobId)), importJobType: \(Swift.String(describing: importJobType)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), metadata: \(Swift.String(describing: metadata)), status: \(Swift.String(describing: status)), uploadId: \(Swift.String(describing: uploadId)), urlExpiry: \(Swift.String(describing: urlExpiry)), failedRecordReport: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+}
+
+extension WisdomClientTypes {
+    /// Summary information about the import job.
+    public struct ImportJobData: Swift.Equatable {
+        /// The timestamp when the import job was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The configuration information of the external data source.
+        public var externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration?
+        /// The link to donwload the information of resource data that failed to be imported.
+        public var failedRecordReport: Swift.String?
+        /// The identifier of the import job.
+        /// This member is required.
+        public var importJobId: Swift.String?
+        /// The type of the import job.
+        /// This member is required.
+        public var importJobType: WisdomClientTypes.ImportJobType?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The timestamp when the import job data was last modified.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The metadata fields of the imported Wisdom resources.
+        public var metadata: [Swift.String:Swift.String]?
+        /// The status of the import job.
+        /// This member is required.
+        public var status: WisdomClientTypes.ImportJobStatus?
+        /// A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
+        /// This member is required.
+        public var uploadId: Swift.String?
+        /// The download link to the resource file that is uploaded to the import job.
+        /// This member is required.
+        public var url: Swift.String?
+        /// The expiration time of the URL as an epoch timestamp.
+        /// This member is required.
+        public var urlExpiry: ClientRuntime.Date?
+
+        public init(
+            createdTime: ClientRuntime.Date? = nil,
+            externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration? = nil,
+            failedRecordReport: Swift.String? = nil,
+            importJobId: Swift.String? = nil,
+            importJobType: WisdomClientTypes.ImportJobType? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            metadata: [Swift.String:Swift.String]? = nil,
+            status: WisdomClientTypes.ImportJobStatus? = nil,
+            uploadId: Swift.String? = nil,
+            url: Swift.String? = nil,
+            urlExpiry: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.externalSourceConfiguration = externalSourceConfiguration
+            self.failedRecordReport = failedRecordReport
+            self.importJobId = importJobId
+            self.importJobType = importJobType
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedTime = lastModifiedTime
+            self.metadata = metadata
+            self.status = status
+            self.uploadId = uploadId
+            self.url = url
+            self.urlExpiry = urlExpiry
+        }
+    }
+
+}
+
+extension WisdomClientTypes {
+    public enum ImportJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case deleted
+        case deleteFailed
+        case deleteInProgress
+        case failed
+        case startInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportJobStatus] {
+            return [
+                .complete,
+                .deleted,
+                .deleteFailed,
+                .deleteInProgress,
+                .failed,
+                .startInProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .failed: return "FAILED"
+            case .startInProgress: return "START_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImportJobStatus(rawValue: rawValue) ?? ImportJobStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WisdomClientTypes.ImportJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTime
+        case externalSourceConfiguration
+        case importJobId
+        case importJobType
+        case knowledgeBaseArn
+        case knowledgeBaseId
+        case lastModifiedTime
+        case metadata
+        case status
+        case uploadId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let externalSourceConfiguration = self.externalSourceConfiguration {
+            try encodeContainer.encode(externalSourceConfiguration, forKey: .externalSourceConfiguration)
+        }
+        if let importJobId = self.importJobId {
+            try encodeContainer.encode(importJobId, forKey: .importJobId)
+        }
+        if let importJobType = self.importJobType {
+            try encodeContainer.encode(importJobType.rawValue, forKey: .importJobType)
+        }
+        if let knowledgeBaseArn = self.knowledgeBaseArn {
+            try encodeContainer.encode(knowledgeBaseArn, forKey: .knowledgeBaseArn)
+        }
+        if let knowledgeBaseId = self.knowledgeBaseId {
+            try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let uploadId = self.uploadId {
+            try encodeContainer.encode(uploadId, forKey: .uploadId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importJobId)
+        importJobId = importJobIdDecoded
+        let knowledgeBaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseId)
+        knowledgeBaseId = knowledgeBaseIdDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+        let knowledgeBaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseArn)
+        knowledgeBaseArn = knowledgeBaseArnDecoded
+        let importJobTypeDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobType.self, forKey: .importJobType)
+        importJobType = importJobTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, nonemptystring0) in metadataContainer {
+                if let nonemptystring0 = nonemptystring0 {
+                    metadataDecoded0?[key0] = nonemptystring0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+        let externalSourceConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ExternalSourceConfiguration.self, forKey: .externalSourceConfiguration)
+        externalSourceConfiguration = externalSourceConfigurationDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// Summary information about the import job.
+    public struct ImportJobSummary: Swift.Equatable {
+        /// The timestamp when the import job was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The configuration information of the external source that the resource data are imported from.
+        public var externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration?
+        /// The identifier of the import job.
+        /// This member is required.
+        public var importJobId: Swift.String?
+        /// The type of import job.
+        /// This member is required.
+        public var importJobType: WisdomClientTypes.ImportJobType?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The timestamp when the import job was last modified.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The metadata fields of the imported Wisdom resources.
+        public var metadata: [Swift.String:Swift.String]?
+        /// The status of the import job.
+        /// This member is required.
+        public var status: WisdomClientTypes.ImportJobStatus?
+        /// A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
+        /// This member is required.
+        public var uploadId: Swift.String?
+
+        public init(
+            createdTime: ClientRuntime.Date? = nil,
+            externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration? = nil,
+            importJobId: Swift.String? = nil,
+            importJobType: WisdomClientTypes.ImportJobType? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            metadata: [Swift.String:Swift.String]? = nil,
+            status: WisdomClientTypes.ImportJobStatus? = nil,
+            uploadId: Swift.String? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.externalSourceConfiguration = externalSourceConfiguration
+            self.importJobId = importJobId
+            self.importJobType = importJobType
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedTime = lastModifiedTime
+            self.metadata = metadata
+            self.status = status
+            self.uploadId = uploadId
+        }
+    }
+
+}
+
+extension WisdomClientTypes {
+    public enum ImportJobType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case quickResponses
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportJobType] {
+            return [
+                .quickResponses,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .quickResponses: return "QUICK_RESPONSES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImportJobType(rawValue: rawValue) ?? ImportJobType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension WisdomClientTypes.KnowledgeBaseAssociationData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case knowledgeBaseArn
@@ -3500,7 +4829,7 @@ extension WisdomClientTypes {
     public struct KnowledgeBaseAssociationData: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         public var knowledgeBaseId: Swift.String?
 
         public init(
@@ -3614,7 +4943,7 @@ extension WisdomClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The type of knowledge base.
@@ -3627,7 +4956,11 @@ extension WisdomClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
+<<<<<<< HEAD
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+=======
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+>>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// Source configuration information about the knowledge base.
         public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -3804,7 +5137,7 @@ extension WisdomClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The type of knowledge base.
@@ -3815,7 +5148,11 @@ extension WisdomClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
+<<<<<<< HEAD
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+=======
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
+>>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// Configuration information about the external data source.
         public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -3857,12 +5194,14 @@ extension WisdomClientTypes {
     public enum KnowledgeBaseType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case custom
         case external
+        case quickResponses
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KnowledgeBaseType] {
             return [
                 .custom,
                 .external,
+                .quickResponses,
                 .sdkUnknown("")
             ]
         }
@@ -3874,6 +5213,7 @@ extension WisdomClientTypes {
             switch self {
             case .custom: return "CUSTOM"
             case .external: return "EXTERNAL"
+            case .quickResponses: return "QUICK_RESPONSES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4161,7 +5501,7 @@ extension ListContentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListContentsInput: Swift.Equatable {
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return per page.
@@ -4263,6 +5603,137 @@ enum ListContentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListImportJobsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListImportJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs"
+    }
+}
+
+public struct ListImportJobsInput: Swift.Equatable {
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImportJobsInputBody: Swift.Equatable {
+}
+
+extension ListImportJobsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListImportJobsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListImportJobsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.importJobSummaries = output.importJobSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.importJobSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListImportJobsOutput: Swift.Equatable {
+    /// Summary information about the import jobs.
+    /// This member is required.
+    public var importJobSummaries: [WisdomClientTypes.ImportJobSummary]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        importJobSummaries: [WisdomClientTypes.ImportJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.importJobSummaries = importJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImportJobsOutputBody: Swift.Equatable {
+    let importJobSummaries: [WisdomClientTypes.ImportJobSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListImportJobsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJobSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobSummariesContainer = try containerValues.decodeIfPresent([WisdomClientTypes.ImportJobSummary?].self, forKey: .importJobSummaries)
+        var importJobSummariesDecoded0:[WisdomClientTypes.ImportJobSummary]? = nil
+        if let importJobSummariesContainer = importJobSummariesContainer {
+            importJobSummariesDecoded0 = [WisdomClientTypes.ImportJobSummary]()
+            for structure0 in importJobSummariesContainer {
+                if let structure0 = structure0 {
+                    importJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        importJobSummaries = importJobSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListKnowledgeBasesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4383,6 +5854,138 @@ enum ListKnowledgeBasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListQuickResponsesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListQuickResponsesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses"
+    }
+}
+
+public struct ListQuickResponsesInput: Swift.Equatable {
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        knowledgeBaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.knowledgeBaseId = knowledgeBaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListQuickResponsesInputBody: Swift.Equatable {
+}
+
+extension ListQuickResponsesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListQuickResponsesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListQuickResponsesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.quickResponseSummaries = output.quickResponseSummaries
+        } else {
+            self.nextToken = nil
+            self.quickResponseSummaries = nil
+        }
+    }
+}
+
+public struct ListQuickResponsesOutput: Swift.Equatable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Summary information about the quick responses.
+    /// This member is required.
+    public var quickResponseSummaries: [WisdomClientTypes.QuickResponseSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        quickResponseSummaries: [WisdomClientTypes.QuickResponseSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.quickResponseSummaries = quickResponseSummaries
+    }
+}
+
+struct ListQuickResponsesOutputBody: Swift.Equatable {
+    let quickResponseSummaries: [WisdomClientTypes.QuickResponseSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListQuickResponsesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case quickResponseSummaries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseSummariesContainer = try containerValues.decodeIfPresent([WisdomClientTypes.QuickResponseSummary?].self, forKey: .quickResponseSummaries)
+        var quickResponseSummariesDecoded0:[WisdomClientTypes.QuickResponseSummary]? = nil
+        if let quickResponseSummariesContainer = quickResponseSummariesContainer {
+            quickResponseSummariesDecoded0 = [WisdomClientTypes.QuickResponseSummary]()
+            for structure0 in quickResponseSummariesContainer {
+                if let structure0 = structure0 {
+                    quickResponseSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        quickResponseSummaries = quickResponseSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListQuickResponsesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -4676,6 +6279,41 @@ enum NotifyRecommendationsReceivedOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
+<<<<<<< HEAD
+=======
+extension WisdomClientTypes {
+    public enum Order: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Order] {
+            return [
+                .asc,
+                .desc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Order(rawValue: rawValue) ?? Order.sdkUnknown(rawValue)
+        }
+    }
+}
+
+>>>>>>> main
 extension PreconditionFailedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4728,6 +6366,41 @@ extension PreconditionFailedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    public enum Priority: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Priority] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Priority(rawValue: rawValue) ?? Priority.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -4882,6 +6555,10 @@ enum QueryAssistantOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -4924,6 +6601,1326 @@ extension WisdomClientTypes {
         )
         {
             self.text = text
+        }
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseContentProvider: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .content(content):
+                try container.encode(content, forKey: .content)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .content)
+        if let content = contentDecoded {
+            self = .content(content)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension WisdomClientTypes {
+    /// The container quick response content.
+    public enum QuickResponseContentProvider: Swift.Equatable {
+        /// The content of the quick response.
+        case content(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseContents: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case markdown
+        case plainText
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let markdown = self.markdown {
+            try encodeContainer.encode(markdown, forKey: .markdown)
+        }
+        if let plainText = self.plainText {
+            try encodeContainer.encode(plainText, forKey: .plainText)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let plainTextDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseContentProvider.self, forKey: .plainText)
+        plainText = plainTextDecoded
+        let markdownDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseContentProvider.self, forKey: .markdown)
+        markdown = markdownDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The content of the quick response stored in different media types.
+    public struct QuickResponseContents: Swift.Equatable {
+        /// The container quick response content.
+        public var markdown: WisdomClientTypes.QuickResponseContentProvider?
+        /// The container quick response content.
+        public var plainText: WisdomClientTypes.QuickResponseContentProvider?
+
+        public init(
+            markdown: WisdomClientTypes.QuickResponseContentProvider? = nil,
+            plainText: WisdomClientTypes.QuickResponseContentProvider? = nil
+        )
+        {
+            self.markdown = markdown
+            self.plainText = plainText
+        }
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels
+        case contentType
+        case contents
+        case createdTime
+        case description
+        case groupingConfiguration
+        case isActive
+        case knowledgeBaseArn
+        case knowledgeBaseId
+        case language
+        case lastModifiedBy
+        case lastModifiedTime
+        case name
+        case quickResponseArn
+        case quickResponseId
+        case shortcutKey
+        case status
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channels = channels {
+            var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
+            }
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let contents = self.contents {
+            try encodeContainer.encode(contents, forKey: .contents)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let groupingConfiguration = self.groupingConfiguration {
+            try encodeContainer.encode(groupingConfiguration, forKey: .groupingConfiguration)
+        }
+        if let isActive = self.isActive {
+            try encodeContainer.encode(isActive, forKey: .isActive)
+        }
+        if let knowledgeBaseArn = self.knowledgeBaseArn {
+            try encodeContainer.encode(knowledgeBaseArn, forKey: .knowledgeBaseArn)
+        }
+        if let knowledgeBaseId = self.knowledgeBaseId {
+            try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+        if let lastModifiedBy = self.lastModifiedBy {
+            try encodeContainer.encode(lastModifiedBy, forKey: .lastModifiedBy)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let quickResponseArn = self.quickResponseArn {
+            try encodeContainer.encode(quickResponseArn, forKey: .quickResponseArn)
+        }
+        if let quickResponseId = self.quickResponseId {
+            try encodeContainer.encode(quickResponseId, forKey: .quickResponseId)
+        }
+        if let shortcutKey = self.shortcutKey {
+            try encodeContainer.encode(shortcutKey, forKey: .shortcutKey)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickResponseArn)
+        quickResponseArn = quickResponseArnDecoded
+        let quickResponseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickResponseId)
+        quickResponseId = quickResponseIdDecoded
+        let knowledgeBaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseArn)
+        knowledgeBaseArn = knowledgeBaseArnDecoded
+        let knowledgeBaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseId)
+        knowledgeBaseId = knowledgeBaseIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let contentsDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseContents.self, forKey: .contents)
+        contents = contentsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let groupingConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.GroupingConfiguration.self, forKey: .groupingConfiguration)
+        groupingConfiguration = groupingConfigurationDecoded
+        let shortcutKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortcutKey)
+        shortcutKey = shortcutKeyDecoded
+        let lastModifiedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedBy)
+        lastModifiedBy = lastModifiedByDecoded
+        let isActiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isActive)
+        isActive = isActiveDecoded
+        let channelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channels)
+        var channelsDecoded0:[Swift.String]? = nil
+        if let channelsContainer = channelsContainer {
+            channelsDecoded0 = [Swift.String]()
+            for string0 in channelsContainer {
+                if let string0 = string0 {
+                    channelsDecoded0?.append(string0)
+                }
+            }
+        }
+        channels = channelsDecoded0
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension WisdomClientTypes {
+    /// Information about the quick response.
+    public struct QuickResponseData: Swift.Equatable {
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public var channels: [Swift.String]?
+        /// The media type of the quick response content.
+        ///
+        /// * Use application/x.quickresponse;format=plain for quick response written in plain text.
+        ///
+        /// * Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        /// This member is required.
+        public var contentType: Swift.String?
+        /// The contents of the quick response.
+        public var contents: WisdomClientTypes.QuickResponseContents?
+        /// The timestamp when the quick response was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the quick response.
+        public var description: Swift.String?
+        /// The configuration information of the user groups that the quick response is accessible to.
+        public var groupingConfiguration: WisdomClientTypes.GroupingConfiguration?
+        /// Whether the quick response is active.
+        public var isActive: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The language code value for the language in which the quick response is written.
+        public var language: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp when the quick response data was last modified.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the quick response.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the quick response.
+        /// This member is required.
+        public var quickResponseArn: Swift.String?
+        /// The identifier of the quick response.
+        /// This member is required.
+        public var quickResponseId: Swift.String?
+        /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+        public var shortcutKey: Swift.String?
+        /// The status of the quick response data.
+        /// This member is required.
+        public var status: WisdomClientTypes.QuickResponseStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            channels: [Swift.String]? = nil,
+            contentType: Swift.String? = nil,
+            contents: WisdomClientTypes.QuickResponseContents? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            groupingConfiguration: WisdomClientTypes.GroupingConfiguration? = nil,
+            isActive: Swift.Bool? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            language: Swift.String? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            quickResponseArn: Swift.String? = nil,
+            quickResponseId: Swift.String? = nil,
+            shortcutKey: Swift.String? = nil,
+            status: WisdomClientTypes.QuickResponseStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.channels = channels
+            self.contentType = contentType
+            self.contents = contents
+            self.createdTime = createdTime
+            self.description = description
+            self.groupingConfiguration = groupingConfiguration
+            self.isActive = isActive
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.language = language
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.quickResponseArn = quickResponseArn
+            self.quickResponseId = quickResponseId
+            self.shortcutKey = shortcutKey
+            self.status = status
+            self.tags = tags
+        }
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseDataProvider: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .content(content):
+                try container.encode(content, forKey: .content)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let contentDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .content)
+        if let content = contentDecoded {
+            self = .content(content)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension WisdomClientTypes {
+    /// The container of quick response data.
+    public enum QuickResponseDataProvider: Swift.Equatable {
+        /// The content of the quick response.
+        case content(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseFilterField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case includeNoExistence
+        case name
+        case `operator` = "operator"
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let includeNoExistence = self.includeNoExistence {
+            try encodeContainer.encode(includeNoExistence, forKey: .includeNoExistence)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for quickresponsefiltervalue0 in values {
+                try valuesContainer.encode(quickresponsefiltervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+        let operatorDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseFilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let includeNoExistenceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeNoExistence)
+        includeNoExistence = includeNoExistenceDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The quick response fields to filter the quick response query results by. The following is the list of supported field names.
+    ///
+    /// * name
+    ///
+    /// * description
+    ///
+    /// * shortcutKey
+    ///
+    /// * isActive
+    ///
+    /// * channels
+    ///
+    /// * language
+    ///
+    /// * contentType
+    ///
+    /// * createdTime
+    ///
+    /// * lastModifiedTime
+    ///
+    /// * lastModifiedBy
+    ///
+    /// * groupingConfiguration.criteria
+    ///
+    /// * groupingConfiguration.values
+    public struct QuickResponseFilterField: Swift.Equatable {
+        /// Whether to treat null value as a match for the attribute field.
+        public var includeNoExistence: Swift.Bool?
+        /// The name of the attribute field to filter the quick responses by.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The operator to use for filtering.
+        /// This member is required.
+        public var `operator`: WisdomClientTypes.QuickResponseFilterOperator?
+        /// The values of attribute field to filter the quick response by.
+        public var values: [Swift.String]?
+
+        public init(
+            includeNoExistence: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            `operator`: WisdomClientTypes.QuickResponseFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.includeNoExistence = includeNoExistence
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+
+}
+
+extension WisdomClientTypes {
+    public enum QuickResponseFilterOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case `prefix`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuickResponseFilterOperator] {
+            return [
+                .equals,
+                .prefix,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .prefix: return "PREFIX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuickResponseFilterOperator(rawValue: rawValue) ?? QuickResponseFilterOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WisdomClientTypes.QuickResponseOrderField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.Order.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The quick response fields to order the quick response query results by. The following is the list of supported field names.
+    ///
+    /// * name
+    ///
+    /// * description
+    ///
+    /// * shortcutKey
+    ///
+    /// * isActive
+    ///
+    /// * channels
+    ///
+    /// * language
+    ///
+    /// * contentType
+    ///
+    /// * createdTime
+    ///
+    /// * lastModifiedTime
+    ///
+    /// * lastModifiedBy
+    ///
+    /// * groupingConfiguration.criteria
+    ///
+    /// * groupingConfiguration.values
+    public struct QuickResponseOrderField: Swift.Equatable {
+        /// The name of the attribute to order the quick response query results by.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The order at which the quick responses are sorted by.
+        public var order: WisdomClientTypes.Order?
+
+        public init(
+            name: Swift.String? = nil,
+            order: WisdomClientTypes.Order? = nil
+        )
+        {
+            self.name = name
+            self.order = order
+        }
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseQueryField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowFuzziness
+        case name
+        case `operator` = "operator"
+        case priority
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowFuzziness = self.allowFuzziness {
+            try encodeContainer.encode(allowFuzziness, forKey: .allowFuzziness)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let priority = self.priority {
+            try encodeContainer.encode(priority.rawValue, forKey: .priority)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for quickresponsequeryvalue0 in values {
+                try valuesContainer.encode(quickresponsequeryvalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+        let operatorDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseQueryOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+        let allowFuzzinessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowFuzziness)
+        allowFuzziness = allowFuzzinessDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.Priority.self, forKey: .priority)
+        priority = priorityDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// The quick response fields to query quick responses by. The following is the list of supported field names.
+    ///
+    /// * content
+    ///
+    /// * name
+    ///
+    /// * description
+    ///
+    /// * shortcutKey
+    public struct QuickResponseQueryField: Swift.Equatable {
+        /// Whether the query expects only exact matches on the attribute field values. The results of the query will only include exact matches if this parameter is set to false.
+        public var allowFuzziness: Swift.Bool?
+        /// The name of the attribute to query the quick responses by.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The operator to use for matching attribute field values in the query.
+        /// This member is required.
+        public var `operator`: WisdomClientTypes.QuickResponseQueryOperator?
+        /// The importance of the attribute field when calculating query result relevancy scores. The value set for this parameter affects the ordering of search results.
+        public var priority: WisdomClientTypes.Priority?
+        /// The values of the attribute to query the quick responses by.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            allowFuzziness: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            `operator`: WisdomClientTypes.QuickResponseQueryOperator? = nil,
+            priority: WisdomClientTypes.Priority? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.allowFuzziness = allowFuzziness
+            self.name = name
+            self.`operator` = `operator`
+            self.priority = priority
+            self.values = values
+        }
+    }
+
+}
+
+extension WisdomClientTypes {
+    public enum QuickResponseQueryOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contains
+        case containsAndPrefix
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuickResponseQueryOperator] {
+            return [
+                .contains,
+                .containsAndPrefix,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .containsAndPrefix: return "CONTAINS_AND_PREFIX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuickResponseQueryOperator(rawValue: rawValue) ?? QuickResponseQueryOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WisdomClientTypes.QuickResponseSearchExpression: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case orderOnField
+        case queries
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for quickresponsefilterfield0 in filters {
+                try filtersContainer.encode(quickresponsefilterfield0)
+            }
+        }
+        if let orderOnField = self.orderOnField {
+            try encodeContainer.encode(orderOnField, forKey: .orderOnField)
+        }
+        if let queries = queries {
+            var queriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queries)
+            for quickresponsequeryfield0 in queries {
+                try queriesContainer.encode(quickresponsequeryfield0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queriesContainer = try containerValues.decodeIfPresent([WisdomClientTypes.QuickResponseQueryField?].self, forKey: .queries)
+        var queriesDecoded0:[WisdomClientTypes.QuickResponseQueryField]? = nil
+        if let queriesContainer = queriesContainer {
+            queriesDecoded0 = [WisdomClientTypes.QuickResponseQueryField]()
+            for structure0 in queriesContainer {
+                if let structure0 = structure0 {
+                    queriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        queries = queriesDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([WisdomClientTypes.QuickResponseFilterField?].self, forKey: .filters)
+        var filtersDecoded0:[WisdomClientTypes.QuickResponseFilterField]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [WisdomClientTypes.QuickResponseFilterField]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let orderOnFieldDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseOrderField.self, forKey: .orderOnField)
+        orderOnField = orderOnFieldDecoded
+    }
+}
+
+extension WisdomClientTypes {
+    /// Information about the import job.
+    public struct QuickResponseSearchExpression: Swift.Equatable {
+        /// The configuration of filtering rules applied to quick response query results.
+        public var filters: [WisdomClientTypes.QuickResponseFilterField]?
+        /// The quick response attribute fields on which the query results are ordered.
+        public var orderOnField: WisdomClientTypes.QuickResponseOrderField?
+        /// The quick response query expressions.
+        public var queries: [WisdomClientTypes.QuickResponseQueryField]?
+
+        public init(
+            filters: [WisdomClientTypes.QuickResponseFilterField]? = nil,
+            orderOnField: WisdomClientTypes.QuickResponseOrderField? = nil,
+            queries: [WisdomClientTypes.QuickResponseQueryField]? = nil
+        )
+        {
+            self.filters = filters
+            self.orderOnField = orderOnField
+            self.queries = queries
+        }
+    }
+
+}
+
+extension WisdomClientTypes.QuickResponseSearchResultData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributesInterpolated
+        case attributesNotInterpolated
+        case channels
+        case contentType
+        case contents
+        case createdTime
+        case description
+        case groupingConfiguration
+        case isActive
+        case knowledgeBaseArn
+        case knowledgeBaseId
+        case language
+        case lastModifiedBy
+        case lastModifiedTime
+        case name
+        case quickResponseArn
+        case quickResponseId
+        case shortcutKey
+        case status
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributesInterpolated = attributesInterpolated {
+            var attributesInterpolatedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesInterpolated)
+            for contactattributekey0 in attributesInterpolated {
+                try attributesInterpolatedContainer.encode(contactattributekey0)
+            }
+        }
+        if let attributesNotInterpolated = attributesNotInterpolated {
+            var attributesNotInterpolatedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesNotInterpolated)
+            for contactattributekey0 in attributesNotInterpolated {
+                try attributesNotInterpolatedContainer.encode(contactattributekey0)
+            }
+        }
+        if let channels = channels {
+            var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
+            }
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let contents = self.contents {
+            try encodeContainer.encode(contents, forKey: .contents)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let groupingConfiguration = self.groupingConfiguration {
+            try encodeContainer.encode(groupingConfiguration, forKey: .groupingConfiguration)
+        }
+        if let isActive = self.isActive {
+            try encodeContainer.encode(isActive, forKey: .isActive)
+        }
+        if let knowledgeBaseArn = self.knowledgeBaseArn {
+            try encodeContainer.encode(knowledgeBaseArn, forKey: .knowledgeBaseArn)
+        }
+        if let knowledgeBaseId = self.knowledgeBaseId {
+            try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+        if let lastModifiedBy = self.lastModifiedBy {
+            try encodeContainer.encode(lastModifiedBy, forKey: .lastModifiedBy)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let quickResponseArn = self.quickResponseArn {
+            try encodeContainer.encode(quickResponseArn, forKey: .quickResponseArn)
+        }
+        if let quickResponseId = self.quickResponseId {
+            try encodeContainer.encode(quickResponseId, forKey: .quickResponseId)
+        }
+        if let shortcutKey = self.shortcutKey {
+            try encodeContainer.encode(shortcutKey, forKey: .shortcutKey)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickResponseArn)
+        quickResponseArn = quickResponseArnDecoded
+        let quickResponseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickResponseId)
+        quickResponseId = quickResponseIdDecoded
+        let knowledgeBaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseArn)
+        knowledgeBaseArn = knowledgeBaseArnDecoded
+        let knowledgeBaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseId)
+        knowledgeBaseId = knowledgeBaseIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseStatus.self, forKey: .status)
+        status = statusDecoded
+        let contentsDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseContents.self, forKey: .contents)
+        contents = contentsDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let isActiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isActive)
+        isActive = isActiveDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let groupingConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.GroupingConfiguration.self, forKey: .groupingConfiguration)
+        groupingConfiguration = groupingConfigurationDecoded
+        let shortcutKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortcutKey)
+        shortcutKey = shortcutKeyDecoded
+        let lastModifiedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedBy)
+        lastModifiedBy = lastModifiedByDecoded
+        let channelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channels)
+        var channelsDecoded0:[Swift.String]? = nil
+        if let channelsContainer = channelsContainer {
+            channelsDecoded0 = [Swift.String]()
+            for string0 in channelsContainer {
+                if let string0 = string0 {
+                    channelsDecoded0?.append(string0)
+                }
+            }
+        }
+        channels = channelsDecoded0
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+        let attributesNotInterpolatedContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesNotInterpolated)
+        var attributesNotInterpolatedDecoded0:[Swift.String]? = nil
+        if let attributesNotInterpolatedContainer = attributesNotInterpolatedContainer {
+            attributesNotInterpolatedDecoded0 = [Swift.String]()
+            for string0 in attributesNotInterpolatedContainer {
+                if let string0 = string0 {
+                    attributesNotInterpolatedDecoded0?.append(string0)
+                }
+            }
+        }
+        attributesNotInterpolated = attributesNotInterpolatedDecoded0
+        let attributesInterpolatedContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attributesInterpolated)
+        var attributesInterpolatedDecoded0:[Swift.String]? = nil
+        if let attributesInterpolatedContainer = attributesInterpolatedContainer {
+            attributesInterpolatedDecoded0 = [Swift.String]()
+            for string0 in attributesInterpolatedContainer {
+                if let string0 = string0 {
+                    attributesInterpolatedDecoded0?.append(string0)
+                }
+            }
+        }
+        attributesInterpolated = attributesInterpolatedDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension WisdomClientTypes.QuickResponseSearchResultData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "QuickResponseSearchResultData(channels: \(Swift.String(describing: channels)), contentType: \(Swift.String(describing: contentType)), contents: \(Swift.String(describing: contents)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), shortcutKey: \(Swift.String(describing: shortcutKey)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), attributesInterpolated: \"CONTENT_REDACTED\", attributesNotInterpolated: \"CONTENT_REDACTED\")"}
+}
+
+extension WisdomClientTypes {
+    /// The result of quick response search.
+    public struct QuickResponseSearchResultData: Swift.Equatable {
+        /// The user defined contact attributes that are resolved when the search result is returned.
+        public var attributesInterpolated: [Swift.String]?
+        /// The user defined contact attributes that are not resolved when the search result is returned.
+        public var attributesNotInterpolated: [Swift.String]?
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public var channels: [Swift.String]?
+        /// The media type of the quick response content.
+        ///
+        /// * Use application/x.quickresponse;format=plain for quick response written in plain text.
+        ///
+        /// * Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        /// This member is required.
+        public var contentType: Swift.String?
+        /// The contents of the quick response.
+        /// This member is required.
+        public var contents: WisdomClientTypes.QuickResponseContents?
+        /// The timestamp when the quick response was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the quick response.
+        public var description: Swift.String?
+        /// The configuration information of the user groups that the quick response is accessible to.
+        public var groupingConfiguration: WisdomClientTypes.GroupingConfiguration?
+        /// Whether the quick response is active.
+        /// This member is required.
+        public var isActive: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The language code value for the language in which the quick response is written.
+        public var language: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the quick response search result data.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp when the quick response search result data was last modified.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the quick response.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the quick response.
+        /// This member is required.
+        public var quickResponseArn: Swift.String?
+        /// The identifier of the quick response.
+        /// This member is required.
+        public var quickResponseId: Swift.String?
+        /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+        public var shortcutKey: Swift.String?
+        /// The resource status of the quick response.
+        /// This member is required.
+        public var status: WisdomClientTypes.QuickResponseStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            attributesInterpolated: [Swift.String]? = nil,
+            attributesNotInterpolated: [Swift.String]? = nil,
+            channels: [Swift.String]? = nil,
+            contentType: Swift.String? = nil,
+            contents: WisdomClientTypes.QuickResponseContents? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            groupingConfiguration: WisdomClientTypes.GroupingConfiguration? = nil,
+            isActive: Swift.Bool? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            language: Swift.String? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            quickResponseArn: Swift.String? = nil,
+            quickResponseId: Swift.String? = nil,
+            shortcutKey: Swift.String? = nil,
+            status: WisdomClientTypes.QuickResponseStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.attributesInterpolated = attributesInterpolated
+            self.attributesNotInterpolated = attributesNotInterpolated
+            self.channels = channels
+            self.contentType = contentType
+            self.contents = contents
+            self.createdTime = createdTime
+            self.description = description
+            self.groupingConfiguration = groupingConfiguration
+            self.isActive = isActive
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.language = language
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.quickResponseArn = quickResponseArn
+            self.quickResponseId = quickResponseId
+            self.shortcutKey = shortcutKey
+            self.status = status
+            self.tags = tags
+        }
+    }
+
+}
+
+extension WisdomClientTypes {
+    public enum QuickResponseStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case created
+        case createFailed
+        case createInProgress
+        case deleted
+        case deleteFailed
+        case deleteInProgress
+        case updateFailed
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuickResponseStatus] {
+            return [
+                .created,
+                .createFailed,
+                .createInProgress,
+                .deleted,
+                .deleteFailed,
+                .deleteInProgress,
+                .updateFailed,
+                .updateInProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuickResponseStatus(rawValue: rawValue) ?? QuickResponseStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WisdomClientTypes.QuickResponseSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels
+        case contentType
+        case createdTime
+        case description
+        case isActive
+        case knowledgeBaseArn
+        case knowledgeBaseId
+        case lastModifiedBy
+        case lastModifiedTime
+        case name
+        case quickResponseArn
+        case quickResponseId
+        case status
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channels = channels {
+            var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
+            }
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let isActive = self.isActive {
+            try encodeContainer.encode(isActive, forKey: .isActive)
+        }
+        if let knowledgeBaseArn = self.knowledgeBaseArn {
+            try encodeContainer.encode(knowledgeBaseArn, forKey: .knowledgeBaseArn)
+        }
+        if let knowledgeBaseId = self.knowledgeBaseId {
+            try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
+        }
+        if let lastModifiedBy = self.lastModifiedBy {
+            try encodeContainer.encode(lastModifiedBy, forKey: .lastModifiedBy)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let quickResponseArn = self.quickResponseArn {
+            try encodeContainer.encode(quickResponseArn, forKey: .quickResponseArn)
+        }
+        if let quickResponseId = self.quickResponseId {
+            try encodeContainer.encode(quickResponseId, forKey: .quickResponseId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickResponseArn)
+        quickResponseArn = quickResponseArnDecoded
+        let quickResponseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickResponseId)
+        quickResponseId = quickResponseIdDecoded
+        let knowledgeBaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseArn)
+        knowledgeBaseArn = knowledgeBaseArnDecoded
+        let knowledgeBaseIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .knowledgeBaseId)
+        knowledgeBaseId = knowledgeBaseIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let lastModifiedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedBy)
+        lastModifiedBy = lastModifiedByDecoded
+        let isActiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isActive)
+        isActive = isActiveDecoded
+        let channelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channels)
+        var channelsDecoded0:[Swift.String]? = nil
+        if let channelsContainer = channelsContainer {
+            channelsDecoded0 = [Swift.String]()
+            for string0 in channelsContainer {
+                if let string0 = string0 {
+                    channelsDecoded0?.append(string0)
+                }
+            }
+        }
+        channels = channelsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension WisdomClientTypes {
+    /// The summary information about the quick response.
+    public struct QuickResponseSummary: Swift.Equatable {
+        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        public var channels: [Swift.String]?
+        /// The media type of the quick response content.
+        ///
+        /// * Use application/x.quickresponse;format=plain for quick response written in plain text.
+        ///
+        /// * Use application/x.quickresponse;format=markdown for quick response written in richtext.
+        /// This member is required.
+        public var contentType: Swift.String?
+        /// The timestamp when the quick response was created.
+        /// This member is required.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the quick response.
+        public var description: Swift.String?
+        /// Whether the quick response is active.
+        public var isActive: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
+        public var lastModifiedBy: Swift.String?
+        /// The timestamp when the quick response summary was last modified.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the quick response.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the quick response.
+        /// This member is required.
+        public var quickResponseArn: Swift.String?
+        /// The identifier of the quick response.
+        /// This member is required.
+        public var quickResponseId: Swift.String?
+        /// The resource status of the quick response.
+        /// This member is required.
+        public var status: WisdomClientTypes.QuickResponseStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            channels: [Swift.String]? = nil,
+            contentType: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            isActive: Swift.Bool? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            lastModifiedBy: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            quickResponseArn: Swift.String? = nil,
+            quickResponseId: Swift.String? = nil,
+            status: WisdomClientTypes.QuickResponseStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.channels = channels
+            self.contentType = contentType
+            self.createdTime = createdTime
+            self.description = description
+            self.isActive = isActive
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.quickResponseArn = quickResponseArn
+            self.quickResponseId = quickResponseId
+            self.status = status
+            self.tags = tags
         }
     }
 
@@ -5277,7 +8274,7 @@ extension RemoveKnowledgeBaseTemplateUriInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Equatable {
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -5363,6 +8360,61 @@ extension WisdomClientTypes {
         }
     }
 
+}
+
+extension RequestTimeoutException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RequestTimeoutExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RequestTimeoutException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct RequestTimeoutExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RequestTimeoutExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ResourceNotFoundException {
@@ -5527,7 +8579,7 @@ extension SearchContentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchContentInput: Swift.Equatable {
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return per page.
@@ -5687,6 +8739,190 @@ extension WisdomClientTypes {
         }
     }
 
+}
+
+extension SearchQuickResponsesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchQuickResponsesInput(knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), searchExpression: \(Swift.String(describing: searchExpression)), attributes: \"CONTENT_REDACTED\")"}
+}
+
+extension SearchQuickResponsesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case searchExpression
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributes = attributes {
+            var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
+            for (dictKey0, contactAttributes0) in attributes {
+                try attributesContainer.encode(contactAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let searchExpression = self.searchExpression {
+            try encodeContainer.encode(searchExpression, forKey: .searchExpression)
+        }
+    }
+}
+
+extension SearchQuickResponsesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension SearchQuickResponsesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/search/quickResponses"
+    }
+}
+
+public struct SearchQuickResponsesInput: Swift.Equatable {
+    /// The [user-defined Amazon Connect contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/connect-attrib-list.html#user-defined-attributes) to be resolved when search results are returned.
+    public var attributes: [Swift.String:Swift.String]?
+    /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search expression for querying the quick response.
+    /// This member is required.
+    public var searchExpression: WisdomClientTypes.QuickResponseSearchExpression?
+
+    public init(
+        attributes: [Swift.String:Swift.String]? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchExpression: WisdomClientTypes.QuickResponseSearchExpression? = nil
+    )
+    {
+        self.attributes = attributes
+        self.knowledgeBaseId = knowledgeBaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchExpression = searchExpression
+    }
+}
+
+struct SearchQuickResponsesInputBody: Swift.Equatable {
+    let searchExpression: WisdomClientTypes.QuickResponseSearchExpression?
+    let attributes: [Swift.String:Swift.String]?
+}
+
+extension SearchQuickResponsesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributes
+        case searchExpression
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let searchExpressionDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseSearchExpression.self, forKey: .searchExpression)
+        searchExpression = searchExpressionDecoded
+        let attributesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .attributes)
+        var attributesDecoded0: [Swift.String:Swift.String]? = nil
+        if let attributesContainer = attributesContainer {
+            attributesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, contactattributevalue0) in attributesContainer {
+                if let contactattributevalue0 = contactattributevalue0 {
+                    attributesDecoded0?[key0] = contactattributevalue0
+                }
+            }
+        }
+        attributes = attributesDecoded0
+    }
+}
+
+extension SearchQuickResponsesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchQuickResponsesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.results = output.results
+        } else {
+            self.nextToken = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct SearchQuickResponsesOutput: Swift.Equatable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The results of the quick response search.
+    /// This member is required.
+    public var results: [WisdomClientTypes.QuickResponseSearchResultData]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [WisdomClientTypes.QuickResponseSearchResultData]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+struct SearchQuickResponsesOutputBody: Swift.Equatable {
+    let results: [WisdomClientTypes.QuickResponseSearchResultData]?
+    let nextToken: Swift.String?
+}
+
+extension SearchQuickResponsesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([WisdomClientTypes.QuickResponseSearchResultData?].self, forKey: .results)
+        var resultsDecoded0:[WisdomClientTypes.QuickResponseSearchResultData]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [WisdomClientTypes.QuickResponseSearchResultData]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum SearchQuickResponsesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension SearchSessionsInput: Swift.Encodable {
@@ -6177,12 +9413,16 @@ extension WisdomClientTypes {
 extension StartContentUploadInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentType
+        case presignedUrlTimeToLive
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contentType = self.contentType {
             try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let presignedUrlTimeToLive = self.presignedUrlTimeToLive {
+            try encodeContainer.encode(presignedUrlTimeToLive, forKey: .presignedUrlTimeToLive)
         }
     }
 }
@@ -6200,33 +9440,41 @@ public struct StartContentUploadInput: Swift.Equatable {
     /// The type of content to upload.
     /// This member is required.
     public var contentType: Swift.String?
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
+    /// The expected expiration time of the generated presigned URL, specified in minutes.
+    public var presignedUrlTimeToLive: Swift.Int?
 
     public init(
         contentType: Swift.String? = nil,
-        knowledgeBaseId: Swift.String? = nil
+        knowledgeBaseId: Swift.String? = nil,
+        presignedUrlTimeToLive: Swift.Int? = nil
     )
     {
         self.contentType = contentType
         self.knowledgeBaseId = knowledgeBaseId
+        self.presignedUrlTimeToLive = presignedUrlTimeToLive
     }
 }
 
 struct StartContentUploadInputBody: Swift.Equatable {
     let contentType: Swift.String?
+    let presignedUrlTimeToLive: Swift.Int?
 }
 
 extension StartContentUploadInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentType
+        case presignedUrlTimeToLive
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
         contentType = contentTypeDecoded
+        let presignedUrlTimeToLiveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .presignedUrlTimeToLive)
+        presignedUrlTimeToLive = presignedUrlTimeToLiveDecoded
     }
 }
 
@@ -6331,6 +9579,185 @@ enum StartContentUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension StartImportJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case externalSourceConfiguration
+        case importJobType
+        case metadata
+        case uploadId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let externalSourceConfiguration = self.externalSourceConfiguration {
+            try encodeContainer.encode(externalSourceConfiguration, forKey: .externalSourceConfiguration)
+        }
+        if let importJobType = self.importJobType {
+            try encodeContainer.encode(importJobType.rawValue, forKey: .importJobType)
+        }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let uploadId = self.uploadId {
+            try encodeContainer.encode(uploadId, forKey: .uploadId)
+        }
+    }
+}
+
+extension StartImportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs"
+    }
+}
+
+public struct StartImportJobInput: Swift.Equatable {
+    /// The tags used to organize, track, or control access for this resource.
+    public var clientToken: Swift.String?
+    /// The configuration information of the external source that the resource data are imported from.
+    public var externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration?
+    /// The type of the import job.
+    ///
+    /// * For importing quick response resource, set the value to QUICK_RESPONSES.
+    /// This member is required.
+    public var importJobType: WisdomClientTypes.ImportJobType?
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///
+    /// * For importing Wisdom quick responses, this should be a QUICK_RESPONSES type knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The metadata fields of the imported Wisdom resources.
+    public var metadata: [Swift.String:Swift.String]?
+    /// A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
+    /// This member is required.
+    public var uploadId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration? = nil,
+        importJobType: WisdomClientTypes.ImportJobType? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        metadata: [Swift.String:Swift.String]? = nil,
+        uploadId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.externalSourceConfiguration = externalSourceConfiguration
+        self.importJobType = importJobType
+        self.knowledgeBaseId = knowledgeBaseId
+        self.metadata = metadata
+        self.uploadId = uploadId
+    }
+}
+
+struct StartImportJobInputBody: Swift.Equatable {
+    let importJobType: WisdomClientTypes.ImportJobType?
+    let uploadId: Swift.String?
+    let clientToken: Swift.String?
+    let metadata: [Swift.String:Swift.String]?
+    let externalSourceConfiguration: WisdomClientTypes.ExternalSourceConfiguration?
+}
+
+extension StartImportJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case externalSourceConfiguration
+        case importJobType
+        case metadata
+        case uploadId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobTypeDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobType.self, forKey: .importJobType)
+        importJobType = importJobTypeDecoded
+        let uploadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uploadId)
+        uploadId = uploadIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, nonemptystring0) in metadataContainer {
+                if let nonemptystring0 = nonemptystring0 {
+                    metadataDecoded0?[key0] = nonemptystring0
+                }
+            }
+        }
+        metadata = metadataDecoded0
+        let externalSourceConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ExternalSourceConfiguration.self, forKey: .externalSourceConfiguration)
+        externalSourceConfiguration = externalSourceConfigurationDecoded
+    }
+}
+
+extension StartImportJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartImportJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.importJob = output.importJob
+        } else {
+            self.importJob = nil
+        }
+    }
+}
+
+public struct StartImportJobOutput: Swift.Equatable {
+    /// The import job.
+    public var importJob: WisdomClientTypes.ImportJobData?
+
+    public init(
+        importJob: WisdomClientTypes.ImportJobData? = nil
+    )
+    {
+        self.importJob = importJob
+    }
+}
+
+struct StartImportJobOutputBody: Swift.Equatable {
+    let importJob: WisdomClientTypes.ImportJobData?
+}
+
+extension StartImportJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importJob
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importJobDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.ImportJobData.self, forKey: .importJob)
+        importJob = importJobDecoded
+    }
+}
+
+enum StartImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
@@ -6612,7 +10039,7 @@ public struct UpdateContentInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. Can be either the ID or the ARN
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -6772,7 +10199,7 @@ extension UpdateKnowledgeBaseTemplateUriInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Equatable {
-    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The template URI to update.
@@ -6813,6 +10240,8 @@ extension UpdateKnowledgeBaseTemplateUriOutput: ClientRuntime.HttpResponseBindin
             self.knowledgeBase = output.knowledgeBase
         } else {
             self.knowledgeBase = nil
+<<<<<<< HEAD
+=======
         }
     }
 }
@@ -6842,6 +10271,306 @@ extension UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let knowledgeBaseDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.KnowledgeBaseData.self, forKey: .knowledgeBase)
         knowledgeBase = knowledgeBaseDecoded
+    }
+}
+
+enum UpdateKnowledgeBaseTemplateUriOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateQuickResponseInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels
+        case content
+        case contentType
+        case description
+        case groupingConfiguration
+        case isActive
+        case language
+        case name
+        case removeDescription
+        case removeGroupingConfiguration
+        case removeShortcutKey
+        case shortcutKey
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channels = channels {
+            var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
+            }
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let groupingConfiguration = self.groupingConfiguration {
+            try encodeContainer.encode(groupingConfiguration, forKey: .groupingConfiguration)
+        }
+        if let isActive = self.isActive {
+            try encodeContainer.encode(isActive, forKey: .isActive)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language, forKey: .language)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let removeDescription = self.removeDescription {
+            try encodeContainer.encode(removeDescription, forKey: .removeDescription)
+        }
+        if let removeGroupingConfiguration = self.removeGroupingConfiguration {
+            try encodeContainer.encode(removeGroupingConfiguration, forKey: .removeGroupingConfiguration)
+        }
+        if let removeShortcutKey = self.removeShortcutKey {
+            try encodeContainer.encode(removeShortcutKey, forKey: .removeShortcutKey)
+        }
+        if let shortcutKey = self.shortcutKey {
+            try encodeContainer.encode(shortcutKey, forKey: .shortcutKey)
+>>>>>>> main
+        }
+    }
+}
+
+<<<<<<< HEAD
+public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Equatable {
+    /// The knowledge base to update.
+    public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
+
+    public init(
+        knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
+    )
+    {
+        self.knowledgeBase = knowledgeBase
+    }
+}
+
+struct UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Equatable {
+    let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
+}
+
+extension UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Decodable {
+=======
+extension UpdateQuickResponseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let knowledgeBaseId = knowledgeBaseId else {
+            return nil
+        }
+        guard let quickResponseId = quickResponseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateQuickResponseInput: Swift.Equatable {
+    /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+    public var channels: [Swift.String]?
+    /// The updated content of the quick response.
+    public var content: WisdomClientTypes.QuickResponseDataProvider?
+    /// The media type of the quick response content.
+    ///
+    /// * Use application/x.quickresponse;format=plain for quick response written in plain text.
+    ///
+    /// * Use application/x.quickresponse;format=markdown for quick response written in richtext.
+    public var contentType: Swift.String?
+    /// The updated description of the quick response.
+    public var description: Swift.String?
+    /// The updated grouping configuration of the quick response.
+    public var groupingConfiguration: WisdomClientTypes.GroupingConfiguration?
+    /// Whether the quick response is active.
+    public var isActive: Swift.Bool?
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+    public var language: Swift.String?
+    /// The name of the quick response.
+    public var name: Swift.String?
+    /// The identifier of the quick response.
+    /// This member is required.
+    public var quickResponseId: Swift.String?
+    /// Whether to remove the description from the quick response.
+    public var removeDescription: Swift.Bool?
+    /// Whether to remove the grouping configuration of the quick response.
+    public var removeGroupingConfiguration: Swift.Bool?
+    /// Whether to remove the shortcut key of the quick response.
+    public var removeShortcutKey: Swift.Bool?
+    /// The shortcut key of the quick response. The value should be unique across the knowledge base.
+    public var shortcutKey: Swift.String?
+
+    public init(
+        channels: [Swift.String]? = nil,
+        content: WisdomClientTypes.QuickResponseDataProvider? = nil,
+        contentType: Swift.String? = nil,
+        description: Swift.String? = nil,
+        groupingConfiguration: WisdomClientTypes.GroupingConfiguration? = nil,
+        isActive: Swift.Bool? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        language: Swift.String? = nil,
+        name: Swift.String? = nil,
+        quickResponseId: Swift.String? = nil,
+        removeDescription: Swift.Bool? = nil,
+        removeGroupingConfiguration: Swift.Bool? = nil,
+        removeShortcutKey: Swift.Bool? = nil,
+        shortcutKey: Swift.String? = nil
+    )
+    {
+        self.channels = channels
+        self.content = content
+        self.contentType = contentType
+        self.description = description
+        self.groupingConfiguration = groupingConfiguration
+        self.isActive = isActive
+        self.knowledgeBaseId = knowledgeBaseId
+        self.language = language
+        self.name = name
+        self.quickResponseId = quickResponseId
+        self.removeDescription = removeDescription
+        self.removeGroupingConfiguration = removeGroupingConfiguration
+        self.removeShortcutKey = removeShortcutKey
+        self.shortcutKey = shortcutKey
+    }
+}
+
+struct UpdateQuickResponseInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let content: WisdomClientTypes.QuickResponseDataProvider?
+    let contentType: Swift.String?
+    let groupingConfiguration: WisdomClientTypes.GroupingConfiguration?
+    let removeGroupingConfiguration: Swift.Bool?
+    let description: Swift.String?
+    let removeDescription: Swift.Bool?
+    let shortcutKey: Swift.String?
+    let removeShortcutKey: Swift.Bool?
+    let isActive: Swift.Bool?
+    let channels: [Swift.String]?
+    let language: Swift.String?
+}
+
+extension UpdateQuickResponseInputBody: Swift.Decodable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels
+        case content
+        case contentType
+        case description
+        case groupingConfiguration
+        case isActive
+        case language
+        case name
+        case removeDescription
+        case removeGroupingConfiguration
+        case removeShortcutKey
+        case shortcutKey
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseDataProvider.self, forKey: .content)
+        content = contentDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
+        let groupingConfigurationDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.GroupingConfiguration.self, forKey: .groupingConfiguration)
+        groupingConfiguration = groupingConfigurationDecoded
+        let removeGroupingConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeGroupingConfiguration)
+        removeGroupingConfiguration = removeGroupingConfigurationDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let removeDescriptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeDescription)
+        removeDescription = removeDescriptionDecoded
+        let shortcutKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shortcutKey)
+        shortcutKey = shortcutKeyDecoded
+        let removeShortcutKeyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeShortcutKey)
+        removeShortcutKey = removeShortcutKeyDecoded
+        let isActiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isActive)
+        isActive = isActiveDecoded
+        let channelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .channels)
+        var channelsDecoded0:[Swift.String]? = nil
+        if let channelsContainer = channelsContainer {
+            channelsDecoded0 = [Swift.String]()
+            for string0 in channelsContainer {
+                if let string0 = string0 {
+                    channelsDecoded0?.append(string0)
+                }
+            }
+        }
+        channels = channelsDecoded0
+        let languageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .language)
+        language = languageDecoded
+    }
+}
+
+extension UpdateQuickResponseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateQuickResponseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.quickResponse = output.quickResponse
+        } else {
+            self.quickResponse = nil
+        }
+    }
+}
+
+public struct UpdateQuickResponseOutput: Swift.Equatable {
+    /// The quick response.
+    public var quickResponse: WisdomClientTypes.QuickResponseData?
+
+    public init(
+        quickResponse: WisdomClientTypes.QuickResponseData? = nil
+    )
+    {
+        self.quickResponse = quickResponse
+    }
+}
+
+struct UpdateQuickResponseOutputBody: Swift.Equatable {
+    let quickResponse: WisdomClientTypes.QuickResponseData?
+}
+
+extension UpdateQuickResponseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case quickResponse
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quickResponseDecoded = try containerValues.decodeIfPresent(WisdomClientTypes.QuickResponseData.self, forKey: .quickResponse)
+        quickResponse = quickResponseDecoded
+    }
+}
+
+enum UpdateQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

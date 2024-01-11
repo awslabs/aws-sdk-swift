@@ -9,6 +9,8 @@ import ClientRuntime
 /// * [Server Migration Service User Guide](https://docs.aws.amazon.com/server-migration-service/latest/userguide/)
 @available(*, deprecated, message: "AWS Server Migration Service is Deprecated.")
 public protocol SMSClientProtocol {
+    /// Performs the `CreateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
     /// Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
     ///
     /// - Parameter CreateAppInput : [no documentation found]
@@ -24,6 +26,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func createApp(input: CreateAppInput) async throws -> CreateAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Creates a replication job. The replication job schedules periodic replication runs to replicate your server to Amazon Web Services. Each replication run creates an Amazon Machine Image (AMI).
     ///
     /// - Parameter CreateReplicationJobInput : [no documentation found]
@@ -43,6 +50,11 @@ public protocol SMSClientProtocol {
     /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func createReplicationJob(input: CreateReplicationJobInput) async throws -> CreateReplicationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Deletes the specified application. Optionally deletes the launched stack associated with the application and all Server Migration Service replication jobs for servers in the application.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
@@ -58,6 +70,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Deletes the launch configuration for the specified application.
     ///
     /// - Parameter DeleteAppLaunchConfigurationInput : [no documentation found]
@@ -73,6 +90,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func deleteAppLaunchConfiguration(input: DeleteAppLaunchConfigurationInput) async throws -> DeleteAppLaunchConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Deletes the replication configuration for the specified application.
     ///
     /// - Parameter DeleteAppReplicationConfigurationInput : [no documentation found]
@@ -88,6 +110,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func deleteAppReplicationConfiguration(input: DeleteAppReplicationConfigurationInput) async throws -> DeleteAppReplicationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Deletes the validation configuration for the specified application.
     ///
     /// - Parameter DeleteAppValidationConfigurationInput : [no documentation found]
@@ -103,6 +130,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func deleteAppValidationConfiguration(input: DeleteAppValidationConfigurationInput) async throws -> DeleteAppValidationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Deletes the specified replication job. After you delete a replication job, there are no further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket used to store Server Migration Service artifacts. The AMIs created by the replication runs are not deleted.
     ///
     /// - Parameter DeleteReplicationJobInput : [no documentation found]
@@ -118,6 +150,11 @@ public protocol SMSClientProtocol {
     /// - `ReplicationJobNotFoundException` : The specified replication job does not exist.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func deleteReplicationJob(input: DeleteReplicationJobInput) async throws -> DeleteReplicationJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteServerCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Deletes all servers from your server catalog.
     ///
     /// - Parameter DeleteServerCatalogInput : [no documentation found]
@@ -132,6 +169,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func deleteServerCatalog(input: DeleteServerCatalogInput) async throws -> DeleteServerCatalogOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisassociateConnector` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Disassociates the specified connector from Server Migration Service. After you disassociate a connector, it is no longer available to support replication jobs.
     ///
     /// - Parameter DisassociateConnectorInput : [no documentation found]
@@ -146,6 +188,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func disassociateConnector(input: DisassociateConnectorInput) async throws -> DisassociateConnectorOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GenerateChangeSet` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Generates a target change set for a currently launched stack and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     ///
     /// - Parameter GenerateChangeSetInput : [no documentation found]
@@ -161,6 +208,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func generateChangeSet(input: GenerateChangeSetInput) async throws -> GenerateChangeSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GenerateTemplate` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Generates an CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     ///
     /// - Parameter GenerateTemplateInput : [no documentation found]
@@ -176,6 +228,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func generateTemplate(input: GenerateTemplateInput) async throws -> GenerateTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Retrieve information about the specified application.
     ///
     /// - Parameter GetAppInput : [no documentation found]
@@ -191,6 +248,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getApp(input: GetAppInput) async throws -> GetAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Retrieves the application launch configuration associated with the specified application.
     ///
     /// - Parameter GetAppLaunchConfigurationInput : [no documentation found]
@@ -206,6 +268,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getAppLaunchConfiguration(input: GetAppLaunchConfigurationInput) async throws -> GetAppLaunchConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Retrieves the application replication configuration associated with the specified application.
     ///
     /// - Parameter GetAppReplicationConfigurationInput : [no documentation found]
@@ -221,6 +288,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getAppReplicationConfiguration(input: GetAppReplicationConfigurationInput) async throws -> GetAppReplicationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a configuration for validating an application.
     ///
     /// - Parameter GetAppValidationConfigurationInput : [no documentation found]
@@ -236,6 +308,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getAppValidationConfiguration(input: GetAppValidationConfigurationInput) async throws -> GetAppValidationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAppValidationOutput` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Retrieves output from validating an application.
     ///
     /// - Parameter GetAppValidationOutputInput : [no documentation found]
@@ -251,6 +328,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getAppValidationOutput(input: GetAppValidationOutputInput) async throws -> GetAppValidationOutputOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetConnectors` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Describes the connectors registered with the Server Migration Service.
     ///
     /// - Parameter GetConnectorsInput : [no documentation found]
@@ -262,6 +344,11 @@ public protocol SMSClientProtocol {
     /// __Possible Exceptions:__
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getConnectors(input: GetConnectorsInput) async throws -> GetConnectorsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetReplicationJobs` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Describes the specified replication job or all of your replication jobs.
     ///
     /// - Parameter GetReplicationJobsInput : [no documentation found]
@@ -275,6 +362,11 @@ public protocol SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getReplicationJobs(input: GetReplicationJobsInput) async throws -> GetReplicationJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetReplicationRuns` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Describes the replication runs for the specified replication job.
     ///
     /// - Parameter GetReplicationRunsInput : [no documentation found]
@@ -288,6 +380,11 @@ public protocol SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getReplicationRuns(input: GetReplicationRunsInput) async throws -> GetReplicationRunsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetServers` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Describes the servers in your server catalog. Before you can describe your servers, you must import them using [ImportServerCatalog].
     ///
     /// - Parameter GetServersInput : [no documentation found]
@@ -302,6 +399,11 @@ public protocol SMSClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func getServers(input: GetServersInput) async throws -> GetServersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ImportAppCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Allows application import from Migration Hub.
     ///
     /// - Parameter ImportAppCatalogInput : [no documentation found]
@@ -317,6 +419,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func importAppCatalog(input: ImportAppCatalogInput) async throws -> ImportAppCatalogOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ImportServerCatalog` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
     ///
     /// - Parameter ImportServerCatalogInput : [no documentation found]
@@ -332,6 +439,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func importServerCatalog(input: ImportServerCatalogInput) async throws -> ImportServerCatalogOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `LaunchApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Launches the specified application as a stack in CloudFormation.
     ///
     /// - Parameter LaunchAppInput : [no documentation found]
@@ -347,6 +459,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func launchApp(input: LaunchAppInput) async throws -> LaunchAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListApps` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Retrieves summaries for all applications.
     ///
     /// - Parameter ListAppsInput : [no documentation found]
@@ -362,6 +479,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func listApps(input: ListAppsInput) async throws -> ListAppsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `NotifyAppValidationOutput` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Provides information to Server Migration Service about whether application validation is successful.
     ///
     /// - Parameter NotifyAppValidationOutputInput : [no documentation found]
@@ -377,6 +499,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func notifyAppValidationOutput(input: NotifyAppValidationOutputInput) async throws -> NotifyAppValidationOutputOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppLaunchConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Creates or updates the launch configuration for the specified application.
     ///
     /// - Parameter PutAppLaunchConfigurationInput : [no documentation found]
@@ -392,6 +519,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func putAppLaunchConfiguration(input: PutAppLaunchConfigurationInput) async throws -> PutAppLaunchConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppReplicationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Creates or updates the replication configuration for the specified application.
     ///
     /// - Parameter PutAppReplicationConfigurationInput : [no documentation found]
@@ -407,6 +539,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func putAppReplicationConfiguration(input: PutAppReplicationConfigurationInput) async throws -> PutAppReplicationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutAppValidationConfiguration` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Creates or updates a validation configuration for the specified application.
     ///
     /// - Parameter PutAppValidationConfigurationInput : [no documentation found]
@@ -422,6 +559,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func putAppValidationConfiguration(input: PutAppValidationConfigurationInput) async throws -> PutAppValidationConfigurationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Starts replicating the specified application by creating replication jobs for each server in the application.
     ///
     /// - Parameter StartAppReplicationInput : [no documentation found]
@@ -437,6 +579,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func startAppReplication(input: StartAppReplicationInput) async throws -> StartAppReplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartOnDemandAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Starts an on-demand replication run for the specified application.
     ///
     /// - Parameter StartOnDemandAppReplicationInput : [no documentation found]
@@ -452,6 +599,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func startOnDemandAppReplication(input: StartOnDemandAppReplicationInput) async throws -> StartOnDemandAppReplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StartOnDemandReplicationRun` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs that you can request in a 24-hour period.
     ///
     /// - Parameter StartOnDemandReplicationRunInput : [no documentation found]
@@ -468,6 +620,11 @@ public protocol SMSClientProtocol {
     /// - `ReplicationRunLimitExceededException` : You have exceeded the number of on-demand replication runs you can request in a 24-hour period.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func startOnDemandReplicationRun(input: StartOnDemandReplicationRunInput) async throws -> StartOnDemandReplicationRunOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `StopAppReplication` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Stops replicating the specified application by deleting the replication job for each server in the application.
     ///
     /// - Parameter StopAppReplicationInput : [no documentation found]
@@ -483,6 +640,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func stopAppReplication(input: StopAppReplicationInput) async throws -> StopAppReplicationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TerminateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Terminates the stack for the specified application.
     ///
     /// - Parameter TerminateAppInput : [no documentation found]
@@ -498,6 +660,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func terminateApp(input: TerminateAppInput) async throws -> TerminateAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateApp` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Updates the specified application.
     ///
     /// - Parameter UpdateAppInput : [no documentation found]
@@ -513,6 +680,11 @@ public protocol SMSClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateReplicationJob` operation on the `AWSServerMigrationService_V2016_10_24` service.
+    ///
+>>>>>>> main
     /// Updates the specified settings for the specified replication job.
     ///
     /// - Parameter UpdateReplicationJobInput : [no documentation found]

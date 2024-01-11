@@ -1102,7 +1102,7 @@ extension MediaConvertClientTypes {
         public var bitDepth: Swift.Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public var channels: Swift.Int?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
 
         public init(
@@ -1436,7 +1436,7 @@ enum AssociateCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension MediaConvertClientTypes {
-    /// You can add a tag for this mono-channel audio track to mimic its placement in a multi-channel layout. For example, if this track is the left surround channel, choose Left surround (LS).
+    /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
     public enum AudioChannelTag: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case c
         case cs
@@ -1549,6 +1549,7 @@ extension MediaConvertClientTypes {
 extension MediaConvertClientTypes.AudioChannelTaggingSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelTag = "channelTag"
+        case channelTags = "channelTags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1556,26 +1557,47 @@ extension MediaConvertClientTypes.AudioChannelTaggingSettings: Swift.Codable {
         if let channelTag = self.channelTag {
             try encodeContainer.encode(channelTag.rawValue, forKey: .channelTag)
         }
+        if let channelTags = channelTags {
+            var channelTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelTags)
+            for audiochanneltag0 in channelTags {
+                try channelTagsContainer.encode(audiochanneltag0.rawValue)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let channelTagDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.AudioChannelTag.self, forKey: .channelTag)
         channelTag = channelTagDecoded
+        let channelTagsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.AudioChannelTag?].self, forKey: .channelTags)
+        var channelTagsDecoded0:[MediaConvertClientTypes.AudioChannelTag]? = nil
+        if let channelTagsContainer = channelTagsContainer {
+            channelTagsDecoded0 = [MediaConvertClientTypes.AudioChannelTag]()
+            for enum0 in channelTagsContainer {
+                if let enum0 = enum0 {
+                    channelTagsDecoded0?.append(enum0)
+                }
+            }
+        }
+        channelTags = channelTagsDecoded0
     }
 }
 
 extension MediaConvertClientTypes {
-    /// When you mimic a multi-channel audio layout with multiple mono-channel tracks, you can tag each channel layout manually. For example, you would tag the tracks that contain your left, right, and center audio with Left (L), Right (R), and Center (C), respectively. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use audio layout tagging, your output must be in a QuickTime (.mov) container; your audio codec must be AAC, WAV, or AIFF; and you must set up your audio track to have only one channel.
+    /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use Audio layout tagging, your output must be in a QuickTime (MOV) container and your audio codec must be AAC, WAV, or AIFF.
     public struct AudioChannelTaggingSettings: Swift.Equatable {
-        /// You can add a tag for this mono-channel audio track to mimic its placement in a multi-channel layout. For example, if this track is the left surround channel, choose Left surround (LS).
+        /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
         public var channelTag: MediaConvertClientTypes.AudioChannelTag?
+        /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. Enter channel layout tags in the same order as your output's audio channel order. For example, if your output audio track has a left and a right channel, enter Left (L) for the first channel and Right (R) for the second. If your output has multiple single-channel audio tracks, enter a single channel layout tag for each track.
+        public var channelTags: [MediaConvertClientTypes.AudioChannelTag]?
 
         public init(
-            channelTag: MediaConvertClientTypes.AudioChannelTag? = nil
+            channelTag: MediaConvertClientTypes.AudioChannelTag? = nil,
+            channelTags: [MediaConvertClientTypes.AudioChannelTag]? = nil
         )
         {
             self.channelTag = channelTag
+            self.channelTags = channelTags
         }
     }
 
@@ -1904,7 +1926,7 @@ extension MediaConvertClientTypes.AudioDescription: Swift.Codable {
 extension MediaConvertClientTypes {
     /// Settings related to one audio tab on the MediaConvert console. In your job JSON, an instance of AudioDescription is equivalent to one audio tab in the console. Usually, one audio tab corresponds to one output audio track. Depending on how you set up your input audio selectors and whether you use audio selector groups, one audio tab can correspond to a group of output audio tracks.
     public struct AudioDescription: Swift.Equatable {
-        /// When you mimic a multi-channel audio layout with multiple mono-channel tracks, you can tag each channel layout manually. For example, you would tag the tracks that contain your left, right, and center audio with Left (L), Right (R), and Center (C), respectively. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use audio layout tagging, your output must be in a QuickTime (.mov) container; your audio codec must be AAC, WAV, or AIFF; and you must set up your audio track to have only one channel.
+        /// Specify the QuickTime audio channel layout tags for the audio channels in this audio track. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use Audio layout tagging, your output must be in a QuickTime (MOV) container and your audio codec must be AAC, WAV, or AIFF.
         public var audioChannelTaggingSettings: MediaConvertClientTypes.AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public var audioNormalizationSettings: MediaConvertClientTypes.AudioNormalizationSettings?
@@ -12948,7 +12970,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
+    /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
     public enum F4vMoovPlacement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case normal
         case progressiveDownload
@@ -13002,7 +13024,7 @@ extension MediaConvertClientTypes.F4vSettings: Swift.Codable {
 extension MediaConvertClientTypes {
     /// Settings for F4v container
     public struct F4vSettings: Swift.Equatable {
-        /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
+        /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
         public var moovPlacement: MediaConvertClientTypes.F4vMoovPlacement?
 
         public init(
@@ -13249,7 +13271,7 @@ extension MediaConvertClientTypes {
         public var bitDepth: Swift.Int?
         /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are between 1 and 8.
         public var channels: Swift.Int?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
 
         public init(
@@ -20800,6 +20822,10 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         case availBlanking = "availBlanking"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
+<<<<<<< HEAD
+=======
+        case followSource = "followSource"
+>>>>>>> main
         case inputs = "inputs"
         case kantarWatermark = "kantarWatermark"
         case motionImageInserter = "motionImageInserter"
@@ -20824,6 +20850,12 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         if let extendedDataServices = self.extendedDataServices {
             try encodeContainer.encode(extendedDataServices, forKey: .extendedDataServices)
         }
+<<<<<<< HEAD
+=======
+        if let followSource = self.followSource {
+            try encodeContainer.encode(followSource, forKey: .followSource)
+        }
+>>>>>>> main
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
             for input0 in inputs {
@@ -20866,6 +20898,11 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
         extendedDataServices = extendedDataServicesDecoded
+<<<<<<< HEAD
+=======
+        let followSourceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .followSource)
+        followSource = followSourceDecoded
+>>>>>>> main
         let inputsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.Input?].self, forKey: .inputs)
         var inputsDecoded0:[MediaConvertClientTypes.Input]? = nil
         if let inputsContainer = inputsContainer {
@@ -20914,6 +20951,11 @@ extension MediaConvertClientTypes {
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public var extendedDataServices: MediaConvertClientTypes.ExtendedDataServices?
+<<<<<<< HEAD
+=======
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs. If MediaConvert cannot follow your source, for example if you specify an audio-only input, MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding to the order of your inputs.
+        public var followSource: Swift.Int?
+>>>>>>> main
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public var inputs: [MediaConvertClientTypes.Input]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -20936,6 +20978,10 @@ extension MediaConvertClientTypes {
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
+<<<<<<< HEAD
+=======
+            followSource: Swift.Int? = nil,
+>>>>>>> main
             inputs: [MediaConvertClientTypes.Input]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
@@ -20950,6 +20996,10 @@ extension MediaConvertClientTypes {
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
+<<<<<<< HEAD
+=======
+            self.followSource = followSource
+>>>>>>> main
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -21216,6 +21266,10 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         case availBlanking = "availBlanking"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
+<<<<<<< HEAD
+=======
+        case followSource = "followSource"
+>>>>>>> main
         case inputs = "inputs"
         case kantarWatermark = "kantarWatermark"
         case motionImageInserter = "motionImageInserter"
@@ -21240,6 +21294,12 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         if let extendedDataServices = self.extendedDataServices {
             try encodeContainer.encode(extendedDataServices, forKey: .extendedDataServices)
         }
+<<<<<<< HEAD
+=======
+        if let followSource = self.followSource {
+            try encodeContainer.encode(followSource, forKey: .followSource)
+        }
+>>>>>>> main
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
             for inputtemplate0 in inputs {
@@ -21282,6 +21342,11 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
         extendedDataServices = extendedDataServicesDecoded
+<<<<<<< HEAD
+=======
+        let followSourceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .followSource)
+        followSource = followSourceDecoded
+>>>>>>> main
         let inputsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.InputTemplate?].self, forKey: .inputs)
         var inputsDecoded0:[MediaConvertClientTypes.InputTemplate]? = nil
         if let inputsContainer = inputsContainer {
@@ -21330,6 +21395,11 @@ extension MediaConvertClientTypes {
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public var extendedDataServices: MediaConvertClientTypes.ExtendedDataServices?
+<<<<<<< HEAD
+=======
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs. If MediaConvert cannot follow your source, for example if you specify an audio-only input, MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding to the order of your inputs.
+        public var followSource: Swift.Int?
+>>>>>>> main
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public var inputs: [MediaConvertClientTypes.InputTemplate]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -21352,6 +21422,10 @@ extension MediaConvertClientTypes {
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
+<<<<<<< HEAD
+=======
+            followSource: Swift.Int? = nil,
+>>>>>>> main
             inputs: [MediaConvertClientTypes.InputTemplate]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
@@ -21366,6 +21440,10 @@ extension MediaConvertClientTypes {
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
+<<<<<<< HEAD
+=======
+            self.followSource = followSource
+>>>>>>> main
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -24826,7 +24904,7 @@ extension MediaConvertClientTypes {
         public var bitrate: Swift.Int?
         /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
         public var channels: Swift.Int?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
 
         public init(
@@ -24928,7 +25006,7 @@ extension MediaConvertClientTypes {
         public var channels: Swift.Int?
         /// Specify whether the service encodes this MP3 audio output with a constant bitrate (CBR) or a variable bitrate (VBR).
         public var rateControlMode: MediaConvertClientTypes.Mp3RateControlMode?
-        /// Sample rate in hz.
+        /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
         /// Required when you set Bitrate control mode to VBR. Specify the audio quality of this MP3 output from 0 (highest quality) to 9 (lowest quality).
         public var vbrQuality: Swift.Int?
@@ -25018,7 +25096,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
+    /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
     public enum Mp4MoovPlacement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case normal
         case progressiveDownload
@@ -25110,7 +25188,7 @@ extension MediaConvertClientTypes {
         public var cttsVersion: Swift.Int?
         /// Inserts a free-space box immediately after the moov box.
         public var freeSpaceBox: MediaConvertClientTypes.Mp4FreeSpaceBox?
-        /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
+        /// To place the MOOV atom at the beginning of your output, which is useful for progressive downloading: Leave blank or choose Progressive download. To place the MOOV at the end of your output: Choose Normal.
         public var moovPlacement: MediaConvertClientTypes.Mp4MoovPlacement?
         /// Overrides the "Major Brand" field in the output file. Usually not necessary to specify.
         public var mp4MajorBrand: Swift.String?
@@ -27897,7 +27975,7 @@ extension MediaConvertClientTypes {
         public var bitrate: Swift.Int?
         /// Specify the number of channels in this output audio track. Choosing Mono on gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
         public var channels: Swift.Int?
-        /// Optional. Sample rate in hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
+        /// Optional. Sample rate in Hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
         public var sampleRate: Swift.Int?
 
         public init(
@@ -30546,15 +30624,21 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify how the service handles outputs that have a different aspect ratio from the input aspect ratio. Choose Stretch to output to have the service stretch your video image to fit. Keep the setting Default to have the service letterbox your video instead. This setting overrides any value that you specify for the setting Selection placement in this output.
+    /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
     public enum ScalingBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
+        case fill
+        case fit
+        case fitNoUpscale
         case stretchToOutput
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScalingBehavior] {
             return [
                 .default,
+                .fill,
+                .fit,
+                .fitNoUpscale,
                 .stretchToOutput,
                 .sdkUnknown("")
             ]
@@ -30566,6 +30650,9 @@ extension MediaConvertClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .default: return "DEFAULT"
+            case .fill: return "FILL"
+            case .fit: return "FIT"
+            case .fitNoUpscale: return "FIT_NO_UPSCALE"
             case .stretchToOutput: return "STRETCH_TO_OUTPUT"
             case let .sdkUnknown(s): return s
             }
@@ -33159,7 +33246,7 @@ extension MediaConvertClientTypes {
         public var position: MediaConvertClientTypes.Rectangle?
         /// Use Respond to AFD to specify how the service changes the video itself in response to AFD values in the input. * Choose Respond to clip the input video frame according to the AFD value, input display aspect ratio, and output display aspect ratio. * Choose Passthrough to include the input AFD values. Do not choose this when AfdSignaling is set to NONE. A preferred implementation of this workflow is to set RespondToAfd to and set AfdSignaling to AUTO. * Choose None to remove all input AFD values from this output.
         public var respondToAfd: MediaConvertClientTypes.RespondToAfd?
-        /// Specify how the service handles outputs that have a different aspect ratio from the input aspect ratio. Choose Stretch to output to have the service stretch your video image to fit. Keep the setting Default to have the service letterbox your video instead. This setting overrides any value that you specify for the setting Selection placement in this output.
+        /// Specify the video Scaling behavior when your output has a different resolution than your input. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
         public var scalingBehavior: MediaConvertClientTypes.ScalingBehavior?
         /// Use Sharpness setting to specify the strength of anti-aliasing. This setting changes the width of the anti-alias filter kernel used for scaling. Sharpness only applies if your output resolution is different from your input resolution. 0 is the softest setting, 100 the sharpest, and 50 recommended for most content.
         public var sharpness: Swift.Int?
@@ -33285,7 +33372,11 @@ extension MediaConvertClientTypes.VideoOverlay: Swift.Codable {
 }
 
 extension MediaConvertClientTypes {
+<<<<<<< HEAD
     /// Overlay one or more videos on top of your input video.
+=======
+    /// Overlay one or more videos on top of your input video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-overlays.html
+>>>>>>> main
     public struct VideoOverlay: Swift.Equatable {
         /// Enter the end timecode in the underlying input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
         public var endTimecode: Swift.String?
@@ -33364,7 +33455,11 @@ extension MediaConvertClientTypes {
         public var fileInput: Swift.String?
         /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
         public var inputClippings: [MediaConvertClientTypes.VideoOverlayInputClipping]?
+<<<<<<< HEAD
         /// Specify the starting timecode for your video overlay. To use the timecode present in your video overlay: Choose Embedded. To use a zerobased timecode: Choose Start at 0. To choose a timecode: Choose Specified start. When you do, enter the starting timecode in Start timecode. If you don't specify a value for Timecode source, MediaConvert uses Embedded by default.
+=======
+        /// Specify the timecode source for your video overlay input clips. To use the timecode present in your video overlay: Choose Embedded. To use a zerobased timecode: Choose Start at 0. To choose a timecode: Choose Specified start. When you do, enter the starting timecode in Start timecode. If you don't specify a value for Timecode source, MediaConvert uses Embedded by default.
+>>>>>>> main
         public var timecodeSource: MediaConvertClientTypes.InputTimecodeSource?
         /// Specify the starting timecode for this video overlay. To use this setting, you must set Timecode source to Specified start.
         public var timecodeStart: Swift.String?

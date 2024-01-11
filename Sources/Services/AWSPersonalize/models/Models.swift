@@ -293,6 +293,7 @@ extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batchInferenceJobArn
         case batchInferenceJobConfig
+        case batchInferenceJobMode
         case creationDateTime
         case failureReason
         case filterArn
@@ -304,6 +305,7 @@ extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
         case roleArn
         case solutionVersionArn
         case status
+        case themeGenerationConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -313,6 +315,9 @@ extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
         }
         if let batchInferenceJobConfig = self.batchInferenceJobConfig {
             try encodeContainer.encode(batchInferenceJobConfig, forKey: .batchInferenceJobConfig)
+        }
+        if let batchInferenceJobMode = self.batchInferenceJobMode {
+            try encodeContainer.encode(batchInferenceJobMode.rawValue, forKey: .batchInferenceJobMode)
         }
         if let creationDateTime = self.creationDateTime {
             try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
@@ -347,6 +352,9 @@ extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
+        if let themeGenerationConfig = self.themeGenerationConfig {
+            try encodeContainer.encode(themeGenerationConfig, forKey: .themeGenerationConfig)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -371,6 +379,10 @@ extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
         batchInferenceJobConfig = batchInferenceJobConfigDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let batchInferenceJobModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.BatchInferenceJobMode.self, forKey: .batchInferenceJobMode)
+        batchInferenceJobMode = batchInferenceJobModeDecoded
+        let themeGenerationConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.ThemeGenerationConfig.self, forKey: .themeGenerationConfig)
+        themeGenerationConfig = themeGenerationConfigDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
@@ -387,6 +399,8 @@ extension PersonalizeClientTypes {
         public var batchInferenceJobArn: Swift.String?
         /// A string to string map of the configuration details of a batch inference job.
         public var batchInferenceJobConfig: PersonalizeClientTypes.BatchInferenceJobConfig?
+        /// The job's mode.
+        public var batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode?
         /// The time at which the batch inference job was created.
         public var creationDateTime: ClientRuntime.Date?
         /// If the batch inference job failed, the reason for the failure.
@@ -417,10 +431,13 @@ extension PersonalizeClientTypes {
         ///
         /// * CREATE FAILED
         public var status: Swift.String?
+        /// The job's theme generation settings.
+        public var themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig?
 
         public init(
             batchInferenceJobArn: Swift.String? = nil,
             batchInferenceJobConfig: PersonalizeClientTypes.BatchInferenceJobConfig? = nil,
+            batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode? = nil,
             creationDateTime: ClientRuntime.Date? = nil,
             failureReason: Swift.String? = nil,
             filterArn: Swift.String? = nil,
@@ -431,11 +448,13 @@ extension PersonalizeClientTypes {
             numResults: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             solutionVersionArn: Swift.String? = nil,
-            status: Swift.String? = nil
+            status: Swift.String? = nil,
+            themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig? = nil
         )
         {
             self.batchInferenceJobArn = batchInferenceJobArn
             self.batchInferenceJobConfig = batchInferenceJobConfig
+            self.batchInferenceJobMode = batchInferenceJobMode
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.filterArn = filterArn
@@ -447,6 +466,7 @@ extension PersonalizeClientTypes {
             self.roleArn = roleArn
             self.solutionVersionArn = solutionVersionArn
             self.status = status
+            self.themeGenerationConfig = themeGenerationConfig
         }
     }
 
@@ -535,6 +555,38 @@ extension PersonalizeClientTypes {
 
 }
 
+extension PersonalizeClientTypes {
+    public enum BatchInferenceJobMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case batchInference
+        case themeGeneration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchInferenceJobMode] {
+            return [
+                .batchInference,
+                .themeGeneration,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .batchInference: return "BATCH_INFERENCE"
+            case .themeGeneration: return "THEME_GENERATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BatchInferenceJobMode(rawValue: rawValue) ?? BatchInferenceJobMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension PersonalizeClientTypes.BatchInferenceJobOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3DataDestination
@@ -574,6 +626,7 @@ extension PersonalizeClientTypes {
 extension PersonalizeClientTypes.BatchInferenceJobSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batchInferenceJobArn
+        case batchInferenceJobMode
         case creationDateTime
         case failureReason
         case jobName
@@ -586,6 +639,9 @@ extension PersonalizeClientTypes.BatchInferenceJobSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let batchInferenceJobArn = self.batchInferenceJobArn {
             try encodeContainer.encode(batchInferenceJobArn, forKey: .batchInferenceJobArn)
+        }
+        if let batchInferenceJobMode = self.batchInferenceJobMode {
+            try encodeContainer.encode(batchInferenceJobMode.rawValue, forKey: .batchInferenceJobMode)
         }
         if let creationDateTime = self.creationDateTime {
             try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
@@ -623,6 +679,8 @@ extension PersonalizeClientTypes.BatchInferenceJobSummary: Swift.Codable {
         failureReason = failureReasonDecoded
         let solutionVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .solutionVersionArn)
         solutionVersionArn = solutionVersionArnDecoded
+        let batchInferenceJobModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.BatchInferenceJobMode.self, forKey: .batchInferenceJobMode)
+        batchInferenceJobMode = batchInferenceJobModeDecoded
     }
 }
 
@@ -631,6 +689,8 @@ extension PersonalizeClientTypes {
     public struct BatchInferenceJobSummary: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public var batchInferenceJobArn: Swift.String?
+        /// The job's mode.
+        public var batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode?
         /// The time at which the batch inference job was created.
         public var creationDateTime: ClientRuntime.Date?
         /// If the batch inference job failed, the reason for the failure.
@@ -654,6 +714,7 @@ extension PersonalizeClientTypes {
 
         public init(
             batchInferenceJobArn: Swift.String? = nil,
+            batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode? = nil,
             creationDateTime: ClientRuntime.Date? = nil,
             failureReason: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -663,6 +724,7 @@ extension PersonalizeClientTypes {
         )
         {
             self.batchInferenceJobArn = batchInferenceJobArn
+            self.batchInferenceJobMode = batchInferenceJobMode
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.jobName = jobName
@@ -1133,11 +1195,15 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableMetadataWithRecommendations
         case itemExplorationConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableMetadataWithRecommendations = self.enableMetadataWithRecommendations {
+            try encodeContainer.encode(enableMetadataWithRecommendations, forKey: .enableMetadataWithRecommendations)
+        }
         if let itemExplorationConfig = itemExplorationConfig {
             var itemExplorationConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .itemExplorationConfig)
             for (dictKey0, hyperParameters0) in itemExplorationConfig {
@@ -1159,19 +1225,25 @@ extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
             }
         }
         itemExplorationConfig = itemExplorationConfigDecoded0
+        let enableMetadataWithRecommendationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMetadataWithRecommendations)
+        enableMetadataWithRecommendations = enableMetadataWithRecommendationsDecoded
     }
 }
 
 extension PersonalizeClientTypes {
     /// The configuration details of a campaign.
     public struct CampaignConfig: Swift.Equatable {
+        /// Whether metadata with recommendations is enabled for the campaign. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. If you enable metadata in recommendations, you will incur additional costs. For more information, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
+        public var enableMetadataWithRecommendations: Swift.Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe.
         public var itemExplorationConfig: [Swift.String:Swift.String]?
 
         public init(
+            enableMetadataWithRecommendations: Swift.Bool? = nil,
             itemExplorationConfig: [Swift.String:Swift.String]? = nil
         )
         {
+            self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
         }
     }
@@ -1481,6 +1553,7 @@ extension PersonalizeClientTypes {
 extension CreateBatchInferenceJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batchInferenceJobConfig
+        case batchInferenceJobMode
         case filterArn
         case jobInput
         case jobName
@@ -1489,12 +1562,16 @@ extension CreateBatchInferenceJobInput: Swift.Encodable {
         case roleArn
         case solutionVersionArn
         case tags
+        case themeGenerationConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let batchInferenceJobConfig = self.batchInferenceJobConfig {
             try encodeContainer.encode(batchInferenceJobConfig, forKey: .batchInferenceJobConfig)
+        }
+        if let batchInferenceJobMode = self.batchInferenceJobMode {
+            try encodeContainer.encode(batchInferenceJobMode.rawValue, forKey: .batchInferenceJobMode)
         }
         if let filterArn = self.filterArn {
             try encodeContainer.encode(filterArn, forKey: .filterArn)
@@ -1523,6 +1600,9 @@ extension CreateBatchInferenceJobInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
+        if let themeGenerationConfig = self.themeGenerationConfig {
+            try encodeContainer.encode(themeGenerationConfig, forKey: .themeGenerationConfig)
+        }
     }
 }
 
@@ -1535,6 +1615,8 @@ extension CreateBatchInferenceJobInput: ClientRuntime.URLPathProvider {
 public struct CreateBatchInferenceJobInput: Swift.Equatable {
     /// The configuration details of a batch inference job.
     public var batchInferenceJobConfig: PersonalizeClientTypes.BatchInferenceJobConfig?
+    /// The mode of the batch inference job. To generate descriptive themes for groups of similar items, set the job mode to THEME_GENERATION. If you don't want to generate themes, use the default BATCH_INFERENCE. When you get batch recommendations with themes, you will incur additional costs. For more information, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
+    public var batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode?
     /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see [Filtering batch recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter-batch.html).
     public var filterArn: Swift.String?
     /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
@@ -1556,9 +1638,12 @@ public struct CreateBatchInferenceJobInput: Swift.Equatable {
     public var solutionVersionArn: Swift.String?
     /// A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the batch inference job.
     public var tags: [PersonalizeClientTypes.Tag]?
+    /// For theme generation jobs, specify the name of the column in your Items dataset that contains each item's name.
+    public var themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig?
 
     public init(
         batchInferenceJobConfig: PersonalizeClientTypes.BatchInferenceJobConfig? = nil,
+        batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode? = nil,
         filterArn: Swift.String? = nil,
         jobInput: PersonalizeClientTypes.BatchInferenceJobInput? = nil,
         jobName: Swift.String? = nil,
@@ -1566,10 +1651,12 @@ public struct CreateBatchInferenceJobInput: Swift.Equatable {
         numResults: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         solutionVersionArn: Swift.String? = nil,
-        tags: [PersonalizeClientTypes.Tag]? = nil
+        tags: [PersonalizeClientTypes.Tag]? = nil,
+        themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig? = nil
     )
     {
         self.batchInferenceJobConfig = batchInferenceJobConfig
+        self.batchInferenceJobMode = batchInferenceJobMode
         self.filterArn = filterArn
         self.jobInput = jobInput
         self.jobName = jobName
@@ -1578,6 +1665,7 @@ public struct CreateBatchInferenceJobInput: Swift.Equatable {
         self.roleArn = roleArn
         self.solutionVersionArn = solutionVersionArn
         self.tags = tags
+        self.themeGenerationConfig = themeGenerationConfig
     }
 }
 
@@ -1591,11 +1679,14 @@ struct CreateBatchInferenceJobInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let batchInferenceJobConfig: PersonalizeClientTypes.BatchInferenceJobConfig?
     let tags: [PersonalizeClientTypes.Tag]?
+    let batchInferenceJobMode: PersonalizeClientTypes.BatchInferenceJobMode?
+    let themeGenerationConfig: PersonalizeClientTypes.ThemeGenerationConfig?
 }
 
 extension CreateBatchInferenceJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batchInferenceJobConfig
+        case batchInferenceJobMode
         case filterArn
         case jobInput
         case jobName
@@ -1604,6 +1695,7 @@ extension CreateBatchInferenceJobInputBody: Swift.Decodable {
         case roleArn
         case solutionVersionArn
         case tags
+        case themeGenerationConfig
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1635,6 +1727,50 @@ extension CreateBatchInferenceJobInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let batchInferenceJobModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.BatchInferenceJobMode.self, forKey: .batchInferenceJobMode)
+        batchInferenceJobMode = batchInferenceJobModeDecoded
+        let themeGenerationConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.ThemeGenerationConfig.self, forKey: .themeGenerationConfig)
+        themeGenerationConfig = themeGenerationConfigDecoded
+    }
+}
+
+extension CreateBatchInferenceJobOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateBatchInferenceJobOutputBody = try responseDecoder.decode(responseBody: data)
+            self.batchInferenceJobArn = output.batchInferenceJobArn
+        } else {
+            self.batchInferenceJobArn = nil
+        }
+    }
+}
+
+public struct CreateBatchInferenceJobOutput: Swift.Equatable {
+    /// The ARN of the batch inference job.
+    public var batchInferenceJobArn: Swift.String?
+
+    public init(
+        batchInferenceJobArn: Swift.String? = nil
+    )
+    {
+        self.batchInferenceJobArn = batchInferenceJobArn
+    }
+}
+
+struct CreateBatchInferenceJobOutputBody: Swift.Equatable {
+    let batchInferenceJobArn: Swift.String?
+}
+
+extension CreateBatchInferenceJobOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case batchInferenceJobArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let batchInferenceJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .batchInferenceJobArn)
+        batchInferenceJobArn = batchInferenceJobArnDecoded
     }
 }
 
@@ -2658,6 +2794,10 @@ public struct CreateDatasetInput: Swift.Equatable {
     /// * Items
     ///
     /// * Users
+    ///
+    /// * Actions
+    ///
+    /// * Action_Interactions
     /// This member is required.
     public var datasetType: Swift.String?
     /// The name for the dataset.
@@ -3780,7 +3920,7 @@ public struct CreateSolutionVersionInput: Swift.Equatable {
     public var solutionArn: Swift.String?
     /// A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the solution version.
     public var tags: [PersonalizeClientTypes.Tag]?
-    /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one. The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe or the [HRNN-Coldstart](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-hrnn-coldstart.html) recipe.
+    /// The scope of training to be performed when creating the solution version. The default is FULL. This creates a completely new model based on the entirety of the training data from the datasets in your dataset group. If you use [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html), you can specify a training mode of UPDATE. This updates the model to consider new items for recommendations. It is not a full retraining. You should still complete a full retraining weekly. If you specify UPDATE, Amazon Personalize will stop automatic updates for the solution version. To resume updates, create a new solution with training mode set to FULL and deploy it in a campaign. For more information about automatic updates, see [Automatic updates](https://docs.aws.amazon.com/personalize/latest/dg/use-case-recipe-features.html#maintaining-with-automatic-updates). The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe or the legacy [HRNN-Coldstart](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-hrnn-coldstart.html) recipe.
     public var trainingMode: PersonalizeClientTypes.TrainingMode?
 
     public init(
@@ -3936,6 +4076,7 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
         case name
         case schemaArn
         case status
+        case trackingId
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3967,6 +4108,9 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
+        if let trackingId = self.trackingId {
+            try encodeContainer.encode(trackingId, forKey: .trackingId)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3989,6 +4133,8 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
         let latestDatasetUpdateDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.DatasetUpdateSummary.self, forKey: .latestDatasetUpdate)
         latestDatasetUpdate = latestDatasetUpdateDecoded
+        let trackingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trackingId)
+        trackingId = trackingIdDecoded
     }
 }
 
@@ -4008,6 +4154,10 @@ extension PersonalizeClientTypes {
         /// * Items
         ///
         /// * Users
+        ///
+        /// * Actions
+        ///
+        /// * Action_Interactions
         public var datasetType: Swift.String?
         /// A time stamp that shows when the dataset was updated.
         public var lastUpdatedDateTime: ClientRuntime.Date?
@@ -4023,6 +4173,8 @@ extension PersonalizeClientTypes {
         ///
         /// * DELETE PENDING > DELETE IN_PROGRESS
         public var status: Swift.String?
+        /// The ID of the event tracker for an Action interactions dataset. You specify the tracker's ID in the PutActionInteractions API operation. Amazon Personalize uses it to direct new data to the Action interactions dataset in your dataset group.
+        public var trackingId: Swift.String?
 
         public init(
             creationDateTime: ClientRuntime.Date? = nil,
@@ -4033,7 +4185,8 @@ extension PersonalizeClientTypes {
             latestDatasetUpdate: PersonalizeClientTypes.DatasetUpdateSummary? = nil,
             name: Swift.String? = nil,
             schemaArn: Swift.String? = nil,
-            status: Swift.String? = nil
+            status: Swift.String? = nil,
+            trackingId: Swift.String? = nil
         )
         {
             self.creationDateTime = creationDateTime
@@ -4045,6 +4198,7 @@ extension PersonalizeClientTypes {
             self.name = name
             self.schemaArn = schemaArn
             self.status = status
+            self.trackingId = trackingId
         }
     }
 
@@ -4370,7 +4524,7 @@ extension PersonalizeClientTypes.DatasetGroup: Swift.Codable {
 }
 
 extension PersonalizeClientTypes {
-    /// A dataset group is a collection of related datasets (Interactions, User, and Item). You create a dataset group by calling [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html). You then create a dataset and add it to a dataset group by calling [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html). The dataset group is used to create and train a solution by calling [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html). A dataset group can contain only one of each type of dataset. You can specify an Key Management Service (KMS) key to encrypt the datasets in the group.
+    /// A dataset group is a collection of related datasets (Item interactions, Users, Items, Actions, Action interactions). You create a dataset group by calling [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html). You then create a dataset and add it to a dataset group by calling [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html). The dataset group is used to create and train a solution by calling [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html). A dataset group can contain only one of each type of dataset. You can specify an Key Management Service (KMS) key to encrypt the datasets in the group.
     public struct DatasetGroup: Swift.Equatable {
         /// The creation date and time (in Unix time) of the dataset group.
         public var creationDateTime: ClientRuntime.Date?
@@ -4386,7 +4540,7 @@ extension PersonalizeClientTypes {
         public var lastUpdatedDateTime: ClientRuntime.Date?
         /// The name of the dataset group.
         public var name: Swift.String?
-        /// The ARN of the IAM role that has permissions to create the dataset group.
+        /// The ARN of the Identity and Access Management (IAM) role that has permissions to access the Key Management Service (KMS) key. Supplying an IAM role is only valid when also specifying a KMS key.
         public var roleArn: Swift.String?
         /// The current status of the dataset group. A dataset group can be in one of the following states:
         ///
@@ -8050,6 +8204,42 @@ extension PersonalizeClientTypes {
 
 }
 
+extension PersonalizeClientTypes.FieldsForThemeGeneration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case itemName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let itemName = self.itemName {
+            try encodeContainer.encode(itemName, forKey: .itemName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .itemName)
+        itemName = itemNameDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// A string to string map of the configuration details for theme generation.
+    public struct FieldsForThemeGeneration: Swift.Equatable {
+        /// The name of the Items dataset column that stores the name of each item in the dataset.
+        /// This member is required.
+        public var itemName: Swift.String?
+
+        public init(
+            itemName: Swift.String? = nil
+        )
+        {
+            self.itemName = itemName
+        }
+    }
+
+}
+
 extension PersonalizeClientTypes.Filter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationDateTime
@@ -9779,7 +9969,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     public var datasetGroupArn: Swift.String?
     /// The maximum number of datasets to return.
     public var maxResults: Swift.Int?
-    /// A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
+    /// A token returned from the previous call to ListDatasets for getting the next set of dataset import jobs (if they exist).
     public var nextToken: Swift.String?
 
     public init(
@@ -12044,6 +12234,7 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes.RecommenderConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableMetadataWithRecommendations
         case itemExplorationConfig
         case minRecommendationRequestsPerSecond
         case trainingDataConfig
@@ -12051,6 +12242,9 @@ extension PersonalizeClientTypes.RecommenderConfig: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableMetadataWithRecommendations = self.enableMetadataWithRecommendations {
+            try encodeContainer.encode(enableMetadataWithRecommendations, forKey: .enableMetadataWithRecommendations)
+        }
         if let itemExplorationConfig = itemExplorationConfig {
             var itemExplorationConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .itemExplorationConfig)
             for (dictKey0, hyperParameters0) in itemExplorationConfig {
@@ -12082,12 +12276,16 @@ extension PersonalizeClientTypes.RecommenderConfig: Swift.Codable {
         minRecommendationRequestsPerSecond = minRecommendationRequestsPerSecondDecoded
         let trainingDataConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.TrainingDataConfig.self, forKey: .trainingDataConfig)
         trainingDataConfig = trainingDataConfigDecoded
+        let enableMetadataWithRecommendationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMetadataWithRecommendations)
+        enableMetadataWithRecommendations = enableMetadataWithRecommendationsDecoded
     }
 }
 
 extension PersonalizeClientTypes {
     /// The configuration details of the recommender.
     public struct RecommenderConfig: Swift.Equatable {
+        /// Whether metadata with recommendations is enabled for the recommender. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. If you enable metadata in recommendations, you will incur additional costs. For more information, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
+        public var enableMetadataWithRecommendations: Swift.Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommendations for a user (not popular items or similar items).
         public var itemExplorationConfig: [Swift.String:Swift.String]?
         /// Specifies the requested minimum provisioned recommendation requests per second that Amazon Personalize will support. A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as necessary.
@@ -12096,11 +12294,13 @@ extension PersonalizeClientTypes {
         public var trainingDataConfig: PersonalizeClientTypes.TrainingDataConfig?
 
         public init(
+            enableMetadataWithRecommendations: Swift.Bool? = nil,
             itemExplorationConfig: [Swift.String:Swift.String]? = nil,
             minRecommendationRequestsPerSecond: Swift.Int? = nil,
             trainingDataConfig: PersonalizeClientTypes.TrainingDataConfig? = nil
         )
         {
+            self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
             self.minRecommendationRequestsPerSecond = minRecommendationRequestsPerSecond
             self.trainingDataConfig = trainingDataConfig
@@ -12753,7 +12953,7 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
 extension PersonalizeClientTypes {
     /// Describes the configuration properties for the solution.
     public struct SolutionConfig: Swift.Equatable {
-        /// Lists the hyperparameter names and ranges.
+        /// Lists the algorithm hyperparameters and their values.
         public var algorithmHyperParameters: [Swift.String:Swift.String]?
         /// The [AutoMLConfig](https://docs.aws.amazon.com/personalize/latest/dg/API_AutoMLConfig.html) object containing a list of recipes to search when AutoML is performed.
         public var autoMLConfig: PersonalizeClientTypes.AutoMLConfig?
@@ -13571,6 +13771,45 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
+=======
+extension PersonalizeClientTypes.ThemeGenerationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldsForThemeGeneration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldsForThemeGeneration = self.fieldsForThemeGeneration {
+            try encodeContainer.encode(fieldsForThemeGeneration, forKey: .fieldsForThemeGeneration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldsForThemeGenerationDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.FieldsForThemeGeneration.self, forKey: .fieldsForThemeGeneration)
+        fieldsForThemeGeneration = fieldsForThemeGenerationDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// The configuration details for generating themes with a batch inference job.
+    public struct ThemeGenerationConfig: Swift.Equatable {
+        /// Fields used to generate descriptive themes for a batch inference job.
+        /// This member is required.
+        public var fieldsForThemeGeneration: PersonalizeClientTypes.FieldsForThemeGeneration?
+
+        public init(
+            fieldsForThemeGeneration: PersonalizeClientTypes.FieldsForThemeGeneration? = nil
+        )
+        {
+            self.fieldsForThemeGeneration = fieldsForThemeGeneration
+        }
+    }
+
+}
+
+>>>>>>> main
 extension TooManyTagKeysException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

@@ -160,6 +160,35 @@ extension AthenaClientTypes {
 
 }
 
+extension AthenaClientTypes {
+    public enum AuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case directoryIdentity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .directoryIdentity,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .directoryIdentity: return "DIRECTORY_IDENTITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthenticationType(rawValue: rawValue) ?? AuthenticationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BatchGetNamedQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case namedQueryIds = "NamedQueryIds"
@@ -1471,7 +1500,7 @@ extension AthenaClientTypes {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
-        /// Indicates the column's nullable status.
+        /// Unsupported constraint. This value always shows as UNKNOWN.
         public var nullable: AthenaClientTypes.ColumnNullable?
         /// For DECIMAL data types, specifies the total number of digits, up to 38. For performance reasons, we recommend up to 18 digits.
         public var precision: Swift.Int
@@ -1718,10 +1747,6 @@ public struct CreateDataCatalogInput: Swift.Equatable {
     /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs. catalog-id=catalog_id
     ///
     /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-    ///
-    /// * Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
-    ///
-    /// * In Regions where Athena engine version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT error.
     public var parameters: [Swift.String:Swift.String]?
     /// A list of comma separated tags to add to the data catalog that is created.
     public var tags: [AthenaClientTypes.Tag]?
@@ -2475,9 +2500,9 @@ extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codabl
 }
 
 extension AthenaClientTypes {
-    /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
+    /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
     public struct CustomerContentEncryptionConfiguration: Swift.Equatable {
-        /// The KMS key that is used to encrypt the user's data stores in Athena.
+        /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
         /// This member is required.
         public var kmsKey: Swift.String?
 
@@ -2564,8 +2589,6 @@ extension AthenaClientTypes {
         /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue catalog belongs. catalog-id=catalog_id
         ///
         /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-        ///
-        /// * Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
         public var parameters: [Swift.String:Swift.String]?
         /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         /// This member is required.
@@ -4332,12 +4355,16 @@ enum GetCapacityReservationOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension GetDataCatalogInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -4352,28 +4379,36 @@ public struct GetDataCatalogInput: Swift.Equatable {
     /// The name of the data catalog to return.
     /// This member is required.
     public var name: Swift.String?
+    /// The name of the workgroup. Required if making an IAM Identity Center request.
+    public var workGroup: Swift.String?
 
     public init(
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.name = name
+        self.workGroup = workGroup
     }
 }
 
 struct GetDataCatalogInputBody: Swift.Equatable {
     let name: Swift.String?
+    let workGroup: Swift.String?
 }
 
 extension GetDataCatalogInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
@@ -4417,6 +4452,49 @@ extension GetDataCatalogOutputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+extension GetDataCatalogOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDataCatalogOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dataCatalog = output.dataCatalog
+        } else {
+            self.dataCatalog = nil
+        }
+    }
+}
+
+public struct GetDataCatalogOutput: Swift.Equatable {
+    /// The data catalog returned.
+    public var dataCatalog: AthenaClientTypes.DataCatalog?
+
+    public init(
+        dataCatalog: AthenaClientTypes.DataCatalog? = nil
+    )
+    {
+        self.dataCatalog = dataCatalog
+    }
+}
+
+struct GetDataCatalogOutputBody: Swift.Equatable {
+    let dataCatalog: AthenaClientTypes.DataCatalog?
+}
+
+extension GetDataCatalogOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataCatalog = "DataCatalog"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataCatalogDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.DataCatalog.self, forKey: .dataCatalog)
+        dataCatalog = dataCatalogDecoded
+    }
+}
+
+=======
+>>>>>>> main
 enum GetDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4433,6 +4511,7 @@ extension GetDatabaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4442,6 +4521,9 @@ extension GetDatabaseInput: Swift.Encodable {
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -4459,26 +4541,32 @@ public struct GetDatabaseInput: Swift.Equatable {
     /// The name of the database to return.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
-        databaseName: Swift.String? = nil
+        databaseName: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
         self.databaseName = databaseName
+        self.workGroup = workGroup
     }
 }
 
 struct GetDatabaseInputBody: Swift.Equatable {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
+    let workGroup: Swift.String?
 }
 
 extension GetDatabaseInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4487,6 +4575,8 @@ extension GetDatabaseInputBody: Swift.Decodable {
         catalogName = catalogNameDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
         databaseName = databaseNameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
@@ -4530,6 +4620,49 @@ extension GetDatabaseOutputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+extension GetDatabaseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.database = output.database
+        } else {
+            self.database = nil
+        }
+    }
+}
+
+public struct GetDatabaseOutput: Swift.Equatable {
+    /// The database returned.
+    public var database: AthenaClientTypes.Database?
+
+    public init(
+        database: AthenaClientTypes.Database? = nil
+    )
+    {
+        self.database = database
+    }
+}
+
+struct GetDatabaseOutputBody: Swift.Equatable {
+    let database: AthenaClientTypes.Database?
+}
+
+extension GetDatabaseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case database = "Database"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.Database.self, forKey: .database)
+        database = databaseDecoded
+    }
+}
+
+=======
+>>>>>>> main
 enum GetDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5500,6 +5633,7 @@ extension GetTableMetadataInput: Swift.Encodable {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
         case tableName = "TableName"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5512,6 +5646,9 @@ extension GetTableMetadataInput: Swift.Encodable {
         }
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -5532,16 +5669,20 @@ public struct GetTableMetadataInput: Swift.Equatable {
     /// The name of the table for which metadata is returned.
     /// This member is required.
     public var tableName: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
-        tableName: Swift.String? = nil
+        tableName: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.tableName = tableName
+        self.workGroup = workGroup
     }
 }
 
@@ -5549,6 +5690,7 @@ struct GetTableMetadataInputBody: Swift.Equatable {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
+    let workGroup: Swift.String?
 }
 
 extension GetTableMetadataInputBody: Swift.Decodable {
@@ -5556,6 +5698,7 @@ extension GetTableMetadataInputBody: Swift.Decodable {
         case catalogName = "CatalogName"
         case databaseName = "DatabaseName"
         case tableName = "TableName"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5566,6 +5709,8 @@ extension GetTableMetadataInputBody: Swift.Decodable {
         databaseName = databaseNameDecoded
         let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
         tableName = tableNameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
@@ -5609,6 +5754,49 @@ extension GetTableMetadataOutputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+extension GetTableMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTableMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tableMetadata = output.tableMetadata
+        } else {
+            self.tableMetadata = nil
+        }
+    }
+}
+
+public struct GetTableMetadataOutput: Swift.Equatable {
+    /// An object that contains table metadata.
+    public var tableMetadata: AthenaClientTypes.TableMetadata?
+
+    public init(
+        tableMetadata: AthenaClientTypes.TableMetadata? = nil
+    )
+    {
+        self.tableMetadata = tableMetadata
+    }
+}
+
+struct GetTableMetadataOutputBody: Swift.Equatable {
+    let tableMetadata: AthenaClientTypes.TableMetadata?
+}
+
+extension GetTableMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tableMetadata = "TableMetadata"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableMetadataDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.TableMetadata.self, forKey: .tableMetadata)
+        tableMetadata = tableMetadataDecoded
+    }
+}
+
+=======
+>>>>>>> main
 enum GetTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5699,6 +5887,8 @@ struct GetWorkGroupOutputBody: Swift.Equatable {
 }
 
 extension GetWorkGroupOutputBody: Swift.Decodable {
+<<<<<<< HEAD
+=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case workGroup = "WorkGroup"
     }
@@ -5720,6 +5910,65 @@ enum GetWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension AthenaClientTypes.IdentityCenterConfiguration: Swift.Codable {
+>>>>>>> main
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableIdentityCenter = "EnableIdentityCenter"
+        case identityCenterInstanceArn = "IdentityCenterInstanceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableIdentityCenter = self.enableIdentityCenter {
+            try encodeContainer.encode(enableIdentityCenter, forKey: .enableIdentityCenter)
+        }
+        if let identityCenterInstanceArn = self.identityCenterInstanceArn {
+            try encodeContainer.encode(identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableIdentityCenterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableIdentityCenter)
+        enableIdentityCenter = enableIdentityCenterDecoded
+        let identityCenterInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterInstanceArn)
+        identityCenterInstanceArn = identityCenterInstanceArnDecoded
+    }
+}
+
+<<<<<<< HEAD
+enum GetWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+=======
+extension AthenaClientTypes {
+    /// Specifies whether the workgroup is IAM Identity Center supported.
+    public struct IdentityCenterConfiguration: Swift.Equatable {
+        /// Specifies whether the workgroup is IAM Identity Center supported.
+        public var enableIdentityCenter: Swift.Bool?
+        /// The IAM Identity Center instance ARN that the workgroup associates to.
+        public var identityCenterInstanceArn: Swift.String?
+
+        public init(
+            enableIdentityCenter: Swift.Bool? = nil,
+            identityCenterInstanceArn: Swift.String? = nil
+        )
+        {
+            self.enableIdentityCenter = enableIdentityCenter
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+    }
+
+>>>>>>> main
 }
 
 extension ImportNotebookInput: Swift.Encodable {
@@ -6416,6 +6665,7 @@ extension ListDataCatalogsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6425,6 +6675,9 @@ extension ListDataCatalogsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -6440,26 +6693,32 @@ public struct ListDataCatalogsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
+    /// The name of the workgroup. Required if making an IAM Identity Center request.
+    public var workGroup: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workGroup = workGroup
     }
 }
 
 struct ListDataCatalogsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let workGroup: Swift.String?
 }
 
 extension ListDataCatalogsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6468,6 +6727,8 @@ extension ListDataCatalogsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
@@ -6547,6 +6808,7 @@ extension ListDatabasesInput: Swift.Encodable {
         case catalogName = "CatalogName"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6559,6 +6821,9 @@ extension ListDatabasesInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -6577,16 +6842,20 @@ public struct ListDatabasesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workGroup = workGroup
     }
 }
 
@@ -6594,6 +6863,7 @@ struct ListDatabasesInputBody: Swift.Equatable {
     let catalogName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let workGroup: Swift.String?
 }
 
 extension ListDatabasesInputBody: Swift.Decodable {
@@ -6601,6 +6871,7 @@ extension ListDatabasesInputBody: Swift.Decodable {
         case catalogName = "CatalogName"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6611,6 +6882,8 @@ extension ListDatabasesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
@@ -7874,6 +8147,7 @@ extension ListTableMetadataInput: Swift.Encodable {
         case expression = "Expression"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7892,6 +8166,9 @@ extension ListTableMetadataInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
         }
     }
 }
@@ -7915,13 +8192,16 @@ public struct ListTableMetadataInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
+    /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
+    public var workGroup: Swift.String?
 
     public init(
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         expression: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
     )
     {
         self.catalogName = catalogName
@@ -7929,6 +8209,7 @@ public struct ListTableMetadataInput: Swift.Equatable {
         self.expression = expression
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.workGroup = workGroup
     }
 }
 
@@ -7938,6 +8219,7 @@ struct ListTableMetadataInputBody: Swift.Equatable {
     let expression: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let workGroup: Swift.String?
 }
 
 extension ListTableMetadataInputBody: Swift.Decodable {
@@ -7947,6 +8229,7 @@ extension ListTableMetadataInputBody: Swift.Decodable {
         case expression = "Expression"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7961,6 +8244,8 @@ extension ListTableMetadataInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
     }
 }
 
@@ -8834,6 +9119,7 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         case query = "Query"
         case queryExecutionContext = "QueryExecutionContext"
         case queryExecutionId = "QueryExecutionId"
+        case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
         case resultConfiguration = "ResultConfiguration"
         case resultReuseConfiguration = "ResultReuseConfiguration"
         case statementType = "StatementType"
@@ -8862,6 +9148,9 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         }
         if let queryExecutionId = self.queryExecutionId {
             try encodeContainer.encode(queryExecutionId, forKey: .queryExecutionId)
+        }
+        if let queryResultsS3AccessGrantsConfiguration = self.queryResultsS3AccessGrantsConfiguration {
+            try encodeContainer.encode(queryResultsS3AccessGrantsConfiguration, forKey: .queryResultsS3AccessGrantsConfiguration)
         }
         if let resultConfiguration = self.resultConfiguration {
             try encodeContainer.encode(resultConfiguration, forKey: .resultConfiguration)
@@ -8921,6 +9210,8 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         executionParameters = executionParametersDecoded0
         let substatementTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .substatementType)
         substatementType = substatementTypeDecoded
+        let queryResultsS3AccessGrantsConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.self, forKey: .queryResultsS3AccessGrantsConfiguration)
+        queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfigurationDecoded
     }
 }
 
@@ -8937,6 +9228,8 @@ extension AthenaClientTypes {
         public var queryExecutionContext: AthenaClientTypes.QueryExecutionContext?
         /// The unique identifier for each query execution.
         public var queryExecutionId: Swift.String?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        public var queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration?
         /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
@@ -8958,6 +9251,7 @@ extension AthenaClientTypes {
             query: Swift.String? = nil,
             queryExecutionContext: AthenaClientTypes.QueryExecutionContext? = nil,
             queryExecutionId: Swift.String? = nil,
+            queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil,
             resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration? = nil,
             statementType: AthenaClientTypes.StatementType? = nil,
@@ -8972,6 +9266,7 @@ extension AthenaClientTypes {
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
+            self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.resultConfiguration = resultConfiguration
             self.resultReuseConfiguration = resultReuseConfiguration
             self.statementType = statementType
@@ -9078,6 +9373,7 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
         case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
         case resultReuseInformation = "ResultReuseInformation"
+        case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
         case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
         case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
     }
@@ -9102,6 +9398,9 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         if let resultReuseInformation = self.resultReuseInformation {
             try encodeContainer.encode(resultReuseInformation, forKey: .resultReuseInformation)
         }
+        if let servicePreProcessingTimeInMillis = self.servicePreProcessingTimeInMillis {
+            try encodeContainer.encode(servicePreProcessingTimeInMillis, forKey: .servicePreProcessingTimeInMillis)
+        }
         if let serviceProcessingTimeInMillis = self.serviceProcessingTimeInMillis {
             try encodeContainer.encode(serviceProcessingTimeInMillis, forKey: .serviceProcessingTimeInMillis)
         }
@@ -9122,6 +9421,8 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
         totalExecutionTimeInMillis = totalExecutionTimeInMillisDecoded
         let queryQueueTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryQueueTimeInMillis)
         queryQueueTimeInMillis = queryQueueTimeInMillisDecoded
+        let servicePreProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .servicePreProcessingTimeInMillis)
+        servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillisDecoded
         let queryPlanningTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryPlanningTimeInMillis)
         queryPlanningTimeInMillis = queryPlanningTimeInMillisDecoded
         let serviceProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serviceProcessingTimeInMillis)
@@ -9146,6 +9447,8 @@ extension AthenaClientTypes {
         public var queryQueueTimeInMillis: Swift.Int?
         /// Contains information about whether previous query results were reused for the query.
         public var resultReuseInformation: AthenaClientTypes.ResultReuseInformation?
+        /// The number of milliseconds that Athena took to preprocess the query before submitting the query to the query engine.
+        public var servicePreProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public var serviceProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to run the query.
@@ -9158,6 +9461,7 @@ extension AthenaClientTypes {
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
             resultReuseInformation: AthenaClientTypes.ResultReuseInformation? = nil,
+            servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
         )
@@ -9168,6 +9472,7 @@ extension AthenaClientTypes {
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
             self.resultReuseInformation = resultReuseInformation
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -9245,6 +9550,63 @@ extension AthenaClientTypes {
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.submissionDateTime = submissionDateTime
+        }
+    }
+
+}
+
+extension AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationType = "AuthenticationType"
+        case createUserLevelPrefix = "CreateUserLevelPrefix"
+        case enableS3AccessGrants = "EnableS3AccessGrants"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationType = self.authenticationType {
+            try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let createUserLevelPrefix = self.createUserLevelPrefix {
+            try encodeContainer.encode(createUserLevelPrefix, forKey: .createUserLevelPrefix)
+        }
+        if let enableS3AccessGrants = self.enableS3AccessGrants {
+            try encodeContainer.encode(enableS3AccessGrants, forKey: .enableS3AccessGrants)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableS3AccessGrantsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableS3AccessGrants)
+        enableS3AccessGrants = enableS3AccessGrantsDecoded
+        let createUserLevelPrefixDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .createUserLevelPrefix)
+        createUserLevelPrefix = createUserLevelPrefixDecoded
+        let authenticationTypeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.AuthenticationType.self, forKey: .authenticationType)
+        authenticationType = authenticationTypeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Specifies whether Amazon S3 access grants are enabled for query results.
+    public struct QueryResultsS3AccessGrantsConfiguration: Swift.Equatable {
+        /// The authentication type used for Amazon S3 access grants. Currently, only DIRECTORY_IDENTITY is supported.
+        /// This member is required.
+        public var authenticationType: AthenaClientTypes.AuthenticationType?
+        /// When enabled, appends the user ID as an Amazon S3 path prefix to the query result output location.
+        public var createUserLevelPrefix: Swift.Bool?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        /// This member is required.
+        public var enableS3AccessGrants: Swift.Bool?
+
+        public init(
+            authenticationType: AthenaClientTypes.AuthenticationType? = nil,
+            createUserLevelPrefix: Swift.Bool? = nil,
+            enableS3AccessGrants: Swift.Bool? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.createUserLevelPrefix = createUserLevelPrefix
+            self.enableS3AccessGrants = enableS3AccessGrants
         }
     }
 
@@ -9375,6 +9737,7 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
         case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
         case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
+        case servicePreProcessingTimeInMillis = "ServicePreProcessingTimeInMillis"
         case serviceProcessingTimeInMillis = "ServiceProcessingTimeInMillis"
         case totalExecutionTimeInMillis = "TotalExecutionTimeInMillis"
     }
@@ -9390,6 +9753,9 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         if let queryQueueTimeInMillis = self.queryQueueTimeInMillis {
             try encodeContainer.encode(queryQueueTimeInMillis, forKey: .queryQueueTimeInMillis)
         }
+        if let servicePreProcessingTimeInMillis = self.servicePreProcessingTimeInMillis {
+            try encodeContainer.encode(servicePreProcessingTimeInMillis, forKey: .servicePreProcessingTimeInMillis)
+        }
         if let serviceProcessingTimeInMillis = self.serviceProcessingTimeInMillis {
             try encodeContainer.encode(serviceProcessingTimeInMillis, forKey: .serviceProcessingTimeInMillis)
         }
@@ -9402,6 +9768,8 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryQueueTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryQueueTimeInMillis)
         queryQueueTimeInMillis = queryQueueTimeInMillisDecoded
+        let servicePreProcessingTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .servicePreProcessingTimeInMillis)
+        servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillisDecoded
         let queryPlanningTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryPlanningTimeInMillis)
         queryPlanningTimeInMillis = queryPlanningTimeInMillisDecoded
         let engineExecutionTimeInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .engineExecutionTimeInMillis)
@@ -9422,6 +9790,8 @@ extension AthenaClientTypes {
         public var queryPlanningTimeInMillis: Swift.Int?
         /// The number of milliseconds that the query was in your query queue waiting for resources. Note that if transient errors occur, Athena might automatically add the query back to the queue.
         public var queryQueueTimeInMillis: Swift.Int?
+        /// The number of milliseconds that Athena spends on preprocessing before it submits the query to the engine.
+        public var servicePreProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to finalize and publish the query results after the query engine finished running the query.
         public var serviceProcessingTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to run the query.
@@ -9431,6 +9801,7 @@ extension AthenaClientTypes {
             engineExecutionTimeInMillis: Swift.Int? = nil,
             queryPlanningTimeInMillis: Swift.Int? = nil,
             queryQueueTimeInMillis: Swift.Int? = nil,
+            servicePreProcessingTimeInMillis: Swift.Int? = nil,
             serviceProcessingTimeInMillis: Swift.Int? = nil,
             totalExecutionTimeInMillis: Swift.Int? = nil
         )
@@ -9438,6 +9809,7 @@ extension AthenaClientTypes {
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
+            self.servicePreProcessingTimeInMillis = servicePreProcessingTimeInMillis
             self.serviceProcessingTimeInMillis = serviceProcessingTimeInMillis
             self.totalExecutionTimeInMillis = totalExecutionTimeInMillis
         }
@@ -10290,7 +10662,7 @@ extension AthenaClientTypes {
     public struct SessionConfiguration: Swift.Equatable {
         /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
-        /// The ARN of the execution role used for the session.
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
         /// The idle timeout in seconds for the session.
         public var idleTimeoutSeconds: Swift.Int?
@@ -10599,7 +10971,7 @@ public struct StartCalculationExecutionInput: Swift.Equatable {
     public var calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
     /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
-    /// A string that contains the code of the calculation.
+    /// A string that contains the code of the calculation. Use this parameter instead of [CalculationConfiguration$CodeBlock], which is deprecated.
     public var codeBlock: Swift.String?
     /// A description of the calculation.
     public var description: Swift.String?
@@ -10765,7 +11137,7 @@ extension StartQueryExecutionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartQueryExecutionInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     public var executionParameters: [Swift.String]?
@@ -12774,6 +13146,7 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
         case configuration = "Configuration"
         case creationTime = "CreationTime"
         case description = "Description"
+        case identityCenterApplicationArn = "IdentityCenterApplicationArn"
         case name = "Name"
         case state = "State"
     }
@@ -12788,6 +13161,9 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let identityCenterApplicationArn = self.identityCenterApplicationArn {
+            try encodeContainer.encode(identityCenterApplicationArn, forKey: .identityCenterApplicationArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -12809,6 +13185,8 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
         description = descriptionDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let identityCenterApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterApplicationArn)
+        identityCenterApplicationArn = identityCenterApplicationArnDecoded
     }
 }
 
@@ -12821,6 +13199,8 @@ extension AthenaClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The workgroup description.
         public var description: Swift.String?
+        /// The ARN of the IAM Identity Center enabled application associated with the workgroup.
+        public var identityCenterApplicationArn: Swift.String?
         /// The workgroup name.
         /// This member is required.
         public var name: Swift.String?
@@ -12831,6 +13211,7 @@ extension AthenaClientTypes {
             configuration: AthenaClientTypes.WorkGroupConfiguration? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            identityCenterApplicationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: AthenaClientTypes.WorkGroupState? = nil
         )
@@ -12838,6 +13219,7 @@ extension AthenaClientTypes {
             self.configuration = configuration
             self.creationTime = creationTime
             self.description = description
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.name = name
             self.state = state
         }
@@ -12854,7 +13236,9 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
         case engineVersion = "EngineVersion"
         case executionRole = "ExecutionRole"
+        case identityCenterConfiguration = "IdentityCenterConfiguration"
         case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
+        case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
         case requesterPaysEnabled = "RequesterPaysEnabled"
         case resultConfiguration = "ResultConfiguration"
     }
@@ -12882,8 +13266,14 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         if let executionRole = self.executionRole {
             try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
+        if let identityCenterConfiguration = self.identityCenterConfiguration {
+            try encodeContainer.encode(identityCenterConfiguration, forKey: .identityCenterConfiguration)
+        }
         if let publishCloudWatchMetricsEnabled = self.publishCloudWatchMetricsEnabled {
             try encodeContainer.encode(publishCloudWatchMetricsEnabled, forKey: .publishCloudWatchMetricsEnabled)
+        }
+        if let queryResultsS3AccessGrantsConfiguration = self.queryResultsS3AccessGrantsConfiguration {
+            try encodeContainer.encode(queryResultsS3AccessGrantsConfiguration, forKey: .queryResultsS3AccessGrantsConfiguration)
         }
         if let requesterPaysEnabled = self.requesterPaysEnabled {
             try encodeContainer.encode(requesterPaysEnabled, forKey: .requesterPaysEnabled)
@@ -12915,6 +13305,10 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
         let enableMinimumEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMinimumEncryptionConfiguration)
         enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfigurationDecoded
+        let identityCenterConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.IdentityCenterConfiguration.self, forKey: .identityCenterConfiguration)
+        identityCenterConfiguration = identityCenterConfigurationDecoded
+        let queryResultsS3AccessGrantsConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.self, forKey: .queryResultsS3AccessGrantsConfiguration)
+        queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfigurationDecoded
     }
 }
 
@@ -12933,10 +13327,14 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Role used in a session for accessing the user's resources.
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
+        /// Specifies whether the workgroup is IAM Identity Center supported.
+        public var identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        public var queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html) in the Amazon Simple Storage Service Developer Guide.
         public var requesterPaysEnabled: Swift.Bool?
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using [ResultConfiguration$OutputLocation]. If none of them is set, Athena issues an error that no output location is provided. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html).
@@ -12950,7 +13348,9 @@ extension AthenaClientTypes {
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
+            identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
+            queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
             resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil
         )
@@ -12962,7 +13362,9 @@ extension AthenaClientTypes {
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
+            self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
         }
@@ -12980,6 +13382,7 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         case engineVersion = "EngineVersion"
         case executionRole = "ExecutionRole"
         case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
+        case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
         case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"
         case removeCustomerContentEncryptionConfiguration = "RemoveCustomerContentEncryptionConfiguration"
         case requesterPaysEnabled = "RequesterPaysEnabled"
@@ -13011,6 +13414,9 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         }
         if let publishCloudWatchMetricsEnabled = self.publishCloudWatchMetricsEnabled {
             try encodeContainer.encode(publishCloudWatchMetricsEnabled, forKey: .publishCloudWatchMetricsEnabled)
+        }
+        if let queryResultsS3AccessGrantsConfiguration = self.queryResultsS3AccessGrantsConfiguration {
+            try encodeContainer.encode(queryResultsS3AccessGrantsConfiguration, forKey: .queryResultsS3AccessGrantsConfiguration)
         }
         if let removeBytesScannedCutoffPerQuery = self.removeBytesScannedCutoffPerQuery {
             try encodeContainer.encode(removeBytesScannedCutoffPerQuery, forKey: .removeBytesScannedCutoffPerQuery)
@@ -13052,6 +13458,8 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
         let enableMinimumEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMinimumEncryptionConfiguration)
         enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfigurationDecoded
+        let queryResultsS3AccessGrantsConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.self, forKey: .queryResultsS3AccessGrantsConfiguration)
+        queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfigurationDecoded
     }
 }
 
@@ -13062,7 +13470,7 @@ extension AthenaClientTypes {
         public var additionalConfiguration: Swift.String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
-        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena. This setting does not apply to Athena SQL workgroups.
+        /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. This setting does not apply to Spark-enabled workgroups. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
@@ -13070,10 +13478,12 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Contains the ARN of the execution role for the workgroup
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
+        /// Specifies whether Amazon S3 access grants are enabled for query results.
+        public var queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration?
         /// Indicates that the data usage control limit per query is removed. [WorkGroupConfiguration$BytesScannedCutoffPerQuery]
         public var removeBytesScannedCutoffPerQuery: Swift.Bool?
         /// Removes content encryption configuration from an Apache Spark-enabled Athena workgroup.
@@ -13092,6 +13502,7 @@ extension AthenaClientTypes {
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
+            queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             removeBytesScannedCutoffPerQuery: Swift.Bool? = nil,
             removeCustomerContentEncryptionConfiguration: Swift.Bool? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
@@ -13106,6 +13517,7 @@ extension AthenaClientTypes {
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
+            self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
             self.removeCustomerContentEncryptionConfiguration = removeCustomerContentEncryptionConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -13152,6 +13564,7 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
         case creationTime = "CreationTime"
         case description = "Description"
         case engineVersion = "EngineVersion"
+        case identityCenterApplicationArn = "IdentityCenterApplicationArn"
         case name = "Name"
         case state = "State"
     }
@@ -13166,6 +13579,9 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let identityCenterApplicationArn = self.identityCenterApplicationArn {
+            try encodeContainer.encode(identityCenterApplicationArn, forKey: .identityCenterApplicationArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -13187,6 +13603,8 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
         creationTime = creationTimeDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineVersion.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let identityCenterApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityCenterApplicationArn)
+        identityCenterApplicationArn = identityCenterApplicationArnDecoded
     }
 }
 
@@ -13199,6 +13617,8 @@ extension AthenaClientTypes {
         public var description: Swift.String?
         /// The engine version setting for all queries on the workgroup. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
+        /// The ARN of the IAM Identity Center enabled application associated with the workgroup.
+        public var identityCenterApplicationArn: Swift.String?
         /// The name of the workgroup.
         public var name: Swift.String?
         /// The state of the workgroup.
@@ -13208,6 +13628,7 @@ extension AthenaClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
+            identityCenterApplicationArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: AthenaClientTypes.WorkGroupState? = nil
         )
@@ -13215,6 +13636,7 @@ extension AthenaClientTypes {
             self.creationTime = creationTime
             self.description = description
             self.engineVersion = engineVersion
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.name = name
             self.state = state
         }

@@ -63,6 +63,7 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
         case billingToken = "BillingToken"
         case creationDate = "CreationDate"
         case id = "Id"
+        case networkType = "NetworkType"
         case status = "Status"
         case tags = "Tags"
         case type = "Type"
@@ -81,6 +82,9 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType.rawValue, forKey: .networkType)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -121,6 +125,8 @@ extension ManagedBlockchainClientTypes.Accessor: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let networkTypeDecoded = try containerValues.decodeIfPresent(ManagedBlockchainClientTypes.AccessorNetworkType.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
@@ -129,12 +135,14 @@ extension ManagedBlockchainClientTypes {
     public struct Accessor: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the accessor. For more information about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
-        /// The billing token is a property of the accessor. Use this token to make Ethereum API calls to your Ethereum node. The billing token is used to track your accessor object for billing Ethereum API requests made to your Ethereum nodes.
+        /// The billing token is a property of the Accessor. Use this token to when making calls to the blockchain network. The billing token is used to track your accessor token for billing requests.
         public var billingToken: Swift.String?
         /// The creation date and time of the accessor.
         public var creationDate: ClientRuntime.Date?
         /// The unique identifier of the accessor.
         public var id: Swift.String?
+        /// The blockchain network that the Accessor token is created for.
+        public var networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
         /// The current status of the accessor.
         public var status: ManagedBlockchainClientTypes.AccessorStatus?
         /// The tags assigned to the Accessor. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
@@ -147,6 +155,7 @@ extension ManagedBlockchainClientTypes {
             billingToken: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
+            networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
             status: ManagedBlockchainClientTypes.AccessorStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: ManagedBlockchainClientTypes.AccessorType? = nil
@@ -156,12 +165,54 @@ extension ManagedBlockchainClientTypes {
             self.billingToken = billingToken
             self.creationDate = creationDate
             self.id = id
+            self.networkType = networkType
             self.status = status
             self.tags = tags
             self.type = type
         }
     }
 
+}
+
+extension ManagedBlockchainClientTypes {
+    public enum AccessorNetworkType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ethereumGoerli
+        case ethereumMainnet
+        case ethereumMainnetAndGoerli
+        case polygonMainnet
+        case polygonMumbai
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessorNetworkType] {
+            return [
+                .ethereumGoerli,
+                .ethereumMainnet,
+                .ethereumMainnetAndGoerli,
+                .polygonMainnet,
+                .polygonMumbai,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ethereumGoerli: return "ETHEREUM_GOERLI"
+            case .ethereumMainnet: return "ETHEREUM_MAINNET"
+            case .ethereumMainnetAndGoerli: return "ETHEREUM_MAINNET_AND_GOERLI"
+            case .polygonMainnet: return "POLYGON_MAINNET"
+            case .polygonMumbai: return "POLYGON_MUMBAI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AccessorNetworkType(rawValue: rawValue) ?? AccessorNetworkType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ManagedBlockchainClientTypes {
@@ -204,6 +255,7 @@ extension ManagedBlockchainClientTypes.AccessorSummary: Swift.Codable {
         case arn = "Arn"
         case creationDate = "CreationDate"
         case id = "Id"
+        case networkType = "NetworkType"
         case status = "Status"
         case type = "Type"
     }
@@ -218,6 +270,9 @@ extension ManagedBlockchainClientTypes.AccessorSummary: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType.rawValue, forKey: .networkType)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -239,6 +294,8 @@ extension ManagedBlockchainClientTypes.AccessorSummary: Swift.Codable {
         creationDate = creationDateDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(ManagedBlockchainClientTypes.AccessorNetworkType.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
@@ -251,6 +308,8 @@ extension ManagedBlockchainClientTypes {
         public var creationDate: ClientRuntime.Date?
         /// The unique identifier of the accessor.
         public var id: Swift.String?
+        /// The blockchain network that the Accessor token is created for.
+        public var networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
         /// The current status of the accessor.
         public var status: ManagedBlockchainClientTypes.AccessorStatus?
         /// The type of the accessor. Currently accessor type is restricted to BILLING_TOKEN.
@@ -260,6 +319,7 @@ extension ManagedBlockchainClientTypes {
             arn: Swift.String? = nil,
             creationDate: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
+            networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
             status: ManagedBlockchainClientTypes.AccessorStatus? = nil,
             type: ManagedBlockchainClientTypes.AccessorType? = nil
         )
@@ -267,6 +327,7 @@ extension ManagedBlockchainClientTypes {
             self.arn = arn
             self.creationDate = creationDate
             self.id = id
+            self.networkType = networkType
             self.status = status
             self.type = type
         }
@@ -339,7 +400,7 @@ extension ManagedBlockchainClientTypes {
     public struct ApprovalThresholdPolicy: Swift.Equatable {
         /// The duration from the time that a proposal is created until it expires. If members cast neither the required number of YES votes to approve the proposal nor the number of NO votes required to reject it before the duration expires, the proposal is EXPIRED and ProposalActions aren't carried out.
         public var proposalDurationInHours: Swift.Int?
-        /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThreholdPercentage to be approved.
+        /// Determines whether the vote percentage must be greater than the ThresholdPercentage or must be greater than or equal to the ThresholdPercentage to be approved.
         public var thresholdComparator: ManagedBlockchainClientTypes.ThresholdComparator?
         /// The percentage of votes among all members that must be YES for a proposal to be approved. For example, a ThresholdPercentage value of 50 indicates 50%. The ThresholdComparator determines the precise comparison. If a ThresholdPercentage value of 50 is specified on a network with 10 members, along with a ThresholdComparator value of GREATER_THAN, this indicates that 6 YES votes are required for the proposal to be approved.
         public var thresholdPercentage: Swift.Int?
@@ -362,6 +423,7 @@ extension CreateAccessorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessorType = "AccessorType"
         case clientRequestToken = "ClientRequestToken"
+        case networkType = "NetworkType"
         case tags = "Tags"
     }
 
@@ -372,6 +434,9 @@ extension CreateAccessorInput: Swift.Encodable {
         }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType.rawValue, forKey: .networkType)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -395,17 +460,25 @@ public struct CreateAccessorInput: Swift.Equatable {
     /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon Web Services CLI.
     /// This member is required.
     public var clientRequestToken: Swift.String?
+    /// The blockchain network that the Accessor token is created for. We recommend using the appropriate networkType value for the blockchain network that you are creating the Accessor token for. You cannnot use the value ETHEREUM_MAINNET_AND_GOERLI to specify a networkType for your Accessor token. The default value of ETHEREUM_MAINNET_AND_GOERLI is only applied:
+    ///
+    /// * when the CreateAccessor action does not set a networkType.
+    ///
+    /// * to all existing Accessor tokens that were created before the networkType property was introduced.
+    public var networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
     /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         accessorType: ManagedBlockchainClientTypes.AccessorType? = nil,
         clientRequestToken: Swift.String? = nil,
+        networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.accessorType = accessorType
         self.clientRequestToken = clientRequestToken
+        self.networkType = networkType
         self.tags = tags
     }
 }
@@ -414,12 +487,14 @@ struct CreateAccessorInputBody: Swift.Equatable {
     let clientRequestToken: Swift.String?
     let accessorType: ManagedBlockchainClientTypes.AccessorType?
     let tags: [Swift.String:Swift.String]?
+    let networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
 }
 
 extension CreateAccessorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessorType = "AccessorType"
         case clientRequestToken = "ClientRequestToken"
+        case networkType = "NetworkType"
         case tags = "Tags"
     }
 
@@ -440,9 +515,72 @@ extension CreateAccessorInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let networkTypeDecoded = try containerValues.decodeIfPresent(ManagedBlockchainClientTypes.AccessorNetworkType.self, forKey: .networkType)
+        networkType = networkTypeDecoded
     }
 }
 
+extension CreateAccessorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAccessorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accessorId = output.accessorId
+            self.billingToken = output.billingToken
+            self.networkType = output.networkType
+        } else {
+            self.accessorId = nil
+            self.billingToken = nil
+            self.networkType = nil
+        }
+    }
+}
+
+public struct CreateAccessorOutput: Swift.Equatable {
+    /// The unique identifier of the accessor.
+    public var accessorId: Swift.String?
+    /// The billing token is a property of the Accessor. Use this token to when making calls to the blockchain network. The billing token is used to track your accessor token for billing requests.
+    public var billingToken: Swift.String?
+    /// The blockchain network that the accessor token is created for.
+    public var networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
+
+    public init(
+        accessorId: Swift.String? = nil,
+        billingToken: Swift.String? = nil,
+        networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil
+    )
+    {
+        self.accessorId = accessorId
+        self.billingToken = billingToken
+        self.networkType = networkType
+    }
+}
+
+struct CreateAccessorOutputBody: Swift.Equatable {
+    let accessorId: Swift.String?
+    let billingToken: Swift.String?
+    let networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
+}
+
+extension CreateAccessorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessorId = "AccessorId"
+        case billingToken = "BillingToken"
+        case networkType = "NetworkType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessorId)
+        accessorId = accessorIdDecoded
+        let billingTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingToken)
+        billingToken = billingTokenDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(ManagedBlockchainClientTypes.AccessorNetworkType.self, forKey: .networkType)
+        networkType = networkTypeDecoded
+    }
+}
+
+<<<<<<< HEAD
 extension CreateAccessorOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -493,6 +631,8 @@ extension CreateAccessorOutputBody: Swift.Decodable {
     }
 }
 
+=======
+>>>>>>> main
 enum CreateAccessorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2275,6 +2415,10 @@ extension ListAccessorsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            if let networkType = networkType {
+                let networkTypeQueryItem = ClientRuntime.URLQueryItem(name: "networkType".urlPercentEncoding(), value: Swift.String(networkType.rawValue).urlPercentEncoding())
+                items.append(networkTypeQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
@@ -2293,15 +2437,19 @@ extension ListAccessorsInput: ClientRuntime.URLPathProvider {
 public struct ListAccessorsInput: Swift.Equatable {
     /// The maximum number of accessors to list.
     public var maxResults: Swift.Int?
+    /// The blockchain network that the Accessor token is created for. Use the value ETHEREUM_MAINNET_AND_GOERLI for all existing Accessors tokens that were created before the networkType property was introduced.
+    public var networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
+        networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
+        self.networkType = networkType
         self.nextToken = nextToken
     }
 }

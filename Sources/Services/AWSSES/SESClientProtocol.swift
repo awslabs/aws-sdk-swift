@@ -12,6 +12,8 @@ import ClientRuntime
 ///
 /// * [Common Errors](https://docs.aws.amazon.com/ses/latest/APIReference/CommonErrors.html)
 public protocol SESClientProtocol {
+    /// Performs the `CloneReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
     /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
     /// - Parameter CloneReceiptRuleSetInput : Represents a request to create a receipt rule set by cloning an existing one. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -25,6 +27,11 @@ public protocol SESClientProtocol {
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func cloneReceiptRuleSet(input: CloneReceiptRuleSetInput) async throws -> CloneReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConfigurationSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateConfigurationSetInput : Represents a request to create a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
@@ -38,6 +45,11 @@ public protocol SESClientProtocol {
     /// - `InvalidConfigurationSetException` : Indicates that the configuration set is invalid. See the error message for details.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConfigurationSetEventDestination` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates a configuration set event destination. When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateConfigurationSetEventDestinationInput : Represents a request to create a configuration set event destination. A configuration set event destination, which can be either Amazon CloudWatch or Amazon Kinesis Firehose, describes an Amazon Web Services service in which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
@@ -54,6 +66,11 @@ public protocol SESClientProtocol {
     /// - `InvalidSNSDestinationException` : Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateConfigurationSetTrackingOptions` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html).
     ///
     /// - Parameter CreateConfigurationSetTrackingOptionsInput : Represents a request to create an open and click tracking option object in a configuration set.
@@ -71,6 +88,11 @@ public protocol SESClientProtocol {
     /// * When the tracking domain you specified is not a valid domain or subdomain.
     /// - `TrackingOptionsAlreadyExistsException` : Indicates that the configuration set you specified already contains a TrackingOptions object.
     func createConfigurationSetTrackingOptions(input: CreateConfigurationSetTrackingOptionsInput) async throws -> CreateConfigurationSetTrackingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateCustomVerificationEmailTemplateInput : Represents a request to create a custom verification email template.
@@ -85,6 +107,11 @@ public protocol SESClientProtocol {
     /// - `FromEmailAddressNotVerifiedException` : Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateReceiptFilter` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates a new IP address filter. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateReceiptFilterInput : Represents a request to create a new IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -97,6 +124,11 @@ public protocol SESClientProtocol {
     /// - `AlreadyExistsException` : Indicates that a resource could not be created because of a naming conflict.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     func createReceiptFilter(input: CreateReceiptFilterInput) async throws -> CreateReceiptFilterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateReceiptRule` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates a receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateReceiptRuleInput : Represents a request to create a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -114,6 +146,11 @@ public protocol SESClientProtocol {
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func createReceiptRule(input: CreateReceiptRuleInput) async throws -> CreateReceiptRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates an empty receipt rule set. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateReceiptRuleSetInput : Represents a request to create an empty receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -126,6 +163,11 @@ public protocol SESClientProtocol {
     /// - `AlreadyExistsException` : Indicates that a resource could not be created because of a naming conflict.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     func createReceiptRuleSet(input: CreateReceiptRuleSetInput) async throws -> CreateReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateTemplateInput : Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
@@ -139,6 +181,11 @@ public protocol SESClientProtocol {
     /// - `InvalidTemplateException` : Indicates that the template that you specified could not be rendered. This issue may occur when a template refers to a partial that does not exist.
     /// - `LimitExceededException` : Indicates that a resource could not be created because of service limits. For a list of Amazon SES limits, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/limits.html).
     func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConfigurationSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteConfigurationSetInput : Represents a request to delete a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
@@ -150,6 +197,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteConfigurationSetEventDestinationInput : Represents a request to delete a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
@@ -162,6 +214,11 @@ public protocol SESClientProtocol {
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     /// - `EventDestinationDoesNotExistException` : Indicates that the event destination does not exist.
     func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteConfigurationSetTrackingOptions` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html). Deleting this kind of association results in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains.
     ///
     /// - Parameter DeleteConfigurationSetTrackingOptionsInput : Represents a request to delete open and click tracking options in a configuration set.
@@ -174,30 +231,55 @@ public protocol SESClientProtocol {
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     /// - `TrackingOptionsDoesNotExistException` : Indicates that the TrackingOptions object you specified does not exist.
     func deleteConfigurationSetTrackingOptions(input: DeleteConfigurationSetTrackingOptionsInput) async throws -> DeleteConfigurationSetTrackingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteCustomVerificationEmailTemplateInput : Represents a request to delete an existing custom verification email template.
     ///
     /// - Returns: `DeleteCustomVerificationEmailTemplateOutput` : [no documentation found]
     func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteIdentity` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteIdentityInput : Represents a request to delete one of your Amazon SES identities (an email address or domain).
     ///
     /// - Returns: `DeleteIdentityOutput` : An empty element returned on a successful request.
     func deleteIdentity(input: DeleteIdentityInput) async throws -> DeleteIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteIdentityPolicy` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteIdentityPolicyInput : Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     ///
     /// - Returns: `DeleteIdentityPolicyOutput` : An empty element returned on a successful request.
     func deleteIdentityPolicy(input: DeleteIdentityPolicyInput) async throws -> DeleteIdentityPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteReceiptFilter` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified IP address filter. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteReceiptFilterInput : Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `DeleteReceiptFilterOutput` : An empty element returned on a successful request.
     func deleteReceiptFilter(input: DeleteReceiptFilterInput) async throws -> DeleteReceiptFilterOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteReceiptRule` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteReceiptRuleInput : Represents a request to delete a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -209,6 +291,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func deleteReceiptRule(input: DeleteReceiptRuleInput) async throws -> DeleteReceiptRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes the specified receipt rule set and all of the receipt rules it contains. The currently active rule set cannot be deleted. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteReceiptRuleSetInput : Represents a request to delete a receipt rule set and all of the receipt rules it contains. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -220,24 +307,44 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `CannotDeleteException` : Indicates that the delete operation could not be completed.
     func deleteReceiptRuleSet(input: DeleteReceiptRuleSetInput) async throws -> DeleteReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteTemplateInput : Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
     ///
     /// - Returns: `DeleteTemplateOutput` : [no documentation found]
     func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteVerifiedEmailAddress` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
     ///
     /// - Parameter DeleteVerifiedEmailAddressInput : Represents a request to delete an email address from the list of email addresses you have attempted to verify under your Amazon Web Services account.
     ///
     /// - Returns: `DeleteVerifiedEmailAddressOutput` : [no documentation found]
     func deleteVerifiedEmailAddress(input: DeleteVerifiedEmailAddressInput) async throws -> DeleteVerifiedEmailAddressOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeActiveReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
     /// - Parameter DescribeActiveReceiptRuleSetInput : Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `DescribeActiveReceiptRuleSetOutput` : Represents the metadata and receipt rules for the receipt rule set that is currently active.
     func describeActiveReceiptRuleSet(input: DescribeActiveReceiptRuleSetInput) async throws -> DescribeActiveReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeConfigurationSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the details of the specified configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DescribeConfigurationSetInput : Represents a request to return the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
@@ -249,6 +356,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     func describeConfigurationSet(input: DescribeConfigurationSetInput) async throws -> DescribeConfigurationSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeReceiptRule` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the details of the specified receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DescribeReceiptRuleInput : Represents a request to return the details of a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -261,6 +373,11 @@ public protocol SESClientProtocol {
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func describeReceiptRule(input: DescribeReceiptRuleInput) async throws -> DescribeReceiptRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the details of the specified receipt rule set. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DescribeReceiptRuleSetInput : Represents a request to return the details of a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -272,12 +389,22 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func describeReceiptRuleSet(input: DescribeReceiptRuleSetInput) async throws -> DescribeReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetAccountSendingEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the email sending status of the Amazon SES account for the current Region. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetAccountSendingEnabledInput : [no documentation found]
     ///
     /// - Returns: `GetAccountSendingEnabledOutput` : Represents a request to return the email sending status for your Amazon SES account in the current Amazon Web Services Region.
     func getAccountSendingEnabled(input: GetAccountSendingEnabledInput) async throws -> GetAccountSendingEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetCustomVerificationEmailTemplateInput : Represents a request to retrieve an existing custom verification email template.
@@ -289,6 +416,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `CustomVerificationEmailTemplateDoesNotExistException` : Indicates that a custom verification email template with the name you specified does not exist.
     func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIdentityDkimAttributes` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published. This operation takes a list of identities as input and returns the following information for each:
     ///
     /// * Whether Easy DKIM signing is enabled or disabled.
@@ -304,42 +436,77 @@ public protocol SESClientProtocol {
     ///
     /// - Returns: `GetIdentityDkimAttributesOutput` : Represents the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this response also contains the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published.
     func getIdentityDkimAttributes(input: GetIdentityDkimAttributesInput) async throws -> GetIdentityDkimAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIdentityMailFromDomainAttributes` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the custom MAIL FROM attributes for a list of identities (email addresses : domains). This operation is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
     ///
     /// - Parameter GetIdentityMailFromDomainAttributesInput : Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
     ///
     /// - Returns: `GetIdentityMailFromDomainAttributesOutput` : Represents the custom MAIL FROM attributes for a list of identities.
     func getIdentityMailFromDomainAttributes(input: GetIdentityMailFromDomainAttributesInput) async throws -> GetIdentityMailFromDomainAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIdentityNotificationAttributes` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes. This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
     /// - Parameter GetIdentityNotificationAttributesInput : Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
     /// - Returns: `GetIdentityNotificationAttributesOutput` : Represents the notification attributes for a list of identities.
     func getIdentityNotificationAttributes(input: GetIdentityNotificationAttributesInput) async throws -> GetIdentityNotificationAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIdentityPolicies` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter GetIdentityPoliciesInput : Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     ///
     /// - Returns: `GetIdentityPoliciesOutput` : Represents the requested sending authorization policies.
     func getIdentityPolicies(input: GetIdentityPoliciesInput) async throws -> GetIdentityPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetIdentityVerificationAttributes` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, to verify the email address, you must restart the verification process from the beginning. For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
     ///
     /// - Parameter GetIdentityVerificationAttributesInput : Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html).
     ///
     /// - Returns: `GetIdentityVerificationAttributesOutput` : The Amazon SES verification status of a list of identities. For domain identities, this response also contains the verification token.
     func getIdentityVerificationAttributes(input: GetIdentityVerificationAttributesInput) async throws -> GetIdentityVerificationAttributesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSendQuota` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Provides the sending limits for the Amazon SES account. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetSendQuotaInput : [no documentation found]
     ///
     /// - Returns: `GetSendQuotaOutput` : Represents your Amazon SES daily sending quota, maximum send rate, and the number of emails you have sent in the last 24 hours.
     func getSendQuota(input: GetSendQuotaInput) async throws -> GetSendQuotaOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSendStatistics` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Provides sending statistics for the current Amazon Web Services Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetSendStatisticsInput : [no documentation found]
     ///
     /// - Returns: `GetSendStatisticsOutput` : Represents a list of data points. This list contains aggregated data from the previous two weeks of your sending activity with Amazon SES.
     func getSendStatistics(input: GetSendStatisticsInput) async throws -> GetSendStatisticsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetTemplateInput : [no documentation found]
@@ -351,54 +518,99 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
     func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListConfigurationSets` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This operation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
     ///
     /// - Parameter ListConfigurationSetsInput : Represents a request to list the configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     ///
     /// - Returns: `ListConfigurationSetsOutput` : A list of configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
     func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListCustomVerificationEmailTemplates` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListCustomVerificationEmailTemplatesInput : Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
     ///
     /// - Returns: `ListCustomVerificationEmailTemplatesOutput` : A paginated list of custom verification email templates.
     func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListIdentities` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns a list containing all of the identities (email addresses and domains) for your Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status. You can execute this operation no more than once per second. It's recommended that for successive pagination calls of this API, you continue to the use the same parameter/value pairs as used in the original call, e.g., if you used IdentityType=Domain in the the original call and received a NextToken in the response, you should continue providing the IdentityType=Domain parameter for further NextToken calls; however, if you didn't provide the IdentityType parameter in the original call, then continue to not provide it for successive pagination calls. Using this protocol will ensure consistent results.
     ///
     /// - Parameter ListIdentitiesInput : Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
     ///
     /// - Returns: `ListIdentitiesOutput` : A list of all identities that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
     func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListIdentityPolicies` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation returns only a list. To get the actual policy content, use GetIdentityPolicies. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter ListIdentityPoliciesInput : Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
     ///
     /// - Returns: `ListIdentityPoliciesOutput` : A list of names of sending authorization policies that apply to an identity.
     func listIdentityPolicies(input: ListIdentityPoliciesInput) async throws -> ListIdentityPoliciesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListReceiptFilters` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter ListReceiptFiltersInput : Represents a request to list the IP address filters that exist under your Amazon Web Services account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `ListReceiptFiltersOutput` : A list of IP address filters that exist under your Amazon Web Services account.
     func listReceiptFilters(input: ListReceiptFiltersInput) async throws -> ListReceiptFiltersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListReceiptRuleSets` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter ListReceiptRuleSetsInput : Represents a request to list the receipt rule sets that exist under your Amazon Web Services account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
     ///
     /// - Returns: `ListReceiptRuleSetsOutput` : A list of receipt rule sets that exist under your Amazon Web Services account.
     func listReceiptRuleSets(input: ListReceiptRuleSetsInput) async throws -> ListReceiptRuleSetsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTemplates` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListTemplatesInput : [no documentation found]
     ///
     /// - Returns: `ListTemplatesOutput` : [no documentation found]
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListVerifiedEmailAddresses` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deprecated. Use the ListIdentities operation to list the email addresses and domains associated with your account.
     ///
     /// - Parameter ListVerifiedEmailAddressesInput : [no documentation found]
     ///
     /// - Returns: `ListVerifiedEmailAddressesOutput` : A list of email addresses that you have verified with Amazon SES under your Amazon Web Services account.
     func listVerifiedEmailAddresses(input: ListVerifiedEmailAddressesInput) async throws -> ListVerifiedEmailAddressesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Adds or updates the delivery options for a configuration set.
     ///
     /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to modify the delivery options for a configuration set.
@@ -411,6 +623,11 @@ public protocol SESClientProtocol {
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     /// - `InvalidDeliveryOptionsException` : Indicates that provided delivery option is invalid.
     func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `PutIdentityPolicy` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain). This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter PutIdentityPolicyInput : Represents a request to add or update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
@@ -422,6 +639,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidPolicyException` : Indicates that the provided policy is invalid. Check the error stack for more information about what caused the error.
     func putIdentityPolicy(input: PutIdentityPolicyInput) async throws -> PutIdentityPolicyOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ReorderReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Reorders the receipt rules within a receipt rule set. All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter ReorderReceiptRuleSetInput : Represents a request to reorder the receipt rules within a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -434,6 +656,11 @@ public protocol SESClientProtocol {
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func reorderReceiptRuleSet(input: ReorderReceiptRuleSetInput) async throws -> ReorderReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendBounce` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter SendBounceInput : Represents a request to send a bounce message to the sender of an email you received through Amazon SES.
@@ -445,6 +672,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     func sendBounce(input: SendBounceInput) async throws -> SendBounceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendBulkTemplatedEmail` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Composes an email message to multiple destinations. The message body is created using an email template. To send email using this operation, your call must meet the following requirements:
     ///
     /// * The call must refer to an existing email template. You can create email templates using [CreateTemplate].
@@ -475,6 +707,11 @@ public protocol SESClientProtocol {
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
     func sendBulkTemplatedEmail(input: SendBulkTemplatedEmailInput) async throws -> SendBulkTemplatedEmailOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendCustomVerificationEmail` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter SendCustomVerificationEmailInput : Represents a request to send a custom verification email to a specified recipient.
@@ -490,6 +727,11 @@ public protocol SESClientProtocol {
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     /// - `ProductionAccessNotGrantedException` : Indicates that the account has not been granted production access.
     func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendEmail` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Composes an email message and immediately queues it for sending. To send email using this operation, your message must meet the following requirements:
     ///
     /// * The message must be sent from a verified email address or domain. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error.
@@ -518,6 +760,11 @@ public protocol SESClientProtocol {
     /// - `MailFromDomainNotVerifiedException` : Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendRawEmail` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Composes an email message and immediately queues it for sending. This operation is more flexible than the SendEmail operation. When you use the SendRawEmail operation, you can specify the headers of the message as well as its content. This flexibility is useful, for example, when you need to send a multipart MIME email (such a message that contains both a text and an HTML version). You can also use this operation to send messages that include attachments. The SendRawEmail operation has the following requirements:
     ///
     /// * You can only send email from [verified email addresses or domains](https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html). If you try to send email from an address that isn't verified, the operation results in an "Email address not verified" error.
@@ -565,6 +812,11 @@ public protocol SESClientProtocol {
     /// - `MailFromDomainNotVerifiedException` : Indicates that the message could not be sent because Amazon SES could not read the MX record required to use the specified MAIL FROM domain. For information about editing the custom MAIL FROM domain settings for an identity, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from-edit.html).
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     func sendRawEmail(input: SendRawEmailInput) async throws -> SendRawEmailOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SendTemplatedEmail` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Composes an email message using an email template and immediately queues it for sending. To send email using this operation, your call must meet the following requirements:
     ///
     /// * The call must refer to an existing email template. You can create email templates using the [CreateTemplate] operation.
@@ -596,6 +848,11 @@ public protocol SESClientProtocol {
     /// - `MessageRejected` : Indicates that the action failed, and the message could not be sent. Check the error stack for more information about what caused the error.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
     func sendTemplatedEmail(input: SendTemplatedEmailInput) async throws -> SendTemplatedEmailOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetActiveReceiptRuleSet` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Sets the specified receipt rule set as the active receipt rule set. To disable your email-receiving through Amazon SES completely, you can call this operation with RuleSetName set to null. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter SetActiveReceiptRuleSetInput : Represents a request to set a receipt rule set as the active receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -607,36 +864,66 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func setActiveReceiptRuleSet(input: SetActiveReceiptRuleSetInput) async throws -> SetActiveReceiptRuleSetOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetIdentityDkimEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. For email addresses (for example, user@example.com), you can only enable DKIM signing if the corresponding domain (in this case, example.com) has been set up to use Easy DKIM. You can enable DKIM signing for an identity at any time after you start the verification process for the identity, even if the verification process isn't complete. You can execute this operation no more than once per second. For more information about Easy DKIM signing, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
     /// - Parameter SetIdentityDkimEnabledInput : Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
     /// - Returns: `SetIdentityDkimEnabledOutput` : An empty element returned on a successful request.
     func setIdentityDkimEnabled(input: SetIdentityDkimEnabledInput) async throws -> SetIdentityDkimEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetIdentityFeedbackForwardingEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
     /// - Parameter SetIdentityFeedbackForwardingEnabledInput : Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-email.html).
     ///
     /// - Returns: `SetIdentityFeedbackForwardingEnabledOutput` : An empty element returned on a successful request.
     func setIdentityFeedbackForwardingEnabled(input: SetIdentityFeedbackForwardingEnabledInput) async throws -> SetIdentityFeedbackForwardingEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetIdentityHeadersInNotificationsEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
     /// - Parameter SetIdentityHeadersInNotificationsEnabledInput : Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
     ///
     /// - Returns: `SetIdentityHeadersInNotificationsEnabledOutput` : An empty element returned on a successful request.
     func setIdentityHeadersInNotificationsEnabled(input: SetIdentityHeadersInNotificationsEnabledInput) async throws -> SetIdentityHeadersInNotificationsEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetIdentityMailFromDomain` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain). To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. To ensure that your emails pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter SetIdentityMailFromDomainInput : Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
     ///
     /// - Returns: `SetIdentityMailFromDomainOutput` : An empty element returned on a successful request.
     func setIdentityMailFromDomain(input: SetIdentityMailFromDomainInput) async throws -> SetIdentityMailFromDomainOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetIdentityNotificationTopic` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use this operation, you specify a verified identity, such as an email address or domain. When you send an email that uses the chosen identity in the Source field, Amazon SES sends notifications to the topic you specified. You can send bounce, complaint, or delivery notifications (or any combination of the three) to the Amazon SNS topic that you specify. You can execute this operation no more than once per second. For more information about feedback notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
     /// - Parameter SetIdentityNotificationTopicInput : Represents a request to specify the Amazon SNS topic to which Amazon SES publishes bounce, complaint, or delivery notifications for emails sent with that identity as the source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
     ///
     /// - Returns: `SetIdentityNotificationTopicOutput` : An empty element returned on a successful request.
     func setIdentityNotificationTopic(input: SetIdentityNotificationTopicInput) async throws -> SetIdentityNotificationTopicOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetReceiptRulePosition` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter SetReceiptRulePositionInput : Represents a request to set the position of a receipt rule in a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -649,6 +936,11 @@ public protocol SESClientProtocol {
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func setReceiptRulePosition(input: SetReceiptRulePositionInput) async throws -> SetReceiptRulePositionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TestRenderTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
     /// - Parameter TestRenderTemplateInput : [no documentation found]
@@ -662,12 +954,22 @@ public protocol SESClientProtocol {
     /// - `MissingRenderingAttributeException` : Indicates that one or more of the replacement values for the specified template was not specified. Ensure that the TemplateData object contains references to all of the replacement tags in the specified template.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
     func testRenderTemplate(input: TestRenderTemplateInput) async throws -> TestRenderTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateAccountSendingEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Enables or disables email sending across your entire Amazon SES account in the current Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given Amazon Web Services Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateAccountSendingEnabledInput : Represents a request to enable or disable the email sending capabilities for your entire Amazon SES account.
     ///
     /// - Returns: `UpdateAccountSendingEnabledOutput` : [no documentation found]
     func updateAccountSendingEnabled(input: UpdateAccountSendingEnabledInput) async throws -> UpdateAccountSendingEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html) in the Amazon SES Developer Guide. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateConfigurationSetEventDestinationInput : Represents a request to update the event destination of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
@@ -683,6 +985,11 @@ public protocol SESClientProtocol {
     /// - `InvalidFirehoseDestinationException` : Indicates that the Amazon Kinesis Firehose destination is invalid. See the error message for details.
     /// - `InvalidSNSDestinationException` : Indicates that the Amazon Simple Notification Service (Amazon SNS) destination is invalid. See the error message for details.
     func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConfigurationSetReputationMetricsEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateConfigurationSetReputationMetricsEnabledInput : Represents a request to modify the reputation metric publishing settings for a configuration set.
@@ -694,6 +1001,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     func updateConfigurationSetReputationMetricsEnabled(input: UpdateConfigurationSetReputationMetricsEnabledInput) async throws -> UpdateConfigurationSetReputationMetricsEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConfigurationSetSendingEnabled` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateConfigurationSetSendingEnabledInput : Represents a request to enable or disable the email sending capabilities for a specific configuration set.
@@ -705,6 +1017,11 @@ public protocol SESClientProtocol {
     /// __Possible Exceptions:__
     /// - `ConfigurationSetDoesNotExistException` : Indicates that the configuration set does not exist.
     func updateConfigurationSetSendingEnabled(input: UpdateConfigurationSetSendingEnabledInput) async throws -> UpdateConfigurationSetSendingEnabledOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateConfigurationSetTrackingOptions` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html).
     ///
     /// - Parameter UpdateConfigurationSetTrackingOptionsInput : Represents a request to update the tracking options for a configuration set.
@@ -722,6 +1039,11 @@ public protocol SESClientProtocol {
     /// * When the tracking domain you specified is not a valid domain or subdomain.
     /// - `TrackingOptionsDoesNotExistException` : Indicates that the TrackingOptions object you specified does not exist.
     func updateConfigurationSetTrackingOptions(input: UpdateConfigurationSetTrackingOptionsInput) async throws -> UpdateConfigurationSetTrackingOptionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateCustomVerificationEmailTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateCustomVerificationEmailTemplateInput : Represents a request to update an existing custom verification email template.
@@ -735,6 +1057,11 @@ public protocol SESClientProtocol {
     /// - `CustomVerificationEmailTemplateDoesNotExistException` : Indicates that a custom verification email template with the name you specified does not exist.
     /// - `FromEmailAddressNotVerifiedException` : Indicates that the sender address specified for a custom verification email is not verified, and is therefore not eligible to send the custom verification email.
     func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateReceiptRule` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Updates a receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateReceiptRuleInput : Represents a request to update a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
@@ -751,6 +1078,11 @@ public protocol SESClientProtocol {
     /// - `RuleDoesNotExistException` : Indicates that the provided receipt rule does not exist.
     /// - `RuleSetDoesNotExistException` : Indicates that the provided receipt rule set does not exist.
     func updateReceiptRule(input: UpdateReceiptRuleInput) async throws -> UpdateReceiptRuleOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateTemplate` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateTemplateInput : [no documentation found]
@@ -763,6 +1095,11 @@ public protocol SESClientProtocol {
     /// - `InvalidTemplateException` : Indicates that the template that you specified could not be rendered. This issue may occur when a template refers to a partial that does not exist.
     /// - `TemplateDoesNotExistException` : Indicates that the Template object you specified does not exist in your Amazon SES account.
     func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `VerifyDomainDkim` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Returns a set of DKIM tokens for a domain identity. When you execute the VerifyDomainDkim operation, the domain that you specify is added to the list of identities that are associated with your account. This is true even if you haven't already associated the domain with your account by using the VerifyDomainIdentity operation. However, you can't send email from the domain until you either successfully [verify it](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure) or you successfully [set up DKIM for it](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html). You use the tokens that are generated by this operation to create CNAME records. When Amazon SES detects that you've added these records to the DNS configuration for a domain, you can start sending email from that domain. You can start sending email even if you haven't added the TXT record provided by the VerifyDomainIdentity operation to the DNS configuration for your domain. All email that you send from the domain is authenticated using DKIM. To create the CNAME records for DKIM authentication, use the following values:
     ///
     /// * Name: token._domainkey.example.com
@@ -778,18 +1115,33 @@ public protocol SESClientProtocol {
     ///
     /// - Returns: `VerifyDomainDkimOutput` : Returns CNAME records that you must publish to the DNS server of your domain to set up Easy DKIM with Amazon SES.
     func verifyDomainDkim(input: VerifyDomainDkimInput) async throws -> VerifyDomainDkimOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `VerifyDomainIdentity` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Adds a domain to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. For more information about verifying domains, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter VerifyDomainIdentityInput : Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure).
     ///
     /// - Returns: `VerifyDomainIdentityOutput` : Returns a TXT record that you must publish to the DNS server of your domain to complete domain verification with Amazon SES.
     func verifyDomainIdentity(input: VerifyDomainIdentityInput) async throws -> VerifyDomainIdentityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `VerifyEmailAddress` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
     ///
     /// - Parameter VerifyEmailAddressInput : Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
     ///
     /// - Returns: `VerifyEmailAddressOutput` : [no documentation found]
     func verifyEmailAddress(input: VerifyEmailAddressInput) async throws -> VerifyEmailAddressOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `VerifyEmailIdentity` operation on the `SimpleEmailService` service.
+    ///
+>>>>>>> main
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
     ///
     /// - Parameter VerifyEmailIdentityInput : Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).

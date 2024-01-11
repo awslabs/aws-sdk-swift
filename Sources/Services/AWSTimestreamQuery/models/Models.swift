@@ -172,7 +172,7 @@ extension TimestreamQueryClientTypes.ColumnInfo: Swift.Codable {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let type = self.type {
-            try encodeContainer.encode(type.value, forKey: .type)
+            try encodeContainer.encode(type, forKey: .type)
         }
     }
 
@@ -180,7 +180,7 @@ extension TimestreamQueryClientTypes.ColumnInfo: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let typeDecoded = try containerValues.decodeIfPresent(Box<TimestreamQueryClientTypes.ModelType>.self, forKey: .type)
+        let typeDecoded = try containerValues.decodeIfPresent(TimestreamQueryClientTypes.ModelType.self, forKey: .type)
         type = typeDecoded
     }
 }
@@ -192,11 +192,11 @@ extension TimestreamQueryClientTypes {
         public var name: Swift.String?
         /// The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, Booleans, and others. Complex data types are types such as arrays, rows, and others.
         /// This member is required.
-        public var type: Box<TimestreamQueryClientTypes.ModelType>?
+        @Indirect public var type: TimestreamQueryClientTypes.ModelType?
 
         public init(
             name: Swift.String? = nil,
-            type: Box<TimestreamQueryClientTypes.ModelType>? = nil
+            type: TimestreamQueryClientTypes.ModelType? = nil
         )
         {
             self.name = name

@@ -12,7 +12,11 @@ extension ShieldClient {
     ///     - input: A `[ListAttacksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttacksOutput`
     public func listAttacksPaginated(input: ListAttacksInput) -> ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutput>(input: input, inputKey: \ListAttacksInput.nextToken, outputKey: \ListAttacksOutput.nextToken, paginationFunction: self.listAttacks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAttacksInput, ListAttacksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttacks(input:))
+>>>>>>> main
     }
 }
 
@@ -27,7 +31,11 @@ extension ListAttacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAttacksInput, Output == ListAttacksOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAttacksInput, OperationStackOutput == ListAttacksOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttacksPaginated`
     /// to access the nested member `[ShieldClientTypes.AttackSummary]`
     /// - Returns: `[ShieldClientTypes.AttackSummary]`
@@ -45,7 +53,11 @@ extension ShieldClient {
     ///     - input: A `[ListProtectionGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProtectionGroupsOutput`
     public func listProtectionGroupsPaginated(input: ListProtectionGroupsInput) -> ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutput>(input: input, inputKey: \ListProtectionGroupsInput.nextToken, outputKey: \ListProtectionGroupsOutput.nextToken, paginationFunction: self.listProtectionGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProtectionGroupsInput, ListProtectionGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtectionGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -67,7 +79,11 @@ extension ShieldClient {
     ///     - input: A `[ListProtectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProtectionsOutput`
     public func listProtectionsPaginated(input: ListProtectionsInput) -> ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutput>(input: input, inputKey: \ListProtectionsInput.nextToken, outputKey: \ListProtectionsOutput.nextToken, paginationFunction: self.listProtections(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProtectionsInput, ListProtectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtections(input:))
+>>>>>>> main
     }
 }
 
@@ -80,7 +96,11 @@ extension ListProtectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListProtectionsInput, Output == ListProtectionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListProtectionsInput, OperationStackOutput == ListProtectionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProtectionsPaginated`
     /// to access the nested member `[ShieldClientTypes.Protection]`
     /// - Returns: `[ShieldClientTypes.Protection]`
@@ -98,7 +118,11 @@ extension ShieldClient {
     ///     - input: A `[ListResourcesInProtectionGroupInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesInProtectionGroupOutput`
     public func listResourcesInProtectionGroupPaginated(input: ListResourcesInProtectionGroupInput) -> ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutput>(input: input, inputKey: \ListResourcesInProtectionGroupInput.nextToken, outputKey: \ListResourcesInProtectionGroupOutput.nextToken, paginationFunction: self.listResourcesInProtectionGroup(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourcesInProtectionGroup(input:))
+>>>>>>> main
     }
 }
 

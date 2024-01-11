@@ -60,6 +60,105 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "CREATE_COMPLETE") } ?? false)
             }),
+<<<<<<< HEAD
+=======
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_FAILED") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_FAILED"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
+            }),
+            .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
+                // JMESPath expression: "Stacks[].StackStatus"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "UPDATE_ROLLBACK_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let stacks = output.stacks
+                let projection: [CloudFormationClientTypes.StackStatus]? = stacks?.compactMap { original in
+                    let stackStatus = original.stackStatus
+                    return stackStatus
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
+            }),
+>>>>>>> main
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"

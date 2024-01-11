@@ -7364,7 +7364,11 @@ extension GetPositionEstimateOutput: ClientRuntime.HttpResponseBinding {
             self.geoJsonPayload = data
         case .stream(let stream):
             self.geoJsonPayload = try stream.readToEnd()
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.geoJsonPayload = nil
         }
     }
@@ -7898,7 +7902,11 @@ extension GetResourcePositionOutput: ClientRuntime.HttpResponseBinding {
             self.geoJsonPayload = data
         case .stream(let stream):
             self.geoJsonPayload = try stream.readToEnd()
+<<<<<<< HEAD
         case .none:
+=======
+        case .noStream:
+>>>>>>> main
             self.geoJsonPayload = nil
         }
     }
@@ -20118,6 +20126,7 @@ enum UpdateResourceEventConfigurationOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateResourcePositionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateResourcePositionInputBodyMiddleware"
 
@@ -20144,6 +20153,8 @@ public struct UpdateResourcePositionInputBodyMiddleware: ClientRuntime.Middlewar
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateResourcePositionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case geoJsonPayload = "GeoJsonPayload"

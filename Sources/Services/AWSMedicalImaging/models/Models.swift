@@ -304,6 +304,7 @@ extension MedicalImagingClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CopyImageSetInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CopyImageSetInputBodyMiddleware"
 
@@ -342,6 +343,8 @@ public struct CopyImageSetInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CopyImageSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyImageSetInformation
@@ -1913,6 +1916,7 @@ enum GetDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct GetImageFrameInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "GetImageFrameInputBodyMiddleware"
 
@@ -1951,6 +1955,8 @@ public struct GetImageFrameInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension GetImageFrameInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case imageFrameInformation
@@ -2027,7 +2033,7 @@ extension GetImageFrameOutput: ClientRuntime.HttpResponseBinding {
             self.imageFrameBlob = .data(data)
         case .stream(let stream):
             self.imageFrameBlob = .stream(stream)
-        case .none:
+        case .noStream:
             self.imageFrameBlob = nil
         }
     }
@@ -2211,7 +2217,7 @@ extension GetImageSetMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.imageSetMetadataBlob = .data(data)
         case .stream(let stream):
             self.imageSetMetadataBlob = .stream(stream)
-        case .none:
+        case .noStream:
             self.imageSetMetadataBlob = nil
         }
     }
@@ -3654,6 +3660,7 @@ extension MedicalImagingClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct SearchImageSetsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "SearchImageSetsInputBodyMiddleware"
 
@@ -3692,6 +3699,8 @@ public struct SearchImageSetsInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension SearchImageSetsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SearchImageSetsInput(datastoreId: \(Swift.String(describing: datastoreId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), searchCriteria: \"CONTENT_REDACTED\")"}
@@ -4334,6 +4343,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct UpdateImageSetMetadataInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateImageSetMetadataInputBodyMiddleware"
 
@@ -4372,6 +4382,8 @@ public struct UpdateImageSetMetadataInputBodyMiddleware: ClientRuntime.Middlewar
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateImageSetMetadataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updateImageSetMetadataUpdates

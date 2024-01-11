@@ -1245,6 +1245,7 @@ extension CloudSearchDomainClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UploadDocumentsInputBodyMiddleware"
 
@@ -1270,6 +1271,8 @@ public struct UploadDocumentsInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UploadDocumentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case documents

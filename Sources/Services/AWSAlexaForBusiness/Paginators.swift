@@ -12,7 +12,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListBusinessReportSchedulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBusinessReportSchedulesOutput`
     public func listBusinessReportSchedulesPaginated(input: ListBusinessReportSchedulesInput) -> ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>(input: input, inputKey: \ListBusinessReportSchedulesInput.nextToken, outputKey: \ListBusinessReportSchedulesOutput.nextToken, paginationFunction: self.listBusinessReportSchedules(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBusinessReportSchedules(input:))
+>>>>>>> main
     }
 }
 
@@ -33,7 +37,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListConferenceProvidersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConferenceProvidersOutput`
     public func listConferenceProvidersPaginated(input: ListConferenceProvidersInput) -> ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutput>(input: input, inputKey: \ListConferenceProvidersInput.nextToken, outputKey: \ListConferenceProvidersOutput.nextToken, paginationFunction: self.listConferenceProviders(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListConferenceProvidersInput, ListConferenceProvidersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConferenceProviders(input:))
+>>>>>>> main
     }
 }
 
@@ -54,7 +62,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListDeviceEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceEventsOutput`
     public func listDeviceEventsPaginated(input: ListDeviceEventsInput) -> ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutput>(input: input, inputKey: \ListDeviceEventsInput.nextToken, outputKey: \ListDeviceEventsOutput.nextToken, paginationFunction: self.listDeviceEvents(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDeviceEventsInput, ListDeviceEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeviceEvents(input:))
+>>>>>>> main
     }
 }
 
@@ -77,7 +89,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListGatewayGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGatewayGroupsOutput`
     public func listGatewayGroupsPaginated(input: ListGatewayGroupsInput) -> ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutput>(input: input, inputKey: \ListGatewayGroupsInput.nextToken, outputKey: \ListGatewayGroupsOutput.nextToken, paginationFunction: self.listGatewayGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGatewayGroupsInput, ListGatewayGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGatewayGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -98,7 +114,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutput`
     public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \ListGatewaysInput.nextToken, outputKey: \ListGatewaysOutput.nextToken, paginationFunction: self.listGateways(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGateways(input:))
+>>>>>>> main
     }
 }
 
@@ -120,7 +140,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListSkillsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsOutput`
     public func listSkillsPaginated(input: ListSkillsInput) -> ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutput>(input: input, inputKey: \ListSkillsInput.nextToken, outputKey: \ListSkillsOutput.nextToken, paginationFunction: self.listSkills(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSkillsInput, ListSkillsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSkills(input:))
+>>>>>>> main
     }
 }
 
@@ -144,7 +168,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListSkillsStoreCategoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsStoreCategoriesOutput`
     public func listSkillsStoreCategoriesPaginated(input: ListSkillsStoreCategoriesInput) -> ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>(input: input, inputKey: \ListSkillsStoreCategoriesInput.nextToken, outputKey: \ListSkillsStoreCategoriesOutput.nextToken, paginationFunction: self.listSkillsStoreCategories(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSkillsStoreCategories(input:))
+>>>>>>> main
     }
 }
 
@@ -165,7 +193,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListSkillsStoreSkillsByCategoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSkillsStoreSkillsByCategoryOutput`
     public func listSkillsStoreSkillsByCategoryPaginated(input: ListSkillsStoreSkillsByCategoryInput) -> ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>(input: input, inputKey: \ListSkillsStoreSkillsByCategoryInput.nextToken, outputKey: \ListSkillsStoreSkillsByCategoryOutput.nextToken, paginationFunction: self.listSkillsStoreSkillsByCategory(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSkillsStoreSkillsByCategory(input:))
+>>>>>>> main
     }
 }
 
@@ -187,7 +219,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListSmartHomeAppliancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSmartHomeAppliancesOutput`
     public func listSmartHomeAppliancesPaginated(input: ListSmartHomeAppliancesInput) -> ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>(input: input, inputKey: \ListSmartHomeAppliancesInput.nextToken, outputKey: \ListSmartHomeAppliancesOutput.nextToken, paginationFunction: self.listSmartHomeAppliances(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSmartHomeAppliances(input:))
+>>>>>>> main
     }
 }
 
@@ -209,7 +245,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[ListTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
     public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTags(input:))
+>>>>>>> main
     }
 }
 
@@ -231,7 +271,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchAddressBooksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchAddressBooksOutput`
     public func searchAddressBooksPaginated(input: SearchAddressBooksInput) -> ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutput>(input: input, inputKey: \SearchAddressBooksInput.nextToken, outputKey: \SearchAddressBooksOutput.nextToken, paginationFunction: self.searchAddressBooks(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchAddressBooksInput, SearchAddressBooksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAddressBooks(input:))
+>>>>>>> main
     }
 }
 
@@ -254,7 +298,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchContactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchContactsOutput`
     public func searchContactsPaginated(input: SearchContactsInput) -> ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput>(input: input, inputKey: \SearchContactsInput.nextToken, outputKey: \SearchContactsOutput.nextToken, paginationFunction: self.searchContacts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchContacts(input:))
+>>>>>>> main
     }
 }
 
@@ -277,7 +325,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchDevicesOutput`
     public func searchDevicesPaginated(input: SearchDevicesInput) -> ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutput>(input: input, inputKey: \SearchDevicesInput.nextToken, outputKey: \SearchDevicesOutput.nextToken, paginationFunction: self.searchDevices(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchDevicesInput, SearchDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchDevices(input:))
+>>>>>>> main
     }
 }
 
@@ -300,7 +352,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchNetworkProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchNetworkProfilesOutput`
     public func searchNetworkProfilesPaginated(input: SearchNetworkProfilesInput) -> ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>(input: input, inputKey: \SearchNetworkProfilesInput.nextToken, outputKey: \SearchNetworkProfilesOutput.nextToken, paginationFunction: self.searchNetworkProfiles(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchNetworkProfilesInput, SearchNetworkProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchNetworkProfiles(input:))
+>>>>>>> main
     }
 }
 
@@ -323,7 +379,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchProfilesOutput`
     public func searchProfilesPaginated(input: SearchProfilesInput) -> ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutput>(input: input, inputKey: \SearchProfilesInput.nextToken, outputKey: \SearchProfilesOutput.nextToken, paginationFunction: self.searchProfiles(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchProfilesInput, SearchProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchProfiles(input:))
+>>>>>>> main
     }
 }
 
@@ -346,7 +406,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchRoomsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchRoomsOutput`
     public func searchRoomsPaginated(input: SearchRoomsInput) -> ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutput>(input: input, inputKey: \SearchRoomsInput.nextToken, outputKey: \SearchRoomsOutput.nextToken, paginationFunction: self.searchRooms(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchRoomsInput, SearchRoomsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchRooms(input:))
+>>>>>>> main
     }
 }
 
@@ -369,7 +433,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchSkillGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchSkillGroupsOutput`
     public func searchSkillGroupsPaginated(input: SearchSkillGroupsInput) -> ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutput>(input: input, inputKey: \SearchSkillGroupsInput.nextToken, outputKey: \SearchSkillGroupsOutput.nextToken, paginationFunction: self.searchSkillGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchSkillGroupsInput, SearchSkillGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchSkillGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -392,7 +460,11 @@ extension AlexaForBusinessClient {
     ///     - input: A `[SearchUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchUsersOutput`
     public func searchUsersPaginated(input: SearchUsersInput) -> ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput>(input: input, inputKey: \SearchUsersInput.nextToken, outputKey: \SearchUsersOutput.nextToken, paginationFunction: self.searchUsers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchUsersInput, SearchUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchUsers(input:))
+>>>>>>> main
     }
 }
 

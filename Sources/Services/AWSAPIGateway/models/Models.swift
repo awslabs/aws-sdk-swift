@@ -10050,7 +10050,7 @@ extension GetExportOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }
@@ -12593,7 +12593,7 @@ extension GetSdkOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }
@@ -14452,6 +14452,7 @@ enum GetVpcLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -14473,13 +14474,17 @@ public struct ImportApiKeysInputBodyMiddleware: ClientRuntime.Middleware {
             let bodyData = body
             let bodyBody = ClientRuntime.HttpBody.data(bodyData)
             input.builder.withBody(bodyBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<ImportApiKeysInput>
     public typealias MOutput = ClientRuntime.OperationOutput<ImportApiKeysOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension ImportApiKeysInput: Swift.Encodable {
@@ -14641,6 +14646,7 @@ enum ImportApiKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -14662,13 +14668,17 @@ public struct ImportDocumentationPartsInputBodyMiddleware: ClientRuntime.Middlew
             let bodyData = body
             let bodyBody = ClientRuntime.HttpBody.data(bodyData)
             input.builder.withBody(bodyBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<ImportDocumentationPartsInput>
     public typealias MOutput = ClientRuntime.OperationOutput<ImportDocumentationPartsOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension ImportDocumentationPartsInput: Swift.Encodable {
@@ -14834,6 +14844,7 @@ enum ImportDocumentationPartsOutputError: ClientRuntime.HttpResponseErrorBinding
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+<<<<<<< HEAD
         }
     }
 }
@@ -14855,13 +14866,17 @@ public struct ImportRestApiInputBodyMiddleware: ClientRuntime.Middleware {
             let bodyData = body
             let bodyBody = ClientRuntime.HttpBody.data(bodyData)
             input.builder.withBody(bodyBody)
+=======
+>>>>>>> main
         }
-        return try await next.handle(context: context, input: input)
     }
+<<<<<<< HEAD
 
     public typealias MInput = ClientRuntime.SerializeStepInput<ImportRestApiInput>
     public typealias MOutput = ClientRuntime.OperationOutput<ImportRestApiOutput>
     public typealias Context = ClientRuntime.HttpContext
+=======
+>>>>>>> main
 }
 
 extension ImportRestApiInput: Swift.Encodable {
@@ -18009,6 +18024,7 @@ extension APIGatewayClientTypes {
     }
 }
 
+<<<<<<< HEAD
 public struct PutRestApiInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutRestApiInputBodyMiddleware"
 
@@ -18035,6 +18051,8 @@ public struct PutRestApiInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PutRestApiInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body

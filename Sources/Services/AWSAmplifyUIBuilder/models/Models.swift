@@ -1913,7 +1913,7 @@ extension AmplifyUIBuilderClientTypes.ComponentConditionProperty: Swift.Codable 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let `else` = self.`else` {
-            try encodeContainer.encode(`else`.value, forKey: .`else`)
+            try encodeContainer.encode(`else`, forKey: .`else`)
         }
         if let field = self.field {
             try encodeContainer.encode(field, forKey: .field)
@@ -1931,7 +1931,7 @@ extension AmplifyUIBuilderClientTypes.ComponentConditionProperty: Swift.Codable 
             try encodeContainer.encode(property, forKey: .property)
         }
         if let then = self.then {
-            try encodeContainer.encode(then.value, forKey: .then)
+            try encodeContainer.encode(then, forKey: .then)
         }
     }
 
@@ -1945,9 +1945,9 @@ extension AmplifyUIBuilderClientTypes.ComponentConditionProperty: Swift.Codable 
         `operator` = operatorDecoded
         let operandDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operand)
         operand = operandDecoded
-        let thenDecoded = try containerValues.decodeIfPresent(Box<AmplifyUIBuilderClientTypes.ComponentProperty>.self, forKey: .then)
+        let thenDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.ComponentProperty.self, forKey: .then)
         then = thenDecoded
-        let elseDecoded = try containerValues.decodeIfPresent(Box<AmplifyUIBuilderClientTypes.ComponentProperty>.self, forKey: .else)
+        let elseDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.ComponentProperty.self, forKey: .else)
         `else` = elseDecoded
         let operandTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operandType)
         operandType = operandTypeDecoded
@@ -1958,7 +1958,7 @@ extension AmplifyUIBuilderClientTypes {
     /// Represents a conditional expression to set a component property. Use ComponentConditionProperty to set a property to different values conditionally, based on the value of another property.
     public struct ComponentConditionProperty: Swift.Equatable {
         /// The value to assign to the property if the condition is not met.
-        public var `else`: Box<AmplifyUIBuilderClientTypes.ComponentProperty>?
+        @Indirect public var `else`: AmplifyUIBuilderClientTypes.ComponentProperty?
         /// The name of a field. Specify this when the property is a data model.
         public var field: Swift.String?
         /// The value of the property to evaluate.
@@ -1970,16 +1970,16 @@ extension AmplifyUIBuilderClientTypes {
         /// The name of the conditional property.
         public var property: Swift.String?
         /// The value to assign to the property if the condition is met.
-        public var then: Box<AmplifyUIBuilderClientTypes.ComponentProperty>?
+        @Indirect public var then: AmplifyUIBuilderClientTypes.ComponentProperty?
 
         public init(
-            `else`: Box<AmplifyUIBuilderClientTypes.ComponentProperty>? = nil,
+            `else`: AmplifyUIBuilderClientTypes.ComponentProperty? = nil,
             field: Swift.String? = nil,
             operand: Swift.String? = nil,
             operandType: Swift.String? = nil,
             `operator`: Swift.String? = nil,
             property: Swift.String? = nil,
-            then: Box<AmplifyUIBuilderClientTypes.ComponentProperty>? = nil
+            then: AmplifyUIBuilderClientTypes.ComponentProperty? = nil
         )
         {
             self.`else` = `else`
@@ -2800,6 +2800,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateComponentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateComponentInputBodyMiddleware"
 
@@ -2838,6 +2839,8 @@ public struct CreateComponentInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentToCreate
@@ -3140,6 +3143,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateFormInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateFormInputBodyMiddleware"
 
@@ -3178,6 +3182,8 @@ public struct CreateFormInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateFormInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case formToCreate
@@ -3415,6 +3421,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct CreateThemeInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "CreateThemeInputBodyMiddleware"
 
@@ -3453,6 +3460,8 @@ public struct CreateThemeInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension CreateThemeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case themeToCreate
@@ -3817,6 +3826,7 @@ enum DeleteThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+<<<<<<< HEAD
 public struct ExchangeCodeForTokenInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "ExchangeCodeForTokenInputBodyMiddleware"
 
@@ -3855,6 +3865,8 @@ public struct ExchangeCodeForTokenInputBodyMiddleware: ClientRuntime.Middleware 
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension ExchangeCodeForTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case request
@@ -7511,6 +7523,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct PutMetadataFlagInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PutMetadataFlagInputBodyMiddleware"
 
@@ -7549,6 +7562,8 @@ public struct PutMetadataFlagInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension PutMetadataFlagInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body
@@ -7750,6 +7765,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct RefreshTokenInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "RefreshTokenInputBodyMiddleware"
 
@@ -7788,6 +7804,8 @@ public struct RefreshTokenInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension RefreshTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case refreshTokenBody
@@ -8381,6 +8399,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct StartCodegenJobInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "StartCodegenJobInputBodyMiddleware"
 
@@ -8419,6 +8438,8 @@ public struct StartCodegenJobInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension StartCodegenJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case codegenJobToCreate
@@ -9294,6 +9315,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UpdateComponentInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateComponentInputBodyMiddleware"
 
@@ -9332,6 +9354,8 @@ public struct UpdateComponentInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updatedComponent
@@ -9612,6 +9636,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UpdateFormInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateFormInputBodyMiddleware"
 
@@ -9650,6 +9675,8 @@ public struct UpdateFormInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateFormInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updatedForm
@@ -9881,6 +9908,7 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+<<<<<<< HEAD
 public struct UpdateThemeInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateThemeInputBodyMiddleware"
 
@@ -9919,6 +9947,8 @@ public struct UpdateThemeInputBodyMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
+=======
+>>>>>>> main
 extension UpdateThemeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updatedTheme

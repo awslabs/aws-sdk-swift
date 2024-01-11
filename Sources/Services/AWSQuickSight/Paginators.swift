@@ -12,7 +12,11 @@ extension QuickSightClient {
     ///     - input: A `[DescribeFolderPermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderPermissionsOutput`
     public func describeFolderPermissionsPaginated(input: DescribeFolderPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput>(input: input, inputKey: \DescribeFolderPermissionsInput.nextToken, outputKey: \DescribeFolderPermissionsOutput.nextToken, paginationFunction: self.describeFolderPermissions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFolderPermissions(input:))
+>>>>>>> main
     }
 }
 
@@ -27,7 +31,11 @@ extension DescribeFolderPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeFolderPermissionsInput, Output == DescribeFolderPermissionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeFolderPermissionsInput, OperationStackOutput == DescribeFolderPermissionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFolderPermissionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.ResourcePermission]`
     /// - Returns: `[QuickSightClientTypes.ResourcePermission]`
@@ -45,7 +53,11 @@ extension QuickSightClient {
     ///     - input: A `[DescribeFolderResolvedPermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderResolvedPermissionsOutput`
     public func describeFolderResolvedPermissionsPaginated(input: DescribeFolderResolvedPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput>(input: input, inputKey: \DescribeFolderResolvedPermissionsInput.nextToken, outputKey: \DescribeFolderResolvedPermissionsOutput.nextToken, paginationFunction: self.describeFolderResolvedPermissions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFolderResolvedPermissions(input:))
+>>>>>>> main
     }
 }
 
@@ -60,7 +72,11 @@ extension DescribeFolderResolvedPermissionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == DescribeFolderResolvedPermissionsInput, Output == DescribeFolderResolvedPermissionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == DescribeFolderResolvedPermissionsInput, OperationStackOutput == DescribeFolderResolvedPermissionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFolderResolvedPermissionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.ResourcePermission]`
     /// - Returns: `[QuickSightClientTypes.ResourcePermission]`
@@ -78,7 +94,11 @@ extension QuickSightClient {
     ///     - input: A `[ListAnalysesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnalysesOutput`
     public func listAnalysesPaginated(input: ListAnalysesInput) -> ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutput>(input: input, inputKey: \ListAnalysesInput.nextToken, outputKey: \ListAnalysesOutput.nextToken, paginationFunction: self.listAnalyses(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAnalysesInput, ListAnalysesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnalyses(input:))
+>>>>>>> main
     }
 }
 
@@ -91,7 +111,11 @@ extension ListAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAnalysesInput, Output == ListAnalysesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAnalysesInput, OperationStackOutput == ListAnalysesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAnalysesPaginated`
     /// to access the nested member `[QuickSightClientTypes.AnalysisSummary]`
     /// - Returns: `[QuickSightClientTypes.AnalysisSummary]`
@@ -109,7 +133,11 @@ extension QuickSightClient {
     ///     - input: A `[ListAssetBundleExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleExportJobsOutput`
     public func listAssetBundleExportJobsPaginated(input: ListAssetBundleExportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput>(input: input, inputKey: \ListAssetBundleExportJobsInput.nextToken, outputKey: \ListAssetBundleExportJobsOutput.nextToken, paginationFunction: self.listAssetBundleExportJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetBundleExportJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -122,7 +150,11 @@ extension ListAssetBundleExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAssetBundleExportJobsInput, Output == ListAssetBundleExportJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAssetBundleExportJobsInput, OperationStackOutput == ListAssetBundleExportJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetBundleExportJobsPaginated`
     /// to access the nested member `[QuickSightClientTypes.AssetBundleExportJobSummary]`
     /// - Returns: `[QuickSightClientTypes.AssetBundleExportJobSummary]`
@@ -140,7 +172,11 @@ extension QuickSightClient {
     ///     - input: A `[ListAssetBundleImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetBundleImportJobsOutput`
     public func listAssetBundleImportJobsPaginated(input: ListAssetBundleImportJobsInput) -> ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput>(input: input, inputKey: \ListAssetBundleImportJobsInput.nextToken, outputKey: \ListAssetBundleImportJobsOutput.nextToken, paginationFunction: self.listAssetBundleImportJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetBundleImportJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -153,7 +189,11 @@ extension ListAssetBundleImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListAssetBundleImportJobsInput, Output == ListAssetBundleImportJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListAssetBundleImportJobsInput, OperationStackOutput == ListAssetBundleImportJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetBundleImportJobsPaginated`
     /// to access the nested member `[QuickSightClientTypes.AssetBundleImportJobSummary]`
     /// - Returns: `[QuickSightClientTypes.AssetBundleImportJobSummary]`
@@ -171,7 +211,11 @@ extension QuickSightClient {
     ///     - input: A `[ListDashboardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutput`
     public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutput.nextToken, paginationFunction: self.listDashboards(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDashboards(input:))
+>>>>>>> main
     }
 }
 
@@ -184,7 +228,11 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDashboardsInput, OperationStackOutput == ListDashboardsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DashboardSummary]`
     /// - Returns: `[QuickSightClientTypes.DashboardSummary]`
@@ -202,7 +250,11 @@ extension QuickSightClient {
     ///     - input: A `[ListDashboardVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardVersionsOutput`
     public func listDashboardVersionsPaginated(input: ListDashboardVersionsInput) -> ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutput>(input: input, inputKey: \ListDashboardVersionsInput.nextToken, outputKey: \ListDashboardVersionsOutput.nextToken, paginationFunction: self.listDashboardVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDashboardVersionsInput, ListDashboardVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDashboardVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -216,7 +268,11 @@ extension ListDashboardVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDashboardVersionsInput, Output == ListDashboardVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDashboardVersionsInput, OperationStackOutput == ListDashboardVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardVersionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DashboardVersionSummary]`
     /// - Returns: `[QuickSightClientTypes.DashboardVersionSummary]`
@@ -234,7 +290,11 @@ extension QuickSightClient {
     ///     - input: A `[ListDataSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetsOutput`
     public func listDataSetsPaginated(input: ListDataSetsInput) -> ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput>(input: input, inputKey: \ListDataSetsInput.nextToken, outputKey: \ListDataSetsOutput.nextToken, paginationFunction: self.listDataSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSets(input:))
+>>>>>>> main
     }
 }
 
@@ -247,7 +307,11 @@ extension ListDataSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDataSetsInput, Output == ListDataSetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDataSetsInput, OperationStackOutput == ListDataSetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataSetsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSetSummary]`
     /// - Returns: `[QuickSightClientTypes.DataSetSummary]`
@@ -265,7 +329,11 @@ extension QuickSightClient {
     ///     - input: A `[ListDataSourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourcesOutput`
     public func listDataSourcesPaginated(input: ListDataSourcesInput) -> ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput>(input: input, inputKey: \ListDataSourcesInput.nextToken, outputKey: \ListDataSourcesOutput.nextToken, paginationFunction: self.listDataSources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSources(input:))
+>>>>>>> main
     }
 }
 
@@ -278,7 +346,11 @@ extension ListDataSourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListDataSourcesInput, Output == ListDataSourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListDataSourcesInput, OperationStackOutput == ListDataSourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataSourcesPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSource]`
     /// - Returns: `[QuickSightClientTypes.DataSource]`
@@ -296,7 +368,11 @@ extension QuickSightClient {
     ///     - input: A `[ListFolderMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFolderMembersOutput`
     public func listFolderMembersPaginated(input: ListFolderMembersInput) -> ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutput>(input: input, inputKey: \ListFolderMembersInput.nextToken, outputKey: \ListFolderMembersOutput.nextToken, paginationFunction: self.listFolderMembers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFolderMembers(input:))
+>>>>>>> main
     }
 }
 
@@ -310,7 +386,11 @@ extension ListFolderMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListFolderMembersInput, Output == ListFolderMembersOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListFolderMembersInput, OperationStackOutput == ListFolderMembersOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFolderMembersPaginated`
     /// to access the nested member `[QuickSightClientTypes.MemberIdArnPair]`
     /// - Returns: `[QuickSightClientTypes.MemberIdArnPair]`
@@ -328,7 +408,11 @@ extension QuickSightClient {
     ///     - input: A `[ListFoldersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFoldersOutput`
     public func listFoldersPaginated(input: ListFoldersInput) -> ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutput>(input: input, inputKey: \ListFoldersInput.nextToken, outputKey: \ListFoldersOutput.nextToken, paginationFunction: self.listFolders(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFolders(input:))
+>>>>>>> main
     }
 }
 
@@ -341,7 +425,11 @@ extension ListFoldersInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListFoldersInput, Output == ListFoldersOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListFoldersInput, OperationStackOutput == ListFoldersOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFoldersPaginated`
     /// to access the nested member `[QuickSightClientTypes.FolderSummary]`
     /// - Returns: `[QuickSightClientTypes.FolderSummary]`
@@ -359,7 +447,11 @@ extension QuickSightClient {
     ///     - input: A `[ListGroupMembershipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsOutput`
     public func listGroupMembershipsPaginated(input: ListGroupMembershipsInput) -> ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutput>(input: input, inputKey: \ListGroupMembershipsInput.nextToken, outputKey: \ListGroupMembershipsOutput.nextToken, paginationFunction: self.listGroupMemberships(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupMembershipsInput, ListGroupMembershipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupMemberships(input:))
+>>>>>>> main
     }
 }
 
@@ -374,7 +466,11 @@ extension ListGroupMembershipsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListGroupMembershipsInput, Output == ListGroupMembershipsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListGroupMembershipsInput, OperationStackOutput == ListGroupMembershipsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupMembershipsPaginated`
     /// to access the nested member `[QuickSightClientTypes.GroupMember]`
     /// - Returns: `[QuickSightClientTypes.GroupMember]`
@@ -392,7 +488,11 @@ extension QuickSightClient {
     ///     - input: A `[ListGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutput.nextToken, paginationFunction: self.listGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -406,7 +506,11 @@ extension ListGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListGroupsInput, OperationStackOutput == ListGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Group]`
     /// - Returns: `[QuickSightClientTypes.Group]`
@@ -424,7 +528,11 @@ extension QuickSightClient {
     ///     - input: A `[ListIAMPolicyAssignmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsOutput`
     public func listIAMPolicyAssignmentsPaginated(input: ListIAMPolicyAssignmentsInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput>(input: input, inputKey: \ListIAMPolicyAssignmentsInput.nextToken, outputKey: \ListIAMPolicyAssignmentsOutput.nextToken, paginationFunction: self.listIAMPolicyAssignments(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIAMPolicyAssignments(input:))
+>>>>>>> main
     }
 }
 
@@ -439,7 +547,11 @@ extension ListIAMPolicyAssignmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListIAMPolicyAssignmentsInput, Output == ListIAMPolicyAssignmentsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListIAMPolicyAssignmentsInput, OperationStackOutput == ListIAMPolicyAssignmentsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIAMPolicyAssignmentsPaginated`
     /// to access the nested member `[QuickSightClientTypes.IAMPolicyAssignmentSummary]`
     /// - Returns: `[QuickSightClientTypes.IAMPolicyAssignmentSummary]`
@@ -457,7 +569,11 @@ extension QuickSightClient {
     ///     - input: A `[ListIAMPolicyAssignmentsForUserInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIAMPolicyAssignmentsForUserOutput`
     public func listIAMPolicyAssignmentsForUserPaginated(input: ListIAMPolicyAssignmentsForUserInput) -> ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput>(input: input, inputKey: \ListIAMPolicyAssignmentsForUserInput.nextToken, outputKey: \ListIAMPolicyAssignmentsForUserOutput.nextToken, paginationFunction: self.listIAMPolicyAssignmentsForUser(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIAMPolicyAssignmentsForUser(input:))
+>>>>>>> main
     }
 }
 
@@ -472,7 +588,11 @@ extension ListIAMPolicyAssignmentsForUserInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListIAMPolicyAssignmentsForUserInput, Output == ListIAMPolicyAssignmentsForUserOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListIAMPolicyAssignmentsForUserInput, OperationStackOutput == ListIAMPolicyAssignmentsForUserOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIAMPolicyAssignmentsForUserPaginated`
     /// to access the nested member `[QuickSightClientTypes.ActiveIAMPolicyAssignment]`
     /// - Returns: `[QuickSightClientTypes.ActiveIAMPolicyAssignment]`
@@ -490,7 +610,11 @@ extension QuickSightClient {
     ///     - input: A `[ListIngestionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionsOutput`
     public func listIngestionsPaginated(input: ListIngestionsInput) -> ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput>(input: input, inputKey: \ListIngestionsInput.nextToken, outputKey: \ListIngestionsOutput.nextToken, paginationFunction: self.listIngestions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIngestions(input:))
+>>>>>>> main
     }
 }
 
@@ -504,7 +628,11 @@ extension ListIngestionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIngestionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListIngestionsInput, OperationStackOutput == ListIngestionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIngestionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Ingestion]`
     /// - Returns: `[QuickSightClientTypes.Ingestion]`
@@ -522,7 +650,11 @@ extension QuickSightClient {
     ///     - input: A `[ListNamespacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNamespacesOutput`
     public func listNamespacesPaginated(input: ListNamespacesInput) -> ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput>(input: input, inputKey: \ListNamespacesInput.nextToken, outputKey: \ListNamespacesOutput.nextToken, paginationFunction: self.listNamespaces(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListNamespacesInput, ListNamespacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNamespaces(input:))
+>>>>>>> main
     }
 }
 
@@ -535,7 +667,11 @@ extension ListNamespacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListNamespacesInput, Output == ListNamespacesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListNamespacesInput, OperationStackOutput == ListNamespacesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNamespacesPaginated`
     /// to access the nested member `[QuickSightClientTypes.NamespaceInfoV2]`
     /// - Returns: `[QuickSightClientTypes.NamespaceInfoV2]`
@@ -544,6 +680,42 @@ extension PaginatorSequence where Input == ListNamespacesInput, Output == ListNa
     }
 }
 extension QuickSightClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[ListRoleMembershipsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRoleMembershipsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRoleMembershipsOutput`
+    public func listRoleMembershipsPaginated(input: ListRoleMembershipsInput) -> ClientRuntime.PaginatorSequence<ListRoleMembershipsInput, ListRoleMembershipsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRoleMembershipsInput, ListRoleMembershipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRoleMemberships(input:))
+    }
+}
+
+extension ListRoleMembershipsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRoleMembershipsInput {
+        return ListRoleMembershipsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            role: self.role
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRoleMembershipsInput, OperationStackOutput == ListRoleMembershipsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRoleMembershipsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func membersList() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.membersList }
+    }
+}
+extension QuickSightClient {
+>>>>>>> main
     /// Paginate over `[ListTemplateAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -553,7 +725,11 @@ extension QuickSightClient {
     ///     - input: A `[ListTemplateAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateAliasesOutput`
     public func listTemplateAliasesPaginated(input: ListTemplateAliasesInput) -> ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutput>(input: input, inputKey: \ListTemplateAliasesInput.nextToken, outputKey: \ListTemplateAliasesOutput.nextToken, paginationFunction: self.listTemplateAliases(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTemplateAliasesInput, ListTemplateAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTemplateAliases(input:))
+>>>>>>> main
     }
 }
 
@@ -567,7 +743,11 @@ extension ListTemplateAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTemplateAliasesInput, Output == ListTemplateAliasesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTemplateAliasesInput, OperationStackOutput == ListTemplateAliasesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTemplateAliasesPaginated`
     /// to access the nested member `[QuickSightClientTypes.TemplateAlias]`
     /// - Returns: `[QuickSightClientTypes.TemplateAlias]`
@@ -585,7 +765,11 @@ extension QuickSightClient {
     ///     - input: A `[ListTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTemplatesOutput`
     public func listTemplatesPaginated(input: ListTemplatesInput) -> ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutput>(input: input, inputKey: \ListTemplatesInput.nextToken, outputKey: \ListTemplatesOutput.nextToken, paginationFunction: self.listTemplates(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTemplatesInput, ListTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTemplates(input:))
+>>>>>>> main
     }
 }
 
@@ -598,7 +782,11 @@ extension ListTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTemplatesInput, Output == ListTemplatesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTemplatesInput, OperationStackOutput == ListTemplatesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTemplatesPaginated`
     /// to access the nested member `[QuickSightClientTypes.TemplateSummary]`
     /// - Returns: `[QuickSightClientTypes.TemplateSummary]`
@@ -616,7 +804,11 @@ extension QuickSightClient {
     ///     - input: A `[ListTemplateVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTemplateVersionsOutput`
     public func listTemplateVersionsPaginated(input: ListTemplateVersionsInput) -> ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutput>(input: input, inputKey: \ListTemplateVersionsInput.nextToken, outputKey: \ListTemplateVersionsOutput.nextToken, paginationFunction: self.listTemplateVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTemplateVersionsInput, ListTemplateVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTemplateVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -630,7 +822,11 @@ extension ListTemplateVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListTemplateVersionsInput, Output == ListTemplateVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListTemplateVersionsInput, OperationStackOutput == ListTemplateVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTemplateVersionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.TemplateVersionSummary]`
     /// - Returns: `[QuickSightClientTypes.TemplateVersionSummary]`
@@ -648,7 +844,11 @@ extension QuickSightClient {
     ///     - input: A `[ListThemesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThemesOutput`
     public func listThemesPaginated(input: ListThemesInput) -> ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutput>(input: input, inputKey: \ListThemesInput.nextToken, outputKey: \ListThemesOutput.nextToken, paginationFunction: self.listThemes(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListThemesInput, ListThemesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThemes(input:))
+>>>>>>> main
     }
 }
 
@@ -662,7 +862,11 @@ extension ListThemesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListThemesInput, Output == ListThemesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListThemesInput, OperationStackOutput == ListThemesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listThemesPaginated`
     /// to access the nested member `[QuickSightClientTypes.ThemeSummary]`
     /// - Returns: `[QuickSightClientTypes.ThemeSummary]`
@@ -680,7 +884,11 @@ extension QuickSightClient {
     ///     - input: A `[ListThemeVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListThemeVersionsOutput`
     public func listThemeVersionsPaginated(input: ListThemeVersionsInput) -> ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutput>(input: input, inputKey: \ListThemeVersionsInput.nextToken, outputKey: \ListThemeVersionsOutput.nextToken, paginationFunction: self.listThemeVersions(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListThemeVersionsInput, ListThemeVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThemeVersions(input:))
+>>>>>>> main
     }
 }
 
@@ -694,7 +902,11 @@ extension ListThemeVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListThemeVersionsInput, Output == ListThemeVersionsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListThemeVersionsInput, OperationStackOutput == ListThemeVersionsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listThemeVersionsPaginated`
     /// to access the nested member `[QuickSightClientTypes.ThemeVersionSummary]`
     /// - Returns: `[QuickSightClientTypes.ThemeVersionSummary]`
@@ -712,7 +924,11 @@ extension QuickSightClient {
     ///     - input: A `[ListTopicsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsOutput`
     public func listTopicsPaginated(input: ListTopicsInput) -> ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput>(input: input, inputKey: \ListTopicsInput.nextToken, outputKey: \ListTopicsOutput.nextToken, paginationFunction: self.listTopics(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopics(input:))
+>>>>>>> main
     }
 }
 
@@ -734,7 +950,11 @@ extension QuickSightClient {
     ///     - input: A `[ListUserGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUserGroupsOutput`
     public func listUserGroupsPaginated(input: ListUserGroupsInput) -> ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutput>(input: input, inputKey: \ListUserGroupsInput.nextToken, outputKey: \ListUserGroupsOutput.nextToken, paginationFunction: self.listUserGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListUserGroupsInput, ListUserGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUserGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -749,7 +969,11 @@ extension ListUserGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListUserGroupsInput, Output == ListUserGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListUserGroupsInput, OperationStackOutput == ListUserGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUserGroupsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Group]`
     /// - Returns: `[QuickSightClientTypes.Group]`
@@ -767,7 +991,11 @@ extension QuickSightClient {
     ///     - input: A `[ListUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutput.nextToken, paginationFunction: self.listUsers(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUsers(input:))
+>>>>>>> main
     }
 }
 
@@ -781,7 +1009,11 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListUsersInput, OperationStackOutput == ListUsersOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[QuickSightClientTypes.User]`
     /// - Returns: `[QuickSightClientTypes.User]`
@@ -799,7 +1031,11 @@ extension QuickSightClient {
     ///     - input: A `[ListVPCConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVPCConnectionsOutput`
     public func listVPCConnectionsPaginated(input: ListVPCConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutput>(input: input, inputKey: \ListVPCConnectionsInput.nextToken, outputKey: \ListVPCConnectionsOutput.nextToken, paginationFunction: self.listVPCConnections(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListVPCConnectionsInput, ListVPCConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVPCConnections(input:))
+>>>>>>> main
     }
 }
 
@@ -821,7 +1057,11 @@ extension QuickSightClient {
     ///     - input: A `[SearchAnalysesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchAnalysesOutput`
     public func searchAnalysesPaginated(input: SearchAnalysesInput) -> ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutput>(input: input, inputKey: \SearchAnalysesInput.nextToken, outputKey: \SearchAnalysesOutput.nextToken, paginationFunction: self.searchAnalyses(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchAnalysesInput, SearchAnalysesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAnalyses(input:))
+>>>>>>> main
     }
 }
 
@@ -835,7 +1075,11 @@ extension SearchAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchAnalysesInput, Output == SearchAnalysesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchAnalysesInput, OperationStackOutput == SearchAnalysesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchAnalysesPaginated`
     /// to access the nested member `[QuickSightClientTypes.AnalysisSummary]`
     /// - Returns: `[QuickSightClientTypes.AnalysisSummary]`
@@ -853,7 +1097,11 @@ extension QuickSightClient {
     ///     - input: A `[SearchDashboardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchDashboardsOutput`
     public func searchDashboardsPaginated(input: SearchDashboardsInput) -> ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutput>(input: input, inputKey: \SearchDashboardsInput.nextToken, outputKey: \SearchDashboardsOutput.nextToken, paginationFunction: self.searchDashboards(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchDashboardsInput, SearchDashboardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchDashboards(input:))
+>>>>>>> main
     }
 }
 
@@ -867,7 +1115,11 @@ extension SearchDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchDashboardsInput, Output == SearchDashboardsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchDashboardsInput, OperationStackOutput == SearchDashboardsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchDashboardsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DashboardSummary]`
     /// - Returns: `[QuickSightClientTypes.DashboardSummary]`
@@ -885,7 +1137,11 @@ extension QuickSightClient {
     ///     - input: A `[SearchDataSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchDataSetsOutput`
     public func searchDataSetsPaginated(input: SearchDataSetsInput) -> ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutput>(input: input, inputKey: \SearchDataSetsInput.nextToken, outputKey: \SearchDataSetsOutput.nextToken, paginationFunction: self.searchDataSets(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchDataSetsInput, SearchDataSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchDataSets(input:))
+>>>>>>> main
     }
 }
 
@@ -899,7 +1155,11 @@ extension SearchDataSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchDataSetsInput, Output == SearchDataSetsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchDataSetsInput, OperationStackOutput == SearchDataSetsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchDataSetsPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSetSummary]`
     /// - Returns: `[QuickSightClientTypes.DataSetSummary]`
@@ -917,7 +1177,11 @@ extension QuickSightClient {
     ///     - input: A `[SearchDataSourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchDataSourcesOutput`
     public func searchDataSourcesPaginated(input: SearchDataSourcesInput) -> ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutput>(input: input, inputKey: \SearchDataSourcesInput.nextToken, outputKey: \SearchDataSourcesOutput.nextToken, paginationFunction: self.searchDataSources(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchDataSourcesInput, SearchDataSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchDataSources(input:))
+>>>>>>> main
     }
 }
 
@@ -931,7 +1195,11 @@ extension SearchDataSourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchDataSourcesInput, Output == SearchDataSourcesOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchDataSourcesInput, OperationStackOutput == SearchDataSourcesOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchDataSourcesPaginated`
     /// to access the nested member `[QuickSightClientTypes.DataSourceSummary]`
     /// - Returns: `[QuickSightClientTypes.DataSourceSummary]`
@@ -949,7 +1217,11 @@ extension QuickSightClient {
     ///     - input: A `[SearchFoldersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchFoldersOutput`
     public func searchFoldersPaginated(input: SearchFoldersInput) -> ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutput>(input: input, inputKey: \SearchFoldersInput.nextToken, outputKey: \SearchFoldersOutput.nextToken, paginationFunction: self.searchFolders(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchFolders(input:))
+>>>>>>> main
     }
 }
 
@@ -963,7 +1235,11 @@ extension SearchFoldersInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchFoldersInput, Output == SearchFoldersOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchFoldersInput, OperationStackOutput == SearchFoldersOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchFoldersPaginated`
     /// to access the nested member `[QuickSightClientTypes.FolderSummary]`
     /// - Returns: `[QuickSightClientTypes.FolderSummary]`
@@ -981,7 +1257,11 @@ extension QuickSightClient {
     ///     - input: A `[SearchGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchGroupsOutput`
     public func searchGroupsPaginated(input: SearchGroupsInput) -> ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutput>(input: input, inputKey: \SearchGroupsInput.nextToken, outputKey: \SearchGroupsOutput.nextToken, paginationFunction: self.searchGroups(input:))
+=======
+        return ClientRuntime.PaginatorSequence<SearchGroupsInput, SearchGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchGroups(input:))
+>>>>>>> main
     }
 }
 
@@ -996,7 +1276,11 @@ extension SearchGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == SearchGroupsInput, Output == SearchGroupsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == SearchGroupsInput, OperationStackOutput == SearchGroupsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchGroupsPaginated`
     /// to access the nested member `[QuickSightClientTypes.Group]`
     /// - Returns: `[QuickSightClientTypes.Group]`

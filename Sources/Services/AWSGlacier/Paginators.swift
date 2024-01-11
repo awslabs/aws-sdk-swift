@@ -12,7 +12,11 @@ extension GlacierClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.marker, outputKey: \ListJobsOutput.marker, paginationFunction: self.listJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -28,7 +32,11 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[GlacierClientTypes.GlacierJobDescription]`
     /// - Returns: `[GlacierClientTypes.GlacierJobDescription]`
@@ -46,7 +54,11 @@ extension GlacierClient {
     ///     - input: A `[ListMultipartUploadsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMultipartUploadsOutput`
     public func listMultipartUploadsPaginated(input: ListMultipartUploadsInput) -> ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutput>(input: input, inputKey: \ListMultipartUploadsInput.marker, outputKey: \ListMultipartUploadsOutput.marker, paginationFunction: self.listMultipartUploads(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listMultipartUploads(input:))
+>>>>>>> main
     }
 }
 
@@ -60,7 +72,11 @@ extension ListMultipartUploadsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListMultipartUploadsInput, Output == ListMultipartUploadsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListMultipartUploadsInput, OperationStackOutput == ListMultipartUploadsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMultipartUploadsPaginated`
     /// to access the nested member `[GlacierClientTypes.UploadListElement]`
     /// - Returns: `[GlacierClientTypes.UploadListElement]`
@@ -78,7 +94,11 @@ extension GlacierClient {
     ///     - input: A `[ListPartsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutput`
     public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput>(input: input, inputKey: \ListPartsInput.marker, outputKey: \ListPartsOutput.marker, paginationFunction: self.listParts(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listParts(input:))
+>>>>>>> main
     }
 }
 
@@ -93,7 +113,11 @@ extension ListPartsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPartsInput, OperationStackOutput == ListPartsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
     /// to access the nested member `[GlacierClientTypes.PartListElement]`
     /// - Returns: `[GlacierClientTypes.PartListElement]`
@@ -111,7 +135,11 @@ extension GlacierClient {
     ///     - input: A `[ListVaultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVaultsOutput`
     public func listVaultsPaginated(input: ListVaultsInput) -> ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutput>(input: input, inputKey: \ListVaultsInput.marker, outputKey: \ListVaultsOutput.marker, paginationFunction: self.listVaults(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listVaults(input:))
+>>>>>>> main
     }
 }
 
@@ -124,7 +152,11 @@ extension ListVaultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListVaultsInput, Output == ListVaultsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListVaultsInput, OperationStackOutput == ListVaultsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listVaultsPaginated`
     /// to access the nested member `[GlacierClientTypes.DescribeVaultOutput]`
     /// - Returns: `[GlacierClientTypes.DescribeVaultOutput]`

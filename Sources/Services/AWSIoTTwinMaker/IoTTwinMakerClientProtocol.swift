@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// IoT TwinMaker is a service with which you can build operational digital twins of physical systems. IoT TwinMaker overlays measurements and analysis from real-world sensors, cameras, and enterprise applications so you can create data visualizations to monitor your physical factory, building, or industrial plant. You can use this real-world data to monitor operations and diagnose and repair errors.
 public protocol IoTTwinMakerClientProtocol {
+    /// Performs the `BatchPutPropertyValues` operation on the `AWSIoTTwinMaker` service.
+    ///
     /// Sets values for multiple time series properties.
     ///
     /// - Parameter BatchPutPropertyValuesInput : [no documentation found]
@@ -18,6 +20,29 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CancelMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Cancels the metadata transfer job.
+    ///
+    /// - Parameter CancelMetadataTransferJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelMetadataTransferJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func cancelMetadataTransferJob(input: CancelMetadataTransferJobInput) async throws -> CancelMetadataTransferJobOutput
+    /// Performs the `CreateComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Creates a component type.
     ///
     /// - Parameter CreateComponentTypeInput : [no documentation found]
@@ -34,6 +59,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Creates an entity.
     ///
     /// - Parameter CreateEntityInput : [no documentation found]
@@ -50,6 +80,30 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Creates a new metadata transfer job.
+    ///
+    /// - Parameter CreateMetadataTransferJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMetadataTransferJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func createMetadataTransferJob(input: CreateMetadataTransferJobInput) async throws -> CreateMetadataTransferJobOutput
+    /// Performs the `CreateScene` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Creates a scene.
     ///
     /// - Parameter CreateSceneInput : [no documentation found]
@@ -66,6 +120,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func createScene(input: CreateSceneInput) async throws -> CreateSceneOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateSyncJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// This action creates a SyncJob.
     ///
     /// - Parameter CreateSyncJobInput : [no documentation found]
@@ -82,6 +141,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Creates a workplace.
     ///
     /// - Parameter CreateWorkspaceInput : [no documentation found]
@@ -98,6 +162,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Deletes a component type.
     ///
     /// - Parameter DeleteComponentTypeInput : [no documentation found]
@@ -113,6 +182,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Deletes an entity.
     ///
     /// - Parameter DeleteEntityInput : [no documentation found]
@@ -128,6 +202,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteScene` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Deletes a scene.
     ///
     /// - Parameter DeleteSceneInput : [no documentation found]
@@ -143,6 +222,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteSyncJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Delete the SyncJob.
     ///
     /// - Parameter DeleteSyncJobInput : [no documentation found]
@@ -159,6 +243,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Deletes a workspace.
     ///
     /// - Parameter DeleteWorkspaceInput : [no documentation found]
@@ -174,7 +263,13 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput
+<<<<<<< HEAD
     /// Run queries to access information from your knowledge graph of entities within individual workspaces.
+=======
+    /// Performs the `ExecuteQuery` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Run queries to access information from your knowledge graph of entities within individual workspaces. The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html). ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
+>>>>>>> main
     ///
     /// - Parameter ExecuteQueryInput : [no documentation found]
     ///
@@ -190,6 +285,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a component type.
     ///
     /// - Parameter GetComponentTypeInput : [no documentation found]
@@ -205,6 +305,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Retrieves information about an entity.
     ///
     /// - Parameter GetEntityInput : [no documentation found]
@@ -220,6 +325,28 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getEntity(input: GetEntityInput) async throws -> GetEntityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetMetadataTransferJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Gets a nmetadata transfer job.
+    ///
+    /// - Parameter GetMetadataTransferJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetadataTransferJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func getMetadataTransferJob(input: GetMetadataTransferJobInput) async throws -> GetMetadataTransferJobOutput
+    /// Performs the `GetPricingPlan` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Gets the pricing plan.
     ///
     /// - Parameter GetPricingPlanInput : [no documentation found]
@@ -234,6 +361,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPropertyValue` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     ///
     /// - Parameter GetPropertyValueInput : [no documentation found]
@@ -251,6 +383,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetPropertyValueHistory` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
     /// - Parameter GetPropertyValueHistoryInput : [no documentation found]
@@ -268,6 +405,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetScene` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a scene.
     ///
     /// - Parameter GetSceneInput : [no documentation found]
@@ -283,6 +425,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getScene(input: GetSceneInput) async throws -> GetSceneOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSyncJob` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Gets the SyncJob.
     ///
     /// - Parameter GetSyncJobInput : [no documentation found]
@@ -299,6 +446,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Retrieves information about a workspace.
     ///
     /// - Parameter GetWorkspaceInput : [no documentation found]
@@ -314,6 +466,28 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListComponents` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// This API lists the components of an entity.
+    ///
+    /// - Parameter ListComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutput
+    /// Performs the `ListComponentTypes` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Lists all component types in a workspace.
     ///
     /// - Parameter ListComponentTypesInput : [no documentation found]
@@ -328,6 +502,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListEntities` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Lists all entities in a workspace.
     ///
     /// - Parameter ListEntitiesInput : [no documentation found]
@@ -342,6 +521,44 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListMetadataTransferJobs` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// Lists the metadata transfer jobs.
+    ///
+    /// - Parameter ListMetadataTransferJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMetadataTransferJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listMetadataTransferJobs(input: ListMetadataTransferJobsInput) async throws -> ListMetadataTransferJobsOutput
+    /// Performs the `ListProperties` operation on the `AWSIoTTwinMaker` service.
+    ///
+    /// This API lists the properties of a component.
+    ///
+    /// - Parameter ListPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPropertiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
+    func listProperties(input: ListPropertiesInput) async throws -> ListPropertiesOutput
+    /// Performs the `ListScenes` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Lists all scenes in a workspace.
     ///
     /// - Parameter ListScenesInput : [no documentation found]
@@ -356,6 +573,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func listScenes(input: ListScenesInput) async throws -> ListScenesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSyncJobs` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// List all SyncJobs.
     ///
     /// - Parameter ListSyncJobsInput : [no documentation found]
@@ -371,6 +593,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListSyncResources` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Lists the sync resources.
     ///
     /// - Parameter ListSyncResourcesInput : [no documentation found]
@@ -386,6 +613,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListTagsForResource` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Lists all tags associated with a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -398,6 +630,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `AccessDeniedException` : Access is denied.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListWorkspaces` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Retrieves information about workspaces in the current account.
     ///
     /// - Parameter ListWorkspacesInput : [no documentation found]
@@ -412,6 +649,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Adds tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -425,6 +667,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `TooManyTagsException` : The number of tags exceeds the limit.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -437,6 +684,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `AccessDeniedException` : Access is denied.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateComponentType` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Updates information in a component type.
     ///
     /// - Parameter UpdateComponentTypeInput : [no documentation found]
@@ -453,6 +705,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateEntity` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Updates an entity.
     ///
     /// - Parameter UpdateEntityInput : [no documentation found]
@@ -470,6 +727,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdatePricingPlan` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Update the pricing plan.
     ///
     /// - Parameter UpdatePricingPlanInput : [no documentation found]
@@ -484,6 +746,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateScene` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Updates a scene.
     ///
     /// - Parameter UpdateSceneInput : [no documentation found]
@@ -499,6 +766,11 @@ public protocol IoTTwinMakerClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `ValidationException` : Failed
     func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateWorkspace` operation on the `AWSIoTTwinMaker` service.
+    ///
+>>>>>>> main
     /// Updates a workspace.
     ///
     /// - Parameter UpdateWorkspaceInput : [no documentation found]

@@ -12,7 +12,11 @@ extension IoT1ClickProjectsClient {
     ///     - input: A `[ListPlacementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPlacementsOutput`
     public func listPlacementsPaginated(input: ListPlacementsInput) -> ClientRuntime.PaginatorSequence<ListPlacementsInput, ListPlacementsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListPlacementsInput, ListPlacementsOutput>(input: input, inputKey: \ListPlacementsInput.nextToken, outputKey: \ListPlacementsOutput.nextToken, paginationFunction: self.listPlacements(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListPlacementsInput, ListPlacementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPlacements(input:))
+>>>>>>> main
     }
 }
 
@@ -25,7 +29,11 @@ extension ListPlacementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListPlacementsInput, Output == ListPlacementsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListPlacementsInput, OperationStackOutput == ListPlacementsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPlacementsPaginated`
     /// to access the nested member `[IoT1ClickProjectsClientTypes.PlacementSummary]`
     /// - Returns: `[IoT1ClickProjectsClientTypes.PlacementSummary]`
@@ -43,7 +51,11 @@ extension IoT1ClickProjectsClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
+>>>>>>> main
     }
 }
 
@@ -55,7 +67,11 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+<<<<<<< HEAD
 extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
+=======
+extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
+>>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[IoT1ClickProjectsClientTypes.ProjectSummary]`
     /// - Returns: `[IoT1ClickProjectsClientTypes.ProjectSummary]`

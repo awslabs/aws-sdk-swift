@@ -227,6 +227,7 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         case name
         case prerequisite
         case recommendationId
+        case recommendationStatus
         case referenceId
         case type
     }
@@ -259,6 +260,9 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         }
         if let recommendationId = self.recommendationId {
             try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -306,6 +310,8 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
             }
         }
         appComponentNames = appComponentNamesDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
     }
 }
 
@@ -329,6 +335,8 @@ extension ResiliencehubClientTypes {
         /// Identifier of the alarm recommendation.
         /// This member is required.
         public var recommendationId: Swift.String?
+        /// Status of the recommended Amazon CloudWatch alarm.
+        public var recommendationStatus: ResiliencehubClientTypes.RecommendationStatus?
         /// Reference identifier of the alarm recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
@@ -344,6 +352,7 @@ extension ResiliencehubClientTypes {
             name: Swift.String? = nil,
             prerequisite: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
+            recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             type: ResiliencehubClientTypes.AlarmType? = nil
         )
@@ -355,6 +364,7 @@ extension ResiliencehubClientTypes {
             self.name = name
             self.prerequisite = prerequisite
             self.recommendationId = recommendationId
+            self.recommendationStatus = recommendationStatus
             self.referenceId = referenceId
             self.type = type
         }
@@ -10042,7 +10052,11 @@ extension ResiliencehubClientTypes {
         ///
         /// * These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
         public var crossAccountRoleArns: [Swift.String]?
-        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. You must have iam:passRole permission for this role while creating or updating the application.
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.
+        ///
+        /// * You must have iam:passRole permission for this role while creating or updating the application.
+        ///
+        /// * Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters.
         public var invokerRoleName: Swift.String?
         /// Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user.
         /// This member is required.
@@ -10940,6 +10954,44 @@ extension ResiliencehubClientTypes {
 
 }
 
+extension ResiliencehubClientTypes {
+    public enum RecommendationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case excluded
+        case implemented
+        case inactive
+        case notImplemented
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationStatus] {
+            return [
+                .excluded,
+                .implemented,
+                .inactive,
+                .notImplemented,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "Excluded"
+            case .implemented: return "Implemented"
+            case .inactive: return "Inactive"
+            case .notImplemented: return "NotImplemented"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RecommendationStatus(rawValue: rawValue) ?? RecommendationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResiliencehubClientTypes.RecommendationTemplate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
@@ -11673,12 +11725,19 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.ResiliencyScore: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentScore
         case disruptionScore
         case score
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentScore = componentScore {
+            var componentScoreContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .componentScore)
+            for (dictKey0, scoringComponentResiliencyScores0) in componentScore {
+                try componentScoreContainer.encode(scoringComponentResiliencyScores0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let disruptionScore = disruptionScore {
             var disruptionScoreContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .disruptionScore)
             for (dictKey0, disruptionResiliencyScore0) in disruptionScore {
@@ -11705,12 +11764,25 @@ extension ResiliencehubClientTypes.ResiliencyScore: Swift.Codable {
             }
         }
         disruptionScore = disruptionScoreDecoded0
+        let componentScoreContainer = try containerValues.decodeIfPresent([Swift.String: ResiliencehubClientTypes.ScoringComponentResiliencyScore?].self, forKey: .componentScore)
+        var componentScoreDecoded0: [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]? = nil
+        if let componentScoreContainer = componentScoreContainer {
+            componentScoreDecoded0 = [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]()
+            for (key0, scoringcomponentresiliencyscore0) in componentScoreContainer {
+                if let scoringcomponentresiliencyscore0 = scoringcomponentresiliencyscore0 {
+                    componentScoreDecoded0?[key0] = scoringcomponentresiliencyscore0
+                }
+            }
+        }
+        componentScore = componentScoreDecoded0
     }
 }
 
 extension ResiliencehubClientTypes {
     /// The overall resiliency score, returned as an object that includes the disruption score and outage score.
     public struct ResiliencyScore: Swift.Equatable {
+        /// The score generated by Resilience Hub for the scoring component after running an assessment. For example, if the score is 25 points, it indicates the overall score of your application generated by Resilience Hub after running an assessment.
+        public var componentScore: [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]?
         /// The disruption score for a valid key.
         /// This member is required.
         public var disruptionScore: [Swift.String:Swift.Double]?
@@ -11719,15 +11791,55 @@ extension ResiliencehubClientTypes {
         public var score: Swift.Double
 
         public init(
+            componentScore: [Swift.String:ResiliencehubClientTypes.ScoringComponentResiliencyScore]? = nil,
             disruptionScore: [Swift.String:Swift.Double]? = nil,
             score: Swift.Double = 0.0
         )
         {
+            self.componentScore = componentScore
             self.disruptionScore = disruptionScore
             self.score = score
         }
     }
 
+}
+
+extension ResiliencehubClientTypes {
+    public enum ResiliencyScoreType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alarm
+        case compliance
+        case sop
+        case test
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResiliencyScoreType] {
+            return [
+                .alarm,
+                .compliance,
+                .sop,
+                .test,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alarm: return "Alarm"
+            case .compliance: return "Compliance"
+            case .sop: return "Sop"
+            case .test: return "Test"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResiliencyScoreType(rawValue: rawValue) ?? ResiliencyScoreType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResolveAppVersionResourcesInput: Swift.Encodable {
@@ -12404,6 +12516,71 @@ extension ResiliencehubClientTypes {
 
 }
 
+extension ResiliencehubClientTypes.ScoringComponentResiliencyScore: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludedCount
+        case outstandingCount
+        case possibleScore
+        case score
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if excludedCount != 0 {
+            try encodeContainer.encode(excludedCount, forKey: .excludedCount)
+        }
+        if outstandingCount != 0 {
+            try encodeContainer.encode(outstandingCount, forKey: .outstandingCount)
+        }
+        if possibleScore != 0.0 {
+            try encodeContainer.encode(possibleScore, forKey: .possibleScore)
+        }
+        if score != 0.0 {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score) ?? 0.0
+        score = scoreDecoded
+        let possibleScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .possibleScore) ?? 0.0
+        possibleScore = possibleScoreDecoded
+        let outstandingCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .outstandingCount) ?? 0
+        outstandingCount = outstandingCountDecoded
+        let excludedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .excludedCount) ?? 0
+        excludedCount = excludedCountDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Resiliency score of each scoring component. For more information about scoring component, see [Calculating resiliency score](https://docs.aws.amazon.com/resilience-hub/latest/userguide/calculate-score.html).
+    public struct ScoringComponentResiliencyScore: Swift.Equatable {
+        /// Number of recommendations that were excluded from the assessment. For example, if the Excluded count for Resilience Hub recommended Amazon CloudWatch alarms is 7, it indicates that 7 Amazon CloudWatch alarms are excluded from the assessment.
+        public var excludedCount: Swift.Int
+        /// Number of issues that must be resolved to obtain the maximum possible score for the scoring component. For SOPs, alarms, and FIS experiments, these are the number of recommendations that must be implemented. For compliance, it is the number of Application Components that has breached the resiliency policy. For example, if the Outstanding count for Resilience Hub recommended Amazon CloudWatch alarms is 5, it indicates that 5 Amazon CloudWatch alarms must be fixed to achieve the maximum possible score.
+        public var outstandingCount: Swift.Int
+        /// Maximum possible score that can be obtained for the scoring component. If the Possible score is 20 points, it indicates the maximum possible score you can achieve for your application when you run a new assessment after implementing all the Resilience Hub recommendations.
+        public var possibleScore: Swift.Double
+        /// Resiliency score of your application.
+        public var score: Swift.Double
+
+        public init(
+            excludedCount: Swift.Int = 0,
+            outstandingCount: Swift.Int = 0,
+            possibleScore: Swift.Double = 0.0,
+            score: Swift.Double = 0.0
+        )
+        {
+            self.excludedCount = excludedCount
+            self.outstandingCount = outstandingCount
+            self.possibleScore = possibleScore
+            self.score = score
+        }
+    }
+
+}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12467,6 +12644,7 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         case name
         case prerequisite
         case recommendationId
+        case recommendationStatus
         case referenceId
         case serviceType
     }
@@ -12493,6 +12671,9 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         }
         if let recommendationId = self.recommendationId {
             try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -12529,6 +12710,8 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         referenceId = referenceIdDecoded
         let prerequisiteDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prerequisite)
         prerequisite = prerequisiteDecoded
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
     }
 }
 
@@ -12548,6 +12731,8 @@ extension ResiliencehubClientTypes {
         /// Identifier for the SOP recommendation.
         /// This member is required.
         public var recommendationId: Swift.String?
+        /// Status of the recommended standard operating procedure.
+        public var recommendationStatus: ResiliencehubClientTypes.RecommendationStatus?
         /// Reference identifier for the SOP recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
@@ -12562,6 +12747,7 @@ extension ResiliencehubClientTypes {
             name: Swift.String? = nil,
             prerequisite: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
+            recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             serviceType: ResiliencehubClientTypes.SopServiceType? = nil
         )
@@ -12572,6 +12758,7 @@ extension ResiliencehubClientTypes {
             self.name = name
             self.prerequisite = prerequisite
             self.recommendationId = recommendationId
+            self.recommendationStatus = recommendationStatus
             self.referenceId = referenceId
             self.serviceType = serviceType
         }
@@ -12957,6 +13144,7 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
         case name
         case prerequisite
         case recommendationId
+        case recommendationStatus
         case referenceId
         case risk
         case type
@@ -12993,6 +13181,9 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
         }
         if let recommendationId = self.recommendationId {
             try encodeContainer.encode(recommendationId, forKey: .recommendationId)
+        }
+        if let recommendationStatus = self.recommendationStatus {
+            try encodeContainer.encode(recommendationStatus.rawValue, forKey: .recommendationStatus)
         }
         if let referenceId = self.referenceId {
             try encodeContainer.encode(referenceId, forKey: .referenceId)
@@ -13047,6 +13238,8 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
             }
         }
         dependsOnAlarms = dependsOnAlarmsDecoded0
+        let recommendationStatusDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.RecommendationStatus.self, forKey: .recommendationStatus)
+        recommendationStatus = recommendationStatusDecoded
     }
 }
 
@@ -13069,6 +13262,8 @@ extension ResiliencehubClientTypes {
         public var prerequisite: Swift.String?
         /// Identifier for the test recommendation.
         public var recommendationId: Swift.String?
+        /// Status of the recommended test.
+        public var recommendationStatus: ResiliencehubClientTypes.RecommendationStatus?
         /// Reference identifier for the test recommendation.
         /// This member is required.
         public var referenceId: Swift.String?
@@ -13086,6 +13281,7 @@ extension ResiliencehubClientTypes {
             name: Swift.String? = nil,
             prerequisite: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
+            recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             risk: ResiliencehubClientTypes.TestRisk? = nil,
             type: ResiliencehubClientTypes.TestType? = nil
@@ -13099,6 +13295,7 @@ extension ResiliencehubClientTypes {
             self.name = name
             self.prerequisite = prerequisite
             self.recommendationId = recommendationId
+            self.recommendationStatus = recommendationStatus
             self.referenceId = referenceId
             self.risk = risk
             self.type = type

@@ -35,6 +35,8 @@ import ClientRuntime
 ///
 /// For information about how to use Amazon Web Services CodeStar Connections, see the [Developer Tools User Guide](https://docs.aws.amazon.com/dtconsole/latest/userguide/welcome-connections.html).
 public protocol CodeStarconnectionsClientProtocol {
+    /// Performs the `CreateConnection` operation on the `CodeStar_connections_20191201` service.
+    ///
     /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
@@ -48,6 +50,11 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateHost` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
     ///
     /// - Parameter CreateHostInput : [no documentation found]
@@ -59,6 +66,49 @@ public protocol CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     func createHost(input: CreateHostInput) async throws -> CreateHostOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `CreateRepositoryLink` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+    ///
+    /// - Parameter CreateRepositoryLinkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRepositoryLinkOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `LimitExceededException` : Exceeded the maximum limit for connections.
+    /// - `ResourceAlreadyExistsException` : Unable to create resource. Resource already exists.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func createRepositoryLink(input: CreateRepositoryLinkInput) async throws -> CreateRepositoryLinkOutput
+    /// Performs the `CreateSyncConfiguration` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Creates a sync configuration which allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource. Parameters for the sync configuration are determined by the sync type.
+    ///
+    /// - Parameter CreateSyncConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSyncConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `LimitExceededException` : Exceeded the maximum limit for connections.
+    /// - `ResourceAlreadyExistsException` : Unable to create resource. Resource already exists.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func createSyncConfiguration(input: CreateSyncConfigurationInput) async throws -> CreateSyncConfigurationOutput
+    /// Performs the `DeleteConnection` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// The connection to be deleted.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
@@ -70,6 +120,11 @@ public protocol CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteHost` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
     ///
     /// - Parameter DeleteHostInput : [no documentation found]
@@ -82,6 +137,49 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     func deleteHost(input: DeleteHostInput) async throws -> DeleteHostOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DeleteRepositoryLink` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Deletes the association between your connection and a specified external Git repository.
+    ///
+    /// - Parameter DeleteRepositoryLinkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRepositoryLinkOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `SyncConfigurationStillExistsException` : Unable to continue. The sync blocker still exists.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnsupportedProviderTypeException` : The specified provider type is not supported for connections.
+    func deleteRepositoryLink(input: DeleteRepositoryLinkInput) async throws -> DeleteRepositoryLinkOutput
+    /// Performs the `DeleteSyncConfiguration` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Deletes the sync configuration for a specified repository and connection.
+    ///
+    /// - Parameter DeleteSyncConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSyncConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `LimitExceededException` : Exceeded the maximum limit for connections.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func deleteSyncConfiguration(input: DeleteSyncConfigurationInput) async throws -> DeleteSyncConfigurationOutput
+    /// Performs the `GetConnection` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Returns the connection ARN and details such as status, owner, and provider type.
     ///
     /// - Parameter GetConnectionInput : [no documentation found]
@@ -94,6 +192,11 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetHost` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
     ///
     /// - Parameter GetHostInput : [no documentation found]
@@ -106,6 +209,97 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     func getHost(input: GetHostInput) async throws -> GetHostOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetRepositoryLink` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository.
+    ///
+    /// - Parameter GetRepositoryLinkInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositoryLinkOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getRepositoryLink(input: GetRepositoryLinkInput) async throws -> GetRepositoryLinkOutput
+    /// Performs the `GetRepositorySyncStatus` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository.
+    ///
+    /// - Parameter GetRepositorySyncStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositorySyncStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutput
+    /// Performs the `GetResourceSyncStatus` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Returns the status of the sync with the Git repository for a specific Amazon Web Services resource.
+    ///
+    /// - Parameter GetResourceSyncStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceSyncStatusOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getResourceSyncStatus(input: GetResourceSyncStatusInput) async throws -> GetResourceSyncStatusOutput
+    /// Performs the `GetSyncBlockerSummary` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Returns a list of the most recent sync blockers.
+    ///
+    /// - Parameter GetSyncBlockerSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetSyncBlockerSummaryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getSyncBlockerSummary(input: GetSyncBlockerSummaryInput) async throws -> GetSyncBlockerSummaryOutput
+    /// Performs the `GetSyncConfiguration` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
+    ///
+    /// - Parameter GetSyncConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSyncConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getSyncConfiguration(input: GetSyncConfigurationInput) async throws -> GetSyncConfigurationOutput
+    /// Performs the `ListConnections` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Lists the connections associated with your account.
     ///
     /// - Parameter ListConnectionsInput : [no documentation found]
@@ -117,12 +311,74 @@ public protocol CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     func listConnections(input: ListConnectionsInput) async throws -> ListConnectionsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListHosts` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Lists the hosts associated with your account.
     ///
     /// - Parameter ListHostsInput : [no documentation found]
     ///
     /// - Returns: `ListHostsOutput` : [no documentation found]
     func listHosts(input: ListHostsInput) async throws -> ListHostsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListRepositoryLinks` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Lists the repository links created for connections in your account.
+    ///
+    /// - Parameter ListRepositoryLinksInput : [no documentation found]
+    ///
+    /// - Returns: `ListRepositoryLinksOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listRepositoryLinks(input: ListRepositoryLinksInput) async throws -> ListRepositoryLinksOutput
+    /// Performs the `ListRepositorySyncDefinitions` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Lists the repository sync definitions for repository links in your account.
+    ///
+    /// - Parameter ListRepositorySyncDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRepositorySyncDefinitionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listRepositorySyncDefinitions(input: ListRepositorySyncDefinitionsInput) async throws -> ListRepositorySyncDefinitionsOutput
+    /// Performs the `ListSyncConfigurations` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Returns a list of sync configurations for a specified repository.
+    ///
+    /// - Parameter ListSyncConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncConfigurationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func listSyncConfigurations(input: ListSyncConfigurationsInput) async throws -> ListSyncConfigurationsOutput
+    /// Performs the `ListTagsForResource` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -134,6 +390,11 @@ public protocol CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `TagResource` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -146,6 +407,11 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `LimitExceededException` : Exceeded the maximum limit for connections.
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UntagResource` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Removes tags from an Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -157,6 +423,11 @@ public protocol CodeStarconnectionsClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateHost` operation on the `CodeStar_connections_20191201` service.
+    ///
+>>>>>>> main
     /// Updates a specified host with the provided configurations.
     ///
     /// - Parameter UpdateHostInput : [no documentation found]
@@ -171,6 +442,66 @@ public protocol CodeStarconnectionsClientProtocol {
     /// - `ResourceUnavailableException` : Resource not found. Verify the ARN for the host resource and try again.
     /// - `UnsupportedOperationException` : The operation is not supported. Check the connection status and try again.
     func updateHost(input: UpdateHostInput) async throws -> UpdateHostOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `UpdateRepositoryLink` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
+    ///
+    /// - Parameter UpdateRepositoryLinkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRepositoryLinkOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConditionalCheckFailedException` : The conditional check failed. Try again later.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UpdateOutOfSyncException` : The update is out of sync. Try syncing again.
+    func updateRepositoryLink(input: UpdateRepositoryLinkInput) async throws -> UpdateRepositoryLinkOutput
+    /// Performs the `UpdateSyncBlocker` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
+    ///
+    /// - Parameter UpdateSyncBlockerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSyncBlockerOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `RetryLatestCommitFailedException` : Retrying the latest commit failed. Try again later.
+    /// - `SyncBlockerDoesNotExistException` : Unable to continue. The sync blocker does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func updateSyncBlocker(input: UpdateSyncBlockerInput) async throws -> UpdateSyncBlockerOutput
+    /// Performs the `UpdateSyncConfiguration` operation on the `CodeStar_connections_20191201` service.
+    ///
+    /// Updates the sync configuration for your connection and a specified external Git repository.
+    ///
+    /// - Parameter UpdateSyncConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSyncConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
+    /// - `InternalServerException` : Received an internal server exception. Try again later.
+    /// - `InvalidInputException` : The input is not valid. Verify that the action is typed correctly.
+    /// - `ResourceNotFoundException` : Resource not found. Verify the connection resource ARN and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UpdateOutOfSyncException` : The update is out of sync. Try syncing again.
+    func updateSyncConfiguration(input: UpdateSyncConfigurationInput) async throws -> UpdateSyncConfigurationOutput
+>>>>>>> main
 }
 
 public enum CodeStarconnectionsClientTypes {}

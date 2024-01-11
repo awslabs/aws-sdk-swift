@@ -1046,6 +1046,7 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
         case enabledMetrics = "EnabledMetrics"
         case healthCheckGracePeriod = "HealthCheckGracePeriod"
         case healthCheckType = "HealthCheckType"
+        case instanceMaintenancePolicy = "InstanceMaintenancePolicy"
         case instances = "Instances"
         case launchConfigurationName = "LaunchConfigurationName"
         case launchTemplate = "LaunchTemplate"
@@ -1127,6 +1128,9 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
         }
         if let healthCheckType = healthCheckType {
             try container.encode(healthCheckType, forKey: ClientRuntime.Key("HealthCheckType"))
+        }
+        if let instanceMaintenancePolicy = instanceMaintenancePolicy {
+            try container.encode(instanceMaintenancePolicy, forKey: ClientRuntime.Key("InstanceMaintenancePolicy"))
         }
         if let instances = instances {
             if !instances.isEmpty {
@@ -1479,6 +1483,8 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
         } else {
             trafficSources = nil
         }
+        let instanceMaintenancePolicyDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.InstanceMaintenancePolicy.self, forKey: .instanceMaintenancePolicy)
+        instanceMaintenancePolicy = instanceMaintenancePolicyDecoded
     }
 }
 
@@ -1517,6 +1523,8 @@ extension AutoScalingClientTypes {
         /// A comma-separated value string of one or more health check types.
         /// This member is required.
         public var healthCheckType: Swift.String?
+        /// An instance maintenance policy.
+        public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
         /// The EC2 instances associated with the group.
         public var instances: [AutoScalingClientTypes.Instance]?
         /// The name of the associated launch configuration.
@@ -1576,6 +1584,7 @@ extension AutoScalingClientTypes {
             enabledMetrics: [AutoScalingClientTypes.EnabledMetric]? = nil,
             healthCheckGracePeriod: Swift.Int? = nil,
             healthCheckType: Swift.String? = nil,
+            instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy? = nil,
             instances: [AutoScalingClientTypes.Instance]? = nil,
             launchConfigurationName: Swift.String? = nil,
             launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
@@ -1612,6 +1621,7 @@ extension AutoScalingClientTypes {
             self.enabledMetrics = enabledMetrics
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.healthCheckType = healthCheckType
+            self.instanceMaintenancePolicy = instanceMaintenancePolicy
             self.instances = instances
             self.launchConfigurationName = launchConfigurationName
             self.launchTemplate = launchTemplate
@@ -2646,6 +2656,9 @@ extension CreateAutoScalingGroupInput: Swift.Encodable {
         if let instanceId = instanceId {
             try container.encode(instanceId, forKey: ClientRuntime.Key("InstanceId"))
         }
+        if let instanceMaintenancePolicy = instanceMaintenancePolicy {
+            try container.encode(instanceMaintenancePolicy, forKey: ClientRuntime.Key("InstanceMaintenancePolicy"))
+        }
         if let launchConfigurationName = launchConfigurationName {
             try container.encode(launchConfigurationName, forKey: ClientRuntime.Key("LaunchConfigurationName"))
         }
@@ -2783,6 +2796,8 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var healthCheckType: Swift.String?
     /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) API operation. For more information, see [Creating an Auto Scaling group using an EC2 instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
+    /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
     /// The name of the launch configuration to use to launch instances. Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
     public var launchConfigurationName: Swift.String?
     /// Information used to specify the launch template and version to use to launch instances. Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId). The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see [Creating a launch template for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -2830,6 +2845,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
         healthCheckGracePeriod: Swift.Int? = nil,
         healthCheckType: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy? = nil,
         launchConfigurationName: Swift.String? = nil,
         launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
         lifecycleHookSpecificationList: [AutoScalingClientTypes.LifecycleHookSpecification]? = nil,
@@ -2859,6 +2875,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
         self.healthCheckGracePeriod = healthCheckGracePeriod
         self.healthCheckType = healthCheckType
         self.instanceId = instanceId
+        self.instanceMaintenancePolicy = instanceMaintenancePolicy
         self.launchConfigurationName = launchConfigurationName
         self.launchTemplate = launchTemplate
         self.lifecycleHookSpecificationList = lifecycleHookSpecificationList
@@ -2906,6 +2923,7 @@ struct CreateAutoScalingGroupInputBody: Swift.Equatable {
     let desiredCapacityType: Swift.String?
     let defaultInstanceWarmup: Swift.Int?
     let trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
+    let instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
 }
 
 extension CreateAutoScalingGroupInputBody: Swift.Decodable {
@@ -2921,6 +2939,7 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
         case healthCheckGracePeriod = "HealthCheckGracePeriod"
         case healthCheckType = "HealthCheckType"
         case instanceId = "InstanceId"
+        case instanceMaintenancePolicy = "InstanceMaintenancePolicy"
         case launchConfigurationName = "LaunchConfigurationName"
         case launchTemplate = "LaunchTemplate"
         case lifecycleHookSpecificationList = "LifecycleHookSpecificationList"
@@ -3114,6 +3133,8 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
         } else {
             trafficSources = nil
         }
+        let instanceMaintenancePolicyDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.InstanceMaintenancePolicy.self, forKey: .instanceMaintenancePolicy)
+        instanceMaintenancePolicy = instanceMaintenancePolicyDecoded
     }
 }
 
@@ -9394,6 +9415,51 @@ extension AutoScalingClientTypes {
     }
 }
 
+extension AutoScalingClientTypes.InstanceMaintenancePolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxHealthyPercentage = "MaxHealthyPercentage"
+        case minHealthyPercentage = "MinHealthyPercentage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxHealthyPercentage = maxHealthyPercentage {
+            try container.encode(maxHealthyPercentage, forKey: ClientRuntime.Key("MaxHealthyPercentage"))
+        }
+        if let minHealthyPercentage = minHealthyPercentage {
+            try container.encode(minHealthyPercentage, forKey: ClientRuntime.Key("MinHealthyPercentage"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minHealthyPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minHealthyPercentage)
+        minHealthyPercentage = minHealthyPercentageDecoded
+        let maxHealthyPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxHealthyPercentage)
+        maxHealthyPercentage = maxHealthyPercentageDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// Describes an instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
+    public struct InstanceMaintenancePolicy: Swift.Equatable {
+        /// Specifies the upper threshold as a percentage of the desired capacity of the Auto Scaling group. It represents the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. Value range is 100 to 200. After it's set, a value of -1 will clear the previously set value. Both MinHealthyPercentage and MaxHealthyPercentage must be specified, and the difference between them cannot be greater than 100. A large range increases the number of instances that can be replaced at the same time.
+        public var maxHealthyPercentage: Swift.Int?
+        /// Specifies the lower threshold as a percentage of the desired capacity of the Auto Scaling group. It represents the minimum percentage of the group to keep in service, healthy, and ready to use to support your workload when replacing instances. Value range is 0 to 100. After it's set, a value of -1 will clear the previously set value.
+        public var minHealthyPercentage: Swift.Int?
+
+        public init(
+            maxHealthyPercentage: Swift.Int? = nil,
+            minHealthyPercentage: Swift.Int? = nil
+        )
+        {
+            self.maxHealthyPercentage = maxHealthyPercentage
+            self.minHealthyPercentage = minHealthyPercentage
+        }
+    }
+
+}
+
 extension AutoScalingClientTypes {
     public enum InstanceMetadataEndpointState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -14441,6 +14507,7 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         case checkpointDelay = "CheckpointDelay"
         case checkpointPercentages = "CheckpointPercentages"
         case instanceWarmup = "InstanceWarmup"
+        case maxHealthyPercentage = "MaxHealthyPercentage"
         case minHealthyPercentage = "MinHealthyPercentage"
         case scaleInProtectedInstances = "ScaleInProtectedInstances"
         case skipMatching = "SkipMatching"
@@ -14472,6 +14539,9 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         }
         if let instanceWarmup = instanceWarmup {
             try container.encode(instanceWarmup, forKey: ClientRuntime.Key("InstanceWarmup"))
+        }
+        if let maxHealthyPercentage = maxHealthyPercentage {
+            try container.encode(maxHealthyPercentage, forKey: ClientRuntime.Key("MaxHealthyPercentage"))
         }
         if let minHealthyPercentage = minHealthyPercentage {
             try container.encode(minHealthyPercentage, forKey: ClientRuntime.Key("MinHealthyPercentage"))
@@ -14524,6 +14594,8 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         standbyInstances = standbyInstancesDecoded
         let alarmSpecificationDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.AlarmSpecification.self, forKey: .alarmSpecification)
         alarmSpecification = alarmSpecificationDecoded
+        let maxHealthyPercentageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxHealthyPercentage)
+        maxHealthyPercentage = maxHealthyPercentageDecoded
     }
 }
 
@@ -14549,7 +14621,9 @@ extension AutoScalingClientTypes {
         public var checkpointPercentages: [Swift.Int]?
         /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property. If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
         public var instanceWarmup: Swift.Int?
-        /// The amount of capacity in the Auto Scaling group that must pass your group's health checks to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group (rounded up to the nearest integer). The default is 90. Setting the minimum healthy percentage to 100 percent limits the rate of replacement to one instance at a time. In contrast, setting it to 0 percent has the effect of replacing all instances at the same time.
+        /// Specifies the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 100 to 200. If you specify MaxHealthyPercentage, you must also specify MinHealthyPercentage, and the difference between them cannot be greater than 100. A larger range increases the number of instances that can be replaced at the same time. If you do not specify this property, the default is 100 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.
+        public var maxHealthyPercentage: Swift.Int?
+        /// Specifies the minimum percentage of the group to keep in service, healthy, and ready to use to support your workload to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 0 to 100. If you do not specify this property, the default is 90 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.
         public var minHealthyPercentage: Swift.Int?
         /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances protected from scale in are found. The following lists the valid values: Refresh Amazon EC2 Auto Scaling replaces instances that are protected from scale in. Ignore Amazon EC2 Auto Scaling ignores instances that are protected from scale in and continues to replace instances that are not protected. Wait (default) Amazon EC2 Auto Scaling waits one hour for you to remove scale-in protection. Otherwise, the instance refresh will fail.
         public var scaleInProtectedInstances: AutoScalingClientTypes.ScaleInProtectedInstances?
@@ -14564,6 +14638,7 @@ extension AutoScalingClientTypes {
             checkpointDelay: Swift.Int? = nil,
             checkpointPercentages: [Swift.Int]? = nil,
             instanceWarmup: Swift.Int? = nil,
+            maxHealthyPercentage: Swift.Int? = nil,
             minHealthyPercentage: Swift.Int? = nil,
             scaleInProtectedInstances: AutoScalingClientTypes.ScaleInProtectedInstances? = nil,
             skipMatching: Swift.Bool? = nil,
@@ -14575,6 +14650,7 @@ extension AutoScalingClientTypes {
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
             self.instanceWarmup = instanceWarmup
+            self.maxHealthyPercentage = maxHealthyPercentage
             self.minHealthyPercentage = minHealthyPercentage
             self.scaleInProtectedInstances = scaleInProtectedInstances
             self.skipMatching = skipMatching
@@ -16085,7 +16161,7 @@ public struct StartInstanceRefreshInput: Swift.Equatable {
     public var autoScalingGroupName: Swift.String?
     /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration. When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and instance types. This can help you reduce the number of replacements that are required to apply updates.
     public var desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration?
-    /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum healthy percentage, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:
+    /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum and maximum healthy percentages, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:
     ///
     /// * Auto rollback
     ///
@@ -17133,6 +17209,9 @@ extension UpdateAutoScalingGroupInput: Swift.Encodable {
         if let healthCheckType = healthCheckType {
             try container.encode(healthCheckType, forKey: ClientRuntime.Key("HealthCheckType"))
         }
+        if let instanceMaintenancePolicy = instanceMaintenancePolicy {
+            try container.encode(instanceMaintenancePolicy, forKey: ClientRuntime.Key("InstanceMaintenancePolicy"))
+        }
         if let launchConfigurationName = launchConfigurationName {
             try container.encode(launchConfigurationName, forKey: ClientRuntime.Key("LaunchConfigurationName"))
         }
@@ -17208,6 +17287,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
     public var healthCheckGracePeriod: Swift.Int?
     /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     public var healthCheckType: Swift.String?
+    /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
     /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
     public var launchConfigurationName: Swift.String?
     /// The launch template and version to use to specify the updates. If you specify LaunchTemplate in your update request, you can't specify LaunchConfigurationName or MixedInstancesPolicy.
@@ -17242,6 +17323,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
         desiredCapacityType: Swift.String? = nil,
         healthCheckGracePeriod: Swift.Int? = nil,
         healthCheckType: Swift.String? = nil,
+        instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy? = nil,
         launchConfigurationName: Swift.String? = nil,
         launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
         maxInstanceLifetime: Swift.Int? = nil,
@@ -17265,6 +17347,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
         self.desiredCapacityType = desiredCapacityType
         self.healthCheckGracePeriod = healthCheckGracePeriod
         self.healthCheckType = healthCheckType
+        self.instanceMaintenancePolicy = instanceMaintenancePolicy
         self.launchConfigurationName = launchConfigurationName
         self.launchTemplate = launchTemplate
         self.maxInstanceLifetime = maxInstanceLifetime
@@ -17301,6 +17384,7 @@ struct UpdateAutoScalingGroupInputBody: Swift.Equatable {
     let context: Swift.String?
     let desiredCapacityType: Swift.String?
     let defaultInstanceWarmup: Swift.Int?
+    let instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
 }
 
 extension UpdateAutoScalingGroupInputBody: Swift.Decodable {
@@ -17315,6 +17399,7 @@ extension UpdateAutoScalingGroupInputBody: Swift.Decodable {
         case desiredCapacityType = "DesiredCapacityType"
         case healthCheckGracePeriod = "HealthCheckGracePeriod"
         case healthCheckType = "HealthCheckType"
+        case instanceMaintenancePolicy = "InstanceMaintenancePolicy"
         case launchConfigurationName = "LaunchConfigurationName"
         case launchTemplate = "LaunchTemplate"
         case maxInstanceLifetime = "MaxInstanceLifetime"
@@ -17406,6 +17491,8 @@ extension UpdateAutoScalingGroupInputBody: Swift.Decodable {
         desiredCapacityType = desiredCapacityTypeDecoded
         let defaultInstanceWarmupDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultInstanceWarmup)
         defaultInstanceWarmup = defaultInstanceWarmupDecoded
+        let instanceMaintenancePolicyDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.InstanceMaintenancePolicy.self, forKey: .instanceMaintenancePolicy)
+        instanceMaintenancePolicy = instanceMaintenancePolicyDecoded
     }
 }
 

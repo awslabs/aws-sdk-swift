@@ -12,7 +12,11 @@ extension SignerClient {
     ///     - input: A `[ListSigningJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSigningJobsOutput`
     public func listSigningJobsPaginated(input: ListSigningJobsInput) -> ClientRuntime.PaginatorSequence<ListSigningJobsInput, ListSigningJobsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSigningJobsInput, ListSigningJobsOutput>(input: input, inputKey: \ListSigningJobsInput.nextToken, outputKey: \ListSigningJobsOutput.nextToken, paginationFunction: self.listSigningJobs(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSigningJobsInput, ListSigningJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSigningJobs(input:))
+>>>>>>> main
     }
 }
 
@@ -40,7 +44,11 @@ extension SignerClient {
     ///     - input: A `[ListSigningPlatformsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSigningPlatformsOutput`
     public func listSigningPlatformsPaginated(input: ListSigningPlatformsInput) -> ClientRuntime.PaginatorSequence<ListSigningPlatformsInput, ListSigningPlatformsOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSigningPlatformsInput, ListSigningPlatformsOutput>(input: input, inputKey: \ListSigningPlatformsInput.nextToken, outputKey: \ListSigningPlatformsOutput.nextToken, paginationFunction: self.listSigningPlatforms(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSigningPlatformsInput, ListSigningPlatformsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSigningPlatforms(input:))
+>>>>>>> main
     }
 }
 
@@ -64,7 +72,11 @@ extension SignerClient {
     ///     - input: A `[ListSigningProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSigningProfilesOutput`
     public func listSigningProfilesPaginated(input: ListSigningProfilesInput) -> ClientRuntime.PaginatorSequence<ListSigningProfilesInput, ListSigningProfilesOutput> {
+<<<<<<< HEAD
         return ClientRuntime.PaginatorSequence<ListSigningProfilesInput, ListSigningProfilesOutput>(input: input, inputKey: \ListSigningProfilesInput.nextToken, outputKey: \ListSigningProfilesOutput.nextToken, paginationFunction: self.listSigningProfiles(input:))
+=======
+        return ClientRuntime.PaginatorSequence<ListSigningProfilesInput, ListSigningProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSigningProfiles(input:))
+>>>>>>> main
     }
 }
 

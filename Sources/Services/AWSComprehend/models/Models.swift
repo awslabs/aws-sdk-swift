@@ -2130,11 +2130,11 @@ extension ClassifyDocumentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ClassifyDocumentInput: Swift.Equatable {
-    /// Use the Bytes parameter to input a text, PDF, Word or image file. You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
+    /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
     public var bytes: ClientRuntime.Data?
     /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
     public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
-    /// The Amazon Resource Number (ARN) of the endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
+    /// The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see [Prompt safety classification](https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification) in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see [Using Amazon Comprehend endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html).
     /// This member is required.
     public var endpointArn: Swift.String?
     /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter.
@@ -2211,7 +2211,11 @@ extension ClassifyDocumentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ClassifyDocumentOutput: Swift.Equatable {
+<<<<<<< HEAD
     /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
+=======
+    /// The classes used by the document being analyzed. These are used for models trained in multi-class mode. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. For prompt safety classification, the response includes only two classes (SAFE_PROMPT and UNSAFE_PROMPT), along with a confidence score for each class. The value range of the score is zero to one, where one is the highest confidence.
+>>>>>>> main
     public var classes: [ComprehendClientTypes.DocumentClass]?
     /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
     public var documentMetadata: ComprehendClientTypes.DocumentMetadata?
@@ -2219,7 +2223,7 @@ public struct ClassifyDocumentOutput: Swift.Equatable {
     public var documentType: [ComprehendClientTypes.DocumentTypeListItem]?
     /// Page-level errors that the system detected while processing the input document. The field is empty if the system encountered no errors.
     public var errors: [ComprehendClientTypes.ErrorsListItem]?
-    /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
+    /// The labels used in the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
     public var labels: [ComprehendClientTypes.DocumentLabel]?
     /// Warnings detected while processing the input document. The response includes a warning if there is a mismatch between the input document type and the model type associated with the endpoint that you specified. The response can also include warnings for individual pages that have a mismatch. The field is empty if the system generated no warnings.
     public var warnings: [ComprehendClientTypes.WarningsListItem]?
@@ -2792,7 +2796,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     /// The language of the input documents. You can specify any of the languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class mode, which identifies one and only one class for each document, or multi-label mode, which identifies one or more labels for each document. In multi-label mode, multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
+    /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class (single-label) mode or multi-label mode. Multi-class mode identifies a single class label for each document and multi-label mode identifies one or more class labels for each document. Multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
     public var mode: ComprehendClientTypes.DocumentClassifierMode?
     /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
@@ -2802,7 +2806,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     public var modelKmsKeyId: Swift.String?
     /// The resource-based policy to attach to your custom document classifier model. You can use this policy to allow another Amazon Web Services account to import your custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}'
     public var modelPolicy: Swift.String?
-    /// Specifies the location for the output files from a custom classifier job. This parameter is required for a request that creates a native classifier model.
+    /// Specifies the location for the output files from a custom classifier job. This parameter is required for a request that creates a native document model.
     public var outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig?
     /// Tags to associate with the document classifier. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
@@ -3485,7 +3489,7 @@ extension CreateFlywheelInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFlywheelInput: Swift.Equatable {
-    /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version.
+    /// To associate an existing model with the flywheel, specify the Amazon Resource Number (ARN) of the model version. Do not set TaskConfig or ModelType if you specify an ActiveModelArn.
     public var activeModelArn: Swift.String?
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
@@ -3500,11 +3504,11 @@ public struct CreateFlywheelInput: Swift.Equatable {
     /// Name for the flywheel.
     /// This member is required.
     public var flywheelName: Swift.String?
-    /// The model type.
+    /// The model type. You need to set ModelType if you are creating a flywheel for a new model.
     public var modelType: ComprehendClientTypes.ModelType?
     /// The tags to associate with this flywheel.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// Configuration about the custom classifier associated with the flywheel.
+    /// Configuration about the model associated with the flywheel. You need to set TaskConfig if you are creating a flywheel for a new model.
     public var taskConfig: ComprehendClientTypes.TaskConfig?
 
     public init(
@@ -7477,6 +7481,150 @@ enum DetectTargetedSentimentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DetectToxicContentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DetectToxicContentInput(languageCode: \(Swift.String(describing: languageCode)), textSegments: \"CONTENT_REDACTED\")"}
+}
+
+extension DetectToxicContentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case languageCode = "LanguageCode"
+        case textSegments = "TextSegments"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let languageCode = self.languageCode {
+            try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
+        }
+        if let textSegments = textSegments {
+            var textSegmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textSegments)
+            for textsegment0 in textSegments {
+                try textSegmentsContainer.encode(textsegment0)
+            }
+        }
+    }
+}
+
+extension DetectToxicContentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DetectToxicContentInput: Swift.Equatable {
+    /// The language of the input text. Currently, English is the only supported language.
+    /// This member is required.
+    public var languageCode: ComprehendClientTypes.LanguageCode?
+    /// A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB.
+    /// This member is required.
+    public var textSegments: [ComprehendClientTypes.TextSegment]?
+
+    public init(
+        languageCode: ComprehendClientTypes.LanguageCode? = nil,
+        textSegments: [ComprehendClientTypes.TextSegment]? = nil
+    )
+    {
+        self.languageCode = languageCode
+        self.textSegments = textSegments
+    }
+}
+
+struct DetectToxicContentInputBody: Swift.Equatable {
+    let textSegments: [ComprehendClientTypes.TextSegment]?
+    let languageCode: ComprehendClientTypes.LanguageCode?
+}
+
+extension DetectToxicContentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case languageCode = "LanguageCode"
+        case textSegments = "TextSegments"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textSegmentsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.TextSegment?].self, forKey: .textSegments)
+        var textSegmentsDecoded0:[ComprehendClientTypes.TextSegment]? = nil
+        if let textSegmentsContainer = textSegmentsContainer {
+            textSegmentsDecoded0 = [ComprehendClientTypes.TextSegment]()
+            for structure0 in textSegmentsContainer {
+                if let structure0 = structure0 {
+                    textSegmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        textSegments = textSegmentsDecoded0
+        let languageCodeDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.LanguageCode.self, forKey: .languageCode)
+        languageCode = languageCodeDecoded
+    }
+}
+
+extension DetectToxicContentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DetectToxicContentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.resultList = output.resultList
+        } else {
+            self.resultList = nil
+        }
+    }
+}
+
+public struct DetectToxicContentOutput: Swift.Equatable {
+    /// Results of the content moderation analysis. Each entry in the results list contains a list of toxic content types identified in the text, along with a confidence score for each content type. The results list also includes a toxicity score for each entry in the results list.
+    public var resultList: [ComprehendClientTypes.ToxicLabels]?
+
+    public init(
+        resultList: [ComprehendClientTypes.ToxicLabels]? = nil
+    )
+    {
+        self.resultList = resultList
+    }
+}
+
+struct DetectToxicContentOutputBody: Swift.Equatable {
+    let resultList: [ComprehendClientTypes.ToxicLabels]?
+}
+
+extension DetectToxicContentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultList = "ResultList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultListContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.ToxicLabels?].self, forKey: .resultList)
+        var resultListDecoded0:[ComprehendClientTypes.ToxicLabels]? = nil
+        if let resultListContainer = resultListContainer {
+            resultListDecoded0 = [ComprehendClientTypes.ToxicLabels]()
+            for structure0 in resultListContainer {
+                if let structure0 = structure0 {
+                    resultListDecoded0?.append(structure0)
+                }
+            }
+        }
+        resultList = resultListDecoded0
+    }
+}
+
+enum DetectToxicContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TextSizeLimitExceededException": return try await TextSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedLanguageException": return try await UnsupportedLanguageException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ComprehendClientTypes.DocumentClass: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -7570,7 +7718,7 @@ extension ComprehendClientTypes.DocumentClassificationConfig: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Configuration required for a custom classification model.
+    /// Configuration required for a document classification model.
     public struct DocumentClassificationConfig: Swift.Equatable {
         /// One or more labels to associate with the custom classifier.
         public var labels: [Swift.String]?
@@ -7785,7 +7933,7 @@ extension ComprehendClientTypes {
         ///
         /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public var volumeKmsKeyId: Swift.String?
-        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vppc/latest/userguide/what-is-amazon-vpc.html).
+        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
         public var vpcConfig: ComprehendClientTypes.VpcConfig?
 
         public init(
@@ -7914,7 +8062,7 @@ extension ComprehendClientTypes.DocumentClassifierDocuments: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// The location of the training documents. This parameter is required in a request to create a native classifier model.
+    /// The location of the training documents. This parameter is required in a request to create a semi-structured document classification model.
     public struct DocumentClassifierDocuments: Swift.Equatable {
         /// The S3 URI location of the training documents specified in the S3Uri CSV file.
         /// This member is required.
@@ -8097,15 +8245,15 @@ extension ComprehendClientTypes {
         ///
         /// DocumentReaderConfig does not apply to plain text files or Word files. For image files and PDF documents, you can override these default actions using the fields listed below. For more information, see [ Setting text extraction options](https://docs.aws.amazon.com/comprehend/latest/dg/idp-set-textract-options.html) in the Comprehend Developer Guide.
         public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
-        /// The type of input documents for training the model. Provide plain-text documents to create a plain-text model, and provide semi-structured documents to create a native model.
+        /// The type of input documents for training the model. Provide plain-text documents to create a plain-text model, and provide semi-structured documents to create a native document model.
         public var documentType: ComprehendClientTypes.DocumentClassifierDocumentTypeFormat?
-        /// The S3 location of the training documents. This parameter is required in a request to create a native classifier model.
+        /// The S3 location of the training documents. This parameter is required in a request to create a native document model.
         public var documents: ComprehendClientTypes.DocumentClassifierDocuments?
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public var labelDelimiter: Swift.String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public var s3Uri: Swift.String?
-        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
+        /// This specifies the Amazon S3 location that contains the test annotations for the document classifier. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
         public var testS3Uri: Swift.String?
 
         public init(
@@ -8196,7 +8344,7 @@ extension ComprehendClientTypes.DocumentClassifierOutputDataConfig: Swift.Codabl
 }
 
 extension ComprehendClientTypes {
-    /// Provide the location for output data from a custom classifier job. This field is mandatory if you are training a native classifier model.
+    /// Provide the location for output data from a custom classifier job. This field is mandatory if you are training a native document model.
     public struct DocumentClassifierOutputDataConfig: Swift.Equatable {
         /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
         public var flywheelStatsS3Prefix: Swift.String?
@@ -8406,7 +8554,7 @@ extension ComprehendClientTypes {
         ///
         /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public var volumeKmsKeyId: Swift.String?
-        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vppc/latest/userguide/what-is-amazon-vpc.html).
+        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
         public var vpcConfig: ComprehendClientTypes.VpcConfig?
 
         public init(
@@ -8675,11 +8823,7 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes {
-    /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:
-    ///
-    /// * TABLES - Returns additional information about any tables that are detected in the input document.
-    ///
-    /// * FORMS - Returns additional information about any forms that are detected in the input document.
+    /// TABLES or FORMS
     public enum DocumentReadFeatureTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forms
         case tables
@@ -8813,9 +8957,9 @@ extension ComprehendClientTypes {
         public var documentReadMode: ComprehendClientTypes.DocumentReadMode?
         /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:
         ///
-        /// * TABLES - Returns information about any tables that are detected in the input document.
+        /// * TABLES - Returns additional information about any tables that are detected in the input document.
         ///
-        /// * FORMS - Returns information and the data from any forms that are detected in the input document.
+        /// * FORMS - Returns additional information about any forms that are detected in the input document.
         public var featureTypes: [ComprehendClientTypes.DocumentReadFeatureTypes]?
 
         public init(
@@ -10871,7 +11015,7 @@ extension ComprehendClientTypes.EntityTypesListItem: Swift.Codable {
 extension ComprehendClientTypes {
     /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer.
     public struct EntityTypesListItem: Swift.Equatable {
-        /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
+        /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), and , (comma).
         /// This member is required.
         public var type: Swift.String?
 
@@ -11671,7 +11815,7 @@ extension ComprehendClientTypes {
         public var modelType: ComprehendClientTypes.ModelType?
         /// The status of the flywheel.
         public var status: ComprehendClientTypes.FlywheelStatus?
-        /// Configuration about the custom classifier associated with the flywheel.
+        /// Configuration about the model associated with a flywheel.
         public var taskConfig: ComprehendClientTypes.TaskConfig?
 
         public init(
@@ -12324,17 +12468,23 @@ extension ComprehendClientTypes.InvalidRequestDetail: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Provides additional detail about why the request failed:
-    ///
-    /// * Document size is too large - Check the size of your file and resubmit the request.
-    ///
-    /// * Document type is not supported - Check the file type and resubmit the request.
-    ///
-    /// * Too many pages in the document - Check the number of pages in your file and resubmit the request.
-    ///
-    /// * Access denied to Amazon Textract - Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+    /// Provides additional detail about why the request failed.
     public struct InvalidRequestDetail: Swift.Equatable {
-        /// Reason code is INVALID_DOCUMENT.
+        /// Reason codes include the following values:
+        ///
+        /// * DOCUMENT_SIZE_EXCEEDED - Document size is too large. Check the size of your file and resubmit the request.
+        ///
+        /// * UNSUPPORTED_DOC_TYPE - Document type is not supported. Check the file type and resubmit the request.
+        ///
+        /// * PAGE_LIMIT_EXCEEDED - Too many pages in the document. Check the number of pages in your file and resubmit the request.
+        ///
+        /// * TEXTRACT_ACCESS_DENIED - Access denied to Amazon Textract. Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+        ///
+        /// * NOT_TEXTRACT_JSON - Document is not Amazon Textract JSON format. Verify the format and resubmit the request.
+        ///
+        /// * MISMATCHED_TOTAL_PAGE_COUNT - Check the number of pages in your file and resubmit the request.
+        ///
+        /// * INVALID_DOCUMENT - Invalid document. Check the file and resubmit the request.
         public var reason: ComprehendClientTypes.InvalidRequestDetailReason?
 
         public init(
@@ -12408,15 +12558,7 @@ extension InvalidRequestException {
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Provides additional detail about why the request failed:
-        ///
-        /// * Document size is too large - Check the size of your file and resubmit the request.
-        ///
-        /// * Document type is not supported - Check the file type and resubmit the request.
-        ///
-        /// * Too many pages in the document - Check the number of pages in your file and resubmit the request.
-        ///
-        /// * Access denied to Amazon Textract - Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+        /// Provides additional detail about why the request failed.
         public internal(set) var detail: ComprehendClientTypes.InvalidRequestDetail? = nil
         public internal(set) var message: Swift.String? = nil
         public internal(set) var reason: ComprehendClientTypes.InvalidRequestReason? = nil
@@ -15595,7 +15737,7 @@ extension ComprehendClientTypes.MentionSentiment: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Contains the sentiment and sentiment score for one mention of an entity. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html).
+    /// Contains the sentiment and sentiment score for one mention of an entity. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     public struct MentionSentiment: Swift.Equatable {
         /// The sentiment of the mention.
         public var sentiment: ComprehendClientTypes.SentimentType?
@@ -15724,7 +15866,7 @@ extension ComprehendClientTypes.OutputDataConfig: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides configuration parameters for the output of inference jobs.
     public struct OutputDataConfig: Swift.Equatable {
-        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. Specify the Key Id of a symmetric key, because you cannot use an asymmetric key for uploading data to S3. The KmsKeyId can be one of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -19326,7 +19468,7 @@ extension StartTargetedSentimentDetectionJobInput: ClientRuntime.URLPathProvider
 public struct StartTargetedSentimentDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
@@ -21220,7 +21362,7 @@ extension ComprehendClientTypes.TargetedSentimentEntity: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Information about one of the entities found by targeted sentiment analysis. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html).
+    /// Information about one of the entities found by targeted sentiment analysis. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     public struct TargetedSentimentEntity: Swift.Equatable {
         /// One or more index into the Mentions array that provides the best name for the entity group.
         public var descriptiveMentionIndex: [Swift.Int]?
@@ -21372,7 +21514,7 @@ extension ComprehendClientTypes.TargetedSentimentMention: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Information about one mention of an entity. The mention information includes the location of the mention in the text and the sentiment of the mention. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html).
+    /// Information about one mention of an entity. The mention information includes the location of the mention in the text and the sentiment of the mention. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     public struct TargetedSentimentMention: Swift.Equatable {
         /// The offset into the document text where the mention begins.
         public var beginOffset: Swift.Int?
@@ -21443,9 +21585,9 @@ extension ComprehendClientTypes.TaskConfig: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Configuration about the custom classifier associated with the flywheel.
+    /// Configuration about the model associated with a flywheel.
     public struct TaskConfig: Swift.Equatable {
-        /// Configuration required for a classification model.
+        /// Configuration required for a document classification model.
         public var documentClassificationConfig: ComprehendClientTypes.DocumentClassificationConfig?
         /// Configuration required for an entity recognition model.
         public var entityRecognitionConfig: ComprehendClientTypes.EntityRecognitionConfig?
@@ -21462,6 +21604,47 @@ extension ComprehendClientTypes {
             self.documentClassificationConfig = documentClassificationConfig
             self.entityRecognitionConfig = entityRecognitionConfig
             self.languageCode = languageCode
+        }
+    }
+
+}
+
+extension ComprehendClientTypes.TextSegment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text = "Text"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+    }
+}
+
+extension ComprehendClientTypes.TextSegment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TextSegment(text: \"CONTENT_REDACTED\")"}
+}
+
+extension ComprehendClientTypes {
+    /// One of the of text strings. Each string has a size limit of 1KB.
+    public struct TextSegment: Swift.Equatable {
+        /// The text content.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
         }
     }
 
@@ -21911,6 +22094,155 @@ extension ComprehendClientTypes {
 
 }
 
+extension ComprehendClientTypes.ToxicContent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case score = "Score"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let score = self.score {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.ToxicContentType.self, forKey: .name)
+        name = nameDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .score)
+        score = scoreDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Toxic content analysis result for one string. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide
+    public struct ToxicContent: Swift.Equatable {
+        /// The name of the toxic content type.
+        public var name: ComprehendClientTypes.ToxicContentType?
+        /// Model confidence in the detected content type. Value range is zero to one, where one is highest confidence.
+        public var score: Swift.Float?
+
+        public init(
+            name: ComprehendClientTypes.ToxicContentType? = nil,
+            score: Swift.Float? = nil
+        )
+        {
+            self.name = name
+            self.score = score
+        }
+    }
+
+}
+
+extension ComprehendClientTypes {
+    public enum ToxicContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case graphic
+        case harassmentOrAbuse
+        case hateSpeech
+        case insult
+        case profanity
+        case sexual
+        case violenceOrThreat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToxicContentType] {
+            return [
+                .graphic,
+                .harassmentOrAbuse,
+                .hateSpeech,
+                .insult,
+                .profanity,
+                .sexual,
+                .violenceOrThreat,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .graphic: return "GRAPHIC"
+            case .harassmentOrAbuse: return "HARASSMENT_OR_ABUSE"
+            case .hateSpeech: return "HATE_SPEECH"
+            case .insult: return "INSULT"
+            case .profanity: return "PROFANITY"
+            case .sexual: return "SEXUAL"
+            case .violenceOrThreat: return "VIOLENCE_OR_THREAT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ToxicContentType(rawValue: rawValue) ?? ToxicContentType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComprehendClientTypes.ToxicLabels: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case labels = "Labels"
+        case toxicity = "Toxicity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let labels = labels {
+            var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
+            for toxiccontent0 in labels {
+                try labelsContainer.encode(toxiccontent0)
+            }
+        }
+        if let toxicity = self.toxicity {
+            try encodeContainer.encode(toxicity, forKey: .toxicity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let labelsContainer = try containerValues.decodeIfPresent([ComprehendClientTypes.ToxicContent?].self, forKey: .labels)
+        var labelsDecoded0:[ComprehendClientTypes.ToxicContent]? = nil
+        if let labelsContainer = labelsContainer {
+            labelsDecoded0 = [ComprehendClientTypes.ToxicContent]()
+            for structure0 in labelsContainer {
+                if let structure0 = structure0 {
+                    labelsDecoded0?.append(structure0)
+                }
+            }
+        }
+        labels = labelsDecoded0
+        let toxicityDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .toxicity)
+        toxicity = toxicityDecoded
+    }
+}
+
+extension ComprehendClientTypes {
+    /// Toxicity analysis result for one string. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide.
+    public struct ToxicLabels: Swift.Equatable {
+        /// Array of toxic content types identified in the string.
+        public var labels: [ComprehendClientTypes.ToxicContent]?
+        /// Overall toxicity score for the string. Value range is zero to one, where one is the highest confidence.
+        public var toxicity: Swift.Float?
+
+        public init(
+            labels: [ComprehendClientTypes.ToxicContent]? = nil,
+            toxicity: Swift.Float? = nil
+        )
+        {
+            self.labels = labels
+            self.toxicity = toxicity
+        }
+    }
+
+}
+
 extension UnsupportedLanguageException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -21926,7 +22258,7 @@ extension UnsupportedLanguageException {
     }
 }
 
-/// Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+/// Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
 public struct UnsupportedLanguageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -22520,7 +22852,7 @@ extension ComprehendClientTypes.WarningsListItem: Swift.Codable {
 extension ComprehendClientTypes {
     /// The system identified one of the following warnings while processing the input document:
     ///
-    /// * The document to classify is plain text, but the classifier is a native model.
+    /// * The document to classify is plain text, but the classifier is a native document model.
     ///
     /// * The document to classify is semi-structured, but the classifier is a plain-text model.
     public struct WarningsListItem: Swift.Equatable {

@@ -4062,11 +4062,15 @@ extension KinesisVideoClientTypes.MediaStorageConfiguration: Swift.Codable {
 
 extension KinesisVideoClientTypes {
     /// A structure that encapsulates, or contains, the media storage configuration properties.
+    ///
+    /// * If StorageStatus is enabled, the data will be stored in the StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data retention enabled.
+    ///
+    /// * If StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.
     public struct MediaStorageConfiguration: Swift.Equatable {
         /// The status of the media storage configuration.
         /// This member is required.
         public var status: KinesisVideoClientTypes.MediaStorageConfigurationStatus?
-        /// The Amazon Resource Name (ARN) of the stream
+        /// The Amazon Resource Name (ARN) of the stream.
         public var streamARN: Swift.String?
 
         public init(
@@ -5794,7 +5798,7 @@ public struct UpdateDataRetentionInput: Swift.Equatable {
     /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
     /// This member is required.
     public var currentVersion: Swift.String?
-    /// The retention period, in hours. The value you specify replaces the current value. The maximum value for this parameter is 87600 (ten years).
+    /// The number of hours to adjust the current retention by. The value you specify is added to or subtracted from the current value, depending on the operation. The minimum value for data retention is 0 and the maximum value is 87600 (ten years).
     /// This member is required.
     public var dataRetentionChangeInHours: Swift.Int?
     /// Indicates whether you want to increase or decrease the retention period.
