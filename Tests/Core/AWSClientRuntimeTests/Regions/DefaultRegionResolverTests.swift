@@ -28,7 +28,7 @@ class DefaultRegionResolverTests: XCTestCase {
             let resolver = try DefaultRegionResolver(
                 fileBasedConfigurationProvider: fileBasedConfigProvider
             )
-            let region = await resolver.resolveRegion()
+            let region = await resolver.getRegion()
             XCTAssertEqual(region, "us-west-1")
         } catch {
             XCTFail("Failed to resolve region")
@@ -47,7 +47,7 @@ class DefaultRegionResolverTests: XCTestCase {
             let resolver = try DefaultRegionResolver(
                 fileBasedConfigurationProvider: fileBasedConfigProvider
             )
-            let region = await resolver.resolveRegion()
+            let region = await resolver.getRegion()
             XCTAssertEqual(region, "us-east-2")
         } catch {
             XCTFail("Failed to resolve region")

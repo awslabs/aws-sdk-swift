@@ -7,5 +7,5 @@
 import AwsCommonRuntimeKit
 
 public protocol RegionProvider {
-    func resolveRegion() async throws -> String?
+    func getRegion() async throws -> String?
 }
