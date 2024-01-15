@@ -62,7 +62,14 @@ class S3ErrorIntegration : SwiftIntegration {
     private val httpResponseBinding = SectionWriter { writer, _ ->
         val ctx = writer.getContext("ctx") as ProtocolGenerator.GenerationContext
         val errorShapes = writer.getContext("errorShapes") as List<StructureShape>
-
+        val noErrorWrapping = ctx.service.getTrait<RestXmlTrait>()?.let { it.isNoErrorWrapping } ?: false
+        if (errorShapes.isNotEmpty() || ctx.service.errors.isNotEmpty()) {
+            writer.write(
+                "let errorBodyReader = \$N.errorBodyReader(responseReader: responseReader, noErrorWrapping: \$L)",
+                AWSClientRuntimeTypes.RestXML.RestXMLError,
+                noErrorWrapping
+            )
+        }
         if (ctx.service.errors.isNotEmpty()) {
             writer.openBlock(
                 "if let serviceError = try await \$NTypes.responseErrorServiceBinding(httpResponse, errorBodyReader)",
@@ -72,8 +79,6 @@ class S3ErrorIntegration : SwiftIntegration {
                 writer.write("return serviceError")
             }
         }
-        val noErrorWrapping = ctx.service.getTrait<RestXmlTrait>()?.let { it.isNoErrorWrapping } ?: false
-        writer.write("let errorBodyReader = \$N.errorBodyReader(responseReader: responseReader, noErrorWrapping: \$L)", AWSClientRuntimeTypes.RestXML.RestXMLError, noErrorWrapping)
         writer.write("let restXMLError = try \$N(responseReader: responseReader, noErrorWrapping: \$L)", AWSClientRuntimeTypes.RestXML.RestXMLError, noErrorWrapping)
         writer.openBlock("switch restXMLError.code {", "}") {
             for (errorShape in errorShapes) {

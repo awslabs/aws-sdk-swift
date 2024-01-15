@@ -46,7 +46,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     }
 
     private fun renderCustomInvalidBatchError(writer: SwiftWriter) {
-        writer.openBlock("struct CustomInvalidBatchError: Decodable {", "}") {
+        writer.openBlock("struct CustomInvalidBatchError {", "}") {
             writer.write("")
             writer.openBlock("struct Message: Decodable {", "}") {
                 writer.write("let message: String")

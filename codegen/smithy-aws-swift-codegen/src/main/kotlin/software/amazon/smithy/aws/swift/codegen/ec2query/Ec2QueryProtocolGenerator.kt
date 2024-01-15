@@ -45,7 +45,6 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory(),
     )
 
-    override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, contentType: String):
         HttpBindingResolver = FormURLHttpBindingResolver(ctx, contentType)
 

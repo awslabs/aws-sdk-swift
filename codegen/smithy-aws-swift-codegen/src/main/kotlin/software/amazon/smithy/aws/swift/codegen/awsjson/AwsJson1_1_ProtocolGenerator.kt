@@ -36,7 +36,6 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         HttpResponseBindingOutputGenerator(),
         AWSJsonHttpResponseBindingErrorGenerator()
     )
-    override val serdeContext = serdeContextJSON
     override val shouldRenderEncodableConformance: Boolean = true
     override val shouldRenderDecodableBodyStructForInputShapes: Boolean = true
     override val testsToIgnore = setOf(

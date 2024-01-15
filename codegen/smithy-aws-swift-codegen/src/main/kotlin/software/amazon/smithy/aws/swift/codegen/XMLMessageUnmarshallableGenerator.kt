@@ -41,76 +41,78 @@ class XMLMessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationCon
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
             writer.openBlock("extension \$L {", "}", streamSymbol.fullName) {
                 writer.openBlock(
-                    "static func unmarshal(message: \$N) throws -> \$N {", "}",
-                    ClientRuntimeTypes.EventStream.Message,
+                    "static var unmarshal: \$N<\$N> {", "}",
+                    ClientRuntimeTypes.EventStream.UnmarshalClosure,
                     streamSymbol,
                 ) {
-                    writer.write("switch try message.type() {")
-                    writer.write("case .event(let params):")
-                    writer.indent {
-                        writer.write("switch params.eventType {")
-                        streamShape.eventStreamEvents(ctx.model).forEach { member ->
-                            writer.write("case \"${member.memberName}\":")
-                            writer.indent {
-                                renderDeserializeEventVariant(ctx, streamSymbol, member, writer)
-                            }
-                        }
-                        writer.write("default:")
+                    writer.openBlock("{ message in", "}") {
+                        writer.write("switch try message.type() {")
+                        writer.write("case .event(let params):")
                         writer.indent {
-                            writer.write("return .sdkUnknown(\"error processing event stream, unrecognized event: \\(params.eventType)\")")
-                        }
-                        writer.write("}")
-                    }
-                    writer.write("case .exception(let params):")
-                    writer.indent {
-                        writer.write(
-                            "let makeError: (\$N, \$N) throws -> \$N = { message, params in",
-                            ClientRuntimeTypes.EventStream.Message,
-                            ClientRuntimeTypes.EventStream.ExceptionParams,
-                            SwiftTypes.Error
-                        )
-                        writer.indent {
-                            writer.write("switch params.exceptionType {")
-                            streamShape.eventStreamErrors(ctx.model).forEach { member ->
+                            writer.write("switch params.eventType {")
+                            streamShape.eventStreamEvents(ctx.model).forEach { member ->
                                 writer.write("case \"${member.memberName}\":")
                                 writer.indent {
-                                    val targetShape = ctx.model.expectShape(member.target)
-                                    val symbol = ctx.symbolProvider.toSymbol(targetShape)
-                                    writer.write("return try decoder.decode(responseBody: message.payload) as \$N", symbol)
+                                    renderDeserializeEventVariant(ctx, streamSymbol, member, writer)
                                 }
                             }
                             writer.write("default:")
                             writer.indent {
-                                writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
-                                writer.write(
-                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
-                                    AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
-                                )
+                                writer.write("return .sdkUnknown(\"error processing event stream, unrecognized event: \\(params.eventType)\")")
                             }
                             writer.write("}")
                         }
+                        writer.write("case .exception(let params):")
+                        writer.indent {
+                            writer.write(
+                                "let makeError: (\$N, \$N) throws -> \$N = { message, params in",
+                                ClientRuntimeTypes.EventStream.Message,
+                                ClientRuntimeTypes.EventStream.ExceptionParams,
+                                SwiftTypes.Error
+                            )
+                            writer.indent {
+                                writer.write("switch params.exceptionType {")
+                                streamShape.eventStreamErrors(ctx.model).forEach { member ->
+                                    writer.write("case \"${member.memberName}\":")
+                                    writer.indent {
+                                        val targetShape = ctx.model.expectShape(member.target)
+                                        val symbol = ctx.symbolProvider.toSymbol(targetShape)
+                                        writer.write("return try decoder.decode(responseBody: message.payload) as \$N", symbol)
+                                    }
+                                }
+                                writer.write("default:")
+                                writer.indent {
+                                    writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
+                                    writer.write(
+                                        "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                        AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+                                    )
+                                }
+                                writer.write("}")
+                            }
+                            writer.write("}")
+                            writer.write("let error = try makeError(message, params)")
+                            writer.write("throw error")
+                        }
+                        writer.write("case .error(let params):")
+                        writer.indent {
+                            // this is a service exception still, just un-modeled
+                            writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
+                            writer.write(
+                                "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+                            )
+                        }
+                        writer.write("case .unknown(messageType: let messageType):")
+                        writer.indent {
+                            // this is a client exception because we failed to parse it
+                            writer.write(
+                                "throw \$L(\"unrecognized event stream message ':message-type': \\(messageType)\")",
+                                ClientRuntimeTypes.Core.UnknownClientError
+                            )
+                        }
                         writer.write("}")
-                        writer.write("let error = try makeError(message, params)")
-                        writer.write("throw error")
                     }
-                    writer.write("case .error(let params):")
-                    writer.indent {
-                        // this is a service exception still, just un-modeled
-                        writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
-                        writer.write(
-                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
-                            AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
-                        )
-                    }
-                    writer.write("case .unknown(messageType: let messageType):")
-                    writer.indent {
-                        // this is a client exception because we failed to parse it
-                        writer.write(
-                            "throw \$L(\"unrecognized event stream message ':message-type': \\(messageType)\")",
-                            ClientRuntimeTypes.Core.UnknownClientError
-                        )
-                    }
-                    writer.write("}")
                 }
             }
         }

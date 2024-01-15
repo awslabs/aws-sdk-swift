@@ -47,7 +47,6 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSXMLHttpResponseBindingErrorInitGeneratorFactory(),
     )
 
-    override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = FormURLHttpBindingResolver(ctx, defaultContentType)
 

@@ -20,7 +20,7 @@ public struct RestXMLError {
         let reader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
         let code: String? = try reader["Code"].readIfPresent()
         let message: String? = try reader["Message"].readIfPresent()
-        let requestID: String? = try reader["RequestId"].readIfPresent()
+        let requestID: String? = try responseReader["RequestId"].readIfPresent()
         guard let code, let requestID else {
             throw RestXMLDecodeError.missingRequiredData
         }
