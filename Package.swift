@@ -484,6 +484,7 @@ let serviceTargets: [String] = [
     "AWSMobile",
     "AWSMq",
     "AWSNeptune",
+    "AWSNeptuneGraph",
     "AWSNeptunedata",
     "AWSNetworkFirewall",
     "AWSNetworkManager",
